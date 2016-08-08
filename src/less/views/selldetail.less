@@ -1,0 +1,249 @@
+.page-selldetail {
+    .navbar {
+        height: 5.4rem;
+        line-height: 5.4rem;
+        background: @themeColor;
+        .text-shadow(@themeColor);
+        color: @text-fff;
+        .box-shadow-bottom(@bg-666);
+        .sliding {
+            height: 100%;
+            &.center {
+                font-size: 2.4rem;
+                .fw-l;
+            }
+            a {
+                color: @text-fff;
+                font-size: 1.6rem;
+                &:before {
+                    font-size: 1.8rem;
+                }
+            }
+        }
+    }
+    .page-content {
+        padding: 5.4rem 0 6rem;
+        .selldetail-info {
+            border-bottom: 1px solid @border-da;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            &>.row {
+                padding: 2%;
+                border-top: 1px solid @border-da;
+                line-height: 3rem;
+                .text-hidden;
+                &.first {
+                    border: none;
+                    height: auto;
+                    line-height: 1.2;
+                }
+                .col-30 {
+                    color: @text-category;
+                    font-size: 1.6rem;
+                }
+            }
+            img {
+                display: block;
+                width: 100%;
+            }
+            .col-25 {
+                width: 25%;
+            }
+            .col-75 {
+                width: 70%;
+                vertical-align: middle;
+                padding-top: 0.5rem;
+                .goods-weight,
+                .goods-name,
+                .goods-price,
+                .goods-create-time,
+                .cat-list-tags,
+                .cat-list-address {
+                    .text-hidden;
+                }
+                .goods-name {
+                    color: @text-name;
+                    font-size: 2.4rem;
+                    width: 58%;
+                    .text-hidden;
+                }
+                .goods-create-time {
+                    .text-right;
+                    .text-hidden;
+                    padding-top: 0.8rem;
+                    color: @text-subtitle;
+                }
+                .goods-price {
+                    width: 40%;
+                    color: @text-price;
+                    font-size: 1.6rem;
+                    .text-right;
+                    .text-hidden;
+                }
+                .selldetail-price-info {
+                    line-height: 2rem;
+                    font-size: 1.6rem;
+                    padding-top: 1rem;
+                    color: @text-chushou;
+                    .selldetail-label {
+                        padding: 0.5rem;
+                        border-radius: 0.3rem;
+                        background: @text-chushou;
+                        .text-shadow(@text-chushou);
+                        color: @text-fff;
+                    }
+                }
+            }
+        }
+        .selldetail-cert {
+            margin-top: 1rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            .selldetail-cert-title {
+                padding: 2%;
+                line-height: 1.4;
+                color: @text-subtitle;
+                font-size: 1.6rem;
+            }
+            .selldetail-cert-list {
+                a {
+                    display: block;
+                    padding: 2%;
+                    .text-hidden;
+                    line-height: 3rem;
+                    height: 3rem;
+                    border-top: 1px solid @border-da;
+                    color: @text-name;
+                    &:after {
+                        float: right;
+                        color: @text-subtitle;
+                    }
+                    span {
+                        display: inline-block;
+                        width: 3rem;
+                        height: 3rem;
+                        .text-center;
+                        line-height: 3rem;
+                        border: 1px solid @border-da;
+                        border-radius: 0.3rem;
+                        margin-right: 0.5rem;
+                        font-size: 1.6rem;
+                        &.seedling {
+                            border-color: @themeColor;
+                            color: @themeColor;
+                        }
+                        &.water {
+                            border-color: @text-water;
+                            color: @text-water;
+                        }
+                        &.test {
+                            border-color: @text-test;
+                            color: @text-test;
+                        }
+                        &.cert {
+                            color: @text-fff;
+                            border-color: @text-chushou;
+                            background: @text-chushou;
+                        }
+                    }
+                }
+            }
+        }
+        .selldetail-user {
+            margin-top: 1rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            .selldetail-user-title {
+                padding: 2%;
+                line-height: 1.4;
+                color: @text-subtitle;
+                font-size: 1.6rem;
+                span {
+                    float: right;
+                    color: @text-subtitle;
+                }
+            }
+            .selldetail-userinfo {
+            	padding: 2%;
+            	border-top: 1px solid @border-da;
+                .col-18 {
+                    width: 18%;
+                    img{
+                    	display: block;
+                    	width: 100%;
+                    }
+                }
+                .col-80 {
+                    width: 80%;
+                    vertical-align: middle;
+                    padding-top: 0.5rem;
+                    .goods-weight,
+                    .goods-name,
+                    .goods-price,
+                    .goods-create-time,
+                    .cat-list-tags,
+                    .cat-list-title{
+                    	padding-bottom: 1rem;
+                    }
+                    .user-name {
+                        color: @text-name;
+                        width: 30%;
+                        font-size: 1.8rem;
+                        .text-hidden;
+                    }
+                    .user-time {
+                    	.text-right;
+                        .text-hidden;
+                        color: @text-subtitle;
+                        width: 40%;
+                    }
+                    .user-tell {
+                        width: 60%;
+                        color: @text-subtitle;
+                        .text-hidden;
+                        b{
+                        	.fw-l;
+                        }
+                    }
+                    .user-cert {
+                        line-height: 2rem;
+                        color: @text-chushou;
+                        .text-right;
+                        border: 1px solid @text-test;
+                        color: @text-test;
+						float: right;
+						padding: 0 0.3rem;
+						border-radius: 0.3rem;
+						max-width: 60%;
+						.text-hidden;
+                    }
+                }
+            }
+        }
+    }
+    .selldetail-footer{
+    	.box-shadow-top(@bg-666);
+    	background: @bg-fff;
+    	.text-shadow(@text-fff);
+    	line-height: 5rem;
+    	.text-center;
+    	color: @text-price;
+    	.col-40{
+    		width: 40%;
+    	}
+    	.col-30{
+    		line-height: 2rem;
+			background: @themeColor;
+			color: @text-fff;
+			.text-shadow(@themeColor);
+			height:100%;
+			width: 30%;
+			border-left: 1px solid @text-fff;
+    		&:before{
+    			display: block;
+    			line-height: 2rem;
+    			padding-top: 0.5rem;
+    		}
+    	}
+    }
+}

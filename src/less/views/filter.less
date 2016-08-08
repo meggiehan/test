@@ -1,0 +1,46 @@
+.page-filter {
+    .filter-header {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: 200;
+        form {
+            box-shadow: none;
+        }
+        .filter-tab {
+            height: 2rem;
+            line-height: 2rem;
+            background: @bg-fff;
+            padding: 1rem 0;
+            .text-shadow(@text-fff);
+            .box-shadow-bottom(@bg-666);
+            .filter-tab-title {
+                .text-center;
+                width: 33.33%;
+                color: @text-search;
+                vertical-align: middle;
+                &.on {
+                    border-left: 1px solid @border-da;
+                    border-right: 1px solid @border-da;
+                }
+                &.active {
+                    color: @themeColor;
+                    b {
+                        .transform(rotate(180deg));
+                        top: 0;
+                        border-top-color: @themeColor;
+                    }
+                }
+                b {
+                    top: -0.2rem;
+                    .transition(all, @appAnimateTime, @appAnimate);
+                }
+            }
+        }
+    }
+    .page-content{
+        padding-top: 9.4rem;
+        padding-bottom: 5rem;
+    }
+}

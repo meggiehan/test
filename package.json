@@ -1,0 +1,35 @@
+{
+  "name": "Yudada",
+  "Version": "0.1",
+  "main": "bundle.js",
+  "author": "Cash",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jjskay/framework7-demo/issues",
+    "email": "404784102@qq.com"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "less": "gulp less",
+    "dev": "webpack-dev-server --hot --host 0.0.0.0",
+    "watch": "webpack --watch && webpck",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.7",
+    "babel": "^6.5.2",
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.1.0",
+    "gulp-minify-css": "^1.2.4",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "framework7": "^1.4.2",
+    "lodash": "^4.14.1"
+  }
+}
