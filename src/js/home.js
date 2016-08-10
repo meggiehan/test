@@ -4,6 +4,7 @@ import { home } from '../utils/template';
 import { html } from '../utils/string';
 
 function homeInit(f7, view, page) {
+    f7.hideIndicator();
     const { pageSize } = config;
     const $$ = Dom7;
     let catType = 2;
@@ -74,20 +75,6 @@ function homeInit(f7, view, page) {
             isMandatory: true
         }, callback);
     })
-
-    //load filter; 
-    $$('.home-chushou').click(() => {
-        f7.showIndicator();
-        view.router.load({
-            url: './views/filter.html',
-            animatePages: true,
-            query:{
-                pageSize,
-                type: 2
-            }
-        }) 
-    })
-
 
 }
 

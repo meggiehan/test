@@ -22,11 +22,12 @@ class CustomClass {
     *   noCache: Local storage is not required, default: false
     */
     ajax(obj, callback) {
-        const { api, data, apiCategory, type, isMandatory, noCache } = obj;
+        const { api, data, apiCategory, type, isMandatory, noCache, val } = obj;
         const key = config[apiCategory][api];
         const {timeout} = config;
         const saveKey = this.getKey(api, key, data);
-        const url = `${config.url}${apiCategory}/${api}/`;
+        let url = `${config.url}${apiCategory}/${api}/`;
+        val && (url += `${val.id}`)
         const newData = this.getData(key, data);
 
         if(!noCache){

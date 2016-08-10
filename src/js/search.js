@@ -9,6 +9,7 @@ function searchInit(f7, view, page) {
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
+    const searchButton = $$('span.search-button');
     const list = $$('.search-return-list');
     let searchVal = '';
 
@@ -58,9 +59,7 @@ function searchInit(f7, view, page) {
         }
     })
 
-    //load filter; 
-    hideVal.click(() => {
-        f7.showIndicator();
+    const hrefFilterPage = () => {
         const val = hideVal.removeClass('on').find('span').html();
         view.router.load({
             url: './views/filter.html',
@@ -69,7 +68,12 @@ function searchInit(f7, view, page) {
                 keyvalue: val
             }
         }) 
-    })
+    }
+
+    //load filter; 
+    hideVal.click(hrefFilterPage);
+
+    searchButton.click(hrefFilterPage)
 }
 
 module.exports = {

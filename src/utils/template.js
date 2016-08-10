@@ -55,5 +55,43 @@ module.exports = {
             li += '<a href="' + `./views/filter.html?keyvalue＝${name}` + '">' + name + '</a>';
             return li;
         }
+    },
+    selldetail: {
+        cert: (data) => {
+            const { type, fish_type_name, path, state } = data;
+            let link = '';
+            let className;
+            let text;
+            let label;
+            if(type === 1){
+                className = 'seedling';
+                text = `具备“苗种生产许可证” - ${fish_type_name}`;
+                label = '苗';
+            }else if(2 === type){
+                className = 'water';
+                text = `具备“水产养殖许可证” - ${fish_type_name}`;
+                label = '水';
+            }else if(3 === type){
+                className = 'cert';
+                text = `具备“检验检疫合格证” - ${fish_type_name}`;
+                label = '检';
+            }else if(4 === type){
+                className = 'water';
+                text = `具备“无公害农产品产地认证证书” - ${fish_type_name}`;
+                label = '检';
+            }else if(5 === type){
+                className = 'water';
+                text = `具备“绿色食品证书” - ${fish_type_name}`;
+                label = '绿';
+            }else if(6 === type){
+                className = 'water';
+                text = `具备“有机产品认证证书” - ${fish_type_name}`;
+                label = '有';
+            }
+            link += '<a class="iconfont icon-right open-cert-button">' +
+                        '<span class="cert-label '+ className +'">'+ label +'</span>' + text +
+                    '</a>'
+            return link;
+        }
     }
 }
