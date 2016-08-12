@@ -12,6 +12,7 @@ function searchInit(f7, view, page) {
     const searchButton = $$('span.search-button');
     const list = $$('.search-return-list');
     let searchVal = '';
+    trim(input.val()) &&  hideVal.addClass('on');
 
     const callback = (data) => {
         let listHtml = '';
@@ -34,8 +35,8 @@ function searchInit(f7, view, page) {
 
     setTimeout(function() {
         input.focus();
-    }, 900);
-    input.on('keyup', () => {
+    }, 500);
+    input[0].oninput = () => {
         const val = input.val();
         if (trim(val) === '') {
             hideVal.removeClass('on').find('span').html('');
@@ -57,16 +58,17 @@ function searchInit(f7, view, page) {
                 noCache: true
             }, callback)
         }
-    })
+    }
+    // input.on('propertychange', () => {
+        
+    // })
 
     const hrefFilterPage = () => {
         const val = hideVal.removeClass('on').find('span').html();
+        const query = val ? `?searchVal=${val}` : '';
         view.router.load({
-            url: './views/filter.html',
+            url: 'views/filter.html' + query,
             animatePages: true,
-            query:{
-                keyvalue: val
-            }
         }) 
     }
 

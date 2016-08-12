@@ -52,7 +52,7 @@ module.exports = {
         link: (data) => {
             const { name, id } = data;
             let li = '';
-            li += '<a href="' + `./views/filter.html?keyvalue＝${name}` + '">' + name + '</a>';
+            li += '<a href="' + `views/filter.html?id=${id}` + '">' + name + '</a>';
             return li;
         }
     },
@@ -92,6 +92,9 @@ module.exports = {
                         '<span class="cert-label '+ className +'">'+ label +'</span>' + text +
                     '</a>'
             return link;
+        },
+        filter: {
+            
         }
     }
 }

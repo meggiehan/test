@@ -8,24 +8,29 @@
 @bg-666: #666;
 @bg-999: #999;
 @bg-v: #F68E1F;
+@bg-black-3: rgba(0,0,0,0.3);
+@bg-black-7: rgba(0,0,0,0.7);
+@bg-category: #EDEDED;
 
 @boder-color: #e2e2e2;
 @border-da: #dadada;
-
 @text-333: #333;
 @text-fff: #fff;
-@text-chushou:#DF4048;
-@text-qiugou:#0BA7BC;
-@text-subtitle:#A9A9A9;
+@text-chushou: #DF4048;
+@text-qiugou: #0BA7BC;
+@text-subtitle: #A9A9A9;
 @text-category: #747474;
 @text-name: #101013;
 @text-price: #DF4048;
 @text-search: #747474;
 @text-water: #008AF1;
 @text-test: #F68E1F;
+@text-sound: #F58C1E;
+@text-help: #35B9AE;
+@text-black: #000;
 
 @appAnimate: ease;
-@appAnimateTime: 0.6s;
+@appAnimateTime: 1s;
 @themeColor: @bg-color;
 html {
     font-size: 62.5%; //1rem = 10px
@@ -36,36 +41,113 @@ body {
     background: @bg-body;
 }
 
-//loading background color.
-.preloader-indicator-overlay{
+//rewrite style to framework7.
+.preloader-indicator-overlay {
     opacity: 1;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
 }
+
+.page-home>.searchbar.index-search,
+.page-search>.searchbar.index-search {
+    top: 0;
+}
+
+.page>.page-content {
+    padding: 5.4rem 0 8rem;
+}
+
+.navbar {
+    height: auto;
+    min-height: 5.4rem;
+    background: @themeColor;
+    .text-shadow(@themeColor);
+    .box-shadow-bottom(@bg-666);
+    z-index: 510;
+    .navbar-inner {
+        height: 5.4rem;
+        padding: 0;
+        &.filter-navbar{
+            height: 9.4rem;
+        }
+        a,
+        div {
+            .text-center;
+            display: block;
+            height: 100%;
+            line-height: 5.4rem;
+            color: @text-fff;
+            vertical-align: middle;
+            &.row{
+                display:flex;
+                display:-webkit-flex;
+                line-height: 2rem;
+                &.filter-tab{
+                    height:2rem;
+                }
+                & > div{
+                    line-height: 2rem;
+                    height: 2rem;
+                }
+            }
+        }
+        a {
+            font-size: 1.6rem;
+        }
+        .left {
+            padding-left: 0.8rem;
+        }
+        .right {
+            padding-right: 0.8rem;
+        }
+        .center.sliding{
+            font-size: 2rem;
+        }
+        form{
+            padding:0.5rem 0.8rem;
+            a,div{
+                line-height: 4.4rem;
+            }
+        }
+    }
+}
+
 
 /*
    Public Style classes.
 */
-.ps-a{
+
+.auto {
+    margin: 0 auto;
+}
+
+.ps-a {
     position: absolute;
 }
-.ps-r{
+
+.ps-r {
     position: relative;
 }
-.auto{
-	margin: 0 auto;
+
+.auto {
+    margin: 0 auto;
 }
-.text-right{
+
+.text-right {
     text-align: right;
 }
-.text-center{
-	text-align: center;
+
+.text-center {
+    text-align: center;
 }
-.fw-l{
-	font-weight: lighter;
+
+.fw-l {
+    font-weight: lighter;
 }
-.pull-left{
+
+.pull-left {
     float: left;
 }
+
 .section-hidden {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -82,12 +164,12 @@ body {
     text-overflow: ellipsis;
 }
 
-.border-box{
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
+.border-box {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
-.filter-tab-icon{
+.filter-tab-icon {
     display: inline-block;
     .ps-r;
     width: 0;
@@ -97,11 +179,3 @@ body {
     border-top: 0.5rem solid @text-search;
     vertical-align: middle;
 }
-
-
-
-
-
-
-
-

@@ -6,7 +6,9 @@ import { homeInit } from './js/home';
 import { searchInit } from './js/search';
 import { filterInit } from './js/filter';
 import { selldetailInit } from './js/selldetail';
-import { buydetailInit } from './js/buydetail'
+import { buydetailInit } from './js/buydetail';
+import { releaseInit } from './js/release';
+import { releaseSelectTypeInit } from './js/releaseSelectType';
 
 
 // init f7
@@ -14,10 +16,11 @@ const f7 = new Framework7({
     swipeBackPage: true,
     imagesLazyLoadThreshold: 300,
     pushState: true,
+    animateNavBackIcon: true,
     modalTitle: 'Yudada'
 });
 const $$ = Dom7;
-
+window.currentDevice = f7.device;
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
     })
@@ -42,8 +45,11 @@ $$('img.lazy').trigger('lazy');
 const initEvent = f7.onPageInit('*', (page) => {
     // show loading.
     if (page.name !== 'home' && page.name) {
-        f7.showIndicator();
+        // f7.showIndicator();
     }
+    // if(page.name in ['home', 'search', 'filter']){
+    //     mainView.hideNavbar();
+    // }
     $$('.link-back').on('click', () => {
         mainView.router.back({
             animatePages: true
@@ -54,4 +60,14 @@ const initEvent = f7.onPageInit('*', (page) => {
     page.name === 'filter' && filterInit(f7, mainView, page);
     page.name === 'selldetail' && selldetailInit(f7, mainView, page);
     page.name === 'buydetail' && buydetailInit(f7, mainView, page);
+    page.name === 'release' && releaseInit(f7, mainView, page);
+    page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
+
 })
+
+
+
+
+
+
+

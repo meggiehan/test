@@ -1,0 +1,162 @@
+.user-title {
+    .box-shadow-bottom(@bg-black-3);
+}
+
+.page-user {
+    .page-content {
+        .user-header {
+            background: @themeColor;
+            .text-shadow(@themeColor);
+            padding: 1rem 0.7rem;
+            margin: 0;
+            font-size: 1.4rem;
+            color: @text-fff;
+            .item-content {
+                padding-left: 0;
+                &>div {
+                    padding: 0;
+                    &:after {
+                        display: none;
+                    }
+                }
+                .item-inner {
+                    display: flex;
+                    display: -webkit-flex;
+                }
+            }
+            a,
+            a:after {
+                font-size: 1.4rem;
+                color: @text-fff;
+                line-height: 65px;
+            }
+            .login {
+                font-size: 1.6rem;
+                display: block;
+                line-height: 6rem;
+            }
+            img {
+                display: block;
+            }
+            .user-info {
+                display: none;
+            }
+            a.icon-right {
+                display: none;
+            }
+            &.login-succ {
+                .user-info {
+                    display: block;
+                }
+                a.icon-right {
+                    display: block;
+                }
+                .login {
+                    display: none;
+                }
+                .user-info {
+                    height: 100%;
+                    line-height: 20px;
+                    padding: 1rem 0;
+                    .user-name {
+                        font-size: 1.6rem;
+                    }
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+        .user-info-list, .user-help-list {
+            padding-left: 0.7rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            a {
+                line-height: 4rem;
+                color: @text-subtitle;
+                .iconfont {
+                    font-size: 2.4rem;
+                    &.icon-qiugou:before {
+                        color: @text-qiugou;
+                    }
+                    &.icon-me-qiugou:before {
+                        color: @text-chushou;
+                    }
+                }
+                .col-15 {
+                    width: 10%;
+                }
+                .col-85 {
+                    width: 90%;
+                    padding-right: 0.7rem;
+                    &.first {
+                        border-bottom: 1px solid @border-da;
+                    }
+                    .col-60 {
+                        color: @text-black;
+                        font-size: 1.6rem;
+                    }
+                    .col-40 {
+                        font-size: 1.6rem;
+                        .text-right;
+                    }
+                }
+            }
+        }
+        .user-cert {
+            margin-top: 1rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            .user-cert-title {
+                margin-left: 0.7rem;
+                font-size: 1.6rem;
+                line-height: 4rem;
+                border-bottom: 1px solid @border-da;
+                color: @text-black;
+            }
+            .user-user-cert-type {
+                padding: 1rem 0;
+                a {
+                    .text-center;
+                    .iconfont {
+                        height: 4rem;
+                        line-height: 4rem;
+                        overflow: hidden;
+                        &:before {
+                            font-size: 3rem;
+                            color: @text-water;
+                        }
+                    }
+                    .icon-verification:before {
+                        color: @text-test;
+                    }
+                    .icon-identity:before {
+                        font-size: 4rem;
+                    }
+                    p {
+                        margin: 0;
+                        color: @text-subtitle;
+                        &.title {
+                            font-size: 1.6rem;
+                            padding-top: 0.5rem;
+                            color: @text-black;
+                        }
+                    }
+                }
+            }
+        }
+        .user-help-list{
+            margin-top: 1rem;
+            a{
+                &.user-help-danbao{
+                    .col-60{
+                        width: 40%;
+                    }
+                    .col-40{
+                        width: 60%;
+                    }
+                }
+            }
+        }
+    }
+}
