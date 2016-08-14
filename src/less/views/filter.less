@@ -33,7 +33,7 @@
                     border-left: 1px solid @border-da;
                     border-right: 1px solid @border-da;
                 }
-                &.active {
+                &.active-ele {
                     color: @themeColor;
                     b {
                         .transform(rotate(180deg));
@@ -53,6 +53,25 @@
 .page-filter {
     .page-content {
         padding-top: 9.4rem;
+        &.fiter-release-info{
+            padding-top: 5.4rem;
+        }
+    }
+    .toolbar{
+        .fliter-release-next{
+            display: none;
+        }
+    }
+    &.filter-release-info{
+        .toolbar{
+            z-index: 5600;
+            .fliter-release-next{
+                display: block;
+            }
+            .filter-need-release{
+                display:none;
+            }
+        }
     }
 }
 
@@ -70,20 +89,197 @@
     }
 }
 
-.page-content {}
+.page-content {
+    .filter-list{
+        margin:0;
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        a{
+            padding: 2%;
+            border-bottom: 1px solid @border-da;
+        }
+        &.cat-list-info {
+                        img {
+                            display: block;
+                            width: 100%;
+                        }
+                        .col-30 {
+                            width: 30%;
+                        }
+                        .col-70 {
+                            width: 67%;
+                            vertical-align: middle;
+                            .goods-weight,
+                            .goods-name,
+                            .goods-price,
+                            .goods-create-time,
+                            .cat-list-tags,
+                            .cat-list-address {
+                                .text-hidden;
+                            }
+                            .goods-name {
+                                color: @text-name;
+                                font-size: 2.0rem;
+                                width: 58%;
+                                .text-hidden;
+                            }
+                            .goods-price {
+                                width: 40%;
+                                color: @text-price;
+                                font-size: 1.6rem;
+                                .text-right;
+                                .text-hidden;
+                            }
+                            .cat-list-text {
+                                color: @text-subtitle;
+                                font-size: 1.4rem;
+                                .text-hidden;
+                                .goods-create-time {
+                                    .text-right;
+                                    .text-hidden;
+                                }
+                            }
+                            .cat-list-address {
+                                color: @text-subtitle;
+                                font-size: 1.4rem;
+                                .text-hidden;
+                                span {
+                                    padding-right: 5px;
+                                }
+                            }
+                            .cat-list-tags {
+                                padding-top: 0.5rem;
+                                .text-hidden;
+                                .button {
+                                    display: inline-block;
+                                    border-color: @themeColor;
+                                    color: @themeColor;
+                                    .text-shadow(@bg-v);
+                                    &.icon-v {
+                                        background: @bg-v;
+                                        color: @text-fff;
+                                        border-color: @bg-v;
+                                        &:before{
+                                            margin-right: 0.3rem;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+        &.buy-list-info {
+                    display: block;
+                    .buy-name {
+                        color: @text-name;
+                        font-size: 2.0rem;
+                        .text-hidden;
+                    }
+                    .buy-price {
+                        color: @text-price;
+                        font-size: 1.6rem;
+                        .text-right;
+                        .text-hidden;
+                    }
+                    .buy-spec {
+                        color: @text-name;
+                        font-size: 1.4rem;
+                        .text-hidden;
+                        padding: 0.4rem 0;
+                    }
+                    .buy-time {
+                        color: @text-subtitle;
+                        font-size: 1.4rem;
+                        .text-right;
+                        .text-hidden;
+                        padding: 0.4rem 0;
+                    }
+                    .home-buy-address {
+                        color: @text-subtitle;
+                        .text-hidden;
+                        span {
+                            margin-right: 0.8rem;
+                            &:before {
+                                color: @themeColor;
+                                font-size: 1.6rem;
+                                margin-right: 0.5rem;
+                            }
+                        }
+                    }
+                }
+    }
+}
 
 .filter-tabs-content {
-    height: 70%;
+    height: 0;
     overflow: hidden;
+    width: 100%;
     background: @bg-fff;
     .text-shadow(@text-fff);
     .ps-a;
-    width: 100%;
     top: 9.4rem;
     left: 0;
     z-index: 5510;
+    .transition(all, @appAnimateTime, @appAnimate);
+    &.on{
+        height: 70%;
+    }
+    &.on.active{
+        top: 5.4rem;
+    }
     .filter-tab-content {
-        height: 100%;
+        height: 0;
+        overflow: hidden;
+        .transition(all, @appAnimateTime, @appAnimate);
+        &.active{
+            height: 100%;
+        }
+        &.filter-district{
+                .col-65{
+                    padding: 0 2%;
+                    span{
+                        display: block;
+                        width: 100%;
+                        float: none;
+                        height: 3.5rem;
+                        line-height: 3.5rem;
+                        .text-hidden;
+                        border: none;
+                        .text-left;
+                        margin: 0;
+                        border-bottom: 1px solid @border-da;
+                        &.active{
+                            color: @themeColor;
+                        }
+                    }
+                }
+            }
+        &.filter-info-type{
+            display: block;
+            p{
+                height: 3.5rem;
+                line-height: 3.5rem;
+                border-bottom: 1px solid @border-da;
+                .text-center;
+                padding: 0 3%;
+                display:block;
+                margin: 0;
+                .ps-r;
+                &:after{
+                    display: none;
+                    .ps-a;
+                    top:0;
+                    right:1rem;
+                }
+                &.active-ele{
+                    color: @themeColor;
+                    &:after{
+                        display: inline-block;
+                        color: @themeColor;
+                        font-size: 1.8rem;
+                    }
+                }
+            }
+        }
         &>div {
             overflow: scroll;
             height: 100%;
@@ -97,7 +293,7 @@
                     padding: 0.8rem 0;
                     .text-center;
                     color: @text-category;
-                    &.active {
+                    &.active-ele {
                         background: @bg-fff;
                         .text-shadow(@text-fff);
                         border-left: 3px solid @themeColor;
@@ -128,7 +324,7 @@
                     &.on {
                         margin-left: 0;
                     }
-                    &.active{
+                    &.active-ele{
                         border-color: @themeColor;
                         color: @themeColor;
                     }

@@ -92,9 +92,20 @@ module.exports = {
                         '<span class="cert-label '+ className +'">'+ label +'</span>' + text +
                     '</a>'
             return link;
-        },
-        filter: {
-            
         }
+    },
+    filter: {
+        fishType: (data, classes) => {
+            const {
+                name, id
+            } = data;
+            return `<span class="${classes || ''}" data-id="${id}">${name}</span>`;
+        },
+        districtRender: (data, classes) => {
+            const {
+                name, postcode
+            } = data;
+            return `<span class="${classes || ''}" data-postcode="${postcode}">${name}</span>`;
+        },
     }
 }

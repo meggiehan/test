@@ -40,7 +40,9 @@ body {
     font-size: 1.4rem;
     background: @bg-body;
 }
-
+button{
+    outline: none;
+}
 //rewrite style to framework7.
 .preloader-indicator-overlay {
     opacity: 1;
@@ -68,6 +70,12 @@ body {
         padding: 0;
         &.filter-navbar{
             height: 9.4rem;
+        }
+        &.filter-release-info.filter-navbar{
+            height: 5.4rem;
+            .filter-tab{
+                display: none;
+            }
         }
         a,
         div {
@@ -131,7 +139,9 @@ body {
 .auto {
     margin: 0 auto;
 }
-
+.text-left{
+    text-align: left;
+}
 .text-right {
     text-align: right;
 }

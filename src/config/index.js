@@ -16,7 +16,7 @@ const configs = {
         'getDemandInfo': ['id']
     },
     'fishType': {
-        'getChildrenFishTypeList': ['id']
+        'getChildrenFishTypeList': ['id','release','type','searchVal']
     }
 
 }

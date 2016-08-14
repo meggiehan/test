@@ -283,10 +283,14 @@
                                     display: inline-block;
                                     border-color: @themeColor;
                                     color: @themeColor;
+                                    .text-shadow(@bg-v);
                                     &.icon-v {
                                         background: @bg-v;
                                         color: @text-fff;
                                         border-color: @bg-v;
+                                        &:before{
+                                            margin-right: 0.3rem;
+                                        }
                                     }
                                 }
                             }
