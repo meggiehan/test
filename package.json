@@ -13,7 +13,8 @@
     "less": "gulp less",
     "dev": "webpack-dev-server --hot --host 0.0.0.0",
     "watch": "webpack --watch && webpck",
-    "build": "webpack"
+    "build": "webpack",
+    "produce": "gulp && webpack"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",

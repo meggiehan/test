@@ -1,4 +1,6 @@
 import { trim, html } from '../utils/string';
+import district from '../utils/district';
+import config from '../config';
 
 
 function filterInit(f7, view, page) {
