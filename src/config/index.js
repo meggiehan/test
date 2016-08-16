@@ -4,6 +4,8 @@ const configs = {
     timeout: 30000, //api timeout, unit: ms
     pageSize: 20,
     cacheMaxLen: 10,
+    voiceCodeWaitTime: 60, //unit: m
+    cacheUserinfoKey: 'userInfo',
     'demandInfo': {
         'getDemandInfoList': [
             "fishTypeId",
@@ -20,6 +22,14 @@ const configs = {
     },
     'fishType': {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']
+    },
+    'userLogin': {
+        'getPhoneCode': [],
+        'subUserPass': ['phone_code','key'],
+        'login': ['loginName', 'loginPass'],
+    },
+    'userInfo': {
+        'getUserInfo': ['login_token']
     }
 
 }

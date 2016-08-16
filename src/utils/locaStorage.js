@@ -12,14 +12,17 @@ module.exports = {
             return;
         }
         let value;
-        if (typeof val === 'object') {
+        if (typeof val == 'object') {
             value = JSON.stringify(val);
         } else {
             value = val;
         }
-        window.localStorage.setItem(key, val)
+        window.localStorage.setItem(key, value)
     },
     remove: (key) => {
         window.localStorage.removeItem(key)
+    },
+    clear: () => {
+        window.localStorage.clear();
     }
 }

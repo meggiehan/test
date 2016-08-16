@@ -1,5 +1,7 @@
 import config from '../config/';
-import store from '../utils/locaStorage'
+import store from '../utils/locaStorage';
+import {logOut} from '../middlewares/loginMiddle';
+
 
 class CustomClass {
     getKey(api, key, val) {
@@ -18,13 +20,20 @@ class CustomClass {
         return obj;
     }
     checkMaxLenAndDelete(){
-        const {cacheMaxLen} = config;
+        const {cacheMaxLen, cacheUserinfoKey} = config;
         const storage = window.localStorage;
         const len = storage.length;
         let i = 1;
+        let isDel = false;
         if(len >= cacheMaxLen){
             Dom7.each(storage, (key, value) => {
-                i === 1 && (store.remove(key));
+                if(i === 1 && !isDel && key !== cacheUserinfoKey){
+                    store.remove(key);
+                    isDel = true;
+                }else if(i === 2 && !isDel && key !== cacheUserinfoKey){
+                    store.remove(key);
+                    isDel = true;
+                }
                 i++;
             })
         }
@@ -34,12 +43,17 @@ class CustomClass {
     *   noCache: Local storage is not required, default: false
     */
     ajax(obj, callback) {
+        const $$ = Dom7;
         const { api, data, apiCategory, type, isMandatory, noCache, val } = obj;
         const key = config[apiCategory][api];
-        const {timeout} = config;
-        const saveKey = this.getKey(api, key, data);
+        const {timeout, cacheUserinfoKey} = config;
+        const saveKey = api in ['login','getUserInfo'] ? cacheUserinfoKey : this.getKey(api, key, data);
         let url = `${config.url}${apiCategory}/${api}/`;
-        val && (url += `${val.id}`)
+        if(val){
+            $$.each(val, (key, value) => {
+                url += `${value}/`;
+            })
+        }
         const newData = this.getData(key, data);
         if(!noCache){
             const cacheData = store.get(saveKey);
@@ -56,6 +70,11 @@ class CustomClass {
                 callback(null, err)
             },
             success: function(data){
+                if(data.code == 2){
+                    f7.alert(data.message, () => {
+                        logOut();
+                    });
+                }
                 if(!noCache){
                     _this.checkMaxLenAndDelete();
                     store.set(saveKey, data);
