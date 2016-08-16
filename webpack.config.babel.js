@@ -7,8 +7,8 @@ const autoprefixer = require('autoprefixer');
 
 const PROD = (process.env.NODE_ENV === 'development');
 
-const staticBase = 'build/js';
-const contentBase = './src';
+const staticBase = 'js';
+const contentBase = './src/build';
 
 module.exports = {
 	resolve: {

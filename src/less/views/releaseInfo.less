@@ -1,0 +1,86 @@
+.release-info-content {
+    .release-info-select {
+        height: 2rem;
+        line-height: 2rem;
+        padding: 1.5rem 2%;
+        background: @bg-fff;
+        margin-bottom: 1rem;
+        .text-shadow(@text-fff);
+        .iconfont {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid @themeColor;
+            line-height: 2rem;
+            margin-right: 0.5rem;
+            &:after {
+                color: @themeColor;
+            }
+        }
+    }
+    .release-infomation,
+    .release-user-info {
+        background: @bg-fff;
+        margin: 0 0 1rem 0;
+        .text-shadow(@text-fff);
+        .item-inner{
+        	padding-right: 0;
+        }
+        &>div {
+            padding: 0 2%;
+            color: @text-category;
+            border-bottom: 1px solid @border-da;
+            height: 4rem;
+            line-height: 4rem;
+            &.release-goods-title {
+                color: @text-black;
+            }
+            &.align-top {
+                height: auto;
+                line-height: 1.2;
+                &>div {
+                    padding: 0;
+                }
+            }
+            input,
+            textarea {
+                .text-right;
+            }
+            .item-inner:after {
+                display: none;
+            }
+            .release-address-label {
+                .ps-r;
+                span {
+                    .ps-a;
+                    right: 0;
+                    top: 0.3rem;
+                    font-size: 1.2rem;
+                    line-height: 1.2;
+                    padding: 0.1rem 0.3rem;
+                    background: @bg-v;
+                    color: @text-fff;
+                    .text-shadow(@bg-v);
+                    border-radius: 0.3rem;
+                }
+            }
+        }
+    }
+}
+
+.toolbar {
+    .toolbar-inner {
+        .release-sub-info {
+            width: 60%;
+            .auto;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            border: 1px solid @themeColor;
+            color: @themeColor;
+            border-radius: 0.3rem;
+            div{
+            	font-size: 1.6rem;
+            }
+        }
+    }
+}

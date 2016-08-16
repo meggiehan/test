@@ -1,6 +1,8 @@
+import store from './utils/locaStorage'
+
 import Framework7 from 'framework7';
 // import _ from 'lodash';
-import store from './utils/locaStorage'
+// import store from './utils/locaStorage'
 import customAjax from './middlewares/customAjax';
 import { homeInit } from './js/home';
 import { searchInit } from './js/search';
@@ -9,6 +11,7 @@ import { selldetailInit } from './js/selldetail';
 import { buydetailInit } from './js/buydetail';
 import { releaseInit } from './js/release';
 import { releaseSelectTypeInit } from './js/releaseSelectType';
+import {releaseInfoInit} from './js/releaseInfo';
 
 
 // init f7
@@ -62,7 +65,7 @@ const initEvent = f7.onPageInit('*', (page) => {
     page.name === 'buydetail' && buydetailInit(f7, mainView, page);
     page.name === 'release' && releaseInit(f7, mainView, page);
     page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
-
+    page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
 })
 
 

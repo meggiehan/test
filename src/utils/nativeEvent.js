@@ -12,10 +12,16 @@ class CustomClass {
     }
 
     // contact us 
-    contactUs(num) {
+    contactUs(id) {
         const { ios, android } = this.device;
         ios && JS_MakeCall(id);
         android && window.yudada.JS_MakeCall(id);
+    }
+
+    eventChooseAddress(){
+        const { ios, android } = this.device;
+        ios && JS_ChooseAddress();
+        android && window.yudada.JS_ChooseAddress();
     }
 }
 

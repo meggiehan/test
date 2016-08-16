@@ -28,15 +28,18 @@
     </div>
 </div>
 <div class="page swipeback page-filter" data-page="filter">
-    <div class="page-content infinite-scroll">
-      <div class="list-block filter-list">
-       
-      </div>
-      <!-- Preloader -->
-      <div class="infinite-scroll-preloader">
-        <div class="preloader"></div>
-      </div>
-    </div> 
+    <div class="page-content infinite-scroll pull-to-refresh-content"">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="list-block filter-list">
+        </div>
+        <!-- Preloader -->
+        <div class="infinite-scroll-preloader">
+            <div class="preloader"></div>
+        </div>
+    </div>
     <!-- mask -->
     <div class="winodw-mask"></div>
     <img style="z-index: -999;visibility: hidden;" data-src="img/ic_category_commonfish.png" src="img/app_icon_108.png" class="lazy" width="32" alt="">
@@ -58,12 +61,10 @@
     <div class="toolbar tabbar ">
         <div class="toolbar-inner ">
             <!-- Toolbar links -->
-            <a href="views/release.html " class="link filter-need-release">
-                <div class="iconfont icon-edit"></div>
-                <div class="tabbat-text">鱼大大</div>
+            <a href="views/releaseSelectType.html" class="link filter-need-release">
+                <div class="tabbat-text iconfont icon-edit"><span>我要卖鱼</span></div>
             </a>
-            <a href="views/release.html " class="link fliter-release-next">
-                <div class="iconfont icon-home"></div>
+            <a class="link filter-release-next">
                 <div>下一步</div>
             </a>
         </div>

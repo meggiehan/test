@@ -97,9 +97,12 @@ module.exports = {
     filter: {
         fishType: (data, classes) => {
             const {
-                name, id
+                name, id, parant_id, parant_name
             } = data;
-            return `<span class="${classes || ''}" data-id="${id}">${name}</span>`;
+            return `<span class="${classes || ''}" data-id="${id}" data-parent-id="${parant_id}" data-parent-name="${parant_name}">${name}</span>`;
+        },
+        searchResultNull: () => {
+
         },
         districtRender: (data, classes) => {
             const {

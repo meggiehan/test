@@ -3,6 +3,7 @@ const configs = {
     backgroundImgUrl: '../img/app_icon_108.png',
     timeout: 30000, //api timeout, unit: ms
     pageSize: 20,
+    cacheMaxLen: 10,
     'demandInfo': {
         'getDemandInfoList': [
             "fishTypeId",
@@ -11,12 +12,14 @@ const configs = {
             "keyvalue",
             "pageSize",
             "pageNo",
+            "keyvalue"
         ],
         'getFishTypeList/5': ['keyvalue'],
-        'getDemandInfo': ['id']
+        'getDemandInfo': ['id'],
+        'userAddDemandInfo': []
     },
     'fishType': {
-        'getChildrenFishTypeList': ['id','release','type','searchVal']
+        'getChildrenFishTypeList': ['id','release','type','keyvalue']
     }
 
 }

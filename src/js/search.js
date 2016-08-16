@@ -6,6 +6,7 @@ import { search } from '../utils/template';
 
 function searchInit(f7, view, page) {
     const $$ = Dom7;
+    const {pageSize} = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
@@ -65,9 +66,10 @@ function searchInit(f7, view, page) {
 
     const hrefFilterPage = () => {
         const val = hideVal.removeClass('on').find('span').html();
-        const query = val ? `?searchVal=${val}` : '';
+
+        const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}` : '';
         view.router.load({
-            url: 'views/filter.html' + query,
+            url: '../views/filter.html' + query,
             animatePages: true,
         }) 
     }
