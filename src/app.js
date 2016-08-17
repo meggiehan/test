@@ -14,6 +14,7 @@ import { loginInit } from './js/login';
 import { loginCodeInit } from './js/loginCode';
 import { userInit } from './js/user';
 import {identityAuthenticationInit} from './js/identityAuthentication'; 
+import globalEvent from './utils/global';
 
 
 // init f7
@@ -48,6 +49,7 @@ $$('img.lazy').trigger('lazy');
  */
 
 const initEvent = f7.onPageInit('*', (page) => {
+    globalEvent.init();
     // show loading.
     if (page.name !== 'home' && page.name) {
         // f7.showIndicator();

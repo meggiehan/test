@@ -18,10 +18,25 @@ class CustomClass {
         android && window.yudada.JS_MakeCall(id);
     }
 
+    //choose address
     eventChooseAddress(){
         const { ios, android } = this.device;
         ios && JS_ChooseAddress();
         android && window.yudada.JS_ChooseAddress();
+    }
+
+    //select pic
+    postPic(mark, id){
+        const { ios, android } = this.device;
+        ios && JS_PictureSeletor(mark, id);
+        android && window.yudada.JS_PictureSeletor(mark, "上传照片", id);
+    }
+
+    //get api from native.
+    getApi(){
+        const { ios, android } = this.device;
+        ios && JS_BaseUrl();
+        android && window.yudada.JS_BaseUrl();
     }
 }
 

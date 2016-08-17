@@ -9,6 +9,10 @@ const configs = {
     imgPath: (num) => {
         return `@1e_1c_2o_0l_${num*10}h_${num*10}w_90q.src`
     },
+    identity: {
+        individual: '@70h_107w_1e_1c_2o',
+        company: '@90h_345w_1e_1c_2o'
+    },
     'demandInfo': {
         'getDemandInfoList': [
             "fishTypeId",
