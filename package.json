@@ -15,8 +15,8 @@
     "watch": "webpack --watch && webpck",
     "produce": "gulp && webpack",
     "watch-less": "gulp watch",
-    "clean-zip": "gulp clean",
-    "build": "cnpm i && gulp less && webpack && gulp clean && gulp zip"
+    "zip": "gulp clean && gulp zip",
+    "build": "cnpm i && gulp less && webpack"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
