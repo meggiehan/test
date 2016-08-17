@@ -14,6 +14,7 @@ function loginCodeInit(f7, view, page) {
     let isSend = false;
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
+    $$('.login-code-phone')[0].innerText = phone;
     input[0].oninput = () => {
         const val = input.val();
         if (/^\d{4}$/.test(val) && val.length == 4) {
@@ -95,7 +96,7 @@ function loginCodeInit(f7, view, page) {
                     noCache: true,
                 }, loginCallback);
             } else {
-                f7.alert('登录失败！');
+                f7.alert(data.message);
             }
         }
         //User registration. return user login infomation.

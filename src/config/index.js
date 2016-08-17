@@ -6,6 +6,9 @@ const configs = {
     cacheMaxLen: 10,
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
+    imgPath: (num) => {
+        return `@1e_1c_2o_0l_${num*10}h_${num*10}w_90q.src`
+    },
     'demandInfo': {
         'getDemandInfoList': [
             "fishTypeId",
@@ -29,7 +32,8 @@ const configs = {
         'login': ['loginName', 'loginPass'],
     },
     'userInfo': {
-        'getUserInfo': ['login_token']
+        'getUserInfo': ['login_token'],
+        'getUserCertificate': ['token']
     }
 
 }

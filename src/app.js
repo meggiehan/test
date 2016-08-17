@@ -50,6 +50,8 @@ const initEvent = f7.onPageInit('*', (page) => {
     // show loading.
     if (page.name !== 'home' && page.name) {
         // f7.showIndicator();
+    }else{
+        f7.hideIndicator();
     }
     // if(page.name in ['home', 'search', 'filter']){
     //     mainView.hideNavbar();

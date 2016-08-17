@@ -49,7 +49,7 @@ function selldetailInit(f7, view, page) {
                     .addClass('icon-delete');
             }
             // ajax back, edit html.
-            $$('.selldetail-info>.first img').attr('src', imgePath);
+            $$('.selldetail-info>.first img').attr('src', imgePath + config['imgPath'](11));
             html($$('.page-selldetail .goods-name'), fishTypeName, f7);
             html($$('.page-selldetail .goods-create-time'), timeDifference(createTime), f7);
             html($$('.selldetail-price'), price || '面议', f7);
@@ -67,7 +67,7 @@ function selldetailInit(f7, view, page) {
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
-            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl);
+            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator();

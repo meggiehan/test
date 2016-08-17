@@ -9,3 +9,8 @@ gulp.task('less', function () {
         .pipe(cssmin()) //兼容IE7及以下需设置compatibility属性 .pipe(cssmin({compatibility: 'ie7'}))
         .pipe(gulp.dest('./src/build/css'));
 });
+
+gulp.task('watch', function () {
+    gulp.watch(['src/less/*.less','src/less/core/*.less','src/less/views/*.less'], ['less']); //当所有less文件发生改变时，调用testLess任务
+});
+

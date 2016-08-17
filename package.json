@@ -14,7 +14,8 @@
     "dev": "webpack-dev-server --hot --host 0.0.0.0",
     "watch": "webpack --watch && webpck",
     "build": "webpack",
-    "produce": "gulp && webpack"
+    "produce": "gulp && webpack",
+    "watch-less": "gulp watch"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",

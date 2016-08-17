@@ -5,8 +5,7 @@ import { trim } from '../utils/string';
 function isLogin() {
     const { cacheUserinfoKey } = config;
     const userInfo = store.get(cacheUserinfoKey);
-    const { token } = userInfo;
-    return trim(token) ? true : false;
+    return userInfo && trim(userInfo.token) ? true : false;
 }
 
 function logOut() {
@@ -15,11 +14,27 @@ function logOut() {
     location.reload();
 }
 
-function loginSucc(data){
-	const $$ = Dom7;
-	const {} = data;
-	$$('.user-header').addClass('login-succ');
-
+function loginSucc(data, callback) {
+    const $$ = Dom7;
+    const { loginName, list, imgPath } = data;
+    $$('.user-header').addClass('login-succ');
+    $$('.user-tell-number')[0].innerText = `手机号：${loginName}`;
+    if (list) {
+        const {
+            imgUrl,
+            nickname,
+            phone,
+            name,
+            identificationCard,
+            enterpriseName,
+            businessLicenseNo,
+            provinceName,
+            cityName
+        } = list;
+        imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
+        nickname && ($$('.user-name')[0].innerText = nickname);
+    }
+    callback();
 }
 
 module.exports = {
