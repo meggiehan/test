@@ -38,11 +38,67 @@
     .identity-select-type{
     	background: @bg-fff;
         .text-shadow(@text-fff);
+        margin-top: 1rem;
         padding: 1rem;
 		&>p{
 			.text-center;
+			font-size: 1.6rem;
+			margin-top: 0;
 		}
-
+		div.row{
+			.col-50{
+				width:48%;
+				padding: 1rem 4%;
+				border: 1px solid @border-c5;
+				border-radius: 0.3rem;
+				background: @bg-f1;
+				.text-shadow(@bg-f1);
+				.ps-r;
+				p{
+					margin: 0;
+					line-height: 1.6;
+					&.first{
+						font-size: 1.6rem;
+					}
+				}
+				span{
+					width: 0;
+					overflow: hidden;
+					font-size: 2.4rem;
+					.ps-a;
+					display: -webkit-box;
+                    -webkit-box-align: center;
+                    -webkit-box-pack: center;
+					height: 100%;
+					right: 0.5rem;
+					top: 0;
+					.transition(all, @appAnimateTime, @appAnimate);
+					&:after{
+						vertical-align: middle;
+						color: @text-print;
+					}
+				}
+				&.identity-individual.active{
+					p.first{
+						color: @text-print;
+					}
+					span{
+						width:3.5rem;
+					}
+				}
+				&.identity-company.active{
+					p.first{
+						color: @text-chushou;
+					}
+					span{
+						width:3.5rem;
+						&:after{
+							color: @text-chushou;
+						}
+					}
+				}
+			}
+		}
     }
 }
 

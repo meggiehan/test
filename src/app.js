@@ -13,6 +13,7 @@ import { releaseInfoInit } from './js/releaseInfo';
 import { loginInit } from './js/login';
 import { loginCodeInit } from './js/loginCode';
 import { userInit } from './js/user';
+import {identityAuthenticationInit} from './js/identityAuthentication'; 
 
 
 // init f7
@@ -72,4 +73,6 @@ const initEvent = f7.onPageInit('*', (page) => {
     page.name === 'login' && loginInit(f7, mainView, page);
     page.name === 'user' && userInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
+    page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
+
 })

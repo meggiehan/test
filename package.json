@@ -13,10 +13,10 @@
     "less": "gulp less",
     "dev": "webpack-dev-server --hot --host 0.0.0.0",
     "watch": "webpack --watch && webpck",
-    "build": "webpack",
     "produce": "gulp && webpack",
     "watch-less": "gulp watch",
-    "app-zip": "gulp clean && gulp zip"
+    "clean-zip": "gulp clean",
+    "build": "cnpm i && gulp less && webpack && gulp clean && gulp zip"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
