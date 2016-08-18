@@ -69,7 +69,7 @@ function searchInit(f7, view, page) {
 
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}` : '';
         view.router.load({
-            url: '../views/filter.html' + query,
+            url: 'views/filter.html' + query,
             animatePages: true,
         }) 
     }

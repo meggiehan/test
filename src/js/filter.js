@@ -313,7 +313,7 @@ function filterInit(f7, view, page) {
         	}
 
             view.router.load({
-                url: '../views/releaseInfo.html?' +
+                url: 'views/releaseInfo.html?' +
                 `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
                 animatePages: true,
             })

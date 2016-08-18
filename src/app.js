@@ -22,7 +22,7 @@ const f7 = new Framework7({
     swipeBackPage: true,
     imagesLazyLoadThreshold: 200,
     pushState: true,
-    animateNavBackIcon: true,
+    animateNavBackIcon: false,
     animatePages: false,
     fastClicks: true,
     modalTitle: 'Yudada'
@@ -30,6 +30,7 @@ const f7 = new Framework7({
 const $$ = Dom7;
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
+        domCache: true
     })
     // load index
 mainView.router.load({
@@ -63,7 +64,7 @@ const initEvent = f7.onPageInit('*', (page) => {
     // }
     $$('.link-back').on('click', () => {
         mainView.router.back({
-            animatePages: true
+            animatePages: false
         });
     })
     setTimeout(function() {

@@ -2,7 +2,7 @@ import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
     url: 'http://api.test.yudada.com/',
-    backgroundImgUrl: '/build/img/app_icon_108.png',
+    backgroundImgUrl: '../img/app_icon_108.png',
     timeout: 30000, //api timeout, unit: ms
     pageSize: 20,
     cacheMaxLen: 10,

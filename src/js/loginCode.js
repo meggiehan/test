@@ -76,7 +76,7 @@ function loginCodeInit(f7, view, page) {
             store.set(cacheUserinfoKey, _userInfo);
             f7.alert('登录成功', () => {
                 view.router.load({
-                    url: '../views/user.html',
+                    url: 'views/user.html',
                     animatePages: true,
                 })
             })
