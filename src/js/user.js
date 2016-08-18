@@ -3,15 +3,16 @@ import store from '../utils/locaStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
-import {getBussesInfoCallback} from '../utils/userUtils';
+import { getBussesInfoCallback } from '../utils/viewsUtil/userUtils';
 
 function userInit(f7, view, page) {
     const $$ = Dom7;
-    const loginStatus = isLogin();
+    let loginStatus = isLogin();
     const { cacheUserinfoKey } = config;
     let userInfomation = store.get(cacheUserinfoKey);
 
-    const emptyFun = () => {return;}
+    const emptyFun = () => {
+        return; }
 
     const getBussesInfo = () => {
         customAjax.ajax({
@@ -32,6 +33,7 @@ function userInit(f7, view, page) {
             _userInfo['token'] = userInfomation['token'];
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
+            loginStatus = isLogin();
             loginSucc(userInfomation, getBussesInfo);
         } else {
             f7.alert(message);
@@ -54,11 +56,28 @@ function userInit(f7, view, page) {
             console.log('go to user info.')
         } else {
             view.router.load({
-                url: '../views/login.html',
+                url: 'views/login.html',
                 animatePages: true,
             })
         }
 
+    })
+
+    //cilck identity authentication.
+    $$('.user-cert-type>div').eq(0).on('click', () => {
+        if (!loginStatus) {
+            f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+                view.router.load({
+                    url: 'views/login.html',
+                    animatePages: true
+                })
+            })
+        } else {
+            view.router.load({
+                url: 'views/identityAuthentication.html',
+                animatePages: true
+            })
+        }
     })
 
 }

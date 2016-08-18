@@ -1,6 +1,6 @@
-import customAjax from '../middlewares/customAjax';
-import store from '../utils/locaStorage';
-import config from '../config';
+import customAjax from '../../middlewares/customAjax';
+import store from '../../utils/locaStorage';
+import config from '../../config';
 
 
 function getBussesInfoCallback(data) {

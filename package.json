@@ -32,9 +32,5 @@
     "json-loader": "^0.5.4",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
-  },
-  "dependencies": {
-    "framework7": "^1.4.2",
-    "lodash": "^4.14.1"
   }
 }

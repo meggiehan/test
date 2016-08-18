@@ -1,6 +1,8 @@
+import nativeEvent from '../utils/nativeEvent';
+
 const configs = {
     url: 'http://api.test.yudada.com/',
-    backgroundImgUrl: '../img/app_icon_108.png',
+    backgroundImgUrl: '/build/img/app_icon_108.png',
     timeout: 30000, //api timeout, unit: ms
     pageSize: 20,
     cacheMaxLen: 10,
@@ -9,6 +11,7 @@ const configs = {
     imgPath: (num) => {
         return `@1e_1c_2o_0l_${num*10}h_${num*10}w_90q.src`
     },
+
     identity: {
         individual: '@70h_107w_1e_1c_2o',
         company: '@90h_345w_1e_1c_2o'
@@ -37,7 +40,9 @@ const configs = {
     },
     'userInfo': {
         'getUserInfo': ['login_token'],
-        'getUserCertificate': ['token']
+        'getUserCertificate': ['token'],
+        'updateEnterpriseUserInfo': ['businessLicenseUrl', 'login_token'],
+        'updatePersonalUserInfo': ['positiveIdUrl','otherSideIdUrl','holdIdUrl','login_token']
     }
 
 }

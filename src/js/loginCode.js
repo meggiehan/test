@@ -81,6 +81,8 @@ function loginCodeInit(f7, view, page) {
                 })
             })
         } else {
+            isSend = false;
+            isPass = true;
             f7.alert(message);
         }
     }

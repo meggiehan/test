@@ -1,4 +1,7 @@
-import config from '../config/'
+import config from '../config/';
+import customAjax from '../middlewares/customAjax';
+import store from '../utils/locaStorage';
+
 
 class CustomClass {
     getPhoneSrc(srcimg, src, index) {
@@ -17,7 +20,8 @@ class CustomClass {
         }
     }
 
-    init() {
+    init(f) {
+        this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
     }
 }

@@ -1,4 +1,4 @@
-import Framework7 from 'framework7';
+import Framework7 from './js/lib/framework7';
 // import _ from 'lodash';
 import store from './utils/locaStorage'
 import customAjax from './middlewares/customAjax';
@@ -13,20 +13,21 @@ import { releaseInfoInit } from './js/releaseInfo';
 import { loginInit } from './js/login';
 import { loginCodeInit } from './js/loginCode';
 import { userInit } from './js/user';
-import {identityAuthenticationInit} from './js/identityAuthentication'; 
+import { identityAuthenticationInit } from './js/identityAuthentication';
 import globalEvent from './utils/global';
 
 
 // init f7
 const f7 = new Framework7({
     swipeBackPage: true,
-    imagesLazyLoadThreshold: 300,
+    imagesLazyLoadThreshold: 200,
     pushState: true,
     animateNavBackIcon: true,
+    // animatePages: false,
+    fastClicks: true,
     modalTitle: 'Yudada'
 });
 const $$ = Dom7;
-window.currentDevice = f7.device;
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
     })
@@ -49,11 +50,12 @@ $$('img.lazy').trigger('lazy');
  */
 
 const initEvent = f7.onPageInit('*', (page) => {
-    globalEvent.init();
+    globalEvent.init(f7);
+    window.currentDevice = f7.device;
     // show loading.
     if (page.name !== 'home' && page.name) {
         // f7.showIndicator();
-    }else{
+    } else {
         f7.hideIndicator();
     }
     // if(page.name in ['home', 'search', 'filter']){
@@ -64,17 +66,19 @@ const initEvent = f7.onPageInit('*', (page) => {
             animatePages: true
         });
     })
-    page.name === 'home' && homeInit(f7, mainView, page);
-    page.name === 'search' && searchInit(f7, mainView, page);
-    page.name === 'filter' && filterInit(f7, mainView, page);
-    page.name === 'selldetail' && selldetailInit(f7, mainView, page);
-    page.name === 'buydetail' && buydetailInit(f7, mainView, page);
-    page.name === 'release' && releaseInit(f7, mainView, page);
-    page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
-    page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
-    page.name === 'login' && loginInit(f7, mainView, page);
-    page.name === 'user' && userInit(f7, mainView, page);
-    page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
-    page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
+    setTimeout(function() {
+        page.name === 'home' && homeInit(f7, mainView, page);
+        page.name === 'search' && searchInit(f7, mainView, page);
+        page.name === 'filter' && filterInit(f7, mainView, page);
+        page.name === 'selldetail' && selldetailInit(f7, mainView, page);
+        page.name === 'buydetail' && buydetailInit(f7, mainView, page);
+        page.name === 'release' && releaseInit(f7, mainView, page);
+        page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
+        page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
+        page.name === 'login' && loginInit(f7, mainView, page);
+        page.name === 'user' && userInit(f7, mainView, page);
+        page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
+        page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
+    },80)
 
 })

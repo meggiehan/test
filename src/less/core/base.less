@@ -8,12 +8,11 @@
 @bg-666: #666;
 @bg-999: #999;
 @bg-v: #F68E1F;
-@bg-black-3: rgba(0,0,0,0.3);
-@bg-black-7: rgba(0,0,0,0.7);
+@bg-black-3: rgba(0, 0, 0, 0.3);
+@bg-black-7: rgba(0, 0, 0, 0.7);
 @bg-category: #EDEDED;
 @bg-body: #efeff4;
 @bg-f1: #f1f1f1;
-
 @boder-color: #e2e2e2;
 @border-da: #dadada;
 @border-c5: #C5C5C5;
@@ -32,7 +31,6 @@
 @text-help: #35B9AE;
 @text-black: #000;
 @text-print: #4A90E2;
-
 @appAnimate: ease;
 @appAnimateTime: 250ms;
 @themeColor: @bg-color;
@@ -44,9 +42,11 @@ body {
     font-size: 1.4rem;
     background: @bg-body;
 }
-button{
+
+* > button {
     outline: none;
 }
+
 //rewrite style to framework7.
 .preloader-indicator-overlay {
     opacity: 1;
@@ -62,6 +62,13 @@ button{
     padding: 5.4rem 0 8rem;
 }
 
+* {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
 .navbar {
     height: auto;
     min-height: 5.4rem;
@@ -72,12 +79,12 @@ button{
     .navbar-inner {
         height: 5.4rem;
         padding: 0;
-        &.filter-navbar{
+        &.filter-navbar {
             height: 9.4rem;
         }
-        &.filter-release-info.filter-navbar{
+        &.filter-release-info.filter-navbar {
             height: 5.4rem;
-            .filter-tab{
+            .filter-tab {
                 display: none;
             }
         }
@@ -89,14 +96,14 @@ button{
             line-height: 5.4rem;
             color: @text-fff;
             vertical-align: middle;
-            &.row{
-                display:flex;
-                display:-webkit-flex;
+            &.row {
+                display: flex;
+                display: -webkit-flex;
                 line-height: 2rem;
-                &.filter-tab{
-                    height:2rem;
+                &.filter-tab {
+                    height: 2rem;
                 }
-                & > div{
+                & > div {
                     line-height: 2rem;
                     height: 2rem;
                 }
@@ -111,12 +118,13 @@ button{
         .right {
             padding-right: 0.8rem;
         }
-        .center.sliding{
+        .center.sliding {
             font-size: 2rem;
         }
-        form{
-            padding:0.5rem 0.8rem;
-            a,div{
+        form {
+            padding: 0.5rem 0.8rem;
+            a,
+            div {
                 line-height: 4.4rem;
             }
         }
@@ -143,9 +151,11 @@ button{
 .auto {
     margin: 0 auto;
 }
-.text-left{
+
+.text-left {
     text-align: left;
 }
+
 .text-right {
     text-align: right;
 }

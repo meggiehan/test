@@ -7,7 +7,6 @@ import {get, set } from '../utils/locaStorage';
 import district from '../utils/district';
 
 function releaseInfoInit(f7, view, page) {
-    nativeEvent.init();
     const $$ = Dom7;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     let coordinate;
