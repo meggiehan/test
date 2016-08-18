@@ -23,7 +23,7 @@ const f7 = new Framework7({
     imagesLazyLoadThreshold: 200,
     pushState: true,
     animateNavBackIcon: true,
-    // animatePages: false,
+    animatePages: false,
     fastClicks: true,
     modalTitle: 'Yudada'
 });
