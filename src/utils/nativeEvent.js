@@ -1,3 +1,5 @@
+import config from '../config';
+
 class CustomClass {
     
     //The third party statistics.
@@ -8,10 +10,10 @@ class CustomClass {
     }
 
     // contact us 
-    contactUs(id) {
+    contactUs(phone) {
         const { ios, android } = window.currentDevice;
-        ios && JS_MakeCall(id);
-        android && window.yudada.JS_MakeCall(id);
+        ios && JS_MakeCall(phone);
+        android && window.yudada.JS_MakeCall(phone);
     }
 
     //choose address
@@ -34,6 +36,21 @@ class CustomClass {
         ios && JS_BaseUrl();
         android && window.yudada.JS_BaseUrl();
     }
+
+    //cat pic
+    catPic(url){
+        const { ios, android } = window.currentDevice;
+        ios && JS_ShowOriginalImg(url);
+        android && window.yudada.JS_ShowOriginalImg(url);
+    }
+
+    //weixin share infomation.
+    shareInfo(title, html, url, message){
+        const { ios, android } = window.currentDevice;
+        ios && JS_ToShare(title, html, url, message);
+        android && window.yudada.JS_ToShare(title, html, url, message);
+    }
+
 }
 
 const nativeEvent = new CustomClass;

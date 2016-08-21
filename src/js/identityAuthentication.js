@@ -1,5 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
-import identityAuthenticationUtils from '../utils/viewsUtil/identityAuthentication'
+import identityAuthenticationUtils from '../utils/viewsUtil/identityAuthentication';
+import store from '../utils/locaStorage';
+import config from '../config';
 
 function identityAuthenticationInit(f7, view, page) {
     const $$ = Dom7;
@@ -7,6 +9,8 @@ function identityAuthenticationInit(f7, view, page) {
     const companyBtn = $$('.identity-company');
     const certBox = $$('.identity-infomation');
     const authenticationDemo = $$('.identity-pic-demo');
+    const {cacheUserinfoKey} = config;
+    const {enterprise_authentication_state} = store.get(cacheUserinfoKey);
     let individualType = 0;
     let individualPicNum = 0;
     let companyPicNum = 0;
@@ -52,6 +56,11 @@ function identityAuthenticationInit(f7, view, page) {
         const classes = $$('.identity-submit>a').attr('class');
         identityAuthenticationUtils.subCardInfo();
     })
+
+    if(enterprise_authentication_state == 1){
+        $$('.page-identity .page-content').addClass('authentication-succ');
+    }
+
 
 }
 

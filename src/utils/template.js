@@ -88,7 +88,7 @@ module.exports = {
                 text = `具备“有机产品认证证书” - ${fish_type_name}`;
                 label = '有';
             }
-            link += '<a class="iconfont icon-right open-cert-button">' +
+            link += '<a class="iconfont icon-right open-cert-button" data-url="'+ path +'">' +
                         '<span class="cert-label '+ className +'">'+ label +'</span>' + text +
                     '</a>'
             return link;

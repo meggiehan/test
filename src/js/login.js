@@ -23,7 +23,6 @@ function loginInit(f7, view, page) {
         if (data.code == 1) {
             view.router.load({
                 url: 'views/loginCode.html' + `?phone=${input.val()}&key=${data.data}`,
-                animatePages: true,
             })
         }
     }

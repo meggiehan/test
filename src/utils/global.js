@@ -16,7 +16,7 @@ class CustomClass {
             $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
         } else if (4 == mark) {
             //save img url to hide button.
-            $$('.user-img-hide').val(src);
+            $$('.my-center-head img').val(src);
         }
     }
 

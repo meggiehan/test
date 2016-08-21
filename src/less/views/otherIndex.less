@@ -1,0 +1,277 @@
+.page-other-index {
+    .user-header {
+        margin: 0;
+        padding: 0 0.7rem;
+        border-bottom: 1px solid @border-da;
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        .user-piv{
+            img{
+                display: block;
+                border-radius: 50%;
+            }
+        }
+        .item-content {
+            padding-left: 0;
+            &>div {
+                padding: 0;
+            }
+            .item-inner {
+                padding-right: 0;
+                margin-left: 1rem;
+                color: @text-name;
+                &:after {
+                    display: none;
+                }
+                p {
+                    margin: 0;
+                    .text-hidden;
+                    &.user-lately-time {
+                        color: @text-category;
+                        font-size: 1.4rem;
+                    }
+                    &.other-user-name {
+                        span.iconfont {
+                            display: none;
+                        }
+                        &.show {
+                            span.iconfont {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+                &>div {
+                    height: 6.5rem;
+                    display: -webkit-box;
+                    -webkit-box-align: center;
+                    -webkit-box-pack: center;
+                    .col-70 {
+                        width: 70%;
+                        .text-hidden;
+                        .iconfont {
+                            display: inline-block;
+                            margin-left: 0.2rem;
+                            padding: 0.rem 0.3rem;
+                            border: 1px solid @bg-v;
+                            color: @bg-v;
+                            border-radius: 0.3rem;
+                        }
+                    }
+                    .col-30 {
+                        width: 30%;
+                        .text-hidden;
+                    }
+                    .icon-right {
+                        .text-right;
+                        display: block;
+                        color: @text-category;
+                    }
+                }
+            }
+        }
+    }
+    .other-index-cert {
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        margin-top: 1rem;
+        display: none;
+        &.show{
+            display: block;
+        }
+        .cert-title {
+            padding: 2%;
+            line-height: 1.4;
+            color: @text-subtitle;
+            font-size: 1.6rem;
+        }
+        .cert-list {
+            a {
+                display: block;
+                padding: 2%;
+                .text-hidden;
+                line-height: 3rem;
+                height: 3rem;
+                border-top: 1px solid @border-da;
+                color: @text-name;
+                &:after {
+                    float: right;
+                    color: @text-subtitle;
+                }
+                span {
+                    display: inline-block;
+                    width: 3rem;
+                    height: 3rem;
+                    .text-center;
+                    line-height: 3rem;
+                    border: 1px solid @border-da;
+                    border-radius: 0.3rem;
+                    margin-right: 0.5rem;
+                    font-size: 1.6rem;
+                    &.seedling {
+                        border-color: @themeColor;
+                        color: @themeColor;
+                    }
+                    &.water {
+                        border-color: @text-water;
+                        color: @text-water;
+                    }
+                    &.test {
+                        border-color: @text-test;
+                        color: @text-test;
+                    }
+                    &.cert {
+                        color: @text-fff;
+                        border-color: @text-chushou;
+                        background: @text-chushou;
+                    }
+                }
+            }
+        }
+    }
+    .other-index-list {
+        .title {
+            color: @text-category;
+            line-height: 4rem;
+            padding: 0 0.8rem;
+            border-bottom: 1px solid @border-da;
+            .icon-right {
+                .text-right;
+            }
+        }
+        &.show-sell-list{
+            .other-sell-list{
+                display: block;
+            }
+        }
+        &.show-buy-list{
+            .other-buy-list{
+                display: block;
+            }
+        }
+        .other-sell-list {
+            margin-top: 1rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            display: none;
+            .cat-list-info {
+                padding: 2% 0.8rem;
+                border-bottom: 1px solid @border-da;
+                img {
+                    display: block;
+                    width: 100%;
+                }
+                .col-30 {
+                    width: 28%;
+                }
+                .col-70 {
+                    width: 70%;
+                    vertical-align: middle;
+                    .goods-weight,
+                    .goods-name,
+                    .goods-price,
+                    .goods-create-time,
+                    .cat-list-tags,
+                    .cat-list-address {
+                        .text-hidden;
+                    }
+                    .goods-name {
+                        color: @text-name;
+                        font-size: 2.0rem;
+                        width: 58%;
+                        .text-hidden;
+                    }
+                    .goods-price {
+                        width: 40%;
+                        color: @text-price;
+                        font-size: 1.6rem;
+                        .text-right;
+                        .text-hidden;
+                    }
+                    .cat-list-text {
+                        color: @text-subtitle;
+                        font-size: 1.4rem;
+                        .text-hidden;
+                        .goods-create-time {
+                            .text-right;
+                            .text-hidden;
+                        }
+                    }
+                    .cat-list-address {
+                        color: @text-subtitle;
+                        font-size: 1.4rem;
+                        .text-hidden;
+                        span {
+                            padding-right: 5px;
+                        }
+                    }
+                    .cat-list-tags {
+                        padding-top: 0.5rem;
+                        .text-hidden;
+                        .button {
+                            display: inline-block;
+                            border-color: @themeColor;
+                            color: @themeColor;
+                            .text-shadow(@bg-v);
+                            &.icon-v {
+                                background: @bg-v;
+                                color: @text-fff;
+                                border-color: @bg-v;
+                                &:before {
+                                    margin-right: 0.3rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .other-buy-list {
+            display: none;
+            margin-top: 1rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            .buy-list-info {
+                padding: 2% 0.8rem;
+                display: block;
+                border-bottom: 1px solid @border-da;
+                .buy-name {
+                    color: @text-name;
+                    font-size: 2.0rem;
+                    .text-hidden;
+                }
+                .buy-price {
+                    color: @text-price;
+                    font-size: 1.6rem;
+                    .text-right;
+                    .text-hidden;
+                }
+                .buy-spec {
+                    color: @text-name;
+                    font-size: 1.4rem;
+                    .text-hidden;
+                    padding: 0.4rem 0;
+                }
+                .buy-time {
+                    color: @text-subtitle;
+                    font-size: 1.4rem;
+                    .text-right;
+                    .text-hidden;
+                    padding: 0.4rem 0;
+                }
+                .home-buy-address {
+                    color: @text-subtitle;
+                    .text-hidden;
+                    span {
+                        margin-right: 0.8rem;
+                        &:before {
+                            color: @themeColor;
+                            font-size: 1.6rem;
+                            margin-right: 0.5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

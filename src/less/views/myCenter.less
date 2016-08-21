@@ -1,0 +1,82 @@
+.page-my-center {
+    color: @text-name;
+    .list-block {
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        margin: 0;
+        .item-input {
+            .text-right;
+            color: @text-mt-center;
+        }
+        .item-content {
+            line-height: 4rem;
+            height: 4rem;
+            .item-inner {
+                padding-top: 0;
+                padding-bottom: 0;
+                border-bottom: 1px solid @border-da;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        .my-center-head {
+            height: 5rem;
+            line-height: 5rem;
+            &>div {
+                height: 100%;
+                .iconfont {
+                    height: 100%;
+                    img {
+                        height: 80%;
+                        display: inline-block;
+                        vertical-align: middle;
+                        border-radius: 50%;
+                    }
+                    &:after {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+        .my-center-address {
+            border-bottom: 1px solid @border-da;
+            &.item-content {
+                .item-inner {
+                    border-bottom: 0;
+                }
+            }
+        }
+    }
+    .my-center-logout {
+        margin-top: 1rem;
+        line-height: 4rem;
+        height: 4rem;
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        font-size: 1.6rem;
+        border: 0;
+        color: @text-price;
+        border-top: 1px solid @border-da;
+        border-bottom: 1px solid @border-da;
+    }
+}
+
+.popup-edit-name {
+    .center-submit-name {
+        height: 4rem;
+        border: 0;
+        line-height: 4rem;
+        color: @text-fff;
+        margin: 2rem auto 0;
+        width: 60%;
+        font-size: 1.6rem;
+        background: @border-da;
+        .text-shadow(@border-da);
+        &.pass {
+            background: @themeColor;
+            .text-shadow(@themeColor);
+        }
+    }
+}

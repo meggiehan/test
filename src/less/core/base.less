@@ -28,11 +28,12 @@
 @text-water: #008AF1;
 @text-test: #F68E1F;
 @text-sound: #F58C1E;
+@text-mt-center: #9B9B9B;
 @text-help: #35B9AE;
 @text-black: #000;
 @text-print: #4A90E2;
 @appAnimate: ease;
-@appAnimateTime: 250ms;
+@appAnimateTime: 150ms;
 @themeColor: @bg-color;
 html {
     font-size: 62.5%; //1rem = 10px
@@ -62,30 +63,24 @@ body {
     padding: 5.4rem 0 8rem;
 }
 
-* {
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    -webkit-overflow-scrolling: touch;
-    -webkit-text-size-adjust:none;
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  -webkit-border-radius: 6px;
-  border-radius: 6px;
-}
 
 /* Handle */
+
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 6px;
-  border-radius: 6px;
-  background: rgba(12, 62, 179, 0.8);
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background: rgba(12, 62, 179, 0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(12, 62, 179, 0.4);
+    background: rgba(12, 62, 179, 0.4);
 }
 
 .navbar {
@@ -145,6 +140,33 @@ body {
             a,
             div {
                 line-height: 4.4rem;
+            }
+        }
+    }
+}
+
+//popup header style;
+.popup {
+    background: @bg-body;
+    .navbar .navbar-inner .center.sliding {
+        width: 10rem;
+        margin-right: -5rem;
+        right: 50%;
+    }
+    .list-block {
+        margin: 0;
+        .item-content{
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+        }
+        .item-inner {
+            &:after{
+                display: none;
+            }
+            line-height: 4rem;
+            .item-title.label {
+                width: 25%;
+                color: @text-name;
             }
         }
     }

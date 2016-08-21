@@ -7543,7 +7543,7 @@
         
                     var pageName;
                     if (!template) {
-                        if (url.indexOf('#') === 0 && url !== '#')  {
+                        if (url && url.indexOf('#') === 0 && url !== '#')  {
                             if (view.params.domCache) {
                                 pageName = url.split('#')[1];
                             }

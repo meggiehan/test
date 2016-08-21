@@ -38,12 +38,11 @@
                     color: @themeColor;
                     b {
                         .transform(rotate(180deg));
-                        top: 0;
                         border-top-color: @themeColor;
                     }
                 }
                 b {
-                    top: -0.2rem;
+                    .transform(translate3d(0, -0.2rem, 0));
                     .transition(all, @appAnimateTime, @appAnimate);
                 }
             }
@@ -106,11 +105,14 @@
     height: 100%;
     left: 0;
     z-index: 5500;
-    top: -100%;
+    .transform(translate3d(0, -100%, 0));
+    opacity: 0;
+    top: 0;
     background: @bg-black-7;
     .transition(all, @appAnimateTime, @appAnimate);
     &.on {
-        top: 9.4rem;
+        .transform(translate3d(0, 0, 0));
+        opacity: 1;
     }
 }
 
@@ -241,22 +243,30 @@
     background: @bg-fff;
     .text-shadow(@text-fff);
     .ps-a;
-    top: 9.4rem;
+    height: 70%;
+    .transform(translate3d(0, 9.4rem, 0));
     left: 0;
+    top: 9.4rem;
     z-index: 5510;
     .transition(all, @appAnimateTime, @appAnimate);
+    .transform(scaleY(0));
     &.on {
-        height: 70%;
+        .transform(scaleY(1));
     }
     &.on.active {
         top: 5.4rem;
     }
     .filter-tab-content {
-        height: 0;
+        height: 100%;
+        opacity: 0;
         overflow: hidden;
+        .ps-a;
+        width: 100%;
         .transition(all, @appAnimateTime, @appAnimate);
+        transform: translate3d(0,-100%,0);
         &.active {
-            height: 100%;
+            transform: translate3d(0,0,0);
+            opacity: 1;
         }
         &.filter-district {
             .col-65 {
@@ -308,6 +318,7 @@
         }
         &>div {
             overflow: scroll;
+            -webkit-overflow-scrolling: touch;
             height: 100%;
             &.col-35 {
                 width: 35%;

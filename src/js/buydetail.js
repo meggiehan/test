@@ -5,11 +5,16 @@ import { selldetail } from '../utils/template';
 import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
+import nativeEvent from '../utils/nativeEvent';
 
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
+    const shareBtn = $$('.selldetail-footer .icon-share');
     let isReleaseForMe = false;
+    let demandInfo_;
+    const { shareUrl } = config;
+
     const callback = (data) => {
         if (data.data) {
             const {
@@ -36,6 +41,7 @@ function buydetailInit(f7, view, page) {
                 enterpriseAuthenticationState,
                 imgUrl
             } = userInfo;
+            demandInfo_ = demandInfo;
             if (id === locaUserId) {
                 isReleaseForMe = true;
                 $$('.selldetail-call-delete')
@@ -70,12 +76,64 @@ function buydetailInit(f7, view, page) {
         type: 'get'
     }, callback);
 
+    //View more current user information
+    $$('.cat-user-info').on('click', () => {
+        view.router.load({
+            url: 'views/otherIndex.html?id=' + id,
+        })
+    })
+
     $$('.buydetail-call-delete').click(() => {
         if (isReleaseForMe) {
             console.log('deleter info!');
             return;
         }
-        console.log('call number!')
+        const { requirementPhone } = demandInfo_;
+        requirementPhone && nativeEvent.contactUs(requirementPhone);
+    })
+
+    //view cert of new window.
+    $$('.selldetail-cert-list').on('click', (e) => {
+        const event = e || window.event;
+        const ele = e.target;
+        const classes = ele.className;
+        if (classes.indexOf('open-cert-button') > -1) {
+            const url = $$(ele).attr('data-url');
+            nativeEvent.catPic(url);
+        }
+    })
+
+    //share
+    shareBtn.on('click', () => {
+        let title = '';
+        let messageTile = '';
+        let html = '';
+        const url_ = `${shareUrl}?id=${id}`;
+        const {
+            specifications,
+            stock,
+            provinceName,
+            describe,
+            cityName,
+            fishTypeName,
+            price,
+            createTime,
+            contactName,
+            requirementPhone
+        } = demandInfo_;
+
+        title += `【出售】${fishTypeName}, ${provinceName}$}{cityName}`;
+        messageTile += `我在鱼大大看到出售信息${fishTypeName}` +
+            stock ? `${'，库存 ' + stock}` : '' +
+            price ? `${'，价格' + price}` : '' +
+            specifications ? `${'，规格' + specifications}`  : ''+
+            `，对你很有用，赶紧看看吧: ${url_}`;
+        html += `出售${fishTypeName},` +
+                stock ? `${'，库存 ' + stock}` : '' +
+                price ? `${'，价格' + price}` : '' +
+                specifications ? `${'，规格' + specifications}` : '' +
+                '，点击查看更多信息~';
+        nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 }
 

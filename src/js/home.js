@@ -76,6 +76,13 @@ function homeInit(f7, view, page) {
         }, callback);
     })
 
+
+    //js location to other page
+    $$('.home-search-mask').on('click', () => {
+        view.router.load({
+            url: 'views/search.html'
+        })
+    })
 }
 
 module.exports = {

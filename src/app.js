@@ -1,6 +1,7 @@
 import Framework7 from './js/lib/framework7';
 // import _ from 'lodash';
-import store from './utils/locaStorage'
+import store from './utils/locaStorage';
+import config from './config';
 import customAjax from './middlewares/customAjax';
 import { homeInit } from './js/home';
 import { searchInit } from './js/search';
@@ -13,28 +14,41 @@ import { releaseInfoInit } from './js/releaseInfo';
 import { loginInit } from './js/login';
 import { loginCodeInit } from './js/loginCode';
 import { userInit } from './js/user';
+import { myCenterInit } from './js/myCenter';
 import { identityAuthenticationInit } from './js/identityAuthentication';
 import globalEvent from './utils/global';
+import { loginSucc } from './middlewares/loginMiddle';
+import { otherIndexInit } from './js/otherIndex';
+import { otherInfoInit } from './js/otherInfo';
 
 
+const deviceF7 = new Framework7();
+const { device } = deviceF7;
+const { ios, android, androidChrome, osVersion } = device;
+const {version} = config;
+cosoe.log(`current app version: ${version}!`);
+// alert(osVersion + '--' + androidChrome);
+let animatStatus = true;
+android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
-    swipeBackPage: true,
-    imagesLazyLoadThreshold: 200,
+    // swipeBackPage: true,
+    imagesLazyLoadThreshold: 50,
     pushState: true,
-    animateNavBackIcon: false,
-    animatePages: false,
+    animateNavBackIcon: true,
+    animatePages: animatStatus,
     fastClicks: true,
     modalTitle: 'Yudada'
 });
 const $$ = Dom7;
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
-        domCache: true
+        domCache: false
     })
     // load index
 mainView.router.load({
-    url: 'views/home.html'
+    url: 'views/home.html',
+    animatePages: false
 })
 
 /*
@@ -50,7 +64,7 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-const initEvent = f7.onPageInit('*', (page) => {
+const initEvent = f7.onPageAfterAnimation('*', (page) => {
     globalEvent.init(f7);
     window.currentDevice = f7.device;
     // show loading.
@@ -59,14 +73,13 @@ const initEvent = f7.onPageInit('*', (page) => {
     } else {
         f7.hideIndicator();
     }
-    // if(page.name in ['home', 'search', 'filter']){
-    //     mainView.hideNavbar();
-    // }
+    //global back event;
     $$('.link-back').on('click', () => {
         mainView.router.back({
-            animatePages: false
+            animatePages: animatStatus
         });
     })
+
     setTimeout(function() {
         page.name === 'home' && homeInit(f7, mainView, page);
         page.name === 'search' && searchInit(f7, mainView, page);
@@ -79,7 +92,11 @@ const initEvent = f7.onPageInit('*', (page) => {
         page.name === 'login' && loginInit(f7, mainView, page);
         page.name === 'user' && userInit(f7, mainView, page);
         page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
+        page.name === 'myCenter' && myCenterInit(f7, mainView, page);
         page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
-    },80)
+        page.name === 'otherIndex' && otherIndexInit(f7, mainView, page);
+        page.name === 'otherInfo' && otherInfoInit(f7, mainView, page);
+    }, 0)
+
 
 })

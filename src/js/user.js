@@ -3,16 +3,17 @@ import store from '../utils/locaStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
-import { getBussesInfoCallback } from '../utils/viewsUtil/userUtils';
+import nativeEvent from '../utils/nativeEvent';
+import userUtils from '../utils/viewsUtil/userUtils';
 
 function userInit(f7, view, page) {
     const $$ = Dom7;
     let loginStatus = isLogin();
-    const { cacheUserinfoKey } = config;
+    const { cacheUserinfoKey, servicePhoneNumber } = config;
     let userInfomation = store.get(cacheUserinfoKey);
-
     const emptyFun = () => {
-        return; }
+        return;
+    }
 
     const getBussesInfo = () => {
         customAjax.ajax({
@@ -23,7 +24,7 @@ function userInit(f7, view, page) {
             val: {
                 token: userInfomation['id']
             }
-        }, getBussesInfoCallback);
+        }, userUtils.getBussesInfoCallback);
     }
 
     const loginCallback = (data) => {
@@ -52,15 +53,10 @@ function userInit(f7, view, page) {
 
     //if login succ, replace to change user info page, else replace to login page.
     $$('.user-header').on('click', () => {
-        if (loginStatus) {
-            console.log('go to user info.')
-        } else {
-            view.router.load({
-                url: 'views/login.html',
-                animatePages: true,
-            })
-        }
-
+        const url = loginStatus ? 'views/myCenter.html' : 'views/login.html';
+        view.router.load({
+            url
+        })
     })
 
     //cilck identity authentication.
@@ -69,15 +65,18 @@ function userInit(f7, view, page) {
             f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
                 view.router.load({
                     url: 'views/login.html',
-                    animatePages: true
                 })
             })
         } else {
             view.router.load({
                 url: 'views/identityAuthentication.html',
-                animatePages: true
             })
         }
+    })
+    //click contact us button.
+    $$('.user-help-list .first').click(() => {
+        // nativeEvent.apiCount();
+        nativeEvent.contactUs(servicePhoneNumber);
     })
 
 }
