@@ -1,0 +1,104 @@
+.popup-individual-authentication {
+    .list-block {
+        color: @text-name;
+        .item-content {
+            height: 4rem;
+            line-height: 4rem;
+            padding-left: 0.7rem;
+            &.individual-faild-content {
+            	line-height: 1.2;
+            	font-size: 1.4rem;
+            	height:auto;
+            }
+            &.border-bottom {
+                border-bottom: 1px solid @border-da;
+            }
+            &.individual-faild-title, &.individual-title{
+            	color: @text-category;
+            	margin-top: 1rem;
+            }
+            .item-inner {
+                padding-right: 0.7rem;
+                &.border-bottom {
+                    border-bottom: 1px solid @border-da;
+                }
+                .item-input {
+                    .text-right;
+                    color: @text-mt-center;
+                    .icon-info:before{
+                    	font-size: 4rem;
+                    	color: @text-price;
+                    	vertical-align: middle;
+                    }
+                    .icon-tick:after{
+                    	background: @themeColor;
+                    	.text-shadow(@themeColor);
+                    	color: @text-fff;
+                    	width:2.2rem;
+                    	.text-center;
+                    	height:2.2rem;
+                    	line-height: 2.2rem;
+                    	vertical-align: middle;
+                    	display: inline-block;
+                    	border-radius: 50%;
+                    	font-size: 1.2rem;
+                    }
+                }
+                .item-title {
+                    width: 40%;
+                }
+            }
+        }
+    }
+    .individual-ing{
+    	padding: 1rem 0;
+    	p{
+    		.text-center;
+    		color: @text-mt-center;
+    		line-height: 1.4;
+    		font-size: 1.4rem;
+    		margin: 0;
+    	}
+    }
+    .iconfont{
+    	display: none;
+    }
+    .individual-faild{
+    	display: none;
+		.button{
+			width: 60%;
+			line-height: 3.5rem;
+			height: 3.5rem;
+			border:0;
+			background: @themeColor;
+			.text-shadow(@themeColor);
+			color: @text-fff;
+			margin: 1rem auto;
+		}
+    }
+    .individual-succ{
+    	display: none;
+    }
+    &.faild{
+    	.icon-info{
+    		display: inline-block;
+    	}
+    	.individual-ing{
+    		display: none;
+    	}
+    	.individual-faild{
+    		display: block;
+    	}
+    }
+    &.succ{
+    	.individual-ing{
+    		display: none;
+    	}
+    	.individual-succ{
+    		display: block;
+    	}
+    	.icon-tick{
+    		display: inline-block;
+    	}
+    }
+}

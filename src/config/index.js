@@ -1,7 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '0.1.0',
+    version: '0.1.1',
     url: 'http://api.test.yudada.com/',
     // url: 'http://192.168.20.109:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
