@@ -73,12 +73,41 @@ function userInit(f7, view, page) {
             })
         }
     })
-    //click contact us button.
+
+    //cilck upload fish cert.
+    $$('.user-cert-type>div').eq(1).on('click', () => {
+            if (!loginStatus) {
+                f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+                    view.router.load({
+                        url: 'views/login.html',
+                    })
+                })
+            } else {
+                view.router.load({
+                    url: 'views/fishCert.html',
+                })
+            }
+        })
+        //click contact us button.
     $$('.user-help-list .first').click(() => {
         // nativeEvent.apiCount();
         nativeEvent.contactUs(servicePhoneNumber);
     })
 
+    //view my release list.
+    $$.each($$('.user-info-list>a'), (index, item) => {
+        if (!loginStatus) {
+            f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+                view.router.load({
+                    url: 'views/login.html',
+                })
+            })
+        } else {
+            view.router.load({
+                url: 'views/fishCert.html' + `type=${!index ? 2 : 1}`,
+            })
+        }
+    })
 }
 
 module.exports = {

@@ -22,6 +22,7 @@ import { otherIndexInit } from './js/otherIndex';
 import { otherInfoInit } from './js/otherInfo';
 import { otherListInit } from './js/otherList';
 import { myListInit } from './js/myList';
+import {fishCertInit} from './js/fishCert';
 
 
 const deviceF7 = new Framework7();
@@ -101,6 +102,7 @@ const initEvent = f7.onPageInit('*', (page) => {
         page.name === 'otherInfo' && otherInfoInit(f7, mainView, page);
         page.name === 'otherList' && otherListInit(f7, mainView, page);
         page.name === 'myList' && myListInit(f7, mainView, page);
+        page.name === 'fishCert' && fishCertInit(f7, mainView, page);
     }, 0)
 
 
