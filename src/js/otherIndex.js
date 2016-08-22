@@ -95,7 +95,7 @@ function otherIndexInit(f7, view, page) {
 
     //view current user sell list.
     $$('.other-sell-cat-all').on('click', () => {
-        type = 2;
+        type = 1;
         view.router.load({
             url: 'views/otherList.html?' + `id=${id}&type=${type}`
         })
@@ -103,7 +103,7 @@ function otherIndexInit(f7, view, page) {
 
     //view current user sell list.
     $$('.other-buy-cat-all').on('click', () => {
-        type = 1;
+        type = 2;
         view.router.load({
             url: 'views/otherList.html?' + `id=${id}&type=${type}`
         })
