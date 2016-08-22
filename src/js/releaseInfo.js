@@ -3,17 +3,18 @@ import customAjax from '../middlewares/customAjax';
 import { trim, html } from '../utils/string';
 import { search } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
-import {get, set } from '../utils/locaStorage';
+import store from '../utils/locaStorage';
 import district from '../utils/district';
 
 function releaseInfoInit(f7, view, page) {
     const $$ = Dom7;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
-    let coordinate;
+    const { cacheUserinfoKey } = config;
+    const userInfo = store.get(cacheUserinfoKey);
     let title;
-    let provinceName;
-    let cityName;
-    const phoneNumber = get('phoneNumber');
+    const phoneNumber = userInfo && userInfo['phone'] || '';
+    const token = userInfo && userInfo['token'] || '';
+    let isRelease = false;
 
     if (type == 1) {
         title = `买【${fishName}】`;
@@ -26,17 +27,6 @@ function releaseInfoInit(f7, view, page) {
     }
     html($$('.release-info-name'), title, f7);
 
-    //take address ,longitude,latitude for native location.
-    window.getAdreesSys = (province, city, longitude, latitude) => {
-        if (province == "" || province == null) {
-            return;
-        }
-        const address = province + city;
-        provinceName = province;
-        cityName = city;
-        $(".release-write-address>input").val(address);
-        coordinate = { longitude, latitude }
-    }
     $$(".release-write-address").on('click', () => {
         // get address.
         nativeEvent.eventChooseAddress(0);
@@ -47,7 +37,15 @@ function releaseInfoInit(f7, view, page) {
 
 
     const callback = (data) => {
-
+        isRelease = false;
+        const { code, message } = data;
+        if (1 == code) {
+            view.router.load({
+                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}`
+            })
+        }else{
+            f7.alert(message, '提示');
+        }
     }
     const getCityId = (provinceName, cityName) => {
         const res = {};
@@ -65,14 +63,22 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
+            let provinceName, cityName, provinceId, cityId, longitude, latitude;
+            if (window.addressObj) {
+                provinceName = window.addressObj['province'];
+                cityName = window.addressObj['city'];
+                longitude = window.addressObj['longitude'];
+                latitude = window.addressObj['latitude'];
+                provinceId = getCityId(provinceName, cityName)['provinceId'];
+                cityId = getCityId(provinceName, cityName)['cityId'];
+            }
             const price = trim($$('.release-write-price input').val());
             const spec = trim($$('.release-write-spec input').val());
             const stock = trim($$('.release-write-stock input').val());
             const address = trim($$('.release-write-address input').val());
-            const description = trim($$('.release-info-discription textarea').val());
+            const description = trim($$('.release-info-discription textarea').val().substr(0, 300));
             const name = trim($$('.release-write-contact input').val());
             const phone = trim($$('.release-write-tell input').val());
-            const { provinceId, cityId } = getCityId(provinceName, cityName);
             let error;
             if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
                 error = '请您输入正确的手机号码！';
@@ -87,22 +93,28 @@ function releaseInfoInit(f7, view, page) {
                 fishTypeId: fishId,
                 fishTypeName: fishName,
                 requirementPhone: phone,
-                specifications: spec,
-                contactName: name,
-                longitude: coordinate && coordinate['longitude'],
-                latitude: coordinate && coordinate['latitude'],
-                address,
+                type,
                 price,
+                specifications: spec,
                 stock,
+                address,
+                longitude,
+                latitude,
+                describe: description,
                 provinceId,
                 cityId,
                 provinceName,
                 cityName,
-                type
+                contactName: name,
+                login_token: token
             }
         }
-    // submit release infomation to server;
+        // submit release infomation to server;
     $$('.release-sub-info').click(() => {
+        if (isRelease) {
+            return;
+        }
+        isRelease = true;
         const data = subInfoTest();
         if (data.error) {
             f7.alert(data.error);

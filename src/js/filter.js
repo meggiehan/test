@@ -15,7 +15,7 @@ function filterInit(f7, view, page) {
     let currentFishId = id || '';
     let currentCityId = cityId || '';
     let pageNo = 1;
-    let _type = type || 2;
+    let _type = type || '';
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
@@ -29,13 +29,17 @@ function filterInit(f7, view, page) {
      */
     trim(searchValue) && searchBtn.val(searchValue);
 
-
     /*
      * Ajax callback.
      */
     const listCallback = (data) => {
+        const {code, message} = data;
+        if(code !== 1){
+            f7.alert(message, '提示');
+            return;
+        }
         let listHtml = '';
-        if (_type === 1) {
+        if (_type == 1) {
             $$.each(data.data.list, (index, item) => {
                 listHtml += home.buy(item);
             })
@@ -62,22 +66,29 @@ function filterInit(f7, view, page) {
 
     const fishTypeRootCallback = (data) => {
         let typeHtml = `<span data-id="0" class="active-ele">全部鱼种</span>`;
+        let fishTypeNameQuery;
         $$.each(data.data.list, (index, item) => {
             typeHtml += filter.fishType(item);
+            !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
+        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = fishTypeNameQuery);
         html($$('.filter-fish-type>.col-35'), typeHtml, f7);
     }
 
     const fishTypeChildCallback = (data) => {
         allFishTypeChild = data.data.list;
         let typeHtml = '';
+        let fishTypeNameQuery;
         if(!release){
         	typeHtml += `<span data-postcode="" class="first active-ele">全部鱼种</span>`;
         }
         $$.each(data.data.list, (index, item) => {
             const classes = index % 3 === 0 && 'on' || '';
             typeHtml += filter.fishType(item, classes);
+            !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
+    
+        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = fishTypeNameQuery);
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
     }
 
@@ -173,6 +184,8 @@ function filterInit(f7, view, page) {
         $$('.filter-info-type>p').eq(type_).addClass('active-ele');
         if (type_ == 1) {
             $$('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
+            $$('.filter-tab-title').eq(2).find('span')[0].innerText = '求购';
+            $$('.page-filter .tabbat-text span')[0].innerText = '我要买鱼';
         } else {
             $$('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
         }

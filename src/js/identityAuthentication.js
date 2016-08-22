@@ -9,6 +9,7 @@ function identityAuthenticationInit(f7, view, page) {
     const companyBtn = $$('.identity-company');
     const certBox = $$('.identity-infomation');
     const authenticationDemo = $$('.identity-pic-demo');
+    const subBtn = $$('.identity-submit>.identity-submit-btn');
     const {cacheUserinfoKey} = config;
     const {enterprise_authentication_state} = store.get(cacheUserinfoKey);
     let individualType = 0;
@@ -26,6 +27,7 @@ function identityAuthenticationInit(f7, view, page) {
             individualBtn.addClass('active');
             certBox.addClass('individual').removeClass('company');
             authenticationDemo.addClass('show');
+            subBtn.hasClass('individual-pass') ? subBtn.addClass('pass') : subBtn.removeClass('pass');
         })
         // select pic.
     $$.each($$('.identity-individual-pic>div'), (index, item) => {
@@ -45,6 +47,7 @@ function identityAuthenticationInit(f7, view, page) {
         companyBtn.addClass('active');
         certBox.addClass('company').removeClass('individual');
         authenticationDemo.removeClass('show');
+        subBtn.hasClass('company-pass') ? subBtn.addClass('pass') : subBtn.removeClass('pass');
     })
 
     $$('.identity-company-pic>div').on('click', () => {

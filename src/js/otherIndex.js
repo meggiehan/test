@@ -10,7 +10,6 @@ import userUtils from '../utils/viewsUtil/userUtils';
 import { centerShowTime } from '../utils/time';
 
 function otherIndexInit(f7, view, page) {
-    const $$ = Dom7;
     const { id } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
     const { imgPath } = config;

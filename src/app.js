@@ -23,6 +23,7 @@ import { otherInfoInit } from './js/otherInfo';
 import { otherListInit } from './js/otherList';
 import { myListInit } from './js/myList';
 import {fishCertInit} from './js/fishCert';
+import {releaseSuccInit} from './js/releaseSucc';
 
 
 const deviceF7 = new Framework7();
@@ -38,13 +39,13 @@ android && (animatStatus = androidChrome);
 const f7 = new Framework7({
     // swipeBackPage: true,
     imagesLazyLoadThreshold: 50,
+    fastClicksDelayBetweenClicks: 100,
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,
     fastClicks: true,
     modalTitle: 'Yudada'
 });
-const $$ = Dom7;
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
         domCache: false
@@ -55,6 +56,8 @@ mainView.router.load({
     animatePages: false
 })
 
+window.$$ = Dom7;
+window.mainView = mainView;
 /*
  * Trigger lazy load img.
  */
@@ -103,6 +106,7 @@ const initEvent = f7.onPageInit('*', (page) => {
         page.name === 'otherList' && otherListInit(f7, mainView, page);
         page.name === 'myList' && myListInit(f7, mainView, page);
         page.name === 'fishCert' && fishCertInit(f7, mainView, page);
+        page.name === 'releaseSucc' && releaseSuccInit(f7, mainView, page);
     }, 0)
 
 

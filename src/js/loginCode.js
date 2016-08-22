@@ -97,6 +97,8 @@ function loginCodeInit(f7, view, page) {
                     noCache: true,
                 }, loginCallback);
             } else {
+                isSend = false;
+                isPass = true;
                 f7.alert(data.message);
             }
         }

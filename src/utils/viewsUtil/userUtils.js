@@ -1,11 +1,12 @@
 import store from '../../utils/locaStorage';
 import config from '../../config';
 import objectUtil from '../clone';
+import { getBusinessLicenseNumber, getName } from '../string';
 
-const  CustomClass = function(){};
+const CustomClass = function() {};
 let userUtils = new CustomClass();
 
-    userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, personalTime) => {
+userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, personalTime) => {
         const $$ = Dom7;
         const authenticationBtn = $$('p.user-identity-text');
         let text = '';
@@ -29,6 +30,24 @@ let userUtils = new CustomClass();
         1 == enterprise && (myCenterText = '企业认证');
         1 !== enterprise && 1 == personal && (myCenterText = '个人认证');
         1 !== enterprise && 1 !== personal && (myCenterText = false);
+
+        //edit individual authentication and company authentication popup page.
+        const individualStatus = $$('.individual-authentication-status-text>.text');
+        individualStatus[0].innerText = (personal == 0 && '审核中') || (personal == 2 && '审核不通过');
+        if (userUtils.data) {
+            const {
+                name,
+                identificationCard,
+                personalAuthenticationDescribe,
+                enterpriseAuthenticationDescribe
+            } = userUtils.data;
+            personalAuthenticationDescribe && ($$('.individual-faild-content')[0].innerText = personalAuthenticationDescribe);
+            name && ($$('.individual-authentication-name')[0].innerText = getName(name));
+            identificationCard && ($$('.individual-authentication-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
+        }
+
+        personal == 2 && $$('.popup-individual-authentication').addClass('faild');
+        personal == 1 && $$('.popup-individual-authentication').addClass('succ');
         return {
             text,
             myCenterText
@@ -44,6 +63,7 @@ let userUtils = new CustomClass();
         let text = '';
         if (code == 1) {
             const list = data.data;
+            userUtils.data = data.data['userInfo'] || data.data;
             if (list) {
                 const {
                     demandInfo_buy_number,

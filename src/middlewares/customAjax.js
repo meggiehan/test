@@ -54,7 +54,7 @@ class CustomClass {
                 url += `${value}/`;
             })
         }
-        const newData = this.getData(key, data);
+        const newData = $$.isArray(data) ? this.getData(key, data) : data;
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);

@@ -61,6 +61,7 @@ function userInit(f7, view, page) {
 
     //cilck identity authentication.
     $$('.user-cert-type>div').eq(0).on('click', () => {
+        const { personalAuthenticationState } = userInfomation;
         if (!loginStatus) {
             f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
                 view.router.load({
@@ -68,9 +69,15 @@ function userInit(f7, view, page) {
                 })
             })
         } else {
-            view.router.load({
-                url: 'views/identityAuthentication.html',
-            })
+            if (-1 == personalAuthenticationState) {
+                view.router.load({
+                    url: 'views/identityAuthentication.html'
+                })
+
+            } else {
+                f7.popup('.popup-individual-authentication');
+            }
+
         }
     })
 
@@ -96,17 +103,28 @@ function userInit(f7, view, page) {
 
     //view my release list.
     $$.each($$('.user-info-list>a'), (index, item) => {
-        if (!loginStatus) {
-            f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
-                view.router.load({
-                    url: 'views/login.html',
+        $$(item).on('click', () => {
+            if (!loginStatus) {
+                f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+                    view.router.load({
+                        url: 'views/login.html',
+                    })
                 })
-            })
-        } else {
+            } else {
+                view.router.load({
+                    url: 'views/myList.html?' + `type=${!index ? 2 : 1}`,
+                })
+            }
+        })
+    })
+
+    //to identity authentication re submit audit information
+    $$('.individual-faild>a.button').on('click', () => {
+        // f7.closeModal('.popup-individual-authentication', function() {
             view.router.load({
-                url: 'views/fishCert.html' + `type=${!index ? 2 : 1}`,
+                url: 'views/identityAuthentication.html',
             })
-        }
+        // });
     })
 }
 

@@ -33,10 +33,9 @@
             
         </div> -->
     </div>
-
     <!-- all popup -->
     <!-- Edit head portrait Popup -->
-    <div class="popup popup-edit-name">
+    <div class="popup popup-edit-name" data-popup=".popup-edit-name">
         <div class="navbar">
             <div class="navbar-inner">
                 <!-- Now, Left and Center parts reflect page title and page links, let's slide them -->
@@ -56,6 +55,60 @@
                 </div>
             </div>
             <div class="center-submit-name button">保存修改</div>
+        </div>
+    </div>
+    <!-- Edit head portrait Popup -->
+    <div class="popup popup-individual-authentication" data-popup=".popup-individual-authentication">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <!-- Now, Left and Center parts reflect page title and page links, let's slide them -->
+                <div class="left sliding">
+                    <a class="close-popup iconfont icon-back">返回</a>
+                </div>
+                <div class="center sliding">身份认证</div>
+            </div>
+        </div>
+        <div class="popup-content list-block">
+            <div class="item-content">
+                <div class="item-inner border-bottom">
+                    <div class="item-title label">状态类型</div>
+                    <div class="item-input">个人认证</div>
+                </div>
+            </div>
+            <div class="item-content border-bottom">
+                <div class="item-inner">
+                    <div class="item-title label">状态</div>
+                    <div class="item-input individual-authentication-status-text">
+                        <span class="iconfont icon-info"></span>
+                        <span class="iconfont icon-tick"></span>
+                        <span class="text"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="individual-ing">
+                <p class="individual-info-text">我们将尽快完成审核工作</p>
+                <p class="individual-info-text">请耐心等待</p>
+            </div>
+            <div class="individual-faild">
+                <div class="individual-faild-title item-content border-bottom">拒绝理由</div>
+                <div class="individual-faild-content item-content border-bottom"> 照片不够清晰</div>
+                <a class="button close-popup">重新提交审核资料</a>
+            </div>
+            <div class="individual-succ ">
+                <div class="individual-title item-content border-bottom">认证信息</div>
+                <div class="item-content">
+                    <div class="item-inner border-bottom">
+                        <div class="item-title label">姓名</div>
+                        <div class="item-input individual-authentication-name"></div>
+                    </div>
+                </div>
+                <div class="item-content border-bottom">
+                    <div class="item-inner">
+                        <div class="item-title label">身份证号码</div>
+                        <div class="item-input individual-authentication-number"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="js/common.min.js"></script>

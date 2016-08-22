@@ -10,12 +10,14 @@ function isLogin() {
 
 function logOut() {
     store.clear();
-    window.location.href = '/';
+    mainView.router.load({
+        url: 'views/home.html'
+    })
 }
 
 function loginSucc(data, callback) {
     const $$ = Dom7;
-    const { loginName, list, imgPath } = data;
+    const { loginName, list, imgPath, personalAuthenticationState, enterpriseAuthenticationState } = data;
     $$('.user-header').addClass('login-succ');
     $$('.user-tell-number')[0].innerText = `手机号：${loginName}`;
     if (list) {

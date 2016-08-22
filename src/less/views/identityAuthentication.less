@@ -124,7 +124,7 @@
             }
         }
         &>p {
-            margin: 0;
+            margin: 0 0 1rem 0;
             font-size: 1.6rem;
         }
         background: @bg-fff;
@@ -164,6 +164,7 @@
             .text-center;
             &>p {
                 color: @text-name;
+                margin: 0.5rem auto ;
             }
             &>div {
                 border: 1px solid @border-c5;
@@ -175,6 +176,14 @@
                 img {
                     display: none;
                     width: 100%;
+                }
+                &.on{
+                    img{
+                        display: block;
+                    }
+                    span{
+                        display: none;
+                    }
                 }
             }
         }
