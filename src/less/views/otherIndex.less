@@ -1,12 +1,12 @@
 .page-other-index {
     .user-header {
         margin: 0;
-        padding: 0 0.7rem;
+        padding: 0.5rem 0.7rem;
         border-bottom: 1px solid @border-da;
         background: @bg-fff;
         .text-shadow(@text-fff);
-        .user-piv{
-            img{
+        .user-pic {
+            img {
                 display: block;
                 border-radius: 50%;
             }
@@ -76,7 +76,7 @@
         .text-shadow(@text-fff);
         margin-top: 1rem;
         display: none;
-        &.show{
+        &.show {
             display: block;
         }
         .cert-title {
@@ -139,13 +139,13 @@
                 .text-right;
             }
         }
-        &.show-sell-list{
-            .other-sell-list{
+        &.show-sell-list {
+            .other-sell-list {
                 display: block;
             }
         }
-        &.show-buy-list{
-            .other-buy-list{
+        &.show-buy-list {
+            .other-buy-list {
                 display: block;
             }
         }
@@ -270,6 +270,23 @@
                             margin-right: 0.5rem;
                         }
                     }
+                }
+            }
+        }
+    }
+    .toolbar {
+        .toolbar-inner {
+            background: @themeColor;
+            .text-shadow(@themeColor);
+            font-size: 1.8rem;
+            .text-center;
+            a {
+                color: @text-fff;
+                margin: 0 auto;
+                &:before{
+                    margin-right: 0.3rem;
+                    font-size: 2rem;
+                    vertical-align: middle;
                 }
             }
         }

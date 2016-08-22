@@ -14,10 +14,13 @@ function otherIndexInit(f7, view, page) {
     const { id } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
     const { imgPath } = config;
+    let callNumber;
+    let type = 2;
     if (userCache) {
         const { userInfo, user_ishCertificate_list } = userCache['data'];
-        const { enterpriseAuthenticationState, personalAuthenticationState, lastLoginTime, nickname, imgUrl } = userInfo;
+        const { enterpriseAuthenticationState, personalAuthenticationState, lastLoginTime, nickname, imgUrl, phone } = userInfo;
         const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
+        callNumber = phone;
         if (text) {
             $$('p.other-user-name').addClass('show').find('.text')[0].innerText = text;
         }
@@ -65,7 +68,7 @@ function otherIndexInit(f7, view, page) {
                 $$('img.lazy').trigger('lazy');
             }, 300)
         }
-        //get user demand list.
+    //get user demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
@@ -80,8 +83,49 @@ function otherIndexInit(f7, view, page) {
             url: 'views/otherInfo.html?id=' + id
         })
     })
+
+    //view cert in ew window.
+    $$('.other-index-cert .cert-list').on('click', (e) => {
+        const event = e || window.event;
+        const ele = event.target;
+        if(ele.className.indexOf('open-cert-button') > -1){
+            const url = $$(ele).attr('data-url');
+            nativeEvent.catPic(url);
+        }
+    })
+
+    //view current user sell list.
+    $$('.other-sell-cat-all').on('click', () => {
+        type = 2;
+        view.router.load({
+            url: 'views/otherList.html?' + `id=${id}&type=${type}`
+        })
+    })
+
+    //view current user sell list.
+    $$('.other-buy-cat-all').on('click', () => {
+        type = 1;
+        view.router.load({
+            url: 'views/otherList.html?' + `id=${id}&type=${type}`
+        })
+    })
+
+    //other info report.
+    $$('.other-report').on('click', () => {
+        f7.confirm('确认举报？', '提示', () => {
+            f7.alert('举报成功', '提示');
+        })
+    })
+
+    //call to other user.
+    $$('.other-footer-call').on('click', () => {
+        nativeEvent.contactUs(callNumber);
+    })
 }
 
 module.exports = {
     otherIndexInit
 }
+
+
+

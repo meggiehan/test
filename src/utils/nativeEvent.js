@@ -17,10 +17,11 @@ class CustomClass {
     }
 
     //choose address
-    eventChooseAddress(){
+    eventChooseAddress(type){
+        //pageType:0:release page  1:mycenter page
         const { ios, android } = window.currentDevice;
-        ios && JS_ChooseAddress();
-        android && window.yudada.JS_ChooseAddress();
+        ios && JS_ChooseAddress(type);
+        android && window.yudada.JS_ChooseAddress(type);
     }
 
     //select pic
@@ -49,6 +50,13 @@ class CustomClass {
         const { ios, android } = window.currentDevice;
         ios && JS_ToShare(title, html, url, message);
         android && window.yudada.JS_ToShare(title, html, url, message);
+    }
+
+    //release voice info.
+    releaseVoiceInfo(){
+        const { ios, android } = window.currentDevice;
+        ios && JS_RecordingModal();
+        android && window.yudada.JS_RecordingModal();
     }
 
 }

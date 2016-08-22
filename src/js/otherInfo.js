@@ -35,7 +35,7 @@ function otherInfoInit(f7, view, page) {
             enterpriseName && ($$('.other-campany-name')[0].innerText = enterpriseName);
             businessLicenseNo && ($$('.other-company-number')[0].innerText = getBusinessLicenseNumber(businessLicenseNo));
             $$('.other-cat-company-info').on('click',() => {
-                nativeEnvent.catPic(businessLicenseUrl);
+                nativeEvent.catPic(businessLicenseUrl);
             })
         }else if(personalAuthenticationState == 1){
         	$$('.other-authentication-info').addClass('individual');   

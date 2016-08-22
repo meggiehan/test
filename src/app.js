@@ -20,13 +20,16 @@ import globalEvent from './utils/global';
 import { loginSucc } from './middlewares/loginMiddle';
 import { otherIndexInit } from './js/otherIndex';
 import { otherInfoInit } from './js/otherInfo';
+import { otherListInit } from './js/otherList';
+import { myListInit } from './js/myList';
 
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const {version} = config;
-cosoe.log(`current app version: ${version}!`);
+const { version } = config;
+
+console.log(`current app version: ${version}!`);
 // alert(osVersion + '--' + androidChrome);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -64,7 +67,7 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-const initEvent = f7.onPageAfterAnimation('*', (page) => {
+const initEvent = f7.onPageInit('*', (page) => {
     globalEvent.init(f7);
     window.currentDevice = f7.device;
     // show loading.
@@ -96,6 +99,8 @@ const initEvent = f7.onPageAfterAnimation('*', (page) => {
         page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
         page.name === 'otherIndex' && otherIndexInit(f7, mainView, page);
         page.name === 'otherInfo' && otherInfoInit(f7, mainView, page);
+        page.name === 'otherList' && otherListInit(f7, mainView, page);
+        page.name === 'myList' && myListInit(f7, mainView, page);
     }, 0)
 
 

@@ -31,7 +31,7 @@ const configs = {
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
-        'getMyDemandInfoList': ['userId']
+        'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo']
     },
     'fishType': {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']

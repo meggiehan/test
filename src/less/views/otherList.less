@@ -1,0 +1,118 @@
+.page-other-list, .page-my-list {
+    .other-list-info {
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        .cat-list-info {
+            padding: 2%;
+            border-bottom: 1px solid @border-da;
+            img {
+                display: block;
+                width: 100%;
+            }
+            .col-30 {
+                width: 28%;
+            }
+            .col-70 {
+                width: 70%;
+                vertical-align: middle;
+                .goods-weight,
+                .goods-name,
+                .goods-price,
+                .goods-create-time,
+                .cat-list-tags,
+                .cat-list-address {
+                    .text-hidden;
+                }
+                .goods-name {
+                    color: @text-name;
+                    font-size: 2.0rem;
+                    width: 58%;
+                    .text-hidden;
+                }
+                .goods-price {
+                    width: 40%;
+                    color: @text-price;
+                    font-size: 1.6rem;
+                    .text-right;
+                    .text-hidden;
+                }
+                .cat-list-text {
+                    color: @text-subtitle;
+                    font-size: 1.4rem;
+                    .text-hidden;
+                    .goods-create-time {
+                        .text-right;
+                        .text-hidden;
+                    }
+                }
+                .cat-list-address {
+                    color: @text-subtitle;
+                    font-size: 1.4rem;
+                    .text-hidden;
+                    span {
+                        padding-right: 5px;
+                    }
+                }
+                .cat-list-tags {
+                    padding-top: 0.5rem;
+                    .text-hidden;
+                    .button {
+                        display: inline-block;
+                        border-color: @themeColor;
+                        color: @themeColor;
+                        .text-shadow(@bg-v);
+                        &.icon-v {
+                            background: @bg-v;
+                            color: @text-fff;
+                            border-color: @bg-v;
+                            &:before {
+                                margin-right: 0.3rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .buy-list-info {
+            padding: 2%;
+            display: block;
+            border-bottom: 1px solid @border-da;
+            .buy-name {
+                color: @text-name;
+                font-size: 2.0rem;
+                .text-hidden;
+            }
+            .buy-price {
+                color: @text-price;
+                font-size: 1.6rem;
+                .text-right;
+                .text-hidden;
+            }
+            .buy-spec {
+                color: @text-name;
+                font-size: 1.4rem;
+                .text-hidden;
+                padding: 0.4rem 0;
+            }
+            .buy-time {
+                color: @text-subtitle;
+                font-size: 1.4rem;
+                .text-right;
+                .text-hidden;
+                padding: 0.4rem 0;
+            }
+            .home-buy-address {
+                color: @text-subtitle;
+                .text-hidden;
+                span {
+                    margin-right: 0.8rem;
+                    &:before {
+                        color: @themeColor;
+                        font-size: 1.6rem;
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}

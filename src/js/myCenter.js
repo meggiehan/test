@@ -54,7 +54,7 @@ function myCenterInit(f7, view, page) {
 
     //Choose Address.
     $$('.my-center-address').on('click', () => {
-    	nativeEvent.eventChooseAddress();
+    	nativeEvent.eventChooseAddress(1);
     })
 
     //user click logout button.

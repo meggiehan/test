@@ -39,7 +39,7 @@ function releaseInfoInit(f7, view, page) {
     }
     $$(".release-write-address").on('click', () => {
         // get address.
-        nativeEvent.eventChooseAddress();
+        nativeEvent.eventChooseAddress(0);
     })
     if (phoneNumber) {
         $$('.release-write-tell input').val(phoneNumber);

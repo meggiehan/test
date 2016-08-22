@@ -6,10 +6,10 @@ function releaseInit(f7, view, page){
 	const {servicePhoneNumber} = config;
 	$$('.release-sound').on('click', () => {
 		nativeEvent.apiCount();
+		nativeEvent.releaseVoiceInfo();
 	})
 
 	$$('.service-contact-us').on('click', () => {
-		
 		nativeEvent.contactUs(servicePhoneNumber);
 	})
 }

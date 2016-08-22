@@ -10,8 +10,7 @@ function isLogin() {
 
 function logOut() {
     store.clear();
-    location.replace('/#!/../views/login.html');
-    location.reload();
+    window.location.href = '/';
 }
 
 function loginSucc(data, callback) {
