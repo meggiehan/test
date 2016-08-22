@@ -61,7 +61,10 @@ function userInit(f7, view, page) {
 
     //cilck identity authentication.
     $$('.user-cert-type>div').eq(0).on('click', () => {
-        const { personalAuthenticationState } = userInfomation;
+        let personalAuthenticationState;
+        if(userInfomation){
+            personalAuthenticationState = userInfomation['personalAuthenticationState'];
+        }
         if (!loginStatus) {
             f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
                 view.router.load({
