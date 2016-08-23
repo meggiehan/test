@@ -45,6 +45,9 @@ function otherIndexInit(f7, view, page) {
             let sellList = [];
             let sellHtml = '';
             $$.each(list, (index, item) => {
+                if(item['state'] !== 1){
+                    return;
+                }
                 sellHtml += home.cat(item);
                 sellList.push(item);
             })
@@ -70,7 +73,9 @@ function otherIndexInit(f7, view, page) {
             let buyList = [];
             let buyHtml = '';
             $$.each(list, (index, item) => {
-
+                if(item['state'] !== 1){
+                    return;
+                }
                 buyHtml += home.buy(item);
                 buyList.push(item);
             })

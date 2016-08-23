@@ -5,10 +5,13 @@ const { backgroundImgUrl, imgPath } = config;
 module.exports = {
     home: {
         cat: (data) => {
-            const { id, imge_path, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            const { id, imge_path, state, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             let res = '';
+            let span = '';
+            0 == state && (span = '<span>待审核</span>');
+            2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
             res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '">' +
-                '<div class="col-30"><img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy-fadeIn lazy lazy-loaded"></div>' +
+                '<div class="col-30">' + span + '<img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy-fadeIn lazy lazy-loaded"></div>' +
                 '<div class="col-70">' +
                 '<div class="cat-list-title row">' +
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
@@ -30,12 +33,15 @@ module.exports = {
             return res;
         },
         buy: (data) => {
-            const { id, fish_type_name, stock, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            const { id, fish_type_name, stock, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
             let res = '';
+            let span = '';
+            0 == state && (span = '<span>待审核</span>');
+            2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + fish_type_name + '</div>' +
+                '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || ''}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
@@ -63,41 +69,44 @@ module.exports = {
             let className;
             let text;
             let label;
-            if(type === 1){
+            if (type === 1) {
                 className = 'seedling';
                 text = `具备“苗种生产许可证” - ${fish_type_name}`;
                 label = '苗';
-            }else if(2 === type){
+            } else if (2 === type) {
                 className = 'water';
                 text = `具备“水产养殖许可证” - ${fish_type_name}`;
                 label = '水';
-            }else if(3 === type){
+            } else if (3 === type) {
                 className = 'cert';
                 text = `具备“检验检疫合格证” - ${fish_type_name}`;
                 label = '检';
-            }else if(4 === type){
+            } else if (4 === type) {
                 className = 'water';
                 text = `具备“无公害农产品产地认证证书” - ${fish_type_name}`;
                 label = '检';
-            }else if(5 === type){
+            } else if (5 === type) {
                 className = 'water';
                 text = `具备“绿色食品证书” - ${fish_type_name}`;
                 label = '绿';
-            }else if(6 === type){
+            } else if (6 === type) {
                 className = 'water';
                 text = `具备“有机产品认证证书” - ${fish_type_name}`;
                 label = '有';
             }
-            link += '<a class="iconfont icon-right open-cert-button" data-url="'+ path +'">' +
-                        '<span class="cert-label '+ className +'">'+ label +'</span>' + text +
-                    '</a>'
+            link += '<a class="iconfont icon-right open-cert-button" data-url="' + path + '">' +
+                '<span class="cert-label ' + className + '">' + label + '</span>' + text +
+                '</a>'
             return link;
         }
     },
     filter: {
         fishType: (data, classes) => {
             const {
-                name, id, parant_id, parant_name
+                name,
+                id,
+                parant_id,
+                parant_name
             } = data;
             return `<span class="${classes || ''}" data-id="${id}" data-parent-id="${parant_id}" data-parent-name="${parant_name}">${name}</span>`;
         },
@@ -106,7 +115,8 @@ module.exports = {
         },
         districtRender: (data, classes) => {
             const {
-                name, postcode
+                name,
+                postcode
             } = data;
             return `<span class="${classes || ''}" data-postcode="${postcode}">${name}</span>`;
         },

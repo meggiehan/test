@@ -1,4 +1,5 @@
-.page-other-list, .page-my-list {
+.page-other-list,
+.page-my-list {
     .other-list-info {
         background: @bg-fff;
         .text-shadow(@text-fff);
@@ -11,6 +12,29 @@
             }
             .col-30 {
                 width: 28%;
+                .ps-r;
+                &>span {
+                    width: 100%;
+                    display: block;
+                    left: 0;
+                    top: 0;
+                    vertical-align: middle;
+                    padding: 0.2rem 0;
+                    .text-center;
+                    font-size: 1.2rem;
+                    display: block;
+                    background-color: fade(@bg-auditing,70);
+                    .text-shadow(fade(@bg-auditing, 70));
+                    color: @text-fff;
+                    height: 2rem;
+                    line-height: 2rem;
+                    .text-hidden;
+                    .ps-a;
+                    &:before {
+                        font-size: 2rem;
+                        vertical-align: middle;
+                    }
+                }
             }
             .col-70 {
                 width: 70%;
@@ -81,6 +105,22 @@
                 color: @text-name;
                 font-size: 2.0rem;
                 .text-hidden;
+                vertical-align: middle;
+                span {
+                    vertical-align: middle;
+                    display: inline-block;
+                    padding: 0.2rem 0.5rem;
+                    border-radius: 1.2rem;
+                    background: @bg-auditing;
+                    .text-shadow(@bg-auditing);
+                    color: @text-fff;
+                    height: 2rem;
+                    line-height: 2rem;
+                    &:before {
+                        font-size: 2.4rem;
+                        vertical-align: middle;
+                    }
+                }
             }
             .buy-price {
                 color: @text-price;

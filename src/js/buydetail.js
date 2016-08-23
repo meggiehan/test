@@ -13,8 +13,9 @@ function buydetailInit(f7, view, page) {
     const shareBtn = $$('.selldetail-footer .icon-share');
     let isReleaseForMe = false;
     let demandInfo_;
-    const { shareUrl } = config;
+    const { shareUrl, cacheUserinfoKey } = config;
     let currentUserId;
+    let errorInfo;
 
     const callback = (data) => {
         if (data.data) {
@@ -22,7 +23,7 @@ function buydetailInit(f7, view, page) {
                 userInfo,
                 demandInfo,
             } = data.data;
-            const locaUserId = store.get('userId');
+            const locaUserId = store.get(cacheUserinfoKey)['id'];
             const {
                 specifications,
                 stock,
@@ -32,8 +33,10 @@ function buydetailInit(f7, view, page) {
                 fishTypeName,
                 price,
                 createTime,
+                state,
                 contactName,
-                requirementPhone
+                requirementPhone,
+                refuseDescribe
             } = demandInfo;
             const {
                 id,
@@ -43,13 +46,12 @@ function buydetailInit(f7, view, page) {
                 imgUrl
             } = userInfo;
             demandInfo_ = demandInfo;
-            if (id === locaUserId) {
-                isReleaseForMe = true;
-                $$('.selldetail-call-delete')
-                    .removeClass('icon-share')
-                    .html('删除')
-                    .addClass('icon-delete');
+            if (id == locaUserId || state == 0 || state == 2) {
+                $$('.page-buydetail .selldetail-footer').addClass('delete');
             }
+            errorInfo = refuseDescribe;
+            let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
+            addClassName && ($$('.page-buydetail').addClass(addClassName));
             currentUserId = userInfo['id'];
             html($$('.page-buydetail .goods-name'), fishTypeName, f7);
             html($$('.page-buydetail .goods-create-time'), timeDifference(createTime), f7);
@@ -68,6 +70,10 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator(300);
     }
 
+    $$('.buy-detail-verify-faild ')[0].onclick = () => {
+        f7.alert(errorInfo, '提示');
+    }
+
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getDemandInfo',
@@ -78,6 +84,32 @@ function buydetailInit(f7, view, page) {
         type: 'get'
     }, callback);
 
+    //delete release infomation.
+    const deleteCallback = (data) => {
+        const {code, message} = data;
+        f7.alert(message, '提示', () => {
+            if(1 == code){
+                view.router.load({
+                    url: "views/user.html",
+                    reload: true
+                })
+            }
+        })
+    }
+    $$('.buydetail-delete-info')[0].onclick = () => {
+        const token = store.get(cacheUserinfoKey)['token'];
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'deleteDemandInfo',
+            data: [id, token],
+            val: {
+                id
+            },
+            type: 'post'
+        }, deleteCallback);
+
+    }
+
     //View more current user information
     $$('.cat-user-info').on('click', () => {
         view.router.load({
@@ -85,14 +117,10 @@ function buydetailInit(f7, view, page) {
         })
     })
 
-    $$('.buydetail-call-delete').click(() => {
-        if (isReleaseForMe) {
-            console.log('deleter info!');
-            return;
-        }
+    $$('.buydetail-call-phone')[0].onclick = () => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
-    })
+    }
 
     //view cert of new window.
     $$('.selldetail-cert-list').on('click', (e) => {

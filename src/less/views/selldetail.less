@@ -41,13 +41,13 @@
                     width: 28%;
                     display: block;
                 }
-                .col-70{
+                .col-70 {
                     width: 70%;
                     display: block;
                 }
-                .selldetail-description{
+                .selldetail-description {
                     line-height: 1.4;
-                    white-space:pre-wrap;
+                    white-space: pre-wrap;
                     word-break: break-all;
                     padding: 0.5rem 0;
                 }
@@ -174,13 +174,13 @@
                 }
             }
             .selldetail-userinfo {
-            	padding: 2%;
-            	border-top: 1px solid @border-da;
+                padding: 2%;
+                border-top: 1px solid @border-da;
                 .col-18 {
                     width: 18%;
-                    img{
-                    	display: block;
-                    	width: 100%;
+                    img {
+                        display: block;
+                        width: 100%;
                     }
                 }
                 .col-80 {
@@ -191,8 +191,8 @@
                     .goods-price,
                     .goods-create-time,
                     .cat-list-tags,
-                    .cat-list-title{
-                    	padding-bottom: 1rem;
+                    .cat-list-title {
+                        padding-bottom: 1rem;
                     }
                     .user-name {
                         color: @text-name;
@@ -201,7 +201,7 @@
                         .text-hidden;
                     }
                     .user-time {
-                    	.text-right;
+                        .text-right;
                         .text-hidden;
                         color: @text-subtitle;
                         width: 40%;
@@ -210,8 +210,8 @@
                         width: 60%;
                         color: @text-subtitle;
                         .text-hidden;
-                        b{
-                        	.fw-l;
+                        b {
+                            .fw-l;
                         }
                     }
                     .user-cert {
@@ -220,39 +220,118 @@
                         .text-right;
                         border: 1px solid @text-test;
                         color: @text-test;
-						float: right;
-						padding: 0 0.3rem;
-						border-radius: 0.3rem;
-						max-width: 60%;
-						.text-hidden;
+                        float: right;
+                        padding: 0 0.3rem;
+                        border-radius: 0.3rem;
+                        max-width: 60%;
+                        .text-hidden;
                     }
                 }
             }
         }
     }
-    .selldetail-footer{
-    	.box-shadow-top(@bg-666);
-    	background: @bg-fff;
-    	.text-shadow(@text-fff);
-    	line-height: 5rem;
-    	.text-center;
-    	color: @text-price;
-    	.col-40{
-    		width: 40%;
-    	}
-    	.col-30{
-    		line-height: 2rem;
-			background: @themeColor;
-			color: @text-fff;
-			.text-shadow(@themeColor);
-			height:100%;
-			width: 30%;
-			border-left: 1px solid @text-fff;
-    		&:before{
-    			display: block;
-    			line-height: 2rem;
-    			padding-top: 0.5rem;
-    		}
-    	}
+    .selldetail-footer {
+        .box-shadow-top(@bg-666);
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        line-height: 5rem;
+        .text-center;
+        color: @text-price;
+        .col-40 {
+            width: 40%;
+        }
+        .col-30 {
+            line-height: 2rem;
+            background: @themeColor;
+            color: @text-fff;
+            .text-shadow(@themeColor);
+            height: 100%;
+            width: 30%;
+            border-left: 1px solid @text-fff;
+            &:before {
+                display: block;
+                line-height: 2rem;
+                padding-top: 0.5rem;
+            }
+        }
+    }
+}
+
+.page-selldetail {
+    .selldetail-user {
+        display: none;
+    }
+    .page-content>.iconfont {
+        .text-center;
+        display: none;
+        height: 4rem;
+        line-height: 4rem;
+        &.icon-review {
+            color: @text-review;
+            background: @bg-review;
+            .text-shadow(@bg-review);
+            vertical-align: middle;
+            &:before {
+                margin-right: 0.5rem;
+                font-size: 1.8rem;
+                vertical-align: top;
+            }
+            &:after {
+                margin-left: 0.5rem;
+                vertical-align: top;
+            }
+        }
+        &.icon-verify-faild {
+            color: @text-verify-faild;
+            background: @bg-verify-faild;
+            .text-shadow(@bg-verify-faild);
+            &:before {
+                font-size: 1.8rem;
+                margin-right: 0.5rem;
+                vertical-align: top;
+            }
+            &:after {
+                margin-left: 0.5rem;
+                vertical-align: top;
+            }
+        }
+    }
+    &.active {
+        .selldetail-user {
+            display: block;
+        }
+    }
+    &.review {
+        .page-content>.iconfont {
+            &.icon-review {
+                display: block;
+            }
+        }
+    }
+    &.faild {
+        .page-content>.iconfont {
+            &.icon-verify-faild {
+                display: block;
+            }
+        }
+    }
+    .selldetail-footer {
+        .selldetail-delete-info {
+            display: none;
+        }
+        &.delete {
+            &>div {
+                width: 50%;
+                &.selldetail-call-phone,
+                .icon-share {
+                    display: none;
+                }
+                &.selldetail-delete-info {
+                    background: @text-chushou;
+                    .text-shadow(@text-chushou);
+                    display: block;
+                }
+            }
+        }
     }
 }

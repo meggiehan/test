@@ -36,13 +36,13 @@
                     width: 28%;
                     display: block;
                 }
-                .col-70{
+                .col-70 {
                     width: 70%;
                     display: block;
                 }
-                .selldetail-description{
+                .selldetail-description {
                     line-height: 1.4;
-                    white-space:pre-wrap;
+                    white-space: pre-wrap;
                     word-break: break-all;
                     padding: 0.5rem 0;
                 }
@@ -230,3 +230,87 @@
         }
     }
 }
+
+.page-buydetail {
+    .selldetail-user {
+        display: none;
+    }
+    .page-content>.iconfont {
+        .text-center;
+        display: none;
+        height: 4rem;
+        line-height: 4rem;
+        &.icon-review {
+            color: @text-review;
+            background: @bg-review;
+            .text-shadow(@bg-review);
+            vertical-align: middle;
+            &:before {
+                margin-right: 0.5rem;
+                font-size: 1.8rem;
+                vertical-align: top;
+            }
+            &:after {
+                margin-left: 0.5rem;
+                vertical-align: top;
+            }
+        }
+        &.icon-verify-faild {
+            color: @text-verify-faild;
+            background: @bg-verify-faild;
+            .text-shadow(@bg-verify-faild);
+            &:before {
+                font-size: 1.8rem;
+                margin-right: 0.5rem;
+                vertical-align: top;
+            }
+            &:after {
+                margin-left: 0.5rem;
+                vertical-align: top;
+            }
+        }
+    }
+    &.active {
+        .selldetail-user {
+            display: block;
+        }
+    }
+    &.review{
+        .page-content>.iconfont {
+            &.icon-review{
+                display: block;
+            }
+        }
+    }
+    &.faild{
+        .page-content>.iconfont {
+            &.icon-verify-faild{
+                display: block;
+            }
+        }
+    }
+    .selldetail-footer{
+        .buydetail-delete-info{
+            display: none;
+        }
+        &.delete{
+            &>div{
+                width: 50%;
+                &.buydetail-call-phone,.icon-share{
+                    display: none;
+                }
+                &.buydetail-delete-info{
+                    background: @text-chushou;
+                    .text-shadow(@text-chushou);
+                    display: block;
+                }
+            }   
+        }
+    }
+}
+
+
+
+
+
+

@@ -13,9 +13,10 @@ function selldetailInit(f7, view, page) {
     let isReleaseForMe = false;
     const certList = $$('.selldetail-cert-list');
     const shareBtn = $$('.selldetail-footer .icon-share');
-    const { shareUrl } = config;
+    const { shareUrl, cacheUserinfoKey } = config;
     let demandInfo_;
     let currentUserId;
+    let errorInfo;
     // let certUrl;
     const callback = (data) => {
         if (data.data) {
@@ -25,7 +26,7 @@ function selldetailInit(f7, view, page) {
                 demandInfo,
                 user_ishCertificate_list
             } = data.data;
-            const locaUserId = store.get('userId');
+            const locaUserId = store.get(cacheUserinfoKey)['id'];
             const {
                 specifications,
                 stock,
@@ -33,11 +34,13 @@ function selldetailInit(f7, view, page) {
                 describe,
                 cityName,
                 fishTypeName,
+                state,
                 price,
                 createTime,
                 imgePath,
                 contactName,
-                requirementPhone
+                requirementPhone,
+                refuseDescribe
             } = demandInfo;
             const {
                 id,
@@ -47,14 +50,15 @@ function selldetailInit(f7, view, page) {
                 imgUrl
             } = userInfo;
             demandInfo_ = demandInfo;
-            currentUserId = userInfo['id'];
-            if (id === locaUserId) {
-                isReleaseForMe = true;
-                $$('.selldetail-call-delete')
-                    .removeClass('icon-share')
-                    .html('删除')
-                    .addClass('icon-delete');
+
+            if (id == locaUserId || state == 0 || state == 2) {
+                $$('.page-selldetail .selldetail-footer').addClass('delete');
             }
+            errorInfo = refuseDescribe;
+            let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
+            addClassName && ($$('.page-selldetail').addClass(addClassName));
+            currentUserId = userInfo['id'];
+            1 == state && ($$('.page-selldetail').addClass('active'));
             // ajax back, edit html.
             $$('.selldetail-info>.first img').attr('src', imgePath + config['imgPath'](11));
             html($$('.page-selldetail .goods-name'), fishTypeName, f7);
@@ -67,7 +71,7 @@ function selldetailInit(f7, view, page) {
             let certHtml = '';
             $$.each(user_ishCertificate_list.list, (index, item) => {
                 const { fish_type_name } = item;
-                fishTypeName === fish_type_name && (certHtml += selldetail.cert(item));
+                fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
             })
             certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
             html($$('.page-selldetail .user-name'), contactName || '匿名用户', f7);
@@ -91,14 +95,39 @@ function selldetailInit(f7, view, page) {
     }, callback);
 
     // dom event;
-    $$('.selldetail-call-delete').click(() => {
-        if (isReleaseForMe) {
-            console.log('deleter info!');
-            return;
-        }
-        const {requirementPhone} = demandInfo_;
+    $$('.sell-detail-verify-faild ')[0].onclick = () => {
+        f7.alert(errorInfo, '提示');
+    }
+
+    $$('.selldetail-call-phone')[0].onclick = () => {
+        const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
-    })
+    }
+    //delete release infomation.
+    const deleteCallback = (data) => {
+        const {code, message} = data;
+        f7.alert(message, '提示', () => {
+            if(1 == code){
+                view.router.load({
+                    url: "views/user.html",
+                    reload: true
+                })
+            }
+        })
+    }
+    $$('.selldetail-delete-info')[0].onclick = () => {
+        const token = store.get(cacheUserinfoKey)['token'];
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'deleteDemandInfo',
+            data: [id, token],
+            val: {
+                id
+            },
+            type: 'post'
+        }, deleteCallback);
+
+    }
 
     //View more current user information
     $$('.cat-user-info').on('click', () => {
@@ -112,7 +141,7 @@ function selldetailInit(f7, view, page) {
         const event = e || window.event;
         const ele = e.target;
         const classes = ele.className;
-        if(classes.indexOf('open-cert-button') > -1){
+        if (classes.indexOf('open-cert-button') > -1) {
             const url = $$(ele).attr('data-url');
             nativeEvent.catPic(url);
         }
@@ -141,13 +170,13 @@ function selldetailInit(f7, view, page) {
         messageTile += `我在鱼大大看到求购信息${fishTypeName}` +
             stock ? `${'，库存 ' + stock}` : '' +
             price ? `${'，价格' + price}` : '' +
-            specifications ? `${'，规格' + specifications}`: '' +
+            specifications ? `${'，规格' + specifications}` : '' +
             `，对你很有用，赶紧看看吧: ${url_}`;
         html += `求购 ${fishTypeName},` +
-                stock ? `${'，库存 ' + stock}` : '' +
-                price ? `${'，价格' + price}` : '' +
-                specifications ? `${'，规格' + specifications}` : '' +
-                '，点击查看更多信息~';
+            stock ? `${'，库存 ' + stock}` : '' +
+            price ? `${'，价格' + price}` : '' +
+            specifications ? `${'，规格' + specifications}` : '' +
+            '，点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 
