@@ -26,7 +26,7 @@ function selldetailInit(f7, view, page) {
                 demandInfo,
                 user_ishCertificate_list
             } = data.data;
-            const locaUserId = store.get(cacheUserinfoKey)['id'];
+            const locaUserId = store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['id'];
             const {
                 specifications,
                 stock,

@@ -23,7 +23,7 @@ function buydetailInit(f7, view, page) {
                 userInfo,
                 demandInfo,
             } = data.data;
-            const locaUserId = store.get(cacheUserinfoKey)['id'];
+            const locaUserId = store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['id'];
             const {
                 specifications,
                 stock,
