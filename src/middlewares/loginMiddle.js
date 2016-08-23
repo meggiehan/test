@@ -1,6 +1,6 @@
 import config from '../config/';
 import store from '../utils/locaStorage';
-import { trim } from '../utils/string';
+import { trim, html } from '../utils/string';
 
 function isLogin() {
     const { cacheUserinfoKey } = config;
@@ -16,25 +16,25 @@ function logOut() {
 }
 
 function loginSucc(data, callback) {
-    const $$ = Dom7;
-    const { loginName, list, imgPath, personalAuthenticationState, enterpriseAuthenticationState } = data;
+    const {imgPath} = config;
+    const {
+        imgUrl,
+        nickname,
+        phone,
+        name,
+        identificationCard,
+        personalAuthenticationState,
+        enterpriseAuthenticationState,
+        enterpriseName,
+        businessLicenseNo,
+        loginName,
+        provinceName,
+        cityName
+    } = data;
     $$('.user-header').addClass('login-succ');
     $$('.user-tell-number')[0].innerText = `手机号：${loginName}`;
-    if (list) {
-        const {
-            imgUrl,
-            nickname,
-            phone,
-            name,
-            identificationCard,
-            enterpriseName,
-            businessLicenseNo,
-            provinceName,
-            cityName
-        } = list;
-        imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
-        nickname && ($$('.user-name')[0].innerText = nickname);
-    }
+    imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
+    nickname && (html($$('.page-user .user-name'), nickname, null));
     callback();
 }
 

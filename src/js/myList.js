@@ -10,7 +10,7 @@ function myListInit(f7, view, page) {
     const $$ = Dom7;
     const { type } = page.query;
     const {pageSize, cacheUserinfoKey} = config;
-    const {id} = store.get(cacheUserinfoKey);
+    const {id, token} = store.get(cacheUserinfoKey);
     let pageNo = 1;
     $$('.my-list-title')[0].innerText = 2 == type ? '我的出售' : '我的求购';
 
@@ -37,9 +37,8 @@ function myListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [id, pageSize, pageNo],
-        type: 'get',
-        val: { type }
+        data: [id, pageSize, pageNo, token, type],
+        type: 'get'
     }, callback);
 }
 

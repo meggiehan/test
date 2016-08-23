@@ -39,7 +39,7 @@ android && (animatStatus = androidChrome);
 const f7 = new Framework7({
     // swipeBackPage: true,
     imagesLazyLoadThreshold: 50,
-    fastClicksDelayBetweenClicks: 100,
+    fastClicksDelayBetweenClicks: 1000,
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,

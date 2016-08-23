@@ -10,9 +10,9 @@ import userUtils from '../utils/viewsUtil/userUtils';
 import { centerShowTime } from '../utils/time';
 
 function otherIndexInit(f7, view, page) {
-    const { id } = page.query;
+    const { id, currentUserId } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
-    const { imgPath } = config;
+    const { imgPath, pageSize } = config;
     let callNumber;
     let type = 2;
     if (userCache) {
@@ -37,44 +37,56 @@ function otherIndexInit(f7, view, page) {
     }
 
 
-    const callback = (data) => {
+    const sellListCallback = (data) => {
+            const list = data.data.list;
+            if (!list.length) {
+                return;
+            }
+            let sellList = [];
+            let sellHtml = '';
+            $$.each(list, (index, item) => {
+                sellHtml += home.cat(item);
+                sellList.push(item);
+            })
+            html($$('.other-sell-list .list'), sellHtml, f7);
+            sellList.length && ($$('.other-index-list').addClass('show-sell-list'));
+
+            $$('img.lazy').trigger('lazy');
+        }
+        //get user sell demand list.
+    customAjax.ajax({
+        apiCategory: 'demandInfo',
+        api: 'getMyDemandInfoList',
+        data: [currentUserId, pageSize, 1],
+        type: 'get',
+        val: { type: 2 }
+    }, sellListCallback);
+
+    const buyListCallback = (data) => {
             const list = data.data.list;
             if (!list.length) {
                 return;
             }
             let buyList = [];
-            let sellList = [];
             let buyHtml = '';
-            let sellHtml = '';
             $$.each(list, (index, item) => {
-                const { type } = item;
-                if (2 == type) {
-                    sellHtml += home.cat(item);
-                    sellList.push(item);
-                } else if (1 == type) {
-                    buyHtml += home.buy(item);
-                    buyList.push(item);
-                }
+
+                buyHtml += home.buy(item);
+                buyList.push(item);
             })
-            html($$('.other-sell-list .list'), sellHtml, f7);
             html($$('.other-buy-list .list'), buyHtml, f7);
             buyList.length && ($$('.other-index-list').addClass('show-buy-list'));
-            sellList.length && ($$('.other-index-list').addClass('show-sell-list'));
-            /*
-             * Trigger lazy load img.
-             */
-            setTimeout(() => {
-                $$('img.lazy').trigger('lazy');
-            }, 300)
+
+            $$('img.lazy').trigger('lazy');
         }
-    //get user demand list.
+        //get user buy demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [id],
+        data: [currentUserId, pageSize, 1],
         type: 'get',
-        val: { type: 2 }
-    }, callback);
+        val: { type: 1 }
+    }, buyListCallback);
 
     //go to other user infomation.
     $$('.page-other-index .user-header').click(() => {
@@ -87,7 +99,7 @@ function otherIndexInit(f7, view, page) {
     $$('.other-index-cert .cert-list').on('click', (e) => {
         const event = e || window.event;
         const ele = event.target;
-        if(ele.className.indexOf('open-cert-button') > -1){
+        if (ele.className.indexOf('open-cert-button') > -1) {
             const url = $$(ele).attr('data-url');
             nativeEvent.catPic(url);
         }
@@ -95,17 +107,17 @@ function otherIndexInit(f7, view, page) {
 
     //view current user sell list.
     $$('.other-sell-cat-all').on('click', () => {
-        type = 1;
+        type = 2;
         view.router.load({
-            url: 'views/otherList.html?' + `id=${id}&type=${type}`
+            url: 'views/otherList.html?' + `id=${currentUserId}&type=${type}`
         })
     })
 
     //view current user sell list.
     $$('.other-buy-cat-all').on('click', () => {
-        type = 2;
+        type = 1;
         view.router.load({
-            url: 'views/otherList.html?' + `id=${id}&type=${type}`
+            url: 'views/otherList.html?' + `id=${currentUserId}&type=${type}`
         })
     })
 
@@ -125,6 +137,3 @@ function otherIndexInit(f7, view, page) {
 module.exports = {
     otherIndexInit
 }
-
-
-

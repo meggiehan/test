@@ -27,10 +27,10 @@ class CustomClass {
             let isDel = false;
             if (len >= cacheMaxLen) {
                 Dom7.each(storage, (key, value) => {
-                    if (i === 1 && !isDel && key !== cacheUserinfoKey) {
+                    if (i === len - 1 && !isDel && key !== cacheUserinfoKey) {
                         store.remove(key);
                         isDel = true;
-                    } else if (i === 2 && !isDel && key !== cacheUserinfoKey) {
+                    } else if (i === len - 2 && !isDel && key !== cacheUserinfoKey) {
                         store.remove(key);
                         isDel = true;
                     }
@@ -66,13 +66,13 @@ class CustomClass {
             timeout,
             data: newData,
             cache: false,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "X-Requested-With",
-                "Access-Control-Allow-Methods": "GET,POST"
-            },
+            // headers: {
+            //     "Access-Control-Allow-Origin": "*",
+            //     "Access-Control-Allow-Headers": "X-Requested-With",
+            //     "Access-Control-Allow-Methods": "GET,POST"
+            // },
             error: function(err) {
-                callback(null, err)
+                callback(null, err);
             },
             success: function(data) {
                 const _data = JSON.parse(data);

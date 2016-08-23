@@ -14,6 +14,7 @@ function buydetailInit(f7, view, page) {
     let isReleaseForMe = false;
     let demandInfo_;
     const { shareUrl } = config;
+    let currentUserId;
 
     const callback = (data) => {
         if (data.data) {
@@ -49,6 +50,7 @@ function buydetailInit(f7, view, page) {
                     .html('删除')
                     .addClass('icon-delete');
             }
+            currentUserId = userInfo['id'];
             html($$('.page-buydetail .goods-name'), fishTypeName, f7);
             html($$('.page-buydetail .goods-create-time'), timeDifference(createTime), f7);
             html($$('.page-buydetail .selldetail-price'), price || '面议', f7);
@@ -79,7 +81,7 @@ function buydetailInit(f7, view, page) {
     //View more current user information
     $$('.cat-user-info').on('click', () => {
         view.router.load({
-            url: 'views/otherIndex.html?id=' + id,
+            url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
     })
 

@@ -15,6 +15,7 @@ function selldetailInit(f7, view, page) {
     const shareBtn = $$('.selldetail-footer .icon-share');
     const { shareUrl } = config;
     let demandInfo_;
+    let currentUserId;
     // let certUrl;
     const callback = (data) => {
         if (data.data) {
@@ -46,6 +47,7 @@ function selldetailInit(f7, view, page) {
                 imgUrl
             } = userInfo;
             demandInfo_ = demandInfo;
+            currentUserId = userInfo['id'];
             if (id === locaUserId) {
                 isReleaseForMe = true;
                 $$('.selldetail-call-delete')
@@ -101,7 +103,7 @@ function selldetailInit(f7, view, page) {
     //View more current user information
     $$('.cat-user-info').on('click', () => {
         view.router.load({
-            url: 'views/otherIndex.html?id=' + id,
+            url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
     })
 
