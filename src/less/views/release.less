@@ -5,30 +5,14 @@
         background: @themeColor;
         .text-shadow(@themeColor);
         color: @text-fff;
-        .left {
-            height: 100%;
-            &.center {
-                font-size: 2.4rem;
-                .fw-l;
-            }
-            a {
-                color: @text-fff;
-                font-size: 1.6rem;
-                &:before {
-                    font-size: 1.8rem;
-                }
-            }
-        }
     }
     .page-content {
+        margin: 0;
         a {
-            display: block;
-            .service-info-box {
-                padding: 1rem 0;
-                background: @bg-fff;
-                .text-shadow(@text-fff);
-                .text-center;
-            }
+            padding: 2.5rem 2rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            vertical-align: middle;
             img {
                 display: block;
                 width: 5.5rem;
@@ -39,30 +23,26 @@
                 margin: 0;
                 color: @text-subtitle;
                 .text-hidden;
+                font-size: 1.6rem;
+                span {
+                    padding: 0.2rem 0.5rem;
+                    background: @text-price;
+                    .text-shadow(@text-price);
+                    color: @text-fff;
+                    font-size: 1.6rem;
+                    margin-left: 0.5rem;
+                    vertical-align: middle;
+                }
             }
             .title {
-                font-size: 2rem;
+                font-size: 2.4rem;
+                color: @text-name;
             }
-        }
-        .release-sound {
-            margin-bottom: 0.5rem;
-            padding: 1rem 0;
+            border-top: 1px solid @border-da;
             background: @bg-fff;
             .text-shadow(@text-fff);
-            .text-center;
-            .title {
-                color: @text-sound;
-            }
-        }
-        a.col-50 {
-            width: 50%;
-            padding-left: 0.25rem;
-            &.first {
-                padding-left: 0;
-                padding-right: 0.25rem;
-            }
-            .title{
-            	color: @text-help;
+            &.link {
+                border-top: 0;
             }
         }
     }

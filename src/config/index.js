@@ -7,7 +7,7 @@ const configs = {
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 30000, //api timeout, unit: ms
     pageSize: 20,
-    cacheMaxLen: 15,
+    cacheMaxLen: 50,
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
     shareUrl: 'http://m.yudada.com/infoDetail.html',

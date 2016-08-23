@@ -22,6 +22,7 @@
     .release-user-info {
         background: @bg-fff;
         margin: 0 0 1rem 0;
+        padding-left: 0.7rem;
         .text-shadow(@text-fff);
         .item-inner{
         	padding-right: 0;
@@ -42,26 +43,23 @@
                     padding: 0;
                 }
             }
-            input,
-            textarea {
-                .text-right;
-            }
+            // input,
+            // textarea {
+            //     .text-right;
+            // }
             .item-inner:after {
                 display: none;
             }
             .release-address-label {
-                .ps-r;
                 span {
-                    .ps-a;
-                    right: 0;
-                    top: 0.3rem;
-                    font-size: 1.2rem;
-                    line-height: 1.2;
-                    padding: 0.1rem 0.3rem;
+                    vertical-align: middle;
+                    line-height: 1.6;
+                    padding:0.2rem 0.5rem;
                     background: @bg-v;
                     color: @text-fff;
                     .text-shadow(@bg-v);
                     border-radius: 0.3rem;
+                    font-size: 1.2rem;
                 }
             }
         }
