@@ -80,7 +80,7 @@ function filterInit(f7, view, page) {
         let typeHtml = '';
         let fishTypeNameQuery;
         if(!release){
-        	typeHtml += `<span data-postcode="" class="first active-ele">全部鱼种</span>`;
+        	typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`;
         }
         $$.each(data.data.list, (index, item) => {
             const classes = index % 3 === 0 && 'on' || '';
@@ -141,7 +141,7 @@ function filterInit(f7, view, page) {
         $$.each(categoryFish, (index, item) => {
             const classes = index % 3 === 0 && 'on' || '';
             const select = `${classes}${item.id == currentFishId ? ' active-ele' : ''}`;
-            typeHtml += filter.fishType(item, classes);
+            typeHtml += filter.fishType(item, select);
         })
         html($$('.filter-fish-type>.col-65'), typeHtml, f7)
     })
