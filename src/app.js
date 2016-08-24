@@ -9,7 +9,7 @@ import { filterInit } from './js/filter';
 import { selldetailInit } from './js/selldetail';
 import { buydetailInit } from './js/buydetail';
 import { releaseInit } from './js/release';
-import { releaseSelectTypeInit } from './js/releaseSelectType';
+// import { releaseSelectTypeInit } from './js/releaseSelectType';
 import { releaseInfoInit } from './js/releaseInfo';
 import { loginInit } from './js/login';
 import { loginCodeInit } from './js/loginCode';
@@ -94,7 +94,7 @@ const initEvent = f7.onPageInit('*', (page) => {
         page.name === 'selldetail' && selldetailInit(f7, mainView, page);
         page.name === 'buydetail' && buydetailInit(f7, mainView, page);
         page.name === 'release' && releaseInit(f7, mainView, page);
-        page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
+        // page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
         page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
         page.name === 'login' && loginInit(f7, mainView, page);
         page.name === 'user' && userInit(f7, mainView, page);

@@ -81,11 +81,17 @@ class CustomClass {
         }, callback);
     }
 
+    appJump(id){
+        const url = 0 ? 'views/home.html' : 'views/release.html';
+        mainView.router.load({url})
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
         window['getProandCity'] = this.getProandCity;
         window['saveInforAddress'] = this.saveInforAddress;
+        window['appJump'] = this.appJump;
     }
 }
 

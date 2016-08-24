@@ -370,6 +370,14 @@ function filterInit(f7, view, page) {
             url: 'views/search.html'
         })
     })
+
+    //if release page go to select fish type page, Calculation filter-tabs-content height;
+    if(release){
+        const winHeight = $$(window).height();
+        const navbarHeight = $$('.navbar').height();
+        const footerHeight = $$('.tabbar').height();
+        $$('.filter-tabs-content').css({height: `${winHeight - navbarHeight - footerHeight}px`});
+    }
 }
 
 module.exports = {

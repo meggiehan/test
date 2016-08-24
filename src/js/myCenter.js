@@ -84,8 +84,7 @@ function myCenterInit(f7, view, page) {
                 f7.alert(message, '提示', () => {
                     f7.closeModal('.popup-edit-name');
                     view.router.load({
-                        url: 'views/user.html',
-                        reload: true
+                        url: 'views/user.html'
                     })
                 })
             } else {
