@@ -1,4 +1,11 @@
 .release-info-content {
+    .page-content{
+        &>p{
+            .text-center;
+            color: @text-category;
+            .text-hidden;
+        }
+    }
     .release-info-select {
         height: 2rem;
         line-height: 2rem;
@@ -13,8 +20,13 @@
             border: 1px solid @themeColor;
             line-height: 2rem;
             margin-right: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            .text-shadow(@themeColor);
+            .text-center;
+            background: @themeColor;
             &:after {
-                color: @themeColor;
+                color: @text-fff;
             }
         }
     }
@@ -26,6 +38,34 @@
         .text-shadow(@text-fff);
         .item-inner{
         	padding-right: 0;
+        }
+        .release-info-discription{
+            padding-bottom: 0.7rem;
+            textarea{
+                height:6.5rem;
+                line-height: 1.2;
+            }
+            &>span{
+                display: block;
+                width: 100%;
+                .text-right;
+                font-size: 1.2rem;
+                &>.desiable{
+                    color: @text-price;
+                }
+            }
+        }
+        .release-write-address{
+            .ps-r;
+            .iconfont{
+                .ps-a;
+                right: 0;
+                top: 0;
+                display: block;
+                width: 2rem;
+                vertical-align: middle;
+                .text-right;
+            }
         }
         &>div {
             padding: 0 2%;

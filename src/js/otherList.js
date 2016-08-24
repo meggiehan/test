@@ -36,9 +36,9 @@ function otherListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [id, pageSize, pageNo],
+        data: [id, pageSize, pageNo, '', type],
         type: 'get',
-        val: { type }
+        val: { id: 1 }
     }, callback);
 }
 

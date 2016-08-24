@@ -22,14 +22,15 @@ import { otherIndexInit } from './js/otherIndex';
 import { otherInfoInit } from './js/otherInfo';
 import { otherListInit } from './js/otherList';
 import { myListInit } from './js/myList';
-import {fishCertInit} from './js/fishCert';
-import {releaseSuccInit} from './js/releaseSucc';
+import { fishCertInit } from './js/fishCert';
+import { releaseSuccInit } from './js/releaseSucc';
+import nativeEvent from './utils/nativeEvent';
 
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const { version } = config;
+const { version, debug } = config;
 
 console.log(`current app version: ${version}!`);
 // alert(osVersion + '--' + androidChrome);
@@ -58,6 +59,10 @@ mainView.router.load({
 
 window.$$ = Dom7;
 window.mainView = mainView;
+globalEvent.init(f7);
+window.currentDevice = f7.device;
+//get curren address cache in object on window.
+!debug && nativeEvent.getAddress();
 /*
  * Trigger lazy load img.
  */
@@ -72,8 +77,6 @@ $$('img.lazy').trigger('lazy');
  */
 
 const initEvent = f7.onPageInit('*', (page) => {
-    globalEvent.init(f7);
-    window.currentDevice = f7.device;
     // show loading.
     if (page.name !== 'home' && page.name) {
         // f7.showIndicator();

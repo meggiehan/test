@@ -24,6 +24,13 @@ class CustomClass {
         android && window.yudada.JS_ChooseAddress(type);
     }
 
+    //get current address.
+    getAddress(){
+        const { ios, android } = window.currentDevice;
+        ios && JS_LocationOfDevice();
+        android && window.yudada.JS_LocationOfDevice();
+    }
+
     //select pic
     postPic(mark, id){
         const { ios, android } = window.currentDevice;

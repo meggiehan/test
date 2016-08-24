@@ -339,6 +339,7 @@ function filterInit(f7, view, page) {
         const classes = ele.className;
         const childId = ele.getAttribute('data-id');
         $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
+        $$('.filter-release-next').addClass('pass');
         const tabText = ele.innerText;
         releaseFishName = ele.innerText;
         ele.className += ' active-ele';

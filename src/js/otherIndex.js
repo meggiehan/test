@@ -42,17 +42,15 @@ function otherIndexInit(f7, view, page) {
             if (!list.length) {
                 return;
             }
-            let sellList = [];
             let sellHtml = '';
             $$.each(list, (index, item) => {
                 if(item['state'] !== 1){
                     return;
                 }
                 sellHtml += home.cat(item);
-                sellList.push(item);
             })
             html($$('.other-sell-list .list'), sellHtml, f7);
-            sellList.length && ($$('.other-index-list').addClass('show-sell-list'));
+            sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
 
             $$('img.lazy').trigger('lazy');
         }
@@ -60,9 +58,9 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, pageSize, 1],
+        data: [currentUserId, pageSize, 1, '', 2],
         type: 'get',
-        val: { type: 2 }
+        val: { type: 1 }
     }, sellListCallback);
 
     const buyListCallback = (data) => {
@@ -70,17 +68,15 @@ function otherIndexInit(f7, view, page) {
             if (!list.length) {
                 return;
             }
-            let buyList = [];
             let buyHtml = '';
             $$.each(list, (index, item) => {
                 if(item['state'] !== 1){
                     return;
                 }
                 buyHtml += home.buy(item);
-                buyList.push(item);
             })
             html($$('.other-buy-list .list'), buyHtml, f7);
-            buyList.length && ($$('.other-index-list').addClass('show-buy-list'));
+            buyHtml ? $$('.other-index-list').addClass('show-buy-list') : $$('.other-index-list').removeClass('show-buy-list');
 
             $$('img.lazy').trigger('lazy');
         }
@@ -88,9 +84,9 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, pageSize, 1],
+        data: [currentUserId, pageSize, 1, '', 1],
         type: 'get',
-        val: { type: 1 }
+        val: { id: 1 }
     }, buyListCallback);
 
     //go to other user infomation.

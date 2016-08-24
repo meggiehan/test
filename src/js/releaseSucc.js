@@ -7,10 +7,10 @@ import config from '../config';
 
 
 function releaseSuccInit(f7, view, page) {
-    const { type, id } = page.query;
+    const { type, id, fishName } = page.query;
     const { pageSize } = config;
 
-    $$('.release-succ-list>.title>span')[0].innerText = 2 == type ? '出售' : '求购';
+    $$('.release-succ-list>.title>span.release-succ-name')[0].innerText = fishName;
 
     const callback = (data) => {
         const { code, message } = data;

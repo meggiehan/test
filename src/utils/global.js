@@ -44,16 +44,20 @@ class CustomClass {
         }
     }
 
-    getProandCity(province, city, longitude, latitude) {
+    getProandCity(province, city, provinceId, cityId) {
         const $$ = Dom7;
         let addressObj = {
             province,
             city,
-            longitude,
-            latitude
+            provinceId,
+            cityId
         };
         const releaseAddressBtn = $$('.release-write-address>input');
-        window['addressObj'] = addressObj;
+        window['addressObj']['provinceName'] = province;
+        window['addressObj']['cityName'] = city;
+        window['addressObj']['provinceId'] = provinceId;
+        window['addressObj']['cityId'] = cityId;
+
         releaseAddressBtn.length && releaseAddressBtn.val(`${province}${city}`);
     }
 
@@ -86,12 +90,21 @@ class CustomClass {
         mainView.router.load({url})
     }
 
+    getAdreesSys(province, city, longitude, latitude){
+        window['addressObj'] = {};
+        window['addressObj']['initProvinceName'] = province;
+        window['addressObj']['initCityName'] = city;
+        window['addressObj']['longitude'] = longitude;
+        window['addressObj']['latitude'] = latitude;
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
         window['getProandCity'] = this.getProandCity;
         window['saveInforAddress'] = this.saveInforAddress;
         window['appJump'] = this.appJump;
+        window['getAdreesSys'] = this.getAdreesSys;
     }
 }
 

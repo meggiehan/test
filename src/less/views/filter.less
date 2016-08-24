@@ -89,6 +89,16 @@
             a {
                 &.filter-release-next {
                     display: block;
+                    background: @border-da;
+                    .text-shadow(@border-da);
+                    border: 1px solid @border-da;
+                    color: @text-fff;
+                    &.pass {
+                        background: none;
+                        .text-shadow(none);
+                        color: @themeColor;
+                        border: 1px solid @themeColor;
+                    }
                 }
                 &.filter-need-release {
                     display: none;
@@ -262,9 +272,9 @@
         .ps-a;
         width: 100%;
         .transition(all, @appAnimateTime, @appAnimate);
-        transform: translate3d(0,-100%,0);
+        transform: translate3d(0, -100%, 0);
         &.active {
-            transform: translate3d(0,0,0);
+            transform: translate3d(0, 0, 0);
             opacity: 1;
         }
         &.filter-district {
