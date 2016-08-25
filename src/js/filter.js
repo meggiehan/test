@@ -233,6 +233,9 @@ function filterInit(f7, view, page) {
             const event = e || window.event;
             let ele = event.target;
             let classes = ele.className;
+            if(ele.tagName !== 'P'){
+                return;
+            }
             if (classes.indexOf('active-ele') <= -1) {
                 $$('.filter-info-type>p').removeClass('active-ele');
                 ele.className += ' active-ele';
