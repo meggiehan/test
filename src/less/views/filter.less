@@ -91,13 +91,18 @@
                     display: block;
                     background: @border-da;
                     .text-shadow(@border-da);
-                    border: 1px solid @border-da;
+                    width:100%;
+                    height: 80%;
+                    border: 0;
+                    // border: 1px solid @border-da;
                     color: @text-fff;
                     &.pass {
                         background: none;
                         .text-shadow(none);
-                        color: @themeColor;
-                        border: 1px solid @themeColor;
+                        background: @themeColor;
+                        color: @text-fff;
+                        .text-shadow(@themeColor);
+                        // border: 1px solid @themeColor;
                     }
                 }
                 &.filter-need-release {

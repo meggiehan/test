@@ -46,6 +46,14 @@ function releaseInfoInit(f7, view, page) {
         $$('.release-write-tell input').val(phoneNumber);
     }
 
+    $$('.release-write-tell input')[0].oninput = () => {
+        const val = trim($$('.release-write-tell input').val());
+        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
+            $$('.release-sub-info').addClass('pass');
+        }else{
+            $$('.release-sub-info').removeClass('pass');
+        }
+    }
 
     const callback = (data) => {
         isRelease = false;
