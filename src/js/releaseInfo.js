@@ -7,7 +7,7 @@ import store from '../utils/locaStorage';
 
 function releaseInfoInit(f7, view, page) {
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
-    const { cacheUserinfoKey } = config;
+    const { cacheUserinfoKey, debug } = config;
     const userInfo = store.get(cacheUserinfoKey);
     let title;
     const phoneNumber = userInfo && userInfo['phone'] || '';
@@ -16,7 +16,7 @@ function releaseInfoInit(f7, view, page) {
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
     let isRelease = false;
     !debug && nativeEvent.getAddress();
-    
+
     if (window.addressObj) {
         provinceName = window.addressObj['provinceName'];
         cityName = window.addressObj['cityName'];
