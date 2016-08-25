@@ -6,6 +6,10 @@ function loginInit(f7, view, page) {
     const nextBtn = $$('.login-next>a');
     let isPass = false;
     let isSend = false;
+    setTimeout(() => {
+        $$('.login-phone-number input').focus();
+    },400)
+
     input[0].oninput = () => {
         const val = input.val();
         if (/^1[3|4|5|7|8]\d{9}$/.test(val)) {
@@ -16,7 +20,13 @@ function loginInit(f7, view, page) {
             isPass = false;
         }
     }
-
+    //listen
+    input.keypress((e) => {
+        const event = e || window.event;
+        if(event && event.keyCode == 13){
+            nextBtn.click();
+        }
+    })
     const callback = (data) => {
         isSend = false;
         nextBtn.addClass('on');

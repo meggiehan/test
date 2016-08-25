@@ -15,6 +15,9 @@ function loginCodeInit(f7, view, page) {
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
     $$('.login-code-phone')[0].innerText = phone;
+    setTimeout(() => {
+        input.focus();
+    },400)
     input[0].oninput = () => {
         const val = input.val();
         if (/^\d{4}$/.test(val) && val.length == 4) {
@@ -22,6 +25,8 @@ function loginCodeInit(f7, view, page) {
             input.blur();
             isPass = true;
             subBtn.trigger('click');
+        }else if(val.length >= 4){
+            input.val(val.substr(0,4));
         } else {
             subBtn.removeClass('on');
             isPass = false;
