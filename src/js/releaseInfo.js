@@ -15,7 +15,7 @@ function releaseInfoInit(f7, view, page) {
     const descriptInput = $$('.release-info-discription>textarea');
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
     let isRelease = false;
-    !debug && nativeEvent.getAddress();
+    // !debug && nativeEvent.getAddress(0);
 
     if (window.addressObj) {
         provinceName = window.addressObj['provinceName'];
