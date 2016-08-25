@@ -86,7 +86,8 @@ const initEvent = f7.onPageInit('*', (page) => {
     //global back event;
     $$('.link-back').on('click', () => {
         mainView.router.back({
-            animatePages: animatStatus
+            animatePages: animatStatus,
+            reload: false
         });
     })
 

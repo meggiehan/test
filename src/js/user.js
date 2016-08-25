@@ -63,6 +63,7 @@ function userInit(f7, view, page) {
         let personalAuthenticationState,enterpriseAuthenticationState;
         if(userInfomation){
             personalAuthenticationState = userInfomation['personalAuthenticationState'];
+            enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
         }
         if (!loginStatus) {
             f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
