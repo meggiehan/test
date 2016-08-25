@@ -72,16 +72,18 @@ class CustomClass {
             //     "Access-Control-Allow-Methods": "GET,POST"
             // },
             error: function(err) {
-                callback(null, err);
+                const f7 = new framework7();
+                f7.alert('网络错误','提示');
+                // callback(null, err);
             },
             success: function(data) {
                 const _data = JSON.parse(data);
                 if (_data.code !== 1 && _data.message) {
                     const f7 = new framework7();
-                    _data.code == 2 && f7.alert(_data.message, () => {
+                    _data.code == 2 && f7.alert(_data.message, '提示', () => {
                         logOut();
                     });
-                    _data.code !== 2 && f7.alert(_data.message);
+                    _data.code !== 2 && f7.alert(_data.message,'提示');
                 }
                 if (!noCache) {
                     _this.checkMaxLenAndDelete();

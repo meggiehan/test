@@ -87,7 +87,7 @@ function loginCodeInit(f7, view, page) {
         } else {
             isSend = false;
             isPass = true;
-            f7.alert(message);
+            // f7.alert(message);
         }
     }
     const regCallback = (data) => {
@@ -104,11 +104,13 @@ function loginCodeInit(f7, view, page) {
             } else {
                 isSend = false;
                 isPass = true;
-                f7.alert(data.message);
+                f7.alert(data.message,'提示',() => {
+                    input.focus();
+                });
             }
         }
         //User registration. return user login infomation.
-    subBtn.on('click', () => {
+    subBtn[0].onclick = () => {
         if (!isPass || isSend) {
             return;
         }
@@ -121,7 +123,7 @@ function loginCodeInit(f7, view, page) {
             type: 'get',
             noCache: true,
         }, regCallback);
-    })
+    }
 
 }
 
