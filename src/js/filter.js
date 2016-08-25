@@ -20,7 +20,8 @@ function filterInit(f7, view, page) {
     let loading = false;
     let pullToRefresh = false;
     let releaseFishName;
-    let parentFishInfo =     /*
+    let parentFishInfo =  {};
+     /*
      * Three cases into the filter page.
      * 1: home -> filter. query: type
      * 2: search -> filter. query: searchVal or category id.
