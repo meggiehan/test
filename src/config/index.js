@@ -18,7 +18,8 @@ const configs = {
 
     identity: {
         individual: '@70h_107w_1e_1c_2o',
-        company: '@90h_345w_1e_1c_2o'
+        company: '@90h_345w_1e_1c_2o',
+        catCompany: '@190h_345w_1e_1c_2o',
     },
     servicePhoneNumber: 18115381185,
     demandInfo: {
@@ -50,7 +51,12 @@ const configs = {
         'updateEnterpriseUserInfo': ['businessLicenseUrl', 'login_token'],
         'updatePersonalUserInfo': ['positiveIdUrl','otherSideIdUrl','holdIdUrl','login_token'],
         'updateUserInfo': ['id', 'nickname', 'imgUrl', 'address', 'provinceId', 'cityId' , 'provinceName', 'cityName'],
-        'getUserCertificate': ['userId']
+        'getUserCertificate': ['userId'],
+        'cancelPersonalAuthentication': ['login_token'],
+        'cancelEnterpriseAuthentication': ['login_token'],
+        'getUserFishCertificateList': ['login_token'],
+        'addUserFishCertificate': ['login_token', 'path', 'fishTypeName', 'fileSize'],
+        'deleteUserFishCertificate': ['login_token', 'id']
     }
 
 }

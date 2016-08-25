@@ -1,104 +1,233 @@
 .popup-individual-authentication {
-    .list-block {
-        color: @text-name;
-        .item-content {
-            height: 4rem;
-            line-height: 4rem;
-            padding-left: 0.7rem;
-            &.individual-faild-content {
-            	line-height: 1.2;
-            	font-size: 1.4rem;
-            	height:auto;
+    color: @text-name;
+    .item-input {
+        .text-right;
+        color: @text-category;
+    }
+    .iconfont {
+        color: @themeColor;
+        vertical-align: middle;
+        display: none;
+        &.icon-info {
+            font-size: 3.5rem;
+            &:before {
+                color: @text-price;
             }
-            &.border-bottom {
-                border-bottom: 1px solid @border-da;
+        }
+        &.icon-tick:after {
+            font-size: 1.2rem;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            vertical-align: middle;
+            .text-center;
+            line-height: 2.3rem;
+            background: @themeColor;
+            .text-shadow(@themeColor);
+            color: @text-fff;
+        }
+    }
+    .item-content {
+        padding-left: 0.7rem;
+        height: 4rem;
+        line-height: 4rem;
+        border-bottom: 1px solid @border-da;
+        &.title{
+            border: 0;
+        }
+        .item-inner {
+            padding: 0;
+            padding-right: 0.7rem;
+        }
+    }
+    .individual-authentication {
+        &>.title {
+            color: @text-category;
+            background: @bg-body;
+            .text-shadow(@bg-body);
+        }
+        display: none;
+        &>.border-bottom,
+        &>.individual-ing,
+        &>.individual-faild,
+        &>.individual-succ {
+            display: none;
+        }
+    }
+    &.individual-review {
+        .individual-authentication {
+            display: block;
+            &>.border-bottom,
+            &>.individual-ing {
+                display: block;
             }
-            &.individual-faild-title, &.individual-title{
-            	color: @text-category;
-            	margin-top: 1rem;
+        }
+    }
+    &.individual-faild {
+        .individual-authentication {
+            display: block;
+            &>.border-bottom,
+            &>.individual-faild {
+                display: block;
             }
-            .item-inner {
-                padding-right: 0.7rem;
-                &.border-bottom {
-                    border-bottom: 1px solid @border-da;
-                }
+            .icon-info {
+                display: inline-block;
+            }
+            .individual-faild-title {
+                height: auto;
                 .item-input {
-                    .text-right;
-                    color: @text-mt-center;
-                    .icon-info:before{
-                    	font-size: 4rem;
-                    	color: @text-price;
-                    	vertical-align: middle;
-                    }
-                    .icon-tick:after{
-                    	background: @themeColor;
-                    	.text-shadow(@themeColor);
-                    	color: @text-fff;
-                    	width:2.2rem;
-                    	.text-center;
-                    	height:2.2rem;
-                    	line-height: 2.2rem;
-                    	vertical-align: middle;
-                    	display: inline-block;
-                    	border-radius: 50%;
-                    	font-size: 1.2rem;
-                    }
+                    line-height: 1.2;
                 }
-                .item-title {
-                    width: 40%;
+            }
+            .faild-border{
+                border: 0;
+                &>div{
+                    border-bottom: 1px solid @border-da;
                 }
             }
         }
     }
-    .individual-ing{
-    	padding: 1rem 0;
-    	p{
-    		.text-center;
-    		color: @text-mt-center;
-    		line-height: 1.4;
-    		font-size: 1.4rem;
-    		margin: 0;
-    	}
+    &.individual-succ {
+        .individual-authentication {
+            display: block;
+            &>.border-bottom,
+            &>.individual-succ {
+                display: block;
+            }
+            .border-bottom{
+                border: 0;
+            }
+            .icon-tick {
+                display: inline-block;
+                &:after {
+                    display: inline-block;
+                }
+            }
+            .faild-border, .succ-border{
+                border: 0;
+                &>div{
+                    border-bottom: 1px solid @border-da;
+                }
+            }
+            .individual-succ-button {
+                .text-center;
+                display: block;
+                font-size: 1.4rem;
+                padding: 1rem;
+                color: @themeColor;
+            }
+        }
     }
-    .iconfont{
-    	display: none;
+    .individual-ing {
+        padding: 1rem 0;
+        p {
+            .text-center;
+            color: @text-mt-center;
+            line-height: 1.4;
+            font-size: 1.4rem;
+            margin: 0;
+        }
     }
-    .individual-faild{
-    	display: none;
-		.button{
-			width: 60%;
-			line-height: 3.5rem;
-			height: 3.5rem;
-			border:0;
-			background: @themeColor;
-			.text-shadow(@themeColor);
-			color: @text-fff;
-			margin: 1rem auto;
-		}
+    .company-authentication {
+        &>.title {
+            color: @text-category;
+            background: @bg-body;
+            .text-shadow(@bg-body);
+        }
+        display: none;
+        &>.border-bottom,
+        &>.company-ing,
+        &>.company-faild,
+        &>.company-succ {
+            display: none;
+        }
     }
-    .individual-succ{
-    	display: none;
+    &.company-review {
+        .company-authentication {
+            display: block;
+            &>.border-bottom,
+            &>.company-ing {
+                display: block;
+            }
+        }
     }
-    &.faild{
-    	.icon-info{
-    		display: inline-block;
-    	}
-    	.individual-ing{
-    		display: none;
-    	}
-    	.individual-faild{
-    		display: block;
-    	}
+    &.company-faild {
+        .company-authentication {
+            display: block;
+            &>.border-bottom,
+            &>.company-faild {
+                display: block;
+            }
+            .icon-info {
+                display: inline-block;
+            }
+            .company-faild-title {
+                height: auto;
+                .item-input {
+                    line-height: 1.2;
+                }
+            }
+            .faild-border{
+                border: 0;
+                &>div{
+                    border-bottom: 1px solid @border-da;
+                }
+            }
+        }
     }
-    &.succ{
-    	.individual-ing{
-    		display: none;
-    	}
-    	.individual-succ{
-    		display: block;
-    	}
-    	.icon-tick{
-    		display: inline-block;
-    	}
+    &.company-succ {
+        .company-authentication {
+            display: block;
+            &>.border-bottom,
+            &>.company-succ {
+                display: block;
+            }
+            .border-bottom{
+                border: 0;
+            }
+            .icon-tick {
+                display: inline-block;
+                &:after {
+                    display: inline-block;
+                }
+            }
+            .faild-border, .succ-border{
+                border: 0;
+                &>div{
+                    border-bottom: 1px solid @border-da;
+                }
+            }
+            .company-succ-button {
+                .text-center;
+                display: block;
+                font-size: 1.4rem;
+                padding: 1rem;
+                color: @themeColor;
+            }
+        }
+    }
+    .individual-ing, .company-ing {
+        padding: 1rem 0;
+        p {
+            .text-center;
+            color: @text-mt-center;
+            line-height: 1.4;
+            font-size: 1.4rem;
+            margin: 0;
+        }
+    }
+    .button {
+        width: 60%;
+        line-height: 3.5rem;
+        height: 3.5rem;
+        border: 0;
+        background: @themeColor;
+        .text-shadow(@themeColor);
+        color: @text-fff;
+        margin: 1rem auto;
+        &.cancel-individual-verify-buuton, &.cancel-company-verify-buuton {
+            background: @text-subtitle;
+            .text-shadow(@text-subtitle);
+        }
     }
 }

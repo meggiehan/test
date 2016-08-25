@@ -33,21 +33,36 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
 
         //edit individual authentication and company authentication popup page.
         const individualStatus = $$('.individual-authentication-status-text>.text');
-        individualStatus[0].innerText = (personal == 0 && '审核中') || (personal == 2 && '审核不通过');
+        const companyStatus = $$('.company-authentication-status-text>.text');
+        individualStatus[0].innerText = (personal == 1 && '审核通过') || (personal == 2 && '审核未通过') || '审核中';
+        companyStatus[0].innerText = (enterprise == 1 && '审核通过') || (enterprise == 2 && '审核未通过') || '审核中';
         if (userUtils.data) {
             const {
                 name,
                 identificationCard,
                 personalAuthenticationDescribe,
-                enterpriseAuthenticationDescribe
+                enterpriseAuthenticationDescribe,
+                personalAuthenticationState,
+                enterpriseAuthenticationState,
+                enterpriseName,
+                businessLicenseNo
             } = userUtils.data;
             personalAuthenticationDescribe && ($$('.individual-faild-content')[0].innerText = personalAuthenticationDescribe);
+            enterpriseAuthenticationDescribe && ($$('.company-faild-content')[0].innerText = enterpriseAuthenticationDescribe);
+
+            enterpriseName && ($$('.company-authentication-name')[0].innerText = enterpriseName);
             name && ($$('.individual-authentication-name')[0].innerText = getName(name));
+            businessLicenseNo && ($$('.company-authentication-number')[0].innerText = getBusinessLicenseNumber(businessLicenseNo));
             identificationCard && ($$('.individual-authentication-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
+            const subPopup = $$('.popup-individual-authentication');
+            0 == personalAuthenticationState && subPopup.addClass('individual-review');
+            1 == personalAuthenticationState && subPopup.addClass('individual-succ');
+            2 == personalAuthenticationState && subPopup.addClass('individual-faild');
+            0 == enterpriseAuthenticationState && subPopup.addClass('company-review');
+            1 == enterpriseAuthenticationState && subPopup.addClass('company-succ');
+            2 == enterpriseAuthenticationState && subPopup.addClass('company-faild');
         }
 
-        personal == 2 && $$('.popup-individual-authentication').addClass('faild');
-        personal == 1 && $$('.popup-individual-authentication').addClass('succ');
         return {
             text,
             myCenterText

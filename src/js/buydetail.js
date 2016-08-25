@@ -152,17 +152,17 @@ function buydetailInit(f7, view, page) {
             requirementPhone
         } = demandInfo_;
 
-        title += `【出售】${fishTypeName}, ${provinceName}$}{cityName}`;
-        messageTile += `我在鱼大大看到出售信息${fishTypeName}` +
-            stock ? `${'，库存 ' + stock}` : '' +
-            price ? `${'，价格' + price}` : '' +
-            specifications ? `${'，规格' + specifications}`  : ''+
+        title += `【出售】${fishTypeName}, ${provinceName||''}${cityName||''}`;
+        messageTile += `我在鱼大大看到出售信息${fishTypeName||''}，` +
+            stock ? `${'库存 ' + stock}，` : '' +
+            price ? `${'价格' + price}，` : '' +
+            specifications ? `${'规格' + specifications}，`  : ''+
             `，对你很有用，赶紧看看吧: ${url_}`;
         html += `出售${fishTypeName},` +
-                stock ? `${'，库存 ' + stock}` : '' +
-                price ? `${'，价格' + price}` : '' +
-                specifications ? `${'，规格' + specifications}` : '' +
-                '，点击查看更多信息~';
+                stock ? `${'库存 ' + stock}，` : '' +
+                price ? `${'价格' + price}，` : '' +
+                specifications ? `${'规格' + specifications}，` : '' +
+                '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 }

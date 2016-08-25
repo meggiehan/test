@@ -1,4 +1,4 @@
-import { timeDifference } from './time';
+import { timeDifference, getDate } from './time';
 import config from '../config/';
 const { backgroundImgUrl, imgPath } = config;
 
@@ -22,7 +22,7 @@ module.exports = {
                 '<div class="col-30 goods-create-time">' + timeDifference(create_time) + '</div>' +
                 '</div>' +
                 '<div class="cat-list-address">' +
-                '<span>' + `${contact_name || ''}` + '</span> ' + `${province_name}${city_name}` +
+                '<span>' + `${contact_name || ''}` + '</span> ' + `${province_name || ''}${city_name || ''}` +
                 '</div>' +
                 '<div class="cat-list-tags">'
             if (personal_authentication_state === 1 || enterprise_authentication_state === 1) {
@@ -49,7 +49,7 @@ module.exports = {
                 '<div class="col-35 buy-time">' + timeDifference(create_time) + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
-                '<span class="' + `${isV && "iconfont icon-v"}` + '">' + `${contact_name || '匿名用户'}` + '</span>' + `指定产地：${province_name}${city_name}` +
+                '<span class="' + `${isV && "iconfont icon-v"}` + '">' + `${contact_name || '匿名用户'}` + '</span>' + `指定产地：${province_name || ''}${city_name || ''}` +
                 '</div>'
             return res
         }
@@ -120,5 +120,28 @@ module.exports = {
             } = data;
             return `<span class="${classes || ''}" data-postcode="${postcode}">${name}</span>`;
         },
+    },
+    fishCert: {
+        certList: (data, index) => {
+            const {identity} = config;
+            const { state, path, id, closing_date, type, reasons_for_refusal } = data;
+            let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
+            let itemBottom = '';
+            if (1 !== state) {
+                itemBottom += '<p class="fish-cert-button">';
+                itemBottom += 2 == state ? '<span class="fish-cert-reupload" data-id="' + id + '" style="margin-right:1.5rem">重新上传</span>' : '';
+                itemBottom += '<span class="fish-cert-delete" data-id="' + id + '" data-index="'+ index +'">删除</span></p>'
+            }
+            const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';
+            let str = '';
+            str += `<div class="col-50" data-parent-id="${id}">`;
+            str += `<div class="ps-r">${spans}<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy"></div>`;
+            str += 1 == state ? `<p class="cert-name">${type}</p>` : '';
+            str += 1 !== state ? `<p class="cert-name">${reviewText}</p>` : '';
+            str += 1 == state ? `<p class="cert-create-time">有效期至${getDate(closing_date)}</p>` : '';
+            str += itemBottom;
+            str += '</div>';
+            return str;
+        }
     }
 }

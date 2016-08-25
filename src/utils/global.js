@@ -2,6 +2,7 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
+import { fishCert } from '../utils/template';
 
 class CustomClass {
     getPhoneSrc(srcimg, src, index) {
@@ -66,7 +67,7 @@ class CustomClass {
         const id = store.get(cacheUserinfoKey)['id'];
         const callback = (data) => {
             const f = new framework7();
-
+            console.log(data)
             const { code, message } = data;
             f.alert(message, '提示', () => {
                 if (1 == code) {
@@ -85,17 +86,55 @@ class CustomClass {
         }, callback);
     }
 
-    appJump(id){
+    appJump(id) {
         const url = 0 ? 'views/home.html' : 'views/release.html';
-        mainView.router.load({url})
+        mainView.router.load({ url })
     }
 
-    getAdreesSys(province, city, longitude, latitude){
+    getAdreesSys(province, city, longitude, latitude) {
         window['addressObj'] = {};
         window['addressObj']['initProvinceName'] = province;
         window['addressObj']['initCityName'] = city;
         window['addressObj']['longitude'] = longitude;
         window['addressObj']['latitude'] = latitude;
+    }
+
+    subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
+        const { identity, cacheUserinfoKey } = config;
+        let login_token;
+        const f = new framework7();
+        const userInfo = store.get(cacheUserinfoKey);
+        if (userInfo) {
+            login_token = userInfo['token'];
+        }
+        const callback = (data) => {
+            const { code, message } = data;
+            f.alert(message, '提示', () => {
+                if (1 == code) {
+                    mainView.router.load({
+                        url: 'views/user.html'
+                    })
+                }
+            })
+        }
+        if (!id) {
+            customAjax.ajax({
+                apiCategory: 'userInfo',
+                api: 'addUserFishCertificate',
+                data: [login_token, path, uploadFilename, fileSize],
+                type: 'post',
+                noCache: true,
+            }, callback);
+        } else {
+            customAjax.ajax({
+                apiCategory: 'userInfo',
+                api: 'addUserFishCertificate',
+                data: [login_token, path, uploadFilename, fileSize],
+                type: 'post',
+                val: { id },
+                noCache: true,
+            }, callback);
+        }
     }
 
     init(f) {
@@ -105,6 +144,7 @@ class CustomClass {
         window['saveInforAddress'] = this.saveInforAddress;
         window['appJump'] = this.appJump;
         window['getAdreesSys'] = this.getAdreesSys;
+        window['subAndShowFishAu'] = this.subAndShowFishAu;
     }
 }
 

@@ -93,5 +93,16 @@ module.exports = {
             temp = "一周前";
         }
         return temp;
+    },
+    getDate: (time) => {
+        if(!time){
+            return '';
+        }
+        var test = new Date(parseInt(time) * 1000);
+        var $_year = test.getFullYear();
+        var $_month = parseInt(test.getMonth()) + 1;
+        var $_day = test.getDate();
+        var $_f_date = $_year + "年" + $_month + "月" + $_day + "日";
+        return $_f_date;
     }
 }

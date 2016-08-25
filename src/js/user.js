@@ -7,7 +7,6 @@ import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
 
 function userInit(f7, view, page) {
-    const $$ = Dom7;
     let loginStatus = isLogin();
     const { cacheUserinfoKey, servicePhoneNumber } = config;
     let userInfomation = store.get(cacheUserinfoKey);
@@ -61,7 +60,7 @@ function userInit(f7, view, page) {
 
     //cilck identity authentication.
     $$('.user-cert-type>div').eq(0).on('click', () => {
-        let personalAuthenticationState;
+        let personalAuthenticationState,enterpriseAuthenticationState;
         if(userInfomation){
             personalAuthenticationState = userInfomation['personalAuthenticationState'];
         }
@@ -72,7 +71,7 @@ function userInit(f7, view, page) {
                 })
             })
         } else {
-            if (-1 == personalAuthenticationState) {
+            if (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) {
                 view.router.load({
                     url: 'views/identityAuthentication.html'
                 })
@@ -129,6 +128,46 @@ function userInit(f7, view, page) {
             })
         // });
     })
+
+    //cancle authentication.
+    const cancleIndividualCallback = (data) => {
+        const {code, message} = data;
+        f7.alert('message','提示', () => {
+            f7.closeModal('.popup-individual-authentication');
+            view.router.load({
+                url: 'views/user.html'
+            })
+        })
+    }
+    $$('.cancel-individual-verify-buuton')[0].onclick = () => {
+        customAjax.ajax({
+            apiCategory: 'userInfo',
+            api: 'cancelPersonalAuthentication',
+            data: [userInfomation['token']],
+            type: 'post',
+            noCache: true,
+        }, cancleIndividualCallback);
+    }
+
+    const cancleCompanyCallback = (data) => {
+        const {code, message} = data;
+        f7.alert('message','提示', () => {
+            f7.closeModal('.popup-individual-authentication');
+            view.router.load({
+                url: 'views/user.html'
+            })
+        })
+    }
+    $$('.cancel-individual-verify-buuton')[0].onclick = () => {
+        customAjax.ajax({
+            apiCategory: 'userInfo',
+            api: 'cancelEnterpriseAuthentication',
+            data: [userInfomation['token']],
+            type: 'post',
+            noCache: true,
+        }, cancleCompanyCallback);
+    }
+
 }
 
 module.exports = {
