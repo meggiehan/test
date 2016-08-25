@@ -15,7 +15,6 @@ function releaseInfoInit(f7, view, page) {
     const descriptInput = $$('.release-info-discription>textarea');
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
     let isRelease = false;
-    !debug && nativeEvent.getAddress();
 
     if (window.addressObj) {
         provinceName = window.addressObj['provinceName'];
@@ -26,6 +25,8 @@ function releaseInfoInit(f7, view, page) {
         cityId = window.addressObj['cityId'];
         initProvinceName = window.addressObj['initProvinceName'];
         initCityName = window.addressObj['initCityName'];
+    }else{
+        !debug && nativeEvent.getAddress();
     }
 
     $$('.release-write-address>input').length && initProvinceName && ($$('.release-write-address>input').val(initProvinceName + initCityName));
