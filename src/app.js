@@ -63,7 +63,9 @@ window.mainView = mainView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
 //get curren address cache in object on window.
-!debug && nativeEvent.getAddress();
+window.onload = () => {
+    !debug && nativeEvent.getAddress();
+}    
 /*
  * Trigger lazy load img.
  */
