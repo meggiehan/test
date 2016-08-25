@@ -84,13 +84,20 @@ const initEvent = f7.onPageInit('*', (page) => {
         f7.hideIndicator();
     }
     //global back event;
-    $$('.link-back').on('click', () => {
-        mainView.router.back({
-            animatePages: animatStatus,
-            reload: false
-        });
-    })
-
+    // $$('.link-back').on('click', () => {
+    //     mainView.router.back({
+    //         animatePages: animatStatus,
+    //         reload: false,
+    //         ignoreCache: true
+    //     });
+    // })
+    if(!page.name){
+        const url = page['view']['url'];
+        if(url){
+            const name = url.split('.html')[0].split('views/')[1];
+            page['name'] = name;
+        }
+    }
     setTimeout(function() {
         page.name === 'home' && homeInit(f7, mainView, page);
         page.name === 'search' && searchInit(f7, mainView, page);

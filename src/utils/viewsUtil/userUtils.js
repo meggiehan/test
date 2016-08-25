@@ -100,7 +100,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 }
                 demandInfo_buy_number && ($$('.user-sell-num')[0].innerText = demandInfo_buy_number);
                 demandInfo_sell_number && ($$('.user-buy-num')[0].innerText = demandInfo_sell_number);
-                fish_certificate_number && ($$('.user-verification-num')[0].innerText = fish_certificate_number);
+                (fish_certificate_number || 0 == fish_certificate_number) && ($$('.user-verification-num')[0].innerText = fish_certificate_number);
 
 
                 1 == personal_authentication_state && (authenticationBtn.addClass('succ'));
