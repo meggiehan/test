@@ -3,11 +3,14 @@ import config from '../config';
 
 function releaseInit(f7, view, page) {
     const $$ = Dom7;
-    const { servicePhoneNumber } = config;
+    const { servicePhoneNumber, debug } = config;
     $$('.release-sound').on('click', () => {
         nativeEvent.apiCount();
         nativeEvent.releaseVoiceInfo();
     })
+    if(!window['addressObj']){
+        !debug && nativeEvent.getAddress();
+    }
 
     $$('.service-contact-us').on('click', () => {
         nativeEvent.contactUs(servicePhoneNumber);

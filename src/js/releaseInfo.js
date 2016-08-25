@@ -25,8 +25,6 @@ function releaseInfoInit(f7, view, page) {
         cityId = window.addressObj['cityId'];
         initProvinceName = window.addressObj['initProvinceName'];
         initCityName = window.addressObj['initCityName'];
-    }else{
-        !debug && nativeEvent.getAddress();
     }
 
     $$('.release-write-address>input').length && initProvinceName && ($$('.release-write-address>input').val(initProvinceName + initCityName));
