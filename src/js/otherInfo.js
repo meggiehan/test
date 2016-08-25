@@ -27,7 +27,7 @@ function otherInfoInit(f7, view, page) {
         imgUrl && ($$('.page-other-info .center-head-pic img').attr('src', imgUrl + imgPath(8)));
         nickname && ($$('.page-other-info .my-center-nice-name')[0].innerText = nickname);
         phone && ($$('.other-info-phone')[0].innerText = phone);
-        address && ($$('.other-info-address')[0].innerText = address);
+        address ? ($$('.other-info-address')[0].innerText = address) : $$('.other-info-address-parent').hide();
 
         if (enterpriseAuthenticationState == 1) {
             $$('.other-authentication-info').addClass('company');
