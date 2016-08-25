@@ -47,13 +47,11 @@ class CustomClass {
 
     getProandCity(province, city, provinceId, cityId) {
         const $$ = Dom7;
-        let addressObj = {
-            province,
-            city,
-            provinceId,
-            cityId
-        };
+        if(!window['addressObj']){
+            window['addressObj'] = {};
+        }
         const releaseAddressBtn = $$('.release-write-address>input');
+        alert(province, city, provinceId, cityId)
         window['addressObj']['provinceName'] = province;
         window['addressObj']['cityName'] = city;
         window['addressObj']['provinceId'] = provinceId;
@@ -92,6 +90,7 @@ class CustomClass {
     }
 
     getAdreesSys(province, city, longitude, latitude) {
+        alert(province, city, longitude, latitude)
         window['addressObj'] = {};
         window['addressObj']['initProvinceName'] = province;
         window['addressObj']['initCityName'] = city;
