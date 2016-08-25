@@ -37,6 +37,20 @@ module.exports = {
         })
         res += lastStr;
         return res;
+    },
+
+    getQuery: (str) => {
+        let obj = {};
+        if(!str){
+            return obj;
+        }
+        const arr = str.split('&');
+        arr.forEach((item) => {
+            const key = item.split('=')[0];
+            const val = item.split('=')[1];
+            obj[key] = val;
+        })
+        return obj;
     }
     
 }

@@ -60,7 +60,7 @@ function otherIndexInit(f7, view, page) {
         api: 'getMyDemandInfoList',
         data: [currentUserId, pageSize, 1, '', 2],
         type: 'get',
-        val: { type: 1 }
+        val: { id: 1 }
     }, sellListCallback);
 
     const buyListCallback = (data) => {

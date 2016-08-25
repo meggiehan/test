@@ -25,6 +25,7 @@ import { myListInit } from './js/myList';
 import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
+import {getQuery} from './utils/string';
 
 
 const deviceF7 = new Framework7();
@@ -95,6 +96,8 @@ const initEvent = f7.onPageInit('*', (page) => {
         const url = page['view']['url'];
         if(url){
             const name = url.split('.html')[0].split('views/')[1];
+            const query = getQuery(url.split('?')[1]);
+            page['query'] = query;
             page['name'] = name;
         }
     }
