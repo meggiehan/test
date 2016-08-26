@@ -66,7 +66,7 @@ function userInit(f7, view, page) {
             enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
         }
         if (!loginStatus) {
-            f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
                 view.router.load({
                     url: 'views/login.html',
                 })
@@ -87,7 +87,7 @@ function userInit(f7, view, page) {
     //cilck upload fish cert.
     $$('.user-cert-type>div').eq(1).click(() => {
         if (!loginStatus) {
-            f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
                 view.router.load({
                     url: 'views/login.html',
                 })
@@ -109,7 +109,7 @@ function userInit(f7, view, page) {
     $$.each($$('.user-info-list>a'), (index, item) => {
         item.onclick = () => {
             if (!loginStatus) {
-                f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
+                f7.alert('您还没登录，请先登录。', '温馨提示', () => {
                     view.router.load({
                         url: 'views/login.html',
                     })
