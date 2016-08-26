@@ -1,6 +1,7 @@
 import config from '../config/';
 import store from '../utils/locaStorage';
 import { trim, html } from '../utils/string';
+// import nativeEvent form '../utils/nativeEvent';
 
 function isLogin() {
     const { cacheUserinfoKey } = config;
@@ -9,6 +10,7 @@ function isLogin() {
 }
 
 function logOut() {
+    // nativeEvent.nativeAlert('提示', '退出成功！', '确定'， '');
     store.clear();
     mainView.router.load({
         url: 'views/home.html'
