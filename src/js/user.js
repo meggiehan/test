@@ -51,15 +51,15 @@ function userInit(f7, view, page) {
     }
 
     //if login succ, replace to change user info page, else replace to login page.
-    $$('.user-header').on('click', () => {
+    $$('.user-header')[0].onclick = () => {
         const url = loginStatus ? 'views/myCenter.html' : 'views/login.html';
         view.router.load({
             url
         })
-    })
+    }
 
     //cilck identity authentication.
-    $$('.user-cert-type>div').eq(0).on('click', () => {
+    $$('.user-cert-type>div').eq(0).click(() => {
         let personalAuthenticationState,enterpriseAuthenticationState;
         if(userInfomation){
             personalAuthenticationState = userInfomation['personalAuthenticationState'];
@@ -85,7 +85,7 @@ function userInit(f7, view, page) {
     })
 
     //cilck upload fish cert.
-    $$('.user-cert-type>div').eq(1).on('click', () => {
+    $$('.user-cert-type>div').eq(1).click(() => {
             if (!loginStatus) {
                 f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
                     view.router.load({
@@ -106,7 +106,7 @@ function userInit(f7, view, page) {
 
     //view my release list.
     $$.each($$('.user-info-list>a'), (index, item) => {
-        $$(item).on('click', () => {
+        item.onclick = () => {
             if (!loginStatus) {
                 f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
                     view.router.load({
@@ -118,7 +118,7 @@ function userInit(f7, view, page) {
                     url: 'views/myList.html?' + `type=${!index ? 2 : 1}`,
                 })
             }
-        })
+        }
     })
 
     //to identity authentication re submit audit information

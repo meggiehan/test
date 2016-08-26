@@ -41,12 +41,17 @@ android && (animatStatus = androidChrome);
 const f7 = new Framework7({
     // swipeBackPage: true,
     imagesLazyLoadThreshold: 50,
-    fastClicksDelayBetweenClicks: 1000,
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,
+    pushStateRoot: '/#!/views/home.html',
+    swipeBackPageActiveArea: '100',
+    preloadPreviousPage: true,
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
     fastClicks: true,
-    modalTitle: 'Yudada'
+    modalTitle: '温馨提示',
+    cache: true
 });
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
