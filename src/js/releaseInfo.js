@@ -46,13 +46,22 @@ function releaseInfoInit(f7, view, page) {
         $$('.release-write-tell input').val(phoneNumber);
     }
 
-    $$('.release-write-tell input')[0].oninput = () => {
+    const testRequireInfo = () => {
         const val = trim($$('.release-write-tell input').val());
         if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
             $$('.release-sub-info').addClass('pass');
-        }else{
+        } else {
             $$('.release-sub-info').removeClass('pass');
         }
+    }
+    //init verify, change submit button status;
+    testRequireInfo();
+    $$('.release-write-address input')[0].oninput = () => {
+        testRequireInfo();
+    }
+
+    $$('.release-write-tell input')[0].oninput = () => {
+        testRequireInfo();
     }
 
     const callback = (data) => {
@@ -80,52 +89,54 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
-            const price = trim($$('.release-write-price input').val());
-            const spec = trim($$('.release-write-spec input').val());
-            const stock = trim($$('.release-write-stock input').val());
-            const address = trim($$('.release-write-address input').val());
-            const description = trim($$('.release-info-discription textarea').val());
-            const name = trim($$('.release-write-contact input').val());
-            const phone = trim($$('.release-write-tell input').val());
-            let error;
-            if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
-                error = '请您输入正确的手机号码！';
-            } else if (!trim(address)) {
-                error = '请选择地区！';
-            } else if (price && price.length > 20) {
-                error = '价格最大长度为20位字符！'
-            } else if (spec && spec.length > 20) {
-                error = '规格最大长度为20位字符！'
-            } else if (stock && stock.length > 20) {
-                error = '数量最大长度为50位字符！'
-            } else if (description && description.length > 50) {
-                error = '补充说明最大长度为50位字符！'
-            }
-
-            return {
-                error,
-                fishParentTypeId: parentFishId,
-                fishParentTypeName: parentFishName,
-                fishTypeId: fishId,
-                fishTypeName: fishName,
-                requirementPhone: phone,
-                type,
-                price,
-                specifications: spec,
-                stock,
-                address,
-                longitude,
-                latitude,
-                describe: description,
-                provinceId,
-                cityId,
-                provinceName,
-                cityName,
-                contactName: name,
-                login_token: token
-            }
+        const price = trim($$('.release-write-price input').val());
+        const spec = trim($$('.release-write-spec input').val());
+        const stock = trim($$('.release-write-stock input').val());
+        const address = trim($$('.release-write-address input').val());
+        const description = trim($$('.release-info-discription textarea').val());
+        const name = trim($$('.release-write-contact input').val());
+        const phone = trim($$('.release-write-tell input').val());
+        let error;
+        if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
+            error = '请您输入正确的手机号码！';
+        } else if (!trim(address)) {
+            error = '请选择地区！';
+        } else if (price && price.length > 20) {
+            error = '价格最大长度为20位字符！'
+        } else if (spec && spec.length > 20) {
+            error = '规格最大长度为20位字符！'
+        } else if (stock && stock.length > 20) {
+            error = '数量最大长度为50位字符！'
+        } else if (description && description.length > 50) {
+            error = '补充说明最大长度为50位字符！'
         }
-        // submit release infomation to server;
+
+        return {
+            error,
+            fishParentTypeId: parentFishId,
+            fishParentTypeName: parentFishName,
+            fishTypeId: fishId,
+            fishTypeName: fishName,
+            requirementPhone: phone,
+            type,
+            price,
+            specifications: spec,
+            stock,
+            address,
+            longitude,
+            latitude,
+            describe: description,
+            provinceId,
+            cityId,
+            provinceName,
+            cityName,
+            contactName: name,
+            login_token: token
+        }
+    }
+
+
+    // submit release infomation to server;
     $$('.release-sub-info')[0].onclick = () => {
         const data = subInfoTest();
         const { error } = data;
