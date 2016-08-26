@@ -52,9 +52,10 @@ function selldetailInit(f7, view, page) {
             } = userInfo;
             demandInfo_ = demandInfo;
 
-            if (id == locaUserId || state == 0 || state == 2) {
+            if (state == 0 || state == 2) {
                 $$('.page-selldetail .selldetail-footer').addClass('delete');
             }
+            id == locaUserId && $$('.page-selldetail .selldetail-footer').addClass('share-delete');
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && ($$('.page-selldetail').addClass(addClassName));
