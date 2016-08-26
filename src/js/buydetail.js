@@ -86,9 +86,9 @@ function buydetailInit(f7, view, page) {
 
     //delete release infomation.
     const deleteCallback = (data) => {
-        const {code, message} = data;
+        const { code, message } = data;
         f7.alert(message, '提示', () => {
-            if(1 == code){
+            if (1 == code) {
                 view.router.load({
                     url: "views/user.html",
                     // reload: true
@@ -154,17 +154,23 @@ function buydetailInit(f7, view, page) {
 
         title += `【求购】${fishTypeName}, ${provinceName||''}${cityName||''}`;
         messageTile += `我在鱼大大看到求购信息${fishTypeName||''}，`;
-        messageTile +=  stock ? `${'库存 ' + stock}，` : '';
-        messageTile +=  price ? `${'价格' + price}，` : '';
-        messageTile +=  specifications ? `${'规格' + specifications}，`  : '';
-        messageTile +=  `，对你很有用，赶紧看看吧: ${url_}`;
+        messageTile += stock ? `${'库存 ' + stock}，` : '';
+        messageTile += price ? `${'价格' + price}，` : '';
+        messageTile += specifications ? `${'规格' + specifications}，` : '';
+        messageTile += `，对你很有用，赶紧看看吧: ${url_}`;
         html += `出售${fishTypeName},`;
         html += stock ? `${'库存 ' + stock}，` : '';
-        html += price ? `${'价格' + price}，` : '' ;
+        html += price ? `${'价格' + price}，` : '';
         html += specifications ? `${'规格' + specifications}，` : '';
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
+
+    $$('.navbar-inner .right .icon-more')[0].onclick = () => {
+        f7.confirm('你确定举报吗？', '举报虚假信息', () => {
+            f7.alert('举报成功！');
+        })
+    }
 }
 
 module.exports = {
