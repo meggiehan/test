@@ -1,9 +1,10 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import { trim, html } from '../utils/string';
+import { trim, html, getProvinceId, getCityId } from '../utils/string';
 import { search } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
+import district from '../utils/district';
 
 function releaseInfoInit(f7, view, page) {
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
@@ -90,6 +91,10 @@ function releaseInfoInit(f7, view, page) {
             cityName = window.addressObj['cityName'];
             provinceId = window.addressObj['provinceId'];
             cityId = window.addressObj['cityId'];
+            !provinceName && (provinceName = initProvinceName);
+            !cityName && (cityName = initCityName);
+            !provinceId && (provinceId = getProvinceId(district, provinceName));
+            !cityId && (cityId = getCityId(district, provinceName, cityName));
         }
         const price = trim($$('.release-write-price input').val());
         const spec = trim($$('.release-write-spec input').val());

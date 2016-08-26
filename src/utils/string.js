@@ -59,6 +59,32 @@ module.exports = {
         }
         const res = str.substr(0, 4);
         return res + '...';
-    }
+    },
+
+    getProvinceId: (district, provinceName) => {
+        if(!provinceName){
+            return;
+        }
+        let id;
+        district['root'].forEach((item) => {
+            item['name'] == provinceName && (id = item['id']);
+        })
+        return id;
+    },
+
+    getProvinceId: (district, provinceName, cityName) => {
+        if(!provinceName){
+            return;
+        }
+        let id;
+        district['root'].forEach((item) => {
+            if(item['name'] == provinceName){
+                item['name'].forEach(val => {
+                    val['name'] == cityName && (id = val['id']);
+                })
+            }
+        })
+        return id;
+    },
     
 }
