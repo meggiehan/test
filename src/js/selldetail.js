@@ -181,6 +181,12 @@ function selldetailInit(f7, view, page) {
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 
+    $$('.navbar-inner .right .icon-more')[0].onclick = () => {
+        f7.confirm('你确定举报吗？','举报虚假信息',() => {
+            f7.alert('举报成功！');
+        })
+    }
+    //
     // const popupWindow = f7.photoBrowser({
     //     photos: [{
     //         url: 'http://yumaimai.img-cn-qingdao.aliyuncs.com/img/enterprise_authentication/20160727/1469585379903_8431.jpg',

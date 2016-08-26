@@ -15,7 +15,6 @@
 @bg-auditing: #FF3535;
 @bg-review: #fff7d9;
 @bg-verify-faild: #fde8e8;
-
 @bg-f1: #f1f1f1;
 @boder-color: #e2e2e2;
 @border-da: #dadada;
@@ -38,7 +37,6 @@
 @text-print: #4A90E2;
 @text-review: #7c4e0c;
 @text-verify-faild: #880707;
-
 @appAnimate: ease;
 @appAnimateTime: 150ms;
 @themeColor: @bg-color;
@@ -117,6 +115,11 @@ body {
             line-height: 5.4rem;
             color: @text-fff;
             vertical-align: middle;
+            &.right {
+                a {
+                    font-size: 2.4rem;
+                }
+            }
             &.row {
                 display: flex;
                 display: -webkit-flex;
@@ -162,12 +165,12 @@ body {
     }
     .list-block {
         margin: 0;
-        .item-content{
+        .item-content {
             background: @bg-fff;
             .text-shadow(@text-fff);
         }
         .item-inner {
-            &:after{
+            &:after {
                 display: none;
             }
             line-height: 4rem;
