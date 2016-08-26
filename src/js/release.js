@@ -2,7 +2,6 @@ import nativeEvent from '../utils/nativeEvent';
 import config from '../config';
 
 function releaseInit(f7, view, page) {
-    const $$ = Dom7;
     const { servicePhoneNumber, debug } = config;
     $$('.release-sound').on('click', () => {
         nativeEvent.apiCount();
