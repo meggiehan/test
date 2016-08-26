@@ -7,7 +7,6 @@ const CustomClass = function() {};
 let userUtils = new CustomClass();
 
 userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, personalTime) => {
-        const $$ = Dom7;
         const authenticationBtn = $$('p.user-identity-text');
         let text = '';
         let myCenterText = '';
@@ -70,7 +69,6 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
     },
 
     userUtils.getBussesInfoCallback = (data) => {
-        const $$ = Dom7;
         const { code, message } = data;
         const authenticationBtn = $$('p.user-identity-text');
         const verificationBtn = $$('span.user-verification-num');
