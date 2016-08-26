@@ -44,7 +44,7 @@ function otherIndexInit(f7, view, page) {
             }
             let sellHtml = '';
             $$.each(list, (index, item) => {
-                if(item['state'] !== 1){
+                if (item['state'] !== 1) {
                     return;
                 }
                 sellHtml += home.cat(item);
@@ -70,7 +70,7 @@ function otherIndexInit(f7, view, page) {
             }
             let buyHtml = '';
             $$.each(list, (index, item) => {
-                if(item['state'] !== 1){
+                if (item['state'] !== 1) {
                     return;
                 }
                 buyHtml += home.buy(item);
@@ -133,6 +133,12 @@ function otherIndexInit(f7, view, page) {
     $$('.other-footer-call').on('click', () => {
         nativeEvent.contactUs(callNumber);
     })
+
+    $$('.navbar-inner .right .icon-more')[0].onclick = () => {
+        f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
+            f7.alert('举报成功！');
+        })
+    }
 }
 
 module.exports = {

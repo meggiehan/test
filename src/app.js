@@ -44,13 +44,11 @@ const f7 = new Framework7({
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,
-    swipeBackPageActiveArea: '100',
     preloadPreviousPage: true,
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示',
-    cache: true,
     // preprocess: (content, url, next) => {
     //     console.log(url);
     //     next(content)
