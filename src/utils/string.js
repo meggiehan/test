@@ -66,21 +66,21 @@ module.exports = {
             return;
         }
         let id;
-        district['root'].forEach((item) => {
-            item['name'] == provinceName && (id = item['id']);
+        district['root']['province'].forEach((item) => {
+            item['name'] == provinceName && (id = item['postcode']);
         })
         return id;
     },
 
-    getProvinceId: (district, provinceName, cityName) => {
+    getCityId: (district, provinceName, cityName) => {
         if(!provinceName){
             return;
         }
         let id;
-        district['root'].forEach((item) => {
+        district['root']['province'].forEach((item) => {
             if(item['name'] == provinceName){
-                item['name'].forEach(val => {
-                    val['name'] == cityName && (id = val['id']);
+                item['city'].forEach(val => {
+                    val['name'] == cityName && (id = val['postcode']);
                 })
             }
         })
