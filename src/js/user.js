@@ -60,8 +60,8 @@ function userInit(f7, view, page) {
 
     //cilck identity authentication.
     $$('.user-cert-type>div').eq(0).click(() => {
-        let personalAuthenticationState,enterpriseAuthenticationState;
-        if(userInfomation){
+        let personalAuthenticationState, enterpriseAuthenticationState;
+        if (userInfomation) {
             personalAuthenticationState = userInfomation['personalAuthenticationState'];
             enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
         }
@@ -86,19 +86,20 @@ function userInit(f7, view, page) {
 
     //cilck upload fish cert.
     $$('.user-cert-type>div').eq(1).click(() => {
-            if (!loginStatus) {
-                f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
-                    view.router.load({
-                        url: 'views/login.html',
-                    })
-                })
-            } else {
+        if (!loginStatus) {
+            f7.alert('您还没登陆，请先登录。', '温馨提示', () => {
                 view.router.load({
-                    url: 'views/fishCert.html',
+                    url: 'views/login.html',
                 })
-            }
-        })
-        //click contact us button.
+            })
+        } else {
+            view.router.load({
+                url: 'views/fishCert.html',
+            })
+        }
+    })
+
+    //click contact us button.
     $$('.user-help-list .first').click(() => {
         // nativeEvent.apiCount();
         nativeEvent.contactUs(servicePhoneNumber);
@@ -124,16 +125,16 @@ function userInit(f7, view, page) {
     //to identity authentication re submit audit information
     $$('.individual-faild>a.button').on('click', () => {
         // f7.closeModal('.popup-individual-authentication', function() {
-            view.router.load({
+        view.router.load({
                 url: 'views/identityAuthentication.html',
             })
-        // });
+            // });
     })
 
     //cancle authentication.
     const cancleIndividualCallback = (data) => {
-        const {code, message} = data;
-        f7.alert('message','提示', () => {
+        const { code, message } = data;
+        f7.alert('message', '提示', () => {
             f7.closeModal('.popup-individual-authentication');
             view.router.load({
                 url: 'views/user.html'
@@ -151,8 +152,8 @@ function userInit(f7, view, page) {
     }
 
     const cancleCompanyCallback = (data) => {
-        const {code, message} = data;
-        f7.alert('message','提示', () => {
+        const { code, message } = data;
+        f7.alert('message', '提示', () => {
             f7.closeModal('.popup-individual-authentication');
             view.router.load({
                 url: 'views/user.html'

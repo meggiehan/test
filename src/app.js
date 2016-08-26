@@ -44,7 +44,7 @@ const f7 = new Framework7({
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,
-    pushStateRoot: '/#!/views/home.html',
+    // pushStateRoot: '/#!/views/home.html',
     swipeBackPageActiveArea: '100',
     preloadPreviousPage: true,
     modalButtonOk: '确定',
