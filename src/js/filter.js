@@ -69,7 +69,7 @@ function filterInit(f7, view, page) {
         let fishTypeNameQuery;
         $$.each(data.data.list, (index, item) => {
             typeHtml += filter.fishType(item);
-            !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
+            !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
         })
         fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-35'), typeHtml, f7);
@@ -137,7 +137,7 @@ function filterInit(f7, view, page) {
             $$.each(allFishTypeChild, (index, item) => {
                 item.parant_id === rootId && categoryFish.push(item);
             })
-            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first">全部${ele.innerText}</span>`;
+            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${currentFishId == rootId && 'active-ele'}">全部${ele.innerText}</span>`;
         }
         $$('.filter-fish-type span').removeClass('active-ele');
         ele.className = 'active-ele';
