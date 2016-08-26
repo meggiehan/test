@@ -25,7 +25,7 @@ import { myListInit } from './js/myList';
 import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
-import {getQuery} from './utils/string';
+import { getQuery } from './utils/string';
 
 
 const deviceF7 = new Framework7();
@@ -44,14 +44,24 @@ const f7 = new Framework7({
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,
-    // pushStateRoot: '/#!/views/home.html',
     swipeBackPageActiveArea: '100',
     preloadPreviousPage: true,
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示',
-    cache: true
+    cache: true,
+    // preprocess: (content, url, next) => {
+    //     console.log(url);
+    //     next(content)
+    // },
+    preroute: (view, options) => {
+        // console.log(view, options)
+        // if(view['history'].length !== 1 && view['url'] && view['url'].indexOf('views') <= -1){
+        //     // view.router.loadPage('views/home.html'); 
+        //     return false;
+        // }
+    }
 });
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
@@ -99,8 +109,8 @@ const initEvent = f7.onPageInit('*', (page) => {
     const url = page['view']['url'];
     const name = url.split('.html')[0].split('views/')[1];
     const query = getQuery(url.split('?')[1]);
-    if(!page.name || page.name !== name){
-        if(url){
+    if (!page.name || page.name !== name) {
+        if (url) {
             page['query'] = query;
             page['name'] = name;
         }

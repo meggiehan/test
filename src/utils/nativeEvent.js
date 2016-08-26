@@ -66,6 +66,13 @@ class CustomClass {
         android && window.yudada.JS_RecordingModal();
     }
 
+    //native alert style.
+    nativeAlert(){
+        const { ios, android } = window.currentDevice;
+        ios && JS_ShowAlertWithTitles(title, message, button1, button2);
+        android && window.yudada.JS_ShowAlertWithTitles(title, message, button1, button2);
+    }
+
 }
 
 const nativeEvent = new CustomClass;

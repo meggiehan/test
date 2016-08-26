@@ -6,12 +6,17 @@ module.exports = {
     home: {
         cat: (data) => {
             const { id, imge_path, state, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            let img = document.createElement('img');
+            let imgStr;
+            img.src = imge_path && `${imge_path}${imgPath(11)}`;
+            imgStr = img.complete ? '<img src="' + `${imge_path}${imgPath(11)}` + '"/></div>' :
+             '<img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"></div>';
             let res = '';
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
             res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '">' +
-                '<div class="col-30">' + span + '<img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy-fadeIn lazy lazy-loaded"></div>' +
+                '<div class="col-30">' + span + imgStr +
                 '<div class="col-70">' +
                 '<div class="cat-list-title row">' +
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
@@ -131,6 +136,11 @@ module.exports = {
     fishCert: {
         certList: (data, index) => {
             const {identity} = config;
+            let img = document.createElement('img');
+            let imgStr;
+            img.src = path && `${path + identity['catCompany']}`;
+            imgStr = img.complete ? '<img src="' + `${path + identity['catCompany']}` + '"/>' :
+            `<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy">`;
             const { state, path, id, closing_date, type, reasons_for_refusal } = data;
             let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
             let itemBottom = '';
@@ -142,7 +152,7 @@ module.exports = {
             const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';
             let str = '';
             str += `<div class="col-50" data-parent-id="${id}">`;
-            str += `<div class="ps-r">${spans}<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy"></div>`;
+            str += `<div class="ps-r">${spans}${imgStr}</div>`;
             str += 1 == state ? `<p class="cert-name">${type}</p>` : '';
             str += 1 !== state ? `<p class="cert-name">${reviewText}</p>` : '';
             str += 1 == state ? `<p class="cert-create-time">有效期至${getDate(closing_date)}</p>` : '';

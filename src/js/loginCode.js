@@ -109,7 +109,9 @@ function loginCodeInit(f7, view, page) {
                 });
             }
         }
-        //User registration. return user login infomation.
+
+
+    //User registration. return user login infomation.
     subBtn[0].onclick = () => {
         if (!isPass || isSend) {
             return;

@@ -21,7 +21,7 @@ module.exports = {
         let arr = name.split('');
         let res = arr[0];
         arr.shift();
-        arr.forEach(() =>{
+        arr.forEach(() => {
             res += '*';
         })
         return res;
@@ -41,7 +41,7 @@ module.exports = {
 
     getQuery: (str) => {
         let obj = {};
-        if(!str){
+        if (!str) {
             return obj;
         }
         const arr = str.split('&');
@@ -54,7 +54,7 @@ module.exports = {
     },
 
     getTabStr: (str) => {
-        if(str.length <= 4){
+        if (str.length <= 4) {
             return str;
         }
         const res = str.substr(0, 4);
@@ -62,7 +62,7 @@ module.exports = {
     },
 
     getProvinceId: (district, provinceName) => {
-        if(!provinceName){
+        if (!provinceName) {
             return;
         }
         let id;
@@ -73,12 +73,12 @@ module.exports = {
     },
 
     getCityId: (district, provinceName, cityName) => {
-        if(!provinceName){
+        if (!provinceName) {
             return;
         }
         let id;
         district['root']['province'].forEach((item) => {
-            if(item['name'] == provinceName){
+            if (item['name'] == provinceName) {
                 item['city'].forEach(val => {
                     val['name'] == cityName && (id = val['postcode']);
                 })
@@ -86,5 +86,14 @@ module.exports = {
         })
         return id;
     },
-    
+
+    imgIsUpload: (src) => {
+        if(!src){
+            return false;
+        }
+        let img = document.createElement('img');
+        img.src = src; 
+        return img.complete ? `<img src="${src}" alt="图片" />` : null;
+    }
+
 }
