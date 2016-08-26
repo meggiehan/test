@@ -11,7 +11,7 @@ function filterInit(f7, view, page) {
     const { pageSize } = config;
     let allFishTypeChild;
     // let searchValue = keyvalue ? keyvalue.replace(/[^\u4E00-\u9FA5]/g, '') : keyvalue;
-    let searchValue = keyvalue && keyvalue.replace('“','').replace('”', '');
+    let searchValue = keyvalue && keyvalue.replace('“', '').replace('”', '');
     let currentFishId = id || '';
     let currentCityId = cityId || '';
     let pageNo = 1;
@@ -20,8 +20,8 @@ function filterInit(f7, view, page) {
     let loading = false;
     let pullToRefresh = false;
     let releaseFishName;
-    let parentFishInfo =  {};
-     /*
+    let parentFishInfo = {};
+    /*
      * Three cases into the filter page.
      * 1: home -> filter. query: type
      * 2: search -> filter. query: searchVal or category id.
@@ -33,8 +33,8 @@ function filterInit(f7, view, page) {
      * Ajax callback.
      */
     const listCallback = (data) => {
-        const {code, message} = data;
-        if(code !== 1){
+        const { code, message } = data;
+        if (code !== 1) {
             f7.alert(message, '提示');
             return;
         }
@@ -79,15 +79,15 @@ function filterInit(f7, view, page) {
         allFishTypeChild = data.data.list;
         let typeHtml = '';
         let fishTypeNameQuery;
-        if(!release){
-        	typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`;
+        if (!release) {
+            typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`;
         }
         $$.each(data.data.list, (index, item) => {
             const classes = index % 3 === 0 && 'on' || '';
             typeHtml += filter.fishType(item, classes);
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
-    
+
         fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
     }
@@ -123,6 +123,9 @@ function filterInit(f7, view, page) {
     $$('.filter-fish-type>.col-35').on('click', (e) => {
         const event = e || window.event;
         const ele = e.target;
+        if (ele.tagName !== 'SPAN') {
+            return;
+        }
         const rootId = ele.getAttribute('data-id');
         let categoryFish = [];
         let typeHtml = '';
@@ -209,12 +212,15 @@ function filterInit(f7, view, page) {
         $$('.filter-district>.col-35').on('click', (e) => {
                 const event = e || window.event;
                 const ele = e.target;
+                if (ele.tagName !== 'SPAN') {
+                    return;
+                }
                 const postcode = ele.getAttribute('data-postcode');
                 $$('.filter-district span').removeClass('active-ele');
                 ele.className = 'active-ele';
                 let districtHtml = '';
                 if (postcode !== '0') {
-                	districtHtml += `<span data-postcode="${postcode}">全${ele.innerText}</span>`;
+                    districtHtml += `<span data-postcode="${postcode}">全${ele.innerText}</span>`;
                     $$.each(district.root.province, (index, item) => {
                         if (item.postcode === postcode) {
                             $$.each(item.city, (index_, districtItem) => {
@@ -223,17 +229,17 @@ function filterInit(f7, view, page) {
                             })
                         }
                     })
-                }else{
-                	districtHtml += `<span data-postcode="">${ele.innerText}</span>`;
+                } else {
+                    districtHtml += `<span data-postcode="">${ele.innerText}</span>`;
                 }
                 html($$('.filter-district>.col-65'), districtHtml, f7);
             })
-        //change release type;
+            //change release type;
         $$('.filter-info-type').on('click', (e) => {
             const event = e || window.event;
             let ele = event.target;
             let classes = ele.className;
-            if(ele.tagName !== 'P'){
+            if (ele.tagName !== 'P') {
                 return;
             }
             if (classes.indexOf('active-ele') <= -1) {
@@ -322,15 +328,15 @@ function filterInit(f7, view, page) {
         $$('.filter-fish-type').addClass('active');
         $$('.winodw-mask').addClass('on');
         $$('.filter-release-next').on('click', () => {
-        	const text = _type == 1 ? '求购' : '出售';
-        	if(!currentFishId){
-        		f7.alert(`请选择您需要${text}鱼的种类`);
-        		return;
-        	}
+            const text = _type == 1 ? '求购' : '出售';
+            if (!currentFishId) {
+                f7.alert(`请选择您需要${text}鱼的种类`);
+                return;
+            }
 
             view.router.load({
                 url: 'views/releaseInfo.html?' +
-                `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
+                    `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
             })
         })
     }
@@ -376,11 +382,11 @@ function filterInit(f7, view, page) {
     })
 
     //if release page go to select fish type page, Calculation filter-tabs-content height;
-    if(release){
+    if (release) {
         const winHeight = $$(window).height();
         const navbarHeight = $$('.navbar').height();
         const footerHeight = $$('.tabbar').height();
-        $$('.filter-tabs-content').css({height: `${winHeight - navbarHeight - footerHeight}px`});
+        $$('.filter-tabs-content').css({ height: `${winHeight - navbarHeight - footerHeight}px` });
     }
 }
 
