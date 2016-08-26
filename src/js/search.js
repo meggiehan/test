@@ -1,19 +1,22 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import { trim, html } from '../utils/string';
+import store from '../utils/locaStorage';
 import { search } from '../utils/template';
+import {setHistory} from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
     const $$ = Dom7;
-    const {pageSize} = config;
+    const {pageSize, cacheHistoryKey} = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
     const searchButton = $$('span.search-button');
     const list = $$('.search-return-list');
+    const searchContent = $$('.search-content');
     let searchVal = '';
-    trim(input.val()) &&  hideVal.addClass('on');
+    trim(input.val()) &&  searchButton.addClass('on');
 
     const callback = (data) => {
         let listHtml = '';
@@ -31,7 +34,8 @@ function searchInit(f7, view, page) {
     clear.on('click', () => {
         input.val('');
         clear.removeClass('on');
-        hideVal.removeClass('on').find('span').html('');
+        hideVal.find('span').html('');
+        searchContent.removeClass('on');
     })
 
     setTimeout(function() {
@@ -39,12 +43,14 @@ function searchInit(f7, view, page) {
     }, 500);
     input[0].oninput = () => {
         const val = input.val();
-        if (trim(val) === '') {
-            hideVal.removeClass('on').find('span').html('');
+        if (!trim(val)) {
+            hideVal.find('span').html('');
+            searchContent.removeClass('on');
             clear.removeClass('on');
             html(list, '', f7);
         } else {
-            hideVal.addClass('on').find('span').html(`“${val}”`);
+            hideVal.find('span').html(`“${val}”`);
+            searchContent.addClass('on');
             clear.addClass('on');
         }
 
@@ -63,14 +69,33 @@ function searchInit(f7, view, page) {
     // input.on('propertychange', () => {
         
     // })
+    //search list render;
+    const searchHistoryMetadata = store.get(cacheHistoryKey);
+    if(searchHistoryMetadata && searchHistoryMetadata.length){
+        let listStr = '';
+        $$.each(searchHistoryMetadata, (index, item) => {
+            if(!item){
+                return;
+            }
+            listStr += search.historyLink(item);
+        })
+        html($$('.search-history-list'), listStr, f7);
+        listStr && ($$('.serch-history').show());
+    }
+    //clear history cache;
+    $$('.search-clear-history')[0].onclick = () => {
+        store.remove(cacheHistoryKey);
+        $$('.serch-history').hide()
+    }
 
     const hrefFilterPage = () => {
-        const val = hideVal.removeClass('on').find('span').html();
-
+        const val = hideVal.find('span').html();
+        searchContent.removeClass('on');
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}` : '';
         view.router.load({
             url: 'views/filter.html' + query,
         }) 
+        setHistory(val);
     }
 
     //load filter; 

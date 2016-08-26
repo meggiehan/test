@@ -20,17 +20,20 @@ class CustomClass {
         return obj;
     }
     checkMaxLenAndDelete() {
-            const { cacheMaxLen, cacheUserinfoKey } = config;
+            const { cacheMaxLen, cacheUserinfoKey, cacheHistoryKey } = config;
             const storage = window.localStorage;
             const len = storage.length;
             let i = 1;
             let isDel = false;
             if (len >= cacheMaxLen) {
                 Dom7.each(storage, (key, value) => {
-                    if (i === len - 1 && !isDel && key !== cacheUserinfoKey) {
+                    if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
-                    } else if (i === len - 2 && !isDel && key !== cacheUserinfoKey) {
+                    } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                        store.remove(key);
+                        isDel = true;
+                    } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
                     }

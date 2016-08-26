@@ -60,6 +60,13 @@ module.exports = {
             let li = '';
             li += '<a href="' + `views/filter.html?id=${id}` + '">' + name + '</a>';
             return li;
+        },
+        historyLink: (data) => {
+                if(!data){
+                    return;
+                }
+                const val = decodeURI(data);
+                return '<a href="' + `views/filter.html?keyvalue=${val}` + '">' + val + '</a>';
         }
     },
     selldetail: {

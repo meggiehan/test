@@ -47,7 +47,7 @@
                 background: @bg-666;
                 border-radius: 50%;
                 color: @text-fff;
-                padding:0.3rem;
+                padding: 0.3rem;
                 .text-shadow(@bg-666);
                 font-size: 1.4rem;
             }
@@ -56,6 +56,41 @@
                 z-index: 10;
                 pointer-events: auto;
             }
+        }
+    }
+}
+
+.serch-history {
+    display: none;
+    background: @bg-fff;
+    .text-shadow(@text-fff);
+    padding:2%;
+    .ps-r;
+    z-index: 1000;
+    .title{
+        line-height: 3.5rem;
+        height: 3.5rem;
+        color: @text-category;
+        .search-clear-history{
+            .text-right;
+            color: @themeColor;
+        }
+    }
+    .search-history-list{
+        overflow: hidden;
+        color: @text-category;
+        a{
+            color: @text-category;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+            padding: 0 0.5rem;
+            height: 3rem;
+            line-height: 3rem;
+            max-width: 20rem;
+            .text-hidden;
+            border: 1px solid @text-category;
+            border-radius: 0.3rem;
         }
     }
 }
@@ -74,7 +109,10 @@
         .transition(height,
         @appAnimateTime,
         @appAnimate);
-        &.on {
+    }
+    &.on{
+        margin-bottom: 1rem;
+        .search-val {
             height: 4rem;
         }
     }

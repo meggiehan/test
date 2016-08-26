@@ -11,7 +11,8 @@ function filterInit(f7, view, page) {
     const searchBtn = $$('.filter-searchbar input');
     const { pageSize } = config;
     let allFishTypeChild;
-    let searchValue = keyvalue ? keyvalue.replace(/[^\u4E00-\u9FA5]/g, '') : keyvalue;
+    // let searchValue = keyvalue ? keyvalue.replace(/[^\u4E00-\u9FA5]/g, '') : keyvalue;
+    let searchValue = keyvalue && keyvalue.replace('“','').replace('”', '');
     let currentFishId = id || '';
     let currentCityId = cityId || '';
     let pageNo = 1;
