@@ -6,7 +6,6 @@ import config from '../config';
 
 
 function filterInit(f7, view, page) {
-    const $$ = Dom7;
     const { keyvalue, release, type, id, cityId } = page.query;
     const searchBtn = $$('.filter-searchbar input');
     const { pageSize } = config;
