@@ -322,12 +322,14 @@ function filterInit(f7, view, page) {
         })
 
     } else {
+        currentFishId = null;
+        $$('.filter-release-next').removeClass('pass');
         $$('.filter-navbar').addClass('filter-release-info');
         $$('.page-filter').addClass('filter-release-info');
         $$('.filter-tabs-content').addClass('on active');
         $$('.filter-fish-type').addClass('active');
         $$('.winodw-mask').addClass('on');
-        $$('.filter-release-next').on('click', () => {
+        $$('.filter-release-next')[0].onclick = () => {
             const text = _type == 1 ? '求购' : '出售';
             if (!currentFishId) {
                 f7.alert(`请选择您需要${text}鱼的种类`);
@@ -338,7 +340,7 @@ function filterInit(f7, view, page) {
                 url: 'views/releaseInfo.html?' +
                     `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
             })
-        })
+        }
     }
 
     // select fish category;
