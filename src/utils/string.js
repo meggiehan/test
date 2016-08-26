@@ -51,6 +51,14 @@ module.exports = {
             obj[key] = val;
         })
         return obj;
+    },
+
+    getTabStr: (str) => {
+        if(str.length <= 4){
+            return str;
+        }
+        const res = str.substr(0, 4);
+        return res + '...';
     }
     
 }

@@ -1,4 +1,4 @@
-import { trim, html } from '../utils/string';
+import { trim, html, getTabStr } from '../utils/string';
 import { home, filter } from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 import district from '../utils/district';
@@ -71,7 +71,7 @@ function filterInit(f7, view, page) {
             typeHtml += filter.fishType(item);
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
-        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = fishTypeNameQuery);
+        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-35'), typeHtml, f7);
     }
 
@@ -88,7 +88,7 @@ function filterInit(f7, view, page) {
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
     
-        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = fishTypeNameQuery);
+        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
     }
 
@@ -350,7 +350,7 @@ function filterInit(f7, view, page) {
         parentFishInfo['name'] = ele.getAttribute('data-parent-name');
         currentFishId = childId;
         if (!release) {
-            html($$('.filter-tab>.tab1>span'), tabText, f7);
+            html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
             $$('.winodw-mask').removeClass('on');
             $$('.filter-tabs-content').removeClass('on');
             $$('.filter-tab>div').removeClass('active-ele');
