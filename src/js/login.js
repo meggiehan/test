@@ -8,7 +8,7 @@ function loginInit(f7, view, page) {
     let isSend = false;
     setTimeout(() => {
         $$('.login-phone-number input').focus();
-    },400)
+    },400);
 
     input[0].oninput = () => {
         const val = input.val();
@@ -19,14 +19,14 @@ function loginInit(f7, view, page) {
             nextBtn.removeClass('on');
             isPass = false;
         }
-    }
+    };
     //listen
     input.keypress((e) => {
         const event = e || window.event;
         if(event && event.keyCode == 13){
             nextBtn.click();
         }
-    })
+    });
     const callback = (data) => {
         isSend = false;
         nextBtn.addClass('on');
@@ -35,7 +35,7 @@ function loginInit(f7, view, page) {
                 url: 'views/loginCode.html' + `?phone=${input.val()}&key=${data.data}`,
             })
         }
-    }
+    };
 
     nextBtn.on('click', () => {
         if (!isPass || isSend) {
@@ -61,4 +61,4 @@ function loginInit(f7, view, page) {
 
 module.exports = {
     loginInit
-}
+};
