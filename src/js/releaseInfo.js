@@ -17,12 +17,8 @@ function releaseInfoInit(f7, view, page) {
     let isRelease = false;
 
     if (window.addressObj) {
-        provinceName = window.addressObj['provinceName'];
-        cityName = window.addressObj['cityName'];
         longitude = window.addressObj['longitude'];
         latitude = window.addressObj['latitude'];
-        provinceId = window.addressObj['provinceId'];
-        cityId = window.addressObj['cityId'];
         initProvinceName = window.addressObj['initProvinceName'];
         initCityName = window.addressObj['initCityName'];
     }
@@ -47,14 +43,14 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const testRequireInfo = () => {
-        const val = trim($$('.release-write-tell input').val());
-        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
-            $$('.release-sub-info').addClass('pass');
-        } else {
-            $$('.release-sub-info').removeClass('pass');
+            const val = trim($$('.release-write-tell input').val());
+            if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
+                $$('.release-sub-info').addClass('pass');
+            } else {
+                $$('.release-sub-info').removeClass('pass');
+            }
         }
-    }
-    //init verify, change submit button status;
+        //init verify, change submit button status;
     testRequireInfo();
     $$('.release-write-address input')[0].oninput = () => {
         testRequireInfo();
@@ -89,6 +85,12 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
+        if (window.addressObj) {
+            provinceName = window.addressObj['provinceName'];
+            cityName = window.addressObj['cityName'];
+            provinceId = window.addressObj['provinceId'];
+            cityId = window.addressObj['cityId'];
+        }
         const price = trim($$('.release-write-price input').val());
         const spec = trim($$('.release-write-spec input').val());
         const stock = trim($$('.release-write-stock input').val());
