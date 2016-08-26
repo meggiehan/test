@@ -96,11 +96,11 @@ const initEvent = f7.onPageInit('*', (page) => {
     //         ignoreCache: true
     //     });
     // })
-    if(!page.name){
-        const url = page['view']['url'];
+    const url = page['view']['url'];
+    const name = url.split('.html')[0].split('views/')[1];
+    const query = getQuery(url.split('?')[1]);
+    if(!page.name || page.name !== name){
         if(url){
-            const name = url.split('.html')[0].split('views/')[1];
-            const query = getQuery(url.split('?')[1]);
             page['query'] = query;
             page['name'] = name;
         }
