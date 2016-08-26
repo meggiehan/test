@@ -85,12 +85,12 @@ module.exports = {
             temp = "刚刚来过";
         } else if (unix < currentUnix && unix > todayZeroUnix) { //几小时之前
             hourt = parseInt((currentUnix - unix) / (60 * 60));
-            temp = hourt + "小时前";
+            temp = hourt + "小时前来过";
         } else if (unix < todayZeroUnix && unix >= sevenZeroUnix) {
             mint = parseInt((unix - sevenZeroUnix) / (60 * 60 * 24));
-            temp = mint + "天前";
+            temp = mint + "天前来过";
         } else {
-            temp = "一周前";
+            temp = "一周前来过";
         }
         return temp;
     },

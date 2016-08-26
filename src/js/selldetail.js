@@ -47,6 +47,7 @@ function selldetailInit(f7, view, page) {
                 enterpriseAuthenticationTime,
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
+                lastLoginTime,
                 imgUrl
             } = userInfo;
             demandInfo_ = demandInfo;
@@ -76,7 +77,7 @@ function selldetailInit(f7, view, page) {
             certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
             html($$('.page-selldetail .user-name'), contactName || '匿名用户', f7);
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
-            html($$('.page-selldetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
+            html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
