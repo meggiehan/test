@@ -129,7 +129,7 @@ function filterInit(f7, view, page) {
 
         if (rootId === '0') {
             categoryFish = allFishTypeChild;
-            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first">${ele.innerText}</span>`;
+            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && 'active-ele'}">${ele.innerText}</span>`;
         } else {
             $$.each(allFishTypeChild, (index, item) => {
                 item.parant_id === rootId && categoryFish.push(item);
@@ -265,9 +265,9 @@ function filterInit(f7, view, page) {
             const classes = ele.className;
             const postcode = ele.getAttribute('data-postcode');
             $$('.filter-district>.col-65>span').removeClass('active-ele');
-            if (classes.indexOf('active-ele') <= -1 && ele.parentNode.className === 'col-65') {
-                const tabText = ele.innerText;
-                html($$('.filter-tab>.tab2>span'), tabText, f7);
+            if (classes.indexOf('active-ele') <= -1) {
+                const tabText = $$(ele).parent('.col-65').find('span')[0].innerText.substring(1, 100);
+                html($$('.filter-tab>.tab2>span'), getTabStr(tabText), f7);
                 ele.className += ' active-ele';
             }
             pageNo = 1;
