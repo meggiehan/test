@@ -22,7 +22,7 @@ function releaseInit(f7, view, page) {
             color: '#128AF2',
             onClick: () => {
                 view.router.load({
-                    url: 'views/filter.html?type=2&release=true'
+                    url: 'views/filter.html?type=1&release=true'
                 })
             }
         }, {
@@ -30,7 +30,7 @@ function releaseInit(f7, view, page) {
             color: '#128AF2',
             onClick: () => {
                 view.router.load({
-                    url: 'views/filter.html?type=1&release=true'
+                    url: 'views/filter.html?type=2&release=true'
                 })
             }
         }];
