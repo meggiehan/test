@@ -36,6 +36,7 @@ function searchInit(f7, view, page) {
         clear.removeClass('on');
         hideVal.find('span').html('');
         searchContent.removeClass('on');
+        $$('.serch-history').show();
     })
 
     setTimeout(function() {
@@ -45,13 +46,14 @@ function searchInit(f7, view, page) {
         const val = input.val();
         if (!trim(val)) {
             hideVal.find('span').html('');
-            searchContent.removeClass('on');
+            $$('.serch-history').show();
             clear.removeClass('on');
             html(list, '', f7);
         } else {
             hideVal.find('span').html(`“${val}”`);
             searchContent.addClass('on');
             clear.addClass('on');
+            $$('.serch-history').hide();
         }
 
         if (trim(searchVal) !== trim(val) && trim(val) !== '') {
@@ -80,7 +82,7 @@ function searchInit(f7, view, page) {
             listStr += search.historyLink(item);
         })
         html($$('.search-history-list'), listStr, f7);
-        listStr && ($$('.serch-history').show());
+        listStr ? $$('.serch-history').show() : $$('.serch-history').hide();
     }
     //clear history cache;
     $$('.search-clear-history')[0].onclick = () => {
