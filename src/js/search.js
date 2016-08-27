@@ -86,15 +86,15 @@ function searchInit(f7, view, page) {
         listStr ? $$('.serch-history').show() : $$('.serch-history').hide();
     }
     //clear history cache;
-    $$('.search-clear-history')[0].onclick = () => {
+    $$('.search-clear-history').on('click',() => {
         store.remove(cacheHistoryKey);
         $$('.serch-history').hide()
-    }
+    })
 
     const hrefFilterPage = () => {
         const val = hideVal.find('span').html();
         searchContent.removeClass('on');
-        const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}` : '';
+        const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
             // reload: true,

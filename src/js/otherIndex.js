@@ -13,6 +13,8 @@ function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
     const { imgPath, pageSize } = config;
+    let sellInfoNull = false;
+    let buyInfoNull = false;
     let callNumber;
     let type = 2;
     if (userCache) {
@@ -40,6 +42,8 @@ function otherIndexInit(f7, view, page) {
     const sellListCallback = (data) => {
             const list = data.data.list;
             if (!list.length) {
+                sellInfoNull = true;
+                sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
                 return;
             }
             let sellHtml = '';
@@ -66,6 +70,8 @@ function otherIndexInit(f7, view, page) {
     const buyListCallback = (data) => {
             const list = data.data.list;
             if (!list.length) {
+                buyInfoNull = true;
+                sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
                 return;
             }
             let buyHtml = '';
