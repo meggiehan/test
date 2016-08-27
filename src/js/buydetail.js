@@ -72,7 +72,7 @@ function buydetailInit(f7, view, page) {
     }
 
     $$('.buy-detail-verify-faild ')[0].onclick = () => {
-        f7.alert(errorInfo, '提示');
+        f7.alert(errorInfo, '查看原因');
     }
 
     customAjax.ajax({

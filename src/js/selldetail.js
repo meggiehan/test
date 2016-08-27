@@ -98,7 +98,7 @@ function selldetailInit(f7, view, page) {
 
     // dom event;
     $$('.sell-detail-verify-faild ')[0].onclick = () => {
-        f7.alert(errorInfo, '提示');
+        f7.alert(errorInfo, '查看原因');
     }
 
     $$('.selldetail-call-phone')[0].onclick = () => {
