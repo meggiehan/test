@@ -1,12 +1,21 @@
 import { timeDifference, getDate } from './time';
 import config from '../config/';
-const { backgroundImgUrl, imgPath } = config;
+import store from './locaStorage';
+
+
+const  { cacheUserinfoKey, imgPath, backgroundImgUrl, identity } = config;
+ 
 
 module.exports = {
     home: {
         cat: (data) => {
-            const { id, imge_path, state, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            const { id, imge_path, state, check_time, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             let img = document.createElement('img');
+            let showTime = timeDifference(check_time);
+            const userInfo = store.get(cacheUserinfoKey);
+            if (userInfo) {
+                id == userInfo['id'] && (showTime = timeDifference(create_time));
+            }
             let imgStr;
             img.src = imge_path && `${imge_path}${imgPath(11)}`;
             imgStr = img.complete ? '<img src="' + `${imge_path}${imgPath(11)}` + '"/></div>' :
@@ -24,7 +33,7 @@ module.exports = {
                 '</div>' +
                 '<div class="row cat-list-text">' +
                 '<div class="col-70 goods-weight">' + `${specifications || ''}` + '</div>' +
-                '<div class="col-30 goods-create-time">' + timeDifference(create_time) + '</div>' +
+                '<div class="col-30 goods-create-time">' + showTime + '</div>' +
                 '</div>' +
                 '<div class="cat-list-address">' +
                 '<span>' + `${contact_name || ''}` + '</span> ' + `${province_name || ''}${city_name || ''}` +
@@ -38,8 +47,14 @@ module.exports = {
             return res;
         },
         buy: (data) => {
-            const { id, fish_type_name, stock, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            const { id, fish_type_name, stock, check_time, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
+            let img = document.createElement('img');
+            let showTime = timeDifference(check_time);
+            const userInfo = store.get(cacheUserinfoKey);
+            if (userInfo) {
+                id == userInfo['id'] && (showTime = timeDifference(create_time));
+            }
             let res = '';
             let span = '';
             0 == state && (span = '<span>待审核</span>');
@@ -51,7 +66,7 @@ module.exports = {
                 '</div>' +
                 '<div class="row">' +
                 '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
-                '<div class="col-35 buy-time">' + timeDifference(create_time) + '</div>' +
+                '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
                 '<span class="' + `${isV && "iconfont icon-v"}` + '">' + `${contact_name || '匿名用户'}` + '</span>' + `指定产地：${province_name || ''}${city_name || ''}` +
@@ -63,7 +78,7 @@ module.exports = {
         link: (data) => {
             const { name, id } = data;
             let li = '';
-            li += `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
+            li += `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
@@ -71,7 +86,7 @@ module.exports = {
                 return;
             }
             const val = decodeURI(data);
-            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true" data-reload="true">${val}</a>`;
+            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true">${val}</a>`;
         }
     },
     selldetail: {
@@ -135,7 +150,6 @@ module.exports = {
     },
     fishCert: {
         certList: (data, index) => {
-            const { identity } = config;
             const { state, path, id, closing_date, type, reasons_for_refusal } = data;
 
             let img = document.createElement('img');

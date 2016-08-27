@@ -9,7 +9,6 @@ import { filterInit } from './js/filter';
 import { selldetailInit } from './js/selldetail';
 import { buydetailInit } from './js/buydetail';
 import { releaseInit } from './js/release';
-// import { releaseSelectTypeInit } from './js/releaseSelectType';
 import { releaseInfoInit } from './js/releaseInfo';
 import { loginInit } from './js/login';
 import { loginCodeInit } from './js/loginCode';
@@ -40,9 +39,11 @@ android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
     // swipeBackPage: true,
-    uniqueHistory: true,
+    uniqueHistoryIgnoreGetParameters: true,
+    // uniqueHistory: true,
     // preloadPreviousPage: true,
     imagesLazyLoadThreshold: 50,
+    pushStatePreventOnLoad: true,
     pushState: true,
     animateNavBackIcon: true,
     // pushStateSeparator: '?#!/',
@@ -53,7 +54,7 @@ const f7 = new Framework7({
     fastClicks: true,
     modalTitle: '温馨提示',
     force: true,
-    cacheIgnore: ['views/search.html', 'views/login.html', 'views/loginCode.html'],
+    // cacheIgnore: ['views/search.html', 'views/login.html', 'views/loginCode.html'],
 
 
     // cacheIgnore: ['search.html'],
@@ -61,9 +62,30 @@ const f7 = new Framework7({
     //     console.log(url);
     //     next(content)
     // },
-    // preroute: (view, options) => {
-    
-    // }
+    preroute: (view, options) => {
+        const goPage = view['url'];
+        const { history, loadPage } = view;
+        const currentPage = options['url'];
+        // console.log(`gopage:${goPage}--currentpage:${currentPage}`,history )
+        //if router back, doing.
+        // if(!currentPage){
+        //     const len = history.length;
+        //     const backPage = history[len - 1];
+        //     const {search} = getQuery(goPage);
+        //     if(backPage.indexOf('filter.html') > -1 && search){
+        //         window.history.go(-2)
+        //         return false;
+        //     }else if(backPage.indexOf('releaseSucc.html') > -1){
+        //         window.history.go(-2)
+        //         return false;
+        //     }else if(backPage.indexOf('loginCode.html') > -1){
+        //         window.history.go(-2)
+        //         return false;
+        //     }
+        // }
+        return;
+
+    }
 });
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
