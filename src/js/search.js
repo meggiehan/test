@@ -7,7 +7,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
-    const $$ = Dom7;
+    console.log(page.name)
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
@@ -93,29 +93,36 @@ function searchInit(f7, view, page) {
         $$('.serch-history').hide()
     })
 
-    const hrefFilterPage = () => {
+    let isClick = false;
+    let hrefFilterPage = () => {
+        if(isClick){
+            return;
+        }
+        isClick = true;
         const val = hideVal.find('span').html();
         searchContent.removeClass('on');
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
-            // reload: true,
+            reload: true,
             // animatePages: true
         })
         setHistory(val);
+        setTimeout(() => {isClick = false}, 100)
     }
 
     //load filter; 
     hideVal.click(hrefFilterPage);
 
     searchButton.click(hrefFilterPage);
-    input.keypress((e) => {
+    input[0].onkeypress = (e) => {
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
-            input.blur(hrefFilterPage);
-            return false;
+            input[0].blur();
+            searchButton.trigger('click');
+            return;
         }
-    })
+    }
 }
 
 module.exports = {

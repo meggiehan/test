@@ -28,10 +28,10 @@ function myListInit(f7, view, page) {
     			otehrHtml += home.buy(item);
     		}
     	})
+    	html($$('.other-list-info'), otehrHtml, f7);
         if(!$$('.other-list-info>a').length){
             2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
         }
-    	html($$('.other-list-info'), otehrHtml, f7);
     	setTimeout(() => {
     		$$('img.lazy').trigger('lazy');
     	},400)

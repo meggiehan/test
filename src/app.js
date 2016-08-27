@@ -40,31 +40,30 @@ android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
     // swipeBackPage: true,
+    uniqueHistory: true,
+    // preloadPreviousPage: true,
     imagesLazyLoadThreshold: 50,
     pushState: true,
     animateNavBackIcon: true,
+    // pushStateSeparator: '?#!/',
     animatePages: animatStatus,
     preloadPreviousPage: true,
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示',
+    force: true,
+    cacheIgnore: ['views/search.html', 'views/login.html', 'views/loginCode.html'],
+
+
     // cacheIgnore: ['search.html'],
     // preprocess: (content, url, next) => {
     //     console.log(url);
     //     next(content)
     // },
-    preroute: (view, options) => {
-        // const { history } = view;
-        // history.map((item, index) => {
-        //     item.indexOf('search.html') > -1 && (history.splice(index, 1))
-        // })
-        // console.log(view, options)
-        // if(view['history'].length !== 1 && view['url'] && view['url'].indexOf('views') <= -1){
-        //     // view.router.loadPage('views/home.html'); 
-        //     return false;
-        // }
-    }
+    // preroute: (view, options) => {
+    
+    // }
 });
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
@@ -73,7 +72,8 @@ const mainView = f7.addView('.view-main', {
     // load index
 mainView.router.load({
     url: 'views/home.html',
-    animatePages: false
+    animatePages: false,
+    reload: true
 })
 
 window.$$ = Dom7;
@@ -94,51 +94,41 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-const initEvent = f7.onPageInit('*', (page) => {
+const animatePage = 'search filter selldetail  login loginCode buydetail release releaseInfo myCenter identityAuthentication otherIndex otherInfo otherList myList fishCert releaseSucc';
+const initEvent = f7.onPageBeforeAnimation(animatePage, (page) => {
     // show loading.
-    if (page.name !== 'home' && page.name) {
-        // f7.showIndicator();
-    } else {
-        f7.hideIndicator();
+    // if (page.name !== 'home' && page.name) {
+    //     // f7.showIndicator();
+    // } else {
+    //     f7.hideIndicator();
+    // } 
+    page.name === 'login' && loginInit(f7, mainView, page);
+    page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
+    page.name === 'search' && searchInit(f7, mainView, page);
+    page.name === 'filter' && filterInit(f7, mainView, page);
+    page.name === 'selldetail' && selldetailInit(f7, mainView, page);
+    page.name === 'buydetail' && buydetailInit(f7, mainView, page);
+    page.name === 'release' && releaseInit(f7, mainView, page);
+    page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
+    page.name === 'myCenter' && myCenterInit(f7, mainView, page);
+    page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
+    page.name === 'otherIndex' && otherIndexInit(f7, mainView, page);
+    page.name === 'otherInfo' && otherInfoInit(f7, mainView, page);
+    page.name === 'otherList' && otherListInit(f7, mainView, page);
+    page.name === 'myList' && myListInit(f7, mainView, page);
+    page.name === 'fishCert' && fishCertInit(f7, mainView, page);
+    page.name === 'releaseSucc' && releaseSuccInit(f7, mainView, page);
+});
+let isSendXhr = false;
+f7.onPageInit('home user', (page) => {
+    if (isSendXhr || page['url'].indexOf('home.html') < -1 || page['url'].indexOf('user.html') < -1) {
+        return;
     }
-    //global back event;
-    // $$('.link-back').on('click', () => {
-    //     mainView.router.back({
-    //         animatePages: animatStatus,
-    //         reload: false,
-    //         ignoreCache: true
-    //     });
-    // })
-    const url = page['view']['url'];
-    const name = url.split('.html')[0].split('views/')[1];
-    const query = getQuery(url.split('?')[1]);
-    if (!page.name || page.name !== name) {
-        if (url) {
-            page['query'] = query;
-            page['name'] = name;
-        }
-    }
-    setTimeout(function() {
+    isSendXhr = true;
+    setTimeout(() => {
         page.name === 'home' && homeInit(f7, mainView, page);
-        page.name === 'search' && searchInit(f7, mainView, page);
-        page.name === 'filter' && filterInit(f7, mainView, page);
-        page.name === 'selldetail' && selldetailInit(f7, mainView, page);
-        page.name === 'buydetail' && buydetailInit(f7, mainView, page);
-        page.name === 'release' && releaseInit(f7, mainView, page);
-        // page.name === 'releaseSelectType' && releaseSelectTypeInit(f7, mainView, page);
-        page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
-        page.name === 'login' && loginInit(f7, mainView, page);
         page.name === 'user' && userInit(f7, mainView, page);
-        page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
-        page.name === 'myCenter' && myCenterInit(f7, mainView, page);
-        page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
-        page.name === 'otherIndex' && otherIndexInit(f7, mainView, page);
-        page.name === 'otherInfo' && otherInfoInit(f7, mainView, page);
-        page.name === 'otherList' && otherListInit(f7, mainView, page);
-        page.name === 'myList' && myListInit(f7, mainView, page);
-        page.name === 'fishCert' && fishCertInit(f7, mainView, page);
-        page.name === 'releaseSucc' && releaseSuccInit(f7, mainView, page);
-    }, 0)
-
+        isSendXhr = false
+    }, 100)
 
 })

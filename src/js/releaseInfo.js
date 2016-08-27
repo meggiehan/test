@@ -66,7 +66,8 @@ function releaseInfoInit(f7, view, page) {
         const { code, message } = data;
         if (1 == code) {
             view.router.load({
-                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}`
+                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}`,
+                // reload: true
             })
         } else {
             f7.alert(message, '提示');

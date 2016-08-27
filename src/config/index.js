@@ -6,7 +6,7 @@ const configs = {
     url: 'http://api.test.yudada.com/',
     // url: '://192.168.20.109:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
-    timeout: 10000, //api timeout, unit: ms
+    timeout: 15000, //api timeout, unit: ms
     pageSize: 20,
     cacheMaxLen: 50,
     voiceCodeWaitTime: 60, //unit: m

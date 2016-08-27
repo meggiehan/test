@@ -170,6 +170,13 @@ function userInit(f7, view, page) {
         }, cancleCompanyCallback);
     }
 
+    //go home page;
+    $$('.href-go-home')[0].onclick = () => {
+        view.router.load({
+            url: 'views/home.html',
+            reload: true
+        })
+    }
 }
 
 module.exports = {
