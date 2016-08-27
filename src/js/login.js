@@ -23,7 +23,8 @@ function loginInit(f7, view, page) {
     //listen
     input.keypress((e) => {
         const event = e || window.event;
-        if(event && event.keyCode == 13){
+        const code = event.keyCode || event.which || event.charCode;
+        if(code == 13){
             nextBtn.click();
         }
     });

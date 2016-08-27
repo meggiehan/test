@@ -3,12 +3,12 @@ import customAjax from '../middlewares/customAjax';
 import { trim, html } from '../utils/string';
 import store from '../utils/locaStorage';
 import { search } from '../utils/template';
-import {setHistory} from '../utils/viewsUtil/searchUtils';
+import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
     const $$ = Dom7;
-    const {pageSize, cacheHistoryKey} = config;
+    const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
@@ -16,7 +16,7 @@ function searchInit(f7, view, page) {
     const list = $$('.search-return-list');
     const searchContent = $$('.search-content');
     let searchVal = '';
-    trim(input.val()) &&  searchButton.addClass('on');
+    trim(input.val()) && searchButton.addClass('on');
 
     const callback = (data) => {
         let listHtml = '';
@@ -42,41 +42,42 @@ function searchInit(f7, view, page) {
     setTimeout(function() {
         input.focus();
     }, 500);
+
     input[0].oninput = () => {
-        const val = input.val();
-        if (!trim(val)) {
-            hideVal.find('span').html('');
-            $$('.serch-history').show();
-            clear.removeClass('on');
-            html(list, '', f7);
-        } else {
-            hideVal.find('span').html(`“${val}”`);
-            searchContent.addClass('on');
-            clear.addClass('on');
-            $$('.serch-history').hide();
-        }
+            const val = input.val();
+            if (!trim(val)) {
+                hideVal.find('span').html('');
+                $$('.serch-history').show();
+                clear.removeClass('on');
+                html(list, '', f7);
+            } else {
+                hideVal.find('span').html(`“${val}”`);
+                searchContent.addClass('on');
+                clear.addClass('on');
+                $$('.serch-history').hide();
+            }
 
-        if (trim(searchVal) !== trim(val) && trim(val) !== '') {
-            searchVal = val;
+            if (trim(searchVal) !== trim(val) && trim(val) !== '') {
+                searchVal = val;
 
-            customAjax.ajax({
-                apiCategory: 'demandInfo',
-                api: 'getFishTypeList/5',
-                data: [val],
-                type: 'get',
-                noCache: true
-            }, callback)
+                customAjax.ajax({
+                    apiCategory: 'demandInfo',
+                    api: 'getFishTypeList/5',
+                    data: [val],
+                    type: 'get',
+                    noCache: true
+                }, callback)
+            }
         }
-    }
-    // input.on('propertychange', () => {
-        
+        // input.on('propertychange', () => {
+
     // })
     //search list render;
     const searchHistoryMetadata = store.get(cacheHistoryKey);
-    if(searchHistoryMetadata && searchHistoryMetadata.length){
+    if (searchHistoryMetadata && searchHistoryMetadata.length) {
         let listStr = '';
         $$.each(searchHistoryMetadata, (index, item) => {
-            if(!item){
+            if (!item) {
                 return;
             }
             listStr += search.historyLink(item);
@@ -96,14 +97,23 @@ function searchInit(f7, view, page) {
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}` : '';
         view.router.load({
             url: 'views/filter.html' + query,
-        }) 
+            // reload: true,
+            // animatePages: true
+        })
         setHistory(val);
     }
 
     //load filter; 
     hideVal.click(hrefFilterPage);
 
-    searchButton.click(hrefFilterPage)
+    searchButton.click(hrefFilterPage);
+    input.keypress((e) => {
+        const code = event.keyCode || event.which || event.charCode;
+        if (code == 13) {
+            input.blur(hrefFilterPage);
+            return false;
+        }
+    })
 }
 
 module.exports = {
