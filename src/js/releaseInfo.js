@@ -164,6 +164,19 @@ function releaseInfoInit(f7, view, page) {
             }, callback);
         }
     }
+
+    let isTouch = false;
+    $$('.release-info-content .page-content').on('touchmove', (e) => {
+        if(isTouch){
+            return;
+        }
+        isTouch = true;
+        $$(this).find('input').blur();
+        setTimeout(() => {
+            isTouch = false;
+        },1500)
+        // console.log(e)
+    })
 }
 module.exports = {
     releaseInfoInit,

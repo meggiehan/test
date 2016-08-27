@@ -49,11 +49,16 @@ const f7 = new Framework7({
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示',
+    // cacheIgnore: ['search.html'],
     // preprocess: (content, url, next) => {
     //     console.log(url);
     //     next(content)
     // },
     preroute: (view, options) => {
+        // const { history } = view;
+        // history.map((item, index) => {
+        //     item.indexOf('search.html') > -1 && (history.splice(index, 1))
+        // })
         // console.log(view, options)
         // if(view['history'].length !== 1 && view['url'] && view['url'].indexOf('views') <= -1){
         //     // view.router.loadPage('views/home.html'); 
