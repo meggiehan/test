@@ -40,7 +40,7 @@ android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
     // swipeBackPage: true,
-    uniqueHistory: true,
+    uniqueHistoryIgnoreGetParameters: true,
     // preloadPreviousPage: true,
     imagesLazyLoadThreshold: 50,
     pushState: true,
