@@ -21,9 +21,9 @@ function releaseSuccInit(f7, view, page) {
         let strHtml = '';
         $$.each(data.data.list, (index, item) => {
             if (2 == type) {
-                strHtml += home.cat(item);
-            } else {
                 strHtml += home.buy(item);
+            } else {
+                strHtml += home.cat(item);
             }
         })
         html($$('.release-succ-list>.list-view'), strHtml, f7);
@@ -32,7 +32,7 @@ function releaseSuccInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getDemandInfoList',
-        data: [id, '', type, '', pageSize, 1],
+        data: [id, '', type == 1 ? 2 : 1, '', pageSize, 1],
         type: 'get'
     }, callback);
 
