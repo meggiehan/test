@@ -7,7 +7,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
-    console.log(page.name)
+    console.log(page.name);
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
@@ -104,8 +104,8 @@ function searchInit(f7, view, page) {
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
-            reload: true,
-            // animatePages: true
+            // reload: true,
+            animatePages: true
         })
         setHistory(val);
         setTimeout(() => {isClick = false}, 100)
@@ -115,7 +115,7 @@ function searchInit(f7, view, page) {
     hideVal.click(hrefFilterPage);
 
     searchButton.click(hrefFilterPage);
-    input[0].onkeypress = (e) => {
+    input[0].onkeypress = (event) => {
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
             input[0].blur();
