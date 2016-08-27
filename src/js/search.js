@@ -46,7 +46,7 @@ function searchInit(f7, view, page) {
     input[0].oninput = () => {
             const val = input.val();
             if (!trim(val)) {
-                hideVal.find('span').html('');
+                hideVal.hide().find('span').html('');
                 $$('.serch-history').show();
                 clear.removeClass('on');
                 html(list, '', f7);
@@ -83,7 +83,9 @@ function searchInit(f7, view, page) {
             listStr += search.historyLink(item);
         })
         html($$('.search-history-list'), listStr, f7);
-        listStr ? $$('.serch-history').show() : $$('.serch-history').hide();
+        listStr && !input.val() ? $$('.serch-history').show() : $$('.serch-history').hide();
+        input.val() && searchContent.addClass('on');
+        input.val() && (hideVal.find('span')[0].innerText = `“${trim(input.val())}”`);
     }
     //clear history cache;
     $$('.search-clear-history').on('click',() => {
