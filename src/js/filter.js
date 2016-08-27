@@ -6,16 +6,20 @@ import config from '../config';
 
 
 function filterInit(f7, view, page) {
-    const { keyvalue, release, type, id, cityId } = page.query;
+    const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
+    const emptyTemp = $$('.filter-empty-search-result');
+    const load = $$('.page-filter .infinite-scroll-preloader');
+    const showAllInfo = $$('p.filter-search-empty-info');
     const { pageSize } = config;
     let allFishTypeChild;
+    let isShowAll = false;
     // let searchValue = keyvalue ? keyvalue.replace(/[^\u4E00-\u9FA5]/g, '') : keyvalue;
     let searchValue = keyvalue && keyvalue.replace('“', '').replace('”', '');
     let currentFishId = id || '';
     let currentCityId = cityId || '';
     let pageNo = 1;
-    let _type = type || '';
+    let _type = type || 2;
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
@@ -48,20 +52,33 @@ function filterInit(f7, view, page) {
                 listHtml += home.cat(item);
             })
         }
-        if (!listHtml) {
-            listHtml += '';
-        }
+        showAllInfo.hide();
         if (isInfinite && !pullToRefresh) {
             $$('.filter-list').append(listHtml);
             loading = false;
         } else {
             html($$('.filter-list'), listHtml, f7);
-
         }
         //pull to refresh done.
         f7.pullToRefreshDone();
         pullToRefresh = false;
         $$('img.lazy').trigger('lazy');
+        $$('.page-filter .tabbar').show();
+        if (!listHtml) {
+            !$$('.filter-list>a').length && emptyTemp.show();
+            if(search && !$$('.filter-list>a').length){
+                $$('.page-filter .tabbar').hide();
+            }
+            load.hide();
+        } else {
+            emptyTemp.hide();
+            load.show();
+        }
+        if ($$('.filter-list>a').length && data.data.list.length < pageSize) {
+            isShowAll = true;
+            load.hide();
+            showAllInfo.show();
+        }
     }
 
     const fishTypeRootCallback = (data) => {
@@ -193,7 +210,7 @@ function filterInit(f7, view, page) {
             $$('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
         }
         /*
-         * initialization home page and send ajax to get list data.
+         * initialization filter page and send ajax to get list data.
          */
         customAjax.ajax({
             apiCategory: 'demandInfo',
@@ -220,11 +237,11 @@ function filterInit(f7, view, page) {
                 ele.className = 'active-ele';
                 let districtHtml = '';
                 if (postcode !== '0') {
-                    districtHtml += `<span data-postcode="${postcode}">全${ele.innerText}</span>`;
+                    districtHtml += `<span data-postcode="${postcode}" class="${currentCityId == postcode && 'active-ele'}">全${ele.innerText}</span>`;
                     $$.each(district.root.province, (index, item) => {
                         if (item.postcode === postcode) {
                             $$.each(item.city, (index_, districtItem) => {
-                                const select = item.postcode == currentCityId ? 'active-ele' : '';
+                                const select = districtItem.postcode == currentCityId ? 'active-ele' : '';
                                 districtHtml += filter.districtRender(districtItem, select);
                             })
                         }
@@ -236,6 +253,7 @@ function filterInit(f7, view, page) {
             })
             //change release type;
         $$('.filter-info-type').on('click', (e) => {
+            isShowAll = false;
             const event = e || window.event;
             let ele = event.target;
             let classes = ele.className;
@@ -269,10 +287,16 @@ function filterInit(f7, view, page) {
             const event = e || window.event;
             const ele = event.target;
             const classes = ele.className;
+            if (ele.tagName !== 'SPAN') {
+                return;
+            }
+
             const postcode = ele.getAttribute('data-postcode');
+            isShowAll = false;
             $$('.filter-district>.col-65>span').removeClass('active-ele');
             if (classes.indexOf('active-ele') <= -1) {
-                const tabText = $$(ele).parent('.col-65').find('span')[0].innerText.substring(1, 100);
+                const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
+                const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
                 html($$('.filter-tab>.tab2>span'), getTabStr(tabText), f7);
                 ele.className += ' active-ele';
             }
@@ -292,6 +316,9 @@ function filterInit(f7, view, page) {
 
         // Attach 'infinite' event handler
         $$('.infinite-scroll').on('infinite', function() {
+            if (isShowAll) {
+                return;
+            }
             isInfinite = true;
             // Exit, if loading in progress
             if (loading) return;
@@ -312,6 +339,7 @@ function filterInit(f7, view, page) {
         const ptrContent = $$('.pull-to-refresh-content');
         ptrContent.on('refresh', function(e) {
             pullToRefresh = true;
+            isShowAll = false;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
@@ -348,6 +376,9 @@ function filterInit(f7, view, page) {
         const event = e || window.event;
         const ele = event.target;
         const classes = ele.className;
+        if (ele.tagName !== 'SPAN') {
+            return;
+        }
         const childId = ele.getAttribute('data-id');
         $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
         $$('.filter-release-next').addClass('pass');
@@ -362,6 +393,7 @@ function filterInit(f7, view, page) {
             $$('.winodw-mask').removeClass('on');
             $$('.filter-tabs-content').removeClass('on');
             $$('.filter-tab>div').removeClass('active-ele');
+            isShowAll = false;
             searchValue = '';
             searchBtn.val('');
             isInfinite = false;
