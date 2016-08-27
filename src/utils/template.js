@@ -78,7 +78,7 @@ module.exports = {
         link: (data) => {
             const { name, id } = data;
             let li = '';
-            li += `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
+            li += `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
@@ -86,7 +86,7 @@ module.exports = {
                 return;
             }
             const val = decodeURI(data);
-            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true" data-reload="true">${val}</a>`;
+            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true">${val}</a>`;
         }
     },
     selldetail: {
