@@ -6,7 +6,6 @@ import { html } from '../utils/string';
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const { pageSize } = config;
-    const $$ = Dom7;
     let catType = 2;
 
     /*
@@ -14,10 +13,6 @@ function homeInit(f7, view, page) {
      */
 
     const callback = (data, err, type) => {
-        if (err) {
-            f7.alert('请求失败,请重新发送请求!');
-            return;
-        }
         //cat sell list
         if (catType === 2) {
             let catListHtml = '';

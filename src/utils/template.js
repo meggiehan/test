@@ -10,7 +10,7 @@ module.exports = {
             let imgStr;
             img.src = imge_path && `${imge_path}${imgPath(11)}`;
             imgStr = img.complete ? '<img src="' + `${imge_path}${imgPath(11)}` + '"/></div>' :
-             '<img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"></div>';
+                '<img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"></div>';
             let res = '';
             let span = '';
             0 == state && (span = '<span>待审核</span>');
@@ -56,22 +56,22 @@ module.exports = {
                 '<div class="home-buy-address">' +
                 '<span class="' + `${isV && "iconfont icon-v"}` + '">' + `${contact_name || '匿名用户'}` + '</span>' + `指定产地：${province_name || ''}${city_name || ''}` +
                 '</div>'
-            return res
+            return res;
         }
     },
     search: {
         link: (data) => {
             const { name, id } = data;
             let li = '';
-            li += `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
+            li += `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
-                if(!data){
-                    return;
-                }
-                const val = decodeURI(data);
-                return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true">${val}</a>`;
+            if (!data) {
+                return;
+            }
+            const val = decodeURI(data);
+            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true" data-reload="true">${val}</a>`;
         }
     },
     selldetail: {
@@ -135,19 +135,20 @@ module.exports = {
     },
     fishCert: {
         certList: (data, index) => {
-            const {identity} = config;
+            const { identity } = config;
+            const { state, path, id, closing_date, type, reasons_for_refusal } = data;
+
             let img = document.createElement('img');
             let imgStr;
             img.src = path && `${path + identity['catCompany']}`;
             imgStr = img.complete ? '<img src="' + `${path + identity['catCompany']}` + '"/>' :
-            `<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy">`;
-            const { state, path, id, closing_date, type, reasons_for_refusal } = data;
+                `<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy">`;
             let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
             let itemBottom = '';
             if (1 !== state) {
                 itemBottom += '<p class="fish-cert-button">';
                 itemBottom += 2 == state ? '<span class="fish-cert-reupload" data-id="' + id + '" style="margin-right:1.5rem">重新上传</span>' : '';
-                itemBottom += '<span class="fish-cert-delete" data-id="' + id + '" data-index="'+ index +'">删除</span></p>'
+                itemBottom += '<span class="fish-cert-delete" data-id="' + id + '" data-index="' + index + '">删除</span></p>'
             }
             const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';
             let str = '';

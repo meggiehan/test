@@ -33,7 +33,7 @@ function loginInit(f7, view, page) {
         nextBtn.addClass('on');
         if (data.code == 1) {
             view.router.load({
-                url: 'views/loginCode.html' + `?phone=${input.val()}&key=${data.data}`,
+                url: 'views/loginCode.html' + `?phone=${input.val()}&key=${data.data}`
             })
         }
     };
