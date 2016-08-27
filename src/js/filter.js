@@ -74,6 +74,7 @@ function filterInit(f7, view, page) {
             emptyTemp.hide();
             load.show();
         }
+        $$('.filter-list>a').length && pageNo == 1 && $$('.page-filter .page-content').scrollTop(0);
         if ($$('.filter-list>a').length && data.data.list.length < pageSize) {
             isShowAll = true;
             load.hide();
