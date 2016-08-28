@@ -81,12 +81,12 @@ class CustomClass {
             },
             success: function(data) {
                 const _data = JSON.parse(data);
-                if (_data.code !== 1 && _data.message) {
+                if (_data.code == 2 && _data.message) {
                     const f7 = new framework7();
-                    _data.code == 2 && f7.alert(_data.message, '提示', () => {
+                    f7.alert(_data.message, '提示', () => {
                         logOut();
                     });
-                    _data.code !== 2 && f7.alert(_data.message,'提示');
+                    // _data.code !== 2 && f7.alert(_data.message,'提示');
                 }
                 if (!noCache) {
                     _this.checkMaxLenAndDelete();
