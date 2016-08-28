@@ -77,8 +77,8 @@ class CustomClass {
     nativeLogin(username, code){
         const { ios, android } = window.currentDevice;
         const obj = {
-            tele: username,
-            pass: code
+            'tele': username,
+            'pass': code
         }
         ios && JS_SetUserInfo(obj);
         android && window.yudada.JS_Login(obj.tele, obj.pass, null);
@@ -86,7 +86,7 @@ class CustomClass {
 
     getUserValue(key){
         const { ios, android } = window.currentDevice;
-        return ios && JS_PerferenceGetShared(key) || android && window.yudada.JS_Token();
+        return (ios && JS_PerferenceGetShared(key)) || (android && window.yudada.JS_Token());
     }
 
     logOut(){
