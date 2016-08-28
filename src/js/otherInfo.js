@@ -40,6 +40,8 @@ function otherInfoInit(f7, view, page) {
         } else if (personalAuthenticationState == 1) {
             $$('.other-authentication-info').addClass('individual');
             name && ($$('.other-info-name')[0].innerText = getName(name));
+            identificationCard && ($$('.other-info-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
+
         }
     }
     if (!userCache) {
