@@ -64,6 +64,7 @@ function buydetailInit(f7, view, page) {
             html($$('.page-buydetail .user-name'), contactName || '匿名用户', f7);
             html($$('.page-buydetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-buydetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
+            1 == enterpriseAuthenticationState && ($$('.budetail-verify-text')[0].innerText = '已完成企业认证');
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl);
             html($$('.tabbar-price'), price || '面议', f7);
