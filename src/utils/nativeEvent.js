@@ -73,6 +73,28 @@ class CustomClass {
         android && window.yudada.JS_ShowAlertWithTitles(title, message, button1, button2);
     }
 
+    //native login.
+    nativeLogin(username, code){
+        const { ios, android } = window.currentDevice;
+        const obj = {
+            tele: username,
+            pass: code
+        }
+        ios && JS_SetUserInfo(obj);
+        android && window.yudada.JS_Login(obj.tele, obj.pass, null);
+    }
+
+    getUserValue(key){
+        const { ios, android } = window.currentDevice;
+        return ios && JS_PerferenceGetShared(key) || android && window.yudada.JS_Token();
+    }
+
+    logOut(){
+        const { ios, android } = window.currentDevice;
+        ios && JS_UserExitLog();
+        android && window.yudada.JS_UserExitLog();
+    }
+
 }
 
 const nativeEvent = new CustomClass;

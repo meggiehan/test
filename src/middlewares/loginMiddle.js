@@ -1,16 +1,33 @@
 import config from '../config/';
 import store from '../utils/locaStorage';
 import { trim, html } from '../utils/string';
-// import nativeEvent form '../utils/nativeEvent';
+import nativeEvent from '../utils/nativeEvent';
 
 function isLogin() {
     const { cacheUserinfoKey } = config;
-    const userInfo = store.get(cacheUserinfoKey);
-    return userInfo && trim(userInfo.token) ? true : false;
+    const nativeToken = nativeEvent.getUserValue('token');
+    let userInfo = store.get(cacheUserinfoKey);
+    if (!nativeToken) {
+        store.clear();
+        return false;
+    } else {
+        if (!userInfo) {
+            userInfo = {
+                token: nativeToken
+            }
+        } else {
+            userInfo['token'] = nativeToken;
+        }
+        store.set(cacheUserinfoKey, userInfo);
+
+        return true;
+    }
+
 }
 
 function logOut() {
     // nativeEvent.nativeAlert('提示', '退出成功！', '确定'， '');
+    nativeEvent.logOut();
     store.clear();
     mainView.router.load({
         url: 'views/home.html'
@@ -18,7 +35,7 @@ function logOut() {
 }
 
 function loginSucc(data, callback) {
-    const {imgPath} = config;
+    const { imgPath } = config;
     const {
         imgUrl,
         nickname,

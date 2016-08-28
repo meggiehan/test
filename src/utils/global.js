@@ -133,6 +133,14 @@ class CustomClass {
         }
     }
 
+    getKey(token, userId, state){
+        mainView.router.load({
+            url: 'views/user.html',
+            reload: true,
+            animatePage: true
+        })
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -141,6 +149,7 @@ class CustomClass {
         window['appJump'] = this.appJump;
         window['getAdreesSys'] = this.getAdreesSys;
         window['subAndShowFishAu'] = this.subAndShowFishAu;
+        window['getKey'] = this.getKey;
     }
 }
 

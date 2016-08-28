@@ -2,6 +2,7 @@ import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import config from '../config';
 import { trim, html } from '../utils/string';
+import nativeEvent from '../utils/nativeEvent';
 
 function loginCodeInit(f7, view, page) {
     const $$ = Dom7;
@@ -17,7 +18,7 @@ function loginCodeInit(f7, view, page) {
     $$('.login-code-phone')[0].innerText = phone;
     setTimeout(() => {
         input.focus();
-    },400)
+    }, 400)
     input[0].oninput = () => {
         const val = input.val();
         if (/^\d{4}$/.test(val) && val.length == 4) {
@@ -25,8 +26,8 @@ function loginCodeInit(f7, view, page) {
             input.blur();
             isPass = true;
             subBtn.trigger('click');
-        }else if(val.length >= 4){
-            input.val(val.substr(0,4));
+        } else if (val.length >= 4) {
+            input.val(val.substr(0, 4));
         } else {
             subBtn.removeClass('on');
             isPass = false;
@@ -41,18 +42,19 @@ function loginCodeInit(f7, view, page) {
     }
 
     const callback = (data) => {
-            isSend = false;
-            const setIntervalId = setInterval(() => {
-                if (_voiceCodeWaitTime < 0) {
-                    clearInterval(setIntervalId);
-                    isCountDown = false;
-                    html(vioceBtn, '收不到验证码？点击这里', f7);
-                    return;
-                }
-                voiceCountDown();
-            }, 1000)
-        }
-        //get voice test code;
+        isSend = false;
+        const setIntervalId = setInterval(() => {
+            if (_voiceCodeWaitTime < 0) {
+                clearInterval(setIntervalId);
+                isCountDown = false;
+                html(vioceBtn, '收不到验证码？点击这里', f7);
+                return;
+            }
+            voiceCountDown();
+        }, 1000)
+    }
+
+    //get voice test code;
     vioceBtn.on('click', () => {
         if (isCountDown) {
             return;
@@ -72,43 +74,44 @@ function loginCodeInit(f7, view, page) {
         }, callback);
     })
 
-    const loginCallback = (data) => {
-        const { code, message } = data;
-        if (code == 1) {
-            const { token, userInfo } = data.data;
-            let _userInfo = userInfo;
-            _userInfo['token'] = token;
-            store.set(cacheUserinfoKey, _userInfo);
-            f7.alert('登录成功', () => {
-                view.router.load({
-                    url: 'views/user.html',
-                })
-            })
+    // const loginCallback = (data) => {
+    //     const { code, message } = data;
+    //     if (code == 1) {
+    //         const { token, userInfo } = data.data;
+    //         let _userInfo = userInfo;
+    //         _userInfo['token'] = token;
+    //         store.set(cacheUserinfoKey, _userInfo);
+    //         f7.alert('登录成功', () => {
+    //             view.router.load({
+    //                 url: 'views/user.html',
+    //             })
+    //         })
+    //     } else {
+    //         isSend = false;
+    //         isPass = true;
+    //         // f7.alert(message);
+    //     }
+    // }
+    const regCallback = (data) => {
+        if (data.code == 1) {
+            const { loginName, loginPass } = data.data;
+            nativeEvent.nativeLogin(loginName, loginPass);
+            //user login, return user infomation.
+            // customAjax.ajax({
+            //     apiCategory: 'userLogin',
+            //     api: 'login',
+            //     data: [loginName, loginPass],
+            //     type: 'post',
+            //     noCache: true,
+            // }, loginCallback);
         } else {
             isSend = false;
             isPass = true;
-            // f7.alert(message);
+            f7.alert(data.message, '提示', () => {
+                // input.focus();
+            });
         }
     }
-    const regCallback = (data) => {
-            if (data.code == 1) {
-                const { loginName, loginPass } = data.data;
-                //user login, return user infomation.
-                customAjax.ajax({
-                    apiCategory: 'userLogin',
-                    api: 'login',
-                    data: [loginName, loginPass],
-                    type: 'post',
-                    noCache: true,
-                }, loginCallback);
-            } else {
-                isSend = false;
-                isPass = true;
-                f7.alert(data.message,'提示',() => {
-                    // input.focus();
-                });
-            }
-        }
 
 
     //User registration. return user login infomation.
