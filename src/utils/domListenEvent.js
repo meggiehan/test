@@ -1,3 +1,13 @@
+import framework7 from '../js/lib/framework7';
+
+
+const f7 = new framework7({
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
+    fastClicks: true,
+    modalTitle: '温馨提示',
+});
+
 module.exports = {
     filterTabClick: (e) => {
         const event = e || window.event;
@@ -26,5 +36,17 @@ module.exports = {
         } else if (classes.indexOf('filter-tab-title') > -1) {
             clickTab();
         }
+    },
+
+    detailClickTip: () => {
+        f7.confirm('你确定举报吗？', '举报虚假信息', () => {
+            f7.alert('举报成功！');
+        })
+    },
+
+    otherIndexClickTip: () => {
+        f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
+            f7.alert('举报成功！');
+        })
     }
 }

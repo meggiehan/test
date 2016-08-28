@@ -108,7 +108,7 @@ function loginCodeInit(f7, view, page) {
             isSend = false;
             isPass = true;
             f7.alert(data.message, '提示', () => {
-                // input.focus();
+                input.val('').focus();
             });
         }
     }

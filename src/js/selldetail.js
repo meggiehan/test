@@ -6,6 +6,7 @@ import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
+import { detailClickTip } from '../utils/domListenEvent';
 
 function selldetailInit(f7, view, page) {
     const $$ = Dom7;
@@ -184,11 +185,7 @@ function selldetailInit(f7, view, page) {
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 
-    $$('.navbar-inner .right .icon-more')[0].onclick = () => {
-        f7.confirm('你确定举报吗？','举报虚假信息',() => {
-            f7.alert('举报成功！');
-        })
-    }
+    $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
     //
     // const popupWindow = f7.photoBrowser({
     //     photos: [{
