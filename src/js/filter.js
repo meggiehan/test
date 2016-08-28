@@ -3,10 +3,10 @@ import { home, filter } from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 import district from '../utils/district';
 import config from '../config';
+import {filterTabClick} from '../utils/domListenEvent';
 
 
 function filterInit(f7, view, page) {
-    console.log(page.name);
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = $$('.filter-empty-search-result');
@@ -67,7 +67,7 @@ function filterInit(f7, view, page) {
         $$('.page-filter .tabbar').show();
         if (!listHtml) {
             !$$('.filter-list>a').length && emptyTemp.show();
-            if(search && !$$('.filter-list>a').length){
+            if (search && !$$('.filter-list>a').length) {
                 $$('.page-filter .tabbar').hide();
             }
             load.hide();
@@ -168,35 +168,7 @@ function filterInit(f7, view, page) {
         html($$('.filter-fish-type>.col-65'), typeHtml, f7)
     })
 
-    // filter tab event;
-    $$('.filter-tab').on('click', (e) => {
-        const event = e || window.event;
-        let ele = event.target;
-        let classes = ele.className;
-        const clickTab = () => {
-            if (classes.indexOf('active-ele') > -1) {
-                ele.className = classes.replace('active-ele', '');
-                $$('.winodw-mask').removeClass('on');
-                $$('.filter-tabs-content').removeClass('on');
-            } else {
-                $$('.filter-tab>div').removeClass('active-ele');
-                ele.className += ' active-ele';
-                $$('.winodw-mask').addClass('on');
-                $$('.filter-tabs-content').addClass('on');
-                $$('.filter-tabs-content>div').removeClass('active');
-                classes.indexOf('tab1') > -1 && $$('.filter-tabs-content>div').eq(0).addClass('active');
-                classes.indexOf('tab2') > -1 && $$('.filter-tabs-content>div').eq(1).addClass('active');
-                classes.indexOf('tab3') > -1 && $$('.filter-tabs-content>div').eq(2).addClass('active');
-            }
-        }
-        if (ele.parentNode.className.indexOf('filter-tab-title') > -1) {
-            ele = ele.parentNode;
-            classes = ele.className;
-            clickTab();
-        } else if (classes.indexOf('filter-tab-title') > -1) {
-            clickTab();
-        }
-    })
+    $$('.filter-tab').off('click', filterTabClick).on('click', filterTabClick);
 
     // filter category and release infomation.
     if (!release) {

@@ -48,7 +48,7 @@ const f7 = new Framework7({
     animateNavBackIcon: true,
     // pushStateSeparator: '?#!/',
     animatePages: animatStatus,
-    preloadPreviousPage: true,
+    // preloadPreviousPage: true,
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
@@ -124,6 +124,16 @@ const initEvent = f7.onPageBeforeAnimation(animatePage, (page) => {
     // } else {
     //     f7.hideIndicator();
     // } 
+    // const url = page['view']['url'];
+    // const name = url.split('.html')[0].split('views/')[1];
+    // const query = getQuery(url.split('?')[1]);
+
+    // if ((!page.name || page.name !== name) && url) {
+    //     page['query'] = query;
+    //     page['name'] = name;
+
+    // }
+    console.log(page.name)
     page.name === 'login' && loginInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
     page.name === 'search' && searchInit(f7, mainView, page);
