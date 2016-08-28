@@ -54,6 +54,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             businessLicenseNo && ($$('.company-authentication-number')[0].innerText = getBusinessLicenseNumber(businessLicenseNo));
             identificationCard && ($$('.individual-authentication-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
             const subPopup = $$('.popup-individual-authentication');
+            subPopup.removeClass('individual-review individual-succ individual-faild company-review company-succ company-faild');
             0 == personalAuthenticationState && subPopup.addClass('individual-review');
             1 == personalAuthenticationState && subPopup.addClass('individual-succ');
             2 == personalAuthenticationState && subPopup.addClass('individual-faild');
