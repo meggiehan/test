@@ -103,8 +103,7 @@ function searchInit(f7, view, page) {
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
-            // reload: true,
-            // animatePages: true
+            animatePages: true
         })
         setHistory(val);
         setTimeout(() => {isClick = false}, 100)
@@ -114,6 +113,7 @@ function searchInit(f7, view, page) {
     hideVal.click(hrefFilterPage);
 
     searchButton.click(hrefFilterPage);
+
     input[0].onkeypress = (e) => {
         const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;

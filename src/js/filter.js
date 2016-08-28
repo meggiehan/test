@@ -6,6 +6,7 @@ import config from '../config';
 
 
 function filterInit(f7, view, page) {
+    console.log(page.name);
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = $$('.filter-empty-search-result');
