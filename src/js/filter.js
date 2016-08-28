@@ -269,9 +269,10 @@ function filterInit(f7, view, page) {
             isShowAll = false;
             $$('.filter-district>.col-65>span').removeClass('active-ele');
             if (classes.indexOf('active-ele') <= -1) {
-                const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
-                const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
-                html($$('.filter-tab>.tab2>span'), getTabStr(tabText), f7);
+                const districtText = ele.innerText;
+                // const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
+                // const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
+                html($$('.filter-tab>.tab2>span'), getTabStr(districtText), f7);
                 ele.className += ' active-ele';
             }
             pageNo = 1;
