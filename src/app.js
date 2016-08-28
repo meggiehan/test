@@ -133,7 +133,6 @@ const initEvent = f7.onPageBeforeAnimation(animatePage, (page) => {
     //     page['name'] = name;
 
     // }
-    console.log(page.name)
     page.name === 'login' && loginInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
     page.name === 'search' && searchInit(f7, mainView, page);
