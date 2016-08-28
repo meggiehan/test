@@ -86,7 +86,8 @@ class CustomClass {
 
     getUserValue(key){
         const { ios, android } = window.currentDevice;
-        return (ios && JS_PerferenceGetShared(key)) || (android && window.yudada.JS_Token());
+        const token = ios ? JS_PerferenceGetShared(key) : window.yudada.JS_Token();
+        return token;
     }
 
     logOut(){
