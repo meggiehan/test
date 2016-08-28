@@ -13,7 +13,7 @@
         position: relative;
         .border-box;
         font-size: 1.6rem;
-        &.filter-searchbar{
+        &.filter-searchbar {
             padding-left: 5.5rem;
         }
         .home-tabbar-logo {
@@ -24,14 +24,14 @@
             height: 100%;
             background: url('../img/logoTitle.png') center no-repeat;
             background-size: 6rem auto;
-            &.filter-tabbar{
+            &.filter-tabbar {
                 width: 5rem;
                 color: @text-fff;
                 font-size: 1.6rem;
                 overflow: hidden;
                 vertical-align: middle;
                 background: none;
-                &:before{
+                &:before {
                     display: inline-block;
                     font-size: 1.8rem;
                     width: 1.2rem;
@@ -46,7 +46,7 @@
             height: 100%;
             width: 100%;
             .ps-r;
-            .home-search-mask{
+            .home-search-mask {
                 .ps-a;
                 width: 100%;
                 height: 100%;
@@ -288,10 +288,16 @@
                                         background: @bg-v;
                                         color: @text-fff;
                                         border-color: @bg-v;
-                                        &:before{
+                                        &:before {
                                             margin-right: 0.3rem;
                                         }
+                                        vertical-align: middle;
                                     }
+                                }
+                                .list-cert {
+                                    margin-left: 0.5rem;
+                                    vertical-align: middle;
+                                    .text-shadow(@text-fff);
                                 }
                             }
                         }
@@ -307,7 +313,7 @@
                     font-size: 1.6rem;
                     display: block;
                     .text-hidden;
-                    &:after{
+                    &:after {
                         font-size: 1.4rem;
                         margin-left: 0.5rem;
                     }
@@ -367,11 +373,3 @@
         }
     }
 }
-
-
-
-
-
-
-
-

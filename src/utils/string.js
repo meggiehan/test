@@ -94,6 +94,42 @@ module.exports = {
         let img = document.createElement('img');
         img.src = src; 
         return img.complete ? `<img src="${src}" alt="图片" />` : null;
+    },
+
+    getCertInfo: (type) => {
+        let text = '';
+        let label = '';
+        let classes = '';
+        if(1 == type){
+            text = '苗种生产';
+            label = '苗';
+            classes = 'seedling';
+        }else if(2 == type){
+            text = '水产养殖';
+            label = '水';
+            classes = 'water';
+        }else if(3 == type){
+            text = '检验检疫';
+            label = '检';
+            classes = 'cert';
+        }else if(4 == type){
+            text = '无公害农产品产地';
+            label = '无';
+            classes = 'water';
+        }else if(5 == type){
+            text = '绿色食品';
+            label = '绿';
+            classes = 'water';
+        }else if(6 == type){
+            text = '有机产品';
+            label = '有';
+            classes = 'water';
+        }
+        return {
+            label,
+            text,
+            classes
+        }
     }
 
 }
