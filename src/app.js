@@ -43,7 +43,7 @@ const f7 = new Framework7({
     // uniqueHistory: true,
     // preloadPreviousPage: true,
     imagesLazyLoadThreshold: 50,
-    pushStatePreventOnLoad: true,
+    // pushStatePreventOnLoad: true,
     pushState: true,
     animateNavBackIcon: true,
     // pushStateSeparator: '?#!/',

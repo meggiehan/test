@@ -115,8 +115,10 @@ function searchInit(f7, view, page) {
 
     searchButton.click(hrefFilterPage);
     input[0].onkeypress = (e) => {
+        const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
+            event.preventDefault();
             input[0].blur();
             searchButton.trigger('click');
             return;
