@@ -14,6 +14,7 @@ function searchInit(f7, view, page) {
     const searchButton = $$('span.search-button');
     const list = $$('.search-return-list');
     const searchContent = $$('.search-content');
+    const searchHistoryMetadata = store.get(cacheHistoryKey);
     let searchVal = '';
     trim(input.val()) && searchButton.addClass('on');
 
@@ -35,7 +36,7 @@ function searchInit(f7, view, page) {
         clear.removeClass('on');
         hideVal.find('span').html('');
         searchContent.removeClass('on');
-        $$('.serch-history').show();
+        searchHistoryMetadata && searchHistoryMetadata.length && $$('.serch-history').show();
     })
 
     setTimeout(function() {
@@ -45,9 +46,7 @@ function searchInit(f7, view, page) {
     input[0].oninput = () => {
             const val = input.val();
             if (!trim(val)) {
-                hideVal.hide().find('span').html('');
-                $$('.serch-history').show();
-                clear.removeClass('on');
+                clear.trigger('click');
                 html(list, '', f7);
             } else {
                 hideVal.find('span').html(`“${val}”`);
@@ -72,7 +71,6 @@ function searchInit(f7, view, page) {
 
     // })
     //search list render;
-    const searchHistoryMetadata = store.get(cacheHistoryKey);
     if (searchHistoryMetadata && searchHistoryMetadata.length) {
         let listStr = '';
         $$.each(searchHistoryMetadata, (index, item) => {
