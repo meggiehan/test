@@ -134,7 +134,7 @@ class CustomClass {
     }
 
     getKey(token, userId, state){
-        mainView.router.load({
+        window.mainView.router.load({
             url: 'views/user.html',
             reload: true,
             animatePage: true
