@@ -8,6 +8,7 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 import userUtils from '../utils/viewsUtil/userUtils';
 import { centerShowTime } from '../utils/time';
+import {otherIndexClickTip} from '../utils/domListenEvent';
 
 function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
@@ -128,23 +129,12 @@ function otherIndexInit(f7, view, page) {
         })
     })
 
-    //other info report.
-    $$('.other-report').on('click', () => {
-        f7.confirm('确认举报？', '提示', () => {
-            f7.alert('举报成功', '提示');
-        })
-    })
-
     //call to other user.
     $$('.other-footer-call').on('click', () => {
         nativeEvent.contactUs(callNumber);
     })
 
-    $$('.navbar-inner .right .icon-more')[0].onclick = () => {
-        f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
-            f7.alert('举报成功！');
-        })
-    }
+    $$('.navbar-inner.other-index .icon-more').off('click', otherIndexClickTip).on('click', otherIndexClickTip);
 }
 
 module.exports = {
