@@ -75,10 +75,11 @@ module.exports = {
         }
     },
     search: {
-        link: (data) => {
-            const { name, id } = data;
+        link: (data, release, type) => {
+            const { name, id, parant_id, parant_name } = data;
             let li = '';
-            li += `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
+            li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}">${name}</a>`:
+                            `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
