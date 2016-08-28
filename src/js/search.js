@@ -7,6 +7,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
+    const {release, type} = page.query;
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
@@ -26,7 +27,7 @@ function searchInit(f7, view, page) {
         }
 
         $$.each(data.data, (index, item) => {
-            listHtml += search.link(item);
+            listHtml += search.link(item, release, type);
         })
         html(list, listHtml, f7);
     }
@@ -50,7 +51,7 @@ function searchInit(f7, view, page) {
                 html(list, '', f7);
             } else {
                 hideVal.find('span').html(`“${val}”`);
-                searchContent.addClass('on');
+                !release && searchContent.addClass('on');
                 clear.addClass('on');
                 $$('.serch-history').hide();
             }
@@ -81,7 +82,7 @@ function searchInit(f7, view, page) {
         })
         html($$('.search-history-list'), listStr, f7);
         listStr && !input.val() ? $$('.serch-history').show() : $$('.serch-history').hide();
-        input.val() && searchContent.addClass('on');
+        !release && input.val() && searchContent.addClass('on');
         input.val() && (hideVal.find('span')[0].innerText = `“${trim(input.val())}”`);
     }
     //clear history cache;
@@ -122,6 +123,12 @@ function searchInit(f7, view, page) {
             return;
         }
     }
+
+    //From the release page to jump over the processing;
+    if(release){
+        $$('.search-header').addClass('release-select');
+    }
+
 }
 
 module.exports = {
