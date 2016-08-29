@@ -5,7 +5,7 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs } from '../utils/domListenEvent';
+import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, cancleIndividual, canclCompany } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
@@ -57,30 +57,7 @@ function userInit(f7, view, page) {
     $$('.user-header').off('click', goMyCenter).on('click', goMyCenter);
 
     //cilck identity authentication.
-    $$('.user-cert-type>div.go-identity').on('click',() => {
-        let personalAuthenticationState, enterpriseAuthenticationState;
-        if (userInfomation) {
-            personalAuthenticationState = userInfomation['personalAuthenticationState'];
-            enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
-        }
-        if (!loginStatus) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                view.router.load({
-                    url: 'views/login.html',
-                })
-            })
-        } else {
-            if (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) {
-                view.router.load({
-                    url: 'views/identityAuthentication.html'
-                })
-
-            } else {
-                f7.popup('.popup-individual-authentication');
-            }
-
-        }
-    })
+    $$('.user-cert-type>div.go-identity').off('click', canclCompany).on('click', canclCompany);
 
 
     //cilck upload fish cert.
@@ -94,24 +71,7 @@ function userInit(f7, view, page) {
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
 
     //cancle authentication.
-    const cancleIndividualCallback = (data) => {
-        const { code, message } = data;
-        f7.alert(message, '提示', () => {
-            f7.closeModal('.popup-individual-authentication');
-            view.router.load({
-                url: 'views/user.html'
-            })
-        })
-    }
-    $$('.cancel-individual-verify-buuton').on('click',() => {
-        customAjax.ajax({
-            apiCategory: 'userInfo',
-            api: 'cancelPersonalAuthentication',
-            data: [userInfomation['token']],
-            type: 'post',
-            noCache: true,
-        }, cancleIndividualCallback);
-    })
+    $$('.cancel-individual-verify-buuton').off('click', cancleIndividual).on('click', cancleIndividual);
 
     const cancleCompanyCallback = (data) => {
         const { code, message } = data;

@@ -19,7 +19,16 @@ class CustomClass {
                 })
             }
         }
-        if (index > -1 && index <= 2) {
+        if (!srcimg && src && index == 4) {
+            $$('.my-center-head img').val(src);
+            customAjax.ajax({
+                apiCategory: 'userInfo',
+                api: 'updateUserInfo',
+                data: [id, '', src],
+                type: 'post',
+                noCache: true,
+            }, callback);
+        } else if (index > -1 && index <= 2) {
             $$('.identity-individual-pic>div').eq(index).addClass('on');
             $$('.identity-individual-pic>div').eq(index).find('img').attr('src', src + identity['individual']);
             $$.each($$('.identity-individual-pic>div'), (item) => {
@@ -30,16 +39,6 @@ class CustomClass {
             $$('.identity-company-pic>div').addClass('on');
             $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
             $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
-        } else if ((index == 'undefined' || index == 4) && src) {
-            //save img url to hide button.
-            $$('.my-center-head img').val(src);
-            customAjax.ajax({
-                apiCategory: 'userInfo',
-                api: 'updateUserInfo',
-                data: [id, '', src],
-                type: 'post',
-                noCache: true,
-            }, callback);
         }
     }
 

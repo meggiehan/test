@@ -9,7 +9,7 @@ const f7 = new framework7({
     fastClicks: true,
     modalTitle: '温馨提示',
 });
-const {servicePhoneNumber} = config;
+const { servicePhoneNumber } = config;
 module.exports = {
     filterTabClick: (e) => {
         const event = e || window.event;
@@ -116,6 +116,50 @@ module.exports = {
 
     contactUs: () => {
         nativeEvent.contactUs(servicePhoneNumber);
+    },
+
+    cancleIndividual: () => {
+        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        let userInfomation = store.get(cacheUserinfoKey);
+        const cancleIndividualCallback = (data) => {
+            const { code, message } = data;
+            f7.alert(message, '提示', () => {
+                f7.closeModal('.popup-individual-authentication');
+                view.router.load({
+                    url: 'views/user.html'
+                })
+            })
+        }
+        customAjax.ajax({
+            apiCategory: 'userInfo',
+            api: 'cancelPersonalAuthentication',
+            data: [userInfomation['token']],
+            type: 'post',
+            noCache: true,
+        }, cancleIndividualCallback);
+    },
+
+    canclCompany: () => {
+        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        let userInfomation = store.get(cacheUserinfoKey);
+        const cancleCompanyCallback = (data) => {
+            const { code, message } = data;
+            f7.alert(message, '提示', () => {
+                f7.closeModal('.popup-individual-authentication');
+                view.router.load({
+                    url: 'views/user.html'
+                })
+            })
+        }
+        $$('.cancel-company-verify-buuton').on('click', () => {
+            customAjax.ajax({
+                apiCategory: 'userInfo',
+                api: 'cancelEnterpriseAuthentication',
+                data: [userInfomation['token']],
+                type: 'post',
+                noCache: true,
+            }, cancleCompanyCallback);
+        })
     }
 
 }

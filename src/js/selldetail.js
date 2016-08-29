@@ -9,7 +9,6 @@ import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip } from '../utils/domListenEvent';
 
 function selldetailInit(f7, view, page) {
-    const $$ = Dom7;
     const { id } = page.query;
     let isReleaseForMe = false;
     const certList = $$('.selldetail-cert-list');

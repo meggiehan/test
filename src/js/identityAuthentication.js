@@ -4,7 +4,7 @@ import store from '../utils/locaStorage';
 import config from '../config';
 
 function identityAuthenticationInit(f7, view, page) {
-    const $$ = Dom7;
+    f7.hideIndicator();
     const individualBtn = $$('.identity-individual');
     const companyBtn = $$('.identity-company');
     const certBox = $$('.identity-infomation');
