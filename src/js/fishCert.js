@@ -49,7 +49,7 @@ function fishCertInit(f7, view, page) {
     }
     $$('.fish-cert-list')[0].onclick = (e) => {
         const event = e || window.event;
-        const ele = e.target;
+        const ele = event.target;
         let classes = ele.className;
         const id = $$(ele).attr('data-id');
         if (classes.indexOf('cat-cert-faild-info') > -1) {

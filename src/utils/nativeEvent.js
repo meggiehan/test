@@ -69,7 +69,7 @@ class CustomClass {
     }
 
     //native alert style.
-    nativeAlert() {
+    nativeAlert(title, message, button1, button2) {
         const { ios, android } = window.currentDevice;
         ios && JS_ShowAlertWithTitles(title, message, button1, button2);
         android && window.yudada.JS_ShowAlertWithTitles(title, message, button1, button2);

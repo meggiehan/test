@@ -100,35 +100,44 @@ module.exports = {
         let text = '';
         let label = '';
         let classes = '';
+        let certName = '';
+
         if(1 == type){
             text = '苗种生产';
             label = '苗';
             classes = 'seedling';
+            certName = '苗种生产许可证';
         }else if(2 == type){
             text = '水产养殖';
             label = '水';
             classes = 'water';
+            certName = '水产养殖许可证';
         }else if(3 == type){
             text = '检验检疫';
             label = '检';
             classes = 'cert';
+            certName = '检验检疫合格证';
         }else if(4 == type){
             text = '无公害农产品产地';
             label = '无';
             classes = 'water';
+            certName = '无公害农产品产地认证证书';
         }else if(5 == type){
             text = '绿色食品';
             label = '绿';
             classes = 'water';
+            certName = '绿色食品证书';
         }else if(6 == type){
             text = '有机产品';
             label = '有';
             classes = 'water';
+            certName = '有机产品认证证书';
         }
         return {
             label,
             text,
-            classes
+            classes,
+            certName
         }
     }
 

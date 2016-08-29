@@ -61,17 +61,23 @@ class CustomClass {
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
         const { identity, cacheUserinfoKey } = config;
         const id = store.get(cacheUserinfoKey)['id'];
+        const { ios, android } = window.currentDevice;
         const callback = (data) => {
             const f = new framework7();
             console.log(data)
             const { code, message } = data;
-            f.alert(message, '提示', () => {
-                if (1 == code) {
+            if (1 == code) {
+                ios && f.alert(message, '提示', () => {
+
                     mainView.router.load({
                         url: 'views/user.html'
                     })
-                }
-            })
+                })
+                android && mainView.router.load({
+                    url: 'views/user.html'
+                })
+
+            }
         }
         customAjax.ajax({
             apiCategory: 'userInfo',
@@ -134,7 +140,7 @@ class CustomClass {
     }
 
     getKey(token, userId, state) {
-        if(!state){
+        if (!state) {
             return;
         }
         window.mainView.router.load({
@@ -153,7 +159,7 @@ class CustomClass {
     }
 
     JS_GoBack() {
-        if(mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].index('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].index('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
             return false;
         }
     }
