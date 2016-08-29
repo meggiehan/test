@@ -1,8 +1,8 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '0.1.7',
-    debug: false,
+    version: '0.1.8',
+    debug: true,
     url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
     // url: '://192.168.20.109:8080/',
     backgroundImgUrl: './img/app_icon_108.png',

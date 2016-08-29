@@ -3,7 +3,7 @@ import { home, filter } from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 import district from '../utils/district';
 import config from '../config';
-import {filterTabClick} from '../utils/domListenEvent';
+import { filterTabClick } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 
 
@@ -330,6 +330,7 @@ function filterInit(f7, view, page) {
         })
 
     } else {
+        f7.hideIndicator();
         currentFishId = null;
         $$('.filter-release-next').removeClass('pass');
         $$('.filter-navbar').addClass('filter-release-info');
