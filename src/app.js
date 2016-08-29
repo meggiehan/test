@@ -89,7 +89,7 @@ const f7 = new Framework7({
 });
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
-        domCache: true
+        // domCache: true
     })
     // load index
 mainView.router.load({

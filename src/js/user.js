@@ -134,7 +134,7 @@ function userInit(f7, view, page) {
     //cancle authentication.
     const cancleIndividualCallback = (data) => {
         const { code, message } = data;
-        f7.alert('message', '提示', () => {
+        f7.alert(message, '提示', () => {
             f7.closeModal('.popup-individual-authentication');
             view.router.load({
                 url: 'views/user.html'
@@ -153,7 +153,7 @@ function userInit(f7, view, page) {
 
     const cancleCompanyCallback = (data) => {
         const { code, message } = data;
-        f7.alert('message', '提示', () => {
+        f7.alert(message, '提示', () => {
             f7.closeModal('.popup-individual-authentication');
             view.router.load({
                 url: 'views/user.html'
