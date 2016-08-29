@@ -41,7 +41,7 @@ function myCenterInit(f7, view, page) {
     })
 
     //user click logout button.
-    $$('.my-center-logout').off('click', logOut).onf('click', logOut);
+    $$('.my-center-logout').off('click', logOut).on('click', logOut);
 
     //edit user nickname, open popup.
     $$('.my-center-nickname').on('click', () => {
