@@ -33,8 +33,8 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
         //edit individual authentication and company authentication popup page.
         const individualStatus = $$('.individual-authentication-status-text>.text');
         const companyStatus = $$('.company-authentication-status-text>.text');
-        individualStatus[0].innerText = (personal == 1 && '审核通过') || (personal == 2 && '审核未通过') || '审核中';
-        companyStatus[0].innerText = (enterprise == 1 && '审核通过') || (enterprise == 2 && '审核未通过') || '审核中';
+        individualStatus.text((personal == 1 && '审核通过') || (personal == 2 && '审核未通过') || '审核中');
+        companyStatus.text((enterprise == 1 && '审核通过') || (enterprise == 2 && '审核未通过') || '审核中');
         if (userUtils.data) {
             const {
                 name,

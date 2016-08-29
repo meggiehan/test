@@ -147,8 +147,8 @@ class CustomClass {
     exitApp() {
         const { ios, android } = window.currentDevice;
         if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
-            ios && JS_UserExitLog();
-            android && window.yudada.JS_UserExitLog();
+            ios && JS_ExitProcess();
+            android && window.yudada.JS_ExitProcess();
         }
     }
 
