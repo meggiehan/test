@@ -30,7 +30,7 @@ class CustomClass {
             $$('.identity-company-pic>div').addClass('on');
             $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
             $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
-        } else if (index == 'undefined' && src) {
+        } else if ((index == 'undefined' || index == 4) && src) {
             //save img url to hide button.
             $$('.my-center-head img').val(src);
             customAjax.ajax({
