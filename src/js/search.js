@@ -7,7 +7,8 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
-    const { release, type } = page.query;
+    const { type } = page.query;
+    const release = page.query['release'] && (page.query['release'] === 'false' ? false : page.query['release']);
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input');
     const clear = $$('b.searchbar-clear');
@@ -22,7 +23,7 @@ function searchInit(f7, view, page) {
 
     const callback = (data) => {
         let listHtml = '';
-        input.val() && (!data.data.length ? emptyInfo.show() : emptyInfo.hide()); 
+        release && input.val() && (!data.data.length ? emptyInfo.show() : emptyInfo.hide());
         if (!data.data.length) {
             html(list, listHtml, f7);
             return;
@@ -53,12 +54,13 @@ function searchInit(f7, view, page) {
         const val = input.val();
         if (!trim(val)) {
             clear.trigger('click');
+            !release && $$('.serch-history').show();
             html(list, '', f7);
         } else {
             hideVal.find('span').html(`“${val}”`);
-            !release &&  searchContent.addClass('on');
+            !release && searchContent.addClass('on');
             clear.addClass('on');
-            !release && (list.find('a').length ? $$('.serch-history').show() : $$('.serch-history').hide());
+            $$('.serch-history').hide();
         }
 
         if (trim(searchVal) !== trim(val) && trim(val) !== '') {
@@ -120,11 +122,11 @@ function searchInit(f7, view, page) {
     input[0].onkeypress = (e) => {
         const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;
-        if (release) {
-            return;
-        }
         if (code == 13) {
             event.preventDefault();
+            if (release) {
+                return;
+            }
             input[0].blur();
             searchButton.trigger('click');
             return;
