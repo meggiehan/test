@@ -106,7 +106,7 @@ function userInit(f7, view, page) {
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
 
     //to identity authentication re submit audit information
-    $$('.individual-faild>a.button').on('click', () => {
+    $$('.individual-faild>a.button').once('click', () => {
         // f7.closeModal('.popup-individual-authentication', function() {
         view.router.load({
                 url: 'views/identityAuthentication.html',
@@ -124,7 +124,7 @@ function userInit(f7, view, page) {
             })
         })
     }
-    $$('.cancel-individual-verify-buuton').on('click',() => {
+    $$('.cancel-individual-verify-buuton').once('click',() => {
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'cancelPersonalAuthentication',
@@ -143,7 +143,7 @@ function userInit(f7, view, page) {
             })
         })
     }
-    $$('.cancel-company-verify-buuton').on('click',() => {
+    $$('.cancel-company-verify-buuton').once('click',() => {
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'cancelEnterpriseAuthentication',
