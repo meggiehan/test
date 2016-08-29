@@ -2,6 +2,8 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
+import { goUser } from '../utils/domListenEvent';
+
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
@@ -73,6 +75,8 @@ function homeInit(f7, view, page) {
 
 
     //js location to other page
+    //go home page;
+    $$('.href-go-user').off('click', goUser).on('click', goUser);
     $$('.home-search-mask').on('click', () => {
         view.router.load({
             url: 'views/search.html'

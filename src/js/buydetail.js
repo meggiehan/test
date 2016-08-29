@@ -94,7 +94,8 @@ function buydetailInit(f7, view, page) {
             if (1 == code) {
                 view.router.load({
                     url: "views/user.html",
-                    // reload: true
+                    animatePage: true,
+                    reload: true
                 })
             }
         })
