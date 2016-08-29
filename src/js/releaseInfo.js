@@ -87,6 +87,7 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
+        const _district = nativeEvent['getDistricInfo']() || district;
         if (window.addressObj) {
             provinceName = window.addressObj['provinceName'];
             cityName = window.addressObj['cityName'];
@@ -94,8 +95,8 @@ function releaseInfoInit(f7, view, page) {
             cityId = window.addressObj['cityId'];
             !provinceName && (provinceName = initProvinceName);
             !cityName && (cityName = initCityName);
-            !provinceId && (provinceId = getProvinceId(district, provinceName));
-            !cityId && (cityId = getCityId(district, provinceName, cityName));
+            !provinceId && (provinceId = getProvinceId(_district, provinceName));
+            !cityId && (cityId = getCityId(_district, provinceName, cityName));
         }
         const price = trim($$('.release-write-price input').val());
         const spec = trim($$('.release-write-spec input').val());

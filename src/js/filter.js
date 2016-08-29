@@ -4,9 +4,11 @@ import customAjax from '../middlewares/customAjax';
 import district from '../utils/district';
 import config from '../config';
 import {filterTabClick} from '../utils/domListenEvent';
+import nativeEvent from '../utils/nativeEvent';
 
 
 function filterInit(f7, view, page) {
+    const _district = nativeEvent['getDistricInfo']() || district;
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = $$('.filter-empty-search-result');
@@ -194,7 +196,7 @@ function filterInit(f7, view, page) {
         }, listCallback);
         //root district render;
         let rootDistrict = '<span class="active-ele" data-postcode="0">全国</span>';
-        $$.each(district.root.province, (index, item) => {
+        $$.each(_district.root.province, (index, item) => {
             rootDistrict += filter.districtRender(item);
         })
         html($$('.filter-district>.col-35'), rootDistrict, f7);
@@ -212,7 +214,7 @@ function filterInit(f7, view, page) {
                 let districtHtml = '';
                 if (postcode !== '0') {
                     districtHtml += `<span data-postcode="${postcode}" class="${currentCityId == postcode && 'active-ele'}">全${ele.innerText}</span>`;
-                    $$.each(district.root.province, (index, item) => {
+                    $$.each(_district.root.province, (index, item) => {
                         if (item.postcode === postcode) {
                             $$.each(item.city, (index_, districtItem) => {
                                 const select = districtItem.postcode == currentCityId ? 'active-ele' : '';
