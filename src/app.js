@@ -38,7 +38,7 @@ let animatStatus = true;
 android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
-    // swipeBackPage: true,
+    swipeBackPage: false,
     uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
     // preloadPreviousPage: true,
@@ -53,7 +53,7 @@ const f7 = new Framework7({
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示',
-    force: true,
+    // force: true,
     // cacheIgnore: ['views/search.html', 'views/login.html', 'views/loginCode.html'],
 
 
@@ -89,7 +89,7 @@ const f7 = new Framework7({
 });
 const mainView = f7.addView('.view-main', {
         dynamicNavbar: true,
-        domCache: false
+        domCache: true
     })
     // load index
 mainView.router.load({
@@ -115,6 +115,11 @@ $$('img.lazy').trigger('lazy');
  * 3: app.showPreloader('My text...') 
  * hide: app.hide*
  */
+
+mainView.router.back({
+
+}) 
+
 
 const animatePage = 'search filter selldetail  login loginCode buydetail release releaseInfo myCenter identityAuthentication otherIndex otherInfo otherList myList fishCert releaseSucc';
 const initEvent = f7.onPageBeforeAnimation(animatePage, (page) => {
