@@ -1,7 +1,7 @@
 import store from '../../utils/locaStorage';
 import config from '../../config';
 import objectUtil from '../clone';
-import { getBusinessLicenseNumber, getName } from '../string';
+import { getBusinessLicenseNumber, getName, html } from '../string';
 
 const CustomClass = function() {};
 let userUtils = new CustomClass();
@@ -112,7 +112,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 text = userUtils.getAuthenticationText(enterprise_authentication_state, enterpriseAuthenticationTime,
                     personal_authentication_state, personalAuthenticationTime)['text'];
             }
-            text && ($$('.user-identity-text')[0].innerText = text);
+            text && html($$('.user-identity-text'),text, '');
         }
     }
 
