@@ -101,8 +101,8 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 demandInfo_sell_number && ($$('.user-buy-num')[0].innerText = demandInfo_sell_number);
                 (fish_certificate_number || 0 == fish_certificate_number) && ($$('.user-verification-num')[0].innerText = fish_certificate_number);
 
-                personal_authentication_state ? $$('individual-succ-button').show() : $$('individual-succ-button').hidw();
-                enterprise_authentication_state ? $$('company-succ-button').show() : $$('company-succ-button').hidw();
+                personal_authentication_state == -1 ? $$('individual-succ-button').show() : $$('individual-succ-button').hide();
+                enterprise_authentication_state == -1 ? $$('company-succ-button').show() : $$('company-succ-button').hide();
                 1 == personal_authentication_state && (authenticationBtn.addClass('succ'));
                 if (2 == enterprise_authentication_state) {
                     2 == personal_authentication_state &&
