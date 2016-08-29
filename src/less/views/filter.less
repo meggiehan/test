@@ -276,7 +276,7 @@
     overflow: hidden;
     width: 100%;
     .ps-a;
-    height: 70%;
+    height: 0%;
     .transform(translate3d(0, 9.4rem, 0));
     left: 0;
     top: 9.4rem;
@@ -285,9 +285,11 @@
     .transform(scaleY(0));
     &.on {
         .transform(scaleY(1));
+        height: 70%;
     }
     &.on.active {
         top: 5.4rem;
+        height: 70%;
     }
     .filter-tab-content {
         height: 100%;
