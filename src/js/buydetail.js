@@ -65,7 +65,7 @@ function buydetailInit(f7, view, page) {
             html($$('.page-buydetail .user-name'), contactName || '匿名用户', f7);
             html($$('.page-buydetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-buydetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
-            1 == enterpriseAuthenticationState && ($$('.budetail-verify-text')[0].innerText = '已完成企业认证');
+            1 == enterpriseAuthenticationState && $$('.budetail-verify-text').text('已完成企业认证');
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl);
             html($$('.tabbar-price'), price || '面议', f7);
@@ -73,9 +73,9 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator(300);
     }
 
-    $$('.buy-detail-verify-faild ')[0].onclick = () => {
+    $$('.buy-detail-verify-faild ').click(() => {
         f7.alert(errorInfo, '查看原因');
-    }
+    })
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -99,7 +99,7 @@ function buydetailInit(f7, view, page) {
             }
         })
     }
-    $$('.buydetail-delete-info')[0].onclick = () => {
+    $$('.buydetail-delete-info').click(() => {
         const token = store.get(cacheUserinfoKey)['token'];
         customAjax.ajax({
             apiCategory: 'demandInfo',
@@ -111,7 +111,7 @@ function buydetailInit(f7, view, page) {
             type: 'post'
         }, deleteCallback);
 
-    }
+    })
 
     //View more current user information
     $$('.cat-user-info').on('click', () => {
@@ -120,10 +120,10 @@ function buydetailInit(f7, view, page) {
         })
     })
 
-    $$('.buydetail-call-phone')[0].onclick = () => {
+    $$('.buydetail-call-phone').click(() => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
-    }
+    })
 
     //view cert of new window.
     $$('.selldetail-cert-list').on('click', (e) => {

@@ -17,6 +17,7 @@ function filterInit(f7, view, page) {
     const { pageSize } = config;
     let allFishTypeChild;
     let isShowAll = false;
+    let tabChange = false;
     // let searchValue = keyvalue ? keyvalue.replace(/[^\u4E00-\u9FA5]/g, '') : keyvalue;
     let searchValue = keyvalue && keyvalue.replace('“', '').replace('”', '');
     let currentFishId = id || '';
@@ -77,7 +78,7 @@ function filterInit(f7, view, page) {
             emptyTemp.hide();
             load.show();
         }
-        $$('.filter-list>a').length && pageNo == 1 && $$('.page-filter .page-content').scrollTop(0);
+        tabChange && $$('.filter-list>a').length && pageNo == 1 && $$('.page-filter .page-content').scrollTop(0);
         if ($$('.filter-list>a').length && data.data.list.length < pageSize) {
             isShowAll = true;
             load.hide();
@@ -92,7 +93,7 @@ function filterInit(f7, view, page) {
             typeHtml += filter.fishType(item);
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
         })
-        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = getTabStr(fishTypeNameQuery));
+        fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-35'), typeHtml, f7);
     }
 
@@ -109,7 +110,7 @@ function filterInit(f7, view, page) {
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
 
-        fishTypeNameQuery && ($$('.filter-tab>.tab1>span')[0].innerText = getTabStr(fishTypeNameQuery));
+        fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
     }
 
@@ -180,8 +181,8 @@ function filterInit(f7, view, page) {
         $$('.filter-info-type>p').eq(type_).addClass('active-ele');
         if (type_ == 1) {
             $$('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
-            $$('.filter-tab-title').eq(2).find('span')[0].innerText = '求购';
-            $$('.page-filter .tabbat-text span')[0].innerText = '我要买鱼';
+            $$('.filter-tab-title').eq(2).find('span').text('求购');
+            $$('.page-filter .tabbat-text span').text('我要买鱼');
         } else {
             $$('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
         }
@@ -230,6 +231,7 @@ function filterInit(f7, view, page) {
             //change release type;
         $$('.filter-info-type').on('click', (e) => {
             isShowAll = false;
+            tabChange = true;
             const event = e || window.event;
             let ele = event.target;
             let classes = ele.className;
@@ -266,7 +268,7 @@ function filterInit(f7, view, page) {
             if (ele.tagName !== 'SPAN') {
                 return;
             }
-
+            tabChange = true;
             const postcode = ele.getAttribute('data-postcode');
             isShowAll = false;
             $$('.filter-district>.col-65>span').removeClass('active-ele');
@@ -334,7 +336,7 @@ function filterInit(f7, view, page) {
         $$('.filter-tabs-content').addClass('on active');
         $$('.filter-fish-type').addClass('active');
         $$('.winodw-mask').addClass('on');
-        $$('.filter-release-next')[0].onclick = () => {
+        $$('.filter-release-next').click(() => {
             const text = _type == 1 ? '求购' : '出售';
             if (!currentFishId) {
                 f7.alert(`请选择您需要${text}鱼的种类`);
@@ -345,7 +347,7 @@ function filterInit(f7, view, page) {
                 url: 'views/releaseInfo.html?' +
                     `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
             })
-        }
+        })
     }
 
     // select fish category;
@@ -356,6 +358,7 @@ function filterInit(f7, view, page) {
         if (ele.tagName !== 'SPAN') {
             return;
         }
+        tabChange = true;
         const childId = ele.getAttribute('data-id');
         $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
         $$('.filter-release-next').addClass('pass');
