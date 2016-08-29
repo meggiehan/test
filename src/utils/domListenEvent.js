@@ -1,6 +1,7 @@
 import framework7 from '../js/lib/framework7';
 import { isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from './nativeEvent';
+import config from '../config';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -8,7 +9,7 @@ const f7 = new framework7({
     fastClicks: true,
     modalTitle: '温馨提示',
 });
-
+const {servicePhoneNumber} = config;
 module.exports = {
     filterTabClick: (e) => {
         const event = e || window.event;
