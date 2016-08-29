@@ -5,7 +5,7 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import { goHome } from '../utils/domListenEvent';
+import { goHome, goMyCenter, myListBuy, myListSell } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     let loginStatus = isLogin();
@@ -52,12 +52,7 @@ function userInit(f7, view, page) {
     }
 
     //if login succ, replace to change user info page, else replace to login page.
-    $$('.user-header')[0].onclick = () => {
-        const url = loginStatus ? 'views/myCenter.html' : 'views/login.html';
-        view.router.load({
-            url
-        })
-    }
+    $$('.user-header').off('click', goMyCenter).on('click', goMyCenter);
 
     //cilck identity authentication.
     $$('.user-cert-type>div').eq(0).click(() => {
@@ -107,21 +102,8 @@ function userInit(f7, view, page) {
     })
 
     //view my release list.
-    $$.each($$('.user-info-list>a'), (index, item) => {
-        item.onclick = () => {
-            if (!loginStatus) {
-                f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                    view.router.load({
-                        url: 'views/login.html',
-                    })
-                })
-            } else {
-                view.router.load({
-                    url: 'views/myList.html?' + `type=${!index ? 2 : 1}`,
-                })
-            }
-        }
-    })
+    $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
+    $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
 
     //to identity authentication re submit audit information
     $$('.individual-faild>a.button').on('click', () => {

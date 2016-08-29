@@ -28,10 +28,10 @@ function isLogin() {
 function logOut() {
     // nativeEvent.nativeAlert('提示', '退出成功！', '确定'， '');
     nativeEvent.logOut();
-    store.clear();
-    mainView.router.load({
-        url: 'views/home.html'
-    })
+    // store.clear();
+    // mainView.router.load({
+    //     url: 'views/home.html'
+    // })
 }
 
 function loginSucc(data, callback) {

@@ -13,13 +13,11 @@ class CustomClass {
             const f = new framework7();
 
             const { code, message } = data;
-            f.alert(message, '提示', () => {
-                if (1 == code) {
-                    mainView.router.load({
-                        url: 'views/user.html'
-                    })
-                }
-            })
+            if (1 == code) {
+                mainView.router.load({
+                    url: 'views/user.html'
+                })
+            }
         }
         if (index > -1 && index <= 2) {
             $$('.identity-individual-pic>div').eq(index).addClass('on');

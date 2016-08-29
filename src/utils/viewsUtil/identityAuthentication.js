@@ -9,8 +9,7 @@ class CustomClass {
             const f7 = new framework7();
             f7.alert(1 == code ? '上传成功' : message, '提示', () => {
                 1 == code && mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
+                    url: 'views/user.html'
                 })
             });
         }

@@ -48,7 +48,7 @@ const f7 = new Framework7({
     animateNavBackIcon: true,
     // pushStateSeparator: '?#!/',
     animatePages: animatStatus,
-    // preloadPreviousPage: true,
+    preloadPreviousPage: true,
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,

@@ -15,6 +15,7 @@ function searchInit(f7, view, page) {
     const hideVal = $$('.search-val');
     const searchButton = $$('span.search-button');
     const list = $$('.search-return-list');
+    const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
     const searchHistoryMetadata = store.get(cacheHistoryKey);
@@ -121,10 +122,14 @@ function searchInit(f7, view, page) {
 
     input[0].onkeypress = (e) => {
         const event = e || window.event;
+        const val = trim(input.val());
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
+            if(!val){
+
+            }
             event.preventDefault();
-            if (release) {
+            if (release || !val) {
                 return;
             }
             input[0].blur();

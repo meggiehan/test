@@ -1,5 +1,5 @@
 import framework7 from '../js/lib/framework7';
-
+import { isLogin } from '../middlewares/loginMiddle';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -62,5 +62,41 @@ module.exports = {
             url: 'views/user.html',
             reload: true
         })
-    }
+    },
+    goMyCenter: () => {
+        const url = isLogin() ? 'views/myCenter.html' : 'views/login.html';
+        mainView.router.load({
+            url
+        })
+    },
+
+    myListBuy: () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                view.router.load({
+                    url: 'views/login.html',
+                })
+            })
+        } else {
+            view.router.load({
+                url: 'views/myList.html?type=1'
+            })
+        }
+    },
+
+    myListSell: () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                view.router.load({
+                    url: 'views/login.html',
+                })
+            })
+        } else {
+            view.router.load({
+                url: 'views/myList.html?type=2'
+            })
+        }
+    },
+
+    
 }
