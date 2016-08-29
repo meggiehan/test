@@ -73,12 +73,12 @@ module.exports = {
     myListBuy: () => {
         if (!isLogin()) {
             f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                view.router.load({
+                mainView.router.load({
                     url: 'views/login.html',
                 })
             })
         } else {
-            view.router.load({
+            mainView.router.load({
                 url: 'views/myList.html?type=1'
             })
         }
@@ -87,12 +87,12 @@ module.exports = {
     myListSell: () => {
         if (!isLogin()) {
             f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                view.router.load({
+                mainView.router.load({
                     url: 'views/login.html',
                 })
             })
         } else {
-            view.router.load({
+            mainView.router.load({
                 url: 'views/myList.html?type=2'
             })
         }
