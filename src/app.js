@@ -73,18 +73,11 @@ const f7 = new Framework7({
         //if router back, doing.
             const len = history.length;
 
-        if (!currentPage && len >= 2) {
+        if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
-            const reBackPag = history[len - 3];
             // const { search } = getQuery(goPage);
-            if (backPage.indexOf('home.html') > -1 || backPage.indexOf('user.html') > -1) {
-                view.router.load({
-                    url: backPage,
-                    reload: true
-                })
-                return false;
-            } else if (_currentPage.indexOf('releaseSucc.html') > -1) {
+            if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
                 return false;
             }
         }
