@@ -1,5 +1,6 @@
 import framework7 from '../js/lib/framework7';
 import { isLogin } from '../middlewares/loginMiddle';
+import nativeEvent from './nativeEvent';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -98,5 +99,22 @@ module.exports = {
         }
     },
 
-    
+    uploadCert: () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+        } else {
+            mainView.router.load({
+                url: 'views/fishCert.html',
+            })
+        }
+    },
+
+    contactUs: () => {
+        nativeEvent.contactUs(servicePhoneNumber);
+    }
+
 }

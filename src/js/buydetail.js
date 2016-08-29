@@ -100,7 +100,7 @@ function buydetailInit(f7, view, page) {
             }
         })
     }
-    $$('.buydetail-delete-info').click(() => {
+    $$('.buydetail-delete-info').on('click',() => {
         const token = store.get(cacheUserinfoKey)['token'];
         customAjax.ajax({
             apiCategory: 'demandInfo',
@@ -121,7 +121,7 @@ function buydetailInit(f7, view, page) {
         })
     })
 
-    $$('.buydetail-call-phone').click(() => {
+    $$('.buydetail-call-phone').on('click',() => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     })

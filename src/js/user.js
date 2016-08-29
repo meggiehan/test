@@ -5,7 +5,7 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import { goHome, goMyCenter, myListBuy, myListSell } from '../utils/domListenEvent';
+import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     let loginStatus = isLogin();
@@ -55,7 +55,7 @@ function userInit(f7, view, page) {
     $$('.user-header').off('click', goMyCenter).on('click', goMyCenter);
 
     //cilck identity authentication.
-    $$('.user-cert-type>div').eq(0).click(() => {
+    $$('.user-cert-type>div.go-identity').on('click',() => {
         let personalAuthenticationState, enterpriseAuthenticationState;
         if (userInfomation) {
             personalAuthenticationState = userInfomation['personalAuthenticationState'];
@@ -80,39 +80,16 @@ function userInit(f7, view, page) {
         }
     })
 
+
     //cilck upload fish cert.
-    $$('.user-cert-type>div').eq(1).click(() => {
-        if (!loginStatus) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                view.router.load({
-                    url: 'views/login.html',
-                })
-            })
-        } else {
-            view.router.load({
-                url: 'views/fishCert.html',
-            })
-        }
-    })
+    $$('.user-cert-type>div.go-verification').off('click', uploadCert).on('click', uploadCert);
 
     //click contact us button.
-    $$('.user-help-list .first').click(() => {
-        // nativeEvent.apiCount();
-        nativeEvent.contactUs(servicePhoneNumber);
-    })
+    $$('.user-help-list .first').off('click', contactUs).on('click', contactUs);
 
     //view my release list.
     $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
-
-    //to identity authentication re submit audit information
-    $$('.individual-faild>a.button').once('click', () => {
-        // f7.closeModal('.popup-individual-authentication', function() {
-        view.router.load({
-                url: 'views/identityAuthentication.html',
-            })
-            // });
-    })
 
     //cancle authentication.
     const cancleIndividualCallback = (data) => {
@@ -124,7 +101,7 @@ function userInit(f7, view, page) {
             })
         })
     }
-    $$('.cancel-individual-verify-buuton').once('click',() => {
+    $$('.cancel-individual-verify-buuton').on('click',() => {
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'cancelPersonalAuthentication',
@@ -143,7 +120,7 @@ function userInit(f7, view, page) {
             })
         })
     }
-    $$('.cancel-company-verify-buuton').once('click',() => {
+    $$('.cancel-company-verify-buuton').on('click',() => {
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'cancelEnterpriseAuthentication',
