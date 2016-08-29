@@ -131,8 +131,6 @@ function userInit(f7, view, page) {
             // });
     })
 
-    $$('.cancel-company-verify-buuton').off('click', )
-
     //cancle authentication.
     const cancleIndividualCallback = (data) => {
         const { code, message } = data;
@@ -143,7 +141,7 @@ function userInit(f7, view, page) {
             })
         })
     }
-    $$('.cancel-individual-verify-buuton').click(() => {
+    $$('.cancel-individual-verify-buuton').on('click',() => {
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'cancelPersonalAuthentication',
@@ -151,7 +149,7 @@ function userInit(f7, view, page) {
             type: 'post',
             noCache: true,
         }, cancleIndividualCallback);
-    }
+    })
 
     const cancleCompanyCallback = (data) => {
         const { code, message } = data;
@@ -162,7 +160,7 @@ function userInit(f7, view, page) {
             })
         })
     }
-    $$('.cancel-individual-verify-buuton').click(() => {
+    $$('.cancel-company-verify-buuton').on('click',() => {
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'cancelEnterpriseAuthentication',
@@ -170,7 +168,7 @@ function userInit(f7, view, page) {
             type: 'post',
             noCache: true,
         }, cancleCompanyCallback);
-    }
+    })
 
     //go home page;
     $$('.href-go-home')[0].onclick = () => {

@@ -46,7 +46,7 @@ class CustomClass {
     }
 
     getProandCity(province, city, provinceId, cityId) {
-        if(!window['addressObj']){
+        if (!window['addressObj']) {
             window['addressObj'] = {};
         }
         const releaseAddressBtn = $$('.release-write-address>input');
@@ -133,12 +133,23 @@ class CustomClass {
         }
     }
 
-    getKey(token, userId, state){
+    getKey(token, userId, state) {
+        if(!state){
+            return;
+        }
         window.mainView.router.load({
             url: 'views/user.html',
             reload: true,
             animatePage: true
         })
+    }
+
+    exitApp() {
+        const { ios, android } = window.currentDevice;
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+            ios && JS_UserExitLog();
+            android && window.yudada.JS_UserExitLog();
+        }
     }
 
     init(f) {
@@ -150,6 +161,7 @@ class CustomClass {
         window['getAdreesSys'] = this.getAdreesSys;
         window['subAndShowFishAu'] = this.subAndShowFishAu;
         window['getKey'] = this.getKey;
+        window['exitApp'] = this.exitApp;
     }
 }
 
