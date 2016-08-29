@@ -35,7 +35,7 @@ class CustomClass {
 
     //select pic
     postPic(mark, id) {
-        const _mark = Number(mark) > -4 ? mark : 4;
+        const _mark = Number(mark) > -4 ? mark : '4';
         const { ios, android } = window.currentDevice;
         ios && JS_PictureSeletor(mark, id || '');
         android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
