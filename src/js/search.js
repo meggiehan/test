@@ -7,6 +7,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
+    f7.hideIndicator();
     const { type } = page.query;
     const release = page.query['release'] && (page.query['release'] === 'false' ? false : page.query['release']);
     const { pageSize, cacheHistoryKey } = config;

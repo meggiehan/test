@@ -122,11 +122,11 @@ $$('img.lazy').trigger('lazy');
 
 const initEvent = f7.onPageInit("*", (page) => {
     // show loading.
-    // if (page.name !== 'home' && page.name) {
-    //     // f7.showIndicator();
-    // } else {
-    //     f7.hideIndicator();
-    // } 
+    if (page.name !== 'home' && page.name) {
+        f7.showIndicator();
+    } else {
+        f7.hideIndicator();
+    } 
     // const url = page['view']['url'];
     // const name = url.split('.html')[0].split('views/')[1];
     // const query = getQuery(url.split('?')[1]);

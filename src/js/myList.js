@@ -7,7 +7,6 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function myListInit(f7, view, page) {
-    const $$ = Dom7;
     const { type } = page.query;
     const {pageSize, cacheUserinfoKey} = config;
     const {id, token} = store.get(cacheUserinfoKey);
@@ -35,6 +34,7 @@ function myListInit(f7, view, page) {
     	setTimeout(() => {
     		$$('img.lazy').trigger('lazy');
     	},400)
+        f7.hideIndicator();
     }
 
     customAjax.ajax({

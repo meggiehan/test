@@ -30,6 +30,7 @@ function fishCertInit(f7, view, page) {
         })
         html($$('.fish-cert-list'), listStr, f7);
         listStr && $$('.fish-cert-content').addClass('show');
+        f7.hideIndicator();
     }
     customAjax.ajax({
         apiCategory: 'userInfo',

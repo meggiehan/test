@@ -90,6 +90,7 @@ function buydetailInit(f7, view, page) {
     //delete release infomation.
     const deleteCallback = (data) => {
         const { code, message } = data;
+        f7.hideIndicator();
         f7.alert(message, '提示', () => {
             if (1 == code) {
                 view.router.load({
@@ -102,6 +103,7 @@ function buydetailInit(f7, view, page) {
     }
     $$('.buydetail-delete-info').on('click',() => {
         const token = store.get(cacheUserinfoKey)['token'];
+        f7.hideIndicator();
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'deleteDemandInfo',

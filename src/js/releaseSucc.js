@@ -28,6 +28,7 @@ function releaseSuccInit(f7, view, page) {
         })
         html($$('.release-succ-list>.list-view'), strHtml, f7);
         strHtml && ($$('.release-succ-list').addClass('show'));
+        f7.hideIndicator();
     }
     customAjax.ajax({
         apiCategory: 'demandInfo',

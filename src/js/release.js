@@ -2,6 +2,7 @@ import nativeEvent from '../utils/nativeEvent';
 import config from '../config';
 
 function releaseInit(f7, view, page) {
+    f7.hideIndicator();
     const { servicePhoneNumber, debug } = config;
     $$('.release-sound').on('click', () => {
         nativeEvent.apiCount();

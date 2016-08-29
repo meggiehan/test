@@ -43,6 +43,7 @@ function otherInfoInit(f7, view, page) {
             identificationCard && ($$('.other-info-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
 
         }
+        f7.hideIndicator();
     }
     if (!userCache) {
         customAjax.ajax({

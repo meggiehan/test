@@ -84,6 +84,7 @@ function filterInit(f7, view, page) {
             load.hide();
             showAllInfo.show();
         }
+        f7.hideIndicator();
     }
 
     const fishTypeRootCallback = (data) => {

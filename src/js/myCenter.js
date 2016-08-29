@@ -6,7 +6,7 @@ import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 
 function myCenterInit(f7, view, page) {
-    const $$ = Dom7;
+    f7.hideIndicator();
     const { imgPath } = config;
     const nameInput = $$('.center-edit-name-input');
     const userInfo = store.get(config['cacheUserinfoKey']);

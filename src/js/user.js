@@ -8,6 +8,7 @@ import userUtils from '../utils/viewsUtil/userUtils';
 import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
+    f7.hideIndicator();
     let loginStatus = isLogin();
     const { cacheUserinfoKey, servicePhoneNumber } = config;
     let userInfomation = store.get(cacheUserinfoKey);
@@ -28,6 +29,7 @@ function userInit(f7, view, page) {
     }
 
     const loginCallback = (data) => {
+        f7.hideIndicator();
         const { code, message } = data;
         if (code == 1) {
             let _userInfo = data.data;

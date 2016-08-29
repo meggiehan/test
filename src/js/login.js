@@ -1,7 +1,7 @@
 import customAjax from '../middlewares/customAjax';
 
 function loginInit(f7, view, page) {
-    const $$ = Dom7;
+    f7.hideIndicator();
     const input = $$('.login-phone>input');
     const nextBtn = $$('.login-next>a');
     let isPass = false;

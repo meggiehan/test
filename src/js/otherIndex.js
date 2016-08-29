@@ -58,6 +58,7 @@ function otherIndexInit(f7, view, page) {
             sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
 
             $$('img.lazy').trigger('lazy');
+            f7.hideIndicator();
         }
         //get user sell demand list.
     customAjax.ajax({

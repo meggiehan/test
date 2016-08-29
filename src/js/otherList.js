@@ -31,6 +31,7 @@ function otherListInit(f7, view, page) {
     	setTimeout(() => {
     		$$('img.lazy').trigger('lazy');
     	},400)
+        f7.hideIndicator();
     }
 
     customAjax.ajax({

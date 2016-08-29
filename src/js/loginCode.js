@@ -5,7 +5,7 @@ import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
 function loginCodeInit(f7, view, page) {
-    const $$ = Dom7;
+    f7.hideIndicator();
     const { phone, key } = page.query;
     const { cacheUserinfoKey, voiceCodeWaitTime } = config;
     const input = $$('.login-code-write>input');

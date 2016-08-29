@@ -7,6 +7,7 @@ import store from '../utils/locaStorage';
 import district from '../utils/district';
 
 function releaseInfoInit(f7, view, page) {
+    f7.hideIndicator();
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     const { cacheUserinfoKey, debug } = config;
     const userInfo = store.get(cacheUserinfoKey);
