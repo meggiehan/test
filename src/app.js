@@ -38,7 +38,7 @@ let animatStatus = true;
 android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
-    swipeBackPage: false,
+    // swipeBackPage: false,
     uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
     // preloadPreviousPage: true,
@@ -63,28 +63,31 @@ const f7 = new Framework7({
     //     next(content)
     // },
     preroute: (view, options) => {
+        if(!options){
+            return;
+        }
         const goPage = view['url'];
         const { history, loadPage } = view;
         const currentPage = options['url'];
         // console.log(`gopage:${goPage}--currentpage:${currentPage}`,history )
         //if router back, doing.
-        // if(!currentPage){
-        //     const len = history.length;
-        //     const backPage = history[len - 1];
-        //     const {search} = getQuery(goPage);
-        //     if(backPage.indexOf('filter.html') > -1 && search){
-        //         window.history.go(-2)
-        //         return false;
-        //     }else if(backPage.indexOf('releaseSucc.html') > -1){
-        //         window.history.go(-2)
-        //         return false;
-        //     }else if(backPage.indexOf('loginCode.html') > -1){
-        //         window.history.go(-2)
-        //         return false;
-        //     }
-        // }
-        return;
+            const len = history.length;
 
+        if (!currentPage && len >= 2) {
+            const _currentPage = history[len - 1];
+            const backPage = history[len - 2];
+            const reBackPag = history[len - 3];
+            // const { search } = getQuery(goPage);
+            if (backPage.indexOf('home.html') > -1 || backPage.indexOf('user.html') > -1) {
+                view.router.load({
+                    url: backPage,
+                    reload: true
+                })
+                return false;
+            } else if (_currentPage.indexOf('releaseSucc.html') > -1) {
+                return false;
+            }
+        }
     }
 });
 const mainView = f7.addView('.view-main', {
@@ -116,13 +119,8 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-mainView.router.back({
 
-}) 
-
-
-const animatePage = 'search filter selldetail  login loginCode buydetail release releaseInfo myCenter identityAuthentication otherIndex otherInfo otherList myList fishCert releaseSucc';
-const initEvent = f7.onPageBeforeAnimation(animatePage, (page) => {
+const initEvent = f7.onPageInit("*", (page) => {
     // show loading.
     // if (page.name !== 'home' && page.name) {
     //     // f7.showIndicator();
@@ -154,17 +152,7 @@ const initEvent = f7.onPageBeforeAnimation(animatePage, (page) => {
     page.name === 'myList' && myListInit(f7, mainView, page);
     page.name === 'fishCert' && fishCertInit(f7, mainView, page);
     page.name === 'releaseSucc' && releaseSuccInit(f7, mainView, page);
+    page.name === 'home' && homeInit(f7, mainView, page);
+    page.name === 'user' && userInit(f7, mainView, page);
 });
-let isSendXhr = false;
-f7.onPageInit('home user', (page) => {
-    if (isSendXhr || page['url'].indexOf('home.html') < -1 || page['url'].indexOf('user.html') < -1) {
-        return;
-    }
-    isSendXhr = true;
-    setTimeout(() => {
-        page.name === 'home' && homeInit(f7, mainView, page);
-        page.name === 'user' && userInit(f7, mainView, page);
-        isSendXhr = false
-    }, 100)
 
-})

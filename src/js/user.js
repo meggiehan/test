@@ -5,6 +5,7 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
+import { goHome } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     let loginStatus = isLogin();
@@ -171,12 +172,7 @@ function userInit(f7, view, page) {
     })
 
     //go home page;
-    $$('.href-go-home')[0].onclick = () => {
-        view.router.load({
-            url: 'views/home.html',
-            reload: true
-        })
-    }
+    $$('.href-go-home').off('click', goHome).on('click', goHome);
 }
 
 module.exports = {

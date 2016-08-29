@@ -152,6 +152,12 @@ class CustomClass {
         }
     }
 
+    JS_GoBack() {
+        if(mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].index('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
+            return false;
+        }
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -162,6 +168,7 @@ class CustomClass {
         window['subAndShowFishAu'] = this.subAndShowFishAu;
         window['getKey'] = this.getKey;
         window['exitApp'] = this.exitApp;
+        window['JS_GoBack'] = this.JS_GoBack;
     }
 }
 

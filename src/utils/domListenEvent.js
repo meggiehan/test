@@ -48,5 +48,19 @@ module.exports = {
         f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
             f7.alert('举报成功！');
         })
+    },
+
+    goHome: () => {
+        mainView.router.load({
+            url: 'views/home.html',
+            reload: true
+        })
+    },
+
+    goUser: () => {
+        mainView.router.load({
+            url: 'views/user.html',
+            reload: true
+        })
     }
 }
