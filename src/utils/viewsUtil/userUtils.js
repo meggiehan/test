@@ -46,13 +46,13 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 enterpriseName,
                 businessLicenseNo
             } = userUtils.data;
-            personalAuthenticationDescribe && ($$('.individual-faild-content')[0].innerText = personalAuthenticationDescribe);
-            enterpriseAuthenticationDescribe && ($$('.company-faild-content')[0].innerText = enterpriseAuthenticationDescribe);
+            personalAuthenticationDescribe && $$('.individual-faild-content').text(personalAuthenticationDescribe);
+            enterpriseAuthenticationDescribe && $$('.company-faild-content').text(enterpriseAuthenticationDescribe);
 
-            enterpriseName && ($$('.company-authentication-name')[0].innerText = enterpriseName);
-            name && ($$('.individual-authentication-name')[0].innerText = getName(name));
-            businessLicenseNo && ($$('.company-authentication-number')[0].innerText = getBusinessLicenseNumber(businessLicenseNo));
-            identificationCard && ($$('.individual-authentication-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
+            enterpriseName && $$('.company-authentication-name').text(enterpriseName);
+            name && $$('.individual-authentication-name').text(getName(name));
+            businessLicenseNo && $$('.company-authentication-number').text(getBusinessLicenseNumber(businessLicenseNo));
+            identificationCard && $$('.individual-authentication-number').text(getBusinessLicenseNumber(identificationCard));
             const subPopup = $$('.popup-individual-authentication');
             subPopup.removeClass('individual-review individual-succ individual-faild company-review company-succ company-faild');
             0 == personalAuthenticationState && subPopup.addClass('individual-review');
@@ -97,9 +97,9 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                     // _userInfo['list'] = list;
                     store.set(cacheUserinfoKey, _userInfo);
                 }
-                demandInfo_buy_number && ($$('.user-sell-num')[0].innerText = demandInfo_buy_number);
-                demandInfo_sell_number && ($$('.user-buy-num')[0].innerText = demandInfo_sell_number);
-                (fish_certificate_number || 0 == fish_certificate_number) && ($$('.user-verification-num')[0].innerText = fish_certificate_number);
+                demandInfo_buy_number && html($$('.user-sell-num'), demandInfo_buy_number, null);
+                demandInfo_sell_number && html($$('.user-buy-num'), demandInfo_sell_number, null);
+                (fish_certificate_number || 0 == fish_certificate_number) && html($$('.user-verification-num'), fish_certificate_number, null);
 
                 enterprise_authentication_state == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
                 personal_authentication_state == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
