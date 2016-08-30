@@ -50,9 +50,10 @@
         .fish-cert-list {
             padding: 1rem 2%;
             margin-bottom: 1rem;
+            border-bottom: 1px solid @border-cert;
             .col-50 {
                 .text-center;
-                border-bottom: 1px solid @border-cert;
+                margin-bottom: 1rem;
                 &>.ps-r {
                     max-height: 10rem;
                     overflow: hidden;
@@ -78,15 +79,18 @@
                     overflow: hidden;
                     margin: 0;
                     &.cert-name {
-                        padding: 0.5rem 0;
+                        padding-top: 0.5rem;
                         color: @text-name;
                         font-size: 1.4rem;
                     }
                     color: @text-category;
                     font-size: 1.2rem;
                 }
-                .fish-cert-button{
+                .fish-cert-button {
                     color: @text-price;
+                    span {
+                        padding: 0.2rem;
+                    }
                 }
             }
         }
