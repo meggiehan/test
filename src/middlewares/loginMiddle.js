@@ -3,9 +3,9 @@ import store from '../utils/locaStorage';
 import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
-function isLogin() {
+function isLogin(uuid) {
     const { cacheUserinfoKey } = config;
-    const nativeToken = nativeEvent.getUserValue('token');
+    const nativeToken = nativeEvent.getUserValue("token") || uuid;
     let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
         store.clear();
@@ -28,10 +28,10 @@ function isLogin() {
 function logOut() {
     // nativeEvent.nativeAlert('提示', '退出成功！', '确定'， '');
     nativeEvent.logOut();
-    store.clear();
-    mainView.router.load({
-        url: 'views/home.html'
-    })
+    // store.clear();
+    // mainView.router.load({
+    //     url: 'views/home.html'
+    // })
 }
 
 function loginSucc(data, callback) {

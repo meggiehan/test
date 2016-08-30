@@ -35,9 +35,10 @@ class CustomClass {
 
     //select pic
     postPic(mark, id) {
+        const _mark = Number(mark) > -4 ? mark : 4;
         const { ios, android } = window.currentDevice;
-        ios && JS_PictureSeletor(mark, id);
-        android && window.yudada.JS_PictureSeletor(mark, "上传照片", id);
+        ios && JS_PictureSeletor(_mark, '');
+        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
     }
 
     //get api from native.
@@ -69,7 +70,7 @@ class CustomClass {
     }
 
     //native alert style.
-    nativeAlert() {
+    nativeAlert(title, message, button1, button2) {
         const { ios, android } = window.currentDevice;
         ios && JS_ShowAlertWithTitles(title, message, button1, button2);
         android && window.yudada.JS_ShowAlertWithTitles(title, message, button1, button2);
@@ -112,6 +113,14 @@ class CustomClass {
             return false;
         }
         ios ? JS_DisTanceInfo() : window.yudada.JS_DisTanceInfo();
+    }
+
+    nativeToast(type, message){
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_ShowHUD_AutoDisappear'] && (!window['yudada'] || !window['yudada']['JS_ShowHUD_AutoDisappear'])) {
+            return false;
+        }
+        ios ? JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
     }
 
 }

@@ -4,6 +4,13 @@ import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
 import { fishCert } from '../utils/template';
 
+const f7 = new framework7({
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
+    fastClicks: true,
+    modalTitle: '温馨提示',
+});
+
 class CustomClass {
     getPhoneSrc(srcimg, src, index) {
         const { identity, cacheUserinfoKey } = config;
@@ -13,27 +20,14 @@ class CustomClass {
             const f = new framework7();
 
             const { code, message } = data;
-            f.alert(message, '提示', () => {
-                if (1 == code) {
-                    mainView.router.load({
-                        url: 'views/user.html'
-                    })
-                }
-            })
+            if (1 == code) {
+                mainView.router.load({
+                    url: 'views/user.html',
+                    reload: true
+                })
+            }
         }
-        if (index > -1 && index <= 2) {
-            $$('.identity-individual-pic>div').eq(index).addClass('on');
-            $$('.identity-individual-pic>div').eq(index).find('img').attr('src', src + identity['individual']);
-            $$.each($$('.identity-individual-pic>div'), (item) => {
-                !$$(item).find('img').attr('src') && (individualCert = false);
-            })
-            individualCert && ($$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass'));
-        } else if (3 == index) {
-            $$('.identity-company-pic>div').addClass('on');
-            $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
-            $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
-        } else if (index == 'undefined' && src) {
-            //save img url to hide button.
+        if (index == 4) {
             $$('.my-center-head img').val(src);
             customAjax.ajax({
                 apiCategory: 'userInfo',
@@ -42,6 +36,17 @@ class CustomClass {
                 type: 'post',
                 noCache: true,
             }, callback);
+        } else if (index > -1 && index <= 2) {
+            $$('.identity-individual-pic>div').eq(index).addClass('on');
+            $$('.identity-individual-pic>div').eq(index).find('img').attr('src', src + identity['individual']);
+            $$.each($$('.identity-individual-pic>div'), (index, item) => {
+                !$$('.identity-individual-pic>div').eq(index).find('img').attr('src') && (individualCert = false);
+            })
+            individualCert && ($$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass'));
+        } else if (3 == index) {
+            $$('.identity-company-pic>div').addClass('on');
+            $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
+            $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
         }
     }
 
@@ -61,17 +66,25 @@ class CustomClass {
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
         const { identity, cacheUserinfoKey } = config;
         const id = store.get(cacheUserinfoKey)['id'];
+        const { ios, android } = window.currentDevice;
         const callback = (data) => {
-            const f = new framework7();
+
             console.log(data)
             const { code, message } = data;
-            f.alert(message, '提示', () => {
-                if (1 == code) {
+            if (1 == code) {
+                ios && f7.alert(message, '提示', () => {
+
                     mainView.router.load({
-                        url: 'views/user.html'
+                        url: 'views/user.html',
+                        reload: true
                     })
-                }
-            })
+                })
+                android && mainView.router.load({
+                    url: 'views/user.html',
+                    reload: true
+                })
+
+            }
         }
         customAjax.ajax({
             apiCategory: 'userInfo',
@@ -98,17 +111,17 @@ class CustomClass {
     subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
         const { identity, cacheUserinfoKey } = config;
         let login_token;
-        const f = new framework7();
         const userInfo = store.get(cacheUserinfoKey);
         if (userInfo) {
             login_token = userInfo['token'];
         }
         const callback = (data) => {
             const { code, message } = data;
-            f.alert(message, '提示', () => {
+            f7.alert(message, '提示', () => {
                 if (1 == code) {
                     mainView.router.load({
-                        url: 'views/user.html'
+                        url: 'views/user.html',
+                        reload: true
                     })
                 }
             })
@@ -134,12 +147,11 @@ class CustomClass {
     }
 
     getKey(token, userId, state) {
-        if(!state){
+        if (!state) {
             return;
         }
         window.mainView.router.load({
-            url: 'views/user.html',
-            reload: true,
+            url: 'views/user.html?uuid=' + token,
             animatePage: true
         })
     }
@@ -153,7 +165,7 @@ class CustomClass {
     }
 
     JS_GoBack() {
-        if(mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].index('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].index('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
             return false;
         }
     }

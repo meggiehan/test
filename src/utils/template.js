@@ -137,14 +137,14 @@ module.exports = {
             let itemBottom = '';
             if (1 !== state) {
                 itemBottom += '<p class="fish-cert-button">';
-                itemBottom += 2 == state ? '<span class="fish-cert-reupload" data-id="' + id + '" style="margin-right:1.5rem">重新上传</span>' : '';
+                itemBottom += 2 == state ? '<span class="fish-cert-reupload" data-id="' + id + '" style="margin-right: 0.5rem">重新上传</span>' : '';
                 itemBottom += '<span class="fish-cert-delete" data-id="' + id + '" data-index="' + index + '">删除</span></p>'
             }
             const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';
             let str = '';
             str += `<div class="col-50" data-parent-id="${id}">`;
             str += `<div class="ps-r">${spans}${imgStr}</div>`;
-            str += 1 == state ? `<p class="cert-name">${type}</p>` : '';
+            str += 1 == state ? `<p class="cert-name">${getCertInfo(type).certName}</p>` : '';
             str += 1 !== state ? `<p class="cert-name">${reviewText}</p>` : '';
             str += 1 == state ? `<p class="cert-create-time">有效期至${getDate(closing_date)}</p>` : '';
             str += itemBottom;

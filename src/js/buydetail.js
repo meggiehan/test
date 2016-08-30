@@ -67,7 +67,7 @@ function buydetailInit(f7, view, page) {
             html($$('.page-buydetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
             1 == enterpriseAuthenticationState && $$('.budetail-verify-text').text('已完成企业认证');
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
-            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl);
+            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator(300);
@@ -90,7 +90,8 @@ function buydetailInit(f7, view, page) {
     //delete release infomation.
     const deleteCallback = (data) => {
         const { code, message } = data;
-        f7.alert(message, '提示', () => {
+        f7.hideIndicator();
+        f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
                 view.router.load({
                     url: "views/user.html",
@@ -100,17 +101,21 @@ function buydetailInit(f7, view, page) {
             }
         })
     }
-    $$('.buydetail-delete-info').click(() => {
+    $$('.buydetail-delete-info').on('click', () => {
         const token = store.get(cacheUserinfoKey)['token'];
-        customAjax.ajax({
-            apiCategory: 'demandInfo',
-            api: 'deleteDemandInfo',
-            data: [id, token],
-            val: {
-                id
-            },
-            type: 'post'
-        }, deleteCallback);
+
+        f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
+            f7.showIndicator();
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'deleteDemandInfo',
+                data: [id, token],
+                val: {
+                    id
+                },
+                type: 'post'
+            }, deleteCallback);
+        })
 
     })
 
@@ -121,7 +126,7 @@ function buydetailInit(f7, view, page) {
         })
     })
 
-    $$('.buydetail-call-phone').click(() => {
+    $$('.buydetail-call-phone').on('click', () => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     })

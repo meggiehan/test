@@ -4,7 +4,7 @@ import store from '../utils/locaStorage';
 import config from '../config';
 
 function identityAuthenticationInit(f7, view, page) {
-    const $$ = Dom7;
+    f7.hideIndicator();
     const individualBtn = $$('.identity-individual');
     const companyBtn = $$('.identity-company');
     const certBox = $$('.identity-infomation');
@@ -69,12 +69,12 @@ function identityAuthenticationInit(f7, view, page) {
     })
 
     if (enterpriseAuthenticationState == 1) {
-        $$('.identity-select-type .identity-company p').eq(1)[0].innerText = '已认证';
+        $$('.identity-select-type .identity-company p').eq(1).text('已认证');
         individualBtn.addClass('active');
         certBox.addClass('individual').removeClass('company');
         authenticationDemo.addClass('show');
     } else if (personalAuthenticationState == 1) {
-        $$('.identity-select-type .identity-individual p').eq(1)[0].innerText = '已认证';
+        $$('.identity-select-type .identity-individual p').eq(1).text('已认证');
         companyBtn.addClass('active');
         certBox.addClass('company').removeClass('individual');
     }

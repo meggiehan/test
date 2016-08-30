@@ -24,10 +24,10 @@ function otherIndexInit(f7, view, page) {
         const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
         callNumber = phone;
         if (text) {
-            $$('p.other-user-name').addClass('show').find('.text')[0].innerText = text;
+            $$('p.other-user-name').addClass('show').find('.text').text(text);
         }
-        lastLoginTime && ($$('.other-user-info .user-lately-time')[0].innerText = centerShowTime(lastLoginTime));
-        nickname && ($$('.other-user-name>.name')[0].innerText = trim(nickname));
+        lastLoginTime && $$('.other-user-info .user-lately-time').text(centerShowTime(lastLoginTime));
+        nickname && $$('.other-user-name>.name').text(trim(nickname));
         imgUrl && ($$('.page-other-index .user-pic img').attr('src', imgUrl + imgPath(8)));
         if (user_ishCertificate_list.list.length) {
             let certHtml = '';
@@ -45,11 +45,12 @@ function otherIndexInit(f7, view, page) {
             if (!list.length) {
                 sellInfoNull = true;
                 sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+                f7.hideIndicator();
                 return;
             }
             let sellHtml = '';
             $$.each(list, (index, item) => {
-                if (item['state'] !== 1) {
+                if (item['state'] !== 1 || index > 2) {
                     return;
                 }
                 sellHtml += home.cat(item);
@@ -58,12 +59,13 @@ function otherIndexInit(f7, view, page) {
             sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
 
             $$('img.lazy').trigger('lazy');
+            f7.hideIndicator();
         }
         //get user sell demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, pageSize, 1, '', 2],
+        data: [currentUserId, 3, 1, '', 2],
         type: 'get',
         val: { id: 1 }
     }, sellListCallback);
@@ -77,7 +79,7 @@ function otherIndexInit(f7, view, page) {
             }
             let buyHtml = '';
             $$.each(list, (index, item) => {
-                if (item['state'] !== 1) {
+                if (item['state'] !== 1 || index > 2) {
                     return;
                 }
                 buyHtml += home.buy(item);
@@ -91,7 +93,7 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, pageSize, 1, '', 1],
+        data: [currentUserId, 3, 1, '', 1],
         type: 'get',
         val: { id: 1 }
     }, buyListCallback);

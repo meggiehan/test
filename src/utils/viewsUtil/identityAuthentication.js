@@ -3,10 +3,16 @@ import customAjax from '../../middlewares/customAjax';
 import store from '../../utils/locaStorage';
 import framework7 from '../../js/lib/framework7';
 
+const f7 = new framework7({
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
+    fastClicks: true,
+    modalTitle: '温馨提示',
+});
+
 class CustomClass {
     callback(data) {
             const { code, message } = data;
-            const f7 = new framework7();
             f7.alert(1 == code ? '上传成功' : message, '提示', () => {
                 1 == code && mainView.router.load({
                     url: 'views/user.html',
@@ -16,7 +22,6 @@ class CustomClass {
         }
         //Submit individual infomation to server.
     subCardInfo() {
-        const $$ = Dom7;
         const { cacheUserinfoKey } = config;
         const token = store.get(cacheUserinfoKey)['token'];
         const identityClasses = $$('.identity-infomation').attr('class');
@@ -40,8 +45,9 @@ class CustomClass {
             //post individual identity;
             individualPass = true;
             $$.each($$('.identity-individual-pic img'), (index, item) => {
-                individualSrcArr[index] = item;
-                !$$(item).attr('src') && (individualPass = false);
+                const imgSrc = $$('.identity-individual-pic img').eq(index).attr('src');
+                individualSrcArr[index] = imgSrc && imgSrc.split('@')[0];
+                !imgSrc && (individualPass = false);
             })
             if (!individualPass) {
                 this.f7.alert('请按要求上传三张证件照', '温馨提示');

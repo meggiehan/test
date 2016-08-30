@@ -5,7 +5,7 @@ import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
 function loginCodeInit(f7, view, page) {
-    const $$ = Dom7;
+    f7.hideIndicator();
     const { phone, key } = page.query;
     const { cacheUserinfoKey, voiceCodeWaitTime } = config;
     const input = $$('.login-code-write>input');
@@ -15,7 +15,7 @@ function loginCodeInit(f7, view, page) {
     let isSend = false;
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
-    $$('.login-code-phone')[0].innerText = phone;
+    $$('.login-code-phone').text(phone);
     setTimeout(() => {
         input.focus();
     }, 400)
@@ -111,6 +111,7 @@ function loginCodeInit(f7, view, page) {
                 input.val('').focus();
             });
         }
+        f7.hideIndicator();
     }
 
 
@@ -119,6 +120,7 @@ function loginCodeInit(f7, view, page) {
         if (!isPass || isSend) {
             return;
         }
+        f7.showIndicator();
         isSend = true;
         subBtn.removeClass('on');
         customAjax.ajax({

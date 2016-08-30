@@ -1,7 +1,7 @@
 .page-fish-cert {
-	.page-content{
-		padding-bottom: 0;
-	}
+    .page-content {
+        padding-bottom: 0;
+    }
     .fish-cert-head {
         background: @bg-fff;
         .text-shadow(@text-fff);
@@ -37,8 +37,8 @@
         background: @bg-fff;
         .text-shadow(@text-fff);
         display: none;
-        &.show{
-        	display: block;
+        &.show {
+            display: block;
         }
         .title {
             color: @text-category;
@@ -49,13 +49,16 @@
         }
         .fish-cert-list {
             padding: 1rem 2%;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid @border-cert;
             .col-50 {
                 .text-center;
-                &>.ps-r{
+                margin-bottom: 1rem;
+                &>.ps-r {
                     max-height: 10rem;
                     overflow: hidden;
                 }
-                .ps-a{
+                .ps-a {
                     width: 60%;
                     display: block;
                     left: 20%;
@@ -73,15 +76,21 @@
                     width: 100%;
                 }
                 p {
-                	overflow: hidden;
+                    overflow: hidden;
                     margin: 0;
-                    &.cert-name{
-						padding: 0.5rem 0;
-						color: @text-name;
-						font-size: 1.4rem;
-                    }	
+                    &.cert-name {
+                        padding-top: 0.5rem;
+                        color: @text-name;
+                        font-size: 1.4rem;
+                    }
                     color: @text-category;
                     font-size: 1.2rem;
+                }
+                .fish-cert-button {
+                    color: @text-price;
+                    span {
+                        padding: 0.2rem;
+                    }
                 }
             }
         }

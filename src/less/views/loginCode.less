@@ -29,6 +29,7 @@
                 letter-spacing: 4.3rem;
                 outline: none;
                 border: none;
+                pointer-events: all;
             }
             span {
                 height: 100%;
@@ -72,17 +73,20 @@
                 .text-shadow(@themeColor);
             }
         }
-        .user-protocol{
-			color: @text-subtitle;
-			font-size: 1.2rem;
-			a{
-				color: @themeColor;
-			}
+        .user-protocol {
+            color: @text-subtitle;
+            font-size: 1.2rem;
+            a {
+                color: @themeColor;
+            }
         }
     }
 
 
 
 
-
-
+    .page-login-code{
+        .page-content{
+            overflow-x: hidden;
+        }
+    }

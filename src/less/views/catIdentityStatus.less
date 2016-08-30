@@ -1,5 +1,8 @@
-.popup-individual-authentication {
+.page-identity-status {
     color: @text-name;
+    .list-block{
+        margin: 0;
+    }
     .item-input {
         .text-right;
         color: @text-category;
@@ -32,8 +35,12 @@
         height: 4rem;
         line-height: 4rem;
         border-bottom: 1px solid @border-da;
+        background: @bg-fff;
+        .text-shadow(@text-fff);
         &.title{
             border: 0;
+            background: none;
+            .text-shadow(none);
         }
         .item-inner {
             padding: 0;

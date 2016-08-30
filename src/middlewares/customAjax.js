@@ -2,7 +2,14 @@ import config from '../config/';
 import store from '../utils/locaStorage';
 import { logOut } from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
+import nativeEvent from '../utils/nativeEvent';
 
+const f7 = new framework7({
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
+    fastClicks: true,
+    modalTitle: '温馨提示',
+});
 class CustomClass {
     getKey(api, key, val) {
         let res = `${api}`;
@@ -27,13 +34,13 @@ class CustomClass {
             let isDel = false;
             if (len >= cacheMaxLen) {
                 Dom7.each(storage, (key, value) => {
-                    if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                    if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
-                    } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                    } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
-                    } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                    } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
                     }
@@ -75,18 +82,24 @@ class CustomClass {
             //     "Access-Control-Allow-Methods": "GET,POST"
             // },
             error: function(err) {
-                const f7 = new framework7();
-                f7.alert('网络错误','提示');
+                nativeEvent.nativeToast(0, '网络错误');
+                f7.pullToRefreshDone();
+                f7.hideIndicator();
                 // callback(null, err);
             },
             success: function(data) {
                 const _data = JSON.parse(data);
+
                 if (_data.code == 2 && _data.message) {
-                    const f7 = new framework7();
+                    f7.hideIndicator();
+
                     f7.alert(_data.message, '提示', () => {
                         logOut();
                     });
-                    // _data.code !== 2 && f7.alert(_data.message,'提示');
+                } else if (0 == _data.code) {
+                    f7.hideIndicator();
+
+                    f7.alert(_data.message, '提示');
                 }
                 if (!noCache) {
                     _this.checkMaxLenAndDelete();

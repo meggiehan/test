@@ -25,6 +25,8 @@ import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
+import { catIdentityStatusInit } from './js/catIdentityStatus';
+import {editNameInit} from './js/editName';
 
 
 const deviceF7 = new Framework7();
@@ -33,7 +35,6 @@ const { ios, android, androidChrome, osVersion } = device;
 const { version, debug } = config;
 
 console.log(`current app version: ${version}!`);
-// alert(osVersion + '--' + androidChrome);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 // init f7
@@ -48,7 +49,7 @@ const f7 = new Framework7({
     animateNavBackIcon: true,
     // pushStateSeparator: '?#!/',
     animatePages: animatStatus,
-    // preloadPreviousPage: true,
+    preloadPreviousPage: true,
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
@@ -63,7 +64,7 @@ const f7 = new Framework7({
     //     next(content)
     // },
     preroute: (view, options) => {
-        if(!options){
+        if (!options) {
             return;
         }
         const goPage = view['url'];
@@ -71,30 +72,24 @@ const f7 = new Framework7({
         const currentPage = options['url'];
         // console.log(`gopage:${goPage}--currentpage:${currentPage}`,history )
         //if router back, doing.
-            const len = history.length;
+        const len = history.length;
 
-        if (!currentPage && len >= 2) {
+        if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
-            const reBackPag = history[len - 3];
             // const { search } = getQuery(goPage);
-            if (backPage.indexOf('home.html') > -1 || backPage.indexOf('user.html') > -1) {
-                view.router.load({
-                    url: backPage,
-                    reload: true
-                })
-                return false;
-            } else if (_currentPage.indexOf('releaseSucc.html') > -1) {
+            if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
                 return false;
             }
         }
     }
 });
 const mainView = f7.addView('.view-main', {
-        dynamicNavbar: true,
-        // domCache: true
-    })
-    // load index
+    dynamicNavbar: true,
+    domCache: true
+})
+
+// load index
 mainView.router.load({
     url: 'views/home.html',
     animatePages: false,
@@ -110,7 +105,6 @@ window.currentDevice = f7.device;
  * Trigger lazy load img.
  */
 $$('img.lazy').trigger('lazy');
-
 /*
  * some kinds of loading style.
  * 1: app.showIndicator() 
@@ -122,20 +116,13 @@ $$('img.lazy').trigger('lazy');
 
 const initEvent = f7.onPageInit("*", (page) => {
     // show loading.
-    // if (page.name !== 'home' && page.name) {
-    //     // f7.showIndicator();
-    // } else {
-    //     f7.hideIndicator();
-    // } 
-    // const url = page['view']['url'];
-    // const name = url.split('.html')[0].split('views/')[1];
-    // const query = getQuery(url.split('?')[1]);
-
-    // if ((!page.name || page.name !== name) && url) {
-    //     page['query'] = query;
-    //     page['name'] = name;
-
-    // }
+    if (page.name !== 'home' && page.name) {
+        f7.showIndicator();
+    } else {
+        f7.hideIndicator();
+    }
+    page.name === 'editName' && editNameInit(f7, mainView, page);
+    page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
     page.name === 'login' && loginInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
     page.name === 'search' && searchInit(f7, mainView, page);
@@ -155,4 +142,3 @@ const initEvent = f7.onPageInit("*", (page) => {
     page.name === 'home' && homeInit(f7, mainView, page);
     page.name === 'user' && userInit(f7, mainView, page);
 });
-

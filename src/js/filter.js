@@ -3,7 +3,7 @@ import { home, filter } from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 import district from '../utils/district';
 import config from '../config';
-import {filterTabClick} from '../utils/domListenEvent';
+import { filterTabClick } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 
 
@@ -84,6 +84,7 @@ function filterInit(f7, view, page) {
             load.hide();
             showAllInfo.show();
         }
+        f7.hideIndicator();
     }
 
     const fishTypeRootCallback = (data) => {
@@ -112,6 +113,7 @@ function filterInit(f7, view, page) {
 
         fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
+        currentFishId && $$('.filter-fish-type span[data-id="'+currentFishId+'"]').trigger('click');
     }
 
 
@@ -294,7 +296,7 @@ function filterInit(f7, view, page) {
         })
 
         // Attach 'infinite' event handler
-        $$('.infinite-scroll').on('infinite', function() {
+        $$('.page-filter .infinite-scroll').on('infinite', function() {
             if (isShowAll) {
                 return;
             }
@@ -329,6 +331,7 @@ function filterInit(f7, view, page) {
         })
 
     } else {
+        f7.hideIndicator();
         currentFishId = null;
         $$('.filter-release-next').removeClass('pass');
         $$('.filter-navbar').addClass('filter-release-info');
@@ -369,7 +372,7 @@ function filterInit(f7, view, page) {
         parentFishInfo['name'] = ele.getAttribute('data-parent-name');
         currentFishId = childId;
         if (!release) {
-            html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
+            tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
             $$('.winodw-mask').removeClass('on');
             $$('.filter-tabs-content').removeClass('on');
             $$('.filter-tab>div').removeClass('active-ele');

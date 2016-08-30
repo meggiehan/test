@@ -7,6 +7,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 
 function searchInit(f7, view, page) {
+    f7.hideIndicator();
     const { type } = page.query;
     const release = page.query['release'] && (page.query['release'] === 'false' ? false : page.query['release']);
     const { pageSize, cacheHistoryKey } = config;
@@ -15,6 +16,7 @@ function searchInit(f7, view, page) {
     const hideVal = $$('.search-val');
     const searchButton = $$('span.search-button');
     const list = $$('.search-return-list');
+    // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
     const searchHistoryMetadata = store.get(cacheHistoryKey);
@@ -61,6 +63,8 @@ function searchInit(f7, view, page) {
             !release && searchContent.addClass('on');
             clear.addClass('on');
             $$('.serch-history').hide();
+            emptyInfo.hide();
+
         }
 
         if (trim(searchVal) !== trim(val) && trim(val) !== '') {
@@ -88,7 +92,7 @@ function searchInit(f7, view, page) {
         html($$('.search-history-list'), listStr, f7);
         !release && listStr && !input.val() ? $$('.serch-history').show() : $$('.serch-history').hide();
         !release && input.val() && searchContent.addClass('on');
-        input.val() && (hideVal.find('span')[0].innerText = `“${trim(input.val())}”`);
+        input.val() && hideVal.find('span').text(`“${trim(input.val())}”`);
     }
     //clear history cache;
     $$('.search-clear-history').on('click', () => {
@@ -103,7 +107,7 @@ function searchInit(f7, view, page) {
         }
         isClick = true;
         const val = hideVal.find('span').html();
-        searchContent.removeClass('on');
+        // searchContent.removeClass('on');
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
@@ -121,10 +125,15 @@ function searchInit(f7, view, page) {
 
     input[0].onkeypress = (e) => {
         const event = e || window.event;
+        const val = trim(input.val());
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
+            if (!val && release) {
+                emptyInfo.show();
+                return;
+            }
             event.preventDefault();
-            if (release) {
+            if (release || !val) {
                 return;
             }
             input[0].blur();

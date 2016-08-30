@@ -9,7 +9,6 @@ import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip } from '../utils/domListenEvent';
 
 function selldetailInit(f7, view, page) {
-    const $$ = Dom7;
     const { id } = page.query;
     let isReleaseForMe = false;
     const certList = $$('.selldetail-cert-list');
@@ -80,7 +79,7 @@ function selldetailInit(f7, view, page) {
             html($$('.page-selldetail .user-name'), contactName || '匿名用户', f7);
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
-            1 == enterpriseAuthenticationState && ($$('.selldetail-verify-text')[0].innerText = '已完成企业认证');
+            1 == enterpriseAuthenticationState && $$('.selldetail-verify-text').text('已完成企业认证');
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
 
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
@@ -105,14 +104,15 @@ function selldetailInit(f7, view, page) {
     }
 
     $$('.selldetail-call-phone')[0].onclick = () => {
-        const { requirementPhone } = demandInfo_;
-        requirementPhone && nativeEvent.contactUs(requirementPhone);
-    }
-    //delete release infomation.
+            const { requirementPhone } = demandInfo_;
+            requirementPhone && nativeEvent.contactUs(requirementPhone);
+        }
+        //delete release infomation.
     const deleteCallback = (data) => {
-        const {code, message} = data;
-        f7.alert(message, '提示', () => {
-            if(1 == code){
+        const { code, message } = data;
+        f7.hideIndicator();
+        f7.alert(message || '删除成功', '提示', () => {
+            if (1 == code) {
                 view.router.load({
                     url: "views/user.html",
                     // reload: true
@@ -122,15 +122,18 @@ function selldetailInit(f7, view, page) {
     }
     $$('.selldetail-delete-info')[0].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
-        customAjax.ajax({
-            apiCategory: 'demandInfo',
-            api: 'deleteDemandInfo',
-            data: [id, token],
-            val: {
-                id
-            },
-            type: 'post'
-        }, deleteCallback);
+        f7.confirm('你确定删除出售信息吗？', '删除发布信息', () => {
+            f7.showIndicator();
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'deleteDemandInfo',
+                data: [id, token],
+                val: {
+                    id
+                },
+                type: 'post'
+            }, deleteCallback);
+        })
 
     }
 

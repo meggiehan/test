@@ -25,24 +25,25 @@ function otherInfoInit(f7, view, page) {
         } = userInfo;
 
         imgUrl && ($$('.page-other-info .center-head-pic img').attr('src', imgUrl + imgPath(8)));
-        nickname && ($$('.page-other-info .my-center-nice-name')[0].innerText = nickname);
-        phone && ($$('.other-info-phone')[0].innerText = phone);
-        address ? ($$('.other-info-address')[0].innerText = address) : $$('.other-info-address-parent').hide();
+        nickname && $$('.page-other-info .my-center-nice-name').text(nickname);
+        phone && $$('.other-info-phone').text(phone);
+        address ? $$('.other-info-address').text(address) : $$('.other-info-address-parent').hide();
 
         if (enterpriseAuthenticationState == 1) {
             $$('.other-authentication-info').addClass('company');
-            $$('.other-cert-text>span')[0].innerText = '企业认证';
-            enterpriseName && ($$('.other-campany-name')[0].innerText = enterpriseName);
-            businessLicenseNo && ($$('.other-company-number')[0].innerText = getBusinessLicenseNumber(businessLicenseNo));
+            $$('.other-cert-text>span').text('企业认证');
+            enterpriseName && $$('.other-campany-name').text(enterpriseName);
+            businessLicenseNo && $$('.other-company-number').text(getBusinessLicenseNumber(businessLicenseNo));
             $$('.other-cat-company-info').on('click', () => {
                 nativeEvent.catPic(businessLicenseUrl);
             })
         } else if (personalAuthenticationState == 1) {
             $$('.other-authentication-info').addClass('individual');
-            name && ($$('.other-info-name')[0].innerText = getName(name));
-            identificationCard && ($$('.other-info-number')[0].innerText = getBusinessLicenseNumber(identificationCard));
+            name && $$('.other-info-name').text(getName(name));
+            identificationCard && $$('.other-info-number').text(getBusinessLicenseNumber(identificationCard));
 
         }
+        f7.hideIndicator();
     }
     if (!userCache) {
         customAjax.ajax({

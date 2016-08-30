@@ -53,7 +53,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             name && $$('.individual-authentication-name').text(getName(name));
             businessLicenseNo && $$('.company-authentication-number').text(getBusinessLicenseNumber(businessLicenseNo));
             identificationCard && $$('.individual-authentication-number').text(getBusinessLicenseNumber(identificationCard));
-            const subPopup = $$('.popup-individual-authentication');
+            const subPopup = $$('.page-identity-status');
             subPopup.removeClass('individual-review individual-succ individual-faild company-review company-succ company-faild');
             0 == personalAuthenticationState && subPopup.addClass('individual-review');
             1 == personalAuthenticationState && subPopup.addClass('individual-succ');
@@ -78,8 +78,9 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
         if (code == 1) {
             const list = data.data;
             userUtils.data = data.data['userInfo'] || data.data;
+
             if (list) {
-                const {
+                let {
                     demandInfo_buy_number,
                     demandInfo_sell_number,
                     fish_certificate_number,
@@ -93,13 +94,18 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 if (userInfo) {
                     const _token = store.get(cacheUserinfoKey)['token'];
                     const _userInfo = objectUtil.clone(userInfo);
+                    enterprise_authentication_state = userInfo['enterpriseAuthenticationState'];
+                    enterpriseAuthenticationTime = userInfo['enterpriseAuthenticationTime'];
+                    personal_authentication_state = userInfo['personalAuthenticationState'];
+                    personalAuthenticationTime = userInfo['personalAuthenticationTime'];
+
                     _userInfo['token'] = _token;
-                    // _userInfo['list'] = list;
+                    fish_certificate_number && (_userInfo['certNum'] = fish_certificate_number);
                     store.set(cacheUserinfoKey, _userInfo);
                 }
                 demandInfo_buy_number && html($$('.user-sell-num'), demandInfo_buy_number, null);
                 demandInfo_sell_number && html($$('.user-buy-num'), demandInfo_sell_number, null);
-                (fish_certificate_number || 0 == fish_certificate_number) && html($$('.user-verification-num'), fish_certificate_number, null);
+                fish_certificate_number > -1 && verificationBtn.text(fish_certificate_number);
 
                 enterprise_authentication_state == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
                 personal_authentication_state == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
@@ -112,7 +118,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 text = userUtils.getAuthenticationText(enterprise_authentication_state, enterpriseAuthenticationTime,
                     personal_authentication_state, personalAuthenticationTime)['text'];
             }
-            text && html($$('.user-identity-text'),text, '');
+            text && authenticationBtn.text(text);
         }
     }
 
