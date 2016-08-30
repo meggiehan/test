@@ -115,6 +115,14 @@ class CustomClass {
         ios ? JS_DisTanceInfo() : window.yudada.JS_DisTanceInfo();
     }
 
+    nativeToast(type, message){
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_ShowHUD_AutoDisappear'] && (!window['yudada'] || !window['yudada']['JS_ShowHUD_AutoDisappear'])) {
+            return false;
+        }
+        ios ? JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
+    }
+
 }
 
 const nativeEvent = new CustomClass;

@@ -2,6 +2,7 @@ import config from '../config/';
 import store from '../utils/locaStorage';
 import { logOut } from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
+import nativeEvent from '../utils/nativeEvent';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -81,22 +82,22 @@ class CustomClass {
             //     "Access-Control-Allow-Methods": "GET,POST"
             // },
             error: function(err) {
-                f7.alert('网络错误', '提示');
-                f7.showIndicator();
+                nativeEvent.nativeToast(0, '网络错误');
+                f7.pullToRefreshDone();
+                f7.hideIndicator();
                 // callback(null, err);
             },
             success: function(data) {
                 const _data = JSON.parse(data);
 
                 if (_data.code == 2 && _data.message) {
-                    f7.showIndicator();
+                    f7.hideIndicator();
 
                     f7.alert(_data.message, '提示', () => {
                         logOut();
                     });
-                    // _data.code !== 2 && f7.alert(_data.message,'提示');
                 } else if (0 == _data.code) {
-                    f7.showIndicator();
+                    f7.hideIndicator();
 
                     f7.alert(_data.message, '提示');
                 }

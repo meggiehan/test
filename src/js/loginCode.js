@@ -111,7 +111,7 @@ function loginCodeInit(f7, view, page) {
                 input.val('').focus();
             });
         }
-        f7.showIndicator();
+        f7.hideIndicator();
     }
 
 

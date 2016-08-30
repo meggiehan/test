@@ -5,7 +5,7 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, cancleIndividual, canclCompany, goIdentity } from '../utils/domListenEvent';
+import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIdentity } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
@@ -71,11 +71,6 @@ function userInit(f7, view, page) {
     //view my release list.
     $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
-
-    //cancle authentication.
-    $$('.cancel-individual-verify-buuton').off('click', cancleIndividual).on('click', cancleIndividual);
-
-    $$('.cancel-company-verify-buuton').off('click', canclCompany).on('click', canclCompany);
 
     //go home page;
     $$('.href-go-home').off('click', goHome).on('click', goHome);

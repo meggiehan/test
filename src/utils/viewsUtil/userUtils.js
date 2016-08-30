@@ -53,7 +53,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             name && $$('.individual-authentication-name').text(getName(name));
             businessLicenseNo && $$('.company-authentication-number').text(getBusinessLicenseNumber(businessLicenseNo));
             identificationCard && $$('.individual-authentication-number').text(getBusinessLicenseNumber(identificationCard));
-            const subPopup = $$('.popup-individual-authentication');
+            const subPopup = $$('.page-identity-status');
             subPopup.removeClass('individual-review individual-succ individual-faild company-review company-succ company-faild');
             0 == personalAuthenticationState && subPopup.addClass('individual-review');
             1 == personalAuthenticationState && subPopup.addClass('individual-succ');
@@ -80,7 +80,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             userUtils.data = data.data['userInfo'] || data.data;
 
             if (list) {
-                const {
+                let {
                     demandInfo_buy_number,
                     demandInfo_sell_number,
                     fish_certificate_number,
@@ -94,6 +94,11 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 if (userInfo) {
                     const _token = store.get(cacheUserinfoKey)['token'];
                     const _userInfo = objectUtil.clone(userInfo);
+                    enterprise_authentication_state = userInfo['enterpriseAuthenticationState'];
+                    enterpriseAuthenticationTime = userInfo['enterpriseAuthenticationTime'];
+                    personal_authentication_state = userInfo['personalAuthenticationState'];
+                    personalAuthenticationTime = userInfo['personalAuthenticationTime'];
+
                     _userInfo['token'] = _token;
                     fish_certificate_number && (_userInfo['certNum'] = fish_certificate_number);
                     store.set(cacheUserinfoKey, _userInfo);

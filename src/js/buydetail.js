@@ -67,7 +67,7 @@ function buydetailInit(f7, view, page) {
             html($$('.page-buydetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
             1 == enterpriseAuthenticationState && $$('.budetail-verify-text').text('已完成企业认证');
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
-            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl);
+            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator(300);

@@ -372,7 +372,7 @@ function filterInit(f7, view, page) {
         parentFishInfo['name'] = ele.getAttribute('data-parent-name');
         currentFishId = childId;
         if (!release) {
-            html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
+            tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
             $$('.winodw-mask').removeClass('on');
             $$('.filter-tabs-content').removeClass('on');
             $$('.filter-tab>div').removeClass('active-ele');

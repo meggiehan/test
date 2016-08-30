@@ -25,6 +25,8 @@ import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
+import { catIdentityStatusInit } from './js/catIdentityStatus';
+import {editNameInit} from './js/editName';
 
 
 const deviceF7 = new Framework7();
@@ -119,6 +121,8 @@ const initEvent = f7.onPageInit("*", (page) => {
     } else {
         f7.hideIndicator();
     }
+    page.name === 'editName' && editNameInit(f7, mainView, page);
+    page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
     page.name === 'login' && loginInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
     page.name === 'search' && searchInit(f7, mainView, page);

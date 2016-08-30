@@ -131,15 +131,11 @@ module.exports = {
                 })
             })
         } else {
-            if (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) {
-                mainView.router.load({
-                    url: 'views/identityAuthentication.html'
-                })
-
-            } else {
-                f7.popup('.popup-individual-authentication');
-            }
-
+            const url = (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) ?
+                'views/identityAuthentication.html' : 'views/catIdentityStatus.html';
+            mainView.router.load({
+                url
+            })
         }
 
     },
@@ -154,12 +150,13 @@ module.exports = {
         const cancleIndividualCallback = (data) => {
             const { code, message } = data;
             // f7.alert(message, '提示', () => {
-                f7.closeModal('.popup-individual-authentication');
-                mainView.router.load({
+            // f7.closeModal('.popup-individual-authentication');
+            $$('page-identity-status').removeClass('individual-review');
+            mainView.router.load({
                     url: 'views/user.html',
                     reload: true
                 })
-            // })
+                // })
         }
         f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
@@ -178,15 +175,12 @@ module.exports = {
         const cancleCompanyCallback = (data) => {
             const { code, message } = data;
             // f7.alert(message, '提示', () => {
-                if(1 !== code){
-
-                }
-                f7.closeModal('.popup-individual-authentication');
-                mainView.router.load({
+            $$('page-identity-status').removeClass('company-review');
+            mainView.router.load({
                     url: 'views/user.html',
                     reload: true
                 })
-            // })
+                // })
         }
         f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
@@ -214,7 +208,8 @@ module.exports = {
                 $$('.fish-cert-list>.col-50')[dataIndex].remove();
                 dataIndex--;
             }!$$('.fish-cert-list>.col-50').length && $$('.fish-cert-content').removeClass('show');
-            $$('span.user-verification-num').text($$('.fish-cert-list>.col-50').length)
+            $$('span.user-verification-num').text($$('.fish-cert-list>.col-50').length);
+            f7.hideIndicator();
         }
 
         if (classes.indexOf('cat-cert-faild-info') > -1) {
@@ -222,6 +217,7 @@ module.exports = {
             f7.alert(info, '未通过原因');
         } else if (classes.indexOf('fish-cert-delete') > -1) {
             const sureCallback = () => {
+                f7.showIndicator();
                 customAjax.ajax({
                     apiCategory: 'userInfo',
                     api: 'deleteUserFishCertificate',
@@ -234,8 +230,8 @@ module.exports = {
             f7.confirm('确定删除？', '删除证书', sureCallback)
         } else if (classes.indexOf('fish-cert-reupload') > -1) {
             nativeEvent.postPic(-1, id);
-        }else if(ele.tagName == 'IMG'){
-            const url = ele.getAttribute('src').split('@')[1];
+        } else if (ele.tagName == 'IMG') {
+            const url = ele.getAttribute('src').split('@')[0];
             nativeEvent.catPic(url);
         }
     }
