@@ -296,7 +296,7 @@ function filterInit(f7, view, page) {
         })
 
         // Attach 'infinite' event handler
-        $$('.infinite-scroll').on('infinite', function() {
+        $$('.page-filter .infinite-scroll').on('infinite', function() {
             if (isShowAll) {
                 return;
             }

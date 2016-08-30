@@ -50,7 +50,7 @@ function otherIndexInit(f7, view, page) {
             }
             let sellHtml = '';
             $$.each(list, (index, item) => {
-                if (item['state'] !== 1) {
+                if (item['state'] !== 1 || index > 2) {
                     return;
                 }
                 sellHtml += home.cat(item);
@@ -65,7 +65,7 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, pageSize, 1, '', 2],
+        data: [currentUserId, 3, 1, '', 2],
         type: 'get',
         val: { id: 1 }
     }, sellListCallback);
@@ -79,7 +79,7 @@ function otherIndexInit(f7, view, page) {
             }
             let buyHtml = '';
             $$.each(list, (index, item) => {
-                if (item['state'] !== 1) {
+                if (item['state'] !== 1 || index > 2) {
                     return;
                 }
                 buyHtml += home.buy(item);
@@ -93,7 +93,7 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, pageSize, 1, '', 1],
+        data: [currentUserId, 3, 1, '', 1],
         type: 'get',
         val: { id: 1 }
     }, buyListCallback);

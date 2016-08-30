@@ -1,5 +1,6 @@
 import nativeEvent from '../utils/nativeEvent';
 import config from '../config';
+import {releaseType} from '../utils/domListenEvent';
 
 function releaseInit(f7, view, page) {
     f7.hideIndicator();
@@ -16,27 +17,7 @@ function releaseInit(f7, view, page) {
         nativeEvent.contactUs(servicePhoneNumber);
     })
 
-    $$('.release-infomation')[0].onclick = () => {
-        const btn1 = [{
-            text: "我要买",
-            color: '#128AF2',
-            onClick: () => {
-                view.router.load({
-                    url: 'views/filter.html?type=1&release=true'
-                })
-            }
-        }, {
-            text: "我要卖",
-            color: '#128AF2',
-            onClick: () => {
-                view.router.load({
-                    url: 'views/filter.html?type=2&release=true'
-                })
-            }
-        }];
-        const btn2 = [{ text: "取消", color: 'red' }];
-        f7.actions([btn1, btn2]);
-    }
+    $$('.release-infomation').off('click', releaseType).on('click', releaseType);
 }
 
 module.exports = {
