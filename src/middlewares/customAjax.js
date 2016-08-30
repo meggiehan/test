@@ -33,13 +33,13 @@ class CustomClass {
             let isDel = false;
             if (len >= cacheMaxLen) {
                 Dom7.each(storage, (key, value) => {
-                    if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                    if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
-                    } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                    } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
-                    } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !==  cacheHistoryKey)) {
+                    } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
                         store.remove(key);
                         isDel = true;
                     }
@@ -81,17 +81,23 @@ class CustomClass {
             //     "Access-Control-Allow-Methods": "GET,POST"
             // },
             error: function(err) {
-                f7.alert('网络错误','提示');
+                f7.alert('网络错误', '提示');
+                f7.showIndicator();
                 // callback(null, err);
             },
             success: function(data) {
                 const _data = JSON.parse(data);
+
                 if (_data.code == 2 && _data.message) {
+                    f7.showIndicator();
+
                     f7.alert(_data.message, '提示', () => {
                         logOut();
                     });
                     // _data.code !== 2 && f7.alert(_data.message,'提示');
-                }else if(0 == _data.code){
+                } else if (0 == _data.code) {
+                    f7.showIndicator();
+
                     f7.alert(_data.message, '提示');
                 }
                 if (!noCache) {
