@@ -241,7 +241,7 @@ module.exports = {
             text: "我要买",
             color: '#128AF2',
             onClick: () => {
-                view.router.load({
+                mainView.router.load({
                     url: 'views/filter.html?type=1&release=true'
                 })
             }
@@ -249,7 +249,7 @@ module.exports = {
             text: "我要卖",
             color: '#128AF2',
             onClick: () => {
-                view.router.load({
+                mainView.router.load({
                     url: 'views/filter.html?type=2&release=true'
                 })
             }
