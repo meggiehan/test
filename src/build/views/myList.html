@@ -10,8 +10,17 @@
     </div>
 </div>
 <div class="page swipeback page-my-list" data-page="myList">
-    <div class="page-content">
+    <div class="page-content  infinite-scroll pull-to-refresh-content">
+    <div class="pull-to-refresh-layer ">
+            <div class="preloader "></div>
+            <div class="pull-to-refresh-arrow "></div>
+        </div>
         <div class="other-list-info"></div>
+        <p class="filter-search-empty-info">已显示全部</p>
+        <!-- Preloader -->
+        <div class="infinite-scroll-preloader ">
+            <div class="preloader "></div>
+        </div>
         <div class="my-sell-list-empty">
             <div class="iconfont icon-copy"></div>
             <p>你还没有发布过出售信息！</p>

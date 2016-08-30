@@ -234,6 +234,28 @@ module.exports = {
             const url = ele.getAttribute('src').split('@')[0];
             nativeEvent.catPic(url);
         }
+    },
+
+    releaseType: () => {
+        const btn1 = [{
+            text: "我要买",
+            color: '#128AF2',
+            onClick: () => {
+                mainView.router.load({
+                    url: 'views/filter.html?type=1&release=true'
+                })
+            }
+        }, {
+            text: "我要卖",
+            color: '#128AF2',
+            onClick: () => {
+                mainView.router.load({
+                    url: 'views/filter.html?type=2&release=true'
+                })
+            }
+        }];
+        const btn2 = [{ text: "取消", color: 'red' }];
+        f7.actions([btn1, btn2]);
     }
 
 }
