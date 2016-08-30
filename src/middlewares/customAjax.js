@@ -3,6 +3,12 @@ import store from '../utils/locaStorage';
 import { logOut } from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 
+const f7 = new framework7({
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
+    fastClicks: true,
+    modalTitle: '温馨提示',
+});
 class CustomClass {
     getKey(api, key, val) {
         let res = `${api}`;
@@ -75,18 +81,18 @@ class CustomClass {
             //     "Access-Control-Allow-Methods": "GET,POST"
             // },
             error: function(err) {
-                const f7 = new framework7();
                 f7.alert('网络错误','提示');
                 // callback(null, err);
             },
             success: function(data) {
                 const _data = JSON.parse(data);
                 if (_data.code == 2 && _data.message) {
-                    const f7 = new framework7();
                     f7.alert(_data.message, '提示', () => {
                         logOut();
                     });
                     // _data.code !== 2 && f7.alert(_data.message,'提示');
+                }else if(0 == _data.code){
+                    f7.alert(_data.message, '提示');
                 }
                 if (!noCache) {
                     _this.checkMaxLenAndDelete();

@@ -45,14 +45,15 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const testRequireInfo = () => {
-            const val = trim($$('.release-write-tell input').val());
-            if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
-                $$('.release-sub-info').addClass('pass');
-            } else {
-                $$('.release-sub-info').removeClass('pass');
-            }
+        const val = trim($$('.release-write-tell input').val());
+        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
+            $$('.release-sub-info').addClass('pass');
+        } else {
+            $$('.release-sub-info').removeClass('pass');
         }
-        //init verify, change submit button status;
+    }
+
+    //init verify, change submit button status;
     testRequireInfo();
     $$('.release-write-address input')[0].oninput = () => {
         testRequireInfo();
@@ -84,7 +85,7 @@ function releaseInfoInit(f7, view, page) {
         } else {
             $$('.release-info-number').removeClass('desiable');
         }
-        $$('.release-info-number')[0].innerText = len;
+        $$('.release-info-number').text(len);
     }
 
     const subInfoTest = () => {
@@ -170,15 +171,15 @@ function releaseInfoInit(f7, view, page) {
 
     let isTouch = false;
     $$('.release-info-content .page-content').on('touchmove', (e) => {
-        if(isTouch){
+        if (isTouch) {
             return;
         }
         isTouch = true;
         $$(this).find('input').blur();
         setTimeout(() => {
-            isTouch = false;
-        },1500)
-        // console.log(e)
+                isTouch = false;
+            }, 1500)
+            // console.log(e)
     })
 }
 module.exports = {

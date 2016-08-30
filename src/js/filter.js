@@ -113,6 +113,7 @@ function filterInit(f7, view, page) {
 
         fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
+        currentFishId && $$('.filter-fish-type span[data-id="'+currentFishId+'"]').trigger('click');
     }
 
 

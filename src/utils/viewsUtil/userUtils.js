@@ -78,6 +78,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
         if (code == 1) {
             const list = data.data;
             userUtils.data = data.data['userInfo'] || data.data;
+
             if (list) {
                 const {
                     demandInfo_buy_number,
@@ -94,12 +95,12 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                     const _token = store.get(cacheUserinfoKey)['token'];
                     const _userInfo = objectUtil.clone(userInfo);
                     _userInfo['token'] = _token;
-                    // _userInfo['list'] = list;
+                    fish_certificate_number && (_userInfo['certNum'] = fish_certificate_number);
                     store.set(cacheUserinfoKey, _userInfo);
                 }
                 demandInfo_buy_number && html($$('.user-sell-num'), demandInfo_buy_number, null);
                 demandInfo_sell_number && html($$('.user-buy-num'), demandInfo_sell_number, null);
-                (fish_certificate_number || 0 == fish_certificate_number) && html($$('.user-verification-num'), fish_certificate_number, null);
+                fish_certificate_number > -1 && verificationBtn.text(fish_certificate_number);
 
                 enterprise_authentication_state == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
                 personal_authentication_state == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
@@ -112,7 +113,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 text = userUtils.getAuthenticationText(enterprise_authentication_state, enterpriseAuthenticationTime,
                     personal_authentication_state, personalAuthenticationTime)['text'];
             }
-            text && html($$('.user-identity-text'),text, '');
+            text && authenticationBtn.text(text);
         }
     }
 

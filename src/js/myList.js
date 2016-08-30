@@ -11,7 +11,7 @@ function myListInit(f7, view, page) {
     const {pageSize, cacheUserinfoKey} = config;
     const {id, token} = store.get(cacheUserinfoKey);
     let pageNo = 1;
-    $$('.my-list-title')[0].innerText = 2 == type ? '我的出售' : '我的求购';
+    $$('.my-list-title').text(2 == type ? '我的出售' : '我的求购');
 
     const callback = (data) => {
     	const {code, message} = data;

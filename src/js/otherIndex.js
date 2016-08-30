@@ -24,10 +24,10 @@ function otherIndexInit(f7, view, page) {
         const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
         callNumber = phone;
         if (text) {
-            $$('p.other-user-name').addClass('show').find('.text')[0].innerText = text;
+            $$('p.other-user-name').addClass('show').find('.text').text(text);
         }
-        lastLoginTime && ($$('.other-user-info .user-lately-time')[0].innerText = centerShowTime(lastLoginTime));
-        nickname && ($$('.other-user-name>.name')[0].innerText = trim(nickname));
+        lastLoginTime && $$('.other-user-info .user-lately-time').text(centerShowTime(lastLoginTime));
+        nickname && $$('.other-user-name>.name').text(trim(nickname));
         imgUrl && ($$('.page-other-index .user-pic img').attr('src', imgUrl + imgPath(8)));
         if (user_ishCertificate_list.list.length) {
             let certHtml = '';
@@ -45,6 +45,7 @@ function otherIndexInit(f7, view, page) {
             if (!list.length) {
                 sellInfoNull = true;
                 sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+                f7.hideIndicator();
                 return;
             }
             let sellHtml = '';

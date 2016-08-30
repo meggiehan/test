@@ -8,7 +8,7 @@ function loginInit(f7, view, page) {
     let isSend = false;
     setTimeout(() => {
         $$('.login-phone-number input').focus();
-    },400);
+    }, 400);
 
     input[0].oninput = () => {
         const val = input.val();
@@ -24,13 +24,14 @@ function loginInit(f7, view, page) {
     input.keypress((e) => {
         const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;
-        if(code == 13){
+        if (code == 13) {
             nextBtn.click();
         }
     });
     const callback = (data) => {
         isSend = false;
         nextBtn.addClass('on');
+        f7.hideIndicator();
         if (data.code == 1) {
             view.router.load({
                 url: 'views/loginCode.html' + `?phone=${input.val()}&key=${data.data}`
@@ -44,6 +45,8 @@ function loginInit(f7, view, page) {
         }
         isSend = true;
         nextBtn.removeClass('on');
+        f7.showIndicator('登录中...');
+
         customAjax.ajax({
             apiCategory: 'userLogin',
             api: 'getPhoneCode',

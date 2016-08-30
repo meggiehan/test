@@ -2,6 +2,8 @@ import framework7 from '../js/lib/framework7';
 import { isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from './nativeEvent';
 import config from '../config';
+import store from './locaStorage';
+import customAjax from '../middlewares/customAjax';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -26,9 +28,9 @@ module.exports = {
                 $$('.winodw-mask').addClass('on');
                 $$('.filter-tabs-content').addClass('on');
                 $$('.filter-tabs-content>div').removeClass('active');
-                classes.indexOf('tab1') > -1 && $$('.filter-tabs-content>div').eq(0).addClass('active');
-                classes.indexOf('tab2') > -1 && $$('.filter-tabs-content>div').eq(1).addClass('active');
-                classes.indexOf('tab3') > -1 && $$('.filter-tabs-content>div').eq(2).addClass('active');
+                classes.indexOf('tab1') > -1 && $$('.filter-tabs-content>div.filter-fish-type').addClass('active');
+                classes.indexOf('tab2') > -1 && $$('.filter-tabs-content>div.filter-district').addClass('active');
+                classes.indexOf('tab3') > -1 && $$('.filter-tabs-content>div.filter-info-type').addClass('active');
             }
         }
         if (ele.parentNode.className.indexOf('filter-tab-title') > -1) {
@@ -109,9 +111,37 @@ module.exports = {
             })
         } else {
             mainView.router.load({
-                url: 'views/fishCert.html',
+                url: 'views/fishCert.html'
             })
         }
+    },
+
+    goIdentity: () => {
+        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        let personalAuthenticationState, enterpriseAuthenticationState;
+        let userInfomation = store.get(cacheUserinfoKey);
+        if (userInfomation) {
+            personalAuthenticationState = userInfomation['personalAuthenticationState'];
+            enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
+        }
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+        } else {
+            if (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) {
+                mainView.router.load({
+                    url: 'views/identityAuthentication.html'
+                })
+
+            } else {
+                f7.popup('.popup-individual-authentication');
+            }
+
+        }
+
     },
 
     contactUs: () => {
@@ -123,20 +153,23 @@ module.exports = {
         let userInfomation = store.get(cacheUserinfoKey);
         const cancleIndividualCallback = (data) => {
             const { code, message } = data;
-            f7.alert(message, '提示', () => {
+            // f7.alert(message, '提示', () => {
                 f7.closeModal('.popup-individual-authentication');
-                view.router.load({
-                    url: 'views/user.html'
+                mainView.router.load({
+                    url: 'views/user.html',
+                    reload: true
                 })
-            })
+            // })
         }
-        customAjax.ajax({
-            apiCategory: 'userInfo',
-            api: 'cancelPersonalAuthentication',
-            data: [userInfomation['token']],
-            type: 'post',
-            noCache: true,
-        }, cancleIndividualCallback);
+        f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
+            customAjax.ajax({
+                apiCategory: 'userInfo',
+                api: 'cancelPersonalAuthentication',
+                data: [userInfomation['token']],
+                type: 'post',
+                noCache: true,
+            }, cancleIndividualCallback);
+        })
     },
 
     canclCompany: () => {
@@ -144,14 +177,18 @@ module.exports = {
         let userInfomation = store.get(cacheUserinfoKey);
         const cancleCompanyCallback = (data) => {
             const { code, message } = data;
-            f7.alert(message, '提示', () => {
+            // f7.alert(message, '提示', () => {
+                if(1 !== code){
+
+                }
                 f7.closeModal('.popup-individual-authentication');
-                view.router.load({
-                    url: 'views/user.html'
+                mainView.router.load({
+                    url: 'views/user.html',
+                    reload: true
                 })
-            })
+            // })
         }
-        $$('.cancel-company-verify-buuton').on('click', () => {
+        f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'cancelEnterpriseAuthentication',
@@ -160,6 +197,47 @@ module.exports = {
                 noCache: true,
             }, cancleCompanyCallback);
         })
+    },
+
+    fishCertAction: (e) => {
+        const event = e || window.event;
+        const ele = event.target;
+        let classes = ele.className;
+        const id = $$(ele).attr('data-id');
+        const { cacheUserinfoKey } = config;
+        const userInfo = store.get(cacheUserinfoKey);
+        let dataIndex = $$(ele).attr('data-index');
+
+        const deleteCallback = (data) => {
+            const { code, message } = data;
+            if (1 == code) {
+                $$('.fish-cert-list>.col-50')[dataIndex].remove();
+                dataIndex--;
+            }!$$('.fish-cert-list>.col-50').length && $$('.fish-cert-content').removeClass('show');
+            $$('span.user-verification-num').text($$('.fish-cert-list>.col-50').length)
+        }
+
+        if (classes.indexOf('cat-cert-faild-info') > -1) {
+            const info = $$(ele).attr('data-info');
+            f7.alert(info, '未通过原因');
+        } else if (classes.indexOf('fish-cert-delete') > -1) {
+            const sureCallback = () => {
+                customAjax.ajax({
+                    apiCategory: 'userInfo',
+                    api: 'deleteUserFishCertificate',
+                    data: [userInfo['token'], id],
+                    val: { id },
+                    type: 'post'
+                }, deleteCallback);
+            }
+
+            f7.confirm('确定删除？', '删除证书', sureCallback)
+        } else if (classes.indexOf('fish-cert-reupload') > -1) {
+            nativeEvent.postPic(-1, id);
+        }else if(ele.tagName == 'IMG'){
+            const url = ele.getAttribute('src').split('@')[1];
+            nativeEvent.catPic(url);
+        }
     }
 
 }

@@ -4,6 +4,13 @@ import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
 import { fishCert } from '../utils/template';
 
+const f7 = new framework7({
+    modalButtonOk: '确定',
+    modalButtonCancel: '取消',
+    fastClicks: true,
+    modalTitle: '温馨提示',
+});
+
 class CustomClass {
     getPhoneSrc(srcimg, src, index) {
         const { identity, cacheUserinfoKey } = config;
@@ -15,11 +22,12 @@ class CustomClass {
             const { code, message } = data;
             if (1 == code) {
                 mainView.router.load({
-                    url: 'views/user.html'
+                    url: 'views/user.html',
+                    reload: true
                 })
             }
         }
-        if (!srcimg && src && index == 4) {
+        if (index == 4) {
             $$('.my-center-head img').val(src);
             customAjax.ajax({
                 apiCategory: 'userInfo',
@@ -31,8 +39,8 @@ class CustomClass {
         } else if (index > -1 && index <= 2) {
             $$('.identity-individual-pic>div').eq(index).addClass('on');
             $$('.identity-individual-pic>div').eq(index).find('img').attr('src', src + identity['individual']);
-            $$.each($$('.identity-individual-pic>div'), (item) => {
-                !$$(item).find('img').attr('src') && (individualCert = false);
+            $$.each($$('.identity-individual-pic>div'), (index, item) => {
+                !$$('.identity-individual-pic>div').eq(index).find('img').attr('src') && (individualCert = false);
             })
             individualCert && ($$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass'));
         } else if (3 == index) {
@@ -60,18 +68,20 @@ class CustomClass {
         const id = store.get(cacheUserinfoKey)['id'];
         const { ios, android } = window.currentDevice;
         const callback = (data) => {
-            const f = new framework7();
+
             console.log(data)
             const { code, message } = data;
             if (1 == code) {
-                ios && f.alert(message, '提示', () => {
+                ios && f7.alert(message, '提示', () => {
 
                     mainView.router.load({
-                        url: 'views/user.html'
+                        url: 'views/user.html',
+                        reload: true
                     })
                 })
                 android && mainView.router.load({
-                    url: 'views/user.html'
+                    url: 'views/user.html',
+                    reload: true
                 })
 
             }
@@ -101,17 +111,17 @@ class CustomClass {
     subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
         const { identity, cacheUserinfoKey } = config;
         let login_token;
-        const f = new framework7();
         const userInfo = store.get(cacheUserinfoKey);
         if (userInfo) {
             login_token = userInfo['token'];
         }
         const callback = (data) => {
             const { code, message } = data;
-            f.alert(message, '提示', () => {
+            f7.alert(message, '提示', () => {
                 if (1 == code) {
                     mainView.router.load({
-                        url: 'views/user.html'
+                        url: 'views/user.html',
+                        reload: true
                     })
                 }
             })
@@ -141,8 +151,7 @@ class CustomClass {
             return;
         }
         window.mainView.router.load({
-            url: 'views/user.html',
-            reload: true,
+            url: 'views/user.html?uuid=' + token,
             animatePage: true
         })
     }

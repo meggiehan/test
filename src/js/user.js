@@ -5,11 +5,12 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, cancleIndividual, canclCompany } from '../utils/domListenEvent';
+import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, cancleIndividual, canclCompany, goIdentity } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    let loginStatus = isLogin();
+    const {uuid} = page.query;
+    let loginStatus = isLogin(uuid);
     const { cacheUserinfoKey, servicePhoneNumber } = config;
     let userInfomation = store.get(cacheUserinfoKey);
     const emptyFun = () => {
@@ -36,7 +37,8 @@ function userInit(f7, view, page) {
             _userInfo['token'] = userInfomation['token'];
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
-            loginStatus = isLogin();
+            $$('.user-tell-number').text(`手机号：${_userInfo['phone']}`);
+            loginStatus = isLogin(uuid);
             loginSucc(userInfomation, getBussesInfo);
         } else {
             f7.alert(message);
@@ -57,7 +59,7 @@ function userInit(f7, view, page) {
     $$('.user-header').off('click', goMyCenter).on('click', goMyCenter);
 
     //cilck identity authentication.
-    $$('.user-cert-type>div.go-identity').off('click', canclCompany).on('click', canclCompany);
+    $$('.user-cert-type>div.go-identity').off('click', goIdentity).on('click', goIdentity);
 
 
     //cilck upload fish cert.
@@ -73,24 +75,7 @@ function userInit(f7, view, page) {
     //cancle authentication.
     $$('.cancel-individual-verify-buuton').off('click', cancleIndividual).on('click', cancleIndividual);
 
-    const cancleCompanyCallback = (data) => {
-        const { code, message } = data;
-        f7.alert(message, '提示', () => {
-            f7.closeModal('.popup-individual-authentication');
-            view.router.load({
-                url: 'views/user.html'
-            })
-        })
-    }
-    $$('.cancel-company-verify-buuton').on('click',() => {
-        customAjax.ajax({
-            apiCategory: 'userInfo',
-            api: 'cancelEnterpriseAuthentication',
-            data: [userInfomation['token']],
-            type: 'post',
-            noCache: true,
-        }, cancleCompanyCallback);
-    })
+    $$('.cancel-company-verify-buuton').off('click', canclCompany).on('click', canclCompany);
 
     //go home page;
     $$('.href-go-home').off('click', goHome).on('click', goHome);

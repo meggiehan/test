@@ -137,7 +137,7 @@ module.exports = {
             let itemBottom = '';
             if (1 !== state) {
                 itemBottom += '<p class="fish-cert-button">';
-                itemBottom += 2 == state ? '<span class="fish-cert-reupload" data-id="' + id + '">重新上传</span>' : '';
+                itemBottom += 2 == state ? '<span class="fish-cert-reupload" data-id="' + id + '" style="margin-right: 0.5rem">重新上传</span>' : '';
                 itemBottom += '<span class="fish-cert-delete" data-id="' + id + '" data-index="' + index + '">删除</span></p>'
             }
             const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';

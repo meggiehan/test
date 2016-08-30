@@ -91,7 +91,7 @@ function buydetailInit(f7, view, page) {
     const deleteCallback = (data) => {
         const { code, message } = data;
         f7.hideIndicator();
-        f7.alert(message, '提示', () => {
+        f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
                 view.router.load({
                     url: "views/user.html",
@@ -101,18 +101,21 @@ function buydetailInit(f7, view, page) {
             }
         })
     }
-    $$('.buydetail-delete-info').on('click',() => {
+    $$('.buydetail-delete-info').on('click', () => {
         const token = store.get(cacheUserinfoKey)['token'];
-        f7.hideIndicator();
-        customAjax.ajax({
-            apiCategory: 'demandInfo',
-            api: 'deleteDemandInfo',
-            data: [id, token],
-            val: {
-                id
-            },
-            type: 'post'
-        }, deleteCallback);
+
+        f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
+            f7.showIndicator();
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'deleteDemandInfo',
+                data: [id, token],
+                val: {
+                    id
+                },
+                type: 'post'
+            }, deleteCallback);
+        })
 
     })
 
@@ -123,7 +126,7 @@ function buydetailInit(f7, view, page) {
         })
     })
 
-    $$('.buydetail-call-phone').on('click',() => {
+    $$('.buydetail-call-phone').on('click', () => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     })

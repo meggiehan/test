@@ -9,13 +9,13 @@ class CustomClass {
             const f7 = new framework7();
             f7.alert(1 == code ? '上传成功' : message, '提示', () => {
                 1 == code && mainView.router.load({
-                    url: 'views/user.html'
+                    url: 'views/user.html',
+                    reload: true
                 })
             });
         }
         //Submit individual infomation to server.
     subCardInfo() {
-        const $$ = Dom7;
         const { cacheUserinfoKey } = config;
         const token = store.get(cacheUserinfoKey)['token'];
         const identityClasses = $$('.identity-infomation').attr('class');
@@ -39,8 +39,9 @@ class CustomClass {
             //post individual identity;
             individualPass = true;
             $$.each($$('.identity-individual-pic img'), (index, item) => {
-                individualSrcArr[index] = item;
-                !$$(item).attr('src') && (individualPass = false);
+                const imgSrc = $$('.identity-individual-pic img').eq(index).attr('src');
+                individualSrcArr[index] = imgSrc && imgSrc.split('@')[1];
+                !imgSrc && (individualPass = false);
             })
             if (!individualPass) {
                 this.f7.alert('请按要求上传三张证件照', '温馨提示');

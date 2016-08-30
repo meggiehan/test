@@ -69,12 +69,12 @@ function identityAuthenticationInit(f7, view, page) {
     })
 
     if (enterpriseAuthenticationState == 1) {
-        $$('.identity-select-type .identity-company p').eq(1)[0].innerText = '已认证';
+        $$('.identity-select-type .identity-company p').eq(1).text('已认证');
         individualBtn.addClass('active');
         certBox.addClass('individual').removeClass('company');
         authenticationDemo.addClass('show');
     } else if (personalAuthenticationState == 1) {
-        $$('.identity-select-type .identity-individual p').eq(1)[0].innerText = '已认证';
+        $$('.identity-select-type .identity-individual p').eq(1).text('已认证');
         companyBtn.addClass('active');
         certBox.addClass('company').removeClass('individual');
     }

@@ -10,7 +10,7 @@ function releaseSuccInit(f7, view, page) {
     const { type, id, fishName } = page.query;
     const { pageSize } = config;
 
-    $$('.release-succ-list>.title>span.release-succ-name')[0].innerText = fishName;
+    $$('.release-succ-list>.title>span.release-succ-name').text(fishName);
 
     const callback = (data) => {
         const { code, message } = data;

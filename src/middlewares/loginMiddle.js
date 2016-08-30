@@ -3,9 +3,9 @@ import store from '../utils/locaStorage';
 import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
-function isLogin() {
+function isLogin(uuid) {
     const { cacheUserinfoKey } = config;
-    const nativeToken = nativeEvent.getUserValue('token');
+    const nativeToken = nativeEvent.getUserValue("token") || uuid;
     let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
         store.clear();

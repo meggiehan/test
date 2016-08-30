@@ -33,7 +33,6 @@ const { ios, android, androidChrome, osVersion } = device;
 const { version, debug } = config;
 
 console.log(`current app version: ${version}!`);
-// alert(osVersion + '--' + androidChrome);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 // init f7
@@ -63,7 +62,7 @@ const f7 = new Framework7({
     //     next(content)
     // },
     preroute: (view, options) => {
-        if(!options){
+        if (!options) {
             return;
         }
         const goPage = view['url'];
@@ -71,7 +70,7 @@ const f7 = new Framework7({
         const currentPage = options['url'];
         // console.log(`gopage:${goPage}--currentpage:${currentPage}`,history )
         //if router back, doing.
-            const len = history.length;
+        const len = history.length;
 
         if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
@@ -84,10 +83,11 @@ const f7 = new Framework7({
     }
 });
 const mainView = f7.addView('.view-main', {
-        dynamicNavbar: true,
-        // domCache: true
-    })
-    // load index
+    dynamicNavbar: true,
+    domCache: true
+})
+
+// load index
 mainView.router.load({
     url: 'views/home.html',
     animatePages: false,
@@ -103,7 +103,6 @@ window.currentDevice = f7.device;
  * Trigger lazy load img.
  */
 $$('img.lazy').trigger('lazy');
-
 /*
  * some kinds of loading style.
  * 1: app.showIndicator() 
@@ -119,16 +118,7 @@ const initEvent = f7.onPageInit("*", (page) => {
         f7.showIndicator();
     } else {
         f7.hideIndicator();
-    } 
-    // const url = page['view']['url'];
-    // const name = url.split('.html')[0].split('views/')[1];
-    // const query = getQuery(url.split('?')[1]);
-
-    // if ((!page.name || page.name !== name) && url) {
-    //     page['query'] = query;
-    //     page['name'] = name;
-
-    // }
+    }
     page.name === 'login' && loginInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
     page.name === 'search' && searchInit(f7, mainView, page);
@@ -148,4 +138,3 @@ const initEvent = f7.onPageInit("*", (page) => {
     page.name === 'home' && homeInit(f7, mainView, page);
     page.name === 'user' && userInit(f7, mainView, page);
 });
-

@@ -11,7 +11,7 @@ function otherListInit(f7, view, page) {
     const { type, id } = page.query;
     const {pageSize} = config;
     let pageNo = 1;
-    $$('.other-list-title')[0].innerText = 2 == type ? '正在出售' : '正在求购';
+    $$('.other-list-title').text(2 == type ? '正在出售' : '正在求购');
 
     const callback = (data) => {
     	const {code, message} = data;
