@@ -17,6 +17,8 @@ function otherListInit(f7, view, page) {
     let loading = false;
     let pullToRefresh = false;
     $$('.other-list-title').text(2 == type ? '正在出售' : '正在求购');
+    load.hide();
+
 
     const callback = (data) => {
         const { code, message } = data;
@@ -48,11 +50,14 @@ function otherListInit(f7, view, page) {
 
         pullToRefresh = false;
 
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize) {
+        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
+        }else{
+            load.show();
         }
+        !$$('.other-list-info>a').length && showAllInfo.hide();
 
     }
 

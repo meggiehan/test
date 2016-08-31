@@ -195,7 +195,6 @@ function selldetailInit(f7, view, page) {
     //     certUrl = 'http://yumaimai.img-cn-qingdao.aliyuncs.com/img/enterprise_authentication/20160727/1469585379903_8431.jpg';
     //     popupWindow.open();
     // })
-    setTimeout(f7.hideIndicator, timeout);
 }
 
 module.exports = {

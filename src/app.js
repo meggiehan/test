@@ -26,13 +26,13 @@ import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
 import { catIdentityStatusInit } from './js/catIdentityStatus';
-import {editNameInit} from './js/editName';
+import { editNameInit } from './js/editName';
 
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const { version, debug } = config;
+const { version, debug, timeout } = config;
 
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
@@ -40,7 +40,7 @@ android && (animatStatus = androidChrome);
 // init f7
 const f7 = new Framework7({
     // swipeBackPage: false,
-    uniqueHistoryIgnoreGetParameters: true,
+    // uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
     // preloadPreviousPage: true,
     imagesLazyLoadThreshold: 50,
@@ -121,6 +121,8 @@ const initEvent = f7.onPageInit("*", (page) => {
     } else {
         f7.hideIndicator();
     }
+    setTimeout(f7.hideIndicator, timeout);
+
     page.name === 'editName' && editNameInit(f7, mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
     page.name === 'login' && loginInit(f7, mainView, page);

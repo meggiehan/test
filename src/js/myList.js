@@ -18,6 +18,7 @@ function myListInit(f7, view, page) {
     let loading = false;
     let pullToRefresh = false;
     $$('.my-list-title').text(2 == type ? '我的出售' : '我的求购');
+    load.hide();
 
     const callback = (data) => {
         const { code, message } = data;
@@ -53,11 +54,14 @@ function myListInit(f7, view, page) {
         pullToRefresh = false;
         $$('.other-list-info>a').length && $$('.my-sell-list-empty').hide();
         $$('.other-list-info>a').length && $$('.my-buy-list-empty').hide();
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize) {
+        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
+        }else{
+            load.show();
         }
+        !$$('.other-list-info>a').length && showAllInfo.hide();
     }
 
     customAjax.ajax({
