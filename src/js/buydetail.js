@@ -6,7 +6,7 @@ import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip } from '../utils/domListenEvent';
+import { detailClickTip, veiwCert, timeout } from '../utils/domListenEvent';
 
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
@@ -132,15 +132,7 @@ function buydetailInit(f7, view, page) {
     })
 
     //view cert of new window.
-    $$('.selldetail-cert-list').on('click', (e) => {
-        const event = e || window.event;
-        const ele = e.target;
-        const classes = ele.className;
-        if (classes.indexOf('open-cert-button') > -1) {
-            const url = $$(ele).attr('data-url');
-            nativeEvent.catPic(url);
-        }
-    })
+    $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
     shareBtn.on('click', () => {
@@ -167,7 +159,7 @@ function buydetailInit(f7, view, page) {
         messageTile += price ? `${'价格' + price}，` : '';
         messageTile += specifications ? `${'规格' + specifications}，` : '';
         messageTile += `，对你很有用，赶紧看看吧: ${url_}`;
-        html += `出售${fishTypeName},`;
+        html += `求购${fishTypeName},`;
         html += stock ? `${'库存 ' + stock}，` : '';
         html += price ? `${'价格' + price}，` : '';
         html += specifications ? `${'规格' + specifications}，` : '';
@@ -176,6 +168,7 @@ function buydetailInit(f7, view, page) {
     })
 
     $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
+    setTimeout(f7.hideIndicator, timeout);
 }
 
 module.exports = {

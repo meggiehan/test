@@ -96,9 +96,9 @@ module.exports = {
         cert: (data) => {
             const { type, fish_type_name, path, state } = data;
             let link = '';
-            const {label, text, classes} = getCertInfo(type);
+            const {label, text, classes, certName} = getCertInfo(type);
             link += '<a class="iconfont icon-right open-cert-button" data-url="' + path + '">' +
-                '<span class="cert-label ' + classes + '">' + label + '</span>' + text +
+                '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name}` + 
                 '</a>'
             return link;
         }
