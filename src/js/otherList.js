@@ -17,6 +17,8 @@ function otherListInit(f7, view, page) {
     let loading = false;
     let pullToRefresh = false;
     $$('.other-list-title').text(2 == type ? '正在出售' : '正在求购');
+    load.hide();
+
 
     const callback = (data) => {
         const { code, message } = data;
@@ -52,6 +54,8 @@ function otherListInit(f7, view, page) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
+        }else{
+            load.show();
         }
 
     }

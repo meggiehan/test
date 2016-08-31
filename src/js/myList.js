@@ -18,6 +18,7 @@ function myListInit(f7, view, page) {
     let loading = false;
     let pullToRefresh = false;
     $$('.my-list-title').text(2 == type ? '我的出售' : '我的求购');
+    load.hide();
 
     const callback = (data) => {
         const { code, message } = data;
@@ -57,6 +58,8 @@ function myListInit(f7, view, page) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
+        }else{
+            load.hide();
         }
     }
 
