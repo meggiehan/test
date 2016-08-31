@@ -56,7 +56,7 @@ function searchInit(f7, view, page) {
         const val = input.val();
         if (!trim(val)) {
             clear.trigger('click');
-            !release && $$('.serch-history').show();
+            !release && searchHistoryMetadata.length && $$('.serch-history').show();
             html(list, '', f7);
         } else {
             hideVal.find('span').html(`“${val}”`);
