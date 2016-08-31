@@ -56,7 +56,7 @@ function searchInit(f7, view, page) {
         const val = input.val();
         if (!trim(val)) {
             clear.trigger('click');
-            !release && searchHistoryMetadata.length && $$('.serch-history').show();
+            !release && searchHistoryMetadata && searchHistoryMetadata.length && $$('.serch-history').show();
             html(list, '', f7);
         } else {
             hideVal.find('span').html(`“${val}”`);
@@ -64,7 +64,6 @@ function searchInit(f7, view, page) {
             clear.addClass('on');
             $$('.serch-history').hide();
             emptyInfo.hide();
-
         }
 
         if (trim(searchVal) !== trim(val) && trim(val) !== '') {
@@ -97,7 +96,8 @@ function searchInit(f7, view, page) {
     //clear history cache;
     $$('.search-clear-history').on('click', () => {
         store.remove(cacheHistoryKey);
-        $$('.serch-history').hide()
+        $$('.serch-history').text('');
+        $$('.serch-history').hide();
     })
 
     let isClick = false;
