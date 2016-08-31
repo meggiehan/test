@@ -50,13 +50,14 @@ function otherListInit(f7, view, page) {
 
         pullToRefresh = false;
 
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize) {
+        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         }else{
             load.show();
         }
+        !$$('.other-list-info>a').length && showAllInfo.hide();
 
     }
 

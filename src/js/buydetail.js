@@ -168,7 +168,6 @@ function buydetailInit(f7, view, page) {
     })
 
     $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
-    setTimeout(f7.hideIndicator, timeout);
 }
 
 module.exports = {

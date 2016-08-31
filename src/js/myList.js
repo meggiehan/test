@@ -54,13 +54,14 @@ function myListInit(f7, view, page) {
         pullToRefresh = false;
         $$('.other-list-info>a').length && $$('.my-sell-list-empty').hide();
         $$('.other-list-info>a').length && $$('.my-buy-list-empty').hide();
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize) {
+        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         }else{
-            load.hide();
+            load.show();
         }
+        !$$('.other-list-info>a').length && showAllInfo.hide();
     }
 
     customAjax.ajax({
