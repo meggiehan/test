@@ -8,7 +8,7 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 import userUtils from '../utils/viewsUtil/userUtils';
 import { centerShowTime } from '../utils/time';
-import {otherIndexClickTip} from '../utils/domListenEvent';
+import {otherIndexClickTip, veiwCert} from '../utils/domListenEvent';
 
 function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
@@ -106,14 +106,7 @@ function otherIndexInit(f7, view, page) {
     })
 
     //view cert in ew window.
-    $$('.other-index-cert .cert-list').on('click', (e) => {
-        const event = e || window.event;
-        const ele = event.target;
-        if (ele.className.indexOf('open-cert-button') > -1) {
-            const url = $$(ele).attr('data-url');
-            nativeEvent.catPic(url);
-        }
-    })
+    $$('.other-index-cert .cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //view current user sell list.
     $$('.other-sell-cat-all').on('click', () => {

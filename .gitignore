@@ -11,7 +11,8 @@ zip/
 #file
 src/build/js
 src/build/css/*.css
+src/config
 
-
+webpack.config.babel.js
 
 

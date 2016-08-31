@@ -19,10 +19,28 @@ function searchInit(f7, view, page) {
     // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
-    const searchHistoryMetadata = store.get(cacheHistoryKey);
+    let searchHistoryMetadata = store.get(cacheHistoryKey);
     let searchVal = '';
     !release && trim(input.val()) && searchButton.addClass('on');
 
+    const renderHistory = () => {
+        //search list render;
+        searchHistoryMetadata = store.get(cacheHistoryKey);
+        if (searchHistoryMetadata && searchHistoryMetadata.length) {
+            let listStr = '';
+            $$.each(searchHistoryMetadata, (index, item) => {
+                if (!item) {
+                    return;
+                }
+                listStr += search.historyLink(item);
+            })
+            html($$('.search-history-list'), listStr, f7);
+            !release && listStr && !input.val() ? $$('.serch-history').show() : $$('.serch-history').hide();
+            !release && input.val() && searchContent.addClass('on');
+            input.val() && hideVal.find('span').text(`“${trim(input.val())}”`);
+        }
+    }
+    renderHistory();
     const callback = (data) => {
         let listHtml = '';
         release && input.val() && (!data.data.length ? emptyInfo.show() : emptyInfo.hide());
@@ -53,10 +71,12 @@ function searchInit(f7, view, page) {
     }, 500);
 
     input[0].oninput = () => {
-        const val = input.val();
-        if (!trim(val)) {
+        const val = trim(input.val());
+        renderHistory();
+        // searchHistoryMetadata = store.get(cacheHistoryKey);
+        if (!val) {
             clear.trigger('click');
-            !release && $$('.serch-history').show();
+            !release && searchHistoryMetadata && searchHistoryMetadata.length && $$('.serch-history').show();
             html(list, '', f7);
         } else {
             hideVal.find('span').html(`“${val}”`);
@@ -64,7 +84,6 @@ function searchInit(f7, view, page) {
             clear.addClass('on');
             $$('.serch-history').hide();
             emptyInfo.hide();
-
         }
 
         if (trim(searchVal) !== trim(val) && trim(val) !== '') {
@@ -80,24 +99,12 @@ function searchInit(f7, view, page) {
         }
     }
 
-    //search list render;
-    if (searchHistoryMetadata && searchHistoryMetadata.length) {
-        let listStr = '';
-        $$.each(searchHistoryMetadata, (index, item) => {
-            if (!item) {
-                return;
-            }
-            listStr += search.historyLink(item);
-        })
-        html($$('.search-history-list'), listStr, f7);
-        !release && listStr && !input.val() ? $$('.serch-history').show() : $$('.serch-history').hide();
-        !release && input.val() && searchContent.addClass('on');
-        input.val() && hideVal.find('span').text(`“${trim(input.val())}”`);
-    }
     //clear history cache;
     $$('.search-clear-history').on('click', () => {
         store.remove(cacheHistoryKey);
-        $$('.serch-history').hide()
+        renderHistory();
+        $$('.search-history-list').text('');
+        $$('.serch-history').hide();
     })
 
     let isClick = false;

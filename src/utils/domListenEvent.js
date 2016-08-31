@@ -256,6 +256,15 @@ module.exports = {
         }];
         const btn2 = [{ text: "取消", color: 'red' }];
         f7.actions([btn1, btn2]);
-    }
+    },
 
+    veiwCert: (e) => {
+        const event = e || window.event;
+        const ele = e.target;
+        const classes = ele.className;
+        if (classes.indexOf('open-cert-button') > -1) {
+            const url = $$(ele).attr('data-url');
+            nativeEvent.catPic(url);
+        }
+    }
 }

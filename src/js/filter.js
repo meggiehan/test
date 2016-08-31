@@ -154,7 +154,7 @@ function filterInit(f7, view, page) {
         let categoryFish = [];
         let typeHtml = '';
 
-        if (rootId === '0') {
+        if (rootId == '0') {
             categoryFish = allFishTypeChild;
             typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && 'active-ele'}">${ele.innerText}</span>`;
         } else {
@@ -362,7 +362,7 @@ function filterInit(f7, view, page) {
             return;
         }
         tabChange = true;
-        const childId = ele.getAttribute('data-id');
+        const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
         $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
         $$('.filter-release-next').addClass('pass');
         const tabText = ele.innerText;
