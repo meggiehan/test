@@ -93,11 +93,8 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
-                view.router.load({
-                    url: "views/user.html",
-                    animatePage: true,
-                    reload: true
-                })
+                $$('.other-list-info>a[href="./views/buydetail.html?id='+id+'"]').remove();
+                view.router.back()
             }
         })
     }
