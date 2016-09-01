@@ -132,7 +132,7 @@ module.exports = {
             let imgStr;
             img.src = path && `${path + identity['catCompany']}`;
             imgStr = img.complete ? '<img src="' + `${path + identity['catCompany']}` + '"/>' :
-                `<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy">`;
+                `<img data-src="${path + identity['catCompany']}" src="${backgroundImgUrl}" alt="" class="lazy">`;
             let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
             let itemBottom = '';
             if (1 !== state) {

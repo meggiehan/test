@@ -266,5 +266,9 @@ module.exports = {
             const url = $$(ele).attr('data-url');
             nativeEvent.catPic(url);
         }
+    },
+
+    soundRelease: () => {
+        nativeEvent.releaseVoiceInfo();
     }
 }

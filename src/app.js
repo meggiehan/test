@@ -55,14 +55,18 @@ const f7 = new Framework7({
     fastClicks: true,
     modalTitle: '温馨提示',
     // force: true,
-    // cacheIgnore: ['views/search.html', 'views/login.html', 'views/loginCode.html'],
+    // cacheIgnore: ['search.html'],
 
 
     // cacheIgnore: ['search.html'],
-    // preprocess: (content, url, next) => {
-    //     console.log(url);
-    //     next(content)
-    // },
+    preprocess: (content, url, next) => {
+        next(content);
+        if (url.indexOf('search.html') > -1) {
+            const query = getQuery(url);
+
+            searchInit(f7, mainView, { query })
+        }
+    },
     preroute: (view, options) => {
         if (!options) {
             return;

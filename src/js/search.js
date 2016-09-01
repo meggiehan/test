@@ -8,21 +8,21 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 
 function searchInit(f7, view, page) {
     f7.hideIndicator();
-    const { type } = page.query;
+    const { type, keyvalue } = page.query;
     const release = page.query['release'] && (page.query['release'] === 'false' ? false : page.query['release']);
     const { pageSize, cacheHistoryKey } = config;
-    const input = $$('.search-page-input');
+    const input = $$('.search-page-input')[$$('.search-page-input').length -1];
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
     const searchButton = $$('span.search-button');
+    let searchIndex = 0;
     const list = $$('.search-return-list');
     // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
     let searchHistoryMetadata = store.get(cacheHistoryKey);
     let searchVal = '';
-    !release && trim(input.val()) && searchButton.addClass('on');
-
+    !release && trim(input.value) && searchButton.addClass('on');
     const renderHistory = () => {
         //search list render;
         searchHistoryMetadata = store.get(cacheHistoryKey);
@@ -35,15 +35,15 @@ function searchInit(f7, view, page) {
                 listStr += search.historyLink(item);
             })
             html($$('.search-history-list'), listStr, f7);
-            !release && listStr && !input.val() ? $$('.serch-history').show() : $$('.serch-history').hide();
-            !release && input.val() && searchContent.addClass('on');
-            input.val() && hideVal.find('span').text(`“${trim(input.val())}”`);
+            !release && listStr && !input.value ? $$('.serch-history').show() : $$('.serch-history').hide();
+            !release && input.value && searchContent.addClass('on');
+            input.value && hideVal.find('span').text(`“${trim(input.value)}”`);
         }
     }
     renderHistory();
     const callback = (data) => {
         let listHtml = '';
-        release && input.val() && (!data.data.length ? emptyInfo.show() : emptyInfo.hide());
+        release && input.value && (!data.data.length ? emptyInfo.show() : emptyInfo.hide());
         if (!data.data.length) {
             html(list, listHtml, f7);
             return;
@@ -57,7 +57,7 @@ function searchInit(f7, view, page) {
     }
 
     clear.on('click', () => {
-        input.val('');
+        input.value = '';
         clear.removeClass('on');
         hideVal.find('span').html('');
         searchContent.removeClass('on');
@@ -70,8 +70,8 @@ function searchInit(f7, view, page) {
         input.focus();
     }, 500);
 
-    input[0].oninput = () => {
-        const val = trim(input.val());
+    const inputChenge = () => {
+        const val = trim(input.value);
         renderHistory();
         // searchHistoryMetadata = store.get(cacheHistoryKey);
         if (!val) {
@@ -98,6 +98,12 @@ function searchInit(f7, view, page) {
             }, callback)
         }
     }
+    if(!release && keyvalue && keyvalue !== 'undefined'){
+        input.value = keyvalue;
+        inputChenge();
+    };
+
+    input.oninput = inputChenge;
 
     //clear history cache;
     $$('.search-clear-history').on('click', () => {
@@ -109,7 +115,7 @@ function searchInit(f7, view, page) {
 
     let isClick = false;
     let hrefFilterPage = () => {
-        if (isClick) {
+        if (isClick || !trim(input.value)) {
             return;
         }
         isClick = true;
@@ -130,9 +136,9 @@ function searchInit(f7, view, page) {
 
     searchButton.click(hrefFilterPage);
 
-    input[0].onkeypress = (e) => {
+    input.onkeypress = (e) => {
         const event = e || window.event;
-        const val = trim(input.val());
+        const val = trim(input.value);
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
             if (!val && release) {
