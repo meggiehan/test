@@ -125,7 +125,7 @@ function releaseInfoInit(f7, view, page) {
         } else if (spec && spec.length > 20) {
             error = '规格最大长度为20位字符！'
         } else if (stock && stock.length > 20) {
-            error = '数量最大长度为50位字符！'
+            error = '数量最大长度为20位字符！'
         } else if (description && description.length > 50) {
             error = '补充说明最大长度为50位字符！'
         }
@@ -159,23 +159,22 @@ function releaseInfoInit(f7, view, page) {
     $$('.release-sub-info')[domIndex].onclick = () => {
         const data = subInfoTest();
         const { error } = data;
+        if (error) {
+            f7.alert(error);
+        }
         if (isRelease || error) {
             return;
         }
-        if (error) {
-            f7.alert(error);
-        } else {
-            f7.showIndicator();
-            isRelease = true;
-            customAjax.ajax({
-                apiCategory: 'demandInfo',
-                api: 'userAddDemandInfo',
-                data: data,
-                type: 'post',
-                isMandatory: true,
-                noCache: true
-            }, callback);
-        }
+        f7.showIndicator();
+        isRelease = true;
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'userAddDemandInfo',
+            data: data,
+            type: 'post',
+            isMandatory: true,
+            noCache: true
+        }, callback);
     }
 
     let isTouch = false;
