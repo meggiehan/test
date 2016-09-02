@@ -6,7 +6,7 @@ function releaseInit(f7, view, page) {
     f7.hideIndicator();
     const { servicePhoneNumber, debug } = config;
     $$('.release-sound').off('click', soundRelease).on('click', soundRelease);
-    if (!window['addressObj']) {
+    if (!window['addressObj'] || (window['addressObj'] && !window['addressObj']['initCityName'])) {
         !debug && nativeEvent.getAddress();
     }
 

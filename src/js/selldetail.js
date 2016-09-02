@@ -11,8 +11,9 @@ import { detailClickTip, veiwCert } from '../utils/domListenEvent';
 function selldetailInit(f7, view, page) {
     const { id } = page.query;
     let isReleaseForMe = false;
-    const certList = $$('.selldetail-cert-list');
-    const shareBtn = $$('.selldetail-footer .icon-share');
+    const domIndex = $$('.selldetail-delete-info').length - 1;
+    const certList = $$('.selldetail-cert-list')[domIndex];
+    const shareBtn = $$('.selldetail-footer .icon-share')[domIndex];
     const { shareUrl, cacheUserinfoKey, timeout } = config;
     let demandInfo_;
     let currentUserId;
@@ -75,7 +76,7 @@ function selldetailInit(f7, view, page) {
                 const { fish_type_name } = item;
                 fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
             })
-            certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
+            certHtml ? html(certList, certHtml, f7) : $$(certList).parent().remove();
             html($$('.page-selldetail .user-name'), contactName || '匿名用户', f7);
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
@@ -99,11 +100,11 @@ function selldetailInit(f7, view, page) {
     }, callback);
 
     // dom event;
-    $$('.sell-detail-verify-faild ')[0].onclick = () => {
+    $$('.sell-detail-verify-faild ')[domIndex].onclick = () => {
         f7.alert(errorInfo, '查看原因');
     }
 
-    $$('.selldetail-call-phone')[0].onclick = () => {
+    $$('.selldetail-call-phone')[domIndex].onclick = () => {
             const { requirementPhone } = demandInfo_;
             requirementPhone && nativeEvent.contactUs(requirementPhone);
         }
@@ -113,12 +114,14 @@ function selldetailInit(f7, view, page) {
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
+                const sellNum = parseInt($$('.user-sell-num').text()) - 1;
                 $$('.other-list-info>a[href="./views/selldetail.html?id='+id+'"]').remove();
+                $$('.user-sell-num').text(sellNum);
                 view.router.back();
             }
         })
     }
-    $$('.selldetail-delete-info')[0].onclick = () => {
+    $$('.selldetail-delete-info')[domIndex].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
         f7.confirm('你确定删除出售信息吗？', '删除发布信息', () => {
             f7.showIndicator();
@@ -132,7 +135,6 @@ function selldetailInit(f7, view, page) {
                 type: 'post'
             }, deleteCallback);
         })
-
     }
 
     //View more current user information
@@ -146,7 +148,7 @@ function selldetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
-    shareBtn.on('click', () => {
+    shareBtn.onclick = () => {
         let title = '';
         let html = '';
         let messageTile = '';
@@ -176,7 +178,7 @@ function selldetailInit(f7, view, page) {
         html += specifications ? `${'规格' + specifications}，` : '';
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
-    })
+    }
 
     $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
     //

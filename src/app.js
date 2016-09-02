@@ -61,10 +61,13 @@ const f7 = new Framework7({
     // cacheIgnore: ['search.html'],
     preprocess: (content, url, next) => {
         next(content);
+        const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
-            const query = getQuery(url);
-
             searchInit(f7, mainView, { query })
+        }else if(url.indexOf('login.html') > -1){
+            loginInit(f7, mainView, { query })
+        }else if(url.indexOf('loginCode.html') > -1){
+            loginCodeInit(f7, mainView, { query })
         }
     },
     preroute: (view, options) => {

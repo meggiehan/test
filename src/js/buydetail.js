@@ -11,6 +11,7 @@ import { detailClickTip, veiwCert, timeout } from '../utils/domListenEvent';
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
+    const domIndex = $$('.buydetail-delete-info').length - 1;
     const shareBtn = $$('.selldetail-footer .icon-share');
     let isReleaseForMe = false;
     let demandInfo_;
@@ -73,9 +74,9 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator(300);
     }
 
-    $$('.buy-detail-verify-faild ').click(() => {
+    $$('.buy-detail-verify-faild ')[domIndex].onclick = () => {
         f7.alert(errorInfo, '查看原因');
-    })
+    }
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -93,14 +94,15 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
+                const buyNum = parseInt($$('.user-buy-num').text()) - 1;
                 $$('.other-list-info>a[href="./views/buydetail.html?id='+id+'"]').remove();
+                $$('.user-buy-num').text(buyNum);
                 view.router.back()
             }
         })
     }
-    $$('.buydetail-delete-info').on('click', () => {
+    $$('.buydetail-delete-info')[domIndex].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
-
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
             f7.showIndicator();
             customAjax.ajax({
@@ -114,7 +116,7 @@ function buydetailInit(f7, view, page) {
             }, deleteCallback);
         })
 
-    })
+    }
 
     //View more current user information
     $$('.cat-user-info').on('click', () => {
@@ -123,10 +125,10 @@ function buydetailInit(f7, view, page) {
         })
     })
 
-    $$('.buydetail-call-phone').on('click', () => {
+    $$('.buydetail-call-phone')[domIndex].onclick = () => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
-    })
+    }
 
     //view cert of new window.
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);

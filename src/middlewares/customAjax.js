@@ -1,6 +1,6 @@
 import config from '../config/';
 import store from '../utils/locaStorage';
-import { logOut } from '../middlewares/loginMiddle';
+import { logOut, activeLogout } from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
 
@@ -64,7 +64,7 @@ class CustomClass {
                 url += `${value}/`;
             })
         }
-        const newData = $$.isArray(data) ? this.getData(key, data) : data;
+        let newData = $$.isArray(data) ? this.getData(key, data) : data;
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);
@@ -91,11 +91,38 @@ class CustomClass {
                 const _data = JSON.parse(data);
 
                 if (_data.code == 2 && _data.message) {
-                    f7.hideIndicator();
+                    if (url.indexOf('userAddDemandInfo') > -1) {
+                        const { type, fishTypeId, fishTypeName, requirementPhone } = newData;
+                        const callback = (data) => {
+                            f7.hideIndicator();
+                            const { code, message } = data;
+                            if (1 == code) {
+                                $$('.release-sub-info').removeClass('pass');
+                                mainView.router.load({
+                                    url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`,
+                                    // reload: true
+                                })
+                            } else {
+                                f7.alert(message, '提示');
+                            }
+                        }
+                        newData['login_token'] = '';
+                        _this.ajax({
+                            apiCategory: 'demandInfo',
+                            api: 'userAddDemandInfo',
+                            data: newData,
+                            type: 'post',
+                            isMandatory: true,
+                            noCache: true
+                        }, callback);
+                    } else {
+                        f7.hideIndicator();
 
-                    f7.alert(_data.message, '提示', () => {
-                        logOut();
-                    });
+                        f7.alert(_data.message, '提示', () => {
+                            activeLogout();
+                        });
+                    }
+
                 } else if (0 == _data.code) {
                     f7.hideIndicator();
 
