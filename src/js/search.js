@@ -11,7 +11,7 @@ function searchInit(f7, view, page) {
     const { type, keyvalue } = page.query;
     const release = page.query['release'] && (page.query['release'] === 'false' ? false : page.query['release']);
     const { pageSize, cacheHistoryKey } = config;
-    const input = $$('.search-page-input')[$$('.search-page-input').length -1];
+    const input = $$('.search-page-input')[$$('.search-page-input').length - 1];
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
     const searchButton = $$('span.search-button');
@@ -124,7 +124,8 @@ function searchInit(f7, view, page) {
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
-            animatePages: true
+            animatePages: true,
+            reload: true
         })
         setHistory(val);
         setTimeout(() => { isClick = false }, 100)
@@ -149,7 +150,7 @@ function searchInit(f7, view, page) {
             if (release || !val) {
                 return;
             }
-            input[0].blur();
+            input.blur();
             searchButton.trigger('click');
             return;
         }

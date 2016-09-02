@@ -80,8 +80,8 @@ module.exports = {
         link: (data, release, type) => {
             const { name, id, parant_id, parant_name } = data;
             let li = '';
-            li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}">${name}</a>`:
-                            `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
+            li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}" data-reload="true">${name}</a>`:
+                            `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
@@ -89,7 +89,7 @@ module.exports = {
                 return;
             }
             const val = decodeURI(data);
-            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true">${val}</a>`;
+            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true" data-reload="true">${val}</a>`;
         }
     },
     selldetail: {
