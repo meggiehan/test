@@ -81,6 +81,7 @@ function releaseInfoInit(f7, view, page) {
                 // reload: true
             })
         }
+        isRelease = true;
     }
 
     descriptInput[domIndex].oninput = () => {
@@ -165,7 +166,6 @@ function releaseInfoInit(f7, view, page) {
             f7.alert(error);
         } else {
             f7.showIndicator();
-            isRelease = true;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'userAddDemandInfo',
