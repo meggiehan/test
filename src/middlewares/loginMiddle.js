@@ -34,6 +34,15 @@ function logOut() {
     // })
 }
 
+function activeLogout() {
+    store.clear();
+    nativeEvent.setNativeUserInfo('token', '');
+    mainView.router.load({
+         url: 'views/user.html',
+         reload: true
+    })
+}
+
 function loginSucc(data, callback) {
     const { imgPath } = config;
     const {
@@ -61,4 +70,5 @@ module.exports = {
     isLogin,
     logOut,
     loginSucc,
+    activeLogout
 }

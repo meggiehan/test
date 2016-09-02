@@ -1,50 +1,62 @@
 import customAjax from '../middlewares/customAjax';
 
 function loginInit(f7, view, page) {
+    const { phone } = page.query;
     f7.hideIndicator();
-    const input = $$('.login-phone>input');
-    const nextBtn = $$('.login-next>a');
+    const domIndex = $$('.login-phone>input').length - 1;
+    const input = $$('.login-phone>input')[domIndex];
+    const nextBtn = $$('.login-next>a')[domIndex];
     let isPass = false;
     let isSend = false;
     setTimeout(() => {
         $$('.login-phone-number input').focus();
     }, 400);
 
-    input[0].oninput = () => {
-        const val = input.val();
+    const inputChange = () => {
+        const val = input.value ;
+        let classes = nextBtn.className;
         if (/^1[3|4|5|7|8]\d{9}$/.test(val)) {
-            nextBtn.addClass('on');
+            classes += ' on';
+            nextBtn.className = classes;
             isPass = true;
         } else {
-            nextBtn.removeClass('on');
+            nextBtn.className = classes.replace(' on', '');
             isPass = false;
         }
+    }
+    if(phone){
+        input.value = phone;
+        inputChange();
+    }
+    input.oninput = () => {
+        inputChange();
     };
     //listen
-    input.keypress((e) => {
+    input.onkeypress = (e) => {
         const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;
         if (code == 13) {
             nextBtn.click();
         }
-    });
+    };
     const callback = (data) => {
         isSend = false;
-        nextBtn.addClass('on');
+        nextBtn.className += ' on';
         f7.hideIndicator();
         if (data.code == 1) {
             view.router.load({
-                url: 'views/loginCode.html' + `?phone=${input.val()}&key=${data.data}`
+                url: 'views/loginCode.html' + `?phone=${input.value}&key=${data.data}`
             })
         }
     };
 
-    nextBtn.on('click', () => {
+    nextBtn.onclick = () => {
+        inputChange();
         if (!isPass || isSend) {
             return;
         }
         isSend = true;
-        nextBtn.removeClass('on');
+        nextBtn.className = nextBtn.className.replace(' on', '');
         f7.showIndicator('登录中...');
 
         customAjax.ajax({
@@ -56,10 +68,10 @@ function loginInit(f7, view, page) {
             isMandatory: true,
             val: {
                 type: 1,
-                phone: input.val()
+                phone: input.value
             }
         }, callback);
-    })
+    }
 
 }
 

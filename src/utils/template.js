@@ -81,7 +81,7 @@ module.exports = {
             const { name, id, parant_id, parant_name } = data;
             let li = '';
             li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}">${name}</a>`:
-                            `<a href="views/filter.html?id=${id}&search=true">${name}</a>`;
+                            `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
@@ -89,7 +89,7 @@ module.exports = {
                 return;
             }
             const val = decodeURI(data);
-            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true">${val}</a>`;
+            return `<a href="views/filter.html?keyvalue=${val}&type=2&search=true" data-reload="true">${val}</a>`;
         }
     },
     selldetail: {
@@ -132,7 +132,7 @@ module.exports = {
             let imgStr;
             img.src = path && `${path + identity['catCompany']}`;
             imgStr = img.complete ? '<img src="' + `${path + identity['catCompany']}` + '"/>' :
-                `<img data-src="${path + identity['catCompany']}" src="img/defimg.png" alt="" class="lazy">`;
+                `<img data-src="${path + identity['catCompany']}" src="${backgroundImgUrl}" alt="" class="lazy">`;
             let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
             let itemBottom = '';
             if (1 !== state) {

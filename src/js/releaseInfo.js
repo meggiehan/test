@@ -11,6 +11,7 @@ function releaseInfoInit(f7, view, page) {
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     const { cacheUserinfoKey, debug } = config;
     const userInfo = store.get(cacheUserinfoKey);
+    const domIndex = $$('.release-sub-info').length - 1;
     let title;
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const token = userInfo && userInfo['token'] || '';
@@ -45,8 +46,8 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const testRequireInfo = () => {
-        const val = trim($$('.release-write-tell input').val());
-        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input').val()) {
+        const val = trim($$('.release-write-tell input')[domIndex].value);
+        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && $$('.release-write-address input')[domIndex].value) {
             $$('.release-sub-info').addClass('pass');
         } else {
             $$('.release-sub-info').removeClass('pass');
@@ -55,28 +56,35 @@ function releaseInfoInit(f7, view, page) {
 
     //init verify, change submit button status;
     testRequireInfo();
-    $$('.release-write-address input')[0].oninput = () => {
+    const intervalId = setInterval(testRequireInfo, 1500);
+    setTimeout(() => { clearInterval(intervalId) }, 1000000);
+    $$('.release-write-address>input')[domIndex].onclick = () => {
+        setTimeout(testRequireInfo, 3000);
+    }
+    $$('.release-write-address input')[domIndex].oninput = () => {
         testRequireInfo();
     }
 
-    $$('.release-write-tell input')[0].oninput = () => {
+    $$('.release-write-tell input')[domIndex].oninput = () => {
         testRequireInfo();
     }
 
     const callback = (data) => {
-        isRelease = false;
+        f7.hideIndicator();
         const { code, message } = data;
         if (1 == code) {
+            const requirementPhoneNumber = trim($$('.release-write-tell input')[domIndex].value);
+            $$('.release-sub-info').removeClass('pass');
+            clearInterval(intervalId);
             view.router.load({
-                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}`,
+                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}&phone=${requirementPhoneNumber}`,
                 // reload: true
             })
-        } else {
-            f7.alert(message, '提示');
         }
+        isRelease = false;
     }
 
-    descriptInput[0].oninput = () => {
+    descriptInput[domIndex].oninput = () => {
         const val = trim(descriptInput.val());
         const len = val && val.length || 0;
         if (len >= 50) {
@@ -100,13 +108,13 @@ function releaseInfoInit(f7, view, page) {
             !provinceId && (provinceId = getProvinceId(_district, provinceName));
             !cityId && (cityId = getCityId(_district, provinceName, cityName));
         }
-        const price = trim($$('.release-write-price input').val());
-        const spec = trim($$('.release-write-spec input').val());
-        const stock = trim($$('.release-write-stock input').val());
-        const address = trim($$('.release-write-address input').val());
-        const description = trim($$('.release-info-discription textarea').val());
-        const name = trim($$('.release-write-contact input').val());
-        const phone = trim($$('.release-write-tell input').val());
+        const price = trim($$('.release-write-price input')[domIndex].value);
+        const spec = trim($$('.release-write-spec input')[domIndex].value);
+        const stock = trim($$('.release-write-stock input')[domIndex].value);
+        const address = trim($$('.release-write-address input')[domIndex].value);
+        const description = trim($$('.release-info-discription textarea')[domIndex].value);
+        const name = trim($$('.release-write-contact input')[domIndex].value);
+        const phone = trim($$('.release-write-tell input')[domIndex].value);
         let error;
         if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
             error = '请您输入正确的手机号码！';
@@ -117,7 +125,7 @@ function releaseInfoInit(f7, view, page) {
         } else if (spec && spec.length > 20) {
             error = '规格最大长度为20位字符！'
         } else if (stock && stock.length > 20) {
-            error = '数量最大长度为50位字符！'
+            error = '数量最大长度为20位字符！'
         } else if (description && description.length > 50) {
             error = '补充说明最大长度为50位字符！'
         }
@@ -148,29 +156,29 @@ function releaseInfoInit(f7, view, page) {
 
 
     // submit release infomation to server;
-    $$('.release-sub-info')[0].onclick = () => {
+    $$('.release-sub-info')[domIndex].onclick = () => {
         const data = subInfoTest();
         const { error } = data;
-        if (isRelease && error) {
-            return;
-        }
         if (error) {
             f7.alert(error);
-        } else {
-            isRelease = true;
-            customAjax.ajax({
-                apiCategory: 'demandInfo',
-                api: 'userAddDemandInfo',
-                data: data,
-                type: 'post',
-                isMandatory: true,
-                noCache: true
-            }, callback);
         }
+        if (isRelease || error) {
+            return;
+        }
+        f7.showIndicator();
+        isRelease = true;
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'userAddDemandInfo',
+            data: data,
+            type: 'post',
+            isMandatory: true,
+            noCache: true
+        }, callback);
     }
 
     let isTouch = false;
-    $$('.release-info-content .page-content').on('touchmove', (e) => {
+    $$('.release-info-content .page-content').on('touchstart', (e) => {
         if (isTouch) {
             return;
         }

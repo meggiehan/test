@@ -123,6 +123,14 @@ class CustomClass {
         ios ? JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
     }
 
+    setNativeUserInfo(key, val){
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
+            return false;
+        }
+        ios ? JS_PerferenceSetShared(key, val) : window.yudada.JS_PerferenceSetShared(key, val);
+    }
+
 }
 
 const nativeEvent = new CustomClass;

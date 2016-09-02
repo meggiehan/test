@@ -17,8 +17,6 @@ class CustomClass {
         let individualCert = true;
         const id = store.get(cacheUserinfoKey)['id'];
         const callback = (data) => {
-            const f = new framework7();
-
             const { code, message } = data;
             if (1 == code) {
                 mainView.router.load({
@@ -117,14 +115,25 @@ class CustomClass {
         }
         const callback = (data) => {
             const { code, message } = data;
-            f7.alert(message, '提示', () => {
-                if (1 == code) {
-                    mainView.router.load({
-                        url: 'views/user.html',
-                        reload: true
-                    })
+            if (1 == code) {
+                const addData = {
+                    create_time: '1472721207',
+                    file_size: fileSize,
+                    path,
+                    state: 0,
+                    user_id: id,
+                    user_login_name: userInfo['phone']
                 }
-            })
+                if (id) {
+                    $$('.fish-cert-list>div[data-parent-id="' + id + '"]').remove();
+                } else {
+                    $$('.user-verification-num').text(parseInt($$('.user-verification-num').text()) + 1);
+                }
+                $$('.page-fish-cert .fish-cert-list').prepend(fishCert.certList(addData));
+                setTimeout(() => { $$('img.lazy').trigger('lazy'); }, 0)
+            } else {
+                f7.alert(message, '提示')
+            }
         }
         if (!id) {
             customAjax.ajax({

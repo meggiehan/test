@@ -3,7 +3,7 @@ import config from '../config';
 import store from '../utils/locaStorage';
 import nativeEvent from '../utils/nativeEvent';
 import { trim, html } from '../utils/string';
-import { logOut } from '../middlewares/loginMiddle';
+import { logOut, activeLogout } from '../middlewares/loginMiddle';
 import { fishCert } from '../utils/template';
 import {fishCertAction} from '../utils/domListenEvent';
 
@@ -13,7 +13,7 @@ function fishCertInit(f7, view, page) {
     const userInfo = store.get(cacheUserinfoKey);
     let dataIndex;
     if (!userInfo) {
-        logOut();
+        activeLogout();
     }
     $$('.fish-cert-head .button').on('click', () => {
         nativeEvent.postPic(-1, '');
@@ -26,7 +26,7 @@ function fishCertInit(f7, view, page) {
             f7.alert(message, '提示');
         }
         let listStr = '';
-        let num = data.data.list.length > 0 ? data.data.list.length : 0;
+        let num = data.data.list && data.data.list.length > 0 ? data.data.list.length : 0;
         $$.each(data.data.list, (index, item) => {
             listStr += fishCert.certList(item, index);
         })
