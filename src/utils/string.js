@@ -44,7 +44,7 @@ module.exports = {
         if (!str) {
             return obj;
         }
-        const arr = str.split('&');
+        const arr = str.split('?')[1].split('&');
         arr.forEach((item) => {
             const key = item.split('=')[0];
             const val = item.split('=')[1];

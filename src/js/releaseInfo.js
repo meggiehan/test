@@ -81,7 +81,7 @@ function releaseInfoInit(f7, view, page) {
                 // reload: true
             })
         }
-        isRelease = true;
+        isRelease = false;
     }
 
     descriptInput[domIndex].oninput = () => {
@@ -159,13 +159,14 @@ function releaseInfoInit(f7, view, page) {
     $$('.release-sub-info')[domIndex].onclick = () => {
         const data = subInfoTest();
         const { error } = data;
-        if (isRelease && error) {
+        if (isRelease || error) {
             return;
         }
         if (error) {
             f7.alert(error);
         } else {
             f7.showIndicator();
+            isRelease = true;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'userAddDemandInfo',
