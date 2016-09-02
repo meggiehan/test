@@ -21,7 +21,7 @@ function releaseSuccInit(f7, view, page) {
     $$('.release-succ-list>.title>span.release-succ-name').text(fishName);
     if (!isLogin()) {
         newF7.confirm('登录之后可以随时查看自己发布的信息，有更多好处，现在去登录吧？', '友情提示', () => {
-            view.router.load({
+            mainView.router.load({
                 url: 'views/login.html?phone=' + phone
             })
         })

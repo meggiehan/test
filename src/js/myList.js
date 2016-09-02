@@ -102,7 +102,8 @@ function myListInit(f7, view, page) {
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
             data: [id, pageSize, pageNo, token, type],
-            type: 'get'
+            type: 'get',
+            noCache: true
         }, callback);
     })
 }

@@ -51,6 +51,7 @@ function loginInit(f7, view, page) {
     };
 
     nextBtn.onclick = () => {
+        inputChange();
         if (!isPass || isSend) {
             return;
         }

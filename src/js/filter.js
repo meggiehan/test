@@ -394,7 +394,9 @@ function filterInit(f7, view, page) {
     //js location to other page
     $$('.home-search-mask').on('click', () => {
         view.router.load({
-            url: `views/search.html?release=${release||false}&type=${_type}&keyvalue＝${searchValue}`
+            url: `views/search.html?release=${release||false}&type=${_type}&keyvalue＝${searchValue}`,
+            reload: !release,
+            animatePages: true
         })
     })
 
