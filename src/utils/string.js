@@ -13,7 +13,7 @@ module.exports = {
             f7 && f7.alert('请求错误,请重新发送请求!')
             return;
         }
-        dom.html(str);
+        dom.length == undefined ? dom.innerHTML = str : dom.html(str);
     },
 
     // mycenter get user name: return 何＊＊
@@ -105,7 +105,6 @@ module.exports = {
         let label = '';
         let classes = '';
         let certName = '';
-
         if (1 == type) {
             text = '苗种生产';
             label = '苗';
