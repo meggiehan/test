@@ -10,9 +10,13 @@ const  { cacheUserinfoKey, imgPath, backgroundImgUrl, identity } = config;
 module.exports = {
     home: {
         cat: (data) => {
-            const { id, certificate_type, imge_path, state, check_time, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            const { id, certificate_type_list, imge_path, state, check_time, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             let img = document.createElement('img');
-            const {text, classes} = getCertInfo(certificate_type);
+            let text = '';
+            // $$.each(certificate_type_list, (index, item) => {
+            //     text += item && `<span class="list-cert button ${getCertInfo(item)['classes']}">${getCertInfo(item)['text']}</span>` || '';
+            // })
+            text += certificate_type_list && certificate_type_list[0] ? `<span class="list-cert button ${getCertInfo(certificate_type_list[0])['classes']}">${getCertInfo(certificate_type_list[0])['text']}</span>` : '';
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
             if (userInfo) {
@@ -43,7 +47,7 @@ module.exports = {
                 '<div class="cat-list-tags">'
             if (personal_authentication_state === 1 || enterprise_authentication_state === 1) {
                 res += '<span class="iconfont icon-v button">实名认证</span>';
-                res += text && `<span class="list-cert button">${text}</span>` || '';
+                res += text || '';
             }
             res += '</div></div>';
             return res;

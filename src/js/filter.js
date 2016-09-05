@@ -321,6 +321,7 @@ function filterInit(f7, view, page) {
         ptrContent.on('refresh', function(e) {
             pullToRefresh = true;
             isShowAll = false;
+            page = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
