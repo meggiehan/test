@@ -55,6 +55,7 @@ function selldetailInit(f7, view, page) {
 
             if (state == 0 || state == 2) {
                 $$('.page-selldetail .selldetail-footer').addClass('delete');
+                $$($$('.detail-more')[domIndex]).hide();
             }
             id == locaUserId && $$('.page-selldetail .selldetail-footer').addClass('share-delete');
             errorInfo = refuseDescribe;
