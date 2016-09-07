@@ -6,7 +6,7 @@ import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip, veiwCert, timeout } from '../utils/domListenEvent';
+import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
 
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
@@ -166,7 +166,7 @@ function buydetailInit(f7, view, page) {
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 
-    $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
+    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
 }
 
 module.exports = {

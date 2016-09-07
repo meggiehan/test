@@ -113,8 +113,19 @@
         &.individual {
             display: block;
             .identity-individual-pic {
-                display: flex;
-                display: -webkit-flex;
+                display: block;
+                overflow: hidden;
+                width: 100%;
+                // display: flex;
+                // display: -webkit-flex;
+                .col-33{
+                    width:31%;
+                    display: block;
+                    float: left;
+                    &.center{
+                        margin: 0 3.5%;
+                    }
+                }
             }
         }
         &.company {

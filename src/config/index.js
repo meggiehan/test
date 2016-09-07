@@ -1,9 +1,9 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '1.0.0',
+    version: '1.1',
     debug: false,
-    url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
+    url: nativeEvent['getAPi']() || 'http://api.beta.yudada.com/',
     // url: '://192.168.20.109:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms

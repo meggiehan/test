@@ -5,7 +5,7 @@
             <a class="iconfont icon-back back">返回</a>
         </div>
         <div class="center sliding">个人主页</div>
-        <div class="right sliding">
+        <div class="right sliding" onclick="apiCount('btn_profile_nav_more')">
             <a class="iconfont icon-more other-report"></a>
         </div>
     </div>
@@ -18,7 +18,7 @@
                     <img src="img/defimg.png" width="60" class="lazy" />
                 </div>
                 <div class="item-inner">
-                    <div class="row">
+                    <div class="row"  onclick="apiCount('cell_profile_profile')">
                         <div class="other-user-info col-70">
                             <p class="other-user-name">
                                 <span class="name">匿名用户</span>
@@ -33,28 +33,28 @@
         </div>
         <div class="other-index-cert">
             <div class="cert-title">相关证书</div>
-            <div class="cert-list"></div>
+            <div class="cert-list" onclick="apiCount('cell_profile_certificate')"></div>
         </div>
         <div class="other-index-list">
             <div class="other-sell-list">
                 <div class="title row">
                     <div class="col-50">正在出售</div>
-                    <div class="col-50 other-sell-cat-all iconfont icon-right">查看全部</div>
+                    <div class="col-50 other-sell-cat-all iconfont icon-right" onclick="apiCount('cell_profile_sellMore')">查看全部</div>
                 </div>
-                <div class="list"></div>
+                <div class="list" onclick="apiCount('cell_profile_sellItem')"></div>
             </div>
             <div class="other-buy-list">
                 <div class="title row">
                     <div class="col-50">正在求购</div>
-                    <div class="col-50 other-buy-cat-all iconfont icon-right">查看全部</div>
+                    <div class="col-50 other-buy-cat-all iconfont icon-right" onclick="apiCount('cell_profile_purchaseMore')">查看全部</div>
                 </div>
-                <div class="list"></div>
+                <div class="list" onclick="apiCount('cell_profile_purchaseItem')"></div>
             </div>
         </div>
         <p class="other-index-empty-info">他还没有发布过信息哦~</p>
     </div>
     <div class="toolbar tabbar">
-        <div class="toolbar-inner other-footer-call">
+        <div class="toolbar-inner other-footer-call" onclick="apiCount('btn_profile_call')">
             <!-- Toolbar links -->
             <a class="iconfont icon-call">电话联系</a>
         </div>

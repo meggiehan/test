@@ -9,6 +9,7 @@ import nativeEvent from '../utils/nativeEvent';
 
 function filterInit(f7, view, page) {
     const _district = nativeEvent['getDistricInfo']() || district;
+    const { ios, android, androidChrome, osVersion } = window.currentDevice;
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = $$('.filter-empty-search-result');
@@ -61,11 +62,11 @@ function filterInit(f7, view, page) {
             $$('.filter-list').append(listHtml);
             loading = false;
         } else {
+            $$('.filter-list').text('');
             html($$('.filter-list'), listHtml, f7);
         }
         //pull to refresh done.
         f7.pullToRefreshDone();
-        pullToRefresh = false;
         $$('img.lazy').trigger('lazy');
         $$('.page-filter .tabbar').show();
         if (!listHtml) {
@@ -84,7 +85,23 @@ function filterInit(f7, view, page) {
             load.hide();
             showAllInfo.show();
         }
-        f7.hideIndicator();
+
+        //for Android 4. 4 version do processing.
+        if(!isInfinite && pullToRefresh && android && !androidChrome && !release){
+            setTimeout(() => {
+                $$('.page-content').css('overflow', 'hidden');
+            }, 700)
+            setTimeout(() => {
+                $$('.page-content').css('overflow', 'auto');
+                f7.hideIndicator();
+            },750)
+        }else{
+            f7.hideIndicator();
+        }
+
+        // f7.hideIndicator();
+        pullToRefresh = false;
+        isInfinite = false;
     }
 
     const fishTypeRootCallback = (data) => {
@@ -150,6 +167,7 @@ function filterInit(f7, view, page) {
         if (ele.tagName !== 'SPAN') {
             return;
         }
+        apiCount(!release ? 'btn_filter_fishtype_item1' : 'btn_text_fishType_fishParent');
         const rootId = ele.getAttribute('data-id');
         let categoryFish = [];
         let typeHtml = '';
@@ -321,7 +339,7 @@ function filterInit(f7, view, page) {
         ptrContent.on('refresh', function(e) {
             pullToRefresh = true;
             isShowAll = false;
-            page = 1;
+            pageNo = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
@@ -362,6 +380,7 @@ function filterInit(f7, view, page) {
         if (ele.tagName !== 'SPAN') {
             return;
         }
+        apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
         tabChange = true;
         const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
         $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
@@ -391,12 +410,18 @@ function filterInit(f7, view, page) {
 
         }
     })
-
     //js location to other page
     $$('.home-search-mask').on('click', () => {
+        const currentHistory = view['history'];
+        let isHasFilterPage = 0;
+        $$.each(currentHistory, (index, item) => {
+            item.indexOf('filter') > -1 && (isHasFilterPage++);
+        })
+        const reload = !release && isHasFilterPage > 1;
+        apiCount(!release ? 'textfield_search_list' : 'btn_text_fishType_search');
         view.router.load({
             url: `views/search.html?release=${release}&type=${_type}&keyvalue＝${searchValue}`,
-            reload: !release,
+            reload,
             animatePages: true
         })
     })

@@ -55,6 +55,7 @@ function loginCodeInit(f7, view, page) {
             }
             voiceCountDown();
         }, 1000)
+        f7.hideIndicator();
     }
 
     //get voice test code;
@@ -63,6 +64,7 @@ function loginCodeInit(f7, view, page) {
             return;
         }
         isSend = true;
+        f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'userLogin',
             api: 'getPhoneCode',
@@ -98,6 +100,7 @@ function loginCodeInit(f7, view, page) {
     const regCallback = (data) => {
         if (data.code == 1) {
             const { loginName, loginPass } = data.data;
+            f7.showPreloader('登录中...');
             nativeEvent.nativeLogin(loginName, loginPass);
             //user login, return user infomation.
             // customAjax.ajax({

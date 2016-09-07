@@ -11,16 +11,16 @@
                 </div>
             </form>
             <div class="filter-tab">
-                <div class="filter-tab-title tab1">
+                <div class="filter-tab-title tab1" onclick="apiCount('btn_filter_fishtype');">
                     <span>全部鱼种</span>
                     <b class="filter-tab-icon"></b>
                 </div>
-                <div class="filter-tab-title on tab2">
+                <div class="filter-tab-title on tab2" onclick="apiCount('btn_filter_location');">
                     <span>地区</span>
                     <b class="filter-tab-icon"></b>
                     <i class="left"></i><i class="right"></i>
                 </div>
-                <div class="filter-tab-title tab3">
+                <div class="filter-tab-title tab3" onclick="apiCount('btn_filter_type');">
                     <span>出售</span>
                     <b class="filter-tab-icon"></b>
                 </div>
@@ -51,26 +51,26 @@
     <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png " src="img/app_icon_108.png " class="lazy " width="32 " alt=" ">
     <!-- tab content -->
     <div class="filter-tabs-content ">
-        <div class="filter-tab-content row filter-fish-type ">
+        <div class="filter-tab-content row filter-fish-type">
             <div class="col-35 "></div>
             <div class="col-65 "></div>
         </div>
-        <div class="filter-tab-content row filter-district ">
+        <div class="filter-tab-content row filter-district">
             <div class="col-35 "></div>
             <div class="col-65 "></div>
         </div>
-        <div class="filter-tab-content row filter-info-type ">
-            <p class="iconfont filter-sell icon-tick " data-type="2 ">出售</p>
-            <p class="iconfont filter-buy icon-tick " data-type="1 ">求购</p>
+        <div class="filter-tab-content row filter-info-type">
+            <p class="iconfont filter-sell icon-tick " data-type="2" onclick="apiCount('btn_filter_location_item1')">出售</p>
+            <p class="iconfont filter-buy icon-tick " data-type="1" onclick="apiCount('btn_filter_location_item2')">求购</p>
         </div>
     </div>
     <div class="toolbar tabbar ">
         <div class="toolbar-inner ">
             <!-- Toolbar links -->
-            <a href="views/release.html " class="link filter-need-release ">
+            <a href="views/release.html " class="link filter-need-release" onclick="apiCount('btn_post');">
                 <div class="tabbat-text iconfont icon-edit "><span>我要卖鱼</span></div>
             </a>
-            <a class="link filter-release-next ">
+            <a class="link filter-release-next" onclick="apiCount('btn_text_fishType_next');">
                 <div>下一步</div>
             </a>
         </div>

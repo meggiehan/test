@@ -2,6 +2,7 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import { trim, html } from '../utils/string';
 import store from '../utils/locaStorage';
+import nativeEvent from '../utils/nativeEvent';
 import { search } from '../utils/template';
 import { setHistory } from '../utils/viewsUtil/searchUtils';
 
@@ -20,8 +21,8 @@ function searchInit(f7, view, page) {
     // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
-    let searchHistoryMetadata = store.get(cacheHistoryKey);
     let searchVal = '';
+    let searchHistoryMetadata = store.get(cacheHistoryKey);
     !release && trim(input.value) && searchButton.addClass('on');
     const renderHistory = () => {
         //search list render;
@@ -73,7 +74,7 @@ function searchInit(f7, view, page) {
     const inputChenge = () => {
         const val = trim(input.value);
         renderHistory();
-        // searchHistoryMetadata = store.get(cacheHistoryKey);
+        searchHistoryMetadata = store.get(cacheHistoryKey);
         if (!val) {
             clear.trigger('click');
             !release && searchHistoryMetadata && searchHistoryMetadata.length && $$('.serch-history').show();
@@ -108,6 +109,7 @@ function searchInit(f7, view, page) {
     //clear history cache;
     $$('.search-clear-history').on('click', () => {
         store.remove(cacheHistoryKey);
+        nativeEvent['searchHistoryActions'](3, '')
         renderHistory();
         $$('.search-history-list').text('');
         $$('.serch-history').hide();
@@ -119,12 +121,12 @@ function searchInit(f7, view, page) {
             return;
         }
         isClick = true;
-        const val = hideVal.find('span').html();
+        const val = hideVal.find('span').text();
+
         // searchContent.removeClass('on');
         const query = val ? `?keyvalue=${val}&type=2&pageSize=${pageSize}&search=true` : '';
         view.router.load({
             url: 'views/filter.html' + query,
-            animatePages: true,
             reload: true
         })
         setHistory(val);

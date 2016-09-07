@@ -37,8 +37,10 @@ const { version, debug, timeout } = config;
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
+
+
 // init f7
-const f7 = new Framework7({
+let initAppConfig = {
     // swipeBackPage: false,
     // uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
@@ -64,9 +66,9 @@ const f7 = new Framework7({
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
             searchInit(f7, mainView, { query })
-        }else if(url.indexOf('login.html') > -1){
+        } else if (url.indexOf('login.html') > -1) {
             loginInit(f7, mainView, { query })
-        }else if(url.indexOf('loginCode.html') > -1){
+        } else if (url.indexOf('loginCode.html') > -1) {
             loginCodeInit(f7, mainView, { query })
         }
     },
@@ -85,12 +87,29 @@ const f7 = new Framework7({
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
             // const { search } = getQuery(goPage);
+            // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
+                return false;
+            }
+
+            if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
+                mainView.router.load({
+                    url: 'views/home.html',
+                    reload: true
+                })
+                return false;
+            }
+
+            if (android && !androidChrome) {
+                nativeEvent['nativeGoBack']();
                 return false;
             }
         }
     }
-});
+}
+
+android && !androidChrome && (initAppConfig['swipeBackPage'] = false);
+const f7 = new Framework7(initAppConfig);
 const mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
@@ -107,6 +126,10 @@ window.$$ = Dom7;
 window.mainView = mainView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
+
+//get search history form native.
+nativeEvent['searchHistoryActions'](2, '');
+
 //get curren address cache in object on window.
 /*
  * Trigger lazy load img.
@@ -120,7 +143,6 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-
 const initEvent = f7.onPageInit("*", (page) => {
     // show loading.
     if (page.name !== 'home' && page.name) {
@@ -129,7 +151,6 @@ const initEvent = f7.onPageInit("*", (page) => {
         f7.hideIndicator();
     }
     setTimeout(f7.hideIndicator, timeout);
-
     page.name === 'editName' && editNameInit(f7, mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
     page.name === 'login' && loginInit(f7, mainView, page);

@@ -6,12 +6,12 @@ import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip, veiwCert } from '../utils/domListenEvent';
+import { detailClickTip, veiwCert, detailMoreEvent } from '../utils/domListenEvent';
 
 function selldetailInit(f7, view, page) {
     const { id } = page.query;
     let isReleaseForMe = false;
-    const domIndex = $$('.selldetail-delete-info').length - 1;
+    const domIndex = $$('.selldetail-cert-list').length - 1;
     const certList = $$('.selldetail-cert-list')[domIndex];
     const shareBtn = $$('.selldetail-footer .icon-share')[domIndex];
     const { shareUrl, cacheUserinfoKey, timeout } = config;
@@ -180,7 +180,8 @@ function selldetailInit(f7, view, page) {
         nativeEvent.shareInfo(title, html, url_, messageTile);
     }
 
-    $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
+    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
+    $$('.detail-right-more').off('click', detailMoreEvent).on('click', detailMoreEvent);
     //
     // const popupWindow = f7.photoBrowser({
     //     photos: [{

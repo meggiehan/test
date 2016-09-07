@@ -15,13 +15,13 @@
             <p>24小时内会有客服回电联系，请保持手机畅通</p>
             <p>注意：审核通过后信息才会在首页展示</p>
             <div class="row">
-                <a href="views/release.html" class="button col-45 first">再发一次</a>
-                <a href="views/home.html" class="button col-45">返回首页</a>
+                <a href="views/release.html" class="button col-45 first" onclick="apiCount('btn_postAgain')">再发一次</a>
+                <a href="views/home.html" class="button col-45" class="button col-45 first" onclick="apiCount('btn_goHome')">返回首页</a>
             </div>
         </div>
         <div class="release-succ-list">
             <div class="title"><span class="iconfont icon-go"></span>推荐你这些“<span class="release-succ-name"></span>”</div>
-            <div class="list-view"></div>
+            <div class="list-view" onclick="apiCount('cell_recommendDemand')"></div>
         </div>
         <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png " src="img/app_icon_108.png " class="lazy " width="32 " alt=" ">
     </div>
