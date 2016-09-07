@@ -13,7 +13,7 @@ function selldetailInit(f7, view, page) {
     let isReleaseForMe = false;
     const domIndex = $$('.selldetail-cert-list').length - 1;
     const certList = $$('.selldetail-cert-list')[domIndex];
-    const shareBtn = $$('.selldetail-footer .icon-share')[domIndex];
+    const shareBtn = $$('.selldetail-footer .icon-share');
     const { shareUrl, cacheUserinfoKey, timeout } = config;
     let demandInfo_;
     let currentUserId;
@@ -149,7 +149,7 @@ function selldetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
-    shareBtn.onclick = () => {
+    shareBtn.on('click',() => {
         let title = '';
         let html = '';
         let messageTile = '';
@@ -179,7 +179,7 @@ function selldetailInit(f7, view, page) {
         html += specifications ? `${'规格' + specifications}，` : '';
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
-    }
+    })
 
     $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
     $$('.detail-right-more').off('click', detailMoreEvent).on('click', detailMoreEvent);
