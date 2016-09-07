@@ -82,7 +82,7 @@ function selldetailInit(f7, view, page) {
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
             1 == enterpriseAuthenticationState && $$('.selldetail-verify-text').text('已完成企业认证');
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
+            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$($$('.user-cert')[domIndex]).remove();
 
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
