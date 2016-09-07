@@ -28,7 +28,7 @@ function loginCodeInit(f7, view, page) {
             subBtn.className = classes;
             input.blur();
             isPass = true;
-            subBtn.click();
+            $$(subBtn).trigger('click');
         } else if (val.length >= 4) {
             input.value = val.substr(0, 4);
         } else {

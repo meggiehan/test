@@ -41,13 +41,6 @@ class CustomClass {
         android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
     }
 
-    //get api from native.
-    getApi() {
-        const { ios, android } = window.currentDevice;
-        ios && JS_BaseUrl();
-        android && window.yudada.JS_BaseUrl();
-    }
-
     //cat pic
     catPic(url) {
         const { ios, android } = window.currentDevice;
