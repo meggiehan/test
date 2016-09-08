@@ -2,6 +2,7 @@ import config from '../../config/';
 import customAjax from '../../middlewares/customAjax';
 import store from '../../utils/locaStorage';
 import framework7 from '../../js/lib/framework7';
+import nativeEvent from '../nativeEvent';
 
 module.exports = {
     setHistory: (str) => {
@@ -20,7 +21,9 @@ module.exports = {
         if(isSame){
         	return;
         }
+        console.log(val)
         history.push(val);
         store.set(cacheHistoryKey, history);
+        nativeEvent['searchHistoryActions'](1, str);
     }
 }

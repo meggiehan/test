@@ -1,7 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '1.0.0',
+    version: '1.1',
     debug: false,
     url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
     // url: '://192.168.20.109:8080/',

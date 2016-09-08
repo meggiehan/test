@@ -3,6 +3,7 @@ import customAjax from '../middlewares/customAjax';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import { goUser } from '../utils/domListenEvent';
+import nativeEvent from '../utils/nativeEvent';
 
 
 function homeInit(f7, view, page) {

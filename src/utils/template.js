@@ -1,11 +1,11 @@
 import { timeDifference, getDate } from './time';
-import {getCertInfo} from './string';
+import {getCertInfo, imgIsUpload} from './string';
 import config from '../config/';
 import store from './locaStorage';
 
 
 const  { cacheUserinfoKey, imgPath, backgroundImgUrl, identity } = config;
- 
+const hashStr = location.hash;
 
 module.exports = {
     home: {
@@ -17,6 +17,9 @@ module.exports = {
             //     text += item && `<span class="list-cert button ${getCertInfo(item)['classes']}">${getCertInfo(item)['text']}</span>` || '';
             // })
             text += certificate_type_list && certificate_type_list[0] ? `<span class="list-cert button ${getCertInfo(certificate_type_list[0])['classes']}">${getCertInfo(certificate_type_list[0])['text']}</span>` : '';
+            // const {text, classes} = getCertInfo(certificate_type);
+            const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_selllist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
+            const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
             if (userInfo) {
@@ -30,7 +33,7 @@ module.exports = {
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '">' +
+            res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '" '+clickEvent+'>' +
                 '<div class="col-30">' + span + imgStr +
                 '<div class="col-70">' +
                 '<div class="cat-list-title row">' +
@@ -55,6 +58,8 @@ module.exports = {
         buy: (data) => {
             const { id, fish_type_name, stock, check_time, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
+            const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
+            const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let img = document.createElement('img');
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
@@ -65,7 +70,7 @@ module.exports = {
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
+            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info" '+clickEvent+' >' +
                 '<div class="row">' +
                 '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || ''}` + '</div>' +
@@ -101,7 +106,7 @@ module.exports = {
             const { type, fish_type_name, path, state } = data;
             let link = '';
             const {label, text, classes, certName} = getCertInfo(type);
-            link += '<a class="iconfont icon-right open-cert-button" data-url="' + path + '">' +
+            link += '<a class="iconfont icon-right open-cert-button" data-url="' + `${path}@1o` + '">' +
                 '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name}` + 
                 '</a>'
             return link;
@@ -132,11 +137,7 @@ module.exports = {
         certList: (data, index) => {
             const { state, path, id, closing_date, type, reasons_for_refusal } = data;
 
-            let img = document.createElement('img');
-            let imgStr;
-            img.src = path && `${path + identity['catCompany']}`;
-            imgStr = img.complete ? '<img src="' + `${path + identity['catCompany']}` + '"/>' :
-                `<img data-src="${path + identity['catCompany']}" src="${backgroundImgUrl}" alt="" class="lazy">`;
+            let imgStr = '<img src="' + `${path + identity['catCompany']}` + '"/>';
             let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
             let itemBottom = '';
             if (1 !== state) {
@@ -146,6 +147,7 @@ module.exports = {
             }
             const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';
             let str = '';
+            
             str += `<div class="col-50" data-parent-id="${id}">`;
             str += `<div class="ps-r">${spans}${imgStr}</div>`;
             str += 1 == state ? `<p class="cert-name">${getCertInfo(type).certName}</p>` : '';

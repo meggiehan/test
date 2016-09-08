@@ -6,14 +6,14 @@ import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip, veiwCert } from '../utils/domListenEvent';
+import { detailClickTip, veiwCert, detailMoreEvent } from '../utils/domListenEvent';
 
 function selldetailInit(f7, view, page) {
     const { id } = page.query;
     let isReleaseForMe = false;
-    const domIndex = $$('.selldetail-delete-info').length - 1;
+    const domIndex = $$('.selldetail-cert-list').length - 1;
     const certList = $$('.selldetail-cert-list')[domIndex];
-    const shareBtn = $$('.selldetail-footer .icon-share')[domIndex];
+    const shareBtn = $$('.selldetail-footer .icon-share');
     const { shareUrl, cacheUserinfoKey, timeout } = config;
     let demandInfo_;
     let currentUserId;
@@ -55,6 +55,7 @@ function selldetailInit(f7, view, page) {
 
             if (state == 0 || state == 2) {
                 $$('.page-selldetail .selldetail-footer').addClass('delete');
+                $$($$('.detail-more')[domIndex]).hide();
             }
             id == locaUserId && $$('.page-selldetail .selldetail-footer').addClass('share-delete');
             errorInfo = refuseDescribe;
@@ -81,7 +82,7 @@ function selldetailInit(f7, view, page) {
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
             1 == enterpriseAuthenticationState && $$('.selldetail-verify-text').text('已完成企业认证');
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
+            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$($$('.user-cert')[domIndex]).remove();
 
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
@@ -138,7 +139,7 @@ function selldetailInit(f7, view, page) {
     }
 
     //View more current user information
-    $$('.cat-user-info').on('click', () => {
+    $$('.selldetail-user-title').on('click', () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
@@ -148,7 +149,7 @@ function selldetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
-    shareBtn.onclick = () => {
+    shareBtn.on('click',() => {
         let title = '';
         let html = '';
         let messageTile = '';
@@ -178,9 +179,10 @@ function selldetailInit(f7, view, page) {
         html += specifications ? `${'规格' + specifications}，` : '';
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
-    }
+    })
 
-    $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
+    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
+    $$('.detail-right-more').off('click', detailMoreEvent).on('click', detailMoreEvent);
     //
     // const popupWindow = f7.photoBrowser({
     //     photos: [{

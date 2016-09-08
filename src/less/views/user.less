@@ -1,7 +1,6 @@
 // .user-title {
 //     .box-shadow-bottom(@bg-black-3);
 // }
-
 .page-user {
     .page-content {
         .user-header {
@@ -45,16 +44,20 @@
             a span {
                 display: none;
             }
+            .col-65 {
+                width: 65%;
+                overflow: hidden;
+                float: left;
+            }
+            .col-35 {
+                width: 35%;
+                .text-right;
+                display: block;
+                float: right;
+                .text-right;
+                overflow: hidden;
+            }
             &.login-succ {
-                .col-62 {
-                    width: 65%;
-                    overflow: hidden;
-                }
-                .col-38 {
-                    width: 35%;
-                    .text-right;
-                    overflow: hidden;
-                }
                 .user-info {
                     display: block;
                 }
@@ -126,7 +129,7 @@
                 }
             }
         }
-        .user-cert {
+        .user-cert-identity {
             margin-top: 1rem;
             background: @bg-fff;
             .text-shadow(@text-fff);

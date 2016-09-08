@@ -57,7 +57,7 @@ function loginInit(f7, view, page) {
         }
         isSend = true;
         nextBtn.className = nextBtn.className.replace(' on', '');
-        f7.showIndicator('登录中...');
+        f7.showIndicator();
 
         customAjax.ajax({
             apiCategory: 'userLogin',

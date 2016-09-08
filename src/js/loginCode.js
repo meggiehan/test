@@ -28,7 +28,7 @@ function loginCodeInit(f7, view, page) {
             subBtn.className = classes;
             input.blur();
             isPass = true;
-            subBtn.click();
+            $$(subBtn).trigger('click');
         } else if (val.length >= 4) {
             input.value = val.substr(0, 4);
         } else {
@@ -55,6 +55,7 @@ function loginCodeInit(f7, view, page) {
             }
             voiceCountDown();
         }, 1000)
+        f7.hideIndicator();
     }
 
     //get voice test code;
@@ -63,6 +64,7 @@ function loginCodeInit(f7, view, page) {
             return;
         }
         isSend = true;
+        f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'userLogin',
             api: 'getPhoneCode',
@@ -98,6 +100,8 @@ function loginCodeInit(f7, view, page) {
     const regCallback = (data) => {
         if (data.code == 1) {
             const { loginName, loginPass } = data.data;
+            // f7.hideIndicator();
+            f7.showPreloader('登录中...');
             nativeEvent.nativeLogin(loginName, loginPass);
             //user login, return user infomation.
             // customAjax.ajax({
@@ -123,7 +127,7 @@ function loginCodeInit(f7, view, page) {
         if (!isPass || isSend) {
             return;
         }
-        f7.showIndicator();
+        // f7.showIndicator();
         isSend = true;
         subBtn.className = subBtn.className.replace(' on', '');
         customAjax.ajax({

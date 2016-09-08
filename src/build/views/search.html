@@ -5,7 +5,7 @@
                 <a class="iconfont icon-back back">返回</a>
                 <input type="text" placeholder="填写品种名称，例如黑鱼" class="index-search-link search-page-input">
                 <b class="searchbar-clear iconfont icon-clear"></b>
-                <span class="search-button">搜索</span>
+                <span class="search-button"  onclick="apiCount('btn_nav_search')">搜索</span>
             </div>
         </form>
     </div>
@@ -13,8 +13,8 @@
 <div class="page swipeback toolbar-through page-search" data-page="search">
     <div class="page-content">
         <div class="search-content">
-            <div class="search-val">点击搜索 <span></span></div>
-            <div class="search-return-list"></div>
+            <div class="search-val" onclick="apiCount('btn_list_search')">点击搜索 <span></span></div>
+            <div class="search-return-list" onclick="apiCount('cell_search_hint')"></div>
         </div>
         <div class="search-empty-result">
             <div class="iconfont icon-empty-search"></div>
@@ -23,9 +23,9 @@
         <div class="serch-history">
             <div class="title row">
                 <span class="col-40">搜索历史</span>
-                <span class="col-40 search-clear-history">清空历史</span>
+                <span class="col-40 search-clear-history" onclick="apiCount('btn_search_history_clear')">清空历史</span>
             </div>
-            <div class="search-history-list"></div>
+            <div class="search-history-list" onclick="apiCount('btn_search_history_cell')"></div>
         </div>
     </div>
     <!-- <div class="toolbar tabbar">

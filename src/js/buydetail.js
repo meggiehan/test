@@ -6,7 +6,7 @@ import { timeDifference, centerShowTime } from '../utils/time';
 import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip, veiwCert, timeout } from '../utils/domListenEvent';
+import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
 
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
@@ -50,6 +50,7 @@ function buydetailInit(f7, view, page) {
             demandInfo_ = demandInfo;
             if (state == 0 || state == 2) {
                 $$('.page-buydetail .selldetail-footer').addClass('delete');
+                $$($$('.detail-more')[domIndex]).hide();
             }
             id == locaUserId && $$('.page-buydetail .selldetail-footer').addClass('share-delete')
             errorInfo = refuseDescribe;
@@ -119,7 +120,7 @@ function buydetailInit(f7, view, page) {
     }
 
     //View more current user information
-    $$('.cat-user-info').on('click', () => {
+    $$('.selldetail-user-title').on('click', () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
@@ -166,7 +167,7 @@ function buydetailInit(f7, view, page) {
         nativeEvent.shareInfo(title, html, url_, messageTile);
     })
 
-    $$('.navbar-inner.detail-text .icon-more').off('click', detailClickTip).on('click', detailClickTip);
+    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
 }
 
 module.exports = {

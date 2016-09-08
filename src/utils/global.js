@@ -3,6 +3,7 @@ import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
 import { fishCert } from '../utils/template';
+import nativeEvent from '../utils/nativeEvent';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -116,21 +117,21 @@ class CustomClass {
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                const addData = {
-                    create_time: '1472721207',
-                    file_size: fileSize,
-                    path,
-                    state: 0,
-                    user_id: id,
-                    user_login_name: userInfo['phone']
-                }
-                if (id) {
-                    $$('.fish-cert-list>div[data-parent-id="' + id + '"]').remove();
-                } else {
-                    $$('.user-verification-num').text(parseInt($$('.user-verification-num').text()) + 1);
-                }
-                $$('.page-fish-cert .fish-cert-list').prepend(fishCert.certList(addData));
-                setTimeout(() => { $$('img.lazy').trigger('lazy'); }, 0)
+                // const addData = {
+                //     create_time: '1472721207',
+                //     file_size: fileSize,
+                //     path,
+                //     state: 0,
+                //     user_id: id,
+                //     user_login_name: userInfo['phone']
+                // }
+                // if (id) {
+                //     $$('.fish-cert-list>div[data-parent-id="' + id + '"]').remove();
+                // } else {
+                //     $$('.user-verification-num').text(parseInt($$('.user-verification-num').text()) + 1);
+                // }
+                // $$('.page-fish-cert .fish-cert-list').prepend(fishCert.certList(addData));
+                mainView.router.refreshPage();
             } else {
                 f7.alert(message, '提示')
             }
@@ -159,6 +160,8 @@ class CustomClass {
         if (!state) {
             return;
         }
+        f7.hidePreloader();
+        nativeEvent.nativeToast(1, '登录成功！');
         window.mainView.router.load({
             url: 'views/user.html?uuid=' + token,
             animatePage: true
@@ -173,10 +176,30 @@ class CustomClass {
         }
     }
 
-    JS_GoBack() {
-        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].index('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
-            return false;
+    andriodBack() {
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
+            const { ios, android } = window.currentDevice;
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+                ios && JS_ExitProcess();
+                android && window.yudada.JS_ExitProcess();
+            }
+        } else {
+            mainView.router.back();
         }
+    }
+
+    apiCount(name) {
+        nativeEvent.apiCount(name);
+    }
+
+    writeHistory(history) {
+        const arr = history.split(' ') || [];
+        let resArr = [];
+        arr.length && $$.each(arr, (index, str) => {
+            resArr.push(str.replace('“', '').replace('”', ''));
+        })
+        const { cacheHistoryKey } = config;
+        store.set(cacheHistoryKey, resArr);
     }
 
     init(f) {
@@ -189,7 +212,9 @@ class CustomClass {
         window['subAndShowFishAu'] = this.subAndShowFishAu;
         window['getKey'] = this.getKey;
         window['exitApp'] = this.exitApp;
-        window['JS_GoBack'] = this.JS_GoBack;
+        window['andriodBack'] = this.andriodBack;
+        window['apiCount'] = this.apiCount;
+        window['writeHistory'] = this.writeHistory;
     }
 }
 

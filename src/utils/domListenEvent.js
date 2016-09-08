@@ -42,10 +42,39 @@ module.exports = {
         }
     },
 
-    detailClickTip: () => {
-        f7.confirm('你确定举报吗？', '举报虚假信息', () => {
-            f7.alert('举报成功！');
-        })
+    detailClickTip: (e) => {
+        const event = e || window.event;
+        const { target } = event;
+        var popoverHTML = '<div class="popover detail-right-more" style="width:35%">' +
+            '<div class="popover-inner">' +
+            '<div class="list-block">' +
+            '<ul>' +
+            '<li><a href="#" class="item-link list-button" data-id="1">分享</a></li>' +
+            '<li><a href="#" class="item-link list-button" data-id="2">举报</a></li>' +
+            '</ul>' +
+            '</div>' +
+            '</div>' +
+            '</div>'
+        f7.popover(popoverHTML, target.tagName == 'SPAN' ? target : target.children[0]);
+        const detailMoreEvent = (e) => {
+            const event = e || window.event;
+            const dataId = e.target.getAttribute('data-id');
+            if (1 == dataId) {
+                f7.closeModal('.detail-right-more');
+                apiCount('btn_info_nav_more_share');
+                const currentPage = $$('.page')[$$('.page').length - 1];
+                setTimeout(() => {
+                    $$(currentPage).find('div.icon-share').trigger('click');
+                }, 500)
+            } else if (2 == dataId) {
+                apiCount('btn_infonav_more_report');
+                f7.closeModal('.detail-right-more');
+                f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
+                    f7.alert('举报成功！');
+                })
+            }
+        }
+        $$('.detail-right-more').off('click', detailMoreEvent).on('click', detailMoreEvent);
     },
 
     otherIndexClickTip: () => {
@@ -200,16 +229,19 @@ module.exports = {
         const id = $$(ele).attr('data-id');
         const { cacheUserinfoKey } = config;
         const userInfo = store.get(cacheUserinfoKey);
-        let dataIndex = $$(ele).attr('data-index');
+        let dataIndex = ele.getAttribute('data-index');
 
         const deleteCallback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                $$('.fish-cert-list>.col-50')[dataIndex].remove();
-                dataIndex--;
-            }!$$('.fish-cert-list>.col-50').length && $$('.fish-cert-content').removeClass('show');
-            $$('span.user-verification-num').text($$('.fish-cert-list>.col-50').length);
-            f7.hideIndicator();
+                $$('.fish-cert-list>.col-50').length == 1 && $$('.fish-cert-content').removeClass('show');
+                mainView.router.refreshPage();
+                $$('span.user-verification-num').text($$('.fish-cert-list>.col-50').length);
+                f7.hideIndicator();
+            } else {
+                f7.alert(message, '提示');
+            }
+
         }
 
         if (classes.indexOf('cat-cert-faild-info') > -1) {
@@ -241,6 +273,7 @@ module.exports = {
             text: "我要买",
             color: '#128AF2',
             onClick: () => {
+                apiCount('btn_text_buy');
                 mainView.router.load({
                     url: 'views/filter.html?type=1&release=true'
                 })
@@ -249,6 +282,7 @@ module.exports = {
             text: "我要卖",
             color: '#128AF2',
             onClick: () => {
+                apiCount('btn_text_purchase');
                 mainView.router.load({
                     url: 'views/filter.html?type=2&release=true'
                 })

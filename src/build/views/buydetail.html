@@ -4,13 +4,17 @@
             <a class="home-tabbar-logo back filter-tabbar iconfont icon-back link-back">返回</a>
         </div>
         <div class="center sliding">求购详情</div>
-        <div class="right sliding"><a class="iconfont icon-more"></a></div>
+        <div class="right sliding">
+            <a class="detail-more" onclick="apiCount('btn_nav_more')">
+                <span class="iconfont icon-more"></span>
+            </a>
+        </div>
     </div>
 </div>
 <div class="page swipeback page-buydetail" data-page="buydetail">
     <div class="page-content">
         <div class="buy-detail-in-review iconfont icon-review">正在审核中，请稍后</div>
-        <div class="buy-detail-verify-faild iconfont icon-verify-faild icon-go">审核不通过，点击查看原因</div>
+        <div class="buy-detail-verify-faild iconfont icon-verify-faild icon-go" onclick="apiCount('btn_rejectReason')">审核不通过，点击查看原因</div>
 
         <div class="selldetail-info">
             <div class="first buydetail-info">
@@ -52,7 +56,7 @@
         <div class="selldetail-user">
             <div class="selldetail-user-title">
                 联系人
-                <span class="cat-user-info iconfont icon-right">查看更多信息</span>
+                <span class="cat-user-info iconfont icon-right" onclick="apiCount('cell_profile')">查看更多信息</span>
             </div>
             <div class="row selldetail-userinfo">
                 <div class="col-18"><img src="img/defimg.png" class="lazy"></div>
@@ -75,8 +79,8 @@
     </div>
     <div class="toolbar tabbar row selldetail-footer">
         <div class="col-40 tabbar-price"></div>
-        <div class="col-30 iconfont icon-call buydetail-call-phone">电话联系</div>
-        <div class="col-30 iconfont icon-delete buydetail-delete-info">删除</div>
-        <div class="col-30 iconfont icon-share">告诉朋友</div>
+        <div class="col-30 iconfont icon-call buydetail-call-phone" onclick="apiCount('btn_call')">电话联系</div>
+        <div class="col-30 iconfont icon-delete buydetail-delete-info" onclick="apiCount('btn_delete')">删除</div>
+        <div class="col-30 iconfont icon-share" onclick="apiCount('btn_share')">告诉朋友</div>
     </div>
 </div>
