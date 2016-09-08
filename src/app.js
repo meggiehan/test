@@ -87,7 +87,8 @@ let initAppConfig = {
             // the current page is prohibited to back prev page.
             console.log(_currentPage)
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
-                return false;
+                    // exitApp();
+                    return false;
             }
             
             if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
