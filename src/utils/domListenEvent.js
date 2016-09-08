@@ -61,11 +61,13 @@ module.exports = {
             const dataId = e.target.getAttribute('data-id');
             if (1 == dataId) {
                 f7.closeModal('.detail-right-more');
+                apiCount('btn_info_nav_more_share');
                 const currentPage = $$('.page')[$$('.page').length - 1];
                 setTimeout(() => {
                     $$(currentPage).find('div.icon-share').trigger('click');
                 }, 500)
             } else if (2 == dataId) {
+                apiCount('btn_infonav_more_report');
                 f7.closeModal('.detail-right-more');
                 f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
                     f7.alert('举报成功！');
