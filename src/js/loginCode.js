@@ -100,6 +100,7 @@ function loginCodeInit(f7, view, page) {
     const regCallback = (data) => {
         if (data.code == 1) {
             const { loginName, loginPass } = data.data;
+            // f7.hideIndicator();
             f7.showPreloader('登录中...');
             nativeEvent.nativeLogin(loginName, loginPass);
             //user login, return user infomation.
@@ -126,7 +127,7 @@ function loginCodeInit(f7, view, page) {
         if (!isPass || isSend) {
             return;
         }
-        f7.showIndicator();
+        // f7.showIndicator();
         isSend = true;
         subBtn.className = subBtn.className.replace(' on', '');
         customAjax.ajax({

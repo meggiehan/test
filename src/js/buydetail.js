@@ -120,7 +120,7 @@ function buydetailInit(f7, view, page) {
     }
 
     //View more current user information
-    $$('.cat-user-info').on('click', () => {
+    $$('.selldetail-user-title').on('click', () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })

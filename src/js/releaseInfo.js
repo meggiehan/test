@@ -8,6 +8,7 @@ import district from '../utils/district';
 
 function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
+    const { ios } = currentDevice;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     const { cacheUserinfoKey, debug } = config;
     const userInfo = store.get(cacheUserinfoKey);
@@ -15,7 +16,7 @@ function releaseInfoInit(f7, view, page) {
     let title;
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const token = userInfo && userInfo['token'] || '';
-    const descriptInput = $$('.release-info-discription>textarea');
+    const descriptInput = $$('.release-info-discription>textarea')[domIndex];
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
     let isRelease = false;
 
@@ -52,17 +53,15 @@ function releaseInfoInit(f7, view, page) {
         } else {
             $$('.release-sub-info').removeClass('pass');
         }
+        !($$('.release-write-tell input') && $$('.release-write-tell input')[domIndex]) && clearInterval(intervalId);
     }
 
     //init verify, change submit button status;
     testRequireInfo();
-    const intervalId = setInterval(testRequireInfo, 1500);
-    setTimeout(() => { clearInterval(intervalId) }, 1000000);
+    let intervalId = setInterval(testRequireInfo, 1500);
+    setTimeout(() => { clearInterval(intervalId) }, 100000);
     $$('.release-write-address>input')[domIndex].onclick = () => {
         setTimeout(testRequireInfo, 3000);
-    }
-    $$('.release-write-address input')[domIndex].oninput = () => {
-        testRequireInfo();
     }
 
     $$('.release-write-tell input')[domIndex].oninput = () => {
@@ -84,12 +83,12 @@ function releaseInfoInit(f7, view, page) {
         isRelease = false;
     }
 
-    descriptInput[domIndex].oninput = () => {
-        const val = trim(descriptInput.val());
+    descriptInput.oninput = () => {
+        const val = trim(descriptInput.value);
         const len = val && val.length || 0;
         if (len >= 50) {
             $$('.release-info-number').addClass('desiable');
-            descriptInput.val(val.substr(0, 49));
+            descriptInput.value = val.substr(0, 49);
         } else {
             $$('.release-info-number').removeClass('desiable');
         }
@@ -112,7 +111,7 @@ function releaseInfoInit(f7, view, page) {
         const spec = trim($$('.release-write-spec input')[domIndex].value);
         const stock = trim($$('.release-write-stock input')[domIndex].value);
         const address = trim($$('.release-write-address input')[domIndex].value);
-        const description = trim($$('.release-info-discription textarea')[domIndex].value);
+        const description = trim(descriptInput.value);
         const name = trim($$('.release-write-contact input')[domIndex].value);
         const phone = trim($$('.release-write-tell input')[domIndex].value);
         let error;
@@ -177,18 +176,20 @@ function releaseInfoInit(f7, view, page) {
         }, callback);
     }
 
-    let isTouch = false;
-    $$('.release-info-content .page-content').on('touchstart', (e) => {
-        if (isTouch) {
-            return;
-        }
-        isTouch = true;
-        $$(this).find('input').blur();
-        setTimeout(() => {
+    if (ios) {
+        let isTouch = false;
+        $$('.release-info-content .page-content').on('touchstart', (e) => {
+            if (isTouch) {
+                return;
+            }
+            isTouch = true;
+            $$(this).find('input').blur();
+            setTimeout(() => {
                 isTouch = false;
             }, 1500)
-            // console.log(e)
-    })
+        })
+    }
+
 }
 module.exports = {
     releaseInfoInit,

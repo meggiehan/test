@@ -2,7 +2,6 @@ import Framework7 from './js/lib/framework7';
 // import _ from 'lodash';
 import store from './utils/locaStorage';
 import config from './config';
-import customAjax from './middlewares/customAjax';
 import { homeInit } from './js/home';
 import { searchInit } from './js/search';
 import { filterInit } from './js/filter';
@@ -16,7 +15,6 @@ import { userInit } from './js/user';
 import { myCenterInit } from './js/myCenter';
 import { identityAuthenticationInit } from './js/identityAuthentication';
 import globalEvent from './utils/global';
-import { loginSucc } from './middlewares/loginMiddle';
 import { otherIndexInit } from './js/otherIndex';
 import { otherInfoInit } from './js/otherInfo';
 import { otherListInit } from './js/otherList';
@@ -38,7 +36,7 @@ console.log(`current app version: ${version}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 
-
+let isBack = false;
 // init f7
 let initAppConfig = {
     // swipeBackPage: false,
@@ -86,12 +84,12 @@ let initAppConfig = {
         if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
-            // const { search } = getQuery(goPage);
             // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
+                !isBack && android && !androidChrome && exitApp();
                 return false;
             }
-
+            
             if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',
@@ -99,10 +97,14 @@ let initAppConfig = {
                 })
                 return false;
             }
-
             if (android && !androidChrome) {
-                nativeEvent['nativeGoBack']();
-                return false;
+                if(isBack){
+                    return false;
+                }
+                isBack = true;
+                setTimeout(() => {
+                    isBack = false;
+                }, 300);
             }
         }
     }
@@ -143,7 +145,7 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-const initEvent = f7.onPageInit("*", (page) => {
+const initApp = f7.onPageInit("*", (page) => {
     // show loading.
     if (page.name !== 'home' && page.name) {
         f7.showIndicator();

@@ -55,7 +55,7 @@ module.exports = {
             '</div>' +
             '</div>' +
             '</div>'
-        f7.popover(popoverHTML, target);
+        f7.popover(popoverHTML, target.tagName == 'SPAN' ? target : target.children[0]);
         const detailMoreEvent = (e) => {
             const event = e || window.event;
             const dataId = e.target.getAttribute('data-id');
