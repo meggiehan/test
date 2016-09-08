@@ -85,8 +85,8 @@ let initAppConfig = {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
             // the current page is prohibited to back prev page.
+            console.log(_currentPage)
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
-                !isBack && android && !androidChrome && exitApp();
                 return false;
             }
             
@@ -98,9 +98,11 @@ let initAppConfig = {
                 return false;
             }
             if (android && !androidChrome) {
+                console.log(2)
                 if(isBack){
                     return false;
                 }
+                // nativeEvent['nativeGoBack']();
                 isBack = true;
                 setTimeout(() => {
                     isBack = false;

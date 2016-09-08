@@ -126,7 +126,6 @@ class CustomClass {
     }
 
     nativeGoBack(){
-        alert('back');
         window.yudada.JS_GoBack();
     }
 

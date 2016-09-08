@@ -178,8 +178,12 @@ class CustomClass {
 
     andriodBack() {
         if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
-            return false;
-        }else{
+            const { ios, android } = window.currentDevice;
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+                ios && JS_ExitProcess();
+                android && window.yudada.JS_ExitProcess();
+            }
+        } else {
             mainView.router.back();
         }
     }
@@ -188,11 +192,11 @@ class CustomClass {
         nativeEvent.apiCount(name);
     }
 
-    writeHistory(history){
+    writeHistory(history) {
         const arr = history.split(' ') || [];
         let resArr = [];
         arr.length && $$.each(arr, (index, str) => {
-            resArr.push(str.replace('“','').replace('”', ''));
+            resArr.push(str.replace('“', '').replace('”', ''));
         })
         const { cacheHistoryKey } = config;
         store.set(cacheHistoryKey, resArr);
