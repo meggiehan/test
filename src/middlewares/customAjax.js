@@ -81,13 +81,17 @@ class CustomClass {
             //     "Access-Control-Allow-Headers": "X-Requested-With",
             //     "Access-Control-Allow-Methods": "GET,POST"
             // },
-            error: function(err) {
-                nativeEvent.nativeToast(0, '网络错误');
+            error: function(err, status) {
+                if(parseInt(status) >= 500){
+                    nativeEvent.nativeToast(0, '服务器繁忙，请稍后再试！');
+                }else{
+                    nativeEvent.nativeToast(0, '请检查您的网络！');
+                }
                 f7.pullToRefreshDone();
                 f7.hideIndicator();
                 // callback(null, err);
             },
-            success: function(data) {
+            success: function(data, status) {
                 const _data = JSON.parse(data);
 
                 if (_data.code == 2 && _data.message) {
