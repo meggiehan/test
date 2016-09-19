@@ -34,7 +34,7 @@ function buydetailInit(f7, view, page) {
                 cityName,
                 fishTypeName,
                 price,
-                createTime,
+                checkTime,
                 state,
                 contactName,
                 requirementPhone,
@@ -58,7 +58,7 @@ function buydetailInit(f7, view, page) {
             addClassName && ($$('.page-buydetail').addClass(addClassName));
             currentUserId = userInfo['id'];
             html($$('.page-buydetail .goods-name'), fishTypeName, f7);
-            html($$('.page-buydetail .goods-create-time'), timeDifference(createTime), f7);
+            html($$('.page-buydetail .goods-create-time'), timeDifference(checkTime), f7);
             html($$('.page-buydetail .selldetail-price'), price || '面议', f7);
             specifications ? html($$('.selldetail-spec'), specifications, f7) : $$('.selldetail-spec').parent().remove();
             stock ? html($$('.selldetail-stock'), stock, f7) : $$('.selldetail-stock').parent().remove();

@@ -37,7 +37,7 @@ function selldetailInit(f7, view, page) {
                 fishTypeName,
                 state,
                 price,
-                createTime,
+                checkTime,
                 imgePath,
                 contactName,
                 requirementPhone,
@@ -66,7 +66,7 @@ function selldetailInit(f7, view, page) {
             // ajax back, edit html.
             $$('.selldetail-info>.first img').attr('src', imgePath + config['imgPath'](11));
             html($$('.page-selldetail .goods-name'), fishTypeName, f7);
-            html($$('.page-selldetail .goods-create-time'), timeDifference(createTime), f7);
+            html($$('.page-selldetail .goods-create-time'), timeDifference(checkTime), f7);
             html($$('.selldetail-price'), price || '面议', f7);
             specifications ? html($$('.selldetail-spec'), specifications, f7) : $$('.selldetail-spec').parent().remove();
             stock ? html($$('.selldetail-stock'), stock, f7) : $$('.selldetail-stock').parent().remove();
