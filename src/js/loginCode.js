@@ -6,7 +6,8 @@ import nativeEvent from '../utils/nativeEvent';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
-    const { phone, key } = page.query;
+    const { phone } = page.query;
+    let keyCode = page.query['key'];
     const { cacheUserinfoKey, voiceCodeWaitTime } = config;
     const domIndex = $$('.login-code-write>input').length - 1;
     const input = $$('.login-code-write>input')[domIndex];
@@ -46,15 +47,22 @@ function loginCodeInit(f7, view, page) {
 
     const callback = (data) => {
         isSend = false;
-        const setIntervalId = setInterval(() => {
-            if (_voiceCodeWaitTime < 0) {
-                clearInterval(setIntervalId);
-                isCountDown = false;
-                html(vioceBtn, '收不到验证码？点击这里', f7);
-                return;
-            }
-            voiceCountDown();
-        }, 1000)
+        const { code } = data;
+        if (1 == code) {
+            keyCode = data['data'];
+            const setIntervalId = setInterval(() => {
+                if (_voiceCodeWaitTime < 0) {
+                    clearInterval(setIntervalId);
+                    isCountDown = false;
+                    _voiceCodeWaitTime = voiceCodeWaitTime;
+                    html(vioceBtn, '收不到验证码？点击这里', f7);
+                    return;
+                }
+                voiceCountDown();
+            }, 1000)
+        } else if (0 == code) {
+            f7.alert('验证码发送频繁，请稍后再试！', '提示');
+        }
         f7.hideIndicator();
     }
 
@@ -133,7 +141,7 @@ function loginCodeInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'userLogin',
             api: 'subUserPass',
-            data: [input.value, key],
+            data: [input.value, keyCode],
             type: 'get',
             noCache: true,
         }, regCallback);
