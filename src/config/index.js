@@ -22,7 +22,7 @@ const configs = {
         company: '@90h_345w_1e_1c_2o',
         catCompany: '@190h_345w_1e_1c_2o',
     },
-    servicePhoneNumber: 18115381185,
+    servicePhoneNumber: '18115381185',
     demandInfo: {
         'getDemandInfoList': [
             "fishTypeId",
