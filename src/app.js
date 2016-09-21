@@ -2,7 +2,6 @@ import Framework7 from './js/lib/framework7';
 // import _ from 'lodash';
 import store from './utils/locaStorage';
 import config from './config';
-import customAjax from './middlewares/customAjax';
 import { homeInit } from './js/home';
 import { searchInit } from './js/search';
 import { filterInit } from './js/filter';
@@ -16,7 +15,6 @@ import { userInit } from './js/user';
 import { myCenterInit } from './js/myCenter';
 import { identityAuthenticationInit } from './js/identityAuthentication';
 import globalEvent from './utils/global';
-import { loginSucc } from './middlewares/loginMiddle';
 import { otherIndexInit } from './js/otherIndex';
 import { otherInfoInit } from './js/otherInfo';
 import { otherListInit } from './js/otherList';
@@ -26,21 +24,23 @@ import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
 import { catIdentityStatusInit } from './js/catIdentityStatus';
-import {editNameInit} from './js/editName';
+import { editNameInit } from './js/editName';
 
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const { version, debug } = config;
+const { version, debug, timeout } = config;
 
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
+
+let isBack = false;
 // init f7
-const f7 = new Framework7({
+let initAppConfig = {
     // swipeBackPage: false,
-    uniqueHistoryIgnoreGetParameters: true,
+    // uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
     // preloadPreviousPage: true,
     imagesLazyLoadThreshold: 50,
@@ -55,14 +55,21 @@ const f7 = new Framework7({
     fastClicks: true,
     modalTitle: '温馨提示',
     // force: true,
-    // cacheIgnore: ['views/search.html', 'views/login.html', 'views/loginCode.html'],
+    // cacheIgnore: ['search.html'],
 
 
     // cacheIgnore: ['search.html'],
-    // preprocess: (content, url, next) => {
-    //     console.log(url);
-    //     next(content)
-    // },
+    preprocess: (content, url, next) => {
+        next(content);
+        const query = getQuery(url);
+        if (url.indexOf('search.html') > -1) {
+            searchInit(f7, mainView, { query })
+        } else if (url.indexOf('login.html') > -1) {
+            loginInit(f7, mainView, { query })
+        } else if (url.indexOf('loginCode.html') > -1) {
+            loginCodeInit(f7, mainView, { query })
+        }
+    },
     preroute: (view, options) => {
         if (!options) {
             return;
@@ -77,13 +84,36 @@ const f7 = new Framework7({
         if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
-            // const { search } = getQuery(goPage);
+            // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
+                    // exitApp();
+                    return false;
+            }
+            
+            if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
+                mainView.router.load({
+                    url: 'views/home.html',
+                    reload: true
+                })
                 return false;
+            }
+            if (android && !androidChrome) {
+                console.log(2)
+                if(isBack){
+                    return false;
+                }
+                // nativeEvent['nativeGoBack']();
+                isBack = true;
+                setTimeout(() => {
+                    isBack = false;
+                }, 300);
             }
         }
     }
-});
+}
+
+android && !androidChrome && (initAppConfig['swipeBackPage'] = false);
+const f7 = new Framework7(initAppConfig);
 const mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
@@ -100,6 +130,10 @@ window.$$ = Dom7;
 window.mainView = mainView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
+
+//get search history form native.
+nativeEvent['searchHistoryActions'](2, '');
+
 //get curren address cache in object on window.
 /*
  * Trigger lazy load img.
@@ -113,14 +147,14 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
-
-const initEvent = f7.onPageInit("*", (page) => {
+const initApp = f7.onPageInit("*", (page) => {
     // show loading.
     if (page.name !== 'home' && page.name) {
         f7.showIndicator();
     } else {
         f7.hideIndicator();
     }
+    setTimeout(f7.hideIndicator, timeout);
     page.name === 'editName' && editNameInit(f7, mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
     page.name === 'login' && loginInit(f7, mainView, page);

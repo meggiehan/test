@@ -41,13 +41,6 @@ class CustomClass {
         android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
     }
 
-    //get api from native.
-    getApi() {
-        const { ios, android } = window.currentDevice;
-        ios && JS_BaseUrl();
-        android && window.yudada.JS_BaseUrl();
-    }
-
     //cat pic
     catPic(url) {
         const { ios, android } = window.currentDevice;
@@ -115,12 +108,38 @@ class CustomClass {
         ios ? JS_DisTanceInfo() : window.yudada.JS_DisTanceInfo();
     }
 
-    nativeToast(type, message){
+    nativeToast(type, message) {
+        //type: 0 faild, 1 succ;
         const { ios, android } = window.currentDevice;
         if (!window['JS_ShowHUD_AutoDisappear'] && (!window['yudada'] || !window['yudada']['JS_ShowHUD_AutoDisappear'])) {
             return false;
         }
         ios ? JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
+    }
+
+    setNativeUserInfo(key, val) {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
+            return false;
+        }
+        ios ? JS_PerferenceSetShared(key, val) : window.yudada.JS_PerferenceSetShared(key, val);
+    }
+
+    nativeGoBack(){
+        window.yudada.JS_GoBack();
+    }
+
+    searchHistoryActions(type, val) {
+        /*
+         *  type == 1: save search history;
+         *  type == 2: get search history;
+         *  type == 3: clear search history.
+         */
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_SearchRecord'] && (!window['yudada'] || !window['yudada']['JS_SearchRecord'])) {
+            return false;
+        }
+        ios ? JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
     }
 
 }

@@ -9,6 +9,7 @@ import nativeEvent from '../utils/nativeEvent';
 
 function filterInit(f7, view, page) {
     const _district = nativeEvent['getDistricInfo']() || district;
+    const { ios, android, androidChrome, osVersion } = window.currentDevice;
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = $$('.filter-empty-search-result');
@@ -61,11 +62,11 @@ function filterInit(f7, view, page) {
             $$('.filter-list').append(listHtml);
             loading = false;
         } else {
+            $$('.filter-list').text('');
             html($$('.filter-list'), listHtml, f7);
         }
         //pull to refresh done.
         f7.pullToRefreshDone();
-        pullToRefresh = false;
         $$('img.lazy').trigger('lazy');
         $$('.page-filter .tabbar').show();
         if (!listHtml) {
@@ -84,7 +85,23 @@ function filterInit(f7, view, page) {
             load.hide();
             showAllInfo.show();
         }
-        f7.hideIndicator();
+
+        //for Android 4. 4 version do processing.
+        if (parseFloat(currentDevice['osVersion']) <= 4.1 && !isInfinite && pullToRefresh && android && !androidChrome && !release) {
+            setTimeout(() => {
+                $$('.page-content').css('overflow', 'hidden');
+            }, 700)
+            setTimeout(() => {
+                $$('.page-content').css('overflow', 'auto');
+                f7.hideIndicator();
+            }, 750)
+        } else {
+            f7.hideIndicator();
+        }
+
+        // f7.hideIndicator();
+        pullToRefresh = false;
+        isInfinite = false;
     }
 
     const fishTypeRootCallback = (data) => {
@@ -113,7 +130,7 @@ function filterInit(f7, view, page) {
 
         fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         html($$('.filter-fish-type>.col-65'), typeHtml, f7);
-        currentFishId && $$('.filter-fish-type span[data-id="'+currentFishId+'"]').trigger('click');
+        currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
     }
 
 
@@ -150,11 +167,12 @@ function filterInit(f7, view, page) {
         if (ele.tagName !== 'SPAN') {
             return;
         }
+        apiCount(!release ? 'btn_filter_fishtype_item1' : 'btn_text_fishType_fishParent');
         const rootId = ele.getAttribute('data-id');
         let categoryFish = [];
         let typeHtml = '';
 
-        if (rootId === '0') {
+        if (rootId == '0') {
             categoryFish = allFishTypeChild;
             typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && 'active-ele'}">${ele.innerText}</span>`;
         } else {
@@ -321,6 +339,7 @@ function filterInit(f7, view, page) {
         ptrContent.on('refresh', function(e) {
             pullToRefresh = true;
             isShowAll = false;
+            pageNo = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
@@ -355,55 +374,65 @@ function filterInit(f7, view, page) {
 
     // select fish category;
     $$('.filter-fish-type>.col-65').on('click', (e) => {
-        const event = e || window.event;
-        const ele = event.target;
-        const classes = ele.className;
-        if (ele.tagName !== 'SPAN') {
-            return;
-        }
-        tabChange = true;
-        const childId = ele.getAttribute('data-id');
-        $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
-        $$('.filter-release-next').addClass('pass');
-        const tabText = ele.innerText;
-        releaseFishName = ele.innerText;
-        ele.className += ' active-ele';
-        parentFishInfo['id'] = ele.getAttribute('data-parent-id');
-        parentFishInfo['name'] = ele.getAttribute('data-parent-name');
-        currentFishId = childId;
-        if (!release) {
-            tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
-            $$('.winodw-mask').removeClass('on');
-            $$('.filter-tabs-content').removeClass('on');
-            $$('.filter-tab>div').removeClass('active-ele');
-            isShowAll = false;
-            searchValue = '';
-            searchBtn.val('');
-            isInfinite = false;
-            pageNo = 1;
-            customAjax.ajax({
-                apiCategory: 'demandInfo',
-                api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
-                type: 'get'
-            }, listCallback);
+            const event = e || window.event;
+            const ele = event.target;
+            const classes = ele.className;
+            if (ele.tagName !== 'SPAN') {
+                return;
+            }
+            apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
+            tabChange = true;
+            const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
+            $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
+            $$('.filter-release-next').addClass('pass');
+            const tabText = ele.innerText;
+            releaseFishName = ele.innerText;
+            ele.className += ' active-ele';
+            parentFishInfo['id'] = ele.getAttribute('data-parent-id');
+            parentFishInfo['name'] = ele.getAttribute('data-parent-name');
+            currentFishId = childId;
+            if (!release) {
+                tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
+                $$('.winodw-mask').removeClass('on');
+                $$('.filter-tabs-content').removeClass('on');
+                $$('.filter-tab>div').removeClass('active-ele');
+                isShowAll = false;
+                searchValue = '';
+                searchBtn.val('');
+                isInfinite = false;
+                pageNo = 1;
+                customAjax.ajax({
+                    apiCategory: 'demandInfo',
+                    api: 'getDemandInfoList',
+                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                    type: 'get'
+                }, listCallback);
 
-        }
-    })
-
-    //js location to other page
+            }
+        })
+        //js location to other page
     $$('.home-search-mask').on('click', () => {
+        const currentHistory = view['history'];
+        let isHasFilterPage = 0;
+        $$.each(currentHistory, (index, item) => {
+            item.indexOf('filter') > -1 && (isHasFilterPage++);
+        })
+        const reload = !release && isHasFilterPage > 1;
+        apiCount(!release ? 'textfield_search_list' : 'btn_text_fishType_search');
         view.router.load({
-            url: `views/search.html?release=${release||false}&type=${_type}`
+            url: `views/search.html?release=${release}&type=${_type}&keyvalue＝${searchValue}`,
+            reload
         })
     })
 
     //if release page go to select fish type page, Calculation filter-tabs-content height;
     if (release) {
-        const winHeight = $$(window).height();
-        const navbarHeight = $$('.navbar').height();
-        const footerHeight = $$('.tabbar').height();
-        $$('.filter-tabs-content').css({ height: `${winHeight - navbarHeight - footerHeight}px` });
+        setTimeout(() => {
+            const winHeight = $$(window).height();
+            const navbarHeight = $$('.navbar').height();
+            const footerHeight = $$('.tabbar').height();
+            $$('.filter-tabs-content').css({ height: `${winHeight - navbarHeight - footerHeight}px` });
+        }, 0)
     }
 }
 

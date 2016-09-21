@@ -29,11 +29,12 @@ class CustomClass {
         let individualSrcArr = [];
         if (identityClasses.indexOf('company') > -1) {
             //post company identity;
-            const companyUrl = $$('.identity-company-pic img').attr('src');
+            let companyUrl = $$('.identity-company-pic img').attr('src');
             if (!companyUrl) {
                 this.f7.alert('请按要求上传营业执照正本照', '温馨提示');
                 return;
             }
+            companyUrl = companyUrl.split('@')[0];
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateEnterpriseUserInfo',

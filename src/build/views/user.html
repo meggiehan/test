@@ -11,7 +11,7 @@
                     <img src="img/defimg.png" width="65" class="lazy">
                 </div>
                 <div class="row item-inner">
-                    <div class="col-62">
+                    <div class="col-65">
                         <span class="login">点击登录</span>
                         <div class="user-info">
                             <p class="user-name">匿名用户</p>
@@ -20,7 +20,7 @@
                             </p>
                         </div>
                     </div>
-                    <a class="col-38 iconfont icon-right">
+                    <a class="col-35 iconfont icon-right" onclick="apiCount('btn_editInfo')">
                         <span class="modify-text">修改资料</span>
                     </a>
                 </div>
@@ -29,7 +29,7 @@
         <div class="user-info-list">
             <a class="row my-sell-list">
                 <div class="col-15 iconfont icon-qiugou"></div>
-                <div class="col-85 row first">
+                <div class="col-85 row first" onclick="apiCount('btn_mysell')">
                     <div class="col-60">我的出售</div>
                     <div class="col-40 iconfont icon-right">
                         <span class="user-sell-num">0</span>个
@@ -38,7 +38,7 @@
             </a>
             <a class="row my-buy-list">
                 <div class="col-15 iconfont icon-me-qiugou"></div>
-                <div class="col-85 row">
+                <div class="col-85 row" onclick="apiCount('btn_mypurchase')">
                     <div class="col-60">我的求购</div>
                     <div class="col-40 iconfont icon-right">
                         <span class="user-buy-num">0</span>个
@@ -46,15 +46,15 @@
                 </div>
             </a>
         </div>
-        <div class="user-cert">
+        <div class="user-cert-identity">
             <div class="user-cert-title">我要认证</div>
             <div class="row user-cert-type">
-                <div class="col-50 go-identity">
+                <div class="col-50 go-identity" onclick="apiCount('btn_identity')">
                     <div class="iconfont icon-identity"></div>
                     <p class="title">实名认证</p>
                     <p class="user-identity-text">点击认证</p>
                 </div>
-                <div class="col-50 go-verification">
+                <div class="col-50 go-verification" onclick="apiCount('btn_certification')">
                     <div class="iconfont icon-verification"></div>
                     <p class="title">鱼类资质</p>
                     <p><span class="user-verification-num">0</span>项</p>
@@ -71,14 +71,14 @@
             </a> -->
             <a class="row user-call-service">
                 <div class="col-15 iconfont icon-call"></div>
-                <div class="col-85 row first">
+                <div class="col-85 row first" onclick="apiCount('btn_contact')">
                     <div class="col-60">联系客服</div>
                     <div class="col-40 iconfont icon-right">18115381185</div>
                 </div>
             </a>
             <a class="row external" href="http://m.yudada.com/helpCenter.html">
                 <div class="col-15 iconfont icon-info"></div>
-                <div class="col-85 row">
+                <div class="col-85 row" onclick="apiCount('btn_help')">
                     <div class="col-60">帮助中心</div>
                     <div class="col-40 iconfont icon-right"></div>
                 </div>
@@ -97,11 +97,11 @@
     <div class="toolbar tabbar">
         <div class="toolbar-inner">
             <!-- Toolbar links -->
-            <a class="link no-animation href-go-home" data-reload="true">
+            <a class="link no-animation href-go-home" data-reload="true" onclick="apiCount('btn_tabbar_home');">
                 <div class="iconfont icon-home"></div>
                 <div>首页</div>
             </a>
-            <a href="views/release.html" class="link edit-info no-animation">
+            <a href="views/release.html" class="link edit-info no-animation" onclick="apiCount('btn_tabbar_post');">
                 <div class="tab-border">
                     <div class="iconfont icon-edit"></div>
                     <div>发布信息</div>

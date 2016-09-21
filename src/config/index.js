@@ -1,7 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '0.1.8',
+    version: '1.2 --- 2016/09/20',
     debug: false,
     url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
     // url: '://192.168.20.109:8080/',
@@ -22,7 +22,7 @@ const configs = {
         company: '@90h_345w_1e_1c_2o',
         catCompany: '@190h_345w_1e_1c_2o',
     },
-    servicePhoneNumber: 18115381185,
+    servicePhoneNumber: '18115381185',
     demandInfo: {
         'getDemandInfoList': [
             "fishTypeId",

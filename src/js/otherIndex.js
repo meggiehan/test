@@ -8,7 +8,7 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 import userUtils from '../utils/viewsUtil/userUtils';
 import { centerShowTime } from '../utils/time';
-import {otherIndexClickTip} from '../utils/domListenEvent';
+import { otherIndexClickTip, veiwCert } from '../utils/domListenEvent';
 
 function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
@@ -41,27 +41,28 @@ function otherIndexInit(f7, view, page) {
 
 
     const sellListCallback = (data) => {
-            const list = data.data.list;
-            if (!list.length) {
-                sellInfoNull = true;
-                sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
-                f7.hideIndicator();
+        const list = data.data.list;
+        if (!list.length) {
+            sellInfoNull = true;
+            sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+            f7.hideIndicator();
+            return;
+        }
+        let sellHtml = '';
+        $$.each(list, (index, item) => {
+            if (item['state'] !== 1 || index > 2) {
                 return;
             }
-            let sellHtml = '';
-            $$.each(list, (index, item) => {
-                if (item['state'] !== 1 || index > 2) {
-                    return;
-                }
-                sellHtml += home.cat(item);
-            })
-            html($$('.other-sell-list .list'), sellHtml, f7);
-            sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
+            sellHtml += home.cat(item);
+        })
+        html($$('.other-sell-list .list'), sellHtml, f7);
+        sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
 
-            $$('img.lazy').trigger('lazy');
-            f7.hideIndicator();
-        }
-        //get user sell demand list.
+        $$('img.lazy').trigger('lazy');
+        f7.hideIndicator();
+    }
+
+    //get user sell demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
@@ -106,14 +107,7 @@ function otherIndexInit(f7, view, page) {
     })
 
     //view cert in ew window.
-    $$('.other-index-cert .cert-list').on('click', (e) => {
-        const event = e || window.event;
-        const ele = event.target;
-        if (ele.className.indexOf('open-cert-button') > -1) {
-            const url = $$(ele).attr('data-url');
-            nativeEvent.catPic(url);
-        }
-    })
+    $$('.other-index-cert .cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //view current user sell list.
     $$('.other-sell-cat-all').on('click', () => {

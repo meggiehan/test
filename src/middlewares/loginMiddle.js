@@ -34,6 +34,15 @@ function logOut() {
     // })
 }
 
+function activeLogout() {
+    store.clear();
+    nativeEvent.setNativeUserInfo('token', '');
+    mainView.router.load({
+         url: 'views/user.html',
+         reload: true
+    })
+}
+
 function loginSucc(data, callback) {
     const { imgPath } = config;
     const {
@@ -51,7 +60,7 @@ function loginSucc(data, callback) {
         cityName
     } = data;
     $$('.user-header').addClass('login-succ');
-    $$('.user-tell-number')[0].innerText = `手机号：${loginName}`;
+    $$('.user-tell-number').text(`手机号：${loginName}`);
     imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
     nickname && (html($$('.page-user .user-name'), nickname, null));
     callback();
@@ -61,4 +70,5 @@ module.exports = {
     isLogin,
     logOut,
     loginSucc,
+    activeLogout
 }

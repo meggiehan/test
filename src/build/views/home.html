@@ -6,7 +6,7 @@
                 <div class="home-tabbar-logo"></div>
                 <a>
                     <input type="search" placeholder="填写品种名称，例如黑鱼" class="index-search-link">
-                    <div class="home-search-mask"></div>
+                    <div class="home-search-mask" onclick="apiCount('textfield_search_home')"></div>
                 </a>
             </div>
         </form>
@@ -21,25 +21,25 @@
         </div>
         <div class="row list-block media-list">
             <div class="col-50">
-                <a class="list-block media-list" href="views/filter.html?type=2">
+                <a class="list-block media-list" href="views/filter.html?type=2" onclick="apiCount('btn_buy');">
                     <div class="item-content home-chushou">
-                        <div class="item-media iconfont icon-buy">
+                        <div class="item-media iconfont icon-buy home-chushou">
                             <!-- <img src="./img/ic_home_buy.png" alt="" width="50"> -->
                         </div>
                         <div class="item-inner">
-                            <div class="item-title-row text-hidden">出售大厅</div>
+                            <div class="item-title-row text-hidden home-chushou">出售大厅</div>
                             <div class="item-subtitle">看看别人在卖什么</div>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-50 last-child">
-                <a class="list-block media-list" href="views/filter.html?type=1">
+                <a class="list-block media-list" href="views/filter.html?type=1" onclick="apiCount('btn_wanttobuy');">
                     <div class="item-content home-qiugou">
-                        <div class="item-media iconfont icon-qiugou">
+                        <div class="item-media iconfont icon-qiugou home-qiugou">
                         </div>
                         <div class="item-inner">
-                            <div class="item-title-row text-hidden">求购大厅</div>
+                            <div class="item-title-row text-hidden home-qiugou">求购大厅</div>
                             <div class="item-subtitle">看别人想买什么</div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
             <div class="home-content-title iconfont icon-edit">精选鱼种</div>
             <div class="chosen-fingerling-list">
                 <div class="list-block media-list row">
-                    <a href="views/filter.html?id=01000" class="home-categorys item-link item-content col-33">
+                    <a href="views/filter.html?id=01000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category1');">
                         <div class="item-media">
                             <img data-src="img/ic_category_commonfish.png" src="img/app_icon_108.png" class="lazy" width="32" alt="">
                         </div>
@@ -59,7 +59,7 @@
                             <div class="item-title">常见鱼</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=02000" class="home-categorys item-link item-content col-33">
+                    <a href="views/filter.html?id=02000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category2');">
                         <div class="item-media">
                             <img src="img/ic_category_goodfish.png" width="32" alt="">
                         </div>
@@ -67,17 +67,17 @@
                             <div class="item-title">名优鱼</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=03000" class="home-categorys item-link item-content col-33">
+                    <a href="views/filter.html?id=03000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category3');">
                         <div class="item-media">
                             <img src="./img/ic_category_crabshrimp.png" width="32" alt="">
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">螃蟹</div>
+                            <div class="item-title">虾蟹</div>
                         </div>
                     </a>
                 </div>
                 <div class="list-block media-list row">
-                    <a href="views/filter.html?id=07000" class="home-categorys item-link item-content col-33">
+                    <a href="views/filter.html?id=07000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category4');">
                         <div class="item-media">
                             <img src="./img/ic_category_turtle.png" width="32" alt="">
                         </div>
@@ -85,7 +85,7 @@
                             <div class="item-title">龟鳖</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=05000" class="home-categorys item-link item-content col-33">
+                    <a href="views/filter.html?id=05000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category5');">
                         <div class="item-media">
                             <img src="./img/ic_category_seafish.png" width="32" alt="">
                         </div>
@@ -93,7 +93,7 @@
                             <div class="item-title">海水鱼</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=10000" class="home-categorys item-link item-content col-33">
+                    <a href="views/filter.html?id=10000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category6');">
                         <div class="item-media">
                             <img src="./img/ic_category_babyfish.png" width="32" alt="">
                         </div>
@@ -110,12 +110,12 @@
             <div class="home-cat-list">
                 <div class="home-content-title iconfont icon-category">大家都在看</div>
                 <div class="cat-list-foreach"></div>
-                <div class="home-go-more"><a href="./views/filter.html?type=2" class="iconfont icon-go">查看更多鱼价</a></div>
+                <div class="home-go-more"><a href="./views/filter.html?type=2" class="iconfont icon-go" onclick="apiCount('btn_more_selllist');">查看更多鱼价</a></div>
             </div>
             <div class="home-buy-list">
                 <div class="home-content-title iconfont icon-edit">最新求购信息</div>
                 <div class="buy-list-foreach"></div>
-                <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go">进入求购大厅</a></div>
+                <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go" onclick="apiCount('btn_more_purchaselist');">进入求购大厅</a></div>
             </div>
         </div>
         <div class="home-loading"><span class="preloader"></span></div>
@@ -127,13 +127,13 @@
                 <div class="iconfont icon-active-home"></div>
                 <div>首页</div>
             </a>
-            <a class="link edit-info no-animation"  href="views/release.html">
+            <a class="link edit-info no-animation"  href="views/release.html" onclick="apiCount('btn_tabbar_post');">
                 <div class="tab-border">
                     <div class="iconfont icon-edit"></div>
                     <div>发布信息</div>
                 </div>
             </a>
-            <a class="link no-animation href-go-user" data-reload="true">
+            <a class="link no-animation href-go-user" data-reload="true" onclick="apiCount('btn_tabbar_profile');">
                 <div class="iconfont icon-user"></div>
                 <div>个人中心</div>
             </a>

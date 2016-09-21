@@ -6,11 +6,13 @@ import nativeEvent from '../utils/nativeEvent';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
-    const { phone, key } = page.query;
+    const { phone } = page.query;
+    let keyCode = page.query['key'];
     const { cacheUserinfoKey, voiceCodeWaitTime } = config;
-    const input = $$('.login-code-write>input');
-    const vioceBtn = $$('.login-code-voice');
-    const subBtn = $$('.login-code-submit');
+    const domIndex = $$('.login-code-write>input').length - 1;
+    const input = $$('.login-code-write>input')[domIndex];
+    const vioceBtn = $$('.login-code-voice')[domIndex];
+    const subBtn = $$('.login-code-submit')[domIndex];
     let isPass = false;
     let isSend = false;
     let isCountDown = false;
@@ -19,17 +21,19 @@ function loginCodeInit(f7, view, page) {
     setTimeout(() => {
         input.focus();
     }, 400)
-    input[0].oninput = () => {
-        const val = input.val();
+    input.oninput = () => {
+        const val = input.value;
+        let classes = subBtn.className;
         if (/^\d{4}$/.test(val) && val.length == 4) {
-            subBtn.addClass('on');
+            classes += ' on';
+            subBtn.className = classes;
             input.blur();
             isPass = true;
-            subBtn.trigger('click');
+            $$(subBtn).trigger('click');
         } else if (val.length >= 4) {
-            input.val(val.substr(0, 4));
+            input.value = val.substr(0, 4);
         } else {
-            subBtn.removeClass('on');
+            subBtn.className = classes.replace(' on', '');
             isPass = false;
         }
     }
@@ -43,23 +47,32 @@ function loginCodeInit(f7, view, page) {
 
     const callback = (data) => {
         isSend = false;
-        const setIntervalId = setInterval(() => {
-            if (_voiceCodeWaitTime < 0) {
-                clearInterval(setIntervalId);
-                isCountDown = false;
-                html(vioceBtn, '收不到验证码？点击这里', f7);
-                return;
-            }
-            voiceCountDown();
-        }, 1000)
+        const { code } = data;
+        if (1 == code) {
+            keyCode = data['data'];
+            const setIntervalId = setInterval(() => {
+                if (_voiceCodeWaitTime < 0) {
+                    clearInterval(setIntervalId);
+                    isCountDown = false;
+                    _voiceCodeWaitTime = voiceCodeWaitTime;
+                    html(vioceBtn, '收不到验证码？点击这里', f7);
+                    return;
+                }
+                voiceCountDown();
+            }, 1000)
+        } else if (0 == code) {
+            f7.alert('验证码发送频繁，请稍后再试！', '提示');
+        }
+        f7.hideIndicator();
     }
 
     //get voice test code;
-    vioceBtn.on('click', () => {
+    vioceBtn.onclick = () => {
         if (isCountDown) {
             return;
         }
         isSend = true;
+        f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'userLogin',
             api: 'getPhoneCode',
@@ -72,7 +85,7 @@ function loginCodeInit(f7, view, page) {
                 phone
             }
         }, callback);
-    })
+    }
 
     // const loginCallback = (data) => {
     //     const { code, message } = data;
@@ -95,6 +108,8 @@ function loginCodeInit(f7, view, page) {
     const regCallback = (data) => {
         if (data.code == 1) {
             const { loginName, loginPass } = data.data;
+            // f7.hideIndicator();
+            f7.showPreloader('登录中...');
             nativeEvent.nativeLogin(loginName, loginPass);
             //user login, return user infomation.
             // customAjax.ajax({
@@ -108,25 +123,25 @@ function loginCodeInit(f7, view, page) {
             isSend = false;
             isPass = true;
             f7.alert(data.message, '提示', () => {
-                input.val('').focus();
+                input.value = '';
+                input.focus();
             });
         }
-        f7.hideIndicator();
     }
 
 
     //User registration. return user login infomation.
-    subBtn[0].onclick = () => {
+    subBtn.onclick = () => {
         if (!isPass || isSend) {
             return;
         }
-        f7.showIndicator();
+        // f7.showIndicator();
         isSend = true;
-        subBtn.removeClass('on');
+        subBtn.className = subBtn.className.replace(' on', '');
         customAjax.ajax({
             apiCategory: 'userLogin',
             api: 'subUserPass',
-            data: [input.val(), key],
+            data: [input.value, keyCode],
             type: 'get',
             noCache: true,
         }, regCallback);

@@ -12,6 +12,7 @@ function editNameInit(f7, view, page) {
     const editUserNameSubBtn = $$('.center-submit-name');
     const {
         nickname,
+        id
     } = userInfo;
     if (userInfo) {
         nickname && $$('.page-my-center .my-center-nickname span').text(nickname);
