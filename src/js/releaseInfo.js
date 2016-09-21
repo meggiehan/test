@@ -69,7 +69,6 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const callback = (data) => {
-        f7.hideIndicator();
         const { code, message } = data;
         if (1 == code) {
             const requirementPhoneNumber = trim($$('.release-write-tell input')[domIndex].value);
@@ -79,6 +78,8 @@ function releaseInfoInit(f7, view, page) {
                 url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}&phone=${requirementPhoneNumber}`,
                 // reload: true
             })
+        }else{
+            f7.hideIndicator();
         }
         isRelease = false;
     }
