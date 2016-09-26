@@ -1,7 +1,7 @@
 import store from '../utils/locaStorage';
 import config from '../config';
 import { getName, trim } from '../utils/string';
-import { getDate } from '../utils/time';
+import { getDate, timeDifference } from '../utils/time';
 import { logOut, isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
@@ -28,7 +28,7 @@ function inviteCodeInit(f7, view, page) {
     if (inviterId) {
         //has filled in the information that was invited.
         $$('.invited-user-name').text(inviterNickname || inviterPhone || '***');
-        $$('.invited-time').text(getDate(invitationTime) || '****年*月**日');
+        $$('.invited-time').text(timeDifference(invitationTime) || '****年*月**日');
         $$('.page-invite-code>.page-content').addClass('invited');
     } else {
         $$('.page-invite-code>.page-content').addClass('inviting');
