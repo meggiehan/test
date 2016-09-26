@@ -189,6 +189,52 @@
                         width: 60%;
                     }
                 }
+                &.user-invit {
+                    .icon-invite{
+                        color: @text-invite-icon;
+                    }
+                    .col-85.first {
+                        .col-60 {
+                            width: 65%;
+                        }
+                        .col-40 {
+                            width: 35%;
+                        }
+                        span {
+                            font-size: 1.4rem;
+                            display: none;
+                            &.user-new-activity {
+                                padding: 3px 8px;
+                                border-radius: 1.3rem;
+                                background: @text-chushou;
+                                .text-shadow(@text-chushou);
+                                color: @text-fff;
+                                display: inline;
+                            }
+                        }
+                        &.invit-numbers {
+                            span.user-invite-num {
+                                display: inline;
+                            }
+                            span.user-new-activity {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .user-go-invite-page {
+            .text-center;
+            display: none;
+            a {
+                color: @text-category;
+                text-decoration: underline;
+                display: block;
+                line-height: 3rem;
+            }
+            &.show {
+                display: block;
             }
         }
     }

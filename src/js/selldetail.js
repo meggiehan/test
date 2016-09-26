@@ -11,8 +11,8 @@ import { detailClickTip, veiwCert, detailMoreEvent } from '../utils/domListenEve
 function selldetailInit(f7, view, page) {
     const { id } = page.query;
     let isReleaseForMe = false;
-    const domIndex = $$('.selldetail-cert-list').length - 1;
-    const certList = $$('.selldetail-cert-list')[domIndex];
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const certList = currentPage.find('.selldetail-cert-list');
     const shareBtn = $$('.selldetail-footer .icon-share');
     const { shareUrl, cacheUserinfoKey, timeout } = config;
     let demandInfo_;
@@ -55,7 +55,7 @@ function selldetailInit(f7, view, page) {
 
             if (state == 0 || state == 2) {
                 $$('.page-selldetail .selldetail-footer').addClass('delete');
-                $$($$('.detail-more')[domIndex]).hide();
+                currentPage.find('.detail-more').hide();
             }
             id == locaUserId && $$('.page-selldetail .selldetail-footer').addClass('share-delete');
             errorInfo = refuseDescribe;
@@ -77,12 +77,12 @@ function selldetailInit(f7, view, page) {
                 const { fish_type_name } = item;
                 fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
             })
-            certHtml ? html(certList, certHtml, f7) : $$(certList).parent().remove();
+            certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
             html($$('.page-selldetail .user-name'), contactName || '匿名用户', f7);
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
             1 == enterpriseAuthenticationState && $$('.selldetail-verify-text').text('已完成企业认证');
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$($$('.user-cert')[domIndex]).remove();
+            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
 
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             html($$('.tabbar-price'), price || '面议', f7);
@@ -101,11 +101,11 @@ function selldetailInit(f7, view, page) {
     }, callback);
 
     // dom event;
-    $$('.sell-detail-verify-faild ')[domIndex].onclick = () => {
+    currentPage.find('.sell-detail-verify-faild ')[0].onclick = () => {
         f7.alert(errorInfo, '查看原因');
     }
 
-    $$('.selldetail-call-phone')[domIndex].onclick = () => {
+    currentPage.find('.selldetail-call-phone')[0].onclick = () => {
             const { requirementPhone } = demandInfo_;
             requirementPhone && nativeEvent.contactUs(requirementPhone);
         }
@@ -122,7 +122,7 @@ function selldetailInit(f7, view, page) {
             }
         })
     }
-    $$('.selldetail-delete-info')[domIndex].onclick = () => {
+    currentPage.find('.selldetail-delete-info')[0].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
         f7.confirm('你确定删除出售信息吗？', '删除发布信息', () => {
             f7.showIndicator();

@@ -157,5 +157,21 @@ module.exports = {
             str += '</div>';
             return str;
         }
+    },
+    invite: {
+        inviteList: (data, isLast) => {
+            const {nickname , phone, createTime} = data;
+            let html = '';
+            html += `<div class="row ${isLast ? 'last' : ''}">` +
+                        `<span class="col-33 left">${phone || ''}</span>` +
+                        `<span class="col-33">${nickname || ''}</span>` +
+                        `<span class="col-33 invite-time right">${getDate(createTime*0.001, true)}</span>` +
+                    '</div>';
+            return html;
+        }
     }
+
+
+
+
 }

@@ -25,6 +25,10 @@ import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
 import { catIdentityStatusInit } from './js/catIdentityStatus';
 import { editNameInit } from './js/editName';
+import { inviteCodeInit } from './js/inviteCode';
+import {inviteFriendsInit} from './js/inviteFriends';
+import {inviteFriendsListInit} from './js/inviteFriendsList';
+
 
 
 const deviceF7 = new Framework7();
@@ -86,10 +90,10 @@ let initAppConfig = {
             const backPage = history[len - 2];
             // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
-                    // exitApp();
-                    return false;
+                // exitApp();
+                return false;
             }
-            
+
             if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',
@@ -99,7 +103,7 @@ let initAppConfig = {
             }
             if (android && !androidChrome) {
                 console.log(2)
-                if(isBack){
+                if (isBack) {
                     return false;
                 }
                 // nativeEvent['nativeGoBack']();
@@ -175,4 +179,7 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'releaseSucc' && releaseSuccInit(f7, mainView, page);
     page.name === 'home' && homeInit(f7, mainView, page);
     page.name === 'user' && userInit(f7, mainView, page);
+    page.name === 'inviteCode' && inviteCodeInit(f7, mainView, page);
+    page.name === 'inviteFriends' && inviteFriendsInit(f7, mainView, page);
+    page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
 });
