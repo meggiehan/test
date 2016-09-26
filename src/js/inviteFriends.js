@@ -49,8 +49,8 @@ function inviteFriendsInit(f7, view, page) {
 
     //share to QQ or weixin, message.
     currentPage.find('.invite-friends-share-weixin')[0].onclick = () => {
-        const title = '养得好不如卖的好，鱼大大实名认证水产交易平台';
-        const messageTile = `好友${inviterNickname || ''}给您的神奇卖鱼工具！对你很有用，赶紧看看吧: ${invitationLink}`;
+        const title = `好友${inviterNickname || ''}给您的神奇卖鱼工具！`;
+        const messageTile = `养得好不如卖的好，鱼大大实名认证水产交易平台，赶紧看看吧: ${invitationLink}`;
         const html = '点击查看更多信息！';
         nativeEvent.shareInfo(title, html, invitationLink, messageTile);
     };

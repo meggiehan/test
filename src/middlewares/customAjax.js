@@ -62,19 +62,23 @@ class CustomClass {
         let newData = $$.isArray(data) ? this.getData(key, data) : data;
 
         let headers = {};
-        let url = `${config.url}${apiCategory}/${api ? api + '/' : ''}`;
+        let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
         parameType && (newData = JSON.stringify(newData));
-
-        if (header) {
-            header.indexOf('token') > -1 && (headers['accessToken'] = nativeEvent['getUserValue']('token') || '');
-            header.indexOf('login_token') > -1 && (headers['login_token'] = nativeEvent['getUserValue']('token') || '');
-        }
 
         if (val) {
             $$.each(val, (key, value) => {
                 url += `${value}/`;
             })
         }
+
+        if (header) {
+            header.indexOf('token') > -1 && (headers['accessToken'] = nativeEvent['getUserValue']('token') || '');
+            if(header.indexOf('login_token') > -1){
+                headers['login_token'] = nativeEvent['getUserValue']('token') || '';
+                url += `?login_token=${nativeEvent['getUserValue']('token') || ''}`;
+            };
+        }
+
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);
