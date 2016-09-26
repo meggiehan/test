@@ -20,13 +20,9 @@ function inviteFriendsInit(f7, view, page) {
         inviterPhone,
         invitationLink,
         imgUrl,
-        registerCount
-    } = userInfo || {
-        invitationCode: 'Driver Cai',
-        inviterNickname: 'Driver Cai',
-        inviterPhone: 13000000000,
-        invitationLink: 'http://baidu.com'
-    };
+        registerCount,
+        nickname
+    } = userInfo;
     registerCount && ($$('.invite-friends-number').text(registerCount));
     invitationCode && $$('.invite-friends-code-val').text(invitationCode);
     const codeUrl = `http://qr.topscan.com/api.php?text=${invitationLink}${imgUrl ? '&logo=' + imgUrl + config['imgPath'](8) : ''}`;
@@ -49,10 +45,11 @@ function inviteFriendsInit(f7, view, page) {
 
     //share to QQ or weixin, message.
     currentPage.find('.invite-friends-share-weixin')[0].onclick = () => {
-        const title = `好友${inviterNickname || ''}给您的神奇卖鱼工具！`;
-        const messageTile = `养得好不如卖的好，鱼大大实名认证水产交易平台，赶紧看看吧: ${invitationLink}`;
-        const html = '点击查看更多信息！';
-        nativeEvent.shareInfo(title, html, invitationLink, messageTile);
+        const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;
+        const str = `养得好不如卖的好，鱼大大实名认证水产交易平台`;
+        const messageTile = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！${invitationLink}`;
+
+        nativeEvent.shareInfo(title, str, invitationLink, messageTile);
     };
 
     currentPage.find('a.go-invite-friends-list')[0].onclick = () => {
