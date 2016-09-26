@@ -66,8 +66,8 @@ function inviteCodeInit(f7, view, page) {
         }
         f7.showIndicator();
         customAjax.ajax({
-            apiCategory: 'invite',
-            data: [trim(codeInput.val())],
+            apiCategory: 'inviteter',
+            data: [trim(codeInput.val()), ''],
             header: ['login_token'],
             parameType: 'application/json',
             type: 'post',

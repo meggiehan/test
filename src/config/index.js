@@ -60,7 +60,7 @@ const configs = {
         'deleteUserFishCertificate': ['login_token', 'id']
     },
     auth: ['login_token'],
-    invite: ['code','login_token'],
+    inviteter: ['code','login_token'],
     invite: {
         'users': ['login_token', 'pageSize', 'pageNo']
     }
