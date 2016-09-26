@@ -22,10 +22,10 @@ function inviteFriendsInit(f7, view, page) {
         imgUrl,
         registerCount,
         nickname
-    } = userInfo;
+    } = userInfo || {};
     registerCount && ($$('.invite-friends-number').text(registerCount));
     invitationCode && $$('.invite-friends-code-val').text(invitationCode);
-    const codeUrl = `http://qr.topscan.com/api.php?text=${invitationLink}${imgUrl ? '&logo=' + imgUrl + config['imgPath'](8) : ''}`;
+    const codeUrl = `http://qr.topscan.com/api.php?text=${invitationLink}&source=SCAN_QR${imgUrl ? '&logo=' + imgUrl + config['imgPath'](8) : ''}`;
     const overlay = '<div class="modal-overlay modal-overlay-visible modal-overlay-invite-code"></div>';
 
     $$('.picker-invite-code-img>img').attr('src', codeUrl);
@@ -47,7 +47,7 @@ function inviteFriendsInit(f7, view, page) {
     currentPage.find('.invite-friends-share-weixin')[0].onclick = () => {
         const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;
         const str = `养得好不如卖的好，鱼大大实名认证水产交易平台`;
-        const messageTile = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！${invitationLink}`;
+        const messageTile = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！赶紧看看吧:${invitationLink}`;
 
         nativeEvent.shareInfo(title, str, invitationLink, messageTile);
     };
