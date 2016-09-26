@@ -1,7 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '1.2 --- 2016/09/20',
+    version: '1.3 --- 2016/09/26',
     debug: false,
     url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
     // url: '://192.168.20.109:8080/',
@@ -58,6 +58,11 @@ const configs = {
         'getUserFishCertificateList': ['login_token'],
         'addUserFishCertificate': ['login_token', 'path', 'fishTypeName', 'fileSize'],
         'deleteUserFishCertificate': ['login_token', 'id']
+    },
+    auth: ['login_token'],
+    invite: ['code','login_token'],
+    invite: {
+        'users': ['login_token', 'pageSize', 'pageNo']
     }
 
 }

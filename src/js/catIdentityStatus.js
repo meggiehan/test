@@ -6,17 +6,18 @@ import customAjax from '../middlewares/customAjax';
 
 function catIdentityStatusInit(f7, view, page) {
     const { cacheUserinfoKey } = config;
-    const { token, id } = store.get(cacheUserinfoKey);
-    customAjax.ajax({
-        apiCategory: 'userInfo',
-        api: 'getUserCertificate',
-        data: [token],
-        type: 'get',
-        val: {
-            token: id
-        }
-    }, userUtils.getBussesInfoCallback);
+    const userInfo = store.get(cacheUserinfoKey);
+    // customAjax.ajax({
+    //     apiCategory: 'userInfo',
+    //     api: 'getUserCertificate',
+    //     data: [token],
+    //     type: 'get',
+    //     val: {
+    //         token: id
+    //     }
+    // }, userUtils.getBussesInfoCallback);
     f7.hideIndicator();
+    userUtils.getBussesInfoCallback(userInfo)
     //cancle authentication.
     $$('.cancel-individual-verify-buuton').off('click', cancleIndividual).on('click', cancleIndividual);
 

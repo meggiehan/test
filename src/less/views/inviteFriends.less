@@ -1,0 +1,74 @@
+.page-invite-friends {
+    .page-content {
+    	overflow: hidden;
+        .invite-friends-logo {
+            padding: 3rem 2rem 2.5rem;
+            img {
+                width: 65%;
+                margin: 0 auto;
+                display: block;
+            }
+            p {
+                .text-center;
+                color: @text-name;
+                font-size: 1.6rem;
+                margin: 0;
+            }
+        }
+        .invite-friends-code {
+            .text-center;
+            p {
+                color: @text-subtitle;
+                font-size: 1.6rem;
+                margin-bottom: 0;
+                margin-top: 0.5rem;
+            }
+            span {
+                color: @text-invite-code;
+                font-weight: bold;
+                font-size: 3rem;
+            }
+        }
+        .invite-friends-actions {
+            padding: 4rem 7% 1rem;
+            a {
+                display: block;
+                margin-bottom: 1rem;
+                &.button {
+                	padding-left: 4rem;
+                	.ps-r;
+                    color: @text-fff;
+                    height: 4rem;
+                    line-height: 4rem;
+                    border: 0;
+                    font-size: 1.6rem;
+                    color: @text-fff;
+                    background: @themeColor;
+                    .text-shadow(@themeColor);
+                    i{
+                    	display: block;
+                    	padding-left: 1rem;
+                    	width: 4rem;
+                    	.text-center;
+                    	height: 4rem;
+                    	line-height: 4rem;
+                    	.ps-a;
+                    	left: 0;
+                    	top: 0;
+                    	font-size:2.4rem;
+                    	vertical-align: top;
+                    	&.icon-qr-code{
+                    		font-size: 3rem;
+                    	}
+                    }
+                }
+                &.link {
+                    color: @text-category;
+                    font-size: 1.6rem;
+                    .text-center;
+                    padding-top: 0.5rem;
+                }
+            }
+        }
+    }
+}

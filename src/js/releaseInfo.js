@@ -18,7 +18,6 @@ function releaseInfoInit(f7, view, page) {
     const token = userInfo && userInfo['token'] || '';
     const descriptInput = $$('.release-info-discription>textarea')[domIndex];
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
-    let isRelease = false;
 
     if (window.addressObj) {
         longitude = window.addressObj['longitude'];
@@ -81,7 +80,6 @@ function releaseInfoInit(f7, view, page) {
         }else{
             f7.hideIndicator();
         }
-        isRelease = false;
     }
 
     descriptInput.oninput = () => {
@@ -161,12 +159,9 @@ function releaseInfoInit(f7, view, page) {
         const { error } = data;
         if (error) {
             f7.alert(error);
-        }
-        if (isRelease || error) {
             return;
         }
         f7.showIndicator();
-        isRelease = true;
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'userAddDemandInfo',

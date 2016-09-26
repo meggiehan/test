@@ -304,5 +304,19 @@ module.exports = {
 
     soundRelease: () => {
         nativeEvent.releaseVoiceInfo();
+    },
+
+    inviteFriends: () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+        } else {
+            mainView.router.load({
+                url: 'views/inviteFriends.html'
+            })
+        }
     }
 }

@@ -5,7 +5,7 @@ import config from '../config';
 import { loginSucc } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIdentity } from '../utils/domListenEvent';
+import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIdentity, inviteFriends } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
@@ -17,17 +17,17 @@ function userInit(f7, view, page) {
         return;
     }
 
-    const getBussesInfo = () => {
-        customAjax.ajax({
-            apiCategory: 'userInfo',
-            api: 'getUserCertificate',
-            data: [userInfomation.token],
-            type: 'get',
-            val: {
-                token: userInfomation['id']
-            }
-        }, userUtils.getBussesInfoCallback);
-    }
+    // const getBussesInfo = () => {
+    //     customAjax.ajax({
+    //         apiCategory: 'userInfo',
+    //         api: 'getUserCertificate',
+    //         data: [userInfomation.token],
+    //         type: 'get',
+    //         val: {
+    //             token: userInfomation['id']
+    //         }
+    //     }, userUtils.getBussesInfoCallback);
+    // }
 
     const loginCallback = (data) => {
         f7.hideIndicator();
@@ -39,7 +39,7 @@ function userInit(f7, view, page) {
             userInfomation = _userInfo;
             $$('.user-tell-number').text(`手机号：${_userInfo['phone']}`);
             loginStatus = isLogin(uuid);
-            loginSucc(userInfomation, getBussesInfo);
+            loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
             f7.alert(message);
         }
@@ -47,9 +47,9 @@ function userInit(f7, view, page) {
     if (loginStatus) {
         loginSucc(userInfomation, emptyFun);
         customAjax.ajax({
-            apiCategory: 'userInfo',
-            api: 'getUserInfo',
+            apiCategory: 'auth',
             data: [userInfomation.token],
+            herder: ['login_token'],
             type: 'get',
             noCache: true,
         }, loginCallback);
@@ -66,7 +66,9 @@ function userInit(f7, view, page) {
     $$('.user-cert-type>div.go-verification').off('click', uploadCert).on('click', uploadCert);
 
     //click contact us button.
-    $$('.user-help-list .first').off('click', contactUs).on('click', contactUs);
+    $$('.user-help-list>.user-call-service').off('click', contactUs).on('click', contactUs);
+
+    $$('.user-help-list>.user-invit').off('click', inviteFriends).on('click', inviteFriends);
 
     //view my release list.
     $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);

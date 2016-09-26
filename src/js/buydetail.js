@@ -11,7 +11,7 @@ import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/dom
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
-    const domIndex = $$('.buydetail-delete-info').length - 1;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const shareBtn = $$('.selldetail-footer .icon-share');
     let isReleaseForMe = false;
     let demandInfo_;
@@ -50,7 +50,7 @@ function buydetailInit(f7, view, page) {
             demandInfo_ = demandInfo;
             if (state == 0 || state == 2) {
                 $$('.page-buydetail .selldetail-footer').addClass('delete');
-                $$($$('.detail-more')[domIndex]).hide();
+                currentPage.find('.detail-more').hide();
             }
             id == locaUserId && $$('.page-buydetail .selldetail-footer').addClass('share-delete')
             errorInfo = refuseDescribe;
@@ -75,7 +75,7 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator(300);
     }
 
-    $$('.buy-detail-verify-faild ')[domIndex].onclick = () => {
+    currentPage.find('.buy-detail-verify-faild ')[0].onclick = () => {
         f7.alert(errorInfo, '查看原因');
     }
 
@@ -102,7 +102,7 @@ function buydetailInit(f7, view, page) {
             }
         })
     }
-    $$('.buydetail-delete-info')[domIndex].onclick = () => {
+    currentPage.find('.buydetail-delete-info')[0].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
             f7.showIndicator();
@@ -120,13 +120,13 @@ function buydetailInit(f7, view, page) {
     }
 
     //View more current user information
-    $$('.selldetail-user-title').on('click', () => {
+    currentPage.find('.selldetail-user-title')[0].onclick = () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
-    })
+    }
 
-    $$('.buydetail-call-phone')[domIndex].onclick = () => {
+    currentPage.find('.buydetail-call-phone')[0].onclick = () => {
         const { requirementPhone } = demandInfo_;
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }

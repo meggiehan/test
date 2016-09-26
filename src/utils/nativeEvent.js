@@ -7,6 +7,9 @@ class CustomClass {
     //The third party statistics.
     apiCount(id) {
         const { ios, android } = window.currentDevice;
+        if (!window['JS_UMengToCount'] && (!window['yudada'] || !window['yudada']['JS_UMengToCount'])) {
+            return false;
+        }
         ios && JS_UMengToCount(id);
         android && window.yudada.JS_UMengToCount(id);
     }
@@ -82,6 +85,9 @@ class CustomClass {
 
     getUserValue(key) {
         const { ios, android } = window.currentDevice;
+        if (!window['JS_PerferenceGetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceGetShared'])) {
+            return false;
+        }
         const token = ios ? JS_PerferenceGetShared(key) : window.yudada.JS_Token();
         return token;
     }
