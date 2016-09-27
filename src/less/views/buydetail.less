@@ -145,7 +145,7 @@
                     .goods-create-time,
                     .cat-list-tags,
                     .cat-list-title {
-                        padding-bottom: 1rem;
+                        padding-bottom: 0.5rem;
                     }
                     .user-name {
                         color: @text-name;
@@ -153,30 +153,34 @@
                         font-size: 1.8rem;
                         .text-hidden;
                         height: 2.2rem;
-                        overflow: hidden;    
-                        i{
+                        overflow: hidden;
+                        i {
                             font-size: 2rem;
                             color: @text-level;
                         }
                     }
-                    .buydetail-cert-info{
+                    .buydetail-cert-info {
                         display: none;
                         border-top: 1px solid @border-da;
                         margin-top: 0.5rem;
                         padding-top: 0.5rem;
-                        font-size: 1.6rem;
                         color: @text-invite-code;
-                        &>span{
+                        &>span {
+                            font-size: 1.2rem;
                             padding-right: 0.5rem;
                             display: none;
+                            &:before{
+                                font-size: 1.6rem;
+                                padding-right: 0.3rem;
+                            }
                         }
-                        &.individual-identity{
-                            &>span.individual{
+                        &.individual-identity {
+                            &>span.individual {
                                 display: inline-block;
                             }
                         }
-                        &.company-identity{
-                            &>span.company{
+                        &.company-identity {
+                            &>span.company {
                                 display: inline-block;
                             }
                         }
@@ -282,36 +286,37 @@
             display: block;
         }
     }
-    &.review{
+    &.review {
         .page-content>.iconfont {
-            &.icon-review{
+            &.icon-review {
                 display: block;
             }
         }
     }
-    &.faild{
+    &.faild {
         .page-content>.iconfont {
-            &.icon-verify-faild{
+            &.icon-verify-faild {
                 display: block;
             }
         }
     }
-    .selldetail-footer{
-        .buydetail-delete-info{
+    .selldetail-footer {
+        .buydetail-delete-info {
             display: none;
         }
-        &.delete{
-            &>div{
+        &.delete {
+            &>div {
                 width: 50%;
-                &.buydetail-call-phone,.icon-share{
+                &.buydetail-call-phone,
+                .icon-share {
                     display: none;
                 }
-                &.buydetail-delete-info{
+                &.buydetail-delete-info {
                     background: @text-chushou;
                     .text-shadow(@text-chushou);
                     display: block;
                 }
-            }   
+            }
         }
         &.share-delete {
             .buydetail-delete-info {
@@ -325,9 +330,3 @@
         }
     }
 }
-
-
-
-
-
-
