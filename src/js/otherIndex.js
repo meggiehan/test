@@ -23,9 +23,12 @@ function otherIndexInit(f7, view, page) {
         const { enterpriseAuthenticationState, personalAuthenticationState, lastLoginTime, nickname, imgUrl, phone } = userInfo;
         const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
         callNumber = phone;
-        if (text) {
-            $$('p.other-user-name').addClass('show').find('.text').text(text);
-        }
+        const { level } = userInfo;
+        level && $$('.other-user-name>i').addClass(`iconfont icon-v${level}`);
+
+        1 == enterpriseAuthenticationState && $$('.other-index-cert-info').addClass('company-identity').show();
+        1 == personalAuthenticationState && $$('.other-index-cert-info').addClass('individual-identity').show();
+
         lastLoginTime && $$('.other-user-info .user-lately-time').text(centerShowTime(lastLoginTime));
         nickname && $$('.other-user-name>.name').text(trim(nickname));
         imgUrl && ($$('.page-other-index .user-pic img').attr('src', imgUrl + imgPath(8)));
@@ -38,7 +41,6 @@ function otherIndexInit(f7, view, page) {
             $$('.other-index-cert').addClass('show');
         }
     }
-
 
     const sellListCallback = (data) => {
         const list = data.data.list;
@@ -53,7 +55,7 @@ function otherIndexInit(f7, view, page) {
             if (item['state'] !== 1 || index > 2) {
                 return;
             }
-            sellHtml += home.cat(item);
+            sellHtml += home.cat(item, userCache['data']['userInfo']['level']);
         })
         html($$('.other-sell-list .list'), sellHtml, f7);
         sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
@@ -72,25 +74,26 @@ function otherIndexInit(f7, view, page) {
     }, sellListCallback);
 
     const buyListCallback = (data) => {
-            const list = data.data.list;
-            if (!list.length) {
-                buyInfoNull = true;
-                sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+        const list = data.data.list;
+        if (!list.length) {
+            buyInfoNull = true;
+            sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+            return;
+        }
+        let buyHtml = '';
+        $$.each(list, (index, item) => {
+            if (item['state'] !== 1 || index > 2) {
                 return;
             }
-            let buyHtml = '';
-            $$.each(list, (index, item) => {
-                if (item['state'] !== 1 || index > 2) {
-                    return;
-                }
-                buyHtml += home.buy(item);
-            })
-            html($$('.other-buy-list .list'), buyHtml, f7);
-            buyHtml ? $$('.other-index-list').addClass('show-buy-list') : $$('.other-index-list').removeClass('show-buy-list');
+            buyHtml += home.buy(item, userCache['data']['userInfo']['level']);
+        })
+        html($$('.other-buy-list .list'), buyHtml, f7);
+        buyHtml ? $$('.other-index-list').addClass('show-buy-list') : $$('.other-index-list').removeClass('show-buy-list');
 
-            $$('img.lazy').trigger('lazy');
-        }
-        //get user buy demand list.
+        $$('img.lazy').trigger('lazy');
+    }
+
+    //get user buy demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',

@@ -180,9 +180,37 @@
                     }
                     .user-name {
                         color: @text-name;
-                        width: 30%;
+                        // width: 30%;
                         font-size: 1.8rem;
                         .text-hidden;
+                        height: 2.2rem;
+                        overflow: hidden;    
+                        i{
+                            font-size: 2rem;
+                            color: @text-level;
+                        }
+                    }
+                    .selldetail-cert-info{
+                        display: none;
+                        border-top: 1px solid @border-da;
+                        margin-top: 0.5rem;
+                        padding-top: 0.5rem;
+                        font-size: 1.6rem;
+                        color: @text-invite-code;
+                        &>span{
+                            padding-right: 0.5rem;
+                            display: none;
+                        }
+                        &.individual-identity{
+                            &>span.individual{
+                                display: inline-block;
+                            }
+                        }
+                        &.company-identity{
+                            &>span.company{
+                                display: inline-block;
+                            }
+                        }
                     }
                     .user-time {
                         .text-right;

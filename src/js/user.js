@@ -1,43 +1,53 @@
-import { isLogin } from '../middlewares/loginMiddle';
 import store from '../utils/locaStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import { loginSucc } from '../middlewares/loginMiddle';
+import { loginSucc, isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
 import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIdentity, inviteFriends } from '../utils/domListenEvent';
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    const {uuid} = page.query;
+    const { uuid } = page.query;
     let loginStatus = isLogin(uuid);
-    const { cacheUserinfoKey, servicePhoneNumber } = config;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const { cacheUserinfoKey, servicePhoneNumber, imgPath } = config;
     let userInfomation = store.get(cacheUserinfoKey);
     const emptyFun = () => {
-        return;
-    }
-
-    // const getBussesInfo = () => {
-    //     customAjax.ajax({
-    //         apiCategory: 'userInfo',
-    //         api: 'getUserCertificate',
-    //         data: [userInfomation.token],
-    //         type: 'get',
-    //         val: {
-    //             token: userInfomation['id']
-    //         }
-    //     }, userUtils.getBussesInfoCallback);
-    // }
+            return;
+        }
+        // const getBussesInfo = () => {
+        //     customAjax.ajax({
+        //         apiCategory: 'userInfo',
+        //         api: 'getUserCertificate',
+        //         data: [userInfomation.token],
+        //         type: 'get',
+        //         val: {
+        //             token: userInfomation['id']
+        //         }
+        //     }, userUtils.getBussesInfoCallback);
+        // }
 
     const loginCallback = (data) => {
         f7.hideIndicator();
         const { code, message } = data;
         if (code == 1) {
-            let _userInfo = data.data;
+            const {
+                scanLink,
+                imgUrl,
+                nickname
+            } = data.data || {};
+            const codeUrl = `http://qr.topscan.com/api.php?text=${scanLink}${imgUrl ? '&logo=' + imgUrl + imgPath(8) : ''}`;
+            $$('.picker-invite-code-img>img').attr('src', codeUrl);
+            let _userInfo = data.data || { point: 40, level: 3 };
             _userInfo['token'] = userInfomation['token'];
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
             $$('.user-tell-number').text(`手机号：${_userInfo['phone']}`);
+            _userInfo['point'] && $$('.user-member-number').text(_userInfo['point']);
+            $$('.user-name>i').addClass(`iconfont icon-v${_userInfo['level'] || 0}`);
+            nickname && $$('.page-user .user-name>span').text(nickname);
+
             loginStatus = isLogin(uuid);
             loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
@@ -53,6 +63,18 @@ function userInit(f7, view, page) {
             type: 'get',
             noCache: true,
         }, loginCallback);
+    }
+
+    currentPage.find('a.user-member')[0].onclick = () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+            return;
+        }
+        window.location.href = 'http://m.test.yudada.com/user/member?id=' + userInfomation['id'];
     }
 
     //if login succ, replace to change user info page, else replace to login page.

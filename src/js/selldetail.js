@@ -49,7 +49,8 @@ function selldetailInit(f7, view, page) {
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
                 lastLoginTime,
-                imgUrl
+                imgUrl,
+                level
             } = userInfo;
             demandInfo_ = demandInfo;
 
@@ -78,10 +79,12 @@ function selldetailInit(f7, view, page) {
                 fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
             })
             certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
-            html($$('.page-selldetail .user-name'), contactName || '匿名用户', f7);
+            html($$('.page-selldetail .user-name>span'), contactName || '匿名用户', f7);
+            level && $$('.page-selldetail .user-name>i').addClass(`iconfont icon-v${level}`);
             html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
             html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
-            1 == enterpriseAuthenticationState && $$('.selldetail-verify-text').text('已完成企业认证');
+            1 == enterpriseAuthenticationState && $$('.selldetail-cert-info').addClass('company-identity').show();
+            1 == personalAuthenticationState && $$('.selldetail-cert-info').addClass('individual-identity').show();
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
 
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));

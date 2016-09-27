@@ -26,10 +26,7 @@ function inviteFriendsInit(f7, view, page) {
     } = userInfo || {};
     registerCount && ($$('.invite-friends-number').text(registerCount));
     invitationCode && $$('.invite-friends-code-val').text(invitationCode);
-    const codeUrl = `http://qr.topscan.com/api.php?text=${scanLink}${imgUrl ? '&logo=' + imgUrl + config['imgPath'](8) : ''}`;
     const overlay = '<div class="modal-overlay modal-overlay-visible modal-overlay-invite-code"></div>';
-
-    $$('.picker-invite-code-img>img').attr('src', codeUrl);
     const closeInviteModal = () => {
         f7.closeModal('.picker-invite-code');
         $$('.modal-overlay-invite-code').remove();
