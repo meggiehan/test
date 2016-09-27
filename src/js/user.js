@@ -1,6 +1,7 @@
 import store from '../utils/locaStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
+import {imgIsUpload} from '../utils/string';
 import { loginSucc, isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
@@ -38,7 +39,7 @@ function userInit(f7, view, page) {
                 nickname
             } = data.data || {};
             const codeUrl = `http://qr.topscan.com/api.php?text=${scanLink}${imgUrl ? '&logo=' + imgUrl + imgPath(8) : ''}`;
-            $$('.picker-invite-code-img>img').attr('src', codeUrl);
+            !imgIsUpload(codeUrl) && $$('.picker-invite-code-img>img').attr('src', codeUrl);
             let _userInfo = data.data || { point: 40, level: 3 };
             _userInfo['token'] = userInfomation['token'];
             store.set(cacheUserinfoKey, _userInfo);

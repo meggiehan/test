@@ -95,8 +95,7 @@ let initAppConfig = {
             }
 
             if(_currentPage.indexOf('inviteFriends.html') > -1){
-                deviceF7.closeModal('.picker-invite-code');
-                $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').remove();
+                $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
             }
 
             if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
@@ -107,7 +106,6 @@ let initAppConfig = {
                 return false;
             }
             if (android && !androidChrome) {
-                console.log(2)
                 if (isBack) {
                     return false;
                 }
