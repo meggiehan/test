@@ -9,7 +9,7 @@ import customAjax from '../middlewares/customAjax';
 function otherListInit(f7, view, page) {
     const load = $$('.page-other-list .infinite-scroll-preloader');
     const { type, id } = page.query;
-    const { pageSize } = config;
+    const { pageSize, cacheUserinfoKey } = config;
     const showAllInfo = $$('.page-other-list .filter-search-empty-info');
     let pageNo = 1;
     let isShowAll = false;
@@ -18,7 +18,7 @@ function otherListInit(f7, view, page) {
     let pullToRefresh = false;
     $$('.other-list-title').text(2 == type ? '正在出售' : '正在求购');
     load.hide();
-
+    const {level} = store.get(cacheUserinfoKey);
 
     const callback = (data) => {
         const { code, message } = data;
@@ -29,9 +29,9 @@ function otherListInit(f7, view, page) {
         let otehrHtml = '';
         $$.each(data.data.list, (index, item) => {
             if (2 == type) {
-                otehrHtml += home.cat(item);
+                otehrHtml += home.cat(item, level);
             } else {
-                otehrHtml += home.buy(item);
+                otehrHtml += home.buy(item, level);
             }
         })
         showAllInfo.hide();

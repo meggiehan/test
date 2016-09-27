@@ -9,10 +9,11 @@ const hashStr = location.hash;
 
 module.exports = {
     home: {
-        cat: (data) => {
-            const { id, certificate_type_list, imge_path, state, check_time, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+        cat: (data, userLevel) => {
+            const { id, level, certificate_type_list, imge_path, state, check_time, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
             let img = document.createElement('img');
             let text = '';
+            const currentLevel = level && level || userLevel;
             // $$.each(certificate_type_list, (index, item) => {
             //     text += item && `<span class="list-cert button ${getCertInfo(item)['classes']}">${getCertInfo(item)['text']}</span>` || '';
             // })
@@ -45,7 +46,7 @@ module.exports = {
                 '<div class="col-30 goods-create-time">' + showTime + '</div>' +
                 '</div>' +
                 '<div class="cat-list-address">' +
-                '<span>' + `${contact_name || ''}` + '</span> ' + `${province_name || ''}${city_name || ''}` +
+                `<i class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></i>${contact_name ? '<span>' + contact_name + '</span>' : ''}${province_name || ''}${city_name || ''}` +
                 '</div>' +
                 '<div class="cat-list-tags">'
             if (personal_authentication_state === 1 || enterprise_authentication_state === 1) {
@@ -55,9 +56,9 @@ module.exports = {
             res += '</div></div>';
             return res;
         },
-        buy: (data) => {
-            const { id, fish_type_name, stock, check_time, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
-            const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
+        buy: (data, userLevel) => {
+            const { id, level, fish_type_name, stock, check_time, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            // const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
             const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let img = document.createElement('img');
@@ -66,6 +67,7 @@ module.exports = {
             if (userInfo) {
                 id == userInfo['id'] && (showTime = timeDifference(create_time));
             }
+            const currentLevel = level && level || userLevel;
             let res = '';
             let span = '';
             0 == state && (span = '<span>待审核</span>');
@@ -80,11 +82,11 @@ module.exports = {
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
-                '<span class="' + `${isV && "iconfont icon-v"}` + '">' + `${contact_name || '匿名用户'}` + '</span>' + `指定产地：${province_name || ''}${city_name || ''}` +
+                `${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}<span>${contact_name || '匿名用户'}</span>指定产地：${province_name || ''}${city_name || ''}` +
                 '</div>'
             return res;
         }
-    },
+    },    
     search: {
         link: (data, release, type) => {
             const { name, id, parant_id, parant_name } = data;
