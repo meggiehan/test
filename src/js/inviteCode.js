@@ -28,7 +28,7 @@ function inviteCodeInit(f7, view, page) {
     if (inviterId) {
         //has filled in the information that was invited.
         $$('.invited-user-name').text(inviterNickname || inviterPhone || '***');
-        $$('.invited-time').text(timeDifference(invitationTime) || '****年*月**日');
+        $$('.invited-time').text(timeDifference(invitationTime*0.001) || '****年*月**日');
         $$('.page-invite-code>.page-content').addClass('invited');
     } else {
         $$('.page-invite-code>.page-content').addClass('inviting');
