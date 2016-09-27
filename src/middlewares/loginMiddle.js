@@ -62,8 +62,7 @@ function loginSucc(data, callback) {
     $$('.user-header').addClass('login-succ');
     $$('.user-tell-number').text(`手机号：${loginName}`);
     imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
-    nickname && (html($$('.page-user .user-name'), nickname, null));
-    callback();
+    callback(data);
 }
 
 module.exports = {

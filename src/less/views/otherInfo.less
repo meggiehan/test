@@ -2,6 +2,7 @@
 	color: @text-name;
 	.center-head-pic{
 		padding: 1rem;
+		.ps-r;
 		.text-center;
 		background: @bg-fff;
 		.text-shadow(@text-fff);
@@ -14,6 +15,25 @@
 		}
 		p{
 			margin: 0;
+			i{
+				color: @text-level;
+				font-size: 2rem;
+			}
+		}
+		&>a.icon-question{
+			.ps-a;
+			right: 1rem;
+			top: 1rem;
+			color: @text-category;
+			font-size: 1.4rem;
+			display: inline-block;
+			height: 2rem;
+			line-height: 2rem;
+			&:before{
+				font-size: 1.8rem;
+				margin-right: 0.2rem;
+				vertical-align: middle;
+			}
 		}
 	}
 	.center-info{

@@ -94,7 +94,7 @@ module.exports = {
         }
         return temp;
     },
-    getDate: (time) => {
+    getDate: (time, type) => {
         if(!time){
             return '';
         }
@@ -103,6 +103,17 @@ module.exports = {
         var $_month = parseInt(test.getMonth()) + 1;
         var $_day = test.getDate();
         var $_f_date = $_year + "年" + $_month + "月" + $_day + "日";
-        return $_f_date;
+        if(!type){
+            return $_f_date;
+        }
+        var $_hours = test.getHours();
+        var $_minute = test.getMinutes();
+        return `${$_month}月${$_day}日${$_hours}:${$_minute}`;
     }
 }
+
+
+
+
+
+

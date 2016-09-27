@@ -27,44 +27,58 @@ class CustomClass {
         return obj;
     }
     checkMaxLenAndDelete() {
-            const { cacheMaxLen, cacheUserinfoKey, cacheHistoryKey } = config;
-            const storage = window.localStorage;
-            const len = storage.length;
-            let i = 1;
-            let isDel = false;
-            if (len >= cacheMaxLen) {
-                Dom7.each(storage, (key, value) => {
-                    if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
-                        store.remove(key);
-                        isDel = true;
-                    } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
-                        store.remove(key);
-                        isDel = true;
-                    } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
-                        store.remove(key);
-                        isDel = true;
-                    }
-                    i++;
-                })
-            }
+        const { cacheMaxLen, cacheUserinfoKey, cacheHistoryKey } = config;
+        const storage = window.localStorage;
+        const len = storage.length;
+        let i = 1;
+        let isDel = false;
+        if (len >= cacheMaxLen) {
+            Dom7.each(storage, (key, value) => {
+                if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
+                    store.remove(key);
+                    isDel = true;
+                } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
+                    store.remove(key);
+                    isDel = true;
+                } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
+                    store.remove(key);
+                    isDel = true;
+                }
+                i++;
+            })
         }
-        /*
-         *   isMandatory: Whether it is mandatory to refresh ，default:false
-         *   noCache: Local storage is not required, default: false
-         */
+    }
+
+    /*
+     *   isMandatory: Whether it is mandatory to refresh ，default:false
+     *   noCache: Local storage is not required, default: false
+     */
     ajax(obj, callback) {
         const $$ = Dom7;
-        const { api, data, apiCategory, type, isMandatory, noCache, val } = obj;
-        const key = config[apiCategory][api];
+        const { api, data, apiCategory, type, isMandatory, noCache, val, header, parameType } = obj;
+        const key = api ? config[apiCategory][api] : config[apiCategory];
         const { timeout, cacheUserinfoKey } = config;
         const saveKey = api in ['login', 'getUserInfo'] ? cacheUserinfoKey : this.getKey(api, key, data);
-        let url = `${config.url}${apiCategory}/${api}/`;
+        let newData = $$.isArray(data) ? this.getData(key, data) : data;
+
+        let headers = {};
+        let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
+        parameType && (newData = JSON.stringify(newData));
+
         if (val) {
             $$.each(val, (key, value) => {
                 url += `${value}/`;
             })
         }
-        let newData = $$.isArray(data) ? this.getData(key, data) : data;
+
+        if (header) {
+            header.indexOf('token') > -1 && (headers['accessToken'] = nativeEvent['getUserValue']('token') || '');
+            if(header.indexOf('login_token') > -1){
+                headers['login_token'] = nativeEvent['getUserValue']('token') || '';
+                url += `?login_token=${nativeEvent['getUserValue']('token') || ''}`;
+            };
+        }
+
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);
@@ -74,17 +88,16 @@ class CustomClass {
             type,
             url,
             timeout,
+            headers,
+            contentType: parameType || 'application/x-www-form-urlencoded',
             data: newData,
             cache: false,
-            // headers: {
-            //     "Access-Control-Allow-Origin": "*",
-            //     "Access-Control-Allow-Headers": "X-Requested-With",
-            //     "Access-Control-Allow-Methods": "GET,POST"
-            // },
+            processData: true,
+            crossDomain: true,
             error: function(err, status) {
-                if(parseInt(status) >= 500){
+                if (parseInt(status) >= 500) {
                     nativeEvent.nativeToast(0, '服务器繁忙，请稍后再试！');
-                }else{
+                } else {
                     nativeEvent.nativeToast(0, '请检查您的网络！');
                 }
                 f7.pullToRefreshDone();

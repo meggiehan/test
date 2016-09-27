@@ -1,5 +1,4 @@
 import store from '../../utils/locaStorage';
-import config from '../../config';
 import objectUtil from '../clone';
 import { getBusinessLicenseNumber, getName, html } from '../string';
 
@@ -70,54 +69,43 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
     },
 
     userUtils.getBussesInfoCallback = (data) => {
-        const { code, message } = data;
         const authenticationBtn = $$('p.user-identity-text');
         const verificationBtn = $$('span.user-verification-num');
-        const { cacheUserinfoKey } = config;
         let text = '';
-        if (code == 1) {
-            const list = data.data;
-            userUtils.data = data.data['userInfo'] || data.data;
+        if (data) {
+            userUtils.data = data;
+            let {
+                buyNumber,
+                sellNumber,
+                certNumber,
+                enterpriseAuthenticationState,
+                personalAuthenticationState,
+                personalAuthenticationTime,
+                enterpriseAuthenticationTime,
+                registerCount, //invit number
+                invitationLink, //share url.
+                invitationCode
+            } = data;
 
-            if (list) {
-                let {
-                    demandInfo_buy_number,
-                    demandInfo_sell_number,
-                    fish_certificate_number,
-                    enterprise_authentication_state,
-                    personal_authentication_state,
-                    personalAuthenticationTime,
-                    enterpriseAuthenticationTime,
-                    userInfo
-                } = list;
+            buyNumber && html($$('.user-sell-num'), buyNumber, null);
+            sellNumber && html($$('.user-buy-num'), sellNumber, null);
+            certNumber > -1 && verificationBtn.text(certNumber);
 
-                if (userInfo) {
-                    const _token = store.get(cacheUserinfoKey)['token'];
-                    const _userInfo = objectUtil.clone(userInfo);
-                    enterprise_authentication_state = userInfo['enterpriseAuthenticationState'];
-                    enterpriseAuthenticationTime = userInfo['enterpriseAuthenticationTime'];
-                    personal_authentication_state = userInfo['personalAuthenticationState'];
-                    personalAuthenticationTime = userInfo['personalAuthenticationTime'];
-
-                    _userInfo['token'] = _token;
-                    fish_certificate_number && (_userInfo['certNum'] = fish_certificate_number);
-                    store.set(cacheUserinfoKey, _userInfo);
-                }
-                demandInfo_buy_number && html($$('.user-sell-num'), demandInfo_buy_number, null);
-                demandInfo_sell_number && html($$('.user-buy-num'), demandInfo_sell_number, null);
-                fish_certificate_number > -1 && verificationBtn.text(fish_certificate_number);
-
-                enterprise_authentication_state == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
-                personal_authentication_state == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
-                1 == personal_authentication_state && (authenticationBtn.addClass('succ'));
-                if (2 == enterprise_authentication_state) {
-                    2 == personal_authentication_state &&
-                        (text = personalAuthenticationTime > enterpriseAuthenticationTime ? '个人认证失败' : '企业认证失败')
-                }
-                1 == enterprise_authentication_state && (authenticationBtn.addClass('succ'));
-                text = userUtils.getAuthenticationText(enterprise_authentication_state, enterpriseAuthenticationTime,
-                    personal_authentication_state, personalAuthenticationTime)['text'];
+            enterpriseAuthenticationState == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
+            personalAuthenticationState == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
+            1 == personalAuthenticationState && (authenticationBtn.addClass('succ'));
+            if (2 == personalAuthenticationState) {
+                2 == personalAuthenticationState &&
+                    (text = personalAuthenticationTime > enterpriseAuthenticationTime ? '个人认证失败' : '企业认证失败');
             }
+            1 == enterpriseAuthenticationState && (authenticationBtn.addClass('succ'));
+            text = userUtils.getAuthenticationText(enterpriseAuthenticationState, enterpriseAuthenticationTime,
+                personalAuthenticationState, personalAuthenticationTime)['text'];
+
+            $$('.user-invit>.first').removeClass('invit-numbers');
+            registerCount && $$('.user-invit>.first').addClass('invit-numbers');
+            $$('.user-invite-num').text(`已邀请${registerCount}人`);
+            $$('.user-go-invite-page').addClass('show');
             text && authenticationBtn.text(text);
         }
     }

@@ -7,7 +7,9 @@ import { getName, getBusinessLicenseNumber } from '../utils/string';
 function otherInfoInit(f7, view, page) {
     const { id } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
-    const { imgPath } = config;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+
+    const { imgPath, mWebUrl } = config;
     const editCallback = (data) => {
         const { userInfo } = userCache && userCache['data'] || data['data'];
         const {
@@ -21,11 +23,13 @@ function otherInfoInit(f7, view, page) {
             address,
             enterpriseName,
             businessLicenseNo,
-            businessLicenseUrl
+            businessLicenseUrl,
+            level
         } = userInfo;
 
         imgUrl && ($$('.page-other-info .center-head-pic img').attr('src', imgUrl + imgPath(8)));
-        nickname && $$('.page-other-info .my-center-nice-name').text(nickname);
+        nickname && $$('.page-other-info .my-center-nice-name>span').text(nickname);
+        $$('.page-other-info .my-center-nice-name>i').addClass(`iconfont icon-v${level || 0}`);
         phone && $$('.other-info-phone').text(phone);
         address ? $$('.other-info-address').text(address) : $$('.other-info-address-parent').hide();
 
@@ -44,6 +48,10 @@ function otherInfoInit(f7, view, page) {
 
         }
         f7.hideIndicator();
+    }
+
+    currentPage.find('.go-member-info')[0].onclick = () => {
+        window.location.href = `${mWebUrl}user/memberIntro`;
     }
     if (!userCache) {
         customAjax.ajax({

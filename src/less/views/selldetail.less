@@ -176,13 +176,46 @@
                     .goods-create-time,
                     .cat-list-tags,
                     .cat-list-title {
-                        padding-bottom: 1rem;
+                        padding-bottom: 0.5rem;
                     }
                     .user-name {
                         color: @text-name;
-                        width: 30%;
+                        // width: 30%;
                         font-size: 1.8rem;
                         .text-hidden;
+                        height: 2.2rem;
+                        overflow: hidden;
+                        i {
+                            font-size: 2rem;
+                            color: @text-level;
+                        }
+                    }
+                    .selldetail-cert-info {
+                        display: none;
+                        border-top: 1px solid @border-da;
+                        margin-top: 0.5rem;
+                        padding-top: 0.5rem;
+                        font-size: 1.2rem;
+                        color: @text-invite-code;
+                        &>span {
+                            font-size: 1.2rem;
+                            padding-right: 0.5rem;
+                            display: none;
+                            &:before {
+                                font-size: 1.6rem;
+                                padding-right: 0.3rem;
+                            }
+                        }
+                        &.individual-identity {
+                            &>span.individual {
+                                display: inline-block;
+                            }
+                        }
+                        &.company-identity {
+                            &>span.company {
+                                display: inline-block;
+                            }
+                        }
                     }
                     .user-time {
                         .text-right;

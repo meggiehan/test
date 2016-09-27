@@ -320,57 +320,59 @@
                     }
                 }
             }
-            .home-buy-list {
-                background: @bg-fff;
-                .text-shadow(@text-fff);
-                .buy-list-info {
-                    padding: 2%;
-                    display: block;
-                    border-bottom: 1px solid @border-da;
-                    .buy-name {
-                        color: @text-name;
-                        font-size: 2.0rem;
-                        .text-hidden;
-                    }
-                    .buy-price {
-                        color: @text-price;
-                        font-size: 1.6rem;
-                        .text-right;
-                        .text-hidden;
-                    }
-                    .buy-spec {
-                        color: @text-name;
-                        font-size: 1.4rem;
-                        .text-hidden;
-                        padding: 0.4rem 0;
-                    }
-                    .buy-time {
-                        color: @text-subtitle;
-                        font-size: 1.4rem;
-                        .text-right;
-                        .text-hidden;
-                        padding: 0.4rem 0;
-                    }
-                    .home-buy-address {
-                        color: @text-subtitle;
-                        .text-hidden;
-                        span {
-                            margin-right: 0.8rem;
-                            &:before {
-                                color: @themeColor;
-                                font-size: 1.6rem;
-                                margin-right: 0.5rem;
-                            }
-                        }
-                    }
-                }
-            }
         }
         .home-loading {
             width: 100%;
             min-height: 15rem;
             .text-center;
             padding-top: 1rem;
+        }
+    }
+}
+
+.home-buy-list {
+    background: @bg-fff;
+    .text-shadow(@text-fff);
+    .buy-list-info {
+        padding: 2%;
+        display: block;
+        border-bottom: 1px solid @border-da;
+        .buy-name {
+            color: @text-name;
+            font-size: 2.0rem;
+            .text-hidden;
+        }
+        .buy-price {
+            color: @text-price;
+            font-size: 1.6rem;
+            .text-right;
+            .text-hidden;
+        }
+        .buy-spec {
+            color: @text-name;
+            font-size: 1.4rem;
+            .text-hidden;
+            padding: 0.4rem 0;
+        }
+        .buy-time {
+            color: @text-subtitle;
+            font-size: 1.4rem;
+            .text-right;
+            .text-hidden;
+            padding: 0.4rem 0;
+        }
+        .home-buy-address {
+            color: @text-subtitle;
+            .text-hidden;
+            span {
+                margin-right: 0.8rem;
+                &:before {
+                    color: @text-level;
+                    font-size: 2rem;
+                    margin-right: 0.2rem;
+                    vertical-align: top;
+                }
+            }
         }
     }
 }
