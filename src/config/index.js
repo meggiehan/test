@@ -3,7 +3,10 @@ import nativeEvent from '../utils/nativeEvent';
 const configs = {
     version: '1.3 --- 2016/09/26',
     debug: false,
-    url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
+    /*
+     *release branch change the api url to http://api.yudada.com
+     */
+    url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/', 
     // url: '://192.168.20.109:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms
@@ -13,6 +16,10 @@ const configs = {
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
     shareUrl: 'http://m.yudada.com/infoDetail.html',
+    /*
+     *release branch change the url to http://m.yudada.com
+     */
+    mWebUrl: 'http://m.test.yudada.com/',
     imgPath: (num) => {
         return `@1e_1c_2o_0l_${num*10}h_${num*10}w_90q.src`
     },
