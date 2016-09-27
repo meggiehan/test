@@ -21,11 +21,13 @@ function otherInfoInit(f7, view, page) {
             address,
             enterpriseName,
             businessLicenseNo,
-            businessLicenseUrl
+            businessLicenseUrl,
+            level
         } = userInfo;
 
         imgUrl && ($$('.page-other-info .center-head-pic img').attr('src', imgUrl + imgPath(8)));
-        nickname && $$('.page-other-info .my-center-nice-name').text(nickname);
+        nickname && $$('.page-other-info .my-center-nice-name>span').text(nickname);
+        $$('.page-other-info .my-center-nice-name>i').addClass(`iconfont icon-v${level || 0}`);
         phone && $$('.other-info-phone').text(phone);
         address ? $$('.other-info-address').text(address) : $$('.other-info-address-parent').hide();
 
