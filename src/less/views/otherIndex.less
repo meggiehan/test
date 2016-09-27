@@ -20,6 +20,9 @@
                 padding-right: 0;
                 margin-left: 1rem;
                 color: @text-name;
+                display: -webkit-box;
+                -webkit-box-align: center;
+                -webkit-box-pack: center;
                 &:after {
                     display: none;
                 }
@@ -33,6 +36,7 @@
                     &.other-user-name {
                         i {
                             display: none;
+                            vertical-align: bottom;
                             &.iconfont {
                                 color: @text-level;
                                 font-size: 2.2rem;
@@ -44,6 +48,7 @@
                 &>div {
                     .ps-r;
                     // height: 6.5rem;
+                    width: 100%;
                     display: -webkit-box;
                     -webkit-box-align: center;
                     -webkit-box-pack: center;
@@ -54,11 +59,12 @@
                             display: none;
                             .iconfont {
                                 display: none;
-                                margin-right: 0.2rem;
                                 color: @text-level;
-                                font-size: 1.4rem;
+                                font-size: 1.2rem;
+                                padding-right: 0.5rem;
+                                display: none;
                                 &:before {
-                                    font-size: 1.8rem;
+                                    font-size: 1.6rem;
                                     padding-right: 0.3rem;
                                 }
                             }
