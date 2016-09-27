@@ -87,8 +87,8 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 invitationCode
             } = data;
 
-            buyNumber && html($$('.user-sell-num'), buyNumber, null);
-            sellNumber && html($$('.user-buy-num'), sellNumber, null);
+            buyNumber && html($$('.user-buy-num'), buyNumber, null);
+            sellNumber && html($$('.user-sell-num'), sellNumber, null);
             certNumber > -1 && verificationBtn.text(certNumber);
 
             enterpriseAuthenticationState == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
