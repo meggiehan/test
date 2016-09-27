@@ -94,6 +94,11 @@ let initAppConfig = {
                 return false;
             }
 
+            if(_currentPage.indexOf('inviteFriends.html') > -1){
+                deviceF7.closeModal('.picker-invite-code');
+                $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').remove();
+            }
+
             if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',
