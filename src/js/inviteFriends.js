@@ -36,11 +36,11 @@ function inviteFriendsInit(f7, view, page) {
     currentPage.find('.invite-friends-share')[0].onclick = () => {
         $$('body').append(overlay);
         f7.pickerModal('.picker-invite-code');
-        $$('.modal-overlay-invite-code').on('click', closeInviteModal)
+        setTimeout(() => {
+            $$('.modal-overlay-invite-code').off('click', closeInviteModal).on('click', closeInviteModal);
+        }, 50)
     };
-    //close invite qr code.
     $$('.close-picker-invite-code')[0].onclick = closeInviteModal;
-
     //share to QQ or weixin, message.
     currentPage.find('.invite-friends-share-weixin')[0].onclick = () => {
         const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;
