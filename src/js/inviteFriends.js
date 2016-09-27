@@ -7,9 +7,9 @@ import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 
 function inviteFriendsInit(f7, view, page) {
-    // if(!isLogin()){
-    //    	logOut();
-    // }
+    if(!isLogin()){
+       	logOut();
+    }
     f7.hideIndicator();
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const { cacheUserinfoKey } = config;

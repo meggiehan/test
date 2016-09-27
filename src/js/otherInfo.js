@@ -7,7 +7,9 @@ import { getName, getBusinessLicenseNumber } from '../utils/string';
 function otherInfoInit(f7, view, page) {
     const { id } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
-    const { imgPath } = config;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+
+    const { imgPath, mWebUrl } = config;
     const editCallback = (data) => {
         const { userInfo } = userCache && userCache['data'] || data['data'];
         const {
@@ -46,6 +48,10 @@ function otherInfoInit(f7, view, page) {
 
         }
         f7.hideIndicator();
+    }
+
+    currentPage.find('.go-member-info')[0].onclick = () => {
+        window.location.href = `${mWebUrl}user/memberIntro`;
     }
     if (!userCache) {
         customAjax.ajax({

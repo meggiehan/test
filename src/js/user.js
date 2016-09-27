@@ -11,7 +11,7 @@ function userInit(f7, view, page) {
     const { uuid } = page.query;
     let loginStatus = isLogin(uuid);
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const { cacheUserinfoKey, servicePhoneNumber, imgPath } = config;
+    const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
     let userInfomation = store.get(cacheUserinfoKey);
     const emptyFun = () => {
             return;
@@ -74,7 +74,7 @@ function userInit(f7, view, page) {
             })
             return;
         }
-        window.location.href = 'http://m.test.yudada.com/user/member?id=' + userInfomation['id'];
+        window.location.href = `${mWebUrl}user/member?id=${userInfomation['id']}`;
     }
 
     //if login succ, replace to change user info page, else replace to login page.
