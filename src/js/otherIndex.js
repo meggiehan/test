@@ -105,7 +105,7 @@ function otherIndexInit(f7, view, page) {
     //go to other user infomation.
     $$('.page-other-index .user-header').click(() => {
         view.router.load({
-            url: 'views/otherInfo.html?id=' + id
+            url: 'views/otherInfo.html?id=' + currentUserId
         })
     })
 
