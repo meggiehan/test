@@ -9,7 +9,7 @@ zip/
 
 
 #file
-src/build/js/common*
+src/build/js
 src/build/css/*.css
 src/config/index.js
 src/config/*.json
