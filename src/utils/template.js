@@ -1,16 +1,32 @@
 import { timeDifference, getDate } from './time';
-import {getCertInfo, imgIsUpload} from './string';
+import { getCertInfo, imgIsUpload } from './string';
 import config from '../config/';
 import store from './locaStorage';
 
 
-const  { cacheUserinfoKey, imgPath, backgroundImgUrl, identity } = config;
+const { cacheUserinfoKey, imgPath, backgroundImgUrl, identity } = config;
 const hashStr = location.hash;
 
 module.exports = {
     home: {
-        cat: (data, userLevel) => {
-            const { id, level, certificate_type_list, imge_path, state, check_time, price, fish_type_name, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+        cat: (data, userLevel, nameAuthentication) => {
+            const {
+                id,
+                level,
+                certificate_type_list,
+                imge_path,
+                state,
+                check_time,
+                price,
+                fish_type_name,
+                specifications,
+                create_time,
+                contact_name,
+                province_name,
+                city_name,
+                personal_authentication_state,
+                enterprise_authentication_state
+            } = data;
             let img = document.createElement('img');
             let text = '';
             const currentLevel = level && level || userLevel;
@@ -34,7 +50,7 @@ module.exports = {
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '" '+clickEvent+'>' +
+            res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '" ' + clickEvent + '>' +
                 '<div class="col-30">' + span + imgStr +
                 '<div class="col-70">' +
                 '<div class="cat-list-title row">' +
@@ -49,7 +65,7 @@ module.exports = {
                 `<i class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></i>${contact_name ? '<span>' + contact_name + '</span>' : ''}${province_name || ''}${city_name || ''}` +
                 '</div>' +
                 '<div class="cat-list-tags">'
-            if (personal_authentication_state === 1 || enterprise_authentication_state === 1) {
+            if (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) {
                 res += '<span class="iconfont icon-v button">实名认证</span>';
                 res += text || '';
             }
@@ -57,7 +73,21 @@ module.exports = {
             return res;
         },
         buy: (data, userLevel) => {
-            const { id, level, fish_type_name, stock, check_time, state, specifications, create_time, contact_name, province_name, city_name, personal_authentication_state, enterprise_authentication_state } = data;
+            const {
+                id,
+                level,
+                fish_type_name,
+                stock,
+                check_time,
+                state,
+                specifications,
+                create_time,
+                contact_name,
+                province_name,
+                city_name,
+                personal_authentication_state,
+                enterprise_authentication_state
+            } = data;
             // const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
             const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
@@ -72,7 +102,7 @@ module.exports = {
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info" '+clickEvent+' >' +
+            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info" ' + clickEvent + ' >' +
                 '<div class="row">' +
                 '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || ''}` + '</div>' +
@@ -86,13 +116,18 @@ module.exports = {
                 '</div>'
             return res;
         }
-    },    
+    },
     search: {
         link: (data, release, type) => {
-            const { name, id, parant_id, parant_name } = data;
+            const {
+                name,
+                id,
+                parant_id,
+                parant_name
+            } = data;
             let li = '';
-            li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}">${name}</a>`:
-                            `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
+            li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}">${name}</a>` :
+                `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
@@ -105,11 +140,16 @@ module.exports = {
     },
     selldetail: {
         cert: (data) => {
-            const { type, fish_type_name, path, state } = data;
+            const {
+                type,
+                fish_type_name,
+                path,
+                state
+            } = data;
             let link = '';
-            const {label, text, classes, certName} = getCertInfo(type);
+            const { label, text, classes, certName } = getCertInfo(type);
             link += '<a class="iconfont icon-right open-cert-button" data-url="' + `${path}@1o` + '">' +
-                '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name}` + 
+                '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name}` +
                 '</a>'
             return link;
         }
@@ -137,7 +177,14 @@ module.exports = {
     },
     fishCert: {
         certList: (data, index) => {
-            const { state, path, id, closing_date, type, reasons_for_refusal } = data;
+            const {
+                state,
+                path,
+                id,
+                closing_date,
+                type,
+                reasons_for_refusal
+            } = data;
 
             let imgStr = '<img src="' + `${path + identity['catCompany']}` + '"/>';
             let reviewText = 0 == state && '审核中' || 2 == state && '审核未通过';
@@ -149,7 +196,7 @@ module.exports = {
             }
             const spans = 2 == state ? `<span class="cat-cert-faild-info ps-a" data-info="${reasons_for_refusal}">查看原因</span>` : '';
             let str = '';
-            
+
             str += `<div class="col-50" data-parent-id="${id}">`;
             str += `<div class="ps-r">${spans}${imgStr}</div>`;
             str += 1 == state ? `<p class="cert-name">${getCertInfo(type).certName}</p>` : '';
@@ -162,13 +209,17 @@ module.exports = {
     },
     invite: {
         inviteList: (data, isLast) => {
-            const {nickname , phone, createTime} = data;
+            const {
+                nickname,
+                phone,
+                createTime
+            } = data;
             let html = '';
             html += `<div class="row ${isLast ? 'last' : ''}">` +
-                        `<span class="col-33 left">${phone || ''}</span>` +
-                        `<span class="col-33">${nickname || ''}</span>` +
-                        `<span class="col-33 invite-time right">${getDate(createTime*0.001, true)}</span>` +
-                    '</div>';
+                `<span class="col-33 left">${phone || ''}</span>` +
+                `<span class="col-33">${nickname || ''}</span>` +
+                `<span class="col-33 invite-time right">${getDate(createTime*0.001, true)}</span>` +
+                '</div>';
             return html;
         }
     }
