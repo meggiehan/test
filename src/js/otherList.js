@@ -16,9 +16,9 @@ function otherListInit(f7, view, page) {
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
+    let level = store.get(cacheUserinfoKey);
     $$('.other-list-title').text(2 == type ? '正在出售' : '正在求购');
     load.hide();
-    const {level} = store.get(cacheUserinfoKey);
 
     const callback = (data) => {
         const { code, message } = data;
@@ -49,7 +49,7 @@ function otherListInit(f7, view, page) {
         f7.pullToRefreshDone();
 
         pullToRefresh = false;
-
+        isInfinite = false;
         if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
@@ -57,7 +57,13 @@ function otherListInit(f7, view, page) {
         }else{
             load.show();
         }
-        !$$('.other-list-info>a').length && showAllInfo.hide();
+        if (!$$('.other-list-info>a').length && !data.data.list.length) {
+            2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
+            showAllInfo.hide();
+        } else {
+            $$('.my-sell-list-empty').hide();
+            $$('.my-buy-list-empty').hide();
+        }
 
     }
 
@@ -87,7 +93,8 @@ function otherListInit(f7, view, page) {
             api: 'getMyDemandInfoList',
             data: [id, pageSize, pageNo, '', type],
             type: 'get',
-            val: { id: 1 }
+            val: { id: 1 },
+            noCache: true
         }, callback);
     });
 
@@ -96,6 +103,7 @@ function otherListInit(f7, view, page) {
     ptrContent.on('refresh', function(e) {
         pageNo = 1;
         pullToRefresh = true;
+        isInfinite = false;
         showAllInfo.hide();
         isShowAll = false;
         customAjax.ajax({
