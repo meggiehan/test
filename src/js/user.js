@@ -9,7 +9,6 @@ import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIde
 function userInit(f7, view, page) {
     f7.hideIndicator();
     const { uuid } = page.query;
-    let qrcodeObj;
     let loginStatus = isLogin(uuid);
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
@@ -28,8 +27,8 @@ function userInit(f7, view, page) {
             } = data.data || { scanLink: 'http://baidu.com' };
 
             //use qrcodejs create qr code on local.
-            if (!qrcodeObj) {
-                qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
+            if (!$$('.picker-invite-code-content>img').length) {
+                window.qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
                     text: scanLink,
                     height: 180,
                     width: 180,
@@ -38,8 +37,8 @@ function userInit(f7, view, page) {
                     correctLevel: QRCode.CorrectLevel.H
                 })
             } else {
-                qrcode.clear(); // clear the code.
-                qrcode.makeCode(scanLink); // make another code.
+                window.qrcodeObj.clear(); // clear the code.
+                window.qrcodeObj.makeCode(scanLink); // make another code.
 
             }
 
