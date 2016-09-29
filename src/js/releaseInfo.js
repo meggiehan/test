@@ -23,7 +23,7 @@ function releaseInfoInit(f7, view, page) {
     let title;
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const token = userInfo && userInfo['token'] || '';
-    const nickname = userInfo ? (userInfo['name'] || userInfo['nickname']) : '';
+    const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
     const descriptInput = currentPage.find('textarea')[0];
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
 
