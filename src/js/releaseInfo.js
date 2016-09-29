@@ -45,10 +45,10 @@ function releaseInfoInit(f7, view, page) {
     }
     html($$('.release-info-name'), title, f7);
 
-    addressInput[0].onclick = () => {
+    addressInput.on('click',() => {
         // get address.
         nativeEvent.eventChooseAddress(0);
-    }
+    })
     phoneNumber && tellInput.val(phoneNumber);
     nickname && contactInput.val(nickname);
 
