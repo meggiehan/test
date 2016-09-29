@@ -18,13 +18,15 @@
 			<span class="invite-friends-code-val">123456</span>
 		</div>
 		<div class="invite-friends-actions">
-			<a class="invite-friends-share button">
+			<a class="invite-friends-share button" onclick="apiCount('btn_inviteFriends_qrcode')">
 				<i class="iconfont icon-qr-code"></i>面对面分享
 			</a>
-			<a class="invite-friends-share-weixin button">
+			<a class="invite-friends-share-weixin button" onclick="apiCount('btn_inviteFriends_share')">
 				<i class="iconfont icon-share"></i>分享到微信、QQ、短信
 			</a>
-			<a class="link iconfont icon-right go-invite-friends-list">已经成功推荐<span class="invite-friends-number">0</span>人</a>
+			<a class="link iconfont icon-right go-invite-friends-list" onclick="apiCount('btn_inviteFriends_userlist')">
+				已经成功推荐<span class="invite-friends-number">0</span>人
+			</a>
 		</div>
     </div>
 </div>

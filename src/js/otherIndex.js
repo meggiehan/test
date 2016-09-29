@@ -17,6 +17,8 @@ function otherIndexInit(f7, view, page) {
     let sellInfoNull = false;
     let buyInfoNull = false;
     let callNumber;
+    let level;
+    let nameAuthentication;
     let type = 2;
     if (userCache) {
         const { userInfo, user_ishCertificate_list } = userCache['data'];
@@ -42,6 +44,11 @@ function otherIndexInit(f7, view, page) {
         }
     }
 
+    if(userCache){
+        level = userCache['data']['userInfo']['level'];
+        nameAuthentication = userCache['data']['userInfo']['nameAuthentication'];
+    }
+
     const sellListCallback = (data) => {
         const list = data.data.list;
         if (!list.length) {
@@ -55,7 +62,7 @@ function otherIndexInit(f7, view, page) {
             if (item['state'] !== 1 || index > 2) {
                 return;
             }
-            sellHtml += home.cat(item, userCache['data']['userInfo']['level']);
+            sellHtml += home.cat(item, level, nameAuthentication);
         })
         html($$('.other-sell-list .list'), sellHtml, f7);
         sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
@@ -85,7 +92,7 @@ function otherIndexInit(f7, view, page) {
             if (item['state'] !== 1 || index > 2) {
                 return;
             }
-            buyHtml += home.buy(item, userCache['data']['userInfo']['level']);
+            buyHtml += home.buy(item, level);
         })
         html($$('.other-buy-list .list'), buyHtml, f7);
         buyHtml ? $$('.other-index-list').addClass('show-buy-list') : $$('.other-index-list').removeClass('show-buy-list');
@@ -105,7 +112,7 @@ function otherIndexInit(f7, view, page) {
     //go to other user infomation.
     $$('.page-other-index .user-header').click(() => {
         view.router.load({
-            url: 'views/otherInfo.html?id=' + id
+            url: `views/otherInfo.html?id=${currentUserId}&goodsId=${id}`
         })
     })
 

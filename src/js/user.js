@@ -1,7 +1,6 @@
 import store from '../utils/locaStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import {imgIsUpload} from '../utils/string';
 import { loginSucc, isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
@@ -15,20 +14,8 @@ function userInit(f7, view, page) {
     const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
     let userInfomation = store.get(cacheUserinfoKey);
     const emptyFun = () => {
-            return;
-        }
-        // const getBussesInfo = () => {
-        //     customAjax.ajax({
-        //         apiCategory: 'userInfo',
-        //         api: 'getUserCertificate',
-        //         data: [userInfomation.token],
-        //         type: 'get',
-        //         val: {
-        //             token: userInfomation['id']
-        //         }
-        //     }, userUtils.getBussesInfoCallback);
-        // }
-
+        return;
+    }
     const loginCallback = (data) => {
         f7.hideIndicator();
         const { code, message } = data;
@@ -37,9 +24,28 @@ function userInit(f7, view, page) {
                 scanLink,
                 imgUrl,
                 nickname
-            } = data.data || {};
-            const codeUrl = `http://qr.topscan.com/api.php?text=${scanLink}${imgUrl ? '&logo=' + imgUrl + imgPath(8) : ''}`;
-            !imgIsUpload(codeUrl) && $$('.picker-invite-code-img>img').attr('src', codeUrl);
+            } = data.data || { scanLink: 'http://baidu.com' };
+
+            //use qrcodejs create qr code on local.
+            if (!$$('.picker-invite-code-content>img').length) {
+                window.qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
+                    text: scanLink,
+                    height: 180,
+                    width: 180,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                })
+            } else {
+                window.qrcodeObj.clear(); // clear the code.
+                window.qrcodeObj.makeCode(scanLink); // make another code.
+
+            }
+
+            if (!$$('.picker-invite-head-img').attr('src')) {
+                $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
+            }
+
             let _userInfo = data.data || { point: 40, level: 3 };
             _userInfo['token'] = userInfomation['token'];
             store.set(cacheUserinfoKey, _userInfo);

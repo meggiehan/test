@@ -134,6 +134,9 @@ mainView.router.load({
 })
 
 window.$$ = Dom7;
+window.jQuery = Dom7;
+window.$ = Dom7;
+
 window.mainView = mainView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;

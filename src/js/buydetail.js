@@ -39,14 +39,14 @@ function buydetailInit(f7, view, page) {
                 contactName,
                 requirementPhone,
                 refuseDescribe,
-                level
             } = demandInfo;
             const {
                 id,
                 enterpriseAuthenticationTime,
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
-                imgUrl
+                imgUrl,
+                level
             } = userInfo;
             demandInfo_ = demandInfo;
             if (state == 0 || state == 2) {

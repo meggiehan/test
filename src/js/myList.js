@@ -34,9 +34,7 @@ function myListInit(f7, view, page) {
                 otehrHtml += home.buy(item, level);
             }
         })
-        if (!$$('.other-list-info>a').length) {
-            2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
-        }
+
         showAllInfo.hide();
         if (isInfinite && !pullToRefresh) {
             $$('.other-list-info').append(otehrHtml);
@@ -52,16 +50,22 @@ function myListInit(f7, view, page) {
         f7.pullToRefreshDone();
 
         pullToRefresh = false;
-        $$('.other-list-info>a').length && $$('.my-sell-list-empty').hide();
-        $$('.other-list-info>a').length && $$('.my-buy-list-empty').hide();
+        isInfinite = false;
+
         if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
-        }else{
+        } else {
             load.show();
         }
-        !$$('.other-list-info>a').length && showAllInfo.hide();
+        if (!$$('.other-list-info>a').length && !data.data.list.length) {
+            2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
+            showAllInfo.hide();
+        } else {
+            $$('.my-sell-list-empty').hide();
+            $$('.my-buy-list-empty').hide();
+        }
     }
 
     customAjax.ajax({
@@ -87,7 +91,8 @@ function myListInit(f7, view, page) {
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
             data: [id, pageSize, pageNo, token, type],
-            type: 'get'
+            type: 'get',
+            noCache: true
         }, callback);
     });
 
@@ -98,6 +103,7 @@ function myListInit(f7, view, page) {
         pullToRefresh = true;
         showAllInfo.hide();
         isShowAll = false;
+        isInfinite = false;
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
