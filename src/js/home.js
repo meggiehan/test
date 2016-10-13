@@ -4,14 +4,14 @@ import { home } from '../utils/template';
 import { html } from '../utils/string';
 import { goUser } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll} from '../utils/locaStorage';
+import { getAll } from '../utils/locaStorage';
 
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const { pageSize } = config;
     let catType = 2;
-    if(getAll().length){
+    if (getAll().length) {
         $$('.ajax-content').show();
         $$('.home-loading').hide();
     }
@@ -39,7 +39,7 @@ function homeInit(f7, view, page) {
 
             html($$('.buy-list-foreach'), buyListHtml, f7);
         }
-        if (data.data && data.data.list && type && catType === 2) {
+        if (data.data && data.data.list && catType === 2) {
             catType = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
@@ -77,8 +77,6 @@ function homeInit(f7, view, page) {
         }, callback);
     })
 
-
-    //js location to other page
     //go home page;
     $$('.href-go-user').off('click', goUser).on('click', goUser);
     $$('.home-search-mask').on('click', () => {

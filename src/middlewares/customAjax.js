@@ -79,6 +79,7 @@ class CustomClass {
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);
+            console.log('callback')
         }
         const _this = this;
 

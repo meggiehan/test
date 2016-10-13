@@ -1,6 +1,6 @@
 import store from '../utils/locaStorage';
 import config from '../config';
-import { getName, tri, getAddressIndex } from '../utils/string';
+import { getName, getAddressIndex } from '../utils/string';
 import { logOut } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
