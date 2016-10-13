@@ -13,20 +13,20 @@ module.exports = {
             const {
                 id,
                 level,
-                certificate_type_list,
-                imge_path,
                 state,
-                check_time,
                 price,
-                fish_type_name,
                 specifications,
-                create_time,
-                contact_name,
-                province_name,
-                city_name,
-                personal_authentication_state,
-                enterprise_authentication_state
             } = data;
+            const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
+            const imge_path = data['imge_path'] || data['imgePath'];
+            const fish_type_name = data['fish_type_name'] || data['fishTypeName'];
+            const check_time = data['check_time'] || data['checkTime'];
+            const create_time = data['create_time'] || data['createTime'];
+            const contact_name = data['contact_name'] || data['contactName'];
+            const province_name = data['province_name'] || data['provinceName'];
+            const city_name = data['city_name'] || data['cityName'];
+            const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
+            const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             let img = document.createElement('img');
             let text = '';
             const currentLevel = level && level || userLevel;
@@ -76,18 +76,20 @@ module.exports = {
             const {
                 id,
                 level,
-                fish_type_name,
                 stock,
-                check_time,
                 state,
                 specifications,
-                create_time,
-                contact_name,
-                province_name,
-                city_name,
-                personal_authentication_state,
-                enterprise_authentication_state
             } = data;
+            const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
+            const imge_path = data['imge_path'] || data['imgePath'];
+            const fish_type_name = data['fish_type_name'] || data['fishTypeName'];
+            const check_time = data['check_time'] || data['checkTime'];
+            const create_time = data['create_time'] || data['createTime'];
+            const contact_name = data['contact_name'] || data['contactName'];
+            const province_name = data['province_name'] || data['provinceName'];
+            const city_name = data['city_name'] || data['cityName'];
+            const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
+            const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             // const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
             const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';

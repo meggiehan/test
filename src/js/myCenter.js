@@ -1,6 +1,6 @@
 import store from '../utils/locaStorage';
 import config from '../config';
-import { getName, trim } from '../utils/string';
+import { getName, getAddressIndex } from '../utils/string';
 import { logOut } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
@@ -22,7 +22,9 @@ function myCenterInit(f7, view, page) {
         nickname,
         provinceName,
         cityName,
-        id
+        id,
+        provinceId,
+        cityId
     } = userInfo;
     $$('.my-center-phone span').text(phone);
     if (userInfo) {
@@ -37,7 +39,11 @@ function myCenterInit(f7, view, page) {
 
     //Choose Address.
     $$('.my-center-address').on('click', () => {
-        nativeEvent.eventChooseAddress(1);
+        const {
+            provinceIndex,
+            cityIndex
+        } = getAddressIndex(provinceName, cityName);
+        nativeEvent.eventChooseAddress(1, provinceIndex, cityIndex);
     })
 
     //user click logout button.
@@ -49,7 +55,7 @@ function myCenterInit(f7, view, page) {
             url: 'views/editName.html'
         })
     })
-    
+
 }
 
 module.exports = {

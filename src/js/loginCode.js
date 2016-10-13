@@ -87,65 +87,19 @@ function loginCodeInit(f7, view, page) {
         }, callback);
     }
 
-    // const loginCallback = (data) => {
-    //     const { code, message } = data;
-    //     if (code == 1) {
-    //         const { token, userInfo } = data.data;
-    //         let _userInfo = userInfo;
-    //         _userInfo['token'] = token;
-    //         store.set(cacheUserinfoKey, _userInfo);
-    //         f7.alert('登录成功', () => {
-    //             view.router.load({
-    //                 url: 'views/user.html',
-    //             })
-    //         })
-    //     } else {
-    //         isSend = false;
-    //         isPass = true;
-    //         // f7.alert(message);
-    //     }
-    // }
-    const regCallback = (data) => {
-        if (data.code == 1) {
-            const { loginName, loginPass } = data.data;
-            // f7.hideIndicator();
-            f7.showPreloader('登录中...');
-            nativeEvent.nativeLogin(loginName, loginPass);
-            //user login, return user infomation.
-            // customAjax.ajax({
-            //     apiCategory: 'userLogin',
-            //     api: 'login',
-            //     data: [loginName, loginPass],
-            //     type: 'post',
-            //     noCache: true,
-            // }, loginCallback);
-        } else {
-            isSend = false;
-            isPass = true;
-            f7.alert(data.message, '提示', () => {
-                input.value = '';
-                input.focus();
-            });
-        }
-    }
-
-
     //User registration. return user login infomation.
     subBtn.onclick = () => {
         if (!isPass || isSend) {
             return;
         }
-        // f7.showIndicator();
-        isSend = true;
-        subBtn.className = subBtn.className.replace(' on', '');
-        customAjax.ajax({
-            apiCategory: 'userLogin',
-            api: 'subUserPass',
-            data: [input.value, keyCode],
-            type: 'get',
-            noCache: true,
-        }, regCallback);
+        f7.showPreloader('登录中...');
+        nativeEvent.nativeLogin(phone, input.value);
     }
+
+    //go to agreement of yudada.
+    $$('.user-protocol>a').click(() => {
+        nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
+    })
 
 }
 

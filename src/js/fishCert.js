@@ -37,8 +37,9 @@ function fishCertInit(f7, view, page) {
     }
     customAjax.ajax({
         apiCategory: 'userInfo',
+        header: ['token'],
         api: 'getUserFishCertificateList',
-        data: [userInfo['token']],
+        data: [],
         type: 'get'
     }, callback);
 

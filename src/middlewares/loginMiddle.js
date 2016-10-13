@@ -8,7 +8,7 @@ function isLogin(uuid) {
     const nativeToken = nativeEvent.getUserValue("token") || uuid;
     let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
-        store.clear();
+        store.remove(cacheUserinfoKey);
         return false;
     } else {
         if (!userInfo) {
@@ -27,6 +27,7 @@ function isLogin(uuid) {
 
 function logOut() {
     // nativeEvent.nativeAlert('提示', '退出成功！', '确定'， '');
+    store.clear();
     nativeEvent.logOut();
     // store.clear();
     // mainView.router.load({

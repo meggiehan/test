@@ -38,7 +38,9 @@ class CustomClass {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateEnterpriseUserInfo',
-                data: [companyUrl, token],
+                header: ['token'],
+                // parameType: 'application/json',
+                data: [companyUrl],
                 type: 'post',
                 noCache: true,
             }, this.callback);
@@ -55,10 +57,11 @@ class CustomClass {
                 return;
             }
             $$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass');
-            individualSrcArr.push(token);
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updatePersonalUserInfo',
+                header: ['token'],
+                // parameType: 'application/json',
                 data: individualSrcArr,
                 type: 'post',
                 noCache: true,

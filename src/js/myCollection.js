@@ -6,28 +6,30 @@ import { html } from '../utils/string';
 import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
-function myListInit(f7, view, page) {
-    const { type } = page.query;
+function myCollectionInit(f7, view, page) {
+    let type = 2; //default: 2
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+
     const { pageSize, cacheUserinfoKey } = config;
-    const { id, token, level } = store.get(cacheUserinfoKey);
-    const load = $$('.page-my-list .infinite-scroll-preloader');
-    const showAllInfo = $$('.page-my-list .filter-search-empty-info');
+    const { id, token, level } = store.get(cacheUserinfoKey) || { id: 1 };
+    const load = currentPage.find('.infinite-scroll-preloader');
+    const showAllInfo = currentPage.find('.collection-empty-info');
     let pageNo = 1;
     let isShowAll = false;
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
-    $$('.my-list-title').text(2 == type ? '我的出售' : '我的求购');
     load.hide();
 
     const callback = (data) => {
-        const { code, message } = data;
+        const { code } = data;
+    	f7.hideIndicator();
         if (code !== 1) {
-            f7.alert(message, '提示');
+            f7.alert('请求过于频繁，请稍后再试！', '提示');
             return;
         }
         let otehrHtml = '';
-        $$.each(data.data.list, (index, item) => {
+        $$.each(data.data, (index, item) => {
             if (2 == type) {
                 otehrHtml += home.cat(item, level);
             } else {
@@ -37,10 +39,10 @@ function myListInit(f7, view, page) {
 
         showAllInfo.hide();
         if (isInfinite && !pullToRefresh) {
-            $$('.other-list-info').append(otehrHtml);
+            $$('.collection-list-info').append(otehrHtml);
             loading = false;
         } else {
-            html($$('.other-list-info'), otehrHtml, f7);
+            html($$('.collection-list-info'), otehrHtml, f7);
         }
 
         setTimeout(() => {
@@ -52,31 +54,46 @@ function myListInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
 
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
+        if ($$('.collection-list-info>a').length && data.data.length < pageSize || !$$('.collection-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         } else {
             load.show();
         }
-        if (!$$('.other-list-info>a').length && !data.data.list.length) {
-            2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
+        if (!$$('.collection-list-info>a').length && !data.data.length) {
+            $$('.collection-list-empty').show();
             showAllInfo.hide();
         } else {
-            $$('.my-sell-list-empty').hide();
-            $$('.my-buy-list-empty').hide();
+            $$('.collection-list-empty').hide();
         }
     }
 
     customAjax.ajax({
-        apiCategory: 'demandInfo',
-        api: 'getMyDemandInfoList',
+        apiCategory: 'favorite',
+        api: 'demandInfoList',
         header: ['token'],
-        data: [id, pageSize, pageNo, type],
+        data: [token, pageSize, pageNo, type],
         type: 'get'
     }, callback);
 
-    $$('.page-my-list .infinite-scroll').on('infinite', function() {
+    currentPage.find('.my-collection-tab')[0].onclick = (e) => {
+        const event = e || window.event;
+        if ($$(event.target).hasClass('my-collection-tab') || $$(event.target).hasClass('on')) {
+            return;
+        }
+        type = event.target.innerHTML === '出售信息' ? 2 : 1;
+        $$('.my-collection-tab>div').toggleClass('on');
+        customAjax.ajax({
+            apiCategory: 'favorite',
+            api: 'demandInfoList',
+            header: ['token'],
+            data: [token, pageSize, pageNo, type],
+            type: 'get'
+        }, callback);
+    }
+
+    currentPage.find('.infinite-scroll').on('infinite', function() {
         if (isShowAll) {
             return;
         }
@@ -89,17 +106,17 @@ function myListInit(f7, view, page) {
         pullToRefresh = false;
         pageNo++;
         customAjax.ajax({
-            apiCategory: 'demandInfo',
+            apiCategory: 'favorite',
+            api: 'demandInfoList',
             header: ['token'],
-            api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, type],
+            data: [token, pageSize, pageNo, type],
             type: 'get',
             noCache: true
         }, callback);
     });
 
     // pull to refresh.
-    const ptrContent = $$('.page-my-list .pull-to-refresh-content');
+    const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
         pageNo = 1;
         pullToRefresh = true;
@@ -107,10 +124,10 @@ function myListInit(f7, view, page) {
         isShowAll = false;
         isInfinite = false;
         customAjax.ajax({
-            apiCategory: 'demandInfo',
+            apiCategory: 'favorite',
+            api: 'demandInfoList',
             header: ['token'],
-            api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, type],
+            data: [token, pageSize, pageNo, type],
             type: 'get',
             noCache: true
         }, callback);
@@ -118,5 +135,5 @@ function myListInit(f7, view, page) {
 }
 
 module.exports = {
-    myListInit,
+    myCollectionInit,
 }

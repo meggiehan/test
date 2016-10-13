@@ -187,11 +187,13 @@ module.exports = {
                 })
                 // })
         }
-        f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
+        f7.confirm('你确定撤销身份认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'cancelPersonalAuthentication',
-                data: [userInfomation['token']],
+                header: ['token'],
+                parameType: 'application/json',
+                data: [],
                 type: 'post',
                 noCache: true,
             }, cancleIndividualCallback);
@@ -215,7 +217,9 @@ module.exports = {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'cancelEnterpriseAuthentication',
-                data: [userInfomation['token']],
+                header: ['token'],
+                parameType: 'application/json',
+                data: [],
                 type: 'post',
                 noCache: true,
             }, cancleCompanyCallback);
@@ -252,8 +256,10 @@ module.exports = {
                 f7.showIndicator();
                 customAjax.ajax({
                     apiCategory: 'userInfo',
+                    header: ['token'],
+                    // parameType: 'application/json',
                     api: 'deleteUserFishCertificate',
-                    data: [userInfo['token'], id],
+                    data: [id],
                     val: { id },
                     type: 'post'
                 }, deleteCallback);
