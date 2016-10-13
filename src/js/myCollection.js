@@ -12,23 +12,52 @@ function myCollectionInit(f7, view, page) {
 
     const { pageSize, cacheUserinfoKey } = config;
     const { id, token, level } = store.get(cacheUserinfoKey) || { id: 1 };
-    const load = currentPage.find('.infinite-scroll-preloader');
-    const showAllInfo = currentPage.find('.collection-empty-info');
-    let pageNo = 1;
-    let isShowAll = false;
+    const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
+    const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
+    const showSellAllInfo = currentPage.find('.sell-collection-empty-info');
+    const showBuyAllInfo = currentPage.find('.buy-collection-empty-info');
+
+    const sellContent = currentPage.find('.sell-collection-list-info');
+    const buyContent = currentPage.find('.buy-collection-list-info');
+
+    const sellEmpty = currentPage.find('.sell-collection-list-empty');
+    const buyEmpty = currentPage.find('.buy-collection-list-empty');
+
+    let sellPageNo = 1;
+    let buyPageNo = 1;
+
+    let isSellShowAll = false;
+    let isBuyShowAll = false;
+
+    let isShowAll = isSellShowAll;
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
-    load.hide();
+    let showAllInfo = showSellAllInfo;
+    let emptyInfo = sellEmpty;
+    sellLoad.hide();
+    buyLoad.hide();
 
     const callback = (data) => {
         const { code } = data;
-    	f7.hideIndicator();
+        f7.hideIndicator();
         if (code !== 1) {
             f7.alert('请求过于频繁，请稍后再试！', '提示');
             return;
         }
         let otehrHtml = '';
+        let content, listLength, load;
+        if(2 == type){
+            content = sellContent;
+            load = sellLoad;
+            listLength = $$('.sell-collection-list-info>a').length;
+        }else{
+            content = buyContent;
+            load = buyLoad;
+            listLength = $$('.buy-collection-list-info>a').length;
+        }
+        
+
         $$.each(data.data, (index, item) => {
             if (2 == type) {
                 otehrHtml += home.cat(item, level);
@@ -39,10 +68,10 @@ function myCollectionInit(f7, view, page) {
 
         showAllInfo.hide();
         if (isInfinite && !pullToRefresh) {
-            $$('.collection-list-info').append(otehrHtml);
+            content.append(otehrHtml);
             loading = false;
         } else {
-            html($$('.collection-list-info'), otehrHtml, f7);
+            html(content, otehrHtml, f7);
         }
 
         setTimeout(() => {
@@ -54,36 +83,28 @@ function myCollectionInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
 
-        if ($$('.collection-list-info>a').length && data.data.length < pageSize || !$$('.collection-list-info>a').length) {
+        if (listLength && data.data.length < pageSize || !listLength) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         } else {
             load.show();
         }
-        if (!$$('.collection-list-info>a').length && !data.data.length) {
-            $$('.collection-list-empty').show();
+        if (!listLength && !data.data.length) {
+            emptyInfo.show();
             showAllInfo.hide();
         } else {
-            $$('.collection-list-empty').hide();
+            emptyInfo.hide();
         }
+
+        type == 2 ? (isSellShowAll = isShowAll) : (isBuyShowAll = isShowAll);
     }
 
-    customAjax.ajax({
-        apiCategory: 'favorite',
-        api: 'demandInfoList',
-        header: ['token'],
-        data: [token, pageSize, pageNo, type],
-        type: 'get'
-    }, callback);
-
-    currentPage.find('.my-collection-tab')[0].onclick = (e) => {
-        const event = e || window.event;
-        if ($$(event.target).hasClass('my-collection-tab') || $$(event.target).hasClass('on')) {
-            return;
-        }
-        type = event.target.innerHTML === '出售信息' ? 2 : 1;
-        $$('.my-collection-tab>div').toggleClass('on');
+    const getListInfo = () => {
+        const pageNo = type == 2 ? sellPageNo : buyPageNo;
+        showAllInfo = type == 2 ? showSellAllInfo: showBuyAllInfo;
+        emptyInfo = type == 2 ? sellEmpty: buyEmpty;
+        isShowAll = type == 2 ? isSellShowAll: isBuyShowAll;
         customAjax.ajax({
             apiCategory: 'favorite',
             api: 'demandInfoList',
@@ -92,6 +113,18 @@ function myCollectionInit(f7, view, page) {
             type: 'get'
         }, callback);
     }
+
+    //get list for service;
+    getListInfo();
+    currentPage.find('#tab1').on('show', function() {
+        type = 2;
+        getListInfo();
+    });
+
+    currentPage.find('#tab2').on('show', function() {
+        type = 1;
+        getListInfo();
+    });
 
     currentPage.find('.infinite-scroll').on('infinite', function() {
         if (isShowAll) {
@@ -104,7 +137,8 @@ function myCollectionInit(f7, view, page) {
         // Set loading flag
         loading = true;
         pullToRefresh = false;
-        pageNo++;
+        type == 2 ? sellPageNo++ : buyPageNo++;
+        const pageNo = type == 2 ? sellPageNo : buyPageNo;
         customAjax.ajax({
             apiCategory: 'favorite',
             api: 'demandInfoList',
@@ -118,7 +152,7 @@ function myCollectionInit(f7, view, page) {
     // pull to refresh.
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
-        pageNo = 1;
+        type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
         pullToRefresh = true;
         showAllInfo.hide();
         isShowAll = false;
@@ -127,7 +161,7 @@ function myCollectionInit(f7, view, page) {
             apiCategory: 'favorite',
             api: 'demandInfoList',
             header: ['token'],
-            data: [token, pageSize, pageNo, type],
+            data: [token, pageSize, 1, type],
             type: 'get',
             noCache: true
         }, callback);

@@ -53,11 +53,16 @@ class CustomClass {
         if (!window['addressObj']) {
             window['addressObj'] = {};
         }
+        if(!window['selectedAddress']){
+            window['selectedAddress'] = {};
+        }
         const releaseAddressBtn = $$('.release-write-address>input');
         window['addressObj']['provinceName'] = province;
         window['addressObj']['cityName'] = city;
         window['addressObj']['provinceId'] = provinceId;
         window['addressObj']['cityId'] = cityId;
+        window['selectedAddress']['provinceName'] = province;
+        window['selectedAddress']['cityName'] = city;
 
         releaseAddressBtn.length && releaseAddressBtn.val(`${province}${city}`);
     }

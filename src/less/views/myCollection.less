@@ -1,37 +1,36 @@
-div[data-page="myCollection"] .navbar {
-    &:after {
-        display: none;
-    }
-}
-
-.page-my-collection {
-    .my-collection-tab {
-        height: 2.5rem;
-        padding: 1.25rem 0.7rem;
-        overflow: hidden;
-        background: @themeColor;
-        .ps-r;
-        z-index: 100;
-        &>div {
-            width: 50%;
-            float: left;
+div[data-page="myCollection"] {
+    .navbar {
+        &:after {
+            display: none;
+        }
+        .my-collection-tab {
+            padding: 0rem 0.7rem 0.75rem;
+            overflow: hidden;
             line-height: 2.5rem;
-            .text-center;
-            border: 1px solid @bg-fff;
-            box-sizing: border-box;
-            color: @text-fff;
-            .text-shadow(@themeColor);
-            &:first-child {
-                border-right: none;
-                border-radius: 0.3rem 0 0 0.3rem;
-            }
-            &:last-child {
-                border-radius: 0 0.3rem 0.3rem 0;
-            }
-            &.on {
-                color: @themeColor;
-                .text-shadow(@text-fff);
-                background: @bg-fff;
+            height: 3.25rem;
+            background: @themeColor;
+            z-index: 100;
+            a {
+                width: 50%;
+                float: left;
+                line-height: 2.5rem;
+                .text-center;
+                border: 1px solid @bg-fff;
+                box-sizing: border-box;
+                color: @text-fff;
+                .text-shadow(@themeColor);
+                &#tab1 {
+                    border-right: none;
+                    border-radius: 0.3rem 0 0 0.3rem;
+                }
+                &#tab1 {
+                    border-radius: 0 0.3rem 0.3rem 0;
+                }
+                &.active {
+                    background: @bg-fff;
+                    color: @themeColor;
+                    .text-shadow(@text-fff);
+                }
             }
         }
     }
@@ -66,11 +65,11 @@ div[data-page="myCollection"] .navbar {
             margin: 1rem auto;
         }
     }
-    .collection-empty-info{
-    	color: @text-category;
-    	.text-center;
-    	display: none;
-    	font-size: 1.6rem;
+    .collection-empty-info {
+        color: @text-category;
+        .text-center;
+        display: none;
+        font-size: 1.6rem;
     }
     .collection-list-info {
         background: @bg-fff;
@@ -232,5 +231,8 @@ div[data-page="myCollection"] .navbar {
                 }
             }
         }
+    }
+    .content-block {
+        margin: 2rem 0;
     }
 }

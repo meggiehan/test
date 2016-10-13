@@ -13,6 +13,7 @@ import { otherIndexClickTip, veiwCert } from '../utils/domListenEvent';
 function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
     const userCache = store.get(`getDemandInfo_id_${id}`);
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const { imgPath, pageSize } = config;
     let sellInfoNull = false;
     let buyInfoNull = false;
@@ -25,7 +26,7 @@ function otherIndexInit(f7, view, page) {
         const { enterpriseAuthenticationState, personalAuthenticationState, lastLoginTime, nickname, imgUrl, phone } = userInfo;
         const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
         callNumber = phone;
-        const { level } = userInfo;
+        level = userInfo['level'];
         level && $$('.other-user-name>i').addClass(`iconfont icon-v${level}`);
 
         1 == enterpriseAuthenticationState && $$('.other-index-cert-info').addClass('company-identity').show();
@@ -42,12 +43,11 @@ function otherIndexInit(f7, view, page) {
             html($$('.other-index-cert>.cert-list'), certHtml, f7);
             $$('.other-index-cert').addClass('show');
         }
-    }
 
-    if(userCache){
         level = userCache['data']['userInfo']['level'];
         nameAuthentication = userCache['data']['userInfo']['nameAuthentication'];
     }
+
 
     const sellListCallback = (data) => {
         const list = data.data.list;
@@ -98,6 +98,7 @@ function otherIndexInit(f7, view, page) {
         buyHtml ? $$('.other-index-list').addClass('show-buy-list') : $$('.other-index-list').removeClass('show-buy-list');
 
         $$('img.lazy').trigger('lazy');
+        f7.pullToRefreshDone();
     }
 
     //get user buy demand list.
@@ -114,6 +115,27 @@ function otherIndexInit(f7, view, page) {
         view.router.load({
             url: `views/otherInfo.html?id=${currentUserId}&goodsId=${id}`
         })
+    })
+
+    // pull to refresh.
+    const ptrContent = currentPage.find('.other-index-refresh');
+    ptrContent.on('refresh', function(e) {
+        //get user sell demand list.
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'getMyDemandInfoList',
+            data: [currentUserId, 3, 1, '', 2],
+            type: 'get',
+            val: { id: 1 }
+        }, sellListCallback);
+        //get user buy demand list.
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'getMyDemandInfoList',
+            data: [currentUserId, 3, 1, '', 1],
+            type: 'get',
+            val: { id: 1 }
+        }, buyListCallback);
     })
 
     //view cert in ew window.

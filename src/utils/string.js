@@ -156,12 +156,14 @@ module.exports = {
                 return;
             }
         })
-        currentProvince['city'] && $$.each(currentProvince['city'], (index, item) => {
+        currentProvince && currentProvince['city'] && $$.each(currentProvince['city'], (index, item) => {
             if(item['name'] == cityName){
                 cityIndex = index;
                 return;
             }
         })
+        !provinceIndex && (provinceIndex = 0);
+        !cityIndex && (cityIndex = 0);
         return {
             provinceIndex,
             cityIndex
