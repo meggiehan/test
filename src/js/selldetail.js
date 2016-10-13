@@ -56,15 +56,19 @@ function selldetailInit(f7, view, page) {
                 level
             } = userInfo;
             demandInfo_ = demandInfo;
+            currentPage.find('.selldetail-footer').removeClass('review');
+            currentPage.find('.selldetail-footer').removeClass('verify');
+            currentPage.find('.selldetail-footer').removeClass('delete');
+            const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
+            lastHeader.find('a.detail-more').show();
 
             if (state == 0 || state == 2) {
-                currentPage.find('.selldetail-footer').addClass('delete');
+                // currentPage.find('.selldetail-footer').addClass('delete');
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
-                const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
                 lastHeader.find('a.detail-more').hide();
             }
-            id == locaUserId && $$('.page-selldetail .selldetail-footer').addClass('share-delete');
+            id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete');
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && ($$('.page-selldetail').addClass(addClassName));
@@ -95,9 +99,9 @@ function selldetailInit(f7, view, page) {
 
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
             if (isLogin()) {
-                if(favorite){
+                if (favorite) {
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
-                }else{
+                } else {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
                 }
             }
@@ -105,6 +109,7 @@ function selldetailInit(f7, view, page) {
             html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator();
+        f7.pullToRefreshDone();
     }
 
     customAjax.ajax({
@@ -118,6 +123,21 @@ function selldetailInit(f7, view, page) {
         type: 'get'
     }, callback);
 
+    // pull to refresh.
+    const ptrContent = currentPage.find('.sell-detail-refresh');
+    ptrContent.on('refresh', function(e) {
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'getDemandInfo',
+            data: [id],
+            header: ['token'],
+            val: {
+                id
+            },
+            type: 'get'
+        }, callback);
+    })
+
     // dom event;
     currentPage.find('.sell-detail-verify-faild ')[0].onclick = () => {
         f7.alert(errorInfo, '查看原因');
@@ -129,14 +149,14 @@ function selldetailInit(f7, view, page) {
     }
 
     const collectionCallback = (data) => {
-        const {code} = data;
-        if(8 == code){
+        const { code } = data;
+        if (8 == code) {
             nativeEvent['nativeToast'](0, '您已收藏过该资源!');
-        }else if(1 !== code){
+        } else if (1 !== code) {
             const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
-        }else{
+        } else {
             const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
             nativeEvent['nativeToast'](1, info);
         }
@@ -144,6 +164,12 @@ function selldetailInit(f7, view, page) {
     }
 
     collectionBtn.onclick = () => {
+        if (!nativeEvent['getNetworkStatus']()) {
+            nativeEvent.nativeToast(0, '请检查您的网络！');
+            f7.pullToRefreshDone();
+            f7.hideIndicator();
+            return;
+        }
         if (!isLogin()) {
             f7.alert('您还没登录，请先登录。', '温馨提示', () => {
                 mainView.router.load({

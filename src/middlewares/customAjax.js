@@ -73,13 +73,12 @@ class CustomClass {
         }
 
         if (header) {
-            header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['accessToken'] = nativeEvent['getUserValue']() || '');
+            header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['access-token'] = nativeEvent['getUserValue']() || '');
         }
 
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);
-            console.log('callback')
         }
         const _this = this;
 

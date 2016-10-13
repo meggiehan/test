@@ -46,11 +46,13 @@ function releaseInfoInit(f7, view, page) {
     html($$('.release-info-name'), title, f7);
 
     addressInput.on('click', () => {
-        if (window.addressObj && window.addressObj['initProvinceName']) {
+        if (window.addressObj && window.addressObj['initProvinceName'] || window['selectedAddress']) {
+            const provinceName =  window['selectedAddress'] ? window['selectedAddress']['provinceName'] : window.addressObj['initProvinceName'];
+            const cityName =  window['selectedAddress'] ? window['selectedAddress']['cityName'] : window.addressObj['initCityName'];
             const {
                 provinceIndex,
                 cityIndex
-            } = getAddressIndex(window.addressObj['initProvinceName'], window.addressObj['initCityName']);
+            } = getAddressIndex(provinceName, cityName);
             nativeEvent.eventChooseAddress(0, provinceIndex, cityIndex);
         }else{
             // get address.

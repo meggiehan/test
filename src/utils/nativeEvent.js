@@ -31,8 +31,8 @@ class CustomClass {
         if (!window['JS_ChooseAddress'] && (!window['yudada'] || !window['yudada']['JS_ChooseAddress'])) {
             return false;
         }
-        ios && JS_ChooseAddress(type, provinceIndex, cityIndex);
-        android && window.yudada.JS_ChooseAddress(type, provinceIndex, cityIndex);
+        ios && JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
+        android && window.yudada.JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
     }
 
     //get current address.

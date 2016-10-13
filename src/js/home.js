@@ -6,7 +6,6 @@ import { goUser } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import { getAll } from '../utils/locaStorage';
 
-
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const { pageSize } = config;
