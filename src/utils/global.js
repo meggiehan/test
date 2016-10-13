@@ -68,7 +68,6 @@ class CustomClass {
         const { ios, android } = window.currentDevice;
         const callback = (data) => {
 
-            console.log(data)
             const { code, message } = data;
             if (1 == code) {
                 ios && f7.alert(message, '提示', () => {
@@ -140,7 +139,9 @@ class CustomClass {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'addUserFishCertificate',
-                data: [login_token, path, uploadFilename, fileSize],
+                header: ['token'],
+                // parameType: 'application/json',
+                data: [path, uploadFilename, fileSize],
                 type: 'post',
                 noCache: true,
             }, callback);
@@ -148,7 +149,9 @@ class CustomClass {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'addUserFishCertificate',
-                data: [login_token, path, uploadFilename, fileSize],
+                header: ['token'],
+                // parameType: 'application/json',
+                data: [path, uploadFilename, fileSize],
                 type: 'post',
                 val: { id },
                 noCache: true,
@@ -156,12 +159,16 @@ class CustomClass {
         }
     }
 
-    getKey(token, userId, state) {
-        if (!state) {
+    getKey(token, userId, state, status) {
+        /*
+        *   status == '0': user fisrt login.
+        *   status == '1': user many login.
+        */ 
+        if (!Number(state)) {
             return;
         }
         f7.hidePreloader();
-        nativeEvent.nativeToast(1, '登录成功！');
+        !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         window.mainView.router.load({
             url: 'views/user.html?uuid=' + token,
             animatePage: true
@@ -202,6 +209,23 @@ class CustomClass {
         store.set(cacheHistoryKey, resArr);
     }
 
+    loginFail() {
+        const len = $$('.pages>.page').length - 1;
+        f7.hidePreloader();
+        $$('.login-code-write>input').val('');
+        $$('.login-code-submit').removeClass('on');
+        $$($$('.pages>.page')[len]).find('input[type="tel"]').focus();
+    }
+
+    logout() {
+        store.clear();
+        window.mainView.router.load({
+            url: 'views/user.html',
+            reload: true
+        })
+    }
+
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -215,6 +239,8 @@ class CustomClass {
         window['andriodBack'] = this.andriodBack;
         window['apiCount'] = this.apiCount;
         window['writeHistory'] = this.writeHistory;
+        window['loginFail'] = this.loginFail;
+        window['logout'] = this.logout;
     }
 }
 

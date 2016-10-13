@@ -1,7 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '1.3 --- 2016/09/29 1475161631919',
+    version: '1.3 --- Thu Oct 13 2016 11:05:44 GMT+0800 (CST)',
     debug: false,
     /*
      *release branch change the api url to http://api.yudada.com
@@ -11,7 +11,7 @@ const configs = {
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms
     pageSize: 20,
-    cacheMaxLen: 50,
+    cacheMaxLen: 80,
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
@@ -42,8 +42,8 @@ const configs = {
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
-        'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'login_token', 'type'],
-        'deleteDemandInfo': ['id', 'login_token']
+        'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'type'],
+        'deleteDemandInfo': ['id']
     },
     fishType: {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']
@@ -56,20 +56,24 @@ const configs = {
     userInfo: {
         'getUserInfo': ['login_token'],
         'getUserCertificate': ['id'],
-        'updateEnterpriseUserInfo': ['businessLicenseUrl', 'login_token'],
-        'updatePersonalUserInfo': ['positiveIdUrl','otherSideIdUrl','holdIdUrl','login_token'],
+        'updateEnterpriseUserInfo': ['businessLicenseUrl'],
+        'updatePersonalUserInfo': ['positiveIdUrl','otherSideIdUrl','holdIdUrl'],
         'updateUserInfo': ['id', 'nickname', 'imgUrl', 'address', 'provinceId', 'cityId' , 'provinceName', 'cityName'],
         'getUserCertificate': ['userId'],
-        'cancelPersonalAuthentication': ['login_token'],
-        'cancelEnterpriseAuthentication': ['login_token'],
-        'getUserFishCertificateList': ['login_token'],
-        'addUserFishCertificate': ['login_token', 'path', 'fishTypeName', 'fileSize'],
-        'deleteUserFishCertificate': ['login_token', 'id']
+        'cancelPersonalAuthentication': [],
+        'cancelEnterpriseAuthentication': [],
+        'getUserFishCertificateList': [],
+        'addUserFishCertificate': ['path', 'fishTypeName', 'fileSize'],
+        'deleteUserFishCertificate': ['id']
     },
-    auth: ['login_token'],
-    inviteter: ['code','login_token'],
+    auth: ['token'],
+    inviteter: ['code'],
     invite: {
-        'users': ['login_token', 'pageSize', 'pageNo']
+        'users': ['pageSize', 'pageNo']
+    },
+    favorite: {
+        demandInfoList: ['token', 'pageSize', 'pageNo', 'demandType'],
+        demandInfo: []
     }
 
 }

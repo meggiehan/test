@@ -7,12 +7,14 @@ import { home } from '../utils/template';
 import { html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
+import { isLogin } from '../middlewares/loginMiddle';
 
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const shareBtn = $$('.selldetail-footer .icon-share');
+    const shareBtn = currentPage.find('.icon-share')[0];
+    const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     let isReleaseForMe = false;
     let demandInfo_;
     const { shareUrl, cacheUserinfoKey } = config;
@@ -24,6 +26,7 @@ function buydetailInit(f7, view, page) {
             const {
                 userInfo,
                 demandInfo,
+                favorite
             } = data.data;
             const locaUserId = store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['id'];
             const {
@@ -38,7 +41,7 @@ function buydetailInit(f7, view, page) {
                 state,
                 contactName,
                 requirementPhone,
-                refuseDescribe,
+                refuseDescribe
             } = demandInfo;
             const {
                 id,
@@ -50,7 +53,9 @@ function buydetailInit(f7, view, page) {
             } = userInfo;
             demandInfo_ = demandInfo;
             if (state == 0 || state == 2) {
-                $$('.page-buydetail .selldetail-footer').addClass('delete');
+                currentPage.find('.selldetail-footer').addClass('delete');
+                state == 0 && currentPage.find('.selldetail-footer').addClass('review');
+                state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
                 lastHeader.find('a.detail-more').hide();
             }
@@ -75,12 +80,20 @@ function buydetailInit(f7, view, page) {
 
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
             imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
+
+            if (isLogin()) {
+                if(favorite){
+                    $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
+                }else{
+                    $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
+                }
+            }
             html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator(300);
     }
 
-    currentPage.find('.buy-detail-verify-faild ')[0].onclick = () => {
+    currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
         f7.alert(errorInfo, '查看原因');
     }
 
@@ -88,11 +101,51 @@ function buydetailInit(f7, view, page) {
         apiCategory: 'demandInfo',
         api: 'getDemandInfo',
         data: [id],
+        header: ['token'],
         val: {
             id
         },
         type: 'get'
     }, callback);
+
+    const collectionCallback = (data) => {
+        const {code} = data;
+        if(8 == code){
+            nativeEvent['nativeToast'](0, '您已收藏过该资源!');
+        }else if(1 !== code){
+            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
+            nativeEvent['nativeToast'](0, info);
+            $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
+        }else{
+            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
+            nativeEvent['nativeToast'](1, info);
+        }
+        f7.hideIndicator();
+    }
+
+    collectionBtn.onclick = () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+            return;
+        }
+        const httpType = $$(collectionBtn).hasClass('icon-collection-active') ? 'DELETE' : 'POST';
+        $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
+
+        customAjax.ajax({
+            apiCategory: 'favorite',
+            api: 'demandInfo',
+            header: ['token'],
+            val: {
+                id
+            },
+            noCache: true,
+            type: httpType
+        }, collectionCallback);
+    }
 
     //delete release infomation.
     const deleteCallback = (data) => {
@@ -101,7 +154,7 @@ function buydetailInit(f7, view, page) {
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
                 const buyNum = parseInt($$('.user-buy-num').text()) - 1;
-                $$('.other-list-info>a[href="./views/buydetail.html?id='+id+'"]').remove();
+                $$('.other-list-info>a[href="./views/buydetail.html?id=' + id + '"]').remove();
                 $$('.user-buy-num').text(buyNum);
                 view.router.back()
             }
@@ -113,8 +166,10 @@ function buydetailInit(f7, view, page) {
             f7.showIndicator();
             customAjax.ajax({
                 apiCategory: 'demandInfo',
+                header: ['token'],
+                parameType: 'application/json',
                 api: 'deleteDemandInfo',
-                data: [id, token],
+                data: [id],
                 val: {
                     id
                 },
@@ -140,7 +195,7 @@ function buydetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
-    shareBtn.on('click', () => {
+    shareBtn.onclick = () => {
         let title = '';
         let messageTile = '';
         let html = '';
@@ -170,7 +225,7 @@ function buydetailInit(f7, view, page) {
         html += specifications ? `${'规格' + specifications}，` : '';
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
-    })
+    }
 
     $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
 }

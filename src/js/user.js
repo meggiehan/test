@@ -23,7 +23,8 @@ function userInit(f7, view, page) {
             const {
                 scanLink,
                 imgUrl,
-                nickname
+                nickname,
+                favoriteCount
             } = data.data || { scanLink: 'http://baidu.com' };
 
             //use qrcodejs create qr code on local.
@@ -54,7 +55,7 @@ function userInit(f7, view, page) {
             _userInfo['point'] && $$('.user-member-number').text(_userInfo['point']);
             $$('.user-name>i').addClass(`iconfont icon-v${_userInfo['level'] || 0}`);
             nickname && $$('.page-user .user-name>span').text(nickname);
-
+            favoriteCount && $$('.user-collection-num').text(favoriteCount);
             loginStatus = isLogin(uuid);
             loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
@@ -64,11 +65,12 @@ function userInit(f7, view, page) {
     if (loginStatus) {
         loginSucc(userInfomation, emptyFun);
         customAjax.ajax({
+            parameType: 'application/json',
             apiCategory: 'auth',
-            data: [userInfomation.token],
-            herder: ['login_token'],
+            // data: [userInfomation.token],
+            header: ['token'],
             type: 'get',
-            noCache: true,
+            // noCache: true,
         }, loginCallback);
     }
 
@@ -81,7 +83,25 @@ function userInit(f7, view, page) {
             })
             return;
         }
-        window.location.href = `${mWebUrl}user/member?id=${userInfomation['id']}`;
+        nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInfomation['id']}`);
+    }
+
+    currentPage.find('a.user-help-service')[0].onclick = () => {
+        nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
+    }
+
+    currentPage.find('.my-collection-list')[0].onclick = () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+            return;
+        }
+        mainView.router.load({
+            url: 'views/myCollection.html'
+        })
     }
 
     //if login succ, replace to change user info page, else replace to login page.

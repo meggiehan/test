@@ -14,7 +14,7 @@ class CustomClass {
     getKey(api, key, val) {
         let res = `${api}`;
         Dom7.each(key, (index, k) => {
-            const str = `_${k}_${val[index] || ''}`;
+            const str = `_${k}_${val && val[index] || ''}`;
             res += str;
         })
         return res;
@@ -56,6 +56,7 @@ class CustomClass {
     ajax(obj, callback) {
         const $$ = Dom7;
         const { api, data, apiCategory, type, isMandatory, noCache, val, header, parameType } = obj;
+
         const key = api ? config[apiCategory][api] : config[apiCategory];
         const { timeout, cacheUserinfoKey } = config;
         const saveKey = api in ['login', 'getUserInfo'] ? cacheUserinfoKey : this.getKey(api, key, data);
@@ -72,11 +73,7 @@ class CustomClass {
         }
 
         if (header) {
-            header.indexOf('token') > -1 && (headers['accessToken'] = nativeEvent['getUserValue']('token') || '');
-            if(header.indexOf('login_token') > -1){
-                headers['login_token'] = nativeEvent['getUserValue']('token') || '';
-                url += `?login_token=${nativeEvent['getUserValue']('token') || ''}`;
-            };
+            header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['accessToken'] = nativeEvent['getUserValue']() || '');
         }
 
         if (!noCache) {
@@ -84,6 +81,21 @@ class CustomClass {
             cacheData && !isMandatory && callback(cacheData);
         }
         const _this = this;
+
+        //Equipment in the absence of the network.
+        if(!nativeEvent['getNetworkStatus']()){
+            nativeEvent.nativeToast(0, '请检查您的网络！');
+            f7.pullToRefreshDone();
+            f7.hideIndicator();
+            return;
+        }
+
+        //Add device information to header.
+        const deviceInfo = nativeEvent['getDeviceInfomation']();
+        $$.each(deviceInfo, (key, val) => {
+            headers[key] = val;
+        })
+
         $$.ajax({
             type,
             url,
@@ -102,6 +114,10 @@ class CustomClass {
                 }
                 f7.pullToRefreshDone();
                 f7.hideIndicator();
+
+                if(url.indexOf('favorite/demandInfo/') > -1){
+                    callback(null, err);
+                }
                 // callback(null, err);
             },
             success: function(data, status) {
@@ -127,6 +143,7 @@ class CustomClass {
                         _this.ajax({
                             apiCategory: 'demandInfo',
                             api: 'userAddDemandInfo',
+                            header: ['token'],
                             data: newData,
                             type: 'post',
                             isMandatory: true,

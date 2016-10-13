@@ -1,10 +1,9 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import { trim, html, getProvinceId, getCityId } from '../utils/string';
+import { trim, html, getProvinceId, getCityId, getAddressIndex } from '../utils/string';
 import { search } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
-import district from '../utils/district';
 
 function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
@@ -26,6 +25,7 @@ function releaseInfoInit(f7, view, page) {
     const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
     const descriptInput = currentPage.find('textarea')[0];
     let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
+    let isSendInfo = false;
 
     if (window.addressObj) {
         longitude = window.addressObj['longitude'];
@@ -45,9 +45,17 @@ function releaseInfoInit(f7, view, page) {
     }
     html($$('.release-info-name'), title, f7);
 
-    addressInput.on('click',() => {
-        // get address.
-        nativeEvent.eventChooseAddress(0);
+    addressInput.on('click', () => {
+        if (window.addressObj && window.addressObj['initProvinceName']) {
+            const {
+                provinceIndex,
+                cityIndex
+            } = getAddressIndex(window.addressObj['initProvinceName'], window.addressObj['initCityName']);
+            nativeEvent.eventChooseAddress(0, provinceIndex, cityIndex);
+        }else{
+            // get address.
+            nativeEvent.eventChooseAddress(0, 0, 0);
+        }
     })
     phoneNumber && tellInput.val(phoneNumber);
     nickname && contactInput.val(nickname);
@@ -101,7 +109,7 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
-        const _district = nativeEvent['getDistricInfo']() || district;
+        const _district = nativeEvent['getDistricInfo']();
         if (window.addressObj) {
             provinceName = window.addressObj['provinceName'];
             cityName = window.addressObj['cityName'];
@@ -109,7 +117,7 @@ function releaseInfoInit(f7, view, page) {
             cityId = window.addressObj['cityId'];
             !provinceName && (provinceName = initProvinceName);
             !cityName && (cityName = initCityName);
-            !provinceId && (provinceId = getProvinceId(_district, provinceName));
+            !provinceId && provinceName && (provinceId = getProvinceId(_district, provinceName));
             !cityId && (cityId = getCityId(_district, provinceName, cityName));
         }
         const price = trim(priceInput[0].value);
@@ -153,8 +161,7 @@ function releaseInfoInit(f7, view, page) {
             cityId,
             provinceName,
             cityName,
-            contactName: name,
-            login_token: token
+            contactName: name
         }
     }
 
@@ -167,29 +174,22 @@ function releaseInfoInit(f7, view, page) {
             f7.alert(error);
             return;
         }
+
+        if(isSendInfo){
+            return;
+        }
+        isSendInfo = true;
+        setTimeout(() => {isSendInfo = false}, 300)
         f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'userAddDemandInfo',
+            header: ['token'],
             data: data,
             type: 'post',
             isMandatory: true,
             noCache: true
         }, callback);
-    }
-
-    if (ios) {
-        let isTouch = false;
-        $$('.release-info-content .page-content').on('touchstart', (e) => {
-            if (isTouch) {
-                return;
-            }
-            isTouch = true;
-            $$(this).find('input').blur();
-            setTimeout(() => {
-                isTouch = false;
-            }, 1500)
-        })
     }
 
 }

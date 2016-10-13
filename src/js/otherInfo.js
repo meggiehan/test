@@ -51,7 +51,7 @@ function otherInfoInit(f7, view, page) {
     }
 
     currentPage.find('.go-member-info')[0].onclick = () => {
-        window.location.href = `${mWebUrl}user/memberIntro`;
+        nativeEvent['goNewWindow'](`${mWebUrl}user/memberIntro`);
     }
     if (!userCache) {
         customAjax.ajax({

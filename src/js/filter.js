@@ -1,14 +1,13 @@
 import { trim, html, getTabStr } from '../utils/string';
 import { home, filter } from '../utils/template';
 import customAjax from '../middlewares/customAjax';
-import district from '../utils/district';
 import config from '../config';
 import { filterTabClick } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 
 
 function filterInit(f7, view, page) {
-    const _district = nativeEvent['getDistricInfo']() || district;
+    const _district = nativeEvent['getDistricInfo']();
     const { ios, android, androidChrome, osVersion } = window.currentDevice;
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');

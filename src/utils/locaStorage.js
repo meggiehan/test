@@ -24,5 +24,8 @@ module.exports = {
     },
     clear: () => {
         window.localStorage.clear();
+    },
+    getAll: () => {
+        return window.localStorage;
     }
 }
