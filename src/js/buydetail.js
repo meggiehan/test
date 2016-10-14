@@ -49,8 +49,10 @@ function buydetailInit(f7, view, page) {
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
                 imgUrl,
+                lastLoginTime,
                 level
             } = userInfo;
+            console.log()
             demandInfo_ = demandInfo;
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
@@ -79,7 +81,7 @@ function buydetailInit(f7, view, page) {
             html($$('.page-buydetail .user-name>span'), contactName || '匿名用户', f7);
             level && $$('.page-buydetail .user-name>i').addClass(`iconfont icon-v${level}`);
             html($$('.page-buydetail .user-tell>b'), requirementPhone, f7);
-            html($$('.page-buydetail .user-time'), centerShowTime(enterpriseAuthenticationTime), f7);
+            html($$('.page-buydetail .user-time'), centerShowTime(lastLoginTime), f7);
             1 == enterpriseAuthenticationState && $$('.buydetail-cert-info').addClass('company-identity').show();
             1 == personalAuthenticationState && $$('.buydetail-cert-info').addClass('individual-identity').show();
 

@@ -55,7 +55,7 @@ function selldetailInit(f7, view, page) {
                 imgUrl,
                 level
             } = userInfo;
-            demandInfo_ = demandInfo;
+            demandInfo_ = demandInfo;            
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
             currentPage.find('.selldetail-footer').removeClass('delete');

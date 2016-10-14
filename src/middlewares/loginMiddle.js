@@ -5,7 +5,7 @@ import nativeEvent from '../utils/nativeEvent';
 
 function isLogin(uuid) {
     const { cacheUserinfoKey } = config;
-    const nativeToken = nativeEvent.getUserValue("token") || uuid;
+    const nativeToken = nativeEvent.getUserValue() || uuid;
     let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
@@ -37,7 +37,7 @@ function logOut() {
 
 function activeLogout() {
     store.clear();
-    nativeEvent.setNativeUserInfo('token', '');
+    nativeEvent.setNativeUserInfo();
     mainView.router.load({
          url: 'views/user.html',
          reload: true

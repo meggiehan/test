@@ -42,7 +42,8 @@ function myCollectionInit(f7, view, page) {
         const { code } = data;
         f7.hideIndicator();
         if (code !== 1) {
-            f7.alert('请求过于频繁，请稍后再试！', '提示');
+            // f7.alert('请求过于频繁，请稍后再试！', '提示');
+            f7.pullToRefreshDone();
             return;
         }
         let otehrHtml = '';
