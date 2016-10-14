@@ -121,20 +121,6 @@ class CustomClass {
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                // const addData = {
-                //     create_time: '1472721207',
-                //     file_size: fileSize,
-                //     path,
-                //     state: 0,
-                //     user_id: id,
-                //     user_login_name: userInfo['phone']
-                // }
-                // if (id) {
-                //     $$('.fish-cert-list>div[data-parent-id="' + id + '"]').remove();
-                // } else {
-                //     $$('.user-verification-num').text(parseInt($$('.user-verification-num').text()) + 1);
-                // }
-                // $$('.page-fish-cert .fish-cert-list').prepend(fishCert.certList(addData));
                 mainView.router.refreshPage();
             } else {
                 f7.alert(message, '提示')
@@ -230,6 +216,10 @@ class CustomClass {
         })
     }
 
+    initLogout() {
+        store.clear();
+        window.mainView.router.refreshPage()
+    }
 
     init(f) {
         this.f7 = f;
@@ -246,6 +236,7 @@ class CustomClass {
         window['writeHistory'] = this.writeHistory;
         window['loginFail'] = this.loginFail;
         window['logout'] = this.logout;
+        window['initLogout'] = this.initLogout;
     }
 }
 

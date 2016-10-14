@@ -32,15 +32,16 @@ class CustomClass {
         const len = storage.length;
         let i = 1;
         let isDel = false;
+        const disableDeleteArr = [cacheUserinfoKey, cacheHistoryKey];
         if (len >= cacheMaxLen) {
             Dom7.each(storage, (key, value) => {
-                if (i === len - 1 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
+                if (i === len - 1 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
                     store.remove(key);
                     isDel = true;
-                } else if (i === len - 2 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
+                } else if (i === len - 2 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
                     store.remove(key);
                     isDel = true;
-                } else if (i === len - 3 && !isDel && (key !== cacheUserinfoKey || key !== cacheHistoryKey)) {
+                } else if (i === len - 3 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
                     store.remove(key);
                     isDel = true;
                 }
@@ -151,15 +152,13 @@ class CustomClass {
                         }, callback);
                     } else {
                         f7.hideIndicator();
-
-                        f7.alert(_data.message, '提示', () => {
-                            activeLogout();
-                        });
+                        f7.pullToRefreshDone();
+                        f7.alert(_data.message, '提示', activeLogout);
+                        return;
                     }
 
                 } else if (0 == _data.code) {
                     f7.hideIndicator();
-
                     f7.alert(_data.message, '提示');
                 }
                 if (!noCache) {

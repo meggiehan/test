@@ -3,36 +3,6 @@ div[data-page="myCollection"] {
         &:after {
             display: none;
         }
-        .my-collection-tab {
-            padding: 0rem 0.7rem 0.75rem;
-            overflow: hidden;
-            line-height: 2.5rem;
-            height: 3.25rem;
-            background: @themeColor;
-            z-index: 100;
-            a {
-                width: 50%;
-                float: left;
-                line-height: 2.5rem;
-                .text-center;
-                border: 1px solid @bg-fff;
-                box-sizing: border-box;
-                color: @text-fff;
-                .text-shadow(@themeColor);
-                &#tab1 {
-                    border-right: none;
-                    border-radius: 0.3rem 0 0 0.3rem;
-                }
-                &#tab1 {
-                    border-radius: 0 0.3rem 0.3rem 0;
-                }
-                &.active {
-                    background: @bg-fff;
-                    color: @themeColor;
-                    .text-shadow(@text-fff);
-                }
-            }
-        }
     }
     .collection-list-empty {
         padding-top: 6rem;
@@ -232,7 +202,21 @@ div[data-page="myCollection"] {
             }
         }
     }
-    .content-block {
-        margin: 2rem 0;
+    .swiper-wrapper {
+        .swiper-slide {
+            padding-top: 48px;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            .content-block {
+                // margin: 0;
+                padding: 0;
+                min-height: 100%;
+                .pull-to-refresh-content{
+                    min-height: 100%;
+                    background: @bg-fff;
+                    .text-shadow(@text-fff);
+                }
+            }
+        }
     }
 }

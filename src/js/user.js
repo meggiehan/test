@@ -48,7 +48,7 @@ function userInit(f7, view, page) {
             }
 
             let _userInfo = data.data || { point: 40, level: 3 };
-            _userInfo['token'] = userInfomation['token'];
+            _userInfo['token'] = nativeEvent['getUserValue']();
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
             $$('.user-tell-number').text(`手机号：${_userInfo['phone']}`);
@@ -57,13 +57,13 @@ function userInit(f7, view, page) {
             nickname && $$('.page-user .user-name>span').text(nickname);
             favoriteCount && $$('.user-collection-num').text(favoriteCount);
             loginStatus = isLogin(uuid);
-            loginSucc(userInfomation, userUtils.getBussesInfoCallback);
+            userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
             f7.alert(message);
         }
     }
     if (loginStatus) {
-        loginSucc(userInfomation, emptyFun);
+        userInfomation && loginSucc(userInfomation, emptyFun);
         customAjax.ajax({
             parameType: 'application/json',
             apiCategory: 'auth',

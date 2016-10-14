@@ -150,12 +150,13 @@ class CustomClass {
         ios ? JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
     }
 
-    setNativeUserInfo(key, val) {
+    setNativeUserInfo() {
+        //clear user info on native.
         const { ios, android } = window.currentDevice;
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
             return false;
         }
-        ios ? JS_PerferenceSetShared(key, val) : window.yudada.JS_PerferenceSetShared(key, val);
+        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared();
     }
 
     nativeGoBack(){

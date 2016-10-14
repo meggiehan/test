@@ -53,8 +53,6 @@ module.exports = {
             return;
         }
         var today = new Date();
-        var unixs = new Date((unix * 1000));
-
         var year = today.getFullYear();
         var month = today.getMonth() + 1;
         var day = today.getDate();
@@ -62,14 +60,7 @@ module.exports = {
         var min = today.getMinutes();
         var second = today.getSeconds();
 
-        var unixYear = unixs.getFullYear();
-        var unixMonth = parseInt(unixs.getMonth() + 1);
-        var unixday = unixs.getDate();
-        //console.log(unixs + "" +unixMonth + "**" + unixday);
-
-
         var todayZero = year + "/" + month + "/" + day;
-        //console.log(todayZero);
 
         var currentUnix = Date.parse(new Date(today)) / 1000; //当前时间戳
         var todayZeroUnix = Date.parse(new Date(todayZero)) / 1000; //当天凌晨时间戳
