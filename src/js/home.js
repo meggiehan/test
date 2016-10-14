@@ -9,6 +9,7 @@ import { getAll } from '../utils/locaStorage';
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const { pageSize } = config;
+    let catType = 2;
     if (getAll().length) {
         $$('.ajax-content').show();
         $$('.home-loading').hide();
@@ -17,7 +18,6 @@ function homeInit(f7, view, page) {
      *  When the type is equal to give a value.Execute the following method.
      */
     const callback = (data, err, type) => {
-        const catType = data.data.list[0]['type'];
         //cat sell list
         if (catType === 2) {
             let catListHtml = '';
@@ -39,6 +39,7 @@ function homeInit(f7, view, page) {
             html($$('.buy-list-foreach'), buyListHtml, f7);
         }
         if (data.data && data.data.list && catType === 2) {
+            catType = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
@@ -46,7 +47,6 @@ function homeInit(f7, view, page) {
                 type: 'get'
             }, callback);
         }
-
         //pull to refresh done.
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
@@ -65,6 +65,7 @@ function homeInit(f7, view, page) {
     // pull to refresh.
     const ptrContent = $$('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
+        catType = 2;
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',

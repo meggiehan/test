@@ -133,6 +133,7 @@ function otherIndexInit(f7, view, page) {
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
             data: [currentUserId, 3, 1, '', 1],
+            isMandatory: true,
             type: 'get',
             val: { id: 1 }
         }, buyListCallback);

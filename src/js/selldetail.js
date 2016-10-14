@@ -131,6 +131,7 @@ function selldetailInit(f7, view, page) {
             api: 'getDemandInfo',
             data: [id],
             header: ['token'],
+            isMandatory: true,
             val: {
                 id
             },

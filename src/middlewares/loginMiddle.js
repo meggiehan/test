@@ -6,6 +6,7 @@ import nativeEvent from '../utils/nativeEvent';
 function isLogin() {
     const { cacheUserinfoKey } = config;
     const nativeToken = nativeEvent.getUserValue();
+    console.log('islogin---', nativeToken);
     let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
@@ -57,11 +58,18 @@ function loginSucc(data, callback) {
         businessLicenseNo,
         loginName,
         provinceName,
-        cityName
+        point,
+        cityName,
+        level,
+        favoriteCount
     } = data;
     $$('.user-header').addClass('login-succ');
-    $$('.user-tell-number').text(`手机号：${loginName}`);
+    $$('.user-tell-number').text(`手机号：${loginName || ''}`);
     imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
+    favoriteCount && $$('.user-collection-num').text(favoriteCount);
+    nickname && $$('.page-user .user-name>span').text(nickname);
+    point && $$('.user-member-number').text(point);
+    $$('.user-name>i').addClass(`iconfont icon-v${level || 0}`);
     callback(data);
 }
 

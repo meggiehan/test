@@ -160,6 +160,7 @@ class CustomClass {
         }
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
+        console.log('getKey----', token);
         window.mainView.router.load({
             url: 'views/user.html',
             animatePage: true

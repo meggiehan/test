@@ -50,7 +50,7 @@ function userInit(f7, view, page) {
             _userInfo['token'] = nativeEvent['getUserValue']();
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
-            $$('.user-tell-number').text(`手机号：${_userInfo['phone']}`);
+            $$('.user-tell-number').text(`手机号：${_userInfo['phone' || '']}`);
             _userInfo['point'] && $$('.user-member-number').text(_userInfo['point']);
             $$('.user-name>i').addClass(`iconfont icon-v${_userInfo['level'] || 0}`);
             nickname && $$('.page-user .user-name>span').text(nickname);
@@ -61,7 +61,11 @@ function userInit(f7, view, page) {
         }
     }
     if (loginStatus) {
-        userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
+        if (userInfomation) {
+            setTimeout(() => {
+                loginSucc(userInfomation, userUtils.getBussesInfoCallback)
+            }, 0);
+        }
         customAjax.ajax({
             // parameType: 'application/json',
             apiCategory: 'auth',
