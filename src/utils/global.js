@@ -160,8 +160,9 @@ class CustomClass {
         }
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
+        console.log('getKey----', token);
         window.mainView.router.load({
-            url: 'views/user.html?uuid=' + token,
+            url: 'views/user.html',
             animatePage: true
         })
     }
@@ -218,7 +219,7 @@ class CustomClass {
 
     initLogout() {
         store.clear();
-        window.mainView.router.refreshPage()
+        window.mainView.router.refreshPage();
     }
 
     init(f) {

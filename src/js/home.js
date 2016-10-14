@@ -47,7 +47,6 @@ function homeInit(f7, view, page) {
                 type: 'get'
             }, callback);
         }
-
         //pull to refresh done.
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
