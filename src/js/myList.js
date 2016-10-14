@@ -71,7 +71,8 @@ function myListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [id, pageSize, pageNo, token, type],
+        header: ['token'],
+        data: [id, pageSize, pageNo, type],
         type: 'get'
     }, callback);
 
@@ -89,8 +90,9 @@ function myListInit(f7, view, page) {
         pageNo++;
         customAjax.ajax({
             apiCategory: 'demandInfo',
+            header: ['token'],
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, token, type],
+            data: [id, pageSize, pageNo, type],
             type: 'get',
             noCache: true
         }, callback);
@@ -106,8 +108,9 @@ function myListInit(f7, view, page) {
         isInfinite = false;
         customAjax.ajax({
             apiCategory: 'demandInfo',
+            header: ['token'],
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, token, type],
+            data: [id, pageSize, pageNo, type],
             type: 'get',
             noCache: true
         }, callback);

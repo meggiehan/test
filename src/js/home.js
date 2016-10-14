@@ -4,17 +4,19 @@ import { home } from '../utils/template';
 import { html } from '../utils/string';
 import { goUser } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-
+import { getAll } from '../utils/locaStorage';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const { pageSize } = config;
     let catType = 2;
-
+    if (getAll().length) {
+        $$('.ajax-content').show();
+        $$('.home-loading').hide();
+    }
     /*
      *  When the type is equal to give a value.Execute the following method.
      */
-
     const callback = (data, err, type) => {
         //cat sell list
         if (catType === 2) {
@@ -29,14 +31,14 @@ function homeInit(f7, view, page) {
         }
         //cat buy list
         if (catType === 1) {
-            let butListHtml = '';
+            let buyListHtml = '';
             $$.each(data.data.list, (index, item) => {
-                butListHtml += home.buy(item);
+                buyListHtml += home.buy(item);
             })
 
-            html($$('.buy-list-foreach'), butListHtml, f7);
+            html($$('.buy-list-foreach'), buyListHtml, f7);
         }
-        if (data.data && data.data.list && type && catType === 2) {
+        if (data.data && data.data.list && catType === 2) {
             catType = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
@@ -45,7 +47,6 @@ function homeInit(f7, view, page) {
                 type: 'get'
             }, callback);
         }
-
         //pull to refresh done.
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
@@ -74,8 +75,6 @@ function homeInit(f7, view, page) {
         }, callback);
     })
 
-
-    //js location to other page
     //go home page;
     $$('.href-go-user').off('click', goUser).on('click', goUser);
     $$('.home-search-mask').on('click', () => {

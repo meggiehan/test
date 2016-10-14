@@ -38,10 +38,19 @@
             </a>
             <a class="row my-buy-list">
                 <div class="col-15 iconfont icon-me-qiugou"></div>
-                <div class="col-85 row" onclick="apiCount('btn_mypurchase')">
+                <div class="col-85 row first" onclick="apiCount('btn_mypurchase')">
                     <div class="col-60">我的求购</div>
                     <div class="col-40 iconfont icon-right">
                         <span class="user-buy-num">0</span>个
+                    </div>
+                </div>
+            </a>
+            <a class="row my-collection-list">
+                <div class="col-15 iconfont icon-collection-active"></div>
+                <div class="col-85 row" onclick="apiCount('btn_mypurchase')">
+                    <div class="col-60">收藏夹</div>
+                    <div class="col-40 iconfont icon-right">
+                        <span class="user-collection-num">0</span>个
                     </div>
                 </div>
             </a>
@@ -95,7 +104,7 @@
                     <div class="col-40 iconfont icon-right">18115381185</div>
                 </div>
             </a>
-            <a class="row external" href="http://m.yudada.com/helpCenter.html">
+            <a class="row external user-help-service">
                 <div class="col-15 iconfont icon-info"></div>
                 <div class="col-85 row" onclick="apiCount('btn_help')">
                     <div class="col-60">帮助中心</div>

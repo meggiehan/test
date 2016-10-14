@@ -254,25 +254,52 @@
         // .box-shadow-top(@bg-666);
         background: @bg-fff;
         .text-shadow(@text-fff);
-        line-height: 5rem;
+        line-height: 4rem;
+        padding: 0.5rem;
         .text-center;
         color: @text-price;
         .col-40 {
             width: 40%;
-        }
-        .col-30 {
-            line-height: 2rem;
             background: @themeColor;
             color: @text-fff;
             .text-shadow(@themeColor);
             height: 100%;
+            border-radius: 0.3rem;
+        }
+        .col-30 {
+            line-height: 2rem;
+            height: 100%;
             width: 30%;
-            border-left: 1px solid @text-fff;
+            font-size: 1.2rem;
+            color: @text-category;
+            &.icon-share{
+                border-right: 1px solid @border-da;
+            }
             &:before {
                 display: block;
+                font-size: 1.8rem;
                 line-height: 2rem;
-                padding-top: 0.5rem;
             }
+            &.icon-collection-btn:before{
+                font-size: 2rem;
+            }
+            &.icon-collection-active:before{
+                color: @bg-collection;
+            }
+        }
+        .col-60{
+            width: 60%;
+            .text-hidden;
+            font-size: 1.4rem;
+            &:before{
+                font-size: 1.8rem;
+                margin-right: 0.3rem;
+                vertical-align: top;
+            }
+            &.icon-review{
+                color: @text-verify-review;
+            }
+            display: none;
         }
     }
 }
@@ -341,7 +368,6 @@
         }
         &.delete {
             &>div {
-                width: 50%;
                 &.selldetail-call-phone,
                 .icon-share {
                     display: none;
@@ -349,6 +375,26 @@
                 &.selldetail-delete-info {
                     background: @text-chushou;
                     .text-shadow(@text-chushou);
+                    display: block;
+                }
+            }
+        }
+        &.review{
+            &>div {
+                &.col-30{
+                    display: none;
+                }
+                &.icon-review{
+                    display: block;
+                }
+            }
+        }
+        &.verify{
+            &>div {
+                &.col-30{
+                    display: none;
+                }
+                &.icon-verify-faild{
                     display: block;
                 }
             }

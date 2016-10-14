@@ -8,8 +8,7 @@ import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIde
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    const { uuid } = page.query;
-    let loginStatus = isLogin(uuid);
+    let loginStatus = isLogin();
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
     let userInfomation = store.get(cacheUserinfoKey);
@@ -23,7 +22,8 @@ function userInit(f7, view, page) {
             const {
                 scanLink,
                 imgUrl,
-                nickname
+                nickname,
+                favoriteCount
             } = data.data || { scanLink: 'http://baidu.com' };
 
             //use qrcodejs create qr code on local.
@@ -47,28 +47,32 @@ function userInit(f7, view, page) {
             }
 
             let _userInfo = data.data || { point: 40, level: 3 };
-            _userInfo['token'] = userInfomation['token'];
+            _userInfo['token'] = nativeEvent['getUserValue']();
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
-            $$('.user-tell-number').text(`手机号：${_userInfo['phone']}`);
+            $$('.user-tell-number').text(`手机号：${_userInfo['phone' || '']}`);
             _userInfo['point'] && $$('.user-member-number').text(_userInfo['point']);
             $$('.user-name>i').addClass(`iconfont icon-v${_userInfo['level'] || 0}`);
             nickname && $$('.page-user .user-name>span').text(nickname);
-
-            loginStatus = isLogin(uuid);
-            loginSucc(userInfomation, userUtils.getBussesInfoCallback);
+            favoriteCount && $$('.user-collection-num').text(favoriteCount);
+            userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
             f7.alert(message);
         }
     }
     if (loginStatus) {
-        loginSucc(userInfomation, emptyFun);
+        if (userInfomation) {
+            setTimeout(() => {
+                loginSucc(userInfomation, userUtils.getBussesInfoCallback)
+            }, 0);
+        }
         customAjax.ajax({
+            // parameType: 'application/json',
             apiCategory: 'auth',
-            data: [userInfomation.token],
-            herder: ['login_token'],
+            // data: [userInfomation.token],
+            header: ['token'],
             type: 'get',
-            noCache: true,
+            isMandatory: true,
         }, loginCallback);
     }
 
@@ -81,7 +85,25 @@ function userInit(f7, view, page) {
             })
             return;
         }
-        window.location.href = `${mWebUrl}user/member?id=${userInfomation['id']}`;
+        nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInfomation['id']}`);
+    }
+
+    currentPage.find('a.user-help-service')[0].onclick = () => {
+        nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
+    }
+
+    currentPage.find('.my-collection-list')[0].onclick = () => {
+        if (!isLogin()) {
+            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
+                mainView.router.load({
+                    url: 'views/login.html',
+                })
+            })
+            return;
+        }
+        mainView.router.load({
+            url: 'views/myCollection.html'
+        })
     }
 
     //if login succ, replace to change user info page, else replace to login page.

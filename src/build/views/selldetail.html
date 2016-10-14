@@ -12,9 +12,11 @@
     </div>
 </div>
 <div class="page swipeback page-selldetail" data-page="selldetail">
-    <div class="page-content">
-        <div class="sell-detail-in-review iconfont icon-review">正在审核中，请稍后</div>
-        <div class="sell-detail-verify-faild iconfont icon-verify-faild icon-go" onclick="apiCount('btn_rejectReason')">审核不通过，点击查看原因</div>
+    <div class="page-content pull-to-refresh-content sell-detail-refresh">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
         <div class="selldetail-info">
             <div class="row first">
                 <div class="col-25"><img src="img/app_icon_108.png" class="lazy"></div>
@@ -77,9 +79,11 @@
         </div>
     </div>
     <div class="toolbar tabbar row selldetail-footer">
-        <div class="col-40 tabbar-price"></div>
-        <div class="col-30 iconfont icon-call selldetail-call-phone" onclick="apiCount('btn_call')">电话联系</div>
-        <div class="col-30 iconfont icon-delete selldetail-delete-info" onclick="apiCount('btn_delete')">删除</div>
-        <div class="col-30 iconfont icon-share" onclick="apiCount('btn_share')">告诉朋友</div>
+        <div class="col-60 iconfont icon-review sell-detail-in-review">正在审核中，请稍后</div>
+        <div class="col-60 iconfont icon-verify-faild sell-detail-verify-faild" onclick="apiCount('btn_rejectReason')">审核不通过，点击查看原因</div>
+        <div class="col-30 iconfont icon-share" onclick="apiCount('btn_share')">分享给好友</div>
+        <div class="col-30 iconfont icon-collection icon-collection-btn" onclick="apiCount('btn_favorite')">收藏</div>
+        <div class="col-40 selldetail-call-phone" onclick="apiCount('btn_call')">电话联系</div>
+        <div class="col-40 selldetail-delete-info" onclick="apiCount('btn_delete')">删除</div>
     </div>
 </div>

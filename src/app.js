@@ -28,6 +28,7 @@ import { editNameInit } from './js/editName';
 import { inviteCodeInit } from './js/inviteCode';
 import {inviteFriendsInit} from './js/inviteFriends';
 import {inviteFriendsListInit} from './js/inviteFriendsList';
+import {myCollectionInit} from './js/myCollection';
 
 
 
@@ -188,4 +189,5 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'inviteCode' && inviteCodeInit(f7, mainView, page);
     page.name === 'inviteFriends' && inviteFriendsInit(f7, mainView, page);
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
+    page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
 });

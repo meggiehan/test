@@ -34,9 +34,8 @@ function inviteFriendsListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'invite',
         api: 'users',
-        data: [],
-        data: [nativeEvent['getUserValue']('token'), '', ''],
-        // header: ['token'],
+        data: ['', ''],
+        header: ['token'],
         // parameType: 'application/json',
         type: 'get',
         noCache: true,

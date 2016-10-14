@@ -11,20 +11,24 @@
     </div>
 </div>
 <div class="page swipeback page-other-index" data-page="otherIndex">
-    <div class="page-content">
+    <div class="page-content pull-to-refresh-content other-index-refresh">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
         <div class="user-header list-block media-list">
             <div class="item-link item-content">
                 <div class="user-pic item-media">
                     <img src="img/defimg.png" width="60" class="lazy" />
                 </div>
                 <div class="item-inner">
-                    <div class="row"  onclick="apiCount('cell_profile_profile')">
+                    <div class="row" onclick="apiCount('cell_profile_profile')">
                         <div class="other-user-info col-90">
                             <p class="other-user-name">
                                 <span class="name">匿名用户</span>
                                 <i></i>
                             </p>
-                            <p class="user-lately-time"></p>    
+                            <p class="user-lately-time"></p>
                             <div class="other-index-cert-info">
                                 <span class="iconfont icon-auto-end individual">个人认证</span>
                                 <span class="iconfont icon-auto-end company">企业认证</span>

@@ -50,7 +50,7 @@ module.exports = {
 			})
 		]
 	},
-	// devtool: 'eval',
+	// devtool: 'source-map',
 	// devServer: {
 	// 	contentBase,
 	// 	port: env.hot_server_port,

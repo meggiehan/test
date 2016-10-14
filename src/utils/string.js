@@ -1,3 +1,5 @@
+import nativeEvent from './nativeEvent';
+
 module.exports = {
     trim: (str) => {
         if (!str) {
@@ -141,6 +143,30 @@ module.exports = {
             text,
             classes,
             certName
+        }
+    },
+
+    getAddressIndex(provinceName, cityName){
+        const district = nativeEvent['getDistricInfo']();
+        let provinceIndex, cityIndex, currentProvince; 
+        $$.each(district['root']['province'], (index, item) => {
+            if(item['name'] == provinceName){
+                provinceIndex = index;
+                currentProvince = item;
+                return;
+            }
+        })
+        currentProvince && currentProvince['city'] && $$.each(currentProvince['city'], (index, item) => {
+            if(item['name'] == cityName){
+                cityIndex = index;
+                return;
+            }
+        })
+        !provinceIndex && (provinceIndex = 0);
+        !cityIndex && (cityIndex = 0);
+        return {
+            provinceIndex,
+            cityIndex
         }
     }
 

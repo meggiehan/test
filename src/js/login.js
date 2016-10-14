@@ -42,11 +42,13 @@ function loginInit(f7, view, page) {
     const callback = (data) => {
         isSend = false;
         nextBtn.className += ' on';
-        f7.hideIndicator();
         if (data.code == 1) {
             view.router.load({
                 url: 'views/loginCode.html' + `?phone=${input.value}&key=${data.data}`
             })
+        }else{
+            f7.hideIndicator();
+            f7.alert('验证码发送频繁，请稍后再试！', '提示');
         }
     };
 

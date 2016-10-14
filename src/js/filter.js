@@ -1,14 +1,13 @@
 import { trim, html, getTabStr } from '../utils/string';
 import { home, filter } from '../utils/template';
 import customAjax from '../middlewares/customAjax';
-import district from '../utils/district';
 import config from '../config';
 import { filterTabClick } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 
 
 function filterInit(f7, view, page) {
-    const _district = nativeEvent['getDistricInfo']() || district;
+    const _district = nativeEvent['getDistricInfo']();
     const { ios, android, androidChrome, osVersion } = window.currentDevice;
     const { keyvalue, release, type, id, cityId, search } = page.query;
     const searchBtn = $$('.filter-searchbar input');
@@ -197,9 +196,9 @@ function filterInit(f7, view, page) {
     if (!release) {
 
         // sell or buy active; default type = 1
-        const type_ = _type == 2 ? 0 : 1;
-        $$('.filter-info-type>p').eq(type_).addClass('active-ele');
-        if (type_ == 1) {
+        const eleIndex = _type == 2 ? 0 : 1;
+        $$('.filter-info-type>p').eq(eleIndex).addClass('active-ele');
+        if (_type == 1) {
             $$('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
             $$('.filter-tab-title').eq(2).find('span').text('求购');
             $$('.page-filter .tabbat-text span').text('我要买鱼');
@@ -224,31 +223,32 @@ function filterInit(f7, view, page) {
         html($$('.filter-district>.col-65'), '<span class="active-ele" data-postcode="">全国</span>', f7);
         //child district render
         $$('.filter-district>.col-35').on('click', (e) => {
-                const event = e || window.event;
-                const ele = e.target;
-                if (ele.tagName !== 'SPAN') {
-                    return;
-                }
-                const postcode = ele.getAttribute('data-postcode');
-                $$('.filter-district span').removeClass('active-ele');
-                ele.className = 'active-ele';
-                let districtHtml = '';
-                if (postcode !== '0') {
-                    districtHtml += `<span data-postcode="${postcode}" class="${currentCityId == postcode && 'active-ele'}">全${ele.innerText}</span>`;
-                    $$.each(_district.root.province, (index, item) => {
-                        if (item.postcode === postcode) {
-                            $$.each(item.city, (index_, districtItem) => {
-                                const select = districtItem.postcode == currentCityId ? 'active-ele' : '';
-                                districtHtml += filter.districtRender(districtItem, select);
-                            })
-                        }
-                    })
-                } else {
-                    districtHtml += `<span data-postcode="">${ele.innerText}</span>`;
-                }
-                html($$('.filter-district>.col-65'), districtHtml, f7);
-            })
-            //change release type;
+            const event = e || window.event;
+            const ele = e.target;
+            if (ele.tagName !== 'SPAN') {
+                return;
+            }
+            const postcode = ele.getAttribute('data-postcode');
+            $$('.filter-district span').removeClass('active-ele');
+            ele.className = 'active-ele';
+            let districtHtml = '';
+            if (postcode !== '0') {
+                districtHtml += `<span data-postcode="${postcode}" class="${currentCityId == postcode && 'active-ele'}">全${ele.innerText}</span>`;
+                $$.each(_district.root.province, (index, item) => {
+                    if (item.postcode === postcode) {
+                        $$.each(item.city, (index_, districtItem) => {
+                            const select = districtItem.postcode == currentCityId ? 'active-ele' : '';
+                            districtHtml += filter.districtRender(districtItem, select);
+                        })
+                    }
+                })
+            } else {
+                districtHtml += `<span data-postcode="">${ele.innerText}</span>`;
+            }
+            html($$('.filter-district>.col-65'), districtHtml, f7);
+        })
+
+        //change release type;
         $$('.filter-info-type').on('click', (e) => {
             isShowAll = false;
             tabChange = true;
@@ -263,8 +263,8 @@ function filterInit(f7, view, page) {
                 ele.className += ' active-ele';
                 const type_ = ele.getAttribute('data-type');
                 const tabText = type_ == 1 ? '求购' : '出售';
-                _type = _type == 2 ? 1 : 2;
-                html($$('.filter-need-release span'), type_ == 1 ? '我要买鱼' : '我要卖鱼', f7);
+                _type = type_;
+                html($$('.filter-need-release span'), _type == 1 ? '我要买鱼' : '我要卖鱼', f7);
                 pageNo = 1;
                 isInfinite = false;
                 html($$('.filter-tab>.tab3>span'), tabText, f7)
