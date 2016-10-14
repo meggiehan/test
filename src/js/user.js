@@ -8,8 +8,7 @@ import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIde
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    const { uuid } = page.query;
-    let loginStatus = isLogin(uuid);
+    let loginStatus = isLogin();
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
     let userInfomation = store.get(cacheUserinfoKey);
@@ -56,21 +55,20 @@ function userInit(f7, view, page) {
             $$('.user-name>i').addClass(`iconfont icon-v${_userInfo['level'] || 0}`);
             nickname && $$('.page-user .user-name>span').text(nickname);
             favoriteCount && $$('.user-collection-num').text(favoriteCount);
-            loginStatus = isLogin(uuid);
             userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
             f7.alert(message);
         }
     }
     if (loginStatus) {
-        userInfomation && loginSucc(userInfomation, emptyFun);
+        userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         customAjax.ajax({
-            parameType: 'application/json',
+            // parameType: 'application/json',
             apiCategory: 'auth',
             // data: [userInfomation.token],
             header: ['token'],
             type: 'get',
-            // noCache: true,
+            isMandatory: true,
         }, loginCallback);
     }
 
