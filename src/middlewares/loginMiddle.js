@@ -6,7 +6,6 @@ import nativeEvent from '../utils/nativeEvent';
 function isLogin() {
     const { cacheUserinfoKey } = config;
     const nativeToken = nativeEvent.getUserValue();
-    console.log('islogin---', nativeToken);
     let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
