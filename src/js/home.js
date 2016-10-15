@@ -20,6 +20,9 @@ function homeInit(f7, view, page) {
     const callback = (data, err, type) => {
         //cat sell list
         if (catType === 2) {
+            if(data.data.list[0]['type'] !== 2){
+                return;
+            }
             let catListHtml = '';
             $$.each(data.data.list, (index, item) => {
                 catListHtml += home.cat(item);
@@ -31,6 +34,9 @@ function homeInit(f7, view, page) {
         }
         //cat buy list
         if (catType === 1) {
+            if(data.data.list[0]['type'] !== 1){
+                return;
+            }
             let buyListHtml = '';
             $$.each(data.data.list, (index, item) => {
                 buyListHtml += home.buy(item);

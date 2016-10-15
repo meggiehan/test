@@ -86,14 +86,14 @@ module.exports = {
     goHome: () => {
         mainView.router.load({
             url: 'views/home.html',
-            animatePages: false
+            reload: true
         })
     },
 
     goUser: () => {
         mainView.router.load({
             url: 'views/user.html',
-            animatePages: false
+            reload: true
         })
     },
     goMyCenter: () => {
