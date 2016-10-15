@@ -74,7 +74,7 @@ function userInit(f7, view, page) {
             currentPage.css({
                 borderBottom: '1px solid #efeff4'
             })
-        }, 800)
+        }, 1000)
     }
 
     currentPage.find('a.user-member')[0].onclick = () => {
