@@ -8,7 +8,8 @@ import { goHome, goMyCenter, myListBuy, myListSell, uploadCert, contactUs, goIde
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    let loginStatus = isLogin();
+    const { uuid, logout } = page.query;
+    let loginStatus = logout ? false : isLogin(uuid);
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
     let userInfomation = store.get(cacheUserinfoKey);
@@ -45,16 +46,10 @@ function userInit(f7, view, page) {
             if (!$$('.picker-invite-head-img').attr('src')) {
                 $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
             }
-
             let _userInfo = data.data || { point: 40, level: 3 };
             _userInfo['token'] = nativeEvent['getUserValue']();
             store.set(cacheUserinfoKey, _userInfo);
             userInfomation = _userInfo;
-            $$('.user-tell-number').text(`手机号：${_userInfo['phone' || '']}`);
-            _userInfo['point'] && $$('.user-member-number').text(_userInfo['point']);
-            $$('.user-name>i').addClass(`iconfont icon-v${_userInfo['level'] || 0}`);
-            nickname && $$('.page-user .user-name>span').text(nickname);
-            favoriteCount && $$('.user-collection-num').text(favoriteCount);
             userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
             f7.alert(message);
