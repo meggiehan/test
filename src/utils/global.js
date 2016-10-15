@@ -53,7 +53,7 @@ class CustomClass {
         if (!window['addressObj']) {
             window['addressObj'] = {};
         }
-        if(!window['selectedAddress']){
+        if (!window['selectedAddress']) {
             window['selectedAddress'] = {};
         }
         const releaseAddressBtn = $$('.release-write-address>input');
@@ -152,17 +152,16 @@ class CustomClass {
 
     getKey(token, userId, state, status) {
         /*
-        *   status == '0': user fisrt login.
-        *   status == '1': user many login.
-        */ 
+         *   status == '0': user fisrt login.
+         *   status == '1': user many login.
+         */
         if (!Number(state)) {
             return;
         }
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
-        console.log('getKey----', token);
         window.mainView.router.load({
-            url: 'views/user.html',
+            url: `views/user.html?uuid=${token}`,
             animatePage: true
         })
     }
@@ -212,13 +211,22 @@ class CustomClass {
     logout() {
         store.clear();
         window.mainView.router.load({
-            url: 'views/user.html',
+            url: `views/user.html?logout=true`,
+            animatePages: false,
             reload: true
         })
     }
 
     initLogout() {
         store.clear();
+        if (window.location.hash.indexOf('user.html') > -1) {
+            window.mainView.router.load({
+                url: 'views/user.html',
+                animatePages: false,
+                reload: true
+            })
+            return;
+        }
         window.mainView.router.refreshPage();
     }
 
