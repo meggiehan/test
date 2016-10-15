@@ -69,6 +69,12 @@ function userInit(f7, view, page) {
             type: 'get',
             isMandatory: true,
         }, loginCallback);
+    } else {
+        setTimeout(() => {
+            currentPage.css({
+                borderBottom: '1px solid #efeff4'
+            })
+        }, 500)
     }
 
     currentPage.find('a.user-member')[0].onclick = () => {
