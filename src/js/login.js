@@ -3,13 +3,14 @@ import customAjax from '../middlewares/customAjax';
 function loginInit(f7, view, page) {
     const { phone } = page.query;
     f7.hideIndicator();
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const domIndex = $$('.login-phone>input').length - 1;
-    const input = $$('.login-phone>input')[domIndex];
-    const nextBtn = $$('.login-next>a')[domIndex];
+    const input = currentPage.find('.login-phone').children('input')[0];
+    const nextBtn = currentPage.find('.login-next').children('a')[0];
     let isPass = false;
     let isSend = false;
     setTimeout(() => {
-        $$('.login-phone-number input').focus();
+        currentPage.find('.login-phone').children('input').focus();
     }, 400);
 
     const inputChange = () => {

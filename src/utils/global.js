@@ -155,9 +155,6 @@ class CustomClass {
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
          */
-        if (!Number(state)) {
-            return;
-        }
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         window.mainView.router.load({
@@ -230,6 +227,17 @@ class CustomClass {
         window.mainView.router.refreshPage();
     }
 
+    jsBack() {
+        const hash = window.location.hash;
+        if (hash && (hash.indexOf('home.html') > -1 || hash.indexOf('user.html') > -1)) {
+            const { ios, android } = window.currentDevice;
+            ios && JS_ExitProcess();
+            android && window.yudada.JS_ExitProcess();
+        } else {
+            mainView.router.back();
+        }
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -246,6 +254,7 @@ class CustomClass {
         window['loginFail'] = this.loginFail;
         window['logout'] = this.logout;
         window['initLogout'] = this.initLogout;
+        window['jsBack'] = this.jsBack;
     }
 }
 

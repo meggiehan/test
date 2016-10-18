@@ -6,22 +6,12 @@ import nativeEvent from '../utils/nativeEvent';
 function isLogin(uuid) {
     const { cacheUserinfoKey } = config;
     const nativeToken = nativeEvent.getUserValue() || uuid;
-    let userInfo = store.get(cacheUserinfoKey);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
         return false;
-    } else {
-        if (!userInfo) {
-            userInfo = {
-                token: nativeToken
-            }
-        } else {
-            userInfo['token'] = nativeToken;
-        }
-        store.set(cacheUserinfoKey, userInfo);
+    } else{
         return true;
     }
-
 }
 
 function logOut() {

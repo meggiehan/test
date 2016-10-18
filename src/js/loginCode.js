@@ -8,11 +8,12 @@ function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
     const { phone } = page.query;
     let keyCode = page.query['key'];
-    const { cacheUserinfoKey, voiceCodeWaitTime } = config;
+    const { cacheUserinfoKey, voiceCodeWaitTime, mWebUrl } = config;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const domIndex = $$('.login-code-write>input').length - 1;
-    const input = $$('.login-code-write>input')[domIndex];
-    const vioceBtn = $$('.login-code-voice')[domIndex];
-    const subBtn = $$('.login-code-submit')[domIndex];
+    const input = currentPage.find('.login-code-write').children('input')[0];
+    const vioceBtn = currentPage.find('.login-code-voice')[0];
+    const subBtn = currentPage.find('.login-code-submit')[0];
     let isPass = false;
     let isSend = false;
     let isCountDown = false;
@@ -97,9 +98,9 @@ function loginCodeInit(f7, view, page) {
     }
 
     //go to agreement of yudada.
-    $$('.user-protocol>a').click(() => {
+    currentPage.find('.user-protocol').children('a')[0].onclick = () => {
         nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
-    })
+    }
 
 }
 

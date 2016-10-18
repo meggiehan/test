@@ -104,7 +104,7 @@ class CustomClass {
             return false;
         }
         ios && JS_SetUserInfo(obj);
-        android && window.yudada.JS_Login(obj.tele, obj.pass, null);
+        android && window.yudada.JS_Login(obj.tele, obj.pass);
     }
 
     getUserValue() {

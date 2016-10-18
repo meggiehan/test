@@ -16,16 +16,14 @@ function userInit(f7, view, page) {
     const emptyFun = () => {
         return;
     }
-    const loginCallback = (data) => {
-        f7.hideIndicator();
-        const { code, message } = data;
-        if (code == 1) {
+
+    const qrCodeFun = (data) => {
             const {
                 scanLink,
                 imgUrl,
                 nickname,
                 favoriteCount
-            } = data.data || { scanLink: 'http://baidu.com' };
+            } = data || { scanLink: 'http://baidu.com' };
 
             //use qrcodejs create qr code on local.
             if (!$$('.picker-invite-code-content>img').length) {
@@ -43,9 +41,22 @@ function userInit(f7, view, page) {
 
             }
 
-            if (!$$('.picker-invite-head-img').attr('src')) {
+            if (imgUrl) {
                 $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
             }
+    }
+
+    const loginCallback = (data) => {
+        f7.hideIndicator();
+        const { code, message } = data;
+        if (code == 1) {
+            const {
+                scanLink,
+                imgUrl,
+                nickname,
+                favoriteCount
+            } = data.data || { scanLink: 'http://baidu.com' };
+            qrCodeFun(data.data);
             let _userInfo = data.data || { point: 40, level: 3 };
             _userInfo['token'] = nativeEvent['getUserValue']();
             store.set(cacheUserinfoKey, _userInfo);
@@ -57,9 +68,10 @@ function userInit(f7, view, page) {
     }
     if (loginStatus) {
         if (userInfomation) {
+            loginSucc(userInfomation, userUtils.getBussesInfoCallback);
             setTimeout(() => {
-                loginSucc(userInfomation, userUtils.getBussesInfoCallback)
-            }, 0);
+                qrCodeFun(userInfomation);
+            }, 0)
         }
         customAjax.ajax({
             // parameType: 'application/json',
