@@ -69,13 +69,14 @@ function otherIndexInit(f7, view, page) {
 
         $$('img.lazy').trigger('lazy');
         f7.hideIndicator();
+        f7.pullToRefreshDone();
     }
 
     //get user sell demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, 3, 1, '', 2],
+        data: [currentUserId, 3, 1, 2],
         type: 'get',
         val: { id: 1 }
     }, sellListCallback);
@@ -98,6 +99,7 @@ function otherIndexInit(f7, view, page) {
         buyHtml ? currentPage.find('.other-index-list').addClass('show-buy-list') : currentPage.find('.other-index-list').removeClass('show-buy-list');
 
         $$('img.lazy').trigger('lazy');
+        f7.hideIndicator();
         f7.pullToRefreshDone();
     }
 
@@ -105,7 +107,7 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, 3, 1, '', 1],
+        data: [currentUserId, 3, 1, 1],
         type: 'get',
         val: { id: 1 }
     }, buyListCallback);
@@ -124,7 +126,8 @@ function otherIndexInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [currentUserId, 3, 1, '', 2],
+            data: [currentUserId, 3, 1, 2],
+            isMandatory: true,
             type: 'get',
             val: { id: 1 }
         }, sellListCallback);
@@ -132,7 +135,7 @@ function otherIndexInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [currentUserId, 3, 1, '', 1],
+            data: [currentUserId, 3, 1, 1],
             isMandatory: true,
             type: 'get',
             val: { id: 1 }
@@ -159,7 +162,7 @@ function otherIndexInit(f7, view, page) {
     }
 
     //call to other user.
-    currentPage.find('.other-footer-call')[0].onlcick = () => {
+    currentPage.find('.other-footer-call')[0].onclick = () => {
         nativeEvent.contactUs(callNumber);
     }
 

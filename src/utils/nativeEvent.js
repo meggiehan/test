@@ -20,8 +20,8 @@ class CustomClass {
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])) {
             return false;
         }
-        ios && JS_MakeCall(phone);
-        android && window.yudada.JS_MakeCall(phone);
+        ios && JS_MakeCall(phone.toString());
+        android && window.yudada.JS_MakeCall(phone.toString());
     }
 
     //choose address

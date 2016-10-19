@@ -70,7 +70,7 @@ function otherListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [id, pageSize, pageNo, '', type],
+        data: [id, pageSize, pageNo, type],
         type: 'get',
         val: { id: 1 }
     }, callback);
@@ -91,7 +91,7 @@ function otherListInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, '', type],
+            data: [id, pageSize, pageNo, type],
             type: 'get',
             val: { id: 1 },
             noCache: true
@@ -109,7 +109,7 @@ function otherListInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, '', type],
+            data: [id, pageSize, pageNo, type],
             type: 'get',
             noCache: true,
             val: { id: 1 }
