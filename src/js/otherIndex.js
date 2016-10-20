@@ -55,6 +55,7 @@ function otherIndexInit(f7, view, page) {
             sellInfoNull = true;
             sellInfoNull && buyInfoNull && currentPage.find('.other-index-empty-info').show();
             f7.hideIndicator();
+            f7.pullToRefreshDone();
             return;
         }
         let sellHtml = '';
@@ -86,6 +87,7 @@ function otherIndexInit(f7, view, page) {
         if (!list.length) {
             buyInfoNull = true;
             sellInfoNull && buyInfoNull && currentPage.find('.other-index-empty-info').show();
+            f7.pullToRefreshDone();
             return;
         }
         let buyHtml = '';

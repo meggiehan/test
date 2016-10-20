@@ -102,6 +102,9 @@ function buydetailInit(f7, view, page) {
         f7.alert(errorInfo, '查看原因');
     }
 
+    const { ios } = window.currentDevice;
+    ios && (currentPage.find('.selldetail-footer').addClass('safira'));
+
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getDemandInfo',
@@ -138,7 +141,16 @@ function buydetailInit(f7, view, page) {
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
         }else{
-            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
+            let info;
+            let collectionNum = Number($$('.user-collection-num').text());
+            if($$(collectionBtn).hasClass('icon-collection-active')){
+                info = '添加收藏成功！';
+                $$('.user-collection-num').text(++collectionNum);
+            }else{
+                info = '取消收藏成功！';
+                $$('.user-collection-num').text(--collectionNum);
+                $$('div[data-page="myCollection"]').find('a[href="./views/buydetail.html?id='+ id +'"]').remove();
+            }
             nativeEvent['nativeToast'](1, info);
         }
         f7.hideIndicator();

@@ -76,7 +76,7 @@ function selldetailInit(f7, view, page) {
             currentPage.find('.goods-name').text(fishTypeName);
             currentPage.find('.goods-create-time').text(timeDifference(checkTime));
             currentPage.find('.goods-create-time').text(timeDifference(checkTime));
-            currentPage.find('.selldetail-price').text(price);
+            currentPage.find('.selldetail-price').text(price || '面议');
             specifications ? currentPage.find('.selldetail-spec').text(specifications) : currentPage.find('.selldetail-spec').parent().remove();
             stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
             provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`) : currentPage.find('.selldetail-address').parent().remove();
@@ -107,6 +107,8 @@ function selldetailInit(f7, view, page) {
         f7.pullToRefreshDone();
     }
 
+    const { ios } = window.currentDevice;
+    ios && (currentPage.find('.selldetail-footer').addClass('safira'));
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getDemandInfo',
@@ -153,7 +155,16 @@ function selldetailInit(f7, view, page) {
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
         } else {
-            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
+            let info;
+            let collectionNum = Number($$('.user-collection-num').text());
+            if($$(collectionBtn).hasClass('icon-collection-active')){
+                info = '添加收藏成功！';
+                $$('.user-collection-num').text(++collectionNum);
+            }else{
+                info = '取消收藏成功！';
+                $$('.user-collection-num').text(--collectionNum);
+                $$('div[data-page="myCollection"]').find('a[href="./views/selldetail.html?id='+ id +'"]').remove();
+            }
             nativeEvent['nativeToast'](1, info);
         }
         f7.hideIndicator();

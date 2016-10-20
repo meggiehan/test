@@ -1,4 +1,5 @@
 import customAjax from '../middlewares/customAjax';
+import nativeEvent from '../utils/nativeEvent';
 
 function loginInit(f7, view, page) {
     const { phone } = page.query;
@@ -44,6 +45,7 @@ function loginInit(f7, view, page) {
         isSend = false;
         nextBtn.className += ' on';
         if (data.code == 1) {
+            currentPage.find('input').blur();
             view.router.load({
                 url: 'views/loginCode.html' + `?phone=${input.value}&key=${data.data}`
             })

@@ -46,14 +46,20 @@ class CustomClass {
     }
 
     //select pic
-    postPic(mark, id) {
-        const _mark = Number(mark) > -4 ? mark : 4;
+    postPic(mark, id, path, functionName) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
             return false;
         }
-        ios && JS_PictureSeletor(_mark, '');
-        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
+        if(5 == mark){
+            ios && JS_PictureSeletor(5, '', id, path || '', functionName || '');
+            android && window.yudada.JS_PictureSeletor(5, "上传照片", id, path || '', functionName || '');
+            return;
+        }
+
+        const _mark = Number(mark) > -4 ? mark : 4;
+        ios && JS_PictureSeletor(_mark, '',  id, '', '');
+        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id, '', '');
     }
 
     //cat pic
@@ -156,7 +162,7 @@ class CustomClass {
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
             return false;
         }
-        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared();
+        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('token', '');
     }
 
     nativeGoBack(){

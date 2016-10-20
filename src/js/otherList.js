@@ -24,6 +24,7 @@ function otherListInit(f7, view, page) {
         const { code, message } = data;
         if (code !== 1) {
             f7.alert(message, '提示');
+            f7.pullToRefreshDone();
             return;
         }
         let otehrHtml = '';

@@ -46,6 +46,7 @@ function filterInit(f7, view, page) {
         const { code, message } = data;
         if (code !== 1) {
             f7.alert(message, '提示');
+            f7.pullToRefreshDone();
             return;
         }
         let listHtml = '';
@@ -278,7 +279,7 @@ function filterInit(f7, view, page) {
                     type: 'get'
                 }, listCallback);
             }
-            $$('.winodw-mask').removeClass('on');
+            currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
             currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
         }
@@ -305,7 +306,7 @@ function filterInit(f7, view, page) {
             pageNo = 1;
             isInfinite = false;
             currentCityId = postcode;
-            $$('.winodw-mask').removeClass('on');
+            currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
             currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             customAjax.ajax({
@@ -360,7 +361,7 @@ function filterInit(f7, view, page) {
         currentPage.addClass('filter-release-info');
         currentPage.find('.filter-tabs-content').addClass('on active');
         currentPage.find('.filter-fish-type').addClass('active');
-        $$('.winodw-mask').addClass('on');
+        currentPage.find('.winodw-mask').addClass('on');
         currentPage.find('.filter-release-next').click(() => {
             const text = _type == 1 ? '求购' : '出售';
             if (!currentFishId) {
@@ -396,7 +397,7 @@ function filterInit(f7, view, page) {
             currentFishId = childId;
             if (!release) {
                 tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
-                $$('.winodw-mask').removeClass('on');
+                currentPage.find('.winodw-mask').removeClass('on');
                 $$('.filter-tabs-content').removeClass('on');
                 $$('.filter-tab>div').removeClass('active-ele');
                 isShowAll = false;
