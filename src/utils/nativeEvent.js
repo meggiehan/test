@@ -20,8 +20,8 @@ class CustomClass {
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])) {
             return false;
         }
-        ios && JS_MakeCall(phone);
-        android && window.yudada.JS_MakeCall(phone);
+        ios && JS_MakeCall(phone.toString());
+        android && window.yudada.JS_MakeCall(phone.toString());
     }
 
     //choose address
@@ -46,14 +46,20 @@ class CustomClass {
     }
 
     //select pic
-    postPic(mark, id) {
-        const _mark = Number(mark) > -4 ? mark : 4;
+    postPic(mark, id, path, functionName) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
             return false;
         }
-        ios && JS_PictureSeletor(_mark, '');
-        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
+        if(5 == mark){
+            ios && JS_PictureSeletor(5, '', id, path || '', functionName || '');
+            android && window.yudada.JS_PictureSeletor(5, "上传照片", id, path || '', functionName || '');
+            return;
+        }
+
+        const _mark = Number(mark) > -4 ? mark : 4;
+        ios && JS_PictureSeletor(_mark, '',  id, '', '');
+        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id, '', '');
     }
 
     //cat pic
@@ -104,7 +110,7 @@ class CustomClass {
             return false;
         }
         ios && JS_SetUserInfo(obj);
-        android && window.yudada.JS_Login(obj.tele, obj.pass, null);
+        android && window.yudada.JS_Login(obj.tele, obj.pass);
     }
 
     getUserValue() {
@@ -156,7 +162,7 @@ class CustomClass {
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
             return false;
         }
-        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared();
+        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('token', '');
     }
 
     nativeGoBack(){

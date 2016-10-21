@@ -11,7 +11,6 @@ import { isLogin } from '../middlewares/loginMiddle';
 
 function selldetailInit(f7, view, page) {
     const { id } = page.query;
-    let isReleaseForMe = false;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const certList = currentPage.find('.selldetail-cert-list');
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
@@ -20,7 +19,7 @@ function selldetailInit(f7, view, page) {
     let demandInfo_;
     let currentUserId;
     let errorInfo;
-    // let certUrl;
+
     const callback = (data) => {
         if (data.data) {
             const {
@@ -63,7 +62,6 @@ function selldetailInit(f7, view, page) {
             lastHeader.find('a.detail-more').show();
 
             if (state == 0 || state == 2) {
-                // currentPage.find('.selldetail-footer').addClass('delete');
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
@@ -71,33 +69,32 @@ function selldetailInit(f7, view, page) {
             id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete');
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
-            addClassName && ($$('.page-selldetail').addClass(addClassName));
+            addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
-            1 == state && ($$('.page-selldetail').addClass('active'));
             // ajax back, edit html.
-            $$('.selldetail-info>.first img').attr('src', imgePath + config['imgPath'](11));
-            html($$('.page-selldetail .goods-name'), fishTypeName, f7);
-            html($$('.page-selldetail .goods-create-time'), timeDifference(checkTime), f7);
-            html($$('.selldetail-price'), price || '面议', f7);
-            specifications ? html($$('.selldetail-spec'), specifications, f7) : $$('.selldetail-spec').parent().remove();
-            stock ? html($$('.selldetail-stock'), stock, f7) : $$('.selldetail-stock').parent().remove();
-            provinceName ? html($$('.selldetail-address'), `${provinceName} ${cityName}`, f7) : $$('.selldetail-address').parent().remove();
-            describe ? html($$('.selldetail-description'), describe, f7) : $$('.selldetail-description').parent().remove();
+            currentPage.find('.selldetail-info-pic').children('img').attr('src', imgePath + config['imgPath'](11));
+            currentPage.find('.goods-name').text(fishTypeName);
+            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
+            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
+            currentPage.find('.selldetail-price').text(price || '面议');
+            specifications ? currentPage.find('.selldetail-spec').text(specifications) : currentPage.find('.selldetail-spec').parent().remove();
+            stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
+            provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`) : currentPage.find('.selldetail-address').parent().remove();
+            describe ? currentPage.find('.selldetail-description').text(describe) : currentPage.find('.selldetail-description').parent().remove();
             let certHtml = '';
             $$.each(user_ishCertificate_list.list, (index, item) => {
                 const { fish_type_name } = item;
                 fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
             })
             certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
-            html($$('.page-selldetail .user-name>span'), contactName || '匿名用户', f7);
-            level && $$('.page-selldetail .user-name>i').addClass(`iconfont icon-v${level}`);
-            html($$('.page-selldetail .user-tell>b'), requirementPhone, f7);
-            html($$('.page-selldetail .user-time'), centerShowTime(lastLoginTime), f7);
-            1 == enterpriseAuthenticationState && $$('.selldetail-cert-info').addClass('company-identity').show();
-            1 == personalAuthenticationState && $$('.selldetail-cert-info').addClass('individual-identity').show();
+            currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
+            level && currentPage.find('.user-name').children('i').addClass(`iconfont icon-v${level}`);
+            currentPage.find('.user-tell').children('b').text(requirementPhone);
+            currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
+            1 == enterpriseAuthenticationState && currentPage.find('.selldetail-cert-info').addClass('company-identity').show();
+            1 == personalAuthenticationState && currentPage.find('.selldetail-cert-info').addClass('individual-identity').show();
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
-
-            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
+            imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
             if (isLogin()) {
                 if (favorite) {
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
@@ -105,13 +102,13 @@ function selldetailInit(f7, view, page) {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
                 }
             }
-
-            html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator();
         f7.pullToRefreshDone();
     }
 
+    const { ios } = window.currentDevice;
+    ios && (currentPage.find('.selldetail-footer').addClass('safira'));
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getDemandInfo',
@@ -158,7 +155,16 @@ function selldetailInit(f7, view, page) {
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
         } else {
-            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
+            let info;
+            let collectionNum = Number($$('.user-collection-num').text());
+            if($$(collectionBtn).hasClass('icon-collection-active')){
+                info = '添加收藏成功！';
+                $$('.user-collection-num').text(++collectionNum);
+            }else{
+                info = '取消收藏成功！';
+                $$('.user-collection-num').text(--collectionNum);
+                $$('div[data-page="myCollection"]').find('a[href="./views/selldetail.html?id='+ id +'"]').remove();
+            }
             nativeEvent['nativeToast'](1, info);
         }
         f7.hideIndicator();

@@ -126,28 +126,15 @@ class CustomClass {
                 f7.alert(message, '提示')
             }
         }
-        if (!id) {
-            customAjax.ajax({
-                apiCategory: 'userInfo',
-                api: 'addUserFishCertificate',
-                header: ['token'],
-                // parameType: 'application/json',
-                data: [path, uploadFilename, fileSize],
-                type: 'post',
-                noCache: true,
-            }, callback);
-        } else {
-            customAjax.ajax({
-                apiCategory: 'userInfo',
-                api: 'addUserFishCertificate',
-                header: ['token'],
-                // parameType: 'application/json',
-                data: [path, uploadFilename, fileSize],
-                type: 'post',
-                val: { id },
-                noCache: true,
-            }, callback);
-        }
+        customAjax.ajax({
+            apiCategory: 'userInfo',
+            api: 'addUserFishCertificate',
+            header: ['token'],
+            // parameType: 'application/json',
+            data: [path, uploadFilename, fileSize],
+            type: 'post',
+            noCache: true,
+        }, callback);
     }
 
     getKey(token, userId, state, status) {
@@ -155,11 +142,10 @@ class CustomClass {
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
          */
-        if (!Number(state)) {
-            return;
-        }
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
+        const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+        currentPage.find('input').blur();
         window.mainView.router.load({
             url: `views/user.html?uuid=${token}`,
             animatePage: true
@@ -230,6 +216,18 @@ class CustomClass {
         window.mainView.router.refreshPage();
     }
 
+    jsBack() {
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
+            const { ios, android } = window.currentDevice;
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+                ios && JS_ExitProcess();
+                android && window.yudada.JS_ExitProcess();
+            }
+        } else {
+            mainView.router.back();
+        }
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -246,6 +244,7 @@ class CustomClass {
         window['loginFail'] = this.loginFail;
         window['logout'] = this.logout;
         window['initLogout'] = this.initLogout;
+        window['jsBack'] = this.jsBack;
     }
 }
 

@@ -114,7 +114,7 @@ module.exports = {
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
-                `${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}<span>${contact_name || '匿名用户'}</span>指定产地：${province_name || ''}${city_name || ''}` +
+                `${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}<span>${contact_name || '匿名用户'}</span>所在地区：${province_name || ''}${city_name || ''}` +
                 '</div>'
             return res;
         }

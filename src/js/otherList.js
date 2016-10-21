@@ -24,6 +24,7 @@ function otherListInit(f7, view, page) {
         const { code, message } = data;
         if (code !== 1) {
             f7.alert(message, '提示');
+            f7.pullToRefreshDone();
             return;
         }
         let otehrHtml = '';
@@ -70,7 +71,7 @@ function otherListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [id, pageSize, pageNo, '', type],
+        data: [id, pageSize, pageNo, type],
         type: 'get',
         val: { id: 1 }
     }, callback);
@@ -91,7 +92,7 @@ function otherListInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, '', type],
+            data: [id, pageSize, pageNo, type],
             type: 'get',
             val: { id: 1 },
             noCache: true
@@ -109,7 +110,7 @@ function otherListInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, '', type],
+            data: [id, pageSize, pageNo, type],
             type: 'get',
             noCache: true,
             val: { id: 1 }

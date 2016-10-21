@@ -23,12 +23,13 @@ import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
+import { isLogin } from './middlewares/loginMiddle';
 import { catIdentityStatusInit } from './js/catIdentityStatus';
 import { editNameInit } from './js/editName';
 import { inviteCodeInit } from './js/inviteCode';
-import {inviteFriendsInit} from './js/inviteFriends';
-import {inviteFriendsListInit} from './js/inviteFriendsList';
-import {myCollectionInit} from './js/myCollection';
+import { inviteFriendsInit } from './js/inviteFriends';
+import { inviteFriendsListInit } from './js/inviteFriendsList';
+import { myCollectionInit } from './js/myCollection';
 
 
 
@@ -60,10 +61,6 @@ let initAppConfig = {
     fastClicks: true,
     modalTitle: '温馨提示',
     // force: true,
-    // cacheIgnore: ['search.html'],
-
-
-    // cacheIgnore: ['search.html'],
     preprocess: (content, url, next) => {
         next(content);
         const query = getQuery(url);
@@ -76,13 +73,10 @@ let initAppConfig = {
         }
     },
     preroute: (view, options) => {
-        if (!options) {
-            return;
-        }
         const goPage = view['url'];
         const { history, loadPage } = view;
-        const currentPage = options['url'];
-        // console.log(`gopage:${goPage}--currentpage:${currentPage}`,history )
+        const currentPage = options && options['url'];
+
         //if router back, doing.
         const len = history.length;
 
@@ -91,12 +85,20 @@ let initAppConfig = {
             const backPage = history[len - 2];
             // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
-                // exitApp();
                 return false;
             }
 
-            if(_currentPage.indexOf('inviteFriends.html') > -1){
+            if (_currentPage.indexOf('inviteFriends.html') > -1) {
                 $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
+            } 
+
+            if (backPage.indexOf('user.html') > -1 && !isLogin()) {
+                setTimeout(() => {
+                    view.router.load({
+                        url: 'views/user.html?logout=true',
+                        reload: true
+                    });
+                }, 600)
             }
 
             if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {

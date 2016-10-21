@@ -15,7 +15,6 @@ function buydetailInit(f7, view, page) {
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
-    let isReleaseForMe = false;
     let demandInfo_;
     const { shareUrl, cacheUserinfoKey } = config;
     let currentUserId;
@@ -52,7 +51,6 @@ function buydetailInit(f7, view, page) {
                 lastLoginTime,
                 level
             } = userInfo;
-            console.log()
             demandInfo_ = demandInfo;
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
@@ -61,7 +59,6 @@ function buydetailInit(f7, view, page) {
             lastHeader.find('a.detail-more').show();
 
             if (state == 0 || state == 2) {
-                // currentPage.find('.selldetail-footer').addClass('delete');
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
@@ -69,24 +66,25 @@ function buydetailInit(f7, view, page) {
             id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
-            addClassName && ($$('.page-buydetail').addClass(addClassName));
+            addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
-            html($$('.page-buydetail .goods-name'), fishTypeName, f7);
-            html($$('.page-buydetail .goods-create-time'), timeDifference(checkTime), f7);
-            html($$('.page-buydetail .selldetail-price'), price || '面议', f7);
-            specifications ? html($$('.selldetail-spec'), specifications, f7) : $$('.selldetail-spec').parent().remove();
-            stock ? html($$('.selldetail-stock'), stock, f7) : $$('.selldetail-stock').parent().remove();
-            provinceName ? html($$('.selldetail-address'), `${provinceName} ${cityName}`, f7) : $$('.selldetail-address').parent().remove();
-            describe ? html($$('.selldetail-description'), describe, f7) : $$('.selldetail-description').parent().remove();
-            html($$('.page-buydetail .user-name>span'), contactName || '匿名用户', f7);
-            level && $$('.page-buydetail .user-name>i').addClass(`iconfont icon-v${level}`);
-            html($$('.page-buydetail .user-tell>b'), requirementPhone, f7);
-            html($$('.page-buydetail .user-time'), centerShowTime(lastLoginTime), f7);
-            1 == enterpriseAuthenticationState && $$('.buydetail-cert-info').addClass('company-identity').show();
-            1 == personalAuthenticationState && $$('.buydetail-cert-info').addClass('individual-identity').show();
+            currentPage.find('.goods-name').text(fishTypeName);
+            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
+            currentPage.find('.selldetail-price').text(price || '面议');
+            specifications ? currentPage.find('.selldetail-spec').text(specifications) : currentPage.find('.selldetail-spec').parent().remove();
+            currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
+            // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
+            provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`) : currentPage.find('.selldetail-address').parent().remove();
+            describe ? currentPage.find('.selldetail-description').text(describe) : $$('.selldetail-description').parent().remove();
+            level && currentPage.find('.user-name').children('i').addClass(`iconfont icon-v${level}`);
+            currentPage.find('.user-tell').children('b').text(requirementPhone);
+            currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
 
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
-            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
+            1 == enterpriseAuthenticationState && currentPage.find('.buydetail-cert-info').addClass('company-identity').show();
+            1 == personalAuthenticationState && currentPage.find('.buydetail-cert-info').addClass('individual-identity').show();
+
+            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
+            imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
 
             if (isLogin()) {
                 if(favorite){
@@ -95,7 +93,6 @@ function buydetailInit(f7, view, page) {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
                 }
             }
-            html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator(300);
         f7.pullToRefreshDone();
@@ -104,6 +101,9 @@ function buydetailInit(f7, view, page) {
     currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
         f7.alert(errorInfo, '查看原因');
     }
+
+    const { ios } = window.currentDevice;
+    ios && (currentPage.find('.selldetail-footer').addClass('safira'));
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -141,7 +141,16 @@ function buydetailInit(f7, view, page) {
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
         }else{
-            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
+            let info;
+            let collectionNum = Number($$('.user-collection-num').text());
+            if($$(collectionBtn).hasClass('icon-collection-active')){
+                info = '添加收藏成功！';
+                $$('.user-collection-num').text(++collectionNum);
+            }else{
+                info = '取消收藏成功！';
+                $$('.user-collection-num').text(--collectionNum);
+                $$('div[data-page="myCollection"]').find('a[href="./views/buydetail.html?id='+ id +'"]').remove();
+            }
             nativeEvent['nativeToast'](1, info);
         }
         f7.hideIndicator();
