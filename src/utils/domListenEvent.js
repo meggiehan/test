@@ -270,6 +270,7 @@ module.exports = {
             nativeEvent.postPic(-1, id);
         } else if (ele.tagName == 'IMG') {
             const url = ele.getAttribute('src').split('@')[0];
+            apiCount('cell_certificate');
             nativeEvent.catPic(url);
         }
     },
@@ -299,6 +300,7 @@ module.exports = {
     },
 
     veiwCert: (e) => {
+        apiCount('cell_profile_certificate');
         const event = e || window.event;
         const ele = e.target;
         const classes = ele.className;

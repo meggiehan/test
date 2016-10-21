@@ -51,6 +51,7 @@ function otherInfoInit(f7, view, page) {
     }
 
     currentPage.find('.go-member-info')[0].onclick = () => {
+        apiCount('btn_profile_memberIntro');
         nativeEvent['goNewWindow'](`${mWebUrl}user/memberIntro`);
     }
     if (!userCache) {

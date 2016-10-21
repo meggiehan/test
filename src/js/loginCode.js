@@ -99,6 +99,7 @@ function loginCodeInit(f7, view, page) {
 
     //go to agreement of yudada.
     currentPage.find('.user-protocol').children('a')[0].onclick = () => {
+        apiCount('btn_term');
         nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
     }
 

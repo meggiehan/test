@@ -205,15 +205,17 @@ class CustomClass {
 
     initLogout() {
         store.clear();
-        if (window.location.hash.indexOf('user.html') > -1) {
-            window.mainView.router.load({
-                url: 'views/user.html',
-                animatePages: false,
-                reload: true
-            })
-            return;
-        }
-        window.mainView.router.refreshPage();
+        let refreshId = setInterval(() => {
+            if (mainView['url'].indexOf('user.html') > -1) {
+                setTimeout(() => {
+                    mainView.router.load({
+                        url: 'views/user.html?logout=true',
+                        reload: true
+                    })
+                }, 600)
+                clearInterval(refreshId);
+            }
+        }, 500);
     }
 
     jsBack() {

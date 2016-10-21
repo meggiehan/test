@@ -79,7 +79,6 @@ let initAppConfig = {
 
         //if router back, doing.
         const len = history.length;
-
         if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
@@ -92,16 +91,7 @@ let initAppConfig = {
                 $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
             } 
 
-            if (backPage.indexOf('user.html') > -1 && !isLogin()) {
-                setTimeout(() => {
-                    view.router.load({
-                        url: 'views/user.html?logout=true',
-                        reload: true
-                    });
-                }, 600)
-            }
-
-            if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
+            if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',
                     reload: true

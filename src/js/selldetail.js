@@ -138,11 +138,13 @@ function selldetailInit(f7, view, page) {
 
     // dom event;
     currentPage.find('.sell-detail-verify-faild ')[0].onclick = () => {
+        apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
     }
 
     currentPage.find('.selldetail-call-phone')[0].onclick = () => {
         const { requirementPhone } = demandInfo_;
+        apiCount('btn_call');
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }
 
@@ -171,6 +173,7 @@ function selldetailInit(f7, view, page) {
     }
 
     collectionBtn.onclick = () => {
+        apiCount('btn_favorite');
         if (!nativeEvent['getNetworkStatus']()) {
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
@@ -215,6 +218,7 @@ function selldetailInit(f7, view, page) {
     }
     currentPage.find('.selldetail-delete-info')[0].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
+        apiCount('btn_delete');
         f7.confirm('你确定删除出售信息吗？', '删除发布信息', () => {
             f7.showIndicator();
             customAjax.ajax({

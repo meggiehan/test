@@ -34,6 +34,7 @@ function inviteFriendsInit(f7, view, page) {
 
     //open invite qr code.
     currentPage.find('.invite-friends-share')[0].onclick = () => {
+        apiCount('btn_inviteFriends_qrcode');
         $$('body').append(overlay);
         f7.pickerModal('.picker-invite-code');
         setTimeout(() => {
@@ -43,6 +44,7 @@ function inviteFriendsInit(f7, view, page) {
     $$('.close-picker-invite-code')[0].onclick = closeInviteModal;
     //share to QQ or weixin, message.
     currentPage.find('.invite-friends-share-weixin')[0].onclick = () => {
+        apiCount('btn_inviteFriends_share');
         const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;
         const str = `养得好不如卖的好，鱼大大实名认证水产交易平台`;
         const messageTile = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！赶紧看看吧:${invitationLink}`;
@@ -51,6 +53,7 @@ function inviteFriendsInit(f7, view, page) {
     };
 
     currentPage.find('a.go-invite-friends-list')[0].onclick = () => {
+        apiCount('btn_inviteFriends_userlist');
     	if(!registerCount){
     		nativeEvent.nativeToast(0, '你还没有邀请过好友！');
     		return;

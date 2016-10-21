@@ -165,6 +165,7 @@ function otherIndexInit(f7, view, page) {
 
     //call to other user.
     currentPage.find('.other-footer-call')[0].onclick = () => {
+        apiCount('btn_profile_call');
         nativeEvent.contactUs(callNumber);
     }
 

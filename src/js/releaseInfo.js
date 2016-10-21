@@ -34,7 +34,11 @@ function releaseInfoInit(f7, view, page) {
         initCityName = window.addressObj['initCityName'];
     }
 
-    addressInput[0] && initProvinceName && (addressInput.val(initProvinceName + initCityName));
+    if(window['selectedAddress'] && window['selectedAddress']['provinceName']){
+        addressInput[0] && (addressInput.val(window['selectedAddress']['provinceName'] + window['selectedAddress']['cityName']));
+    }else if(initProvinceName){
+        addressInput[0] && addressInput.val(initProvinceName + initCityName);
+    }
     title = `“${fishName}”`;
     if (type == 1) {
         html($$('.release-info-title'), '我要买', f7);
@@ -170,6 +174,7 @@ function releaseInfoInit(f7, view, page) {
 
     // submit release infomation to server;
     subBtn.onclick = () => {
+        apiCount('btn_text_post');
         const data = subInfoTest();
         const { error } = data;
         if (error) {

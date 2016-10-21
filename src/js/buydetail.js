@@ -99,6 +99,7 @@ function buydetailInit(f7, view, page) {
     }
 
     currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
+        apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
     }
 
@@ -157,6 +158,7 @@ function buydetailInit(f7, view, page) {
     }
 
     collectionBtn.onclick = () => {
+        apiCount('btn_favorite');
         if(!nativeEvent['getNetworkStatus']()){
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
@@ -201,6 +203,7 @@ function buydetailInit(f7, view, page) {
     }
     currentPage.find('.buydetail-delete-info')[0].onclick = () => {
         const token = store.get(cacheUserinfoKey)['token'];
+        apiCount('btn_delete');
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
             f7.showIndicator();
             customAjax.ajax({
@@ -227,6 +230,7 @@ function buydetailInit(f7, view, page) {
 
     currentPage.find('.buydetail-call-phone')[0].onclick = () => {
         const { requirementPhone } = demandInfo_;
+        apiCount('btn_call');
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }
 
