@@ -90,6 +90,7 @@ function userInit(f7, view, page) {
     }
 
     currentPage.find('a.user-member')[0].onclick = () => {
+        apiCount('btn_myCenter_myLevel');
         if (!isLogin()) {
             f7.alert('您还没登录，请先登录。', '温馨提示', () => {
                 mainView.router.load({
