@@ -13,6 +13,7 @@ function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     let demandInfo_;
@@ -55,7 +56,6 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
             currentPage.find('.selldetail-footer').removeClass('delete');
-            const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
             lastHeader.find('a.detail-more').show();
 
             if (state == 0 || state == 2) {
@@ -87,9 +87,9 @@ function buydetailInit(f7, view, page) {
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
 
             if (isLogin()) {
-                if(favorite){
+                if (favorite) {
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
-                }else{
+                } else {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
                 }
             }
@@ -134,23 +134,23 @@ function buydetailInit(f7, view, page) {
     })
 
     const collectionCallback = (data) => {
-        const {code} = data;
-        if(8 == code){
+        const { code } = data;
+        if (8 == code) {
             nativeEvent['nativeToast'](0, '您已收藏过该资源!');
-        }else if(1 !== code){
+        } else if (1 !== code) {
             const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
-        }else{
+        } else {
             let info;
             let collectionNum = Number($$('.user-collection-num').text());
-            if($$(collectionBtn).hasClass('icon-collection-active')){
+            if ($$(collectionBtn).hasClass('icon-collection-active')) {
                 info = '添加收藏成功！';
                 $$('.user-collection-num').text(++collectionNum);
-            }else{
+            } else {
                 info = '取消收藏成功！';
                 $$('.user-collection-num').text(--collectionNum);
-                $$('div[data-page="myCollection"]').find('a[href="./views/buydetail.html?id='+ id +'"]').remove();
+                $$('div[data-page="myCollection"]').find('a[href="./views/buydetail.html?id=' + id + '"]').remove();
             }
             nativeEvent['nativeToast'](1, info);
         }
@@ -159,7 +159,7 @@ function buydetailInit(f7, view, page) {
 
     collectionBtn.onclick = () => {
         apiCount('btn_favorite');
-        if(!nativeEvent['getNetworkStatus']()){
+        if (!nativeEvent['getNetworkStatus']()) {
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
@@ -202,7 +202,6 @@ function buydetailInit(f7, view, page) {
         })
     }
     currentPage.find('.buydetail-delete-info')[0].onclick = () => {
-        const token = store.get(cacheUserinfoKey)['token'];
         apiCount('btn_delete');
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
             f7.showIndicator();
@@ -269,8 +268,8 @@ function buydetailInit(f7, view, page) {
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
     }
-
-    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
+    lastHeader.find('.right')[0].onclick = detailClickTip;
+    // $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
 }
 
 module.exports = {

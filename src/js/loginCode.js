@@ -21,16 +21,16 @@ function loginCodeInit(f7, view, page) {
     $$('.login-code-phone').text(phone);
     setTimeout(() => {
         input.focus();
-    }, 400)
+    }, 500)
     input.oninput = () => {
-        const val = input.value;
+        const val = trim(input.value);
         let classes = subBtn.className;
         if (/^\d{4}$/.test(val) && val.length == 4) {
             classes += ' on';
             subBtn.className = classes;
             input.blur();
             isPass = true;
-            $$(subBtn).trigger('click');
+            userLogin();
         } else if (val.length >= 4) {
             input.value = val.substr(0, 4);
         } else {
@@ -89,13 +89,14 @@ function loginCodeInit(f7, view, page) {
     }
 
     //User registration. return user login infomation.
-    subBtn.onclick = () => {
+    let userLogin = () => {
         if (!isPass || isSend) {
             return;
         }
         f7.showPreloader('登录中...');
         nativeEvent.nativeLogin(phone, input.value);
     }
+    subBtn.onclick = userLogin;
 
     //go to agreement of yudada.
     currentPage.find('.user-protocol').children('a')[0].onclick = () => {

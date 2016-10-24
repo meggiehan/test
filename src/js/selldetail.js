@@ -12,6 +12,7 @@ import { isLogin } from '../middlewares/loginMiddle';
 function selldetailInit(f7, view, page) {
     const { id } = page.query;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
     const certList = currentPage.find('.selldetail-cert-list');
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const shareBtn = currentPage.find('.icon-share')[0];
@@ -58,7 +59,6 @@ function selldetailInit(f7, view, page) {
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
             currentPage.find('.selldetail-footer').removeClass('delete');
-            const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
             lastHeader.find('a.detail-more').show();
 
             if (state == 0 || state == 2) {
@@ -217,7 +217,6 @@ function selldetailInit(f7, view, page) {
         })
     }
     currentPage.find('.selldetail-delete-info')[0].onclick = () => {
-        const token = store.get(cacheUserinfoKey)['token'];
         apiCount('btn_delete');
         f7.confirm('你确定删除出售信息吗？', '删除发布信息', () => {
             f7.showIndicator();
@@ -277,8 +276,8 @@ function selldetailInit(f7, view, page) {
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
     }
-
-    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
+    lastHeader.find('.right')[0].onclick = detailClickTip;
+    // $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
     $$('.detail-right-more').off('click', detailMoreEvent).on('click', detailMoreEvent);
 }
 

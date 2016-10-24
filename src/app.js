@@ -91,6 +91,11 @@ let initAppConfig = {
                 $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
             } 
 
+            if($$('.modal-overlay-visible').length){
+                $$('.modal-overlay-visible').trigger('click');
+                $$('.modal-button').length && $$('.modal-button')[0].click();
+            }
+
             if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',

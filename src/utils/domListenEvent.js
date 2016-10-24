@@ -42,9 +42,8 @@ module.exports = {
         }
     },
 
-    detailClickTip: (e) => {
-        const event = e || window.event;
-        const { target } = event;
+    detailClickTip: () => {
+        const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
         var popoverHTML = '<div class="popover detail-right-more" style="width:35%">' +
             '<div class="popover-inner">' +
             '<div class="list-block">' +
@@ -55,7 +54,7 @@ module.exports = {
             '</div>' +
             '</div>' +
             '</div>'
-        f7.popover(popoverHTML, target.tagName == 'SPAN' ? target : target.children[0]);
+        f7.popover(popoverHTML, lastHeader.find('span.iconfont'));
         const detailMoreEvent = (e) => {
             const event = e || window.event;
             const dataId = e.target.getAttribute('data-id');
