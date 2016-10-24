@@ -11,7 +11,7 @@ function myCollectionInit(f7, view, page) {
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
 
     const { pageSize, cacheUserinfoKey } = config;
-    const { id, token, level } = store.get(cacheUserinfoKey) || { id: 1 };
+    const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
     const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
     const showSellAllInfo = currentPage.find('.sell-collection-empty-info');
@@ -99,7 +99,7 @@ function myCollectionInit(f7, view, page) {
             apiCategory: 'favorite',
             api: 'demandInfoList',
             header: ['token'],
-            data: [token, pageSize, pageNo, type],
+            data: ['', pageSize, pageNo, type],
             type: 'get'
         }, callback);
     }
@@ -134,7 +134,7 @@ function myCollectionInit(f7, view, page) {
             apiCategory: 'favorite',
             api: 'demandInfoList',
             header: ['token'],
-            data: [token, pageSize, pageNo, type],
+            data: ['', pageSize, pageNo, type],
             type: 'get',
             noCache: true
         }, callback);
@@ -155,7 +155,7 @@ function myCollectionInit(f7, view, page) {
             apiCategory: 'favorite',
             api: 'demandInfoList',
             header: ['token'],
-            data: [token, pageSize, 1, type],
+            data: ['', pageSize, 1, type],
             type: 'get',
             noCache: true
         }, callback);

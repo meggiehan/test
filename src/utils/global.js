@@ -14,20 +14,21 @@ const f7 = new framework7({
 
 class CustomClass {
     getPhoneSrc(srcimg, src, index) {
-        const { identity, cacheUserinfoKey } = config;
+        const { identity, cacheUserinfoKey, imgPath } = config;
         let individualCert = true;
         const id = store.get(cacheUserinfoKey)['id'];
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
+                $$('.my-center-head img').attr('src',src + imgPath(8));
+                $$('.user-pic>img').attr('src', src + imgPath(8));
+                $$('img.picker-invite-head-img').attr('src', src + imgPath(8));
+                let userInfoChange = store.get(cacheUserinfoKey);
+                userInfoChange['imgUrl'] = src;
+                store.set(cacheUserinfoKey, userInfoChange);
             }
         }
         if (index == 4) {
-            $$('.my-center-head img').val(src);
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateUserInfo',
@@ -69,24 +70,22 @@ class CustomClass {
 
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
         const { identity, cacheUserinfoKey } = config;
-        const id = store.get(cacheUserinfoKey)['id'];
         const { ios, android } = window.currentDevice;
+        const {provinceName, cityName, id} = store.get(cacheUserinfoKey);
+        if(province == provinceName && city == cityName){
+            nativeEvent['nativeToast'](0, '请改变您所在的地区！');
+            return;
+        }
         const callback = (data) => {
 
             const { code, message } = data;
             if (1 == code) {
-                ios && f7.alert(message, '提示', () => {
-
-                    mainView.router.load({
-                        url: 'views/user.html',
-                        reload: true
-                    })
-                })
-                android && mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
-
+                nativeEvent['nativeToast'](1, message);
+                let userInfoChange = store.get(cacheUserinfoKey);
+                userInfoChange['provinceName'] = province;
+                userInfoChange['cityName'] = city;
+                store.set(cacheUserinfoKey, userInfoChange);
+                $$('.my-center-address').find('span').text(`${province}${city}`);
             }
         }
         customAjax.ajax({
@@ -113,11 +112,7 @@ class CustomClass {
 
     subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
         const { identity, cacheUserinfoKey } = config;
-        let login_token;
         const userInfo = store.get(cacheUserinfoKey);
-        if (userInfo) {
-            login_token = userInfo['token'];
-        }
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
@@ -204,9 +199,9 @@ class CustomClass {
     }
 
     initLogout() {
-        store.clear();
         let refreshId = setInterval(() => {
             if (mainView['url'].indexOf('user.html') > -1) {
+                store.clear();
                 setTimeout(() => {
                     mainView.router.load({
                         url: 'views/user.html?logout=true',

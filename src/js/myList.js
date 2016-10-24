@@ -9,7 +9,7 @@ import customAjax from '../middlewares/customAjax';
 function myListInit(f7, view, page) {
     const { type } = page.query;
     const { pageSize, cacheUserinfoKey } = config;
-    const { id, token, level } = store.get(cacheUserinfoKey);
+    const { id, level } = store.get(cacheUserinfoKey);
     const load = $$('.page-my-list .infinite-scroll-preloader');
     const showAllInfo = $$('.page-my-list .filter-search-empty-info');
     let pageNo = 1;

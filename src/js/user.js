@@ -57,10 +57,8 @@ function userInit(f7, view, page) {
                 favoriteCount
             } = data.data || { scanLink: 'http://baidu.com' };
             qrCodeFun(data.data);
-            let _userInfo = data.data || { point: 40, level: 3 };
-            _userInfo['token'] = nativeEvent['getUserValue']();
-            store.set(cacheUserinfoKey, _userInfo);
-            userInfomation = _userInfo;
+            userInfomation = data.data;
+            store.set(cacheUserinfoKey, data.data);
             userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
         } else {
             f7.alert(message);
@@ -74,9 +72,7 @@ function userInit(f7, view, page) {
             }, 0)
         }
         customAjax.ajax({
-            // parameType: 'application/json',
             apiCategory: 'auth',
-            // data: [userInfomation.token],
             header: ['token'],
             type: 'get',
             isMandatory: true,
