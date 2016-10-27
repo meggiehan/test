@@ -73,7 +73,8 @@ function otherListInit(f7, view, page) {
         api: 'getMyDemandInfoList',
         data: [id, pageSize, pageNo, type],
         type: 'get',
-        val: { id: 1 }
+        val: { id: 1 },
+        isMandatory: !!nativeEvent['getNetworkStatus']()
     }, callback);
 
     // Attach 'infinite' event handler
@@ -84,7 +85,7 @@ function otherListInit(f7, view, page) {
         isInfinite = true;
         // Exit, if loading in progress
         if (loading) return;
-
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         // Set loading flag
         loading = true;
         pullToRefresh = false;
@@ -95,13 +96,14 @@ function otherListInit(f7, view, page) {
             data: [id, pageSize, pageNo, type],
             type: 'get',
             val: { id: 1 },
-            noCache: true
+            isMandatory
         }, callback);
     });
 
     // pull to refresh.
     const ptrContent = $$('.page-other-list .pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         pageNo = 1;
         pullToRefresh = true;
         isInfinite = false;
@@ -112,7 +114,7 @@ function otherListInit(f7, view, page) {
             api: 'getMyDemandInfoList',
             data: [id, pageSize, pageNo, type],
             type: 'get',
-            noCache: true,
+            isMandatory,
             val: { id: 1 }
         }, callback);
     })

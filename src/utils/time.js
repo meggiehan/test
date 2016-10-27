@@ -49,8 +49,8 @@ module.exports = {
         return temp;
     },
     centerShowTime: (unix) => {
-        if (unix == "" || unix == null) {
-            return;
+        if (!unix) {
+            return '';
         }
         var today = new Date();
         var year = today.getFullYear();
@@ -63,23 +63,16 @@ module.exports = {
         var todayZero = year + "/" + month + "/" + day;
 
         var currentUnix = Date.parse(new Date(today)) / 1000; //当前时间戳
-        var todayZeroUnix = Date.parse(new Date(todayZero)) / 1000; //当天凌晨时间戳
-        var sevenZeroUnix = todayZeroUnix - 24 * 60 * 60 * 6;
         var unixDefi = parseInt(currentUnix - unix); //时间戳差
-        var todayZero = "";
         var temp = "";
-        var mint = "";
-        var hourt = "";
 
-        if (unixDefi <= 60 * 60) { //1小时内
+        if (unixDefi < 60 * 60) { //1小时内
             min = parseInt(unixDefi / 60);
             temp = "刚刚来过";
-        } else if (unix < currentUnix && unix > todayZeroUnix) { //几小时之前
-            hourt = parseInt((currentUnix - unix) / (60 * 60));
-            temp = hourt + "小时前来过";
-        } else if (unix < todayZeroUnix && unix >= sevenZeroUnix) {
-            mint = parseInt((unix - sevenZeroUnix) / (60 * 60 * 24));
-            temp = mint + "天前来过";
+        } else if (unixDefi >= 60*60 && unixDefi < 60*60*24) { //几小时之前
+            temp = parseInt(unixDefi / (60 * 60)) + "小时前来过";
+        } else if (unixDefi >= 60*60*24 && unixDefi < 60*60*24*7) {
+            temp = parseInt(unixDefi / (60 * 60 * 24)) + "天前来过";
         } else {
             temp = "一周前来过";
         }

@@ -75,7 +75,7 @@ function userInit(f7, view, page) {
             apiCategory: 'auth',
             header: ['token'],
             type: 'get',
-            isMandatory: true,
+            noCache: true,
         }, loginCallback);
     } else {
         setTimeout(() => {

@@ -20,6 +20,7 @@ function myCollectionInit(f7, view, page) {
     const sellContent = currentPage.find('.sell-collection-list-info');
     const buyContent = currentPage.find('.buy-collection-list-info');
 
+
     const sellEmpty = currentPage.find('.sell-collection-list-empty');
     const buyEmpty = currentPage.find('.buy-collection-list-empty');
     let emptyInfo = sellEmpty;
@@ -59,7 +60,7 @@ function myCollectionInit(f7, view, page) {
             }
         })
 
-        if (isInfinite && !pullToRefresh && data.data.length && data.data.length < pageSize) {
+        if (!pullToRefresh && data.data.length) {
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);
@@ -69,7 +70,7 @@ function myCollectionInit(f7, view, page) {
             $$('img.lazy').trigger('lazy');
         }, 400)
 
-        if (data.data.length < pageSize) {
+        if (data.data.length < pageSize || !data.data.length) {
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -78,6 +79,7 @@ function myCollectionInit(f7, view, page) {
         }
 
         if (!listLength && !data.data.length) {
+            2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
             emptyInfo.show();
         } else {
             emptyInfo.hide();
@@ -89,6 +91,7 @@ function myCollectionInit(f7, view, page) {
 
     const getListInfo = () => {
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         emptyInfo = type == 2 ? sellEmpty : buyEmpty;
 
         isInfinite = false;
@@ -100,7 +103,8 @@ function myCollectionInit(f7, view, page) {
             api: 'demandInfoList',
             header: ['token'],
             data: ['', pageSize, pageNo, type],
-            type: 'get'
+            type: 'get',
+            isMandatory
         }, callback);
     }
 
@@ -121,6 +125,7 @@ function myCollectionInit(f7, view, page) {
              showBuyAllInfo.css('display') == 'block') {
             return;
         }
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         isInfinite = true;
         // Exit, if loading in progress
         if (loading) return;
@@ -136,7 +141,7 @@ function myCollectionInit(f7, view, page) {
             header: ['token'],
             data: ['', pageSize, pageNo, type],
             type: 'get',
-            noCache: true
+            isMandatory
         }, callback);
     });
 
@@ -145,6 +150,7 @@ function myCollectionInit(f7, view, page) {
     ptrContent.on('refresh', function(e) {
         type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
         const load = type == 2 ? sellLoad : buyLoad;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
         emptyInfo = type == 2 ? sellEmpty : buyEmpty;
 
@@ -157,7 +163,7 @@ function myCollectionInit(f7, view, page) {
             header: ['token'],
             data: ['', pageSize, 1, type],
             type: 'get',
-            noCache: true
+            isMandatory
         }, callback);
     })
 }

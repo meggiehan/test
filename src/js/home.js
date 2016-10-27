@@ -72,12 +72,13 @@ function homeInit(f7, view, page) {
     const ptrContent = $$('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
         catType = 2;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',
             data: ["", "", 2, "", 10, 1],
             type: 'get',
-            isMandatory: true
+            isMandatory
         }, callback);
     })
 

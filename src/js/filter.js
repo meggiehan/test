@@ -341,6 +341,7 @@ function filterInit(f7, view, page) {
         // pull to refresh.
         const ptrContent = currentPage.find('.pull-to-refresh-content');
         ptrContent.on('refresh', function(e) {
+            const isMandatory = !!nativeEvent['getNetworkStatus']();
             pullToRefresh = true;
             isShowAll = false;
             pageNo = 1;
@@ -349,7 +350,7 @@ function filterInit(f7, view, page) {
                 api: 'getDemandInfoList',
                 data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
                 type: 'get',
-                isMandatory: true
+                isMandatory
             }, listCallback);
         })
 
