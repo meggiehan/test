@@ -3,8 +3,8 @@ import store from '../utils/locaStorage';
 import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
+const { cacheUserinfoKey } = config;
 function isLogin(uuid) {
-    const { cacheUserinfoKey } = config;
     const nativeToken = nativeEvent.getUserValue() || uuid;
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
@@ -15,12 +15,12 @@ function isLogin(uuid) {
 }
 
 function logOut() {
-    store.clear();
+    store.remove(cacheUserinfoKey);
     nativeEvent.logOut();
 }
 
 function activeLogout() {
-    store.clear();
+    store.remove(cacheUserinfoKey);
     nativeEvent.setNativeUserInfo();
     mainView.router.load({
          url: 'views/user.html',
@@ -50,6 +50,7 @@ function loginSucc(data, callback) {
     $$('.user-header').addClass('login-succ');
     $$('.user-tell-number').text(`手机号：${loginName || ''}`);
     imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
+    imgUrl && $$('.user-pic img').addClass('active');
     favoriteCount && $$('.user-collection-num').text(favoriteCount);
     nickname && $$('.page-user .user-name>span').text(nickname);
     point && $$('.user-member-number').text(point);

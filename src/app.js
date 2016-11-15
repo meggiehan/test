@@ -36,7 +36,7 @@ import { myCollectionInit } from './js/myCollection';
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const { version, debug, timeout } = config;
+const { version, timeout } = config;
 
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
@@ -66,10 +66,6 @@ let initAppConfig = {
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
             searchInit(f7, mainView, { query })
-        } else if (url.indexOf('login.html') > -1) {
-            loginInit(f7, mainView, { query })
-        } else if (url.indexOf('loginCode.html') > -1) {
-            loginCodeInit(f7, mainView, { query })
         }
     },
     preroute: (view, options) => {

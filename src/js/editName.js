@@ -53,14 +53,16 @@ function editNameInit(f7, view, page) {
                 userInfoChange['nickname'] = val;
                 store.set(config['cacheUserinfoKey'], userInfoChange);
                 $$('.page-my-center').find('.center-name').children('span').text(val);
+                $$('.page-user').find('.user-name').children('span').text(val);
                 view.router.back();
             } else {
                 f7.alert(message, '提示')
             }
             isSendInfo = false;
             editUserNameSubBtn.removeClass('pass');
-        }
-        //click sub button post user name; 
+    }
+
+    //click sub button post user name;
     editUserNameSubBtn[0].onclick = () => {
         const val = trim(nameInput.val());
         error = getErr(val);

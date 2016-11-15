@@ -92,6 +92,7 @@ function releaseInfoInit(f7, view, page) {
             const requirementPhoneNumber = trim(tellInput[0].value);
             $$('.release-sub-info').removeClass('pass');
             clearInterval(intervalId);
+            window['releaseInfo'] = data['data'];
             view.router.load({
                 url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}&phone=${requirementPhoneNumber}`,
                 // reload: true

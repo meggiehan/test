@@ -49,7 +49,6 @@ const configs = {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']
     },
     userLogin: {
-        'getPhoneCode': [],
         'subUserPass': ['phone_code','key'],
         'login': ['loginName', 'loginPass'],
     },
@@ -68,6 +67,7 @@ const configs = {
     },
     auth: ['token'],
     inviteter: ['code'],
+    phoneCode: ['phone', 'type'],
     invite: {
         'users': ['pageSize', 'pageNo']
     },

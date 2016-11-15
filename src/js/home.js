@@ -19,10 +19,8 @@ function homeInit(f7, view, page) {
      */
     const callback = (data, err, type) => {
         //cat sell list
-        if (catType === 2) {
-            if(data.data.list[0]['type'] !== 2){
-                return;
-            }
+        const dataType = data.data.list[0]['type'];
+        if (dataType == 2) {
             let catListHtml = '';
             $$.each(data.data.list, (index, item) => {
                 catListHtml += home.cat(item);
@@ -33,10 +31,7 @@ function homeInit(f7, view, page) {
             $$('.home-loading').hide(100);
         }
         //cat buy list
-        if (catType === 1) {
-            if(data.data.list[0]['type'] !== 1){
-                return;
-            }
+        if (dataType == 1) {
             let buyListHtml = '';
             $$.each(data.data.list, (index, item) => {
                 buyListHtml += home.buy(item);

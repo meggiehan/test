@@ -1,9 +1,8 @@
 import store from '../utils/locaStorage';
 import config from '../config';
-import { selldetail, home } from '../utils/template';
+import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function myCollectionInit(f7, view, page) {
@@ -66,10 +65,6 @@ function myCollectionInit(f7, view, page) {
             html(content, otehrHtml, f7);
         }
 
-        setTimeout(() => {
-            $$('img.lazy').trigger('lazy');
-        }, 400)
-
         if (data.data.length < pageSize || !data.data.length) {
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
@@ -87,6 +82,9 @@ function myCollectionInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
         loading = false;
+        setTimeout(() => {
+                $$('img.lazy').trigger('lazy');
+        }, 400)
     }
 
     const getListInfo = () => {

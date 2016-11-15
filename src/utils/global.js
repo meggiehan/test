@@ -190,7 +190,8 @@ class CustomClass {
     }
 
     logout() {
-        store.clear();
+        const { cacheUserinfoKey } = config;
+        store.remove(cacheUserinfoKey);
         window.mainView.router.load({
             url: `views/user.html?logout=true`,
             animatePages: false,
@@ -199,9 +200,10 @@ class CustomClass {
     }
 
     initLogout() {
+        const { cacheUserinfoKey } = config;
         let refreshId = setInterval(() => {
             if (mainView['url'].indexOf('user.html') > -1) {
-                store.clear();
+                store.remove(cacheUserinfoKey);
                 setTimeout(() => {
                     mainView.router.load({
                         url: 'views/user.html?logout=true',

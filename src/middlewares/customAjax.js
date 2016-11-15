@@ -132,6 +132,7 @@ class CustomClass {
                             const { code, message } = data;
                             if (1 == code) {
                                 $$('.release-sub-info').removeClass('pass');
+                                window['releaseInfo'] = data['data'];
                                 mainView.router.load({
                                     url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`,
                                     // reload: true
@@ -172,7 +173,4 @@ class CustomClass {
 }
 
 const CustomAjax = new CustomClass();
-
-
-
 export default CustomAjax;

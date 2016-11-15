@@ -1,5 +1,4 @@
 import customAjax from '../middlewares/customAjax';
-import store from '../utils/locaStorage';
 import config from '../config';
 import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
@@ -7,10 +6,8 @@ import nativeEvent from '../utils/nativeEvent';
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
     const { phone } = page.query;
-    let keyCode = page.query['key'];
-    const { cacheUserinfoKey, voiceCodeWaitTime, mWebUrl } = config;
+    const {  voiceCodeWaitTime, mWebUrl } = config;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const domIndex = $$('.login-code-write>input').length - 1;
     const input = currentPage.find('.login-code-write').children('input')[0];
     const vioceBtn = currentPage.find('.login-code-voice')[0];
     const subBtn = currentPage.find('.login-code-submit')[0];
@@ -19,9 +16,27 @@ function loginCodeInit(f7, view, page) {
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
     $$('.login-code-phone').text(phone);
-    setTimeout(() => {
-        input.focus();
-    }, 500)
+
+    const getCodeCallback = (data) => {
+        if (data.code == 1) {
+            nativeEvent.nativeToast(1, '短信验证码发送成功,请您注意查收!');
+            setTimeout(() => {
+                input.focus();
+            }, 500)
+        }else{
+            vioceBtn.click();
+        }
+    };
+
+    //get code message.
+    customAjax.ajax({
+        apiCategory: 'phoneCode',
+        data: [phone, 1],
+        type: 'get',
+        noCache: true,
+        isMandatory: true
+    }, getCodeCallback);
+
     input.oninput = () => {
         const val = trim(input.value);
         let classes = subBtn.className;
@@ -50,7 +65,7 @@ function loginCodeInit(f7, view, page) {
         isSend = false;
         const { code } = data;
         if (1 == code) {
-            keyCode = data['data'];
+            nativeEvent.nativeToast(1, '当前使用短信服务的人过多，已为你发送语音验证码!');
             const setIntervalId = setInterval(() => {
                 if (_voiceCodeWaitTime < 0) {
                     clearInterval(setIntervalId);
@@ -61,8 +76,12 @@ function loginCodeInit(f7, view, page) {
                 }
                 voiceCountDown();
             }, 1000)
-        } else if (0 == code) {
-            f7.alert('验证码发送频繁，请稍后再试！', '提示');
+            setTimeout(() => {
+                input.focus();
+            }, 500)
+        } else {
+            nativeEvent.nativeToast(0, '当前使用人数过多，请稍后再试!');
+            view.router.back();
         }
         f7.hideIndicator();
     }
@@ -75,16 +94,11 @@ function loginCodeInit(f7, view, page) {
         isSend = true;
         f7.showIndicator();
         customAjax.ajax({
-            apiCategory: 'userLogin',
-            api: 'getPhoneCode',
-            data: [],
+            apiCategory: 'phoneCode',
+            data: [phone, 2],
             type: 'get',
             noCache: true,
-            isMandatory: true,
-            val: {
-                type: 2,
-                phone
-            }
+            isMandatory: true
         }, callback);
     }
 
@@ -103,7 +117,6 @@ function loginCodeInit(f7, view, page) {
         apiCount('btn_term');
         nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
     }
-
 }
 
 module.exports = {

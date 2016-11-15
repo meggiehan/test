@@ -16,7 +16,7 @@ const newF7 = new framework7({
 
 function releaseSuccInit(f7, view, page) {
     const { type, id, fishName, phone } = page.query;
-    const { pageSize, cacheUserinfoKey } = config;
+    const { pageSize, cacheUserinfoKey, shareUrl } = config;
 
     $$('.release-succ-list>.title>span.release-succ-name').text(fishName);
     if (!isLogin()) {
@@ -24,6 +24,42 @@ function releaseSuccInit(f7, view, page) {
             mainView.router.load({
                 url: 'views/login.html?phone=' + phone
             })
+        })
+    }else{
+        const releaseF7 = new framework7({
+            modalButtonOk: '现在转发',
+            modalButtonCancel: '我再想想',
+            fastClicks: true,
+            modalTitle: '温馨提示',
+        });
+        const {
+            type,
+            specifications,
+            stock,
+            provinceName,
+            cityName,
+            fishTypeName,
+            price,
+            id
+        } = window['releaseInfo'];
+        releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
+            let title = '';
+            let messageTile = '';
+            let html = '';
+            const url_ = `${shareUrl}?id=${id}`;
+            const releaseTypeText = 1 == type ? '求购' : '出售';
+            title += `【${releaseTypeText}】${fishTypeName}, ${provinceName||''}${cityName||''}`;
+            messageTile += `我在鱼大大看到${releaseTypeText}信息${fishTypeName||''}，`;
+            messageTile += stock ? `${'库存 ' + stock}，` : '';
+            messageTile += price ? `${'价格' + price}，` : '';
+            messageTile += specifications ? `${'规格' + specifications}，` : '';
+            messageTile += `，对你很有用，赶紧看看吧: ${url_}`;
+            html += `${releaseTypeText}${fishTypeName},`;
+            html += stock ? `${'库存 ' + stock}，` : '';
+            html += price ? `${'价格' + price}，` : '';
+            html += specifications ? `${'规格' + specifications}，` : '';
+            html += '点击查看更多信息~';
+            nativeEvent.shareInfo(title, html, url_, messageTile);
         })
     }
 
