@@ -14,6 +14,25 @@ function homeInit(f7, view, page) {
         $$('.ajax-content').show();
         $$('.home-loading').hide();
     }
+
+    const dealListCallback = (data) => {
+        const {code} = data;
+        if(1 == code){
+            let dealHtml = '';
+            $$.each(data.data, (index, item) => {
+                dealHtml += home.dealInfo(item);
+            })
+            html($$('.home-deal-info-list'), dealHtml);
+        }
+    }
+    //get deal list.
+    customAjax.ajax({
+        apiCategory: 'demandInfo',
+        api: 'dealList',
+        data: [1, pageSize],
+        type: 'get'
+    }, dealListCallback);
+
     /*
      *  When the type is equal to give a value.Execute the following method.
      */
@@ -75,6 +94,12 @@ function homeInit(f7, view, page) {
             type: 'get',
             isMandatory
         }, callback);
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'dealList',
+            data: [1, pageSize],
+            type: 'get'
+        }, dealListCallback);
     })
 
     //go home page;

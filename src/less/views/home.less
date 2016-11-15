@@ -185,7 +185,6 @@
             background-color: @bg-fff;
             .text-shadow(@text-fff);
             border-bottom: 1px solid @border-da;
-            margin-bottom: 1rem;
             .chosen-fingerling-list {
                 padding: 0 2%;
                 width: 96%;
@@ -211,6 +210,75 @@
                             font-size: 1.6rem;
                             .fw-l;
                             background: none;
+                        }
+                    }
+                }
+            }
+        }
+        .home-deal-list{
+            background: @bg-fff;
+            margin-bottom: 1rem;
+            padding: 0.8rem 2%;
+            a{
+                &.active-state{
+                    background: none;
+                }
+                padding-left: 0;
+                color: @text-category;
+                .item-media{
+                    padding:0.3rem 1rem;
+                    img{
+                        display: block;
+                        width: 3.4rem;
+                        border: 0;
+                    }
+                }
+                .item-inner{
+                    margin: 0;
+                    padding: 0 0.5rem 0  1rem;
+                    border-left:1px solid @border-da;
+                    &:after{
+                        display: none;
+                    }
+                    .item-title-row{
+                        padding: 0;
+                        padding-right: 1rem;
+                        height: 46px;
+                        overflow-y: hidden;
+                        .item-title{
+                            .ps-r;
+                            left: 0;
+                            top: 0;
+                            transition: all 60s ease;
+                            -webkit-animation-name: homeDealAnimation;
+                            -webkit-animation-duration:60s;
+                            -webkit-animation-delay: 4s;
+                            -webkit-animation-iteration-count:infinite;
+                            animation-name: homeDealAnimation;
+                            animation-duration:60s;
+                            animation-delay: 4s;
+                            animation-iteration-count:infinite;
+                            &.home-deal-info-list{
+                                width: 100%;
+                                height:460px;
+                                white-space: normal;
+                                color: @text-category;
+                                .deal-list-category{
+                                    color: @text-name;
+                                }
+                                .deal-list-name{
+                                    color: @themeColor;
+                                    padding: 0 0.5rem;
+                                }
+                                .home-deal-info{
+                                    font-weight: lighter;
+                                    height: 46px;
+                                    display: -webkit-box;
+                                    -webkit-box-align: center;
+                                    font-size: 1.4rem;
+                                    //-webkit-box-pack: center;
+                                }
+                            }
                         }
                     }
                 }

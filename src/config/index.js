@@ -43,7 +43,8 @@ const configs = {
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
         'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'type'],
-        'deleteDemandInfo': ['id']
+        'deleteDemandInfo': ['id'],
+        'dealList': ['pageNo', 'pageSize']
     },
     fishType: {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']

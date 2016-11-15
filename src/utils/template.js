@@ -1,5 +1,5 @@
-import { timeDifference, getDate } from './time';
-import { getCertInfo, imgIsUpload } from './string';
+import { timeDifference, getDate, getDealTime } from './time';
+import { getCertInfo, imgIsUpload, getName } from './string';
 import config from '../config/';
 import store from './locaStorage';
 
@@ -117,6 +117,16 @@ module.exports = {
                 `${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}<span>${contact_name || '匿名用户'}</span>所在地区：${province_name || ''}${city_name || ''}` +
                 '</div>'
             return res;
+        },
+        dealInfo: (data) => {
+            const {
+                provinceName,
+                fishTypeName,
+                userName,
+                quantity,
+                tradeDate
+            } = data;
+            return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span><span class="deal-list-category">${fishTypeName} ${quantity}斤</span>, ${getDealTime(tradeDate)}</div>`
         }
     },
     search: {
@@ -223,6 +233,37 @@ module.exports = {
                 `<span class="col-33 invite-time right">${getDate(createTime*0.001, true)}</span>` +
                 '</div>';
             return html;
+        }
+    },
+    deal: {
+        list: (data) => {
+            const {
+                provinceName,
+                cityName,
+                fishTypeName,
+                userName,
+                quantity,
+                tradeDate,
+                personAuth,
+                enterpriseAuth,
+                level,
+                imgUrl
+            } = data;
+            let res = '';
+            res += '<a>' +
+                        `<p class="deal-list-title">${fishTypeName} ${quantity}斤 <span>${provinceName}${cityName||''}</span></p>` +
+                        '<p class="deal-list-user-info">' +
+                            `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
+                            `<span class="deal-list-user-name">${getName(userName)}</span>` +
+                            `<span class="deal-list-time">${getDealTime(tradeDate)}达成交易</span>` +
+                        '</p>' +
+                        '<p>' +
+                           `${1 == personAuth && '<span class="list-cert-style">个人认证</span>' || ''}` +
+                           `${1 == enterpriseAuth && '<span class="list-cert-style">企业认证用户</span>' || ''}` +
+                           `${level && '<span class="list-cert-style">' + level + '级用户</span>' || ''}` +
+                        '</p>' +
+                    '</a>';
+            return res;
         }
     }
 

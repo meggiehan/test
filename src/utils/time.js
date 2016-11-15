@@ -93,6 +93,24 @@ module.exports = {
         var $_hours = test.getHours();
         var $_minute = test.getMinutes();
         return `${$_month}月${$_day}日${$_hours}:${$_minute}`;
+    },
+    getDealTime: (data) => {
+        if(!data){
+            return '';
+        }
+        var test = new Date(parseInt(data));
+        var m = parseInt(test.getMonth()) + 1;
+        var d = test.getDate();
+        var nowTime = new Date().getTime();
+        let res;
+        if(nowTime - test <= 60*60*24*1000){
+            res = '今天';
+        }else if(nowTime - test > 60*60*24*1000 && nowTime - test <= 60*60*24*1000*2){
+            res = '昨天';
+        }else{
+            res = `${m}月${d}日`;
+        }
+        return res;
     }
 }
 
