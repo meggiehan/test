@@ -119,5 +119,5 @@ function myListInit(f7, view, page) {
 }
 
 module.exports = {
-    myListInit,
+    myListInit
 }

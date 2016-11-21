@@ -6,21 +6,31 @@
         </div>
         <div class="center sliding release-info-title">我要买</div>
         <!-- Right part doesn't related to other pages -->
-        <div class="right">
-            <!-- <a href="#" class="link icon-only">
-                <i class="icon icon-bars"></i>
-            </a> -->
-        </div>
+        <div class="right"></div>
     </div>
 </div>
 <div class="page swipeback release-info-content" data-page="releaseInfo">
     <div class="page-content">
-        <div class="release-info-select">
-            <span class="iconfont icon-tick"></span> 已选择
-            <span class="release-info-name"></span>
+        <div class="release-info-header">
+            <div class="release-info-header-title">
+                <input type="text" placeholder="输入标题，说说自己的特点，可以不填">
+                <span>12</span>
+            </div>
+            <div class="release-info-pic">
+                <div class="release-info-pic-list"></div>
+            </div>
         </div>
+        <p class="release-info-pic-tip">多上传真实的图片容易成交哟，最多传5张</p>
         <div class="release-infomation list-block">
             <!-- <div class="release-goods-title">商品详情</div> -->
+            <div class="item-content">
+                <div class="item-inner">
+                    <div class="item-title label release-type">出售品种</div>
+                    <div class="item-input">
+                        <span class="release-fish-name">黑鱼</span>
+                    </div>
+                </div>
+            </div>
             <div class="item-content">
                 <div class="item-inner">
                     <div class="item-title label release-address-label">
@@ -37,23 +47,29 @@
                 <div class="item-inner">
                     <div class="item-title label">价格</div>
                     <div class="item-input release-write-price">
-                        <input type="text" placeholder="点击填写">
+                        <input type="text" placeholder="点击填写价格">
                     </div>
                 </div>
             </div>
-            <div class="item-content">
+            <div class="item-content border-none">
                 <div class="item-inner">
                     <div class="item-title label">规格</div>
                     <div class="item-input release-write-spec">
-                        <input type="text" placeholder="点击填写">
+                        <input type="text" placeholder="点击填写规格">
                     </div>
+                </div>
+            </div>
+            <div class="item-content release-spec-list">
+                <div class="item-inner">
+                    <div class="item-title label"></div>
+                    <div class="item-input release-spec-list-box"></div>
                 </div>
             </div>
             <div class="item-content">
                 <div class="item-inner">
                     <div class="item-title label">数量</div>
                     <div class="item-input release-write-stock">
-                        <input type="text" placeholder="点击填写">
+                        <input type="text" placeholder="点击填写数量">
                     </div>
                 </div>
             </div>
@@ -62,9 +78,15 @@
                     <div class="item-inner">
                         <div class="item-title label">补充说明</div>
                         <div class="item-input release-info-discription">
-                            <textarea placeholder="可以注明特殊要求，例如交易方式"></textarea>
+                            <textarea placeholder="可注明特殊说明，例如养殖方式、水质、投入品等情况等"></textarea>
                             <span><span class="release-info-number">0</span>/50</span>
                         </div>
+                    </div>
+                </div>
+                <div class="item-content release-discription-list">
+                    <div class="item-inner">
+                        <div class="item-title label"></div>
+                        <div class="item-input release-discription-list-box"></div>
                     </div>
                 </div>
             </div>

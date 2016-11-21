@@ -65,6 +65,7 @@ class CustomClass {
 
         let headers = {};
         let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
+        apiCategory == 'demandInfoAdd' && !api && (url = `${config.url}demandInfo`);
         parameType && (newData = JSON.stringify(newData));
 
         if (val) {
@@ -132,6 +133,7 @@ class CustomClass {
                             const { code, message } = data;
                             if (1 == code) {
                                 $$('.release-sub-info').removeClass('pass');
+                                window['releaseInfo'] = data['data'];
                                 mainView.router.load({
                                     url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`,
                                     // reload: true
@@ -140,11 +142,10 @@ class CustomClass {
                                 f7.alert(message, '提示');
                             }
                         }
-                        newData['login_token'] = '';
                         _this.ajax({
-                            apiCategory: 'demandInfo',
-                            api: 'userAddDemandInfo',
+                            apiCategory: 'demandInfoAdd',
                             header: ['token'],
+                            parameType: 'application/json',
                             data: newData,
                             type: 'post',
                             isMandatory: true,
@@ -160,6 +161,9 @@ class CustomClass {
                 } else if (0 == _data.code) {
                     f7.hideIndicator();
                     f7.alert(_data.message, '提示');
+                }else if( -1 == _data.code){
+                    f7.hideIndicator();
+                    nativeEvent.nativeToast(0, '服务器异常，请稍后再试！');
                 }
                 if (!noCache) {
                     _this.checkMaxLenAndDelete();
@@ -172,7 +176,4 @@ class CustomClass {
 }
 
 const CustomAjax = new CustomClass();
-
-
-
 export default CustomAjax;

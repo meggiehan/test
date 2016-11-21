@@ -11,18 +11,13 @@ function userInit(f7, view, page) {
     const { uuid, logout } = page.query;
     let loginStatus = logout ? false : isLogin(uuid);
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const { cacheUserinfoKey, servicePhoneNumber, imgPath, mWebUrl } = config;
+    const { cacheUserinfoKey, imgPath, mWebUrl } = config;
     let userInfomation = store.get(cacheUserinfoKey);
-    const emptyFun = () => {
-        return;
-    }
 
     const qrCodeFun = (data) => {
             const {
                 scanLink,
-                imgUrl,
-                nickname,
-                favoriteCount
+                imgUrl
             } = data || { scanLink: 'http://baidu.com' };
 
             //use qrcodejs create qr code on local.
@@ -50,12 +45,6 @@ function userInit(f7, view, page) {
         f7.hideIndicator();
         const { code, message } = data;
         if (code == 1) {
-            const {
-                scanLink,
-                imgUrl,
-                nickname,
-                favoriteCount
-            } = data.data || { scanLink: 'http://baidu.com' };
             qrCodeFun(data.data);
             userInfomation = data.data;
             store.set(cacheUserinfoKey, data.data);
@@ -75,7 +64,7 @@ function userInit(f7, view, page) {
             apiCategory: 'auth',
             header: ['token'],
             type: 'get',
-            isMandatory: true,
+            noCache: true,
         }, loginCallback);
     } else {
         setTimeout(() => {

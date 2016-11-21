@@ -43,13 +43,13 @@ const configs = {
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
         'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'type'],
-        'deleteDemandInfo': ['id']
+        'deleteDemandInfo': ['id'],
+        'dealList': ['pageNo', 'pageSize']
     },
     fishType: {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']
     },
     userLogin: {
-        'getPhoneCode': [],
         'subUserPass': ['phone_code','key'],
         'login': ['loginName', 'loginPass'],
     },
@@ -68,6 +68,8 @@ const configs = {
     },
     auth: ['token'],
     inviteter: ['code'],
+    demandInfoAdd: [],
+    phoneCode: ['phone', 'type'],
     invite: {
         'users': ['pageSize', 'pageNo']
     },

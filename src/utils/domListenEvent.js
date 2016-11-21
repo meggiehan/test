@@ -48,7 +48,7 @@ module.exports = {
             '<div class="popover-inner">' +
             '<div class="list-block">' +
             '<ul>' +
-            '<li><a href="#" class="item-link list-button" data-id="1">分享</a></li>' +
+            '<li><a href="#" class="item-link list-button" data-id="1">有奖转发</a></li>' +
             '<li><a href="#" class="item-link list-button" data-id="2">举报</a></li>' +
             '</ul>' +
             '</div>' +

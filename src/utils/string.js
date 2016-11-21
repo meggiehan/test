@@ -146,27 +146,124 @@ module.exports = {
         }
     },
 
-    getAddressIndex(provinceName, cityName){
+    getAddressIndex(provinceName, cityName) {
         const district = nativeEvent['getDistricInfo']();
-        let provinceIndex, cityIndex, currentProvince; 
+        let provinceIndex, cityIndex, currentProvince;
         $$.each(district['root']['province'], (index, item) => {
-            if(item['name'] == provinceName){
+            if (item['name'] == provinceName) {
                 provinceIndex = index;
                 currentProvince = item;
                 return;
             }
         })
         currentProvince && currentProvince['city'] && $$.each(currentProvince['city'], (index, item) => {
-            if(item['name'] == cityName){
+            if (item['name'] == cityName) {
                 cityIndex = index;
                 return;
             }
         })
+
         !provinceIndex && (provinceIndex = 0);
         !cityIndex && (cityIndex = 0);
         return {
             provinceIndex,
             cityIndex
+        }
+    },
+
+    getTagInfo() {
+        var tagList = [{
+            id: 1,
+            name: '水花',
+            type: 0
+        }, {
+            id: 2,
+            name: '<1000尾',
+            type: 0
+        }, {
+            id: 3,
+            name: '1000-100尾',
+            type: 0
+        }, {
+            id: 4,
+            name: '100-10尾',
+            type: 0
+        }, {
+            id: 5,
+            name: '10-1尾',
+            type: 0
+        }, {
+            id: 6,
+            name: '>1斤',
+            type: 0
+        }, {
+            id: 7,
+            name: '有来源证明',
+            type: 1,
+            category: 0
+        }, {
+            id: 8,
+            name: '活力好',
+            type: 1,
+            category: 0
+        }, {
+            id: 9,
+            name: '光泽度好',
+            type: 1,
+            category: 0
+        }, {
+            id: 10,
+            name: '体型好',
+            type: 1,
+            category: 0
+        }, {
+            id: 11,
+            name: '有检疫证明',
+            type: 1,
+            category: 0
+        }, {
+            id: 12,
+            name: '交通方便',
+            type: 1,
+            category: 0
+        }, {
+            id: 13,
+            name: '无病无伤',
+            type: 1,
+            category: 1
+        }, {
+            id: 14,
+            name: '皮毛好',
+            type: 1,
+            category: 1
+        }, {
+            id: 15,
+            name: '有检测报告',
+            type: 1,
+            category: 1
+        }, {
+            id: 16,
+            name: '大水面养殖',
+            type: 1,
+            category:1
+        }, {
+            id: 17,
+            name: '已经停料',
+            type: 1,
+            category: 1
+        }]
+        let specList = [];
+        $$.each(tagList, (index, item) => {
+            0 == item.type && specList.push(item);
+        })
+
+        let discriptionList = [];
+        $$.each(tagList, (index, item) => {
+            1 == item.type && discriptionList.push(item);
+        })
+        return {
+            specList,
+            discriptionList
         }
     }
 

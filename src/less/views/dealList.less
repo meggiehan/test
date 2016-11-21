@@ -1,0 +1,51 @@
+.page-deal-list{
+  .deal-show-all{
+    display: none;
+  }
+  .deal-list-info{
+    background: @bg-fff;
+    .text-shadow(@text-fff);
+    a{
+      display: block;
+      padding: 0.8rem 4%;
+      color: @text-category;
+      border-bottom:1px solid @border-da;
+      p{
+        padding: 0;
+        margin: 0;
+        &.deal-list-title{
+          color: @text-name;
+          font-size:1.6rem;
+          span{
+            float: right;
+            font-size: 1.2rem;
+            color: @text-category;
+            padding-top: 0.3rem;
+          }
+        }
+        &.deal-list-user-info{
+          padding: 0.5rem 0;
+          vertical-align: middle;
+          img{
+            width: 2rem;
+            vertical-align: middle;
+            border-radius: 50%;
+          }
+          span{
+            display: inline-block;
+            padding: 0 0.6rem;
+            vertical-align: middle;
+            &.deal-list-time{
+              border-left:1px solid @text-category;
+            }
+          }
+        }
+        .list-cert-style{
+          margin-top: 0.5rem;
+          font-size:1.2rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}

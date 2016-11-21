@@ -30,13 +30,15 @@ import { inviteCodeInit } from './js/inviteCode';
 import { inviteFriendsInit } from './js/inviteFriends';
 import { inviteFriendsListInit } from './js/inviteFriendsList';
 import { myCollectionInit } from './js/myCollection';
+import { dealListInit } from './js/dealList';
+import {releaseSelectTagInit} from './js/releaseSelectTag';
 
 
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const { version, debug, timeout } = config;
+const { version, timeout } = config;
 
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
@@ -49,6 +51,7 @@ let initAppConfig = {
     // uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
     // preloadPreviousPage: true,
+    activeState: false,
     imagesLazyLoadThreshold: 50,
     // pushStatePreventOnLoad: true,
     pushState: true,
@@ -66,10 +69,6 @@ let initAppConfig = {
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
             searchInit(f7, mainView, { query })
-        } else if (url.indexOf('login.html') > -1) {
-            loginInit(f7, mainView, { query })
-        } else if (url.indexOf('loginCode.html') > -1) {
-            loginCodeInit(f7, mainView, { query })
         }
     },
     preroute: (view, options) => {
@@ -187,4 +186,6 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'inviteFriends' && inviteFriendsInit(f7, mainView, page);
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
     page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
+    page.name === 'dealList' && dealListInit(f7, mainView, page);
+    page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
 });
