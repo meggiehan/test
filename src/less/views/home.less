@@ -138,54 +138,91 @@
             background: @bg-fff;
             .text-shadow(@text-fff);
             margin: 0 0 1rem 0;
-            div.col-50 {
-                width: 50%;
-                padding: 0.5rem 0;
-                .border-box;
-                .item-content {
-                    padding-left: 0.8rem;
+            &.home-select-list {
+                &>div{
+                    height: 14rem;
                 }
-                .list-block .item-media+.item-inner {
-                    margin-left: 0.8rem;
-                    padding-right: 0.8rem;
-                    .item-title-row {
-                        font-size: 2rem;
-                        .text-hidden;
-                        line-height: 2.8rem;
-                    }
-                    .item-subtitle {
-                        font-size: 1.2rem;
-                        color: @text-subtitle;
+                a {
+                    color: @text-subtitle;
+                    p {
+                        margin: 0;
                     }
                 }
-                &.last-child {
-                    border-left: 1px solid @border-da;
-                }
-                .iconfont {
-                    font-size: 3.6rem;
-                }
-                .home-chushou {
-                    color: @text-chushou;
-                    &:before {
-                        color: @text-chushou;
+                div.col-40 {
+                    width: 40%;
+                    padding: 1.3rem 0;
+                    border-right: 1px solid @border-da;
+                    .home-chushou{
+                        p{
+                            font-size: 1.2rem;
+                            margin-bottom: 0.2rem;
+                            &.home-sell-title{
+                                font-size: 1.8rem;
+                                color: @text-chushou;
+                            }
+                        }
+                        img{
+                            width: 50px;
+                            display: block;
+                            margin: 1.2rem auto 0;
+                        }
                     }
                 }
-                .home-qiugou {
-                    color: @text-qiugou;
-                    &:before {
-                        color: @text-qiugou;
+                div.col-60 {
+                    width: 60%;
+                    &>a{
+                        height: 7rem;
+                        display: block;
+                        padding: 0.3rem 0;
+                        .box-size();
+                        div:after{
+                            display: none;
+                        }
+                        &:first-child{
+                            border-bottom: 1px solid @border-da;
+                        }
+                        div{
+                            font-size: 1.2rem;
+                            .item-title-row{
+                                font-size: 1.8rem;
+                                padding-bottom: 0.2irem;
+                                &.home-qougou{
+                                    color: @text-level;
+                                }
+                                &.home-level{
+                                    color: @text-qiugou;
+                                }
+                            }
+                            &.item-media{
+                                padding-right: 1.5rem;
+                            }
+                        }
                     }
-                }
-                .item-inner:after {
-                    background: @bg-fff;
                 }
             }
+        }
+        .home-select-list {
+            margin-top: 1rem;
         }
         .chosen-fingerling {
             background-color: @bg-fff;
             .text-shadow(@text-fff);
             border-bottom: 1px solid @border-da;
             .chosen-fingerling-list {
+                span.home-category-hot {
+                    .ps-a;
+                    height: 1.4rem;
+                    display: inline-block;
+                    line-height: 1.4rem;
+                    font-size: 1.2rem;
+                    background: @bg-hot;
+                    .text-shadow(@bg-hot);
+                    border-radius: 0.7rem;
+                    padding: 0 0.5rem;
+                    right: -40%;
+                    top: -0.2rem;
+                    color: @text-fff;
+                }
                 padding: 0 2%;
                 width: 96%;
                 overflow: hidden;
@@ -215,62 +252,62 @@
                 }
             }
         }
-        .home-deal-list{
+        .home-deal-list {
             background: @bg-fff;
             margin-bottom: 1rem;
             padding: 0.8rem 2%;
-            a{
-                &.active-state{
+            a {
+                &.active-state {
                     background: none;
                 }
                 padding-left: 0;
                 color: @text-category;
-                .item-media{
-                    padding:0.3rem 1rem;
-                    img{
+                .item-media {
+                    padding: 0.3rem 1rem;
+                    img {
                         display: block;
                         width: 3.4rem;
                         border: 0;
                     }
                 }
-                .item-inner{
+                .item-inner {
                     margin: 0;
-                    padding: 0 0.5rem 0  1rem;
-                    border-left:1px solid @border-da;
-                    &:after{
+                    padding: 0 0.5rem 0 1rem;
+                    border-left: 1px solid @border-da;
+                    &:after {
                         display: none;
                     }
-                    .item-title-row{
+                    .item-title-row {
                         padding: 0;
                         padding-right: 1rem;
                         height: 46px;
                         overflow-y: hidden;
-                        .item-title{
+                        .item-title {
                             .ps-r;
                             left: 0;
                             top: 0;
                             transition: all 60s ease;
                             -webkit-animation-name: homeDealAnimation;
-                            -webkit-animation-duration:60s;
+                            -webkit-animation-duration: 60s;
                             -webkit-animation-delay: 4s;
-                            -webkit-animation-iteration-count:infinite;
+                            -webkit-animation-iteration-count: infinite;
                             animation-name: homeDealAnimation;
-                            animation-duration:60s;
+                            animation-duration: 60s;
                             animation-delay: 4s;
-                            animation-iteration-count:infinite;
-                            &.home-deal-info-list{
+                            animation-iteration-count: infinite;
+                            &.home-deal-info-list {
                                 width: 100%;
-                                height:460px;
+                                height: 460px;
                                 white-space: normal;
                                 color: @text-category;
-                                .deal-list-category{
+                                .deal-list-category {
                                     color: @text-name;
                                 }
-                                .deal-list-name{
+                                .deal-list-name {
                                     color: @themeColor;
                                     padding: 0 0.5rem;
                                 }
-                                .home-deal-info{
+                                .home-deal-info {
                                     font-weight: lighter;
                                     height: 46px;
                                     display: -webkit-box;
@@ -303,6 +340,19 @@
                         }
                         .col-30 {
                             width: 30%;
+                            .sell-list-imgs{
+                                display: inline-block;
+                                .ps-a;
+                                bottom: 0.5rem;
+                                left: 0.5rem;
+                                background: @bg-black-7;
+                                .text-shadow(@bg-black-7);
+                                color: @text-fff;
+                                height: 2rem;
+                                line-height: 2rem;
+                                padding: 0 0.8rem;
+                                border-radius: 1rem;
+                            }
                         }
                         .col-70 {
                             width: 67%;

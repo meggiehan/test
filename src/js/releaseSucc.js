@@ -43,6 +43,9 @@ function releaseSuccInit(f7, view, page) {
             id
         } = window['releaseInfo'];
 
+        const {nameAuthentication} = store.get(cacheUserinfoKey);
+        nameAuthentication && $$('.release-succ-head>p').eq(1).text('所有人都可以看到你的信息啦');
+
         const catBtn = `<a href='views/${1 == type ? "buydetail" : "selldetail"}.html?id=${id}' class='button col-45' class='button col-45 first'>查看信息详情</a>`;
         currentPage.find('.release-succ-back-btn').children('a').eq(1).remove();
         currentPage.find('.release-succ-back-btn').append(catBtn);
