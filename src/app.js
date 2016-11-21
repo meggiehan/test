@@ -31,6 +31,7 @@ import { inviteFriendsInit } from './js/inviteFriends';
 import { inviteFriendsListInit } from './js/inviteFriendsList';
 import { myCollectionInit } from './js/myCollection';
 import { dealListInit } from './js/dealList';
+import {releaseSelectTagInit} from './js/releaseSelectTag';
 
 
 
@@ -186,4 +187,5 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
     page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
     page.name === 'dealList' && dealListInit(f7, mainView, page);
+    page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
 });

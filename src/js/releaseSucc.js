@@ -17,8 +17,8 @@ const newF7 = new framework7({
 function releaseSuccInit(f7, view, page) {
     const { type, id, fishName, phone } = page.query;
     const { pageSize, cacheUserinfoKey, shareUrl } = config;
-
-    $$('.release-succ-list>.title>span.release-succ-name').text(fishName);
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    currentPage.find('span.release-succ-name').text(fishName);
     if (!isLogin()) {
         newF7.confirm('登录之后可以随时查看自己发布的信息，有更多好处，现在去登录吧？', '友情提示', () => {
             mainView.router.load({
@@ -42,6 +42,11 @@ function releaseSuccInit(f7, view, page) {
             price,
             id
         } = window['releaseInfo'];
+
+        const catBtn = `<a href='views/${1 == type ? "buydetail" : "selldetail"}.html?id=${id}' class='button col-45' class='button col-45 first'>查看信息详情</a>`;
+        currentPage.find('.release-succ-back-btn').children('a').eq(1).remove();
+        currentPage.find('.release-succ-back-btn').append(catBtn);
+        
         releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
             let title = '';
             let messageTile = '';
@@ -77,8 +82,8 @@ function releaseSuccInit(f7, view, page) {
                 strHtml += home.cat(item);
             }
         })
-        html($$('.release-succ-list>.list-view'), strHtml, f7);
-        strHtml && ($$('.release-succ-list').addClass('show'));
+        html(currentPage.find('.release-succ-list').children('.list-view'), strHtml, f7);
+        strHtml && currentPage.find('.release-succ-list').addClass('show');
         f7.hideIndicator();
     }
     customAjax.ajax({

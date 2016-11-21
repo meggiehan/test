@@ -21,7 +21,7 @@ module.exports = {
         if(isSame){
         	return;
         }
-        console.log(val)
+        // console.log(val)
         history.push(val);
         store.set(cacheHistoryKey, history);
         nativeEvent['searchHistoryActions'](1, str);

@@ -258,12 +258,37 @@ module.exports = {
                             `<span class="deal-list-time">${getDealTime(tradeDate)}达成交易</span>` +
                         '</p>' +
                         '<p>' +
-                           `${1 == personAuth && '<span class="list-cert-style">个人认证</span>' || ''}` +
+                           `${1 == personAuth && '<span class="list-cert-style">个人认证用户</span>' || ''}` +
                            `${1 == enterpriseAuth && '<span class="list-cert-style">企业认证用户</span>' || ''}` +
                            `${level && '<span class="list-cert-style">' + level + '级用户</span>' || ''}` +
                         '</p>' +
                     '</a>';
             return res;
+        }
+    },
+    releaseInfo: {
+        picList: (imgurl, currentPage) => {
+            const isFist = currentPage.find('.release-info-pic-list').children('span').length == 0;
+            let res = '';
+            res += '<span class="col-20">' +
+                        `<img class="release-info-img" src="${imgurl}${imgPath(9)}" alt="">` +
+                        '<b class="iconfont icon-clear remove-release-img-btn"></b>' +
+                        `${isFist && '<span>封面</span>' || ''}` +
+                    '</span>'
+            return res;
+        },
+        addPicBtn: () => {
+            let span = '';
+            const height = (($$(window).width() - 7 )*18.1*0.01).toFixed(2);
+            span += '<span class="col-20 release-info-pic-add add" style="height:'+ height +'px;overflow:hidden;">' +
+                        `<i class="iconfont icon-add add" style="line-height:${height*0.5}px"></i>` +
+                        `<p class="add" style="line-height:${height*0.4}px">添加图片</p>` +
+                    '</span>'
+            return span;
+        },
+        tag: (data) => {
+            const {id, name} = data;
+            return `<span data-id="${id}">${name}</span>`;
         }
     }
 

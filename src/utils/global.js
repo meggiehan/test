@@ -2,7 +2,7 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
-import { fishCert } from '../utils/template';
+import { fishCert, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 
 const f7 = new framework7({
@@ -227,6 +227,15 @@ class CustomClass {
         }
     }
 
+    postReleasePicCallback(index, url, name){
+        const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+        currentPage.find('.release-info-pic-add').remove();
+        const len = currentPage.find('.release-info-pic-list').children('span').length;
+        currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
+        len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -244,6 +253,7 @@ class CustomClass {
         window['logout'] = this.logout;
         window['initLogout'] = this.initLogout;
         window['jsBack'] = this.jsBack;
+        window['postReleasePicCallback'] = this.postReleasePicCallback;
     }
 }
 

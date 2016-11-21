@@ -131,7 +131,7 @@ function filterInit(f7, view, page) {
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
 
-        fishTypeNameQuery && currentNavbar('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
+        fishTypeNameQuery && currentNavbar.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
     }

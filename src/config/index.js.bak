@@ -68,6 +68,7 @@ const configs = {
     },
     auth: ['token'],
     inviteter: ['code'],
+    demandInfoAdd: [],
     phoneCode: ['phone', 'type'],
     invite: {
         'users': ['pageSize', 'pageNo']
