@@ -44,7 +44,11 @@ function selldetailInit(f7, view, page) {
                 imgePath,
                 contactName,
                 requirementPhone,
-                refuseDescribe
+                refuseDescribe,
+                title,
+                descriptionTags,
+                quantity_tags,
+                imgs
             } = demandInfo;
             const {
                 id,
@@ -72,16 +76,27 @@ function selldetailInit(f7, view, page) {
             addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
             // ajax back, edit html.
-            currentPage.find('.selldetail-info-pic').children('img').attr('src', imgePath + config['imgPath'](11));
+            currentPage.find('.sell-detail-img').children('img').attr('src', JSON.parse(imgs)[0] + config['imgPath'](400));
             currentPage.find('.goods-name').text(fishTypeName);
-            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
-            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
-            currentPage.find('.selldetail-price').text(price || '面议');
-            specifications ? currentPage.find('.selldetail-spec').text(specifications) : currentPage.find('.selldetail-spec').parent().remove();
+            currentPage.find('.info-release-time').text(timeDifference(checkTime));
+            currentPage.find('.info-price').text(price || '面议');
+            currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
+            currentPage.find('.selldetail-name').text(fishTypeName);
+
+            let specText = quantity_tags && JSON.parse(quantity_tags).length && ('<'+JSON.parse(quantity_tags)[0]+'>，') || '';
+            specifications && (specText += specifications);
+            specText ? currentPage.find('.selldetail-spec').text(specText) : currentPage.find('.selldetail-spec').parent().remove();
+
             stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
-            provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`) : currentPage.find('.selldetail-address').parent().remove();
+            provinceName ? currentPage.find('.city-name').children('b').text(`${provinceName} ${cityName}`) : currentPage.find('.city-name').parent().remove();
             describe ? currentPage.find('.selldetail-description').text(describe) : currentPage.find('.selldetail-description').parent().remove();
             let certHtml = '';
+            let tagHtml = '';
+            descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
+                tagHtml += `<span class="iconfont icon-auto-end">${item.tagName}</span>`;
+            })
+            tagHtml && html(currentPage.find('.info-tages-list'), tagHtml, f7);
+
             $$.each(user_ishCertificate_list.list, (index, item) => {
                 const { fish_type_name } = item;
                 fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
@@ -91,10 +106,18 @@ function selldetailInit(f7, view, page) {
             level && currentPage.find('.user-name').children('i').addClass(`iconfont icon-v${level}`);
             currentPage.find('.user-tell').children('b').text(requirementPhone);
             currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
-            1 == enterpriseAuthenticationState && currentPage.find('.selldetail-cert-info').addClass('company-identity').show();
-            1 == personalAuthenticationState && currentPage.find('.selldetail-cert-info').addClass('individual-identity').show();
+
+            let imgHtml = '';
+            imgs && JSON.parse(imgs).length && $$.each(JSON.parse(imgs), (index, item) => {
+                imgHtml += `<img data-src="${item}" src="img/app_icon_108.png" class="lazy" />`
+            })
+            imgHtml && html(currentPage.find('.info-img-list'), imgHtml, f7);
+            
+            1 == enterpriseAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(1).show();
+            1 == personalAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(0).show();
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
+            currentPage.find('.sell-detail-name').children('span').text(title);
             if (isLogin()) {
                 if (favorite) {
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
@@ -235,7 +258,7 @@ function selldetailInit(f7, view, page) {
     }
 
     //View more current user information
-    $$('.selldetail-user-title').on('click', () => {
+    currentPage.find('.view-user-index').on('click', () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
@@ -243,6 +266,16 @@ function selldetailInit(f7, view, page) {
 
     //view cert of new window.
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
+
+    //cat info list img;
+    currentPage.find('.info-img-list')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        if(ele.tagName !== 'IMG'){
+            return;
+        }
+        const url = $$(ele).attr('src');
+        nativeEvent.catPic(url);
+    }
 
     //share
     shareBtn.onclick = () => {

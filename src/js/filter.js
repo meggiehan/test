@@ -10,6 +10,7 @@ function filterInit(f7, view, page) {
     const _district = nativeEvent['getDistricInfo']();
     const { ios, android, androidChrome, osVersion } = window.currentDevice;
     const { keyvalue, release, type, id, cityId, search } = page.query;
+    const member = page['query']['member'] || false;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const currentNavbar = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
     const searchBtn = $$('.filter-searchbar input');
@@ -36,8 +37,31 @@ function filterInit(f7, view, page) {
      * 1: home -> filter. query: type
      * 2: search -> filter. query: searchVal or category id.
      * 3: releaseSelectType -> filter. query: release and type
+     * 4: member -> member . get member user list.
      */
     trim(searchValue) && searchBtn.val(searchValue);
+
+    //when member filter.
+    if(member){
+        currentNavbar.find('.filter-member-img').show();
+        currentPage.find('.page-content').css('paddingTop', '17.4rem');
+        const scrollEvent = (e) => {
+            const top = currentPage.find('.page-content').scrollTop();
+            const height = 80 - top;
+            if(top <= 80){
+                currentPage.find('.page-content').css('paddingTop', `${94+height}px`);
+                currentNavbar.find('.filter-member-img').css('height', height + 'px');
+                currentPage.find('.filter-tabs-content').css('top', `${94+height}px`);
+            }else{
+                currentPage.find('.page-content').css('paddingTop', '9.4rem');
+                currentNavbar.find('.filter-member-img').css('height', '0');
+                currentPage.find('.filter-tabs-content').css('top', '9.4rem');
+            }
+        }
+        currentPage.find('.page-content')[0].onscroll = (ev) => {
+            setTimeout(() => {scrollEvent(ev)}, 50)
+        };
+    }
 
     /*
      * Ajax callback.
@@ -215,7 +239,7 @@ function filterInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',
-            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
             type: 'get',
         }, listCallback);
         //root district render;
@@ -253,7 +277,7 @@ function filterInit(f7, view, page) {
         }
 
         //change release type;
-        currentPage.find('.filter-info-type')[0].onclick =  (e) => {
+        currentPage.find('.filter-info-type')[0].onclick = (e) => {
             isShowAll = false;
             tabChange = true;
             const event = e || window.event;
@@ -275,7 +299,7 @@ function filterInit(f7, view, page) {
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
                     api: 'getDemandInfoList',
-                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
                     type: 'get'
                 }, listCallback);
             }
@@ -312,7 +336,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
                 type: 'get'
             }, listCallback);
         }
@@ -332,7 +356,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
                 type: 'get',
                 isMandatory: true
             }, listCallback);
@@ -348,7 +372,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
                 type: 'get',
                 isMandatory
             }, listCallback);
@@ -379,43 +403,44 @@ function filterInit(f7, view, page) {
 
     // select fish category;
     currentPage.find('.filter-fish-type').children('.col-65')[0].onclick = (e) => {
-            const event = e || window.event;
-            const ele = event.target;
-            const classes = ele.className;
-            if (ele.tagName !== 'SPAN') {
-                return;
-            }
-            apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
-            tabChange = true;
-            const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
-            $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
-            $$('.filter-release-next').addClass('pass');
-            const tabText = ele.innerText;
-            releaseFishName = ele.innerText;
-            ele.className += ' active-ele';
-            parentFishInfo['id'] = ele.getAttribute('data-parent-id');
-            parentFishInfo['name'] = ele.getAttribute('data-parent-name');
-            currentFishId = childId;
-            if (!release) {
-                tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
-                currentPage.find('.winodw-mask').removeClass('on');
-                $$('.filter-tabs-content').removeClass('on');
-                $$('.filter-tab>div').removeClass('active-ele');
-                isShowAll = false;
-                searchValue = '';
-                searchBtn.val('');
-                isInfinite = false;
-                pageNo = 1;
-                customAjax.ajax({
-                    apiCategory: 'demandInfo',
-                    api: 'getDemandInfoList',
-                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
-                    type: 'get'
-                }, listCallback);
-
-            }
+        const event = e || window.event;
+        const ele = event.target;
+        const classes = ele.className;
+        if (ele.tagName !== 'SPAN') {
+            return;
         }
-        //js location to other page
+        apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
+        tabChange = true;
+        const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
+        $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
+        $$('.filter-release-next').addClass('pass');
+        const tabText = ele.innerText;
+        releaseFishName = ele.innerText;
+        ele.className += ' active-ele';
+        parentFishInfo['id'] = ele.getAttribute('data-parent-id');
+        parentFishInfo['name'] = ele.getAttribute('data-parent-name');
+        currentFishId = childId;
+        if (!release) {
+            tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
+            currentPage.find('.winodw-mask').removeClass('on');
+            $$('.filter-tabs-content').removeClass('on');
+            $$('.filter-tab>div').removeClass('active-ele');
+            isShowAll = false;
+            searchValue = '';
+            searchBtn.val('');
+            isInfinite = false;
+            pageNo = 1;
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'getDemandInfoList',
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+                type: 'get'
+            }, listCallback);
+
+        }
+    }
+
+    //js location to other page
     $$('.home-search-mask').on('click', () => {
         const currentHistory = view['history'];
         let isHasFilterPage = 0;

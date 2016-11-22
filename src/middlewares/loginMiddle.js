@@ -21,7 +21,8 @@ function logOut() {
 
 function activeLogout() {
     store.remove(cacheUserinfoKey);
-    nativeEvent.setNativeUserInfo();
+    // nativeEvent.setNativeUserInfo();
+    nativeEvent.logOut();
     mainView.router.load({
          url: 'views/user.html',
          reload: true

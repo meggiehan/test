@@ -17,7 +17,8 @@ function userInit(f7, view, page) {
     const qrCodeFun = (data) => {
             const {
                 scanLink,
-                imgUrl
+                imgUrl,
+                invitationCode
             } = data || { scanLink: 'http://baidu.com' };
 
             //use qrcodejs create qr code on local.
@@ -38,6 +39,7 @@ function userInit(f7, view, page) {
 
             if (imgUrl) {
                 $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
+                $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
             }
     }
 
