@@ -18,18 +18,66 @@
             <div class="pull-to-refresh-arrow"></div>
         </div>
         <div class="selldetail-info">
+            <div class="sell-detail-img">
+                <img src="img/app_icon_108.png" class="lazy">
+            </div>
             <div class="row first">
-                <div class="col-25 selldetail-info-pic"><img src="img/app_icon_108.png" class="lazy"></div>
-                <div class="col-75">
-                    <div class="cat-list-title row">
-                        <div class="col-60 goods-name"></div>
-                        <div class="col-40 goods-create-time"></div>
-                    </div>
-                    <div class="selldetail-price-info">
-                        <span class="selldetail-label">出售</span>
-                        <span class="selldetail-price"></span>
-                    </div>
+                <div class="sell-detail-header">
+                    <p class="sell-detail-name"><span></span></p>
+                    <p class="sell-detail-address">
+                        <span class="city-name">
+                            <i class="iconfont icon-more"></i>
+                            <b></b>
+                        </span>|
+                        <span class="city-distance">距离你<i>532</i>公里</span>
+                    </p>
+                    <p class="sell-detail-price">
+                        <span class="info-price"></span>
+                        <span class="info-release-time"></span>
+                    </p>
                 </div>
+            </div>
+            <p class="info-tages-list"></p>
+        </div>
+        <div class="selldetail-cert">
+            <div class="selldetail-cert-title"><i class="title-label-border"></i>相关证书</div>
+            <div class="selldetail-cert-list" onclick="apiCount('cell_certificate')"></div>
+        </div>
+        <div class="selldetail-user">
+            <!-- <div class="selldetail-user-title" onclick="apiCount('cell_profile')">
+                联系人
+                <span class="cat-user-info iconfont icon-right">查看更多信息</span>
+            </div> -->
+            <div class="row selldetail-userinfo view-user-index">
+                <div class="col-18 selldetail-user-pic"><img src="img/defimg.png" class="lazy"></div>
+                <div class="col-60 row">
+                    <div class="cat-list-title">
+                        <div class="user-name">
+                            <span></span>
+                            <i></i>
+                        </div>
+                    </div>
+                    <div class="sell-detail-auth">
+                        <span class="auth-individual">个人认证</span>
+                        <span class="auth-company">企业认证</span>
+                    </div>
+                    <!-- <div class="selldetail-price-info row">
+                        <span class="user-tell col-60">手机号：<b></b></span>
+                        <span class="user-time col-40"></span>
+                    </div> -->
+                    <!-- <div class="selldetail-cert-info">
+                        <span class="iconfont icon-auto-end individual">个人认证</span>
+                        <span class="iconfont icon-auto-end company">企业认证</span>
+                    </div> -->
+                </div>
+                <div class="col-20 iconfont icon-right row">进入店铺</div>
+            </div>
+        </div>
+        <div class="selldetail-info sell-detail-info">
+            <div class="selldetail-info-title"><i class="title-label-border"></i>详细信息</div>
+            <div class="row">
+                <span class="col-30">品种：</span>
+                <span class="col-70 selldetail-name"></span>
             </div>
             <div class="row">
                 <span class="col-30">规格：</span>
@@ -48,34 +96,9 @@
                 <span class="col-70 selldetail-description"></span>
             </div>
         </div>
-        <div class="selldetail-cert">
-            <div class="selldetail-cert-title">相关证书</div>
-            <div class="selldetail-cert-list" onclick="apiCount('cell_certificate')"></div>
-        </div>
-        <div class="selldetail-user">
-            <div class="selldetail-user-title" onclick="apiCount('cell_profile')">
-                联系人
-                <span class="cat-user-info iconfont icon-right">查看更多信息</span>
-            </div>
-            <div class="row selldetail-userinfo">
-                <div class="col-18 selldetail-user-pic"><img src="img/defimg.png" class="lazy"></div>
-                <div class="col-80">
-                    <div class="cat-list-title row">
-                        <div class="col-90 user-name">
-                            <span></span>
-                            <i></i>
-                        </div>
-                    </div>
-                    <div class="selldetail-price-info row">
-                        <span class="user-tell col-60">手机号：<b></b></span>
-                        <span class="user-time col-40"></span>
-                    </div>
-                    <div class="selldetail-cert-info">
-                        <span class="iconfont icon-auto-end individual">个人认证</span>
-                        <span class="iconfont icon-auto-end company">企业认证</span>
-                    </div>
-                </div>
-            </div>
+        <div class="sell-detail-img-list">
+            <div class="sell-detail-img-title"><i class="title-label-border"></i>其他照片</div>
+            <div class="info-img-list"></div>
         </div>
     </div>
     <div class="toolbar tabbar row selldetail-footer">

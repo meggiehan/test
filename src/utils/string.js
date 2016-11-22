@@ -124,17 +124,17 @@ module.exports = {
             certName = '检验检疫合格证';
         } else if (4 == type) {
             text = '无公害农产品产地';
-            label = '无';
+            label = '证';
             classes = 'identity';
             certName = '无公害农产品产地认证证书';
         } else if (5 == type) {
             text = '绿色食品';
-            label = '绿';
+            label = '证';
             classes = 'identity';
             certName = '绿色食品证书';
         } else if (6 == type) {
             text = '有机产品';
-            label = '有';
+            label = '证';
             classes = 'identity';
             certName = '有机产品认证证书';
         }
