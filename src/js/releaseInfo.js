@@ -10,6 +10,7 @@ function releaseInfoInit(f7, view, page) {
     const { ios } = currentDevice;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentNav = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
     const tellInput = currentPage.find('input[placeholder="请填写手机号"]');
     const addressInput = currentPage.find('.release-write-address').children('input');
     const priceInput = currentPage.find('.release-write-price').children('input');
@@ -44,10 +45,10 @@ function releaseInfoInit(f7, view, page) {
         addressInput[0] && addressInput.val(initProvinceName + initCityName);
     }
     if (type == 1) {
-        html(currentPage.find('.release-info-title'), '我要买', f7);
+        // html(currentNav.find('.release-info-title'), '我要买', f7);
         html(currentPage.find('.release-sub-info'), '发布求购信息', f7);
     } else {
-        html(currentPage.find('.release-info-title'), '我要卖', f7);
+        html(currentNav.find('.release-info-title'), '我要卖', f7);
         html(currentPage.find('.release-sub-info'), '发布出售信息', f7);
     }
     currentPage.find('.release-fish-name').text(fishName);
@@ -195,6 +196,9 @@ function releaseInfoInit(f7, view, page) {
         classes.indexOf('add') > -1 && nativeEvent['postPic'](5, '', '', 'postReleasePicCallback');
         //remove img.
         if(classes.indexOf('remove-release-img-btn') > -1){
+            if(!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1){
+                $$(ele).parent().next().children('span').show();
+            }
             $$(ele).parent('span').remove();
             !currentPage.find('.release-info-pic-add').length && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
         }
@@ -207,6 +211,17 @@ function releaseInfoInit(f7, view, page) {
             res.push($$(item).attr('src').split('@')[0]);
         })
         return res;
+    }
+
+    //title check.
+    currentPage.find('.release-info-header-title').children()[0].oninput = () => {
+        const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
+        if(val.length > 12){
+            currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0,11));
+            currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
+        }else{
+            currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
+        }
     }
 
     const subInfoTest = () => {
