@@ -38,6 +38,7 @@ const configs = {
             "keyvalue",
             "pageSize",
             "pageNo",
+            "member"
         ],
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],

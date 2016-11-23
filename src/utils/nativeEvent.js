@@ -215,6 +215,22 @@ class CustomClass {
         ios ? JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
     }
 
+    getDataToNative(key){
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
+            return false;
+        }
+        ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
+    }
+
+    setDataToNative(key, val){
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_SaveObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_SaveObjectWithKey'])) {
+            return false;
+        }
+        ios ? JS_SaveObjectWithKey(key, val) : window.yudada.JS_SaveObjectWithKey(key, val);
+    }
+
 }
 
 const nativeEvent = new CustomClass;
