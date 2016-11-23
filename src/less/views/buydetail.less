@@ -2,8 +2,15 @@
     .page-content {
         .selldetail-info {
             border-bottom: 1px solid @border-da;
-            background: @bg-fff;
-            .text-shadow(@text-fff);
+            &>div {
+                background: @bg-fff;
+                .text-shadow(@text-fff);
+                &.info-tages-list {
+                    background: @bg-f7;
+                    .text-shadow(@bg-f7);
+                    border-bottom: 1px solid @border-da;
+                }
+            }
             &>.row {
                 padding: 2%;
                 border-top: 1px solid @border-da;
@@ -26,31 +33,53 @@
                     padding: 0.5rem 0;
                 }
             }
+            .buydetail-info-title {
+                padding: 1rem 2%;
+                line-height: 1.4;
+                color: @text-subtitle;
+                font-size: 1.6rem;
+                color: @text-name;
+            }
+            .selldetail-label {
+                display: inline-block;
+                height: 2rem;
+                line-height: 2rem;
+                padding: .1rem .8rem;
+                border-radius: .3rem;
+                color: @text-fff;
+                font-size: 1.4rem;
+                vertical-align: middle;
+                background: @text-water;
+                .text-shadow(@text-water);
+            }
+            .buy-goods-name{
+                vertical-align: middle;
+            }
             .buydetail-info {
-                padding: 3% 2%;
+                padding: 3% 2% 0;
                 border-top: 1px solid @border-da;
                 line-height: 1.2;
                 .text-hidden;
+                .buy-detail-address {
+                    color: @text-category;
+                    padding-top: 1rem;
+                }
                 .goods-name {
-                    font-size: 2.2rem;
+                    font-size: 2rem;
                     color: @text-name;
                 }
                 .goods-create-time {
                     color: @text-subtitle;
                     .text-right;
-                    padding-top: 0.8rem;
+                    font-size: 1.4rem;
+                    padding-top: 0.2rem;
                 }
                 .selldetail-price-info {
-                    padding-top: 1rem;
-                    font-size: 1.6rem;
-                    .selldetail-label {
-                        display: inline-block;
-                        padding: 0.5rem;
-                        border: 0.3rem;
-                        color: @text-fff;
-                        background: @text-qiugou;
-                        border-radius: 0.3rem;
-                        .text-shadow(@text-qiugou);
+                    padding: 1rem 0;
+                    font-weight: lighter;
+                    font-size: 1.8rem;
+                    b {
+                        font-weight: lighter;
                     }
                     .selldetail-price {
                         color: @text-chushou;
@@ -127,8 +156,10 @@
                 }
             }
             .selldetail-userinfo {
-                padding: 2%;
-                border-top: 1px solid @border-da;
+                padding: 1rem 2%;
+                margin-bottom: 1rem;
+                -webkit-box-align: center;
+                -webkit-box-pack: center;
                 .col-18 {
                     width: 18%;
                     img {
@@ -136,9 +167,23 @@
                         width: 100%;
                     }
                 }
-                .col-80 {
-                    width: 80%;
+                .col-20 {
+                    width: 23%;
+                    white-space: nowrap;
+                    .text-hidden;
+                    overflow: visible;
+                    color: @text-subtitle;
+                    font-size: 1.4rem;
+                    min-height: 4.5rem;
+                    line-height: 4.5rem;
+                    text-align: right;
+                }
+                .col-60 {
+                    width: 57%;
+                    padding-left: 2%;
                     vertical-align: middle;
+                    min-height: 4.5rem;
+                    height: 100%;
                     .goods-weight,
                     .goods-name,
                     .goods-price,
@@ -191,25 +236,32 @@
                         color: @text-subtitle;
                         width: 40%;
                     }
-                    .user-tell {
-                        width: 60%;
-                        color: @text-subtitle;
+                    .buy-detail-auth {
+                        font-size: 1.4rem;
                         .text-hidden;
-                        b {
-                            .fw-l;
+                        span {
+                            margin-right: 0.5rem;
+                            color: @text-subtitle;
+                            display: none;
+                            &.auth-individual:before,
+                            &.auth-company:before {
+                                vertical-align: top;
+                                font-size: 1.2rem;
+                                display: inline-block;
+                                content: '实';
+                                width: 1.5rem;
+                                height: 1.5rem;
+                                line-height: 1.5rem;
+                                background: @themeColor;
+                                .text-shadow(@themeColor);
+                                color: @text-fff;
+                                margin-right: 0.3rem;
+                                .text-center;
+                            }
+                            &.auth-company:before {
+                                content: '企';
+                            }
                         }
-                    }
-                    .user-cert {
-                        line-height: 2rem;
-                        color: @text-chushou;
-                        .text-right;
-                        border: 1px solid @text-test;
-                        color: @text-test;
-                        float: right;
-                        padding: 0 0.3rem;
-                        border-radius: 0.3rem;
-                        max-width: 60%;
-                        .text-hidden;
                     }
                 }
             }
@@ -273,9 +325,6 @@
 }
 
 .page-buydetail {
-    .selldetail-user {
-        // display: none;
-    }
     .page-content>.iconfont {
         .text-center;
         display: none;

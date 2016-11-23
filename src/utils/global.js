@@ -4,7 +4,9 @@ import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
 import { fishCert, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
-import {goIdentity} from './domListenEvent';
+import { goIdentity } from './domListenEvent';
+import { logOut, isLogin } from '../middlewares/loginMiddle';
+import { getQuery } from './string';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -243,16 +245,48 @@ class CustomClass {
      */
     jsJumpFromPush(obj) {
         const { cacheUserinfoKey, mWebUrl } = config;
-        const newObj = JSON.parse(obj);
-        const { type, id } = newObj;
+        const { type, id } = getQuery(obj);
+        console.log(getQuery(obj));
         if ('demandInfo' == type) {
-            mainView.load({
-                url: 'views/selldetail.html?id=' + id
-            })
-        } else if ('level' == type) {
-            nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${id}`);
-        }else if('auth' == type){
-            goIdentity();
+            const callback = (data) => {
+                if (data.data) {
+                    const type = data.data.demandInfo.type;
+
+                    mainView.router.load({
+                        url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
+                    })
+                }
+            }
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'getDemandInfo',
+                data: [id],
+                header: ['token'],
+                val: {
+                    id
+                },
+                type: 'get'
+            }, callback);
+        } else {
+            if (!isLogin()) {
+                nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+                mainView.router.load({
+                    url: 'views/login.html'
+                })
+                return;
+            }
+            if ('level' == type) {
+                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserinfoKey).id}`);
+            } else if ('auth' == type) {
+                if (!isLogin()) {
+                    nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+                    mainView.router.load({
+                        url: 'views/login.html'
+                    })
+                    return;
+                }
+                goIdentity();
+            }
         }
     }
 
