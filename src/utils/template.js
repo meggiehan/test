@@ -283,7 +283,7 @@ module.exports = {
             res += '<span class="col-20">' +
                 `<img class="release-info-img" src="${imgurl}${imgPath(9)}" alt="">` +
                 '<b class="iconfont icon-clear remove-release-img-btn"></b>' +
-                `${isFist && '<span>封面</span>' || ''}` +
+                `<span style="display:${isFist ? 'block' : 'none'}">封面</span>` +
                 '</span>'
             return res;
         },

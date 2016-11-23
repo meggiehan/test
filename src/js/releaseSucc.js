@@ -21,6 +21,7 @@ function releaseSuccInit(f7, view, page) {
     currentPage.find('span.release-succ-name').text(fishName);
     if (!isLogin()) {
         newF7.confirm('登录之后可以随时查看自己发布的信息，有更多好处，现在去登录吧？', '友情提示', () => {
+            apiCount('btn_text_guideLogin_yes');
             mainView.router.load({
                 url: 'views/login.html?phone=' + phone
             })
@@ -46,11 +47,12 @@ function releaseSuccInit(f7, view, page) {
         const {nameAuthentication} = store.get(cacheUserinfoKey);
         nameAuthentication && $$('.release-succ-head>p').eq(1).text('所有人都可以看到你的信息啦');
 
-        const catBtn = `<a href='views/${1 == type ? "buydetail" : "selldetail"}.html?id=${id}' class='button col-45' class='button col-45 first'>查看信息详情</a>`;
+        const catBtn = `<a href='views/${1 == type ? "buydetail" : "selldetail"}.html?id=${id}' class='button col-45' onclick="apiCount('btn_text_goDetail')" class='button col-45 first'>查看信息详情</a>`;
         currentPage.find('.release-succ-back-btn').children('a').eq(1).remove();
         currentPage.find('.release-succ-back-btn').append(catBtn);
         
         releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
+            apiCount('btn_text_guideShare_yes');
             let title = '';
             let messageTile = '';
             let html = '';
