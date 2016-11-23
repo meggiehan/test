@@ -535,12 +535,11 @@ input::-webkit-input-placeholder {
             &>b {
                 display: inline-block;
                 float: right;
-                height: 1.5rem;
                 border-radius: 0.3rem;
                 // line-height: 1.5rem;
                 background: @bg-v;
                 color: @text-fff;
-                padding: 0 0.5rem;
+                padding: 0.2rem 0.5rem;
                 .text-shadow(@bg-v);
             }
         }
@@ -624,6 +623,10 @@ input::-webkit-input-placeholder {
         padding: 2%;
         display: block;
         border-bottom: 1px solid @border-da;
+        vertical-align: middle;
+        .hide{
+            display: none;
+        }
         .buy-name {
             color: @text-name;
             font-size: 2.0rem;
@@ -642,14 +645,28 @@ input::-webkit-input-placeholder {
             padding: 0.4rem 0;
         }
         .buy-time {
-            color: @text-subtitle;
+            color: @text-category;
             font-size: 1.4rem;
             .text-right;
             .text-hidden;
             padding: 0.4rem 0;
         }
+        .buy-list-auth{
+            padding: 0.2rem 0.5rem;
+            background: @bg-v;
+            .text-shadow(@bg-v);
+            font-size: 1.2rem;
+            border-radius: 0.3rem;
+            color: @text-fff;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .buy-address{
+            color: @text-category;
+            padding: 0.4rem 0;
+        }
         .home-buy-address {
-            color: @text-subtitle;
+            color: @text-category;
             .text-hidden;
             span {
                 margin-right: 0.8rem;

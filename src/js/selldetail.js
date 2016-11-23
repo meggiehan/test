@@ -99,7 +99,7 @@ function selldetailInit(f7, view, page) {
             descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
                 tagHtml += `<span class="iconfont icon-auto-end">${item.tagName}</span>`;
             })
-            tagHtml && html(currentPage.find('.info-tages-list'), tagHtml, f7);
+            tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').remove();
 
             $$.each(user_ishCertificate_list.list, (index, item) => {
                 const { fish_type_name } = item;
@@ -121,7 +121,7 @@ function selldetailInit(f7, view, page) {
             1 == personalAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(0).show();
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
-            currentPage.find('.sell-detail-name').children('span').text(title);
+            currentPage.find('.sell-detail-name').children('span').text(title || fishTypeName);
             if (isLogin()) {
                 if (favorite) {
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');

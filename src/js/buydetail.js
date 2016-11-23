@@ -41,7 +41,9 @@ function buydetailInit(f7, view, page) {
                 state,
                 contactName,
                 requirementPhone,
-                refuseDescribe
+                refuseDescribe,
+                descriptionTags,
+                quantityTags
             } = demandInfo;
             const {
                 id,
@@ -63,16 +65,27 @@ function buydetailInit(f7, view, page) {
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
             }
+
+            let tagHtml = '';
+            descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
+                tagHtml += `<span class="iconfont icon-auto-end">${item.tagName}</span>`;
+            })
+            tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').remove();
+
             id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
-            currentPage.find('.goods-name').text(fishTypeName);
+            currentPage.find('.buy-goods-name').text(fishTypeName);
             currentPage.find('.goods-create-time').text(timeDifference(checkTime));
-            currentPage.find('.selldetail-price').text(price || '面议');
-            specifications ? currentPage.find('.selldetail-spec').text(specifications) : currentPage.find('.selldetail-spec').parent().remove();
+            stock && currentPage.find('.selldetail-price').children('b').text(stock && `${stock}斤` || '') || currentPage.find('.selldetail-price').text('');
+            currentPage.find('.buy-detail-price').text(price && `${price}斤` || '面议');
+            
+            const stockTagName = quantityTags && JSON.parse(quantityTags).length && `${'<' + JSON.parse(quantityTags)[0].tagName + '>，'}` || '';      
+            specifications ? currentPage.find('.selldetail-spec').text(stockTagName + specifications) : currentPage.find('.selldetail-spec').parent().remove();
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
+            currentPage.find('.budetail-fish-name').text(fishTypeName);
             // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
             provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`) : currentPage.find('.selldetail-address').parent().remove();
             describe ? currentPage.find('.selldetail-description').text(describe) : $$('.selldetail-description').parent().remove();
@@ -80,8 +93,8 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.user-tell').children('b').text(requirementPhone);
             currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
 
-            1 == enterpriseAuthenticationState && currentPage.find('.buydetail-cert-info').addClass('company-identity').show();
-            1 == personalAuthenticationState && currentPage.find('.buydetail-cert-info').addClass('individual-identity').show();
+            1 == enterpriseAuthenticationState && currentPage.find('.auth-company').show();
+            1 == personalAuthenticationState && currentPage.find('.auth-individual').show();
 
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
@@ -221,7 +234,7 @@ function buydetailInit(f7, view, page) {
     }
 
     //View more current user information
-    currentPage.find('.selldetail-user-title')[0].onclick = () => {
+    currentPage.find('.selldetail-userinfo')[0].onclick = () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })

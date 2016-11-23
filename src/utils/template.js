@@ -78,9 +78,6 @@ module.exports = {
             }
             res += '</div></div></a>';
             return res;
-            // '<div class="cat-list-address">' +
-            // `<i class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></i>${contact_name ? '<span>' + contact_name + '</span>' : ''}${province_name || ''}${city_name || ''}` +
-            // '</div>' +
         },
         buy: (data, userLevel) => {
             const {
@@ -102,10 +99,10 @@ module.exports = {
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             // const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
-            const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let img = document.createElement('img');
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
+            const isAuth = (1 == personal_authentication_state) || (1 == enterprise_authentication_state) || false;
             if (userInfo) {
                 id == userInfo['id'] && (showTime = timeDifference(create_time));
             }
@@ -114,17 +111,20 @@ module.exports = {
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info" ' + clickEvent + ' >' +
+            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
                 '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || ''}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
-                '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
+                '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
+                `<div class="row ${!specifications && 'hide'}">` + 
+                    '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
+                '</div>'+
                 '<div class="home-buy-address">' +
-                `${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}<span>${contact_name || '匿名用户'}</span>所在地区：${province_name || ''}${city_name || ''}` +
+                `${isAuth ? '<span class="buy-list-auth">实名</span>' :''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}` +
                 '</div>'
             return res;
         },

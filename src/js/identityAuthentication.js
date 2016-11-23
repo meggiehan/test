@@ -2,9 +2,18 @@ import nativeEvent from '../utils/nativeEvent';
 import identityAuthenticationUtils from '../utils/viewsUtil/identityAuthentication';
 import store from '../utils/locaStorage';
 import config from '../config';
+import { logOut, isLogin } from '../middlewares/loginMiddle';
+
 
 function identityAuthenticationInit(f7, view, page) {
     f7.hideIndicator();
+    if (!isLogin()) {
+        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+        mainView.router.load({
+            url: 'views/login.html'
+        })
+        return;
+    }
     const individualBtn = $$('.identity-individual');
     const companyBtn = $$('.identity-company');
     const certBox = $$('.identity-infomation');
