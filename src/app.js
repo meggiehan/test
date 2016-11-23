@@ -102,6 +102,11 @@ let initAppConfig = {
                 })
                 return false;
             }
+
+            if($$('.release-select-model').length){
+                $$('.release-select-model').removeClass('on');
+            }
+
             if (android && !androidChrome) {
                 if (isBack) {
                     return false;

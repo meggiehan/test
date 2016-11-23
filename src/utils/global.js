@@ -4,6 +4,7 @@ import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
 import { fishCert, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
+import {goIdentity} from './domListenEvent';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -20,7 +21,7 @@ class CustomClass {
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                $$('.my-center-head img').attr('src',src + imgPath(8));
+                $$('.my-center-head img').attr('src', src + imgPath(8));
                 $$('.user-pic>img').attr('src', src + imgPath(8));
                 $$('img.picker-invite-head-img').attr('src', src + imgPath(8));
                 let userInfoChange = store.get(cacheUserinfoKey);
@@ -71,8 +72,8 @@ class CustomClass {
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
         const { identity, cacheUserinfoKey } = config;
         const { ios, android } = window.currentDevice;
-        const {provinceName, cityName, id} = store.get(cacheUserinfoKey);
-        if(province == provinceName && city == cityName){
+        const { provinceName, cityName, id } = store.get(cacheUserinfoKey);
+        if (province == provinceName && city == cityName) {
             nativeEvent['nativeToast'](0, '请改变您所在的地区！');
             return;
         }
@@ -227,13 +228,32 @@ class CustomClass {
         }
     }
 
-    postReleasePicCallback(index, url, name){
+    postReleasePicCallback(index, url, name) {
         const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
         currentPage.find('.release-info-pic-add').remove();
         const len = currentPage.find('.release-info-pic-list').children('span').length;
         currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
         len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
 
+    }
+
+    /*
+     * type: demandInfo, level, auth
+     * 信息, 等级, 认证
+     */
+    jsJumpFromPush(obj) {
+        const { cacheUserinfoKey, mWebUrl } = config;
+        const newObj = JSON.parse(obj);
+        const { type, id } = newObj;
+        if ('demandInfo' == type) {
+            mainView.load({
+                url: 'views/selldetail.html?id=' + id
+            })
+        } else if ('level' == type) {
+            nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${id}`);
+        }else if('auth' == type){
+            goIdentity();
+        }
     }
 
     init(f) {
@@ -254,6 +274,7 @@ class CustomClass {
         window['initLogout'] = this.initLogout;
         window['jsBack'] = this.jsBack;
         window['postReleasePicCallback'] = this.postReleasePicCallback;
+        window['jsJumpFromPush'] = this.jsJumpFromPush;
     }
 }
 

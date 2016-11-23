@@ -59,7 +59,7 @@ function selldetailInit(f7, view, page) {
                 imgUrl,
                 level
             } = userInfo;
-            demandInfo_ = demandInfo;            
+            demandInfo_ = demandInfo;
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
             currentPage.find('.selldetail-footer').removeClass('delete');
@@ -76,14 +76,18 @@ function selldetailInit(f7, view, page) {
             addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
             // ajax back, edit html.
-            currentPage.find('.sell-detail-img').children('img').attr('src', JSON.parse(imgs)[0] + config['imgPath'](400));
+            const fileName = '@400x200-5rc_2o';
+            currentPage.find('.sell-detail-img').children('img').attr('src', imgs && JSON.parse(imgs).length && (JSON.parse(imgs)[0] + fileName) || (imgePath + fileName));
+            if (!imgs || !JSON.parse(imgs).length) {
+                currentPage.find('.sell-detail-img-list').remove();
+            }
             currentPage.find('.goods-name').text(fishTypeName);
             currentPage.find('.info-release-time').text(timeDifference(checkTime));
             currentPage.find('.info-price').text(price || '面议');
             currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
             currentPage.find('.selldetail-name').text(fishTypeName);
 
-            let specText = quantity_tags && JSON.parse(quantity_tags).length && ('<'+JSON.parse(quantity_tags)[0]+'>，') || '';
+            let specText = quantity_tags && JSON.parse(quantity_tags).length && ('<' + JSON.parse(quantity_tags)[0] + '>，') || '';
             specifications && (specText += specifications);
             specText ? currentPage.find('.selldetail-spec').text(specText) : currentPage.find('.selldetail-spec').parent().remove();
 
@@ -112,7 +116,7 @@ function selldetailInit(f7, view, page) {
                 imgHtml += `<img data-src="${item}" src="img/app_icon_108.png" class="lazy" />`
             })
             imgHtml && html(currentPage.find('.info-img-list'), imgHtml, f7);
-            
+
             1 == enterpriseAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(1).show();
             1 == personalAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(0).show();
             personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
@@ -182,13 +186,13 @@ function selldetailInit(f7, view, page) {
         } else {
             let info;
             let collectionNum = Number($$('.user-collection-num').text());
-            if($$(collectionBtn).hasClass('icon-collection-active')){
+            if ($$(collectionBtn).hasClass('icon-collection-active')) {
                 info = '添加收藏成功！';
                 $$('.user-collection-num').text(++collectionNum);
-            }else{
+            } else {
                 info = '取消收藏成功！';
                 $$('.user-collection-num').text(--collectionNum);
-                $$('div[data-page="myCollection"]').find('a[href="./views/selldetail.html?id='+ id +'"]').remove();
+                $$('div[data-page="myCollection"]').find('a[href="./views/selldetail.html?id=' + id + '"]').remove();
             }
             nativeEvent['nativeToast'](1, info);
         }
@@ -268,13 +272,15 @@ function selldetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //cat info list img;
-    currentPage.find('.info-img-list')[0].onclick = (e) => {
-        const ele = e.target || window.event.target;
-        if(ele.tagName !== 'IMG'){
-            return;
+    if (currentPage.find('.info-img-list')[0]) {
+        currentPage.find('.info-img-list')[0].onclick = (e) => {
+            const ele = e.target || window.event.target;
+            if (ele.tagName !== 'IMG') {
+                return;
+            }
+            const url = $$(ele).attr('src');
+            nativeEvent.catPic(url);
         }
-        const url = $$(ele).attr('src');
-        nativeEvent.catPic(url);
     }
 
     //share
