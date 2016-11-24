@@ -114,7 +114,7 @@ module.exports = {
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
                 '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
-                '<div class="col-35 buy-price">' + `${stock || ''}` + '</div>' +
+                '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
                 '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
