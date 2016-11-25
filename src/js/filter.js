@@ -45,6 +45,10 @@ function filterInit(f7, view, page) {
     if(member){
         currentNavbar.find('.filter-member-img').show();
         currentPage.find('.page-content').css('paddingTop', '17.4rem');
+        currentPage.find('.filter-tabs-content').css({
+            height: '65%',
+            top: '17.4rem'
+        });
         const scrollEvent = (e) => {
             const top = currentPage.find('.page-content').scrollTop();
             const height = 80 - top;

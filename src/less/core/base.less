@@ -9,12 +9,13 @@
 @bg-999: #999;
 @bg-v: #F68E1F;
 @bg-add: #ededed;
-@bg-black-5: rgba(0,0,0,0.5);
+@bg-black-5: rgba(0, 0, 0, 0.5);
 @bg-black-3: rgba(0, 0, 0, 0.3);
 @bg-black-7: rgba(0, 0, 0, 0.7);
 @bg-category: #EDEDED;
 @bg-body: #efeff4;
 @bg-auditing: #FF3535;
+@bg-auditing-4: rgba(255, 53, 53, .7);
 @bg-review: #fff7d9;
 @bg-verify-faild: #fde8e8;
 @bg-collection: #F7DF3F;
@@ -61,10 +62,14 @@ body {
     font-size: 1.4rem;
     background: @bg-body;
 }
- body *, b, i{
+
+body *,
+b,
+i {
     font-weight: lighter;
     font-style: normal;
- }
+}
+
 * > button {
     outline: none;
 }
@@ -491,6 +496,26 @@ a.cat-list-info {
             padding: 0 0.8rem;
             border-radius: 1rem;
         }
+        span.check{
+            display: block;
+            overflow: hidden;
+            .ps-a;
+            width: 100%;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            padding:0;
+            top: 0;
+            left: 0;
+            background: @bg-auditing-4;
+            .text-shadow(@bg-auditing-4);
+            color: @text-fff;
+            .text-center;
+            font-size: 1.4rem;
+            &:before{
+                font-size: 2rem;
+                vertical-align: middle;
+            }
+        }
     }
     .col-70 {
         width: 67%;
@@ -623,64 +648,82 @@ a.cat-list-info {
 }
 
 a.buy-list-info {
-        padding: 2%;
-        display: block;
-        border-bottom: 1px solid @border-da;
-        vertical-align: middle;
-        .hide{
-            display: none;
-        }
-        .buy-name {
-            color: @text-name;
-            font-size: 2.0rem;
-            .text-hidden;
-            padding-bottom: 0.2rem;
-        }
-        .buy-price {
-            color: @text-price;
-            font-size: 1.6rem;
-            .text-right;
-            .text-hidden;
-            padding-bottom: 0.2rem;
-        }
-        .buy-spec {
-            color: @text-name;
-            font-size: 1.4rem;
-            .text-hidden;
-            padding-bottom: 0.4rem;
-        }
-        .buy-time {
-            color: @text-category;
-            font-size: 1.4rem;
-            .text-right;
-            .text-hidden;
-            padding-bottom: 0.4rem;
-        }
-        .buy-list-auth{
-            padding: 0.2rem 0.5rem;
-            background: @bg-v;
-            .text-shadow(@bg-v);
-            font-size: 1.2rem;
-            border-radius: 0.3rem;
-            color: @text-fff;
+    padding: 2%;
+    display: block;
+    border-bottom: 1px solid @border-da;
+    vertical-align: middle;
+    .hide {
+        display: none;
+    }
+    .buy-name {
+        color: @text-name;
+        font-size: 2.0rem;
+        .text-hidden;
+        padding-bottom: 0.2rem;
+        span {
             display: inline-block;
-            vertical-align: middle;
-        }
-        .buy-address{
-            color: @text-category;
-            padding-bottom: 0.4rem;
-        }
-        .home-buy-address {
-            color: @text-category;
-            .text-hidden;
-            span {
-                margin-right: 0.8rem;
-                &:before {
-                    color: @text-level;
-                    font-size: 2rem;
-                    margin-right: 0.2rem;
-                    vertical-align: top;
-                }
+            margin-right: 0.3rem;
+            height: 2rem;
+            line-height: 2rem;
+            border-radius: 1.2rem;
+            background: @bg-auditing;
+            .text-shadow(@bg-auditing);
+            color: @text-fff;
+            font-size: 1.4rem;
+            vertical-align: text-bottom;
+            padding: 0 0.6rem;
+            &:before {
+                color: @text-fff;
+                font-size: 2.2rem;
+                vertical-align: top;
             }
         }
     }
+    .buy-price {
+        color: @text-price;
+        font-size: 1.6rem;
+        .text-right;
+        .text-hidden;
+        padding-bottom: 0.2rem;
+    }
+    .buy-spec {
+        color: @text-name;
+        font-size: 1.4rem;
+        .text-hidden;
+        padding-bottom: 0.4rem;
+    }
+    .buy-time {
+        color: @text-category;
+        font-size: 1.4rem;
+        .text-right;
+        .text-hidden;
+        padding-bottom: 0.4rem;
+    }
+    .buy-list-auth {
+        padding: 0.2rem 0.5rem;
+        background: @bg-v;
+        .text-shadow(@bg-v);
+        font-size: 1.2rem;
+        border-radius: 0.3rem;
+        color: @text-fff;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .buy-address {
+        color: @text-category;
+        padding-bottom: 0.4rem;
+    }
+    .home-buy-address {
+        color: @text-category;
+        .text-hidden;
+        span {
+            margin-right: 0.8rem;
+            &:before {
+                color: @text-level;
+                font-size: 2rem;
+                margin-right: 0.2rem;
+                vertical-align: top;
+            }
+        }
+    }
+}

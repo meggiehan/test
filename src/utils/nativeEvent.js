@@ -51,14 +51,14 @@ class CustomClass {
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
             return false;
         }
-        if(5 == mark){
+        if (5 == mark) {
             ios && JS_PictureSeletor(5, '', id, path || '', functionName || '');
             android && window.yudada.JS_PictureSeletor(5, "上传照片", id, path || '', functionName || '');
             return;
         }
 
         const _mark = Number(mark) > -4 ? mark : 4;
-        ios && JS_PictureSeletor(_mark, '',  id, '', '');
+        ios && JS_PictureSeletor(_mark, '', id, '', '');
         android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id, '', '');
     }
 
@@ -165,11 +165,11 @@ class CustomClass {
         ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('token', '');
     }
 
-    nativeGoBack(){
+    nativeGoBack() {
         window.yudada.JS_GoBack();
     }
 
-    getNetworkStatus(){
+    getNetworkStatus() {
         const { ios, android } = window.currentDevice;
         if (!window['JS_GetNetWorkStates'] && (!window['yudada'] || !window['yudada']['JS_GetNetWorkStates'])) {
             return true;
@@ -178,7 +178,7 @@ class CustomClass {
         return Number(status);
     }
 
-    getDeviceInfomation(){
+    getDeviceInfomation() {
         const { ios, android } = window.currentDevice;
         if (!window['JS_VersionInfo'] && (!window['yudada'] || !window['yudada']['JS_VersionInfo'])) {
             return false;
@@ -186,7 +186,7 @@ class CustomClass {
         return ios ? JSON.parse(JS_VersionInfo()) : JSON.parse(window.yudada.JS_VersionInfo());
     }
 
-    setClipboardValue(val){
+    setClipboardValue(val) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_CopyResult'] && (!window['yudada'] || !window['yudada']['JS_CopyResult'])) {
             return false;
@@ -194,7 +194,7 @@ class CustomClass {
         ios ? JS_CopyResult(val) : window.yudada.JS_CopyResult(val);
     }
 
-    goNewWindow(url){
+    goNewWindow(url) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_JumpToThirdWeb'] && (!window['yudada'] || !window['yudada']['JS_JumpToThirdWeb'])) {
             return false;
@@ -215,20 +215,44 @@ class CustomClass {
         ios ? JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
     }
 
-    getDataToNative(key){
+    getDataToNative(key) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
             return false;
         }
-        ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
+        return ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
     }
 
-    setDataToNative(key, val){
+    setDataToNative(key, val) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_SaveObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_SaveObjectWithKey'])) {
             return false;
         }
         ios ? JS_SaveObjectWithKey(key, val) : window.yudada.JS_SaveObjectWithKey(key, val);
+    }
+
+    //get app push data.
+    getJumpDate() {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_GetPushInfo'] && (!window['yudada'] || !window['yudada']['JS_GetPushInfo'])) {
+            return false;
+        }
+        return ios ? JS_GetPushInfo() : window.yudada.JS_GetPushInfo();
+    }
+
+    /**
+     * share info to weixin.
+     * 0 : 分享图片到微信好友    参数2 : 图片url
+     * 1: 分享图片到朋友圈        参数2 : 图片url
+     * 2: 分享web到微信好友   参数2: web  url    参数3: 图片url   参数4: 描述   参数5: 标题
+     * 3: 分享web到朋友圈    参数2: web url  参数3 : 图片url   参数4: 描述   参数5: 标题
+     */
+    shareInfoToWeixin(par1, par2, par3, par4) {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])) {
+            return false;
+        }
+        ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '');
     }
 
 }

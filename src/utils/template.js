@@ -48,9 +48,9 @@ module.exports = {
             let res = '';
             let span = '';
             const authText = (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) && '实名' || null;
-            0 == state && (span = '<span>待审核</span>');
-            2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            1 == state && infoImgs.length > 1 && (span = '<span class="sell-list-imgs">多图</span>');
+            0 == state && (span = '<span class="check">待审核</span>');
+            2 == state && (span = '<span class="iconfont icon-info check">审核未通过</span>')
+            1 == state && infoImgs.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
             res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '" ' + clickEvent + '>' +
                 '<div class="col-30 ps-r">' + span + imgStr +
                 '<div class="col-70">' +

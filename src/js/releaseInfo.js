@@ -97,7 +97,7 @@ function releaseInfoInit(f7, view, page) {
         }
         const id = Number($$(ele).attr('data-id'));
         const tagName = $$(ele).text();
-        if(descriptTags.length == 3){
+        if (descriptTags.length == 3) {
             nativeEvent.nativeToast(0, '最多只能选择三个！');
             return;
         }
@@ -220,9 +220,12 @@ function releaseInfoInit(f7, view, page) {
     if (currentPage.find('.release-info-header-title').length) {
         currentPage.find('.release-info-header-title').children()[0].oninput = () => {
             const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-            if (val.length > 12) {
-                currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 11));
+
+            if (val && val.length > 9) {
                 currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
+                if (val && val.length >= 12) {
+                    currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 11));
+                }
             } else {
                 currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
             }
