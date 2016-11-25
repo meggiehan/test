@@ -28,11 +28,11 @@
 @border-c5: #C5C5C5;
 @text-333: #333;
 @text-fff: #fff;
-@text-level: #37990A;
+@text-level: #47B813;
 @text-member: #FF666D;
 @text-invite-code: #47B813;
 @text-invite-icon: #B638E5;
-@text-chushou: #DF4048;
+@text-chushou: #E64D17;
 @text-qiugou: #0BA7BC;
 @text-subtitle: #A9A9A9;
 @text-category: #747474;
@@ -61,7 +61,10 @@ body {
     font-size: 1.4rem;
     background: @bg-body;
 }
-
+ body *, b, i{
+    font-weight: lighter;
+    font-style: normal;
+ }
 * > button {
     outline: none;
 }
@@ -455,9 +458,9 @@ input::-webkit-input-placeholder {
     font-size: 1rem;
     color: @themeColor;
     display: inline-block;
-    width: 0.4rem;
+    width: 0.3rem;
     border-radius: 0.2rem;
-    height: 1.2rem;
+    height: 1.4rem;
     padding: 0.2rem 0;
     vertical-align: middle;
     background: @themeColor;
@@ -466,7 +469,7 @@ input::-webkit-input-placeholder {
     margin-top: 0.1rem;
 }
 
-.cat-list-info {
+a.cat-list-info {
     padding: 2%;
     border-bottom: 1px solid @border-da;
     img {
@@ -619,7 +622,7 @@ input::-webkit-input-placeholder {
     }
 }
 
-.buy-list-info {
+a.buy-list-info {
         padding: 2%;
         display: block;
         border-bottom: 1px solid @border-da;

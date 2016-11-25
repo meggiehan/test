@@ -31,7 +31,7 @@ import { inviteFriendsInit } from './js/inviteFriends';
 import { inviteFriendsListInit } from './js/inviteFriendsList';
 import { myCollectionInit } from './js/myCollection';
 import { dealListInit } from './js/dealList';
-import {releaseSelectTagInit} from './js/releaseSelectTag';
+import { releaseSelectTagInit } from './js/releaseSelectTag';
 
 
 
@@ -88,9 +88,9 @@ let initAppConfig = {
 
             if (_currentPage.indexOf('inviteFriends.html') > -1) {
                 $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
-            } 
+            }
 
-            if($$('.modal-overlay-visible').length){
+            if ($$('.modal-overlay-visible').length) {
                 $$('.modal-overlay-visible').trigger('click');
                 $$('.modal-button').length && $$('.modal-button')[0].click();
             }
@@ -102,10 +102,7 @@ let initAppConfig = {
                 })
                 return false;
             }
-
-            if($$('.release-select-model').length){
-                $$('.release-select-model').removeClass('on');
-            }
+            $$('.release-select-model').removeClass('on');
 
             if (android && !androidChrome) {
                 if (isBack) {

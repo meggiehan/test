@@ -136,7 +136,7 @@ module.exports = {
                 quantity,
                 tradeDate
             } = data;
-            return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span><span class="deal-list-category">${fishTypeName} ${quantity}斤</span>, ${getDealTime(tradeDate)}</div>`
+            return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span>成交  <span class="deal-list-category">${fishTypeName} ${quantity || ''}</span>, ${getDealTime(tradeDate)}</div>`
         }
     },
     search: {
@@ -261,7 +261,7 @@ module.exports = {
             } = data;
             let res = '';
             res += '<a>' +
-                `<p class="deal-list-title">${fishTypeName} ${quantity}斤 <span>${provinceName}${cityName||''}</span></p>` +
+                `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName||''}</span></p>` +
                 '<p class="deal-list-user-info">' +
                 `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
                 `<span class="deal-list-user-name">${getName(userName)}</span>` +

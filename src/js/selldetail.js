@@ -76,14 +76,14 @@ function selldetailInit(f7, view, page) {
             addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
             // ajax back, edit html.
-            const fileName = '@400x200-5rc_2o';
+            const fileName = '?x-oss-process=image/resize,m_fill,h_200,w_400';
             currentPage.find('.sell-detail-img').children('img').attr('src', imgs && JSON.parse(imgs).length && (JSON.parse(imgs)[0] + fileName) || (imgePath + fileName));
             if (!imgs || !JSON.parse(imgs).length) {
                 currentPage.find('.sell-detail-img-list').remove();
             }
             currentPage.find('.goods-name').text(fishTypeName);
             currentPage.find('.info-release-time').text(timeDifference(checkTime));
-            currentPage.find('.info-price').text(price || '面议');
+            currentPage.find('.info-price').text(price || '价格面议');
             currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
             currentPage.find('.selldetail-name').text(fishTypeName);
 
@@ -113,7 +113,7 @@ function selldetailInit(f7, view, page) {
 
             let imgHtml = '';
             imgs && JSON.parse(imgs).length && $$.each(JSON.parse(imgs), (index, item) => {
-                imgHtml += `<img data-src="${item}" src="img/app_icon_108.png" class="lazy" />`
+                imgHtml += `<img data-src="${item}?x-oss-process=image/resize,w_400" src="img/app_icon_108.png" class="lazy" />`
             })
             imgHtml && html(currentPage.find('.info-img-list'), imgHtml, f7);
 
@@ -279,7 +279,7 @@ function selldetailInit(f7, view, page) {
                 return;
             }
             const url = $$(ele).attr('src');
-            nativeEvent.catPic(url);
+            nativeEvent.catPic(url.replace('400', '700'));
         }
     }
 
