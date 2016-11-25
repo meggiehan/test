@@ -45,6 +45,10 @@ function filterInit(f7, view, page) {
     if(member){
         currentNavbar.find('.filter-member-img').show();
         currentPage.find('.page-content').css('paddingTop', '17.4rem');
+        currentPage.find('.filter-tabs-content').css({
+            height: '65%',
+            top: '17.4rem'
+        });
         const scrollEvent = (e) => {
             const top = currentPage.find('.page-content').scrollTop();
             const height = 80 - top;
@@ -239,7 +243,7 @@ function filterInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',
-            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
             type: 'get',
         }, listCallback);
         //root district render;
@@ -298,8 +302,8 @@ function filterInit(f7, view, page) {
                 currentNavbar.find('.tab3').children('span').text(tabText);
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
-                    api: 'getDemandInfoList',
-                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+                    api: 'searchValue',
+                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                     type: 'get'
                 }, listCallback);
             }
@@ -336,7 +340,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get'
             }, listCallback);
         }
@@ -356,7 +360,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get',
                 isMandatory: true
             }, listCallback);
@@ -372,7 +376,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get',
                 isMandatory
             }, listCallback);
@@ -433,7 +437,7 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue, member],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get'
             }, listCallback);
 

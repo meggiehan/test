@@ -45,18 +45,17 @@ function releaseInfoInit(f7, view, page) {
         addressInput[0] && addressInput.val(initProvinceName + initCityName);
     }
     if (type == 1) {
-        // html(currentNav.find('.release-info-title'), '我要买', f7);
         html(currentPage.find('.release-sub-info'), '发布求购信息', f7);
+        currentPage.find('.release-info-header-title').remove();
+        currentPage.find('.release-type').text('求购品种');
+        currentPage.find('.release-info-pic-tip').remove();
+        currentPage.find('.release-infomation').css('marginTop', 0);
+        currentPage.find('.release-totle-number').text('求购数量');
     } else {
-        html(currentNav.find('.release-info-title'), '我要卖', f7);
+        html(currentNav.find('.release-info-title'), '我要出售', f7);
         html(currentPage.find('.release-sub-info'), '发布出售信息', f7);
     }
     currentPage.find('.release-fish-name').text(fishName);
-    if(1 == type){
-        currentPage.find('.release-type').text('求购品种');
-        currentPage.find('.release-info-pic').hide();
-        currentPage.find('.release-info-pic-tip').hide();
-    }
 
     //render tags;
     let specListHtml = '';
@@ -98,6 +97,10 @@ function releaseInfoInit(f7, view, page) {
         }
         const id = Number($$(ele).attr('data-id'));
         const tagName = $$(ele).text();
+        if (descriptTags.length == 3) {
+            nativeEvent.nativeToast(0, '最多只能选择三个！');
+            return;
+        }
         $$(ele).toggleClass('on');
         if (descriptTags.length) {
             let i = -1;
@@ -195,8 +198,8 @@ function releaseInfoInit(f7, view, page) {
         const len = currentPage.find('.release-info-pic-list').children('span').length;
         classes.indexOf('add') > -1 && nativeEvent['postPic'](5, '', '', 'postReleasePicCallback');
         //remove img.
-        if(classes.indexOf('remove-release-img-btn') > -1){
-            if(!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1){
+        if (classes.indexOf('remove-release-img-btn') > -1) {
+            if (!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1) {
                 $$(ele).parent().next().children('span').show();
             }
             $$(ele).parent('span').remove();
@@ -214,13 +217,18 @@ function releaseInfoInit(f7, view, page) {
     }
 
     //title check.
-    currentPage.find('.release-info-header-title').children()[0].oninput = () => {
-        const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-        if(val.length > 12){
-            currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0,11));
-            currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-        }else{
-            currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
+    if (currentPage.find('.release-info-header-title').length) {
+        currentPage.find('.release-info-header-title').children()[0].oninput = () => {
+            const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
+
+            if (val && val.length > 9) {
+                currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
+                if (val && val.length >= 12) {
+                    currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 11));
+                }
+            } else {
+                currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
+            }
         }
     }
 
@@ -245,9 +253,9 @@ function releaseInfoInit(f7, view, page) {
         const phone = trim(tellInput[0].value);
         const title = trim(currentPage.find('.release-info-header-title').children().val());
         let error;
-        if(title && title.length > 12){
+        if (title && title.length > 12) {
             error = '标题最大长度为12位字符！'
-        }else if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
+        } else if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
             error = '请您输入正确的手机号码！';
         } else if (!trim(address)) {
             error = '请选择地区！';
@@ -299,7 +307,7 @@ function releaseInfoInit(f7, view, page) {
         data.quantityTags = specTag.tagName ? [specTag] : [];
         data.descriptionTags = descriptTags;
         //If the user does not select the specification, jump to the selection page.
-        if(currentPage.find('.release-spec-list-box').children('span').length && !specTag.tagName){
+        if (currentPage.find('.release-spec-list-box').children('span').length && !specTag.tagName) {
             window.realeseInfomation = data;
             view.router.load({
                 url: 'views/releaseSelectTag.html',

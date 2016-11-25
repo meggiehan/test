@@ -128,6 +128,10 @@ function userInit(f7, view, page) {
 
     //go home page;
     $$('.href-go-home').off('click', goHome).on('click', goHome);
+
+    setTimeout(() => {
+        currentPage.find('.user-go-invite-page').css('lineHeight', '1.4');
+    }, 800)
 }
 
 module.exports = {

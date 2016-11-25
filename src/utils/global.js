@@ -101,8 +101,8 @@ class CustomClass {
     }
 
     appJump(id) {
-        const url = 0 ? 'views/home.html' : 'views/release.html';
-        mainView.router.load({ url })
+        const url = id == 0 ? 'views/home.html' : 'views/release.html';
+        mainView.router.load({ url });
     }
 
     getAdreesSys(province, city, longitude, latitude) {
@@ -246,7 +246,6 @@ class CustomClass {
     jsJumpFromPush(obj) {
         const { cacheUserinfoKey, mWebUrl } = config;
         const { type, id } = getQuery(obj);
-        console.log(getQuery(obj));
         if ('demandInfo' == type) {
             const callback = (data) => {
                 if (data.data) {
@@ -278,14 +277,16 @@ class CustomClass {
             if ('level' == type) {
                 nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserinfoKey).id}`);
             } else if ('auth' == type) {
-                if (!isLogin()) {
-                    nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-                    mainView.router.load({
-                        url: 'views/login.html'
-                    })
-                    return;
-                }
-                goIdentity();
+                customAjax.ajax({
+                    apiCategory: 'auth',
+                    header: ['token'],
+                    type: 'get',
+                    noCache: true,
+                }, (data) => {
+                    if(code == 1){
+                        goIdentity();
+                    }
+                });
             }
         }
     }
