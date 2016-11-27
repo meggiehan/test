@@ -118,9 +118,16 @@ function selldetailInit(f7, view, page) {
             })
             imgHtml && html(currentPage.find('.info-img-list'), imgHtml, f7);
 
-            1 == enterpriseAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(1).show();
-            1 == personalAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(0).show();
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
+            1 == enterpriseAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(1).addClass('show');
+            1 == personalAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(0).addClass('show');
+            if(personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1){
+                currentPage.find('.user-name').css({
+                    lineHeight: '5rem',
+                    height: '5rem'
+                });
+                currentPage.find('.user-cert').remove();
+                currentPage.find('.sell-detail-auth').remove();
+            }
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
             currentPage.find('.sell-detail-name').children('span').text(title || fishTypeName);
             if (isLogin()) {

@@ -35,7 +35,6 @@ module.exports = {
             const currentLevel = level && level || userLevel;
 
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_selllist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
-            const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
             if (userInfo) {
@@ -44,16 +43,16 @@ module.exports = {
             let imgStr;
             img.src = `${infoImgs[0]}${imgPath(11)}`;
             imgStr = img.complete ? '<img src="' + `${infoImgs[0] + imgPath(11)}` + '"/></div>' :
-                '<img data-src="' + `${infoImgs.length && (infoImgs[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"></div>';
+                '<img data-src="' + `${infoImgs.length && (infoImgs[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
             let res = '';
             let span = '';
             const authText = (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) && '实名' || null;
             0 == state && (span = '<span class="check">待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info check">审核未通过</span>')
             1 == state && infoImgs.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
-            res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '" ' + clickEvent + '>' +
-                '<div class="col-30 ps-r">' + span + imgStr +
-                '<div class="col-70">' +
+            res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
+                '<div class="col-30 ps-r item-media">' + span + imgStr +
+                '<div class="col-70 item-inner">' +
                 '<div class="cat-list-title row">' +
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
                 '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +

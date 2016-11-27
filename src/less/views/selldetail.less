@@ -69,7 +69,12 @@
                     padding-right: 0.3rem;
                     color: @text-category;
                     font-size: 1.4rem;
-                    b{
+                    i:before {
+                        .ps-r;
+                        top: -0.2rem;
+                        font-size: 1.8rem;
+                    }
+                    b {
                         vertical-align: middle;
                     }
                 }
@@ -220,92 +225,122 @@
             background: @bg-fff;
             .text-shadow(@text-fff);
             // border-bottom: 1px solid @border-da;
-            .selldetail-user-title {
-                padding: 2%;
-                line-height: 1.4;
-                color: @text-subtitle;
-                font-size: 1.6rem;
-                span {
-                    float: right;
-                    color: @text-subtitle;
-                }
-            }
             .selldetail-userinfo {
-                padding: 1rem 2%;
-                -webkit-box-align: center;
-                -webkit-box-pack: center;
-                // border-top: 1px solid @border-da;
-                .col-18 {
-                    width: 18%;
-                    img {
-                        display: block;
-                        width: 100%;
+                padding: 2%;
+                margin-bottom: 1rem;
+                .item-inner {
+                    display: -webkit-flex;
+                    padding-top: 0;
+                    padding-right: 0;
+                    padding-bottom: 0;
+                    margin-left: 1rem;
+                    -webkit-box-align: center;
+                    -webkit-box-pack: center;
+                    &:after {
+                        display: none;
                     }
                 }
-                .col-20 {
-                    width: 23%;
+                .item-media {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    img {
+                        width: 5rem;
+                    }
+                }
+                .col-30 {
+                    width: 26%;
                     white-space: nowrap;
                     .text-hidden;
+                    overflow: visible;
                     color: @text-subtitle;
                     font-size: 1.4rem;
-                    min-height: 4.5rem;
-                    line-height: 4.5rem;
+                    min-height: 5rem;
+                    line-height: 5rem;
                     text-align: right;
                 }
-                .col-60 {
-                    width: 55%;
-                    padding-left: 2%;
+                .col-70 {
+                    width: 73%;
                     vertical-align: middle;
-                    height: 100%;
-                    min-height: 4.5rem;
-                    &>div {
-                        display: block;
-                        width: 100%;
-                    }
+                    height: 5rem;
                     .goods-weight,
                     .goods-name,
                     .goods-price,
                     .goods-create-time,
-                    .cat-list-tags,
-                    .cat-list-title {
+                    .cat-list-tags {
                         padding-bottom: 0.5rem;
                     }
                     .user-name {
                         color: @text-name;
-                        // width: 30%;
-                        font-size: 1.8rem;
+                        font-size: 1.6rem;
                         .text-hidden;
-                        height: 2.2rem;
-                        overflow: hidden;
                         i {
                             font-size: 2rem;
                             color: @text-level;
-                            vertical-align: top;
+                            &:before {
+                                vertical-align: top;
+                            }
                         }
+                    }
+                    .buydetail-cert-info {
+                        display: none;
+                        border-top: 1px solid @border-da;
+                        margin-top: 0.5rem;
+                        padding-top: 0.5rem;
+                        color: @text-invite-code;
+                        &>span {
+                            font-size: 1.2rem;
+                            padding-right: 0.5rem;
+                            display: none;
+                            &:before {
+                                font-size: 1.6rem;
+                                padding-right: 0.3rem;
+                            }
+                        }
+                        &.individual-identity {
+                            &>span.individual {
+                                display: inline-block;
+                            }
+                        }
+                        &.company-identity {
+                            &>span.company {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                    .user-time {
+                        .text-right;
+                        .text-hidden;
+                        color: @text-subtitle;
+                        width: 40%;
                     }
                     .sell-detail-auth {
                         font-size: 1.4rem;
+                        .text-hidden;
                         span {
                             margin-right: 0.5rem;
                             color: @text-subtitle;
                             display: none;
+                            line-height: 2.5rem;
                             &.auth-individual:before,
                             &.auth-company:before {
-                                vertical-align: top;
+                                vertical-align: middle;
                                 font-size: 1.2rem;
                                 display: inline-block;
                                 content: '实';
-                                width: 1.5rem;
-                                height: 1.5rem;
-                                line-height: 1.5rem;
+                                width: 1.7rem;
+                                height: 1.7rem;
+                                line-height: 1.7rem;
                                 background: @themeColor;
                                 .text-shadow(@themeColor);
                                 color: @text-fff;
-                                margin-right: 0.3rem;
+                                margin-right: 0.2rem;
                                 .text-center;
                             }
                             &.auth-company:before {
                                 content: '企';
+                            }
+                            &.show {
+                                display: inline-block;
                             }
                         }
                     }
