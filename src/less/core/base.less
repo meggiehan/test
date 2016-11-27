@@ -98,7 +98,7 @@ i {
     padding: 5.4rem 0 8rem;
 }
 
-.detail-more>span:before{
+.detail-more>span:before {
     font-size: 2rem;
 }
 
@@ -479,15 +479,20 @@ input::-webkit-input-placeholder {
     margin-top: 0.1rem;
 }
 
-a.cat-list-info {
+.list-block.media-list a.cat-list-info {
     padding: 2%;
     border-bottom: 1px solid @border-da;
-    img {
-        display: block;
-        width: 100%;
-    }
+    -webkit-align-items: inherit;
     .col-30 {
-        width: 30%;
+        img {
+            display: block;
+            width: 9rem;
+        }
+        padding: 0;
+        width: 9rem;
+        height: 9rem;
+        overflow: hidden;
+        -webkit-box-align: start;
         .sell-list-imgs {
             display: inline-block;
             .ps-a;
@@ -501,14 +506,14 @@ a.cat-list-info {
             padding: 0 0.8rem;
             border-radius: 1rem;
         }
-        span.check{
+        span.check {
             display: block;
             overflow: hidden;
             .ps-a;
             width: 100%;
             height: 2.5rem;
             line-height: 2.5rem;
-            padding:0;
+            padding: 0;
             top: 0;
             left: 0;
             background: @bg-auditing-4;
@@ -516,15 +521,19 @@ a.cat-list-info {
             color: @text-fff;
             .text-center;
             font-size: 1.4rem;
-            &:before{
+            &:before {
                 font-size: 2rem;
                 vertical-align: middle;
             }
         }
     }
     .col-70 {
-        width: 67%;
         vertical-align: middle;
+        padding: 0;
+        margin-left: 1rem;
+        &:after {
+            display: none;
+        }
         .goods-weight,
         .goods-name,
         .goods-price,
@@ -533,10 +542,22 @@ a.cat-list-info {
         .cat-list-address {
             .text-hidden;
         }
-        .cat-list-title-auth {
+        .cat-list-text,
+        .cat-list-title-auth,
+        .cat-list-user-name {
+            height: 2.2rem;
+            line-height: 2.2rem;
+            .text-hidden;
             vertical-align: middle;
+        }
+        .cat-list-title {
+            height: 2.7rem;
+            line-height: 2.7rem;
+            .text-hidden;
+            vertical-align: middle;
+        }
+        .cat-list-title-auth {
             font-size: 1.2rem;
-            overflow: hidden;
             span {
                 display: inline-block;
                 max-width: 60%;
@@ -544,6 +565,7 @@ a.cat-list-info {
                 background: @themeColor;
                 height: 1.4rem;
                 line-height: 1.4rem;
+                margin-top: 0.4rem;
                 border: 1px solid @themeColor;
                 border-radius: 0.3rem;
                 color: @text-fff;
@@ -574,6 +596,8 @@ a.cat-list-info {
                 color: @text-fff;
                 padding: 0.2rem 0.5rem;
                 .text-shadow(@bg-v);
+                height: 1.5rem;
+                line-height: 1.5rem;
             }
         }
         .cat-list-tags {
@@ -608,7 +632,6 @@ a.cat-list-info {
             }
         }
         .cat-list-user-name {
-            padding-bottom: 0.5rem;
             span {
                 display: inline-block;
                 height: 2rem;
@@ -620,6 +643,7 @@ a.cat-list-info {
                     color: @themeColor;
                     padding-left: 0.3rem;
                     font-size: 1.8rem;
+                    vertical-align: top;
                 }
                 &.user-release-time {
                     float: right;
@@ -642,7 +666,6 @@ a.cat-list-info {
         .cat-list-text {
             color: @text-subtitle;
             font-size: 1.4rem;
-            padding: 0.3rem 0 0.5rem;
             .text-hidden;
             .goods-create-time {
                 .text-right;
@@ -662,7 +685,7 @@ a.buy-list-info {
     }
     .buy-name {
         color: @text-name;
-        font-size: 2.0rem;
+        font-size: 1.8rem;
         .text-hidden;
         padding-bottom: 0.2rem;
         span {
@@ -675,7 +698,7 @@ a.buy-list-info {
             .text-shadow(@bg-auditing);
             color: @text-fff;
             font-size: 1.4rem;
-            vertical-align: text-bottom;
+            vertical-align: top;
             padding: 0 0.6rem;
             &:before {
                 color: @text-fff;
@@ -692,17 +715,15 @@ a.buy-list-info {
         padding-bottom: 0.2rem;
     }
     .buy-spec {
-        color: @text-name;
+        color: @text-category;
         font-size: 1.4rem;
         .text-hidden;
-        padding-bottom: 0.4rem;
     }
     .buy-time {
         color: @text-category;
         font-size: 1.4rem;
         .text-right;
         .text-hidden;
-        padding-bottom: 0.4rem;
     }
     .buy-list-auth {
         padding: 0.2rem 0.5rem;
@@ -716,13 +737,12 @@ a.buy-list-info {
     }
     .buy-address {
         color: @text-category;
-        padding-bottom: 0.4rem;
     }
     .home-buy-address {
         color: @text-category;
         .text-hidden;
         span {
-            margin-right: 0.8rem;
+            vertical-align: middle;
             &:before {
                 color: @text-level;
                 font-size: 2rem;

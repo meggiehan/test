@@ -302,7 +302,7 @@ function filterInit(f7, view, page) {
                 currentNavbar.find('.tab3').children('span').text(tabText);
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
-                    api: 'searchValue',
+                    api: 'getDemandInfoList',
                     data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                     type: 'get'
                 }, listCallback);

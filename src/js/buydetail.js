@@ -93,10 +93,17 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.user-tell').children('b').text(requirementPhone);
             currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
 
-            1 == enterpriseAuthenticationState && currentPage.find('.auth-company').show();
-            1 == personalAuthenticationState && currentPage.find('.auth-individual').show();
+            1 == enterpriseAuthenticationState && currentPage.find('.auth-company').addClass('show');
+            1 == personalAuthenticationState && currentPage.find('.auth-individual').addClass('show');
 
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && currentPage.find('.user-cert').remove();
+            if(personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1){
+                currentPage.find('.user-name').css({
+                    lineHeight: '5rem',
+                    height: '5rem'
+                });
+                currentPage.find('.user-cert').remove();
+                currentPage.find('.buy-detail-auth').remove();
+            }
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
 
             if (isLogin()) {
