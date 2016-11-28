@@ -283,7 +283,7 @@ class CustomClass {
                     type: 'get',
                     noCache: true,
                 }, (data) => {
-                    if(code == 1){
+                    if(data.code == 1){
                         goIdentity();
                     }
                 });

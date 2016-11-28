@@ -309,6 +309,9 @@ module.exports = {
     },
 
     isEmailStr: (val) => {
+        if(!val){
+            return 0;
+        }
         const isEmail = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i");   
         if(val.indexOf('\/') > -1){
             return 1;
