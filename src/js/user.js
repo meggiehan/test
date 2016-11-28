@@ -15,32 +15,32 @@ function userInit(f7, view, page) {
     let userInfomation = store.get(cacheUserinfoKey);
 
     const qrCodeFun = (data) => {
-            const {
-                scanLink,
-                imgUrl,
-                invitationCode
-            } = data || { scanLink: 'http://baidu.com' };
+        const {
+            scanLink,
+            imgUrl,
+            invitationCode
+        } = data || { scanLink: 'http://baidu.com' };
 
-            //use qrcodejs create qr code on local.
-            if (!$$('.picker-invite-code-content>img').length) {
-                window.qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
-                    text: scanLink,
-                    height: 180,
-                    width: 180,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                })
-            } else {
-                window.qrcodeObj.clear(); // clear the code.
-                window.qrcodeObj.makeCode(scanLink); // make another code.
+        //use qrcodejs create qr code on local.
+        if (!$$('.picker-invite-code-content>img').length) {
+            window.qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
+                text: scanLink,
+                height: 180,
+                width: 180,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            })
+        } else {
+            window.qrcodeObj.clear(); // clear the code.
+            window.qrcodeObj.makeCode(scanLink); // make another code.
 
-            }
+        }
 
-            if (imgUrl) {
-                $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
-                $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
-            }
+        if (imgUrl) {
+            $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
+            $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
+        }
     }
 
     const loginCallback = (data) => {
@@ -54,6 +54,11 @@ function userInit(f7, view, page) {
         } else {
             f7.alert(message);
         }
+        setTimeout(() => {
+            currentPage.css({
+                borderBottom: '1px solid #efeff4'
+            })
+        }, 1000)
     }
     if (loginStatus) {
         if (userInfomation) {
@@ -128,10 +133,6 @@ function userInit(f7, view, page) {
 
     //go home page;
     $$('.href-go-home').off('click', goHome).on('click', goHome);
-
-    setTimeout(() => {
-        currentPage.find('.user-go-invite-page').css('lineHeight', '1.4');
-    }, 800)
 }
 
 module.exports = {
