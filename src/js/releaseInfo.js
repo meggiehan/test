@@ -49,6 +49,7 @@ function releaseInfoInit(f7, view, page) {
         currentPage.find('.release-info-header-title').remove();
         currentPage.find('.release-type').text('求购品种');
         currentPage.find('.release-info-pic-tip').remove();
+        currentPage.find('.release-info-header').remove();
         currentPage.find('.release-infomation').css('marginTop', 0);
         currentPage.find('.release-totle-number').text('求购数量');
     } else {

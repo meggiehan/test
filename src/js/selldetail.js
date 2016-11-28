@@ -69,7 +69,7 @@ function selldetailInit(f7, view, page) {
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
-                lastHeader.find('right').css('paddingRight', '2.2rem');
+                lastHeader.find('right').css('paddingRight', '3rem');
             }
             id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete');
             errorInfo = refuseDescribe;

@@ -64,6 +64,7 @@ function buydetailInit(f7, view, page) {
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
+                lastHeader.find('right').css('paddingRight', '3rem');
             }
 
             let tagHtml = '';
