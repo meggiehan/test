@@ -4,6 +4,7 @@ import { trim, html, getProvinceId, getCityId, getAddressIndex, getTagInfo } fro
 import { search, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
+import { isEmailStr } from '../utils/string';
 
 function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
@@ -23,6 +24,7 @@ function releaseInfoInit(f7, view, page) {
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
     const descriptInput = currentPage.find('textarea')[0];
+    const match = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]", "i");
 
     const specBox = currentPage.find('.release-spec-list-box');
     const descriptBox = currentPage.find('.release-discription-list-box');
@@ -183,13 +185,20 @@ function releaseInfoInit(f7, view, page) {
     descriptInput.oninput = () => {
         const val = trim(descriptInput.value);
         const len = val && val.length || 0;
-        if (len >= 50) {
-            currentPage.find('.release-info-number').addClass('desiable');
-            descriptInput.value = val.substr(0, 49);
-        } else {
-            currentPage.find('.release-info-number').removeClass('desiable');
+
+        const replaceLen = isEmailStr(val);
+        if (replaceLen == 0) {
+            if (len >= 50) {
+                currentPage.find('.release-info-number').addClass('desiable');
+                descriptInput.value = val.substr(0, 49);
+            } else {
+                currentPage.find('.release-info-number').removeClass('desiable');
+            }
+            currentPage.find('.release-info-number').text(len);
+            return;
         }
-        currentPage.find('.release-info-number').text(len);
+        descriptInput.value = val.substr(0, val.length - replaceLen);
+
     }
 
     //add pic and remove img.
@@ -222,15 +231,61 @@ function releaseInfoInit(f7, view, page) {
         currentPage.find('.release-info-header-title').children()[0].oninput = () => {
             const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
 
-            if (val && val.length > 9) {
+            if (val && val.length >= 12) {
                 currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-                if (val && val.length >= 12) {
-                    currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 11));
-                }
+                // if (val && val.length >= 12) {
+                currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 12));
+                // }
             } else {
+                currentPage.find('.release-info-header-title').children().eq(1).text(12 - val.length)
                 currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
             }
         }
+    }
+
+    priceInput[0].oninput = () => {
+        const val = priceInput[0].value;
+        const replaceLen = isEmailStr(val);
+        if (replaceLen == 0) {
+            return;
+        }
+        priceInput[0].value = val.substr(0, val.length - replaceLen);
+    }
+
+    specInput[0].oninput = () => {
+        const val = specInput[0].value;
+        const replaceLen = isEmailStr(val);
+        if (replaceLen == 0) {
+            return;
+        }
+        specInput[0].value = val.substr(0, val.length - replaceLen);
+    }
+
+    stockInput[0].oninput = () => {
+        const val = stockInput[0].value;
+        const replaceLen = isEmailStr(val);
+        if (replaceLen == 0) {
+            return;
+        }
+        stockInput[0].value = val.substr(0, val.length - replaceLen);
+    }
+
+    contactInput[0].oninput = () => {
+        const val = contactInput[0].value;
+        const replaceLen = isEmailStr(val);
+        if (replaceLen == 0) {
+            return;
+        }
+        contactInput[0].value = val.substr(0, val.length - replaceLen);
+    }
+
+    currentPage.find('.release-info-header-title').children()[0].oninput = () => {
+        const val = currentPage.find('.release-info-header-title').children()[0].value;
+        const replaceLen = isEmailStr(val);
+        if (replaceLen == 0) {
+            return;
+        }
+        currentPage.find('.release-info-header-title').children()[0].value = val.substr(0, val.length - replaceLen);
     }
 
     const subInfoTest = () => {

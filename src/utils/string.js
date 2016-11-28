@@ -306,6 +306,22 @@ module.exports = {
         h2 = (3 * r + 1) / 2 / s;
 
         return d * (1 + fl * (h1 * sf * (1 - sg) - h2 * (1 - sf) * sg));
+    },
+
+    isEmailStr: (val) => {
+        const isEmail = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i");   
+        if(val.indexOf('\/') > -1){
+            return 1;
+        }
+
+        if(/[,.!\u3002\uff0c]/.test(val)){
+            return 0;
+        }
+
+        if(isEmail.test(val)){
+            return 2;
+        }
+        return 0;
     }
 
 }
