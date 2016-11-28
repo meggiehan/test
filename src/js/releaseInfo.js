@@ -108,7 +108,7 @@ function releaseInfoInit(f7, view, page) {
                 obj.id == item.id && (i = index);
             })
             if (i > -1) {
-                descriptTags.splice(i);
+                descriptTags.splice(i, 1);
             } else {
                 if (descriptTags.length == 3) {
                     $$(ele).toggleClass('on');
