@@ -24,7 +24,6 @@ function releaseInfoInit(f7, view, page) {
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
     const descriptInput = currentPage.find('textarea')[0];
-    const match = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]", "i");
 
     const specBox = currentPage.find('.release-spec-list-box');
     const descriptBox = currentPage.find('.release-discription-list-box');
@@ -98,31 +97,29 @@ function releaseInfoInit(f7, view, page) {
         if (ele.tagName !== 'SPAN') {
             return;
         }
-        const id = Number($$(ele).attr('data-id'));
-        const tagName = $$(ele).text();
-        if (descriptTags.length == 3) {
-            nativeEvent.nativeToast(0, '最多只能选择三个！');
-            return;
-        }
+        const obj = {
+            id: Number($$(ele).attr('data-id')),
+            tagName: $$(ele).text()
+        };
         $$(ele).toggleClass('on');
         if (descriptTags.length) {
             let i = -1;
             $$.each(descriptTags, (index, item) => {
-                id == item.id && (i = index);
+                obj.id == item.id && (i = index);
             })
             if (i > -1) {
                 descriptTags.splice(i);
             } else {
-                descriptTags.push({
-                    id,
-                    tagName
-                })
+                if (descriptTags.length == 3) {
+                    $$(ele).toggleClass('on');
+                    nativeEvent.nativeToast(0, '最多只能选择三个标签！');
+                    return;
+                } else {
+                    descriptTags.push(obj)
+                }
             }
         } else {
-            descriptTags.push({
-                id,
-                tagName
-            })
+            descriptTags.push(obj)
         }
     }
 
@@ -202,18 +199,20 @@ function releaseInfoInit(f7, view, page) {
     }
 
     //add pic and remove img.
-    currentPage.find('.release-info-pic')[0].onclick = (e) => {
-        const ele = e.target || window.event.target;
-        const classes = ele.className;
-        const len = currentPage.find('.release-info-pic-list').children('span').length;
-        classes.indexOf('add') > -1 && nativeEvent['postPic'](5, '', '', 'postReleasePicCallback');
-        //remove img.
-        if (classes.indexOf('remove-release-img-btn') > -1) {
-            if (!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1) {
-                $$(ele).parent().next().children('span').show();
+    if (currentPage.find('.release-info-pic').length) {
+        currentPage.find('.release-info-pic')[0].onclick = (e) => {
+            const ele = e.target || window.event.target;
+            const classes = ele.className;
+            const len = currentPage.find('.release-info-pic-list').children('span').length;
+            classes.indexOf('add') > -1 && nativeEvent['postPic'](5, '', '', 'postReleasePicCallback');
+            //remove img.
+            if (classes.indexOf('remove-release-img-btn') > -1) {
+                if (!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1) {
+                    $$(ele).parent().next().children('span').show();
+                }
+                $$(ele).parent('span').remove();
+                !currentPage.find('.release-info-pic-add').length && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
             }
-            $$(ele).parent('span').remove();
-            !currentPage.find('.release-info-pic-add').length && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
         }
     }
 
@@ -230,16 +229,21 @@ function releaseInfoInit(f7, view, page) {
     if (currentPage.find('.release-info-header-title').length) {
         currentPage.find('.release-info-header-title').children()[0].oninput = () => {
             const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-
-            if (val && val.length >= 12) {
+            currentPage.find('.release-info-header-title').children().eq(1).text(12 - val.length)
+            if (val && val.length >= 9) {
                 currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-                // if (val && val.length >= 12) {
-                currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 12));
-                // }
+                if (val && val.length >= 12) {
+                    currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 12));
+                }
             } else {
-                currentPage.find('.release-info-header-title').children().eq(1).text(12 - val.length)
                 currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
             }
+
+            const replaceLen = isEmailStr(val);
+            if (replaceLen == 0) {
+                return;
+            }
+            currentPage.find('.release-info-header-title').children()[0].value = val.substr(0, val.length - replaceLen);
         }
     }
 
@@ -277,15 +281,6 @@ function releaseInfoInit(f7, view, page) {
             return;
         }
         contactInput[0].value = val.substr(0, val.length - replaceLen);
-    }
-
-    currentPage.find('.release-info-header-title').children()[0].oninput = () => {
-        const val = currentPage.find('.release-info-header-title').children()[0].value;
-        const replaceLen = isEmailStr(val);
-        if (replaceLen == 0) {
-            return;
-        }
-        currentPage.find('.release-info-header-title').children()[0].value = val.substr(0, val.length - replaceLen);
     }
 
     const subInfoTest = () => {
