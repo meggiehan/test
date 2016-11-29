@@ -183,18 +183,18 @@ function releaseInfoInit(f7, view, page) {
         const val = trim(descriptInput.value);
         const len = val && val.length || 0;
 
-        const replaceLen = isEmailStr(val);
-        if (replaceLen == 0) {
-            if (len >= 50) {
-                currentPage.find('.release-info-number').addClass('desiable');
-                descriptInput.value = val.substr(0, 49);
-            } else {
-                currentPage.find('.release-info-number').removeClass('desiable');
-            }
-            currentPage.find('.release-info-number').text(len);
+        const filterVal = isEmailStr(val);
+        if (!filterVal) {
             return;
         }
-        descriptInput.value = val.substr(0, val.length - replaceLen);
+        if (len >= 50) {
+            currentPage.find('.release-info-number').addClass('desiable');
+            descriptInput.value = val.substr(0, 49);
+        } else {
+            currentPage.find('.release-info-number').removeClass('desiable');
+        }
+        currentPage.find('.release-info-number').text(len);
+        return;
 
     }
 
@@ -229,58 +229,56 @@ function releaseInfoInit(f7, view, page) {
     if (currentPage.find('.release-info-header-title').length) {
         currentPage.find('.release-info-header-title').children()[0].oninput = () => {
             const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-            currentPage.find('.release-info-header-title').children().eq(1).text(12 - val.length)
+            const filterVal = isEmailStr(val);
+            if (!filterVal) {
+                return;
+            }
+            currentPage.find('.release-info-header-title').children().eq(1).text(12 - filterVal.length + 1)
             if (val && val.length >= 9) {
                 currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
                 if (val && val.length >= 12) {
-                    currentPage.find('.release-info-header-title').children().eq(0).val(val.substr(0, 12));
+                    currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 12));
                 }
             } else {
                 currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
             }
-
-            const replaceLen = isEmailStr(val);
-            if (replaceLen == 0) {
-                return;
-            }
-            currentPage.find('.release-info-header-title').children()[0].value = val.substr(0, val.length - replaceLen);
         }
     }
 
     priceInput[0].oninput = () => {
         const val = priceInput[0].value;
-        const replaceLen = isEmailStr(val);
-        if (replaceLen == 0) {
+        const filterVal = isEmailStr(val);
+        if (!filterVal) {
             return;
         }
-        priceInput[0].value = val.substr(0, val.length - replaceLen);
+        priceInput[0].value = filterVal.substr(0, 8);
     }
 
     specInput[0].oninput = () => {
         const val = specInput[0].value;
-        const replaceLen = isEmailStr(val);
-        if (replaceLen == 0) {
+        const filterVal = isEmailStr(val);
+        if (!filterVal) {
             return;
         }
-        specInput[0].value = val.substr(0, val.length - replaceLen);
+        specInput[0].value = filterVal.substr(0, 20);;
     }
 
     stockInput[0].oninput = () => {
         const val = stockInput[0].value;
-        const replaceLen = isEmailStr(val);
-        if (replaceLen == 0) {
+        const filterVal = isEmailStr(val);
+        if (!filterVal) {
             return;
         }
-        stockInput[0].value = val.substr(0, val.length - replaceLen);
+        stockInput[0].value = filterVal.substr(0, 20);;
     }
 
     contactInput[0].oninput = () => {
         const val = contactInput[0].value;
-        const replaceLen = isEmailStr(val);
-        if (replaceLen == 0) {
+        const filterVal = isEmailStr(val);
+        if (!filterVal) {
             return;
         }
-        contactInput[0].value = val.substr(0, val.length - replaceLen);
+        contactInput[0].value = filterVal;
     }
 
     const subInfoTest = () => {
@@ -295,14 +293,14 @@ function releaseInfoInit(f7, view, page) {
             !provinceId && provinceName && (provinceId = getProvinceId(_district, provinceName));
             !cityId && (cityId = getCityId(_district, provinceName, cityName));
         }
-        const price = trim(priceInput[0].value);
-        const spec = trim(specInput[0].value);
-        const stock = trim(stockInput[0].value);
+        const price = isEmailStr(trim(priceInput[0].value));
+        const spec = isEmailStr(trim(specInput[0].value));
+        const stock = isEmailStr(trim(stockInput[0].value));
         const address = trim(addressInput[0].value);
-        const description = trim(descriptInput.value);
-        const name = trim(contactInput[0].value);
-        const phone = trim(tellInput[0].value);
-        const title = trim(currentPage.find('.release-info-header-title').children().val());
+        const description = isEmailStr(trim(descriptInput.value));
+        const name = isEmailStr(trim(contactInput[0].value));
+        const phone = isEmailStr(trim(tellInput[0].value));
+        const title = isEmailStr(trim(currentPage.find('.release-info-header-title').children().val()));
         let error;
         if (title && title.length > 12) {
             error = '标题最大长度为12位字符！'

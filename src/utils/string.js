@@ -23,8 +23,8 @@ module.exports = {
         let arr = name.split('');
         let res = arr[0];
         arr.shift();
-        arr.forEach(() => {
-            res += '*';
+        arr.forEach((item, index) => {
+            0 != index && (res += '*');
         })
         return res;
     },
@@ -34,8 +34,8 @@ module.exports = {
         let res = arr[0];
         const lastStr = arr.pop();
         arr.shift;
-        arr.forEach(() => {
-            res += '*';
+        arr.forEach((item, index) => {
+            0 != index && (res += '*');
         })
         res += lastStr;
         return res;
@@ -309,22 +309,32 @@ module.exports = {
     },
 
     isEmailStr: (val) => {
-        if(!val){
-            return 0;
+        if (!val) {
+            return '';
         }
-        const isEmail = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i");   
-        if(val.indexOf('\/') > -1){
-            return 1;
-        }
+        let res;
+        const ranges = [
+            // '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+            // '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+            // '\ud83d[\ude80-\udeff]',
+            "'",
+            '"',
+            "~",
+            "`",
+            '\/',
+            '/',
+            '&',
+            '$',
+            '%'
+        ];
 
-        if(/[,.!\u3002\uff0c]/.test(val)){
-            return 0;
-        }
-
-        if(isEmail.test(val)){
-            return 2;
-        }
-        return 0;
+        res = val.replace(new RegExp(ranges.join('|'), 'g'), '')
+            // .replace(/\ud83d[\ude00-\ude4f]/g, '')
+            // .replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '')
+            // .replace(/[\uE000-\uF8FF]/g, '')
+            // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
+            // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
+        return res;
     }
 
 }

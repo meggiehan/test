@@ -250,7 +250,6 @@ class CustomClass {
             const callback = (data) => {
                 if (data.data) {
                     const type = data.data.demandInfo.type;
-
                     mainView.router.load({
                         url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
                     })
@@ -281,10 +280,17 @@ class CustomClass {
                     apiCategory: 'auth',
                     header: ['token'],
                     type: 'get',
-                    noCache: true,
+                    noCache: true
                 }, (data) => {
-                    if(data.code == 1){
+                    if (data.code == 1) {
+                        store.set(cacheUserinfoKey, data.data);
+                        if(window.location.hash.indexOf("catIdentityStatus.html") > -1){
+                            mainView.router.refreshPage();
+                            return;
+                        }
                         goIdentity();
+                    } else {
+                        console.log('获取用户信息失败！')
                     }
                 });
             }

@@ -247,12 +247,12 @@ class CustomClass {
      * 2: 分享web到微信好友   参数2: web  url    参数3: 图片url   参数4: 描述   参数5: 标题
      * 3: 分享web到朋友圈    参数2: web url  参数3 : 图片url   参数4: 描述   参数5: 标题
      */
-    shareInfoToWeixin(par1, par2, par3, par4) {
+    shareInfoToWeixin(par1, par2, par3, par4, par5) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])) {
             return false;
         }
-        ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '');
+        ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '');
     }
 
 }
