@@ -91,6 +91,9 @@
                 .info-price {
                     color: @text-chushou;
                     font-size: 1.8rem;
+                    max-width: 75%;
+                    word-break: break-all;
+                    word-wrap: break-word;
                 }
                 .info-release-time {
                     float: right;
@@ -168,7 +171,6 @@
             color: @text-name;
             font-size: 1.6rem;
         }
-
         .selldetail-cert {
             margin-top: 1rem;
             background: @bg-fff;
@@ -246,6 +248,7 @@
                     padding-bottom: 0;
                     img {
                         width: 5rem;
+                        height: 5rem;
                     }
                 }
                 .col-30 {
@@ -258,11 +261,13 @@
                     min-height: 5rem;
                     line-height: 5rem;
                     text-align: right;
+                    float: right;
                 }
                 .col-70 {
                     width: 73%;
                     vertical-align: middle;
                     height: 5rem;
+                    float: left;
                     .goods-weight,
                     .goods-name,
                     .goods-price,
@@ -270,7 +275,7 @@
                     .cat-list-tags {
                         padding-bottom: 0.5rem;
                     }
-                    &>div{
+                    &>div {
                         height: 2.5rem;
                     }
                     .user-name {

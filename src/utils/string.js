@@ -327,7 +327,9 @@ module.exports = {
             '$',
             '%'
         ];
-
+        // $$.each(ranges, (index, item) => {
+        //     val.indexOf(item) > -1 && (res = val.replace(item, ''));
+        // })
         res = val.replace(new RegExp(ranges.join('|'), 'g'), '')
             // .replace(/\ud83d[\ude00-\ude4f]/g, '')
             // .replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '')

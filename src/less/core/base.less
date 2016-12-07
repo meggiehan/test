@@ -483,6 +483,7 @@ input::-webkit-input-placeholder {
     padding: 2%;
     border-bottom: 1px solid @border-da;
     -webkit-align-items: inherit;
+    -webkit-box-align: start;
     .col-30 {
         img {
             display: block;
@@ -493,6 +494,7 @@ input::-webkit-input-placeholder {
         height: 9rem;
         overflow: hidden;
         -webkit-box-align: start;
+        -webkit-align-items: start;
         .sell-list-imgs {
             display: inline-block;
             .ps-a;
@@ -539,7 +541,8 @@ input::-webkit-input-placeholder {
         .goods-price,
         .goods-create-time,
         .cat-list-tags,
-        .cat-list-address {
+        .cat-list-address,
+        .cat-list-title-auth span {
             .text-hidden;
         }
         .cat-list-text,
@@ -549,6 +552,7 @@ input::-webkit-input-placeholder {
             line-height: 2.2rem;
             .text-hidden;
             vertical-align: middle;
+            .text-hidden;
         }
         .cat-list-title {
             height: 2.7rem;
@@ -569,6 +573,7 @@ input::-webkit-input-placeholder {
                 border: 1px solid @themeColor;
                 border-radius: 0.3rem;
                 color: @text-fff;
+                padding-left: 1.8rem;
                 b,
                 i {
                     display: inline-block;
@@ -578,14 +583,20 @@ input::-webkit-input-placeholder {
                     width: 1.8rem;
                     .text-shadow(@themeColor);
                     vertical-align: middle;
+                    display: block;
+                    .ps-a;
+                    left: 1px;
+                    top: 1px;
+                    height: 100%;
                 }
                 i {
                     background: @bg-fff;
-                    padding: 0 0.5rem;
                     color: @themeColor;
                     border-radius-right: 0.3rem;
                     border-radius-bottom: 0.3rem;
                     font-style: normal;
+                    width: 100%;
+                    .text-hidden;
                 }
             }
             &>b {
@@ -610,6 +621,9 @@ input::-webkit-input-placeholder {
                 .text-hidden;
                 margin-bottom: 0.5rem;
                 font-size: 1.4rem;
+                &:first-child{
+                    margin-top: 0.5rem;
+                }
                 span {
                     display: inline-block;
                     .text-center;

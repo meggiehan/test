@@ -47,7 +47,7 @@ function selldetailInit(f7, view, page) {
                 refuseDescribe,
                 title,
                 descriptionTags,
-                quantity_tags,
+                quantityTags,
                 imgs
             } = demandInfo;
             const {
@@ -88,8 +88,9 @@ function selldetailInit(f7, view, page) {
             currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
             currentPage.find('.selldetail-name').text(fishTypeName);
 
-            let specText = quantity_tags && JSON.parse(quantity_tags).length && ('<' + JSON.parse(quantity_tags)[0] + '>，') || '';
-            specifications && (specText += specifications);
+            let specText = quantityTags && JSON.parse(quantityTags).length && (JSON.parse(quantityTags)[0]['tagName']) || '';
+            specText && specifications && (specText = `${specText}，${specifications}`);
+            (!specText) && (specText += specifications);
             specText ? currentPage.find('.selldetail-spec').text(specText) : currentPage.find('.selldetail-spec').parent().remove();
 
             stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();

@@ -83,8 +83,10 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}斤` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}斤` || '面议');
             
-            const stockTagName = quantityTags && JSON.parse(quantityTags).length && `${'<' + JSON.parse(quantityTags)[0].tagName + '>，'}` || '';      
-            specifications ? currentPage.find('.selldetail-spec').text(stockTagName + specifications) : currentPage.find('.selldetail-spec').parent().remove();
+            let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName']) : '';
+            specText && specifications && (specText = `${specText}，${specifications}`);
+            (!specText && specifications) && (specText += specifications);    
+            specText ? currentPage.find('.selldetail-spec').text(specText) : currentPage.find('.selldetail-spec').parent().remove();
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
             currentPage.find('.budetail-fish-name').text(fishTypeName);
             // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
