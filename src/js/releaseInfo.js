@@ -179,17 +179,18 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
-    descriptInput.oninput = () => {
+    descriptInput.onkeyup = () => {
         const val = trim(descriptInput.value);
         const len = val && val.length || 0;
 
         const filterVal = isEmailStr(val);
+        descriptInput.value = filterVal;
         if (!filterVal) {
             return;
         }
         if (len >= 50) {
             currentPage.find('.release-info-number').addClass('desiable');
-            descriptInput.value = val.substr(0, 49);
+            descriptInput.value = filterVal.substr(0, 49);
         } else {
             currentPage.find('.release-info-number').removeClass('desiable');
         }
@@ -227,9 +228,10 @@ function releaseInfoInit(f7, view, page) {
 
     //title check.
     if (currentPage.find('.release-info-header-title').length) {
-        currentPage.find('.release-info-header-title').children()[0].oninput = () => {
+        currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
             const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
             const filterVal = isEmailStr(val);
+            currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
             if (!filterVal) {
                 return;
             }
@@ -245,39 +247,39 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
-    priceInput[0].oninput = () => {
+    priceInput[0].onkeyup = () => {
         const val = priceInput[0].value;
         const filterVal = isEmailStr(val);
+        priceInput[0].value = filterVal;
         if (!filterVal) {
             return;
         }
         priceInput[0].value = filterVal.substr(0, 8);
     }
 
-    specInput[0].oninput = () => {
+    specInput[0].onkeyup = () => {
         const val = specInput[0].value;
         const filterVal = isEmailStr(val);
+        specInput[0].value = filterVal;
         if (!filterVal) {
             return;
         }
         specInput[0].value = filterVal.substr(0, 20);;
     }
 
-    stockInput[0].oninput = () => {
+    stockInput[0].onkeyup = () => {
         const val = stockInput[0].value;
         const filterVal = isEmailStr(val);
+        stockInput[0].value = filterVal;
         if (!filterVal) {
             return;
         }
         stockInput[0].value = filterVal.substr(0, 20);;
     }
 
-    contactInput[0].oninput = () => {
+    contactInput[0].onkeyup = () => {
         const val = contactInput[0].value;
         const filterVal = isEmailStr(val);
-        if (!filterVal) {
-            return;
-        }
         contactInput[0].value = filterVal;
     }
 

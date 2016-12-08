@@ -314,6 +314,8 @@ input::-webkit-input-placeholder {
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    word-break: keep-all;
 }
 
 .border-box {
@@ -576,18 +578,17 @@ input::-webkit-input-placeholder {
                 padding-left: 1.8rem;
                 b,
                 i {
-                    display: inline-block;
-                    .text-center;
+                    display: block;
                 }
                 b {
                     width: 1.8rem;
                     .text-shadow(@themeColor);
                     vertical-align: middle;
-                    display: block;
                     .ps-a;
-                    left: 1px;
+                    left: 0;
                     top: 1px;
                     height: 100%;
+                    .text-center;
                 }
                 i {
                     background: @bg-fff;
@@ -597,6 +598,7 @@ input::-webkit-input-placeholder {
                     font-style: normal;
                     width: 100%;
                     .text-hidden;
+                    padding: 0 0.3rem;
                 }
             }
             &>b {
@@ -621,7 +623,7 @@ input::-webkit-input-placeholder {
                 .text-hidden;
                 margin-bottom: 0.5rem;
                 font-size: 1.4rem;
-                &:first-child{
+                &:first-child {
                     margin-top: 0.5rem;
                 }
                 span {

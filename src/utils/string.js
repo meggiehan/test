@@ -312,7 +312,7 @@ module.exports = {
         if (!val) {
             return '';
         }
-        let res;
+        let res = val;
         const ranges = [
             // '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
             // '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
@@ -321,16 +321,16 @@ module.exports = {
             '"',
             "~",
             "`",
-            '\/',
+            '\\',
             '/',
             '&',
             '$',
             '%'
         ];
-        // $$.each(ranges, (index, item) => {
-        //     val.indexOf(item) > -1 && (res = val.replace(item, ''));
-        // })
-        res = val.replace(new RegExp(ranges.join('|'), 'g'), '')
+        $$.each(ranges, (index, item) => {
+            val.indexOf(item) > -1 && (res = res.replace(item, ''));
+        })
+        // res = res.replace(new RegExp(ranges.join('|'), 'g'), '')
             // .replace(/\ud83d[\ude00-\ude4f]/g, '')
             // .replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '')
             // .replace(/[\uE000-\uF8FF]/g, '')

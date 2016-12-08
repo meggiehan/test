@@ -66,12 +66,15 @@ function buydetailInit(f7, view, page) {
                 lastHeader.find('a.detail-more').hide();
                 lastHeader.find('right').css('paddingRight', '3rem');
             }
+            const showStyle = {
+                display: '-webkit-box'
+            }
 
             let tagHtml = '';
             descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
                 tagHtml += `<span class="iconfont icon-auto-end">${item.tagName}</span>`;
             })
-            tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').remove();
+            tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').hide();
 
             id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
             errorInfo = refuseDescribe;
@@ -86,12 +89,12 @@ function buydetailInit(f7, view, page) {
             let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName']) : '';
             specText && specifications && (specText = `${specText}，${specifications}`);
             (!specText && specifications) && (specText += specifications);    
-            specText ? currentPage.find('.selldetail-spec').text(specText) : currentPage.find('.selldetail-spec').parent().remove();
+            specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
             currentPage.find('.budetail-fish-name').text(fishTypeName);
             // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
-            provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`) : currentPage.find('.selldetail-address').parent().remove();
-            describe ? currentPage.find('.selldetail-description').text(describe) : $$('.selldetail-description').parent().remove();
+            provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`).parent().css(showStyle) : currentPage.find('.selldetail-address').parent().hide();
+            describe ? currentPage.find('.selldetail-description').text(describe).parent().css(showStyle) : $$('.selldetail-description').parent().hide();
             level && currentPage.find('.user-name').children('i').addClass(`iconfont icon-v${level}`);
             currentPage.find('.user-tell').children('b').text(requirementPhone);
             currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
@@ -104,8 +107,8 @@ function buydetailInit(f7, view, page) {
                     lineHeight: '5rem',
                     height: '5rem'
                 });
-                currentPage.find('.user-cert').remove();
-                currentPage.find('.buy-detail-auth').remove();
+                currentPage.find('.user-cert').hide();
+                currentPage.find('.buy-detail-auth').hide();
             }
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
 
