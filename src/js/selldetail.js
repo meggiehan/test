@@ -47,7 +47,7 @@ function selldetailInit(f7, view, page) {
                 refuseDescribe,
                 title,
                 descriptionTags,
-                quantity_tags,
+                quantityTags,
                 imgs
             } = demandInfo;
             const {
@@ -65,6 +65,10 @@ function selldetailInit(f7, view, page) {
             currentPage.find('.selldetail-footer').removeClass('delete');
             lastHeader.find('a.detail-more').show();
 
+            const showStyle = {
+                display: '-webkit-box'
+            }
+
             if (state == 0 || state == 2) {
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
@@ -80,21 +84,23 @@ function selldetailInit(f7, view, page) {
             const fileName = '?x-oss-process=image/resize,m_fill,h_200,w_400';
             currentPage.find('.sell-detail-img').children('img').attr('src', imgs && JSON.parse(imgs).length && (JSON.parse(imgs)[0] + fileName) || (imgePath + fileName));
             if (!imgs || !JSON.parse(imgs).length) {
-                currentPage.find('.sell-detail-img-list').remove();
+                currentPage.find('.sell-detail-img-list').hide();
             }
+            imgs && JSON.parse(imgs).length && currentPage.find('.sell-detail-img-list').show();
             currentPage.find('.goods-name').text(fishTypeName);
             currentPage.find('.info-release-time').text(timeDifference(checkTime));
             currentPage.find('.info-price').text(price || '价格面议');
             currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
             currentPage.find('.selldetail-name').text(fishTypeName);
 
-            let specText = quantity_tags && JSON.parse(quantity_tags).length && ('<' + JSON.parse(quantity_tags)[0] + '>，') || '';
-            specifications && (specText += specifications);
-            specText ? currentPage.find('.selldetail-spec').text(specText) : currentPage.find('.selldetail-spec').parent().remove();
+            let specText = quantityTags && JSON.parse(quantityTags).length && (JSON.parse(quantityTags)[0]['tagName']) || '';
+            specText && specifications && (specText = `${specText}，${specifications}`);
+            (!specText) && specifications && (specText += specifications);
+            specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
 
-            stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
-            provinceName ? currentPage.find('.city-name').children('b').text(`${provinceName} ${cityName}`) : currentPage.find('.city-name').parent().remove();
-            describe ? currentPage.find('.selldetail-description').text(describe) : currentPage.find('.selldetail-description').parent().remove();
+            stock ? currentPage.find('.selldetail-stock').text(stock).parent().css(showStyle) : currentPage.find('.selldetail-stock').parent().hide();
+            provinceName ? currentPage.find('.city-name').children('b').text(`${provinceName} ${cityName}`).parent().css(showStyle) : currentPage.find('.city-name').parent().hide();
+            describe ? currentPage.find('.selldetail-description').text(describe).parent().css(showStyle) : currentPage.find('.selldetail-description').parent().hide();
             let certHtml = '';
             let tagHtml = '';
             descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {

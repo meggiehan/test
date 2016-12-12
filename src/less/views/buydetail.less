@@ -175,6 +175,7 @@
                     padding-bottom: 0;
                     img{
                         width: 5rem;
+                        height: 5rem;
                     }
                 }
                 .col-30 {
@@ -187,11 +188,13 @@
                     min-height: 5rem;
                     line-height: 5rem;
                     text-align: right;
+                    float: right;
                 }
                 .col-70 {
                     width: 73%;
                     vertical-align: middle;
                     height: 5rem;
+                    float: left;
                     .goods-weight,
                     .goods-name,
                     .goods-price,
@@ -199,9 +202,13 @@
                     .cat-list-tags {
                         padding-bottom: 0.5rem;
                     }
+                    &>div{
+                        height: 2.5rem;
+                    }
                     .user-name {
                         color: @text-name;
                         font-size: 1.6rem;
+                        line-height: 1.8rem;
                         .text-hidden;
                         i {
                             font-size: 2rem;
@@ -246,6 +253,8 @@
                     .buy-detail-auth {
                         font-size: 1.4rem;
                         .text-hidden;
+                        .ps-r;
+                        bottom: -0.3rem;
                         span {
                             margin-right: 0.5rem;
                             color: @text-subtitle;
@@ -259,6 +268,8 @@
                                 content: '实';
                                 width: 1.7rem;
                                 height: 1.7rem;
+                                .ps-r;
+                                top:-2px;
                                 line-height: 1.7rem;
                                 background: @themeColor;
                                 .text-shadow(@themeColor);

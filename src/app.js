@@ -192,10 +192,10 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
 });
 
-window.onload = () => {
-    if(!nativeEvent.getJumpDate()){
-        return;
-    }
-    const isLoadData = nativeEvent.getJumpDate();
-    jsJumpFromPush(isLoadData);
-}
+// window.onload = () => {
+//     if(!nativeEvent.getJumpDate()){
+//         return;
+//     }
+//     const isLoadData = nativeEvent.getJumpDate();
+//     jsJumpFromPush(isLoadData);
+// }

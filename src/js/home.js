@@ -109,6 +109,40 @@ function homeInit(f7, view, page) {
             url: 'views/search.html'
         })
     })
+
+    // //存储数据
+    // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
+    //     const a = JSON.stringify([{sk: 123}]);
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.setDataToNative('sk', a);
+    // }
+
+    // $$('#shareToWeixin').children().eq(1)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     alert(nativeEvent.getDataToNative('sk'));
+    // }
+
+    // //分享
+    // $$('#shareToWeixin').children().eq(2)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(0, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
+    // }
+
+    // $$('#shareToWeixin').children().eq(3)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(1, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
+    // }
+
+    // $$('#shareToWeixin').children().eq(4)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(2, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
+    // }
+
+    // $$('#shareToWeixin').children().eq(5)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(3, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
+    // }
+
 }
 
 module.exports = {

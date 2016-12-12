@@ -314,6 +314,8 @@ input::-webkit-input-placeholder {
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    word-break: keep-all;
 }
 
 .border-box {
@@ -483,6 +485,7 @@ input::-webkit-input-placeholder {
     padding: 2%;
     border-bottom: 1px solid @border-da;
     -webkit-align-items: inherit;
+    -webkit-box-align: start;
     .col-30 {
         img {
             display: block;
@@ -493,6 +496,7 @@ input::-webkit-input-placeholder {
         height: 9rem;
         overflow: hidden;
         -webkit-box-align: start;
+        -webkit-align-items: start;
         .sell-list-imgs {
             display: inline-block;
             .ps-a;
@@ -505,6 +509,7 @@ input::-webkit-input-placeholder {
             line-height: 2rem;
             padding: 0 0.8rem;
             border-radius: 1rem;
+            font-size: 1.4rem;
         }
         span.check {
             display: block;
@@ -539,16 +544,18 @@ input::-webkit-input-placeholder {
         .goods-price,
         .goods-create-time,
         .cat-list-tags,
-        .cat-list-address {
+        .cat-list-address,
+        .cat-list-title-auth span {
             .text-hidden;
         }
         .cat-list-text,
         .cat-list-title-auth,
         .cat-list-user-name {
-            height: 2.2rem;
+            height: 2.1rem;
             line-height: 2.2rem;
             .text-hidden;
             vertical-align: middle;
+            .text-hidden;
         }
         .cat-list-title {
             height: 2.7rem;
@@ -562,6 +569,7 @@ input::-webkit-input-placeholder {
                 display: inline-block;
                 max-width: 60%;
                 .text-hidden;
+                overflow: hidden;
                 background: @themeColor;
                 height: 1.4rem;
                 line-height: 1.4rem;
@@ -569,23 +577,31 @@ input::-webkit-input-placeholder {
                 border: 1px solid @themeColor;
                 border-radius: 0.3rem;
                 color: @text-fff;
+                padding-left: 1.8rem;
                 b,
                 i {
-                    display: inline-block;
-                    .text-center;
+                    display: block;
                 }
                 b {
                     width: 1.8rem;
                     .text-shadow(@themeColor);
                     vertical-align: middle;
+                    .ps-a;
+                    left: 0;
+                    top: 1px;
+                    height: 100%;
+                    .text-center;
                 }
                 i {
                     background: @bg-fff;
-                    padding: 0 0.5rem;
                     color: @themeColor;
-                    border-radius-right: 0.3rem;
-                    border-radius-bottom: 0.3rem;
+                    // border-radius:0 0.3rem 0.3rem 0;
                     font-style: normal;
+                    width: 100%;
+                    .text-hidden;
+                    padding: 0 0.3rem;
+                    box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
                 }
             }
             &>b {
@@ -610,6 +626,9 @@ input::-webkit-input-placeholder {
                 .text-hidden;
                 margin-bottom: 0.5rem;
                 font-size: 1.4rem;
+                &:first-child {
+                    margin-top: 0.5rem;
+                }
                 span {
                     display: inline-block;
                     .text-center;
@@ -648,6 +667,7 @@ input::-webkit-input-placeholder {
                 }
                 &.user-release-time {
                     float: right;
+                    padding-top: 0.1rem;
                 }
             }
         }
@@ -732,6 +752,8 @@ a.buy-list-info {
         .text-shadow(@bg-v);
         font-size: 1.2rem;
         border-radius: 0.3rem;
+        height: 1.5rem;
+        line-height: 1.5rem;
         color: @text-fff;
         display: inline-block;
         vertical-align: middle;

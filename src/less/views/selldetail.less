@@ -91,6 +91,9 @@
                 .info-price {
                     color: @text-chushou;
                     font-size: 1.8rem;
+                    max-width: 75%;
+                    word-break: break-all;
+                    word-wrap: break-word;
                 }
                 .info-release-time {
                     float: right;
@@ -168,7 +171,6 @@
             color: @text-name;
             font-size: 1.6rem;
         }
-
         .selldetail-cert {
             margin-top: 1rem;
             background: @bg-fff;
@@ -246,6 +248,7 @@
                     padding-bottom: 0;
                     img {
                         width: 5rem;
+                        height: 5rem;
                     }
                 }
                 .col-30 {
@@ -258,11 +261,13 @@
                     min-height: 5rem;
                     line-height: 5rem;
                     text-align: right;
+                    float: right;
                 }
                 .col-70 {
                     width: 73%;
                     vertical-align: middle;
                     height: 5rem;
+                    float: left;
                     .goods-weight,
                     .goods-name,
                     .goods-price,
@@ -270,9 +275,13 @@
                     .cat-list-tags {
                         padding-bottom: 0.5rem;
                     }
+                    &>div {
+                        height: 2.5rem;
+                    }
                     .user-name {
                         color: @text-name;
                         font-size: 1.6rem;
+                        line-height: 1.8rem;
                         .text-hidden;
                         i {
                             font-size: 2rem;
@@ -317,6 +326,8 @@
                     .sell-detail-auth {
                         font-size: 1.4rem;
                         .text-hidden;
+                        .ps-r;
+                        bottom: -0.3rem;
                         span {
                             margin-right: 0.5rem;
                             color: @text-subtitle;
@@ -330,7 +341,9 @@
                                 content: '实';
                                 width: 1.7rem;
                                 height: 1.7rem;
+                                .ps-r;
                                 line-height: 1.7rem;
+                                top: -2px;
                                 background: @themeColor;
                                 .text-shadow(@themeColor);
                                 color: @text-fff;

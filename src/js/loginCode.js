@@ -46,7 +46,7 @@ function loginCodeInit(f7, view, page) {
             input.blur();
             isPass = true;
             userLogin();
-        } else if (val.length >= 4) {
+        } else if (val && val.length >= 4) {
             input.value = val.substr(0, 4);
         } else {
             subBtn.className = classes.replace(' on', '');

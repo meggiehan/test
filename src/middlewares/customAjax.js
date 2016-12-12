@@ -164,6 +164,10 @@ class CustomClass {
                 }else if( -1 == _data.code){
                     f7.hideIndicator();
                     nativeEvent.nativeToast(0, '服务器异常，请稍后再试！');
+                }else if(4 == _data.code){
+                    f7.hideIndicator();
+                    f7.alert(_data.message, '提示');
+                    return;
                 }
                 if (!noCache) {
                     _this.checkMaxLenAndDelete();
