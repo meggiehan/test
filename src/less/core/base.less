@@ -509,6 +509,7 @@ input::-webkit-input-placeholder {
             line-height: 2rem;
             padding: 0 0.8rem;
             border-radius: 1rem;
+            font-size: 1.4rem;
         }
         span.check {
             display: block;
@@ -568,6 +569,7 @@ input::-webkit-input-placeholder {
                 display: inline-block;
                 max-width: 60%;
                 .text-hidden;
+                overflow: hidden;
                 background: @themeColor;
                 height: 1.4rem;
                 line-height: 1.4rem;
@@ -593,12 +595,13 @@ input::-webkit-input-placeholder {
                 i {
                     background: @bg-fff;
                     color: @themeColor;
-                    border-radius-right: 0.3rem;
-                    border-radius-bottom: 0.3rem;
+                    // border-radius:0 0.3rem 0.3rem 0;
                     font-style: normal;
                     width: 100%;
                     .text-hidden;
                     padding: 0 0.3rem;
+                    box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
                 }
             }
             &>b {
@@ -664,6 +667,7 @@ input::-webkit-input-placeholder {
                 }
                 &.user-release-time {
                     float: right;
+                    padding-top: 0.1rem;
                 }
             }
         }

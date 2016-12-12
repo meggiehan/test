@@ -93,6 +93,7 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
             currentPage.find('.budetail-fish-name').text(fishTypeName);
             // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
+            currentPage.find('.icon-map').next('b').text(`${provinceName} ${cityName}`);
             provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`).parent().css(showStyle) : currentPage.find('.selldetail-address').parent().hide();
             describe ? currentPage.find('.selldetail-description').text(describe).parent().css(showStyle) : $$('.selldetail-description').parent().hide();
             level && currentPage.find('.user-name').children('i').addClass(`iconfont icon-v${level}`);
