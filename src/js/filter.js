@@ -10,10 +10,13 @@ function filterInit(f7, view, page) {
     const _district = nativeEvent['getDistricInfo']();
     const { ios, android, androidChrome, osVersion } = window.currentDevice;
     const { keyvalue, release, type, id, cityId, search } = page.query;
+    const member = page['query']['member'] || false;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentNavbar = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
     const searchBtn = $$('.filter-searchbar input');
-    const emptyTemp = $$('.filter-empty-search-result');
-    const load = $$('.page-filter .infinite-scroll-preloader');
-    const showAllInfo = $$('p.filter-search-empty-info');
+    const emptyTemp = currentPage.find('.filter-empty-search-result');
+    const load = currentPage.find('.infinite-scroll-preloader');
+    const showAllInfo = currentPage.find('p.filter-search-empty-info');
     const { pageSize } = config;
     let allFishTypeChild;
     let isShowAll = false;
@@ -34,8 +37,35 @@ function filterInit(f7, view, page) {
      * 1: home -> filter. query: type
      * 2: search -> filter. query: searchVal or category id.
      * 3: releaseSelectType -> filter. query: release and type
+     * 4: member -> member . get member user list.
      */
     trim(searchValue) && searchBtn.val(searchValue);
+
+    //when member filter.
+    if(member){
+        currentNavbar.find('.filter-member-img').show();
+        currentPage.find('.page-content').css('paddingTop', '17.4rem');
+        currentPage.find('.filter-tabs-content').css({
+            height: '65%',
+            top: '17.4rem'
+        });
+        const scrollEvent = (e) => {
+            const top = currentPage.find('.page-content').scrollTop();
+            const height = 80 - top;
+            if(top <= 80){
+                currentPage.find('.page-content').css('paddingTop', `${94+height}px`);
+                currentNavbar.find('.filter-member-img').css('height', height + 'px');
+                currentPage.find('.filter-tabs-content').css('top', `${94+height}px`);
+            }else{
+                currentPage.find('.page-content').css('paddingTop', '9.4rem');
+                currentNavbar.find('.filter-member-img').css('height', '0');
+                currentPage.find('.filter-tabs-content').css('top', '9.4rem');
+            }
+        }
+        currentPage.find('.page-content')[0].onscroll = (ev) => {
+            setTimeout(() => {scrollEvent(ev)}, 50)
+        };
+    }
 
     /*
      * Ajax callback.
@@ -44,6 +74,7 @@ function filterInit(f7, view, page) {
         const { code, message } = data;
         if (code !== 1) {
             f7.alert(message, '提示');
+            f7.pullToRefreshDone();
             return;
         }
         let listHtml = '';
@@ -58,28 +89,29 @@ function filterInit(f7, view, page) {
         }
         showAllInfo.hide();
         if (isInfinite && !pullToRefresh) {
-            $$('.filter-list').append(listHtml);
+            currentPage.find('.filter-list').append(listHtml);
             loading = false;
         } else {
-            $$('.filter-list').text('');
-            html($$('.filter-list'), listHtml, f7);
+            currentPage.find('.filter-list').text('');
+            html(currentPage.find('.filter-list'), listHtml, f7);
         }
         //pull to refresh done.
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
-        $$('.page-filter .tabbar').show();
+        currentPage.find('.tabbar').show();
+        const listLength = currentPage.find('.filter-list').children('a').length;
         if (!listHtml) {
-            !$$('.filter-list>a').length && emptyTemp.show();
-            if (search && !$$('.filter-list>a').length) {
-                $$('.page-filter .tabbar').hide();
+            !listLength && emptyTemp.show();
+            if (search && !listLength) {
+                currentPage.find('.tabbar').hide();
             }
             load.hide();
         } else {
             emptyTemp.hide();
             load.show();
         }
-        tabChange && $$('.filter-list>a').length && pageNo == 1 && $$('.page-filter .page-content').scrollTop(0);
-        if ($$('.filter-list>a').length && data.data.list.length < pageSize) {
+        tabChange && listLength && pageNo == 1 && currentPage.find('.page-content').scrollTop(0);
+        if (listLength && data.data.list.length < pageSize) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
@@ -111,7 +143,7 @@ function filterInit(f7, view, page) {
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
         })
         fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
-        html($$('.filter-fish-type>.col-35'), typeHtml, f7);
+        html(currentPage.find('.filter-fish-type').children('.col-35'), typeHtml, f7);
     }
 
     const fishTypeChildCallback = (data) => {
@@ -127,8 +159,8 @@ function filterInit(f7, view, page) {
             !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
         })
 
-        fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
-        html($$('.filter-fish-type>.col-65'), typeHtml, f7);
+        fishTypeNameQuery && currentNavbar.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
+        html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
     }
 
@@ -160,7 +192,7 @@ function filterInit(f7, view, page) {
      * Bind event to dom.
      */
     // select fish type child.
-    $$('.filter-fish-type>.col-35').on('click', (e) => {
+    currentPage.find('.filter-fish-type').children('.col-35')[0].onclick = (e) => {
         const event = e || window.event;
         const ele = e.target;
         if (ele.tagName !== 'SPAN') {
@@ -187,8 +219,8 @@ function filterInit(f7, view, page) {
             const select = `${classes}${item.id == currentFishId ? ' active-ele' : ''}`;
             typeHtml += filter.fishType(item, select);
         })
-        html($$('.filter-fish-type>.col-65'), typeHtml, f7)
-    })
+        html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7)
+    }
 
     $$('.filter-tab').off('click', filterTabClick).on('click', filterTabClick);
 
@@ -197,13 +229,13 @@ function filterInit(f7, view, page) {
 
         // sell or buy active; default type = 1
         const eleIndex = _type == 2 ? 0 : 1;
-        $$('.filter-info-type>p').eq(eleIndex).addClass('active-ele');
+        currentPage.find('.filter-info-type').children('p').eq(eleIndex).addClass('active-ele');
         if (_type == 1) {
-            $$('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
-            $$('.filter-tab-title').eq(2).find('span').text('求购');
-            $$('.page-filter .tabbat-text span').text('我要买鱼');
+            currentPage.find('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
+            currentNavbar.find('.filter-tab-title').eq(2).find('span').text('求购');
+            currentPage.find('.tabbat-text').children('span').text('我要买鱼');
         } else {
-            $$('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
+            currentPage.find('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
         }
         /*
          * initialization filter page and send ajax to get list data.
@@ -211,7 +243,7 @@ function filterInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',
-            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
             type: 'get',
         }, listCallback);
         //root district render;
@@ -222,7 +254,7 @@ function filterInit(f7, view, page) {
         html($$('.filter-district>.col-35'), rootDistrict, f7);
         html($$('.filter-district>.col-65'), '<span class="active-ele" data-postcode="">全国</span>', f7);
         //child district render
-        $$('.filter-district>.col-35').on('click', (e) => {
+        currentPage.find('.filter-district').children('.col-35')[0].onclick = (e) => {
             const event = e || window.event;
             const ele = e.target;
             if (ele.tagName !== 'SPAN') {
@@ -245,11 +277,11 @@ function filterInit(f7, view, page) {
             } else {
                 districtHtml += `<span data-postcode="">${ele.innerText}</span>`;
             }
-            html($$('.filter-district>.col-65'), districtHtml, f7);
-        })
+            html(currentPage.find('.filter-district').children('.col-65'), districtHtml, f7);
+        }
 
         //change release type;
-        $$('.filter-info-type').on('click', (e) => {
+        currentPage.find('.filter-info-type')[0].onclick = (e) => {
             isShowAll = false;
             tabChange = true;
             const event = e || window.event;
@@ -259,29 +291,29 @@ function filterInit(f7, view, page) {
                 return;
             }
             if (classes.indexOf('active-ele') <= -1) {
-                $$('.filter-info-type>p').removeClass('active-ele');
+                currentPage.find('.filter-info-type').children('p').removeClass('active-ele');
                 ele.className += ' active-ele';
                 const type_ = ele.getAttribute('data-type');
                 const tabText = type_ == 1 ? '求购' : '出售';
                 _type = type_;
-                html($$('.filter-need-release span'), _type == 1 ? '我要买鱼' : '我要卖鱼', f7);
+                currentPage.find('.tabbat-text').children('span').text(_type == 1 ? '我要买鱼' : '我要卖鱼')
                 pageNo = 1;
                 isInfinite = false;
-                html($$('.filter-tab>.tab3>span'), tabText, f7)
+                currentNavbar.find('.tab3').children('span').text(tabText);
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
                     api: 'getDemandInfoList',
-                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                     type: 'get'
                 }, listCallback);
             }
-            $$('.winodw-mask').removeClass('on');
-            $$('.filter-tabs-content').removeClass('on');
-            $$('.filter-tab>div').removeClass('active-ele');
-        })
+            currentPage.find('.winodw-mask').removeClass('on');
+            currentPage.find('.filter-tabs-content').removeClass('on');
+            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+        }
 
         // select city
-        $$('.filter-district>.col-65').on('click', (e) => {
+        currentPage.find('.filter-district').children('.col-65')[0].onclick = (e) => {
             const event = e || window.event;
             const ele = event.target;
             const classes = ele.className;
@@ -291,30 +323,30 @@ function filterInit(f7, view, page) {
             tabChange = true;
             const postcode = ele.getAttribute('data-postcode');
             isShowAll = false;
-            $$('.filter-district>.col-65>span').removeClass('active-ele');
+            $$(currentPage.find('.filter-district').children('.col-65')[0]).children('span').removeClass('active-ele');
             if (classes.indexOf('active-ele') <= -1) {
                 const districtText = ele.innerText;
                 // const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
                 // const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
-                html($$('.filter-tab>.tab2>span'), getTabStr(districtText), f7);
+                currentNavbar.find('.tab2').children('span').text(getTabStr(districtText));
                 ele.className += ' active-ele';
             }
             pageNo = 1;
             isInfinite = false;
             currentCityId = postcode;
-            $$('.winodw-mask').removeClass('on');
-            $$('.filter-tabs-content').removeClass('on');
-            $$('.filter-tab>div').removeClass('active-ele');
+            currentPage.find('.winodw-mask').removeClass('on');
+            currentPage.find('.filter-tabs-content').removeClass('on');
+            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get'
             }, listCallback);
-        })
+        }
 
         // Attach 'infinite' event handler
-        $$('.page-filter .infinite-scroll').on('infinite', function() {
+        currentPage.find('.infinite-scroll').on('infinite', function() {
             if (isShowAll) {
                 return;
             }
@@ -328,37 +360,38 @@ function filterInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get',
                 isMandatory: true
             }, listCallback);
         });
 
         // pull to refresh.
-        const ptrContent = $$('.pull-to-refresh-content');
+        const ptrContent = currentPage.find('.pull-to-refresh-content');
         ptrContent.on('refresh', function(e) {
+            const isMandatory = !!nativeEvent['getNetworkStatus']();
             pullToRefresh = true;
             isShowAll = false;
             pageNo = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
                 type: 'get',
-                isMandatory: true
+                isMandatory
             }, listCallback);
         })
 
     } else {
         f7.hideIndicator();
         currentFishId = null;
-        $$('.filter-release-next').removeClass('pass');
-        $$('.filter-navbar').addClass('filter-release-info');
-        $$('.page-filter').addClass('filter-release-info');
-        $$('.filter-tabs-content').addClass('on active');
-        $$('.filter-fish-type').addClass('active');
-        $$('.winodw-mask').addClass('on');
-        $$('.filter-release-next').click(() => {
+        currentPage.find('.filter-release-next').removeClass('pass');
+        currentNavbar.addClass('filter-release-info');
+        currentPage.addClass('filter-release-info');
+        currentPage.find('.filter-tabs-content').addClass('on active');
+        currentPage.find('.filter-fish-type').addClass('active');
+        currentPage.find('.winodw-mask').addClass('on');
+        currentPage.find('.filter-release-next').click(() => {
             const text = _type == 1 ? '求购' : '出售';
             if (!currentFishId) {
                 f7.alert(`请选择您需要${text}鱼的种类`);
@@ -373,44 +406,45 @@ function filterInit(f7, view, page) {
     }
 
     // select fish category;
-    $$('.filter-fish-type>.col-65').on('click', (e) => {
-            const event = e || window.event;
-            const ele = event.target;
-            const classes = ele.className;
-            if (ele.tagName !== 'SPAN') {
-                return;
-            }
-            apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
-            tabChange = true;
-            const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
-            $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
-            $$('.filter-release-next').addClass('pass');
-            const tabText = ele.innerText;
-            releaseFishName = ele.innerText;
-            ele.className += ' active-ele';
-            parentFishInfo['id'] = ele.getAttribute('data-parent-id');
-            parentFishInfo['name'] = ele.getAttribute('data-parent-name');
-            currentFishId = childId;
-            if (!release) {
-                tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
-                $$('.winodw-mask').removeClass('on');
-                $$('.filter-tabs-content').removeClass('on');
-                $$('.filter-tab>div').removeClass('active-ele');
-                isShowAll = false;
-                searchValue = '';
-                searchBtn.val('');
-                isInfinite = false;
-                pageNo = 1;
-                customAjax.ajax({
-                    apiCategory: 'demandInfo',
-                    api: 'getDemandInfoList',
-                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, searchValue],
-                    type: 'get'
-                }, listCallback);
+    currentPage.find('.filter-fish-type').children('.col-65')[0].onclick = (e) => {
+        const event = e || window.event;
+        const ele = event.target;
+        const classes = ele.className;
+        if (ele.tagName !== 'SPAN') {
+            return;
+        }
+        apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
+        tabChange = true;
+        const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
+        $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
+        $$('.filter-release-next').addClass('pass');
+        const tabText = ele.innerText;
+        releaseFishName = ele.innerText;
+        ele.className += ' active-ele';
+        parentFishInfo['id'] = ele.getAttribute('data-parent-id');
+        parentFishInfo['name'] = ele.getAttribute('data-parent-name');
+        currentFishId = childId;
+        if (!release) {
+            tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
+            currentPage.find('.winodw-mask').removeClass('on');
+            $$('.filter-tabs-content').removeClass('on');
+            $$('.filter-tab>div').removeClass('active-ele');
+            isShowAll = false;
+            searchValue = '';
+            searchBtn.val('');
+            isInfinite = false;
+            pageNo = 1;
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'getDemandInfoList',
+                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member],
+                type: 'get'
+            }, listCallback);
 
-            }
-        })
-        //js location to other page
+        }
+    }
+
+    //js location to other page
     $$('.home-search-mask').on('click', () => {
         const currentHistory = view['history'];
         let isHasFilterPage = 0;
@@ -431,7 +465,7 @@ function filterInit(f7, view, page) {
             const winHeight = $$(window).height();
             const navbarHeight = $$('.navbar').height();
             const footerHeight = $$('.tabbar').height();
-            $$('.filter-tabs-content').css({ height: `${winHeight - navbarHeight - footerHeight}px` });
+            currentPage.find('.filter-tabs-content').css({ height: `${winHeight - navbarHeight - footerHeight}px` });
         }, 0)
     }
 }

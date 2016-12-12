@@ -23,19 +23,22 @@ import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
+import { isLogin } from './middlewares/loginMiddle';
 import { catIdentityStatusInit } from './js/catIdentityStatus';
 import { editNameInit } from './js/editName';
 import { inviteCodeInit } from './js/inviteCode';
-import {inviteFriendsInit} from './js/inviteFriends';
-import {inviteFriendsListInit} from './js/inviteFriendsList';
-import {myCollectionInit} from './js/myCollection';
+import { inviteFriendsInit } from './js/inviteFriends';
+import { inviteFriendsListInit } from './js/inviteFriendsList';
+import { myCollectionInit } from './js/myCollection';
+import { dealListInit } from './js/dealList';
+import { releaseSelectTagInit } from './js/releaseSelectTag';
 
 
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
-const { version, debug, timeout } = config;
+const { version, timeout } = config;
 
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
@@ -48,6 +51,7 @@ let initAppConfig = {
     // uniqueHistoryIgnoreGetParameters: true,
     // uniqueHistory: true,
     // preloadPreviousPage: true,
+    activeState: false,
     imagesLazyLoadThreshold: 50,
     // pushStatePreventOnLoad: true,
     pushState: true,
@@ -60,52 +64,46 @@ let initAppConfig = {
     fastClicks: true,
     modalTitle: '温馨提示',
     // force: true,
-    // cacheIgnore: ['search.html'],
-
-
-    // cacheIgnore: ['search.html'],
     preprocess: (content, url, next) => {
         next(content);
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
             searchInit(f7, mainView, { query })
-        } else if (url.indexOf('login.html') > -1) {
-            loginInit(f7, mainView, { query })
-        } else if (url.indexOf('loginCode.html') > -1) {
-            loginCodeInit(f7, mainView, { query })
         }
     },
     preroute: (view, options) => {
-        if (!options) {
-            return;
-        }
         const goPage = view['url'];
         const { history, loadPage } = view;
-        const currentPage = options['url'];
-        // console.log(`gopage:${goPage}--currentpage:${currentPage}`,history )
+        const currentPage = options && options['url'];
+
         //if router back, doing.
         const len = history.length;
-
         if (!currentPage && len >= 1) {
             const _currentPage = history[len - 1];
             const backPage = history[len - 2];
             // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
-                // exitApp();
                 return false;
             }
 
-            if(_currentPage.indexOf('inviteFriends.html') > -1){
+            if (_currentPage.indexOf('inviteFriends.html') > -1) {
                 $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
             }
 
-            if (_currentPage.indexOf('filter.html') > -1 && backPage.indexOf('filter.html') > -1) {
+            if ($$('.modal-overlay-visible').length) {
+                $$('.modal-overlay-visible').trigger('click');
+                $$('.modal-button').length && $$('.modal-button')[0].click();
+            }
+
+            if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',
                     reload: true
                 })
                 return false;
             }
+            $$('.release-select-model').removeClass('on');
+
             if (android && !androidChrome) {
                 if (isBack) {
                     return false;
@@ -190,4 +188,14 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'inviteFriends' && inviteFriendsInit(f7, mainView, page);
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
     page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
+    page.name === 'dealList' && dealListInit(f7, mainView, page);
+    page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
 });
+
+// window.onload = () => {
+//     if(!nativeEvent.getJumpDate()){
+//         return;
+//     }
+//     const isLoadData = nativeEvent.getJumpDate();
+//     jsJumpFromPush(isLoadData);
+// }

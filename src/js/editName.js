@@ -47,24 +47,26 @@ function editNameInit(f7, view, page) {
     const editUserCallback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                f7.alert(message, '提示', () => {
-                    f7.closeModal('.popup-edit-name');
-                    view.router.load({
-                        url: 'views/user.html',
-                        reload: true
-                    })
-                })
+                nativeEvent['nativeToast'](1, message);
+                const val = trim(nameInput.val());
+                let userInfoChange = userInfo;
+                userInfoChange['nickname'] = val;
+                store.set(config['cacheUserinfoKey'], userInfoChange);
+                $$('.page-my-center').find('.center-name').children('span').text(val);
+                $$('.page-user').find('.user-name').children('span').text(val);
+                view.router.back();
             } else {
                 f7.alert(message, '提示')
             }
             isSendInfo = false;
             editUserNameSubBtn.removeClass('pass');
-        }
-    //click sub button post user name; 
+    }
+
+    //click sub button post user name;
     editUserNameSubBtn[0].onclick = () => {
         const val = trim(nameInput.val());
         error = getErr(val);
-        if(isSendInfo && error){
+        if (isSendInfo && error) {
             return;
         }
         isSendInfo = true;

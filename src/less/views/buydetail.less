@@ -2,8 +2,15 @@
     .page-content {
         .selldetail-info {
             border-bottom: 1px solid @border-da;
-            background: @bg-fff;
-            .text-shadow(@text-fff);
+            &>div {
+                background: @bg-fff;
+                .text-shadow(@text-fff);
+                &.info-tages-list {
+                    background: @bg-f7;
+                    .text-shadow(@bg-f7);
+                    border-bottom: 1px solid @border-da;
+                }
+            }
             &>.row {
                 padding: 2%;
                 border-top: 1px solid @border-da;
@@ -26,32 +33,54 @@
                     padding: 0.5rem 0;
                 }
             }
+            .buydetail-info-title {
+                padding: 1rem 2%;
+                line-height: 1.4;
+                font-size: 1.6rem;
+                color: @text-name;
+            }
+            .selldetail-label {
+                display: inline-block;
+                height: 2rem;
+                line-height: 2rem;
+                padding: .1rem .8rem;
+                border-radius: .3rem;
+                color: @text-fff;
+                font-size: 1.4rem;
+                vertical-align: middle;
+                background: @text-water;
+                .text-shadow(@text-water);
+            }
+            .buy-goods-name {
+                vertical-align: middle;
+            }
             .buydetail-info {
-                padding: 3% 2%;
+                padding: 3% 2% 0;
                 border-top: 1px solid @border-da;
                 line-height: 1.2;
                 .text-hidden;
+                .buy-detail-address {
+                    color: @text-category;
+                    padding-top: 1rem;
+                    b:before {
+                        .ps-r;
+                        top: -0.2rem;
+                        font-size: 1.8rem;
+                    }
+                }
                 .goods-name {
-                    font-size: 2.2rem;
+                    font-size: 2rem;
                     color: @text-name;
                 }
                 .goods-create-time {
                     color: @text-subtitle;
                     .text-right;
-                    padding-top: 0.8rem;
+                    font-size: 1.4rem;
+                    padding-top: 0.2rem;
                 }
                 .selldetail-price-info {
-                    padding-top: 1rem;
-                    font-size: 1.6rem;
-                    .selldetail-label {
-                        display: inline-block;
-                        padding: 0.5rem;
-                        border: 0.3rem;
-                        color: @text-fff;
-                        background: @text-qiugou;
-                        border-radius: 0.3rem;
-                        .text-shadow(@text-qiugou);
-                    }
+                    padding: 1rem 0;
+                    font-size: 1.8rem;
                     .selldetail-price {
                         color: @text-chushou;
                     }
@@ -128,35 +157,65 @@
             }
             .selldetail-userinfo {
                 padding: 2%;
-                border-top: 1px solid @border-da;
-                .col-18 {
-                    width: 18%;
-                    img {
-                        display: block;
-                        width: 100%;
+                margin-bottom: 1rem;
+                .item-inner {
+                    display: -webkit-flex;
+                    padding-top: 0;
+                    padding-right: 0;
+                    padding-bottom: 0;
+                    margin-left: 1rem;
+                    -webkit-box-align: center;
+                    -webkit-box-pack: center;
+                    &:after {
+                        display: none;
                     }
                 }
-                .col-80 {
-                    width: 80%;
+                .item-media {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    img{
+                        width: 5rem;
+                        height: 5rem;
+                    }
+                }
+                .col-30 {
+                    width: 27%;
+                    white-space: nowrap;
+                    .text-hidden;
+                    overflow: visible;
+                    color: @text-subtitle;
+                    font-size: 1.4rem;
+                    min-height: 5rem;
+                    line-height: 5rem;
+                    text-align: right;
+                    float: right;
+                }
+                .col-70 {
+                    width: 73%;
                     vertical-align: middle;
+                    height: 5rem;
+                    float: left;
                     .goods-weight,
                     .goods-name,
                     .goods-price,
                     .goods-create-time,
-                    .cat-list-tags,
-                    .cat-list-title {
+                    .cat-list-tags {
                         padding-bottom: 0.5rem;
+                    }
+                    &>div{
+                        height: 2.5rem;
                     }
                     .user-name {
                         color: @text-name;
-                        // width: 30%;
-                        font-size: 1.8rem;
+                        font-size: 1.6rem;
+                        line-height: 1.8rem;
                         .text-hidden;
-                        height: 2.2rem;
-                        overflow: hidden;
                         i {
                             font-size: 2rem;
                             color: @text-level;
+                            &:before {
+                                vertical-align: top;
+                            }
                         }
                     }
                     .buydetail-cert-info {
@@ -191,25 +250,40 @@
                         color: @text-subtitle;
                         width: 40%;
                     }
-                    .user-tell {
-                        width: 60%;
-                        color: @text-subtitle;
+                    .buy-detail-auth {
+                        font-size: 1.4rem;
                         .text-hidden;
-                        b {
-                            .fw-l;
+                        .ps-r;
+                        bottom: -0.3rem;
+                        span {
+                            margin-right: 0.5rem;
+                            color: @text-subtitle;
+                            display: none;
+                            line-height: 2.5rem;
+                            &.auth-individual:before,
+                            &.auth-company:before {
+                                vertical-align: middle;
+                                font-size: 1.2rem;
+                                display: inline-block;
+                                content: '实';
+                                width: 1.7rem;
+                                height: 1.7rem;
+                                .ps-r;
+                                top:-2px;
+                                line-height: 1.7rem;
+                                background: @themeColor;
+                                .text-shadow(@themeColor);
+                                color: @text-fff;
+                                margin-right: 0.2rem;
+                                .text-center;
+                            }
+                            &.auth-company:before {
+                                content: '企';
+                            }
+                            &.show{
+                                display: inline-block;
+                            }
                         }
-                    }
-                    .user-cert {
-                        line-height: 2rem;
-                        color: @text-chushou;
-                        .text-right;
-                        border: 1px solid @text-test;
-                        color: @text-test;
-                        float: right;
-                        padding: 0 0.3rem;
-                        border-radius: 0.3rem;
-                        max-width: 60%;
-                        .text-hidden;
                     }
                 }
             }
@@ -221,6 +295,9 @@
         .text-shadow(@text-fff);
         line-height: 4rem;
         padding: 0.5rem;
+        &.safira {
+            padding: 0.5rem 1rem;
+        }
         .text-center;
         color: @text-price;
         .col-40 {
@@ -270,9 +347,6 @@
 }
 
 .page-buydetail {
-    .selldetail-user {
-        // display: none;
-    }
     .page-content>.iconfont {
         .text-center;
         display: none;

@@ -9,6 +9,7 @@
             img {
                 display: block;
                 border-radius: 50%;
+                height: 6rem;
             }
         }
         .item-content {
@@ -34,6 +35,9 @@
                         font-size: 1.4rem;
                     }
                     &.other-user-name {
+                        .name{
+                            width: 55%;
+                        }
                         i {
                             display: none;
                             vertical-align: bottom;
@@ -67,6 +71,8 @@
                                 &:before {
                                     font-size: 1.6rem;
                                     padding-right: 0.3rem;
+                                    .ps-r;
+                                    top: -0.2rem;
                                 }
                             }
                             &.individual-identity {
@@ -174,7 +180,7 @@
     .other-index-list {
         .title {
             color: @text-category;
-            line-height: 4rem;
+            line-height: 3rem;
             padding: 0 0.8rem;
             border-bottom: 1px solid @border-da;
             .icon-right {
@@ -196,129 +202,12 @@
             background: @bg-fff;
             .text-shadow(@text-fff);
             display: none;
-            .cat-list-info {
-                padding: 2% 0.8rem;
-                border-bottom: 1px solid @border-da;
-                img {
-                    display: block;
-                    width: 100%;
-                }
-                .col-30 {
-                    width: 28%;
-                }
-                .col-70 {
-                    width: 70%;
-                    vertical-align: middle;
-                    .goods-weight,
-                    .goods-name,
-                    .goods-price,
-                    .goods-create-time,
-                    .cat-list-tags,
-                    .cat-list-address {
-                        .text-hidden;
-                    }
-                    .goods-name {
-                        color: @text-name;
-                        font-size: 2.0rem;
-                        width: 58%;
-                        .text-hidden;
-                    }
-                    .goods-price {
-                        width: 40%;
-                        color: @text-price;
-                        font-size: 1.6rem;
-                        .text-right;
-                        .text-hidden;
-                    }
-                    .cat-list-text {
-                        color: @text-subtitle;
-                        font-size: 1.4rem;
-                        .text-hidden;
-                        .goods-create-time {
-                            .text-right;
-                            .text-hidden;
-                        }
-                    }
-                    .cat-list-address {
-                        color: @text-subtitle;
-                        font-size: 1.4rem;
-                        .text-hidden;
-                        span {
-                            padding-right: 5px;
-                        }
-                    }
-                    .cat-list-tags {
-                        .text-hidden;
-                        .button {
-                            display: inline-block;
-                            border-color: @themeColor;
-                            color: @themeColor;
-                            .text-shadow(@bg-v);
-                            &.icon-v {
-                                background: @bg-v;
-                                color: @text-fff;
-                                border-color: @bg-v;
-                                &:before {
-                                    margin-right: 0.3rem;
-                                }
-                            }
-                            &.list-cert {
-                                margin-left: 0.5rem;
-                                vertical-align: middle;
-                                .text-shadow(@text-fff);
-                            }
-                        }
-                    }
-                }
-            }
         }
         .other-buy-list {
             display: none;
             margin-top: 1rem;
             background: @bg-fff;
             .text-shadow(@text-fff);
-            .buy-list-info {
-                padding: 2% 0.8rem;
-                display: block;
-                border-bottom: 1px solid @border-da;
-                .buy-name {
-                    color: @text-name;
-                    font-size: 2.0rem;
-                    .text-hidden;
-                }
-                .buy-price {
-                    color: @text-price;
-                    font-size: 1.6rem;
-                    .text-right;
-                    .text-hidden;
-                }
-                .buy-spec {
-                    color: @text-name;
-                    font-size: 1.4rem;
-                    .text-hidden;
-                    padding: 0.4rem 0;
-                }
-                .buy-time {
-                    color: @text-subtitle;
-                    font-size: 1.4rem;
-                    .text-right;
-                    .text-hidden;
-                    padding: 0.4rem 0;
-                }
-                .home-buy-address {
-                    color: @text-subtitle;
-                    .text-hidden;
-                    span {
-                        margin-right: 0.8rem;
-                        &:before {
-                            color: @text-level;
-                            font-size: 2rem;
-                            margin-right: 0.2rem;
-                            vertical-align: top;
-                        }
-                    }
-                }
-            }
         }
     }
     .toolbar {

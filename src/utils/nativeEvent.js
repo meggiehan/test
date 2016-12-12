@@ -20,8 +20,8 @@ class CustomClass {
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])) {
             return false;
         }
-        ios && JS_MakeCall(phone);
-        android && window.yudada.JS_MakeCall(phone);
+        ios && JS_MakeCall(phone.toString());
+        android && window.yudada.JS_MakeCall(phone.toString());
     }
 
     //choose address
@@ -46,14 +46,20 @@ class CustomClass {
     }
 
     //select pic
-    postPic(mark, id) {
-        const _mark = Number(mark) > -4 ? mark : 4;
+    postPic(mark, id, path, functionName) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
             return false;
         }
-        ios && JS_PictureSeletor(_mark, '');
-        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id);
+        if (5 == mark) {
+            ios && JS_PictureSeletor(5, '', id, path || '', functionName || '');
+            android && window.yudada.JS_PictureSeletor(5, "上传照片", id, path || '', functionName || '');
+            return;
+        }
+
+        const _mark = Number(mark) > -4 ? mark : 4;
+        ios && JS_PictureSeletor(_mark, '', id, '', '');
+        android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id, '', '');
     }
 
     //cat pic
@@ -104,7 +110,7 @@ class CustomClass {
             return false;
         }
         ios && JS_SetUserInfo(obj);
-        android && window.yudada.JS_Login(obj.tele, obj.pass, null);
+        android && window.yudada.JS_Login(obj.tele, obj.pass);
     }
 
     getUserValue() {
@@ -156,14 +162,14 @@ class CustomClass {
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
             return false;
         }
-        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared();
+        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('token', '');
     }
 
-    nativeGoBack(){
+    nativeGoBack() {
         window.yudada.JS_GoBack();
     }
 
-    getNetworkStatus(){
+    getNetworkStatus() {
         const { ios, android } = window.currentDevice;
         if (!window['JS_GetNetWorkStates'] && (!window['yudada'] || !window['yudada']['JS_GetNetWorkStates'])) {
             return true;
@@ -172,7 +178,7 @@ class CustomClass {
         return Number(status);
     }
 
-    getDeviceInfomation(){
+    getDeviceInfomation() {
         const { ios, android } = window.currentDevice;
         if (!window['JS_VersionInfo'] && (!window['yudada'] || !window['yudada']['JS_VersionInfo'])) {
             return false;
@@ -180,7 +186,7 @@ class CustomClass {
         return ios ? JSON.parse(JS_VersionInfo()) : JSON.parse(window.yudada.JS_VersionInfo());
     }
 
-    setClipboardValue(val){
+    setClipboardValue(val) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_CopyResult'] && (!window['yudada'] || !window['yudada']['JS_CopyResult'])) {
             return false;
@@ -188,7 +194,7 @@ class CustomClass {
         ios ? JS_CopyResult(val) : window.yudada.JS_CopyResult(val);
     }
 
-    goNewWindow(url){
+    goNewWindow(url) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_JumpToThirdWeb'] && (!window['yudada'] || !window['yudada']['JS_JumpToThirdWeb'])) {
             return false;
@@ -207,6 +213,46 @@ class CustomClass {
             return false;
         }
         ios ? JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
+    }
+
+    getDataToNative(key) {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
+            return false;
+        }
+        return ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
+    }
+
+    setDataToNative(key, val) {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_SaveObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_SaveObjectWithKey'])) {
+            return false;
+        }
+        ios ? JS_SaveObjectWithKey(key, val) : window.yudada.JS_SaveObjectWithKey(key, val);
+    }
+
+    //get app push data.
+    getJumpDate() {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_GetPushInfo'] && (!window['yudada'] || !window['yudada']['JS_GetPushInfo'])) {
+            return false;
+        }
+        return ios ? JS_GetPushInfo() : window.yudada.JS_GetPushInfo();
+    }
+
+    /**
+     * share info to weixin.
+     * 0 : 分享图片到微信好友    参数2 : 图片url
+     * 1: 分享图片到朋友圈        参数2 : 图片url
+     * 2: 分享web到微信好友   参数2: web  url    参数3: 图片url   参数4: 描述   参数5: 标题
+     * 3: 分享web到朋友圈    参数2: web url  参数3 : 图片url   参数4: 描述   参数5: 标题
+     */
+    shareInfoToWeixin(par1, par2, par3, par4, par5) {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])) {
+            return false;
+        }
+        ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '');
     }
 
 }

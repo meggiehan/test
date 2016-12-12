@@ -2,8 +2,11 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
-import { fishCert } from '../utils/template';
+import { fishCert, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
+import { goIdentity } from './domListenEvent';
+import { logOut, isLogin } from '../middlewares/loginMiddle';
+import { getQuery } from './string';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -14,20 +17,21 @@ const f7 = new framework7({
 
 class CustomClass {
     getPhoneSrc(srcimg, src, index) {
-        const { identity, cacheUserinfoKey } = config;
+        const { identity, cacheUserinfoKey, imgPath } = config;
         let individualCert = true;
         const id = store.get(cacheUserinfoKey)['id'];
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
-                mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
+                $$('.my-center-head img').attr('src', src + imgPath(8));
+                $$('.user-pic>img').attr('src', src + imgPath(8));
+                $$('img.picker-invite-head-img').attr('src', src + imgPath(8));
+                let userInfoChange = store.get(cacheUserinfoKey);
+                userInfoChange['imgUrl'] = src;
+                store.set(cacheUserinfoKey, userInfoChange);
             }
         }
         if (index == 4) {
-            $$('.my-center-head img').val(src);
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateUserInfo',
@@ -69,24 +73,22 @@ class CustomClass {
 
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
         const { identity, cacheUserinfoKey } = config;
-        const id = store.get(cacheUserinfoKey)['id'];
         const { ios, android } = window.currentDevice;
+        const { provinceName, cityName, id } = store.get(cacheUserinfoKey);
+        if (province == provinceName && city == cityName) {
+            nativeEvent['nativeToast'](0, '请改变您所在的地区！');
+            return;
+        }
         const callback = (data) => {
 
             const { code, message } = data;
             if (1 == code) {
-                ios && f7.alert(message, '提示', () => {
-
-                    mainView.router.load({
-                        url: 'views/user.html',
-                        reload: true
-                    })
-                })
-                android && mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
-
+                nativeEvent['nativeToast'](1, message);
+                let userInfoChange = store.get(cacheUserinfoKey);
+                userInfoChange['provinceName'] = province;
+                userInfoChange['cityName'] = city;
+                store.set(cacheUserinfoKey, userInfoChange);
+                $$('.my-center-address').find('span').text(`${province}${city}`);
             }
         }
         customAjax.ajax({
@@ -99,8 +101,8 @@ class CustomClass {
     }
 
     appJump(id) {
-        const url = 0 ? 'views/home.html' : 'views/release.html';
-        mainView.router.load({ url })
+        const url = id == 0 ? 'views/home.html' : 'views/release.html';
+        mainView.router.load({ url });
     }
 
     getAdreesSys(province, city, longitude, latitude) {
@@ -113,11 +115,7 @@ class CustomClass {
 
     subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
         const { identity, cacheUserinfoKey } = config;
-        let login_token;
         const userInfo = store.get(cacheUserinfoKey);
-        if (userInfo) {
-            login_token = userInfo['token'];
-        }
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
@@ -126,28 +124,15 @@ class CustomClass {
                 f7.alert(message, '提示')
             }
         }
-        if (!id) {
-            customAjax.ajax({
-                apiCategory: 'userInfo',
-                api: 'addUserFishCertificate',
-                header: ['token'],
-                // parameType: 'application/json',
-                data: [path, uploadFilename, fileSize],
-                type: 'post',
-                noCache: true,
-            }, callback);
-        } else {
-            customAjax.ajax({
-                apiCategory: 'userInfo',
-                api: 'addUserFishCertificate',
-                header: ['token'],
-                // parameType: 'application/json',
-                data: [path, uploadFilename, fileSize],
-                type: 'post',
-                val: { id },
-                noCache: true,
-            }, callback);
-        }
+        customAjax.ajax({
+            apiCategory: 'userInfo',
+            api: 'addUserFishCertificate',
+            header: ['token'],
+            // parameType: 'application/json',
+            data: [path, uploadFilename, fileSize],
+            type: 'post',
+            noCache: true,
+        }, callback);
     }
 
     getKey(token, userId, state, status) {
@@ -155,11 +140,10 @@ class CustomClass {
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
          */
-        if (!Number(state)) {
-            return;
-        }
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
+        const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+        currentPage.find('input').blur();
         window.mainView.router.load({
             url: `views/user.html?uuid=${token}`,
             animatePage: true
@@ -209,7 +193,8 @@ class CustomClass {
     }
 
     logout() {
-        store.clear();
+        const { cacheUserinfoKey } = config;
+        store.remove(cacheUserinfoKey);
         window.mainView.router.load({
             url: `views/user.html?logout=true`,
             animatePages: false,
@@ -218,16 +203,98 @@ class CustomClass {
     }
 
     initLogout() {
-        store.clear();
-        if (window.location.hash.indexOf('user.html') > -1) {
-            window.mainView.router.load({
-                url: 'views/user.html',
-                animatePages: false,
-                reload: true
-            })
-            return;
+        const { cacheUserinfoKey } = config;
+        let refreshId = setInterval(() => {
+            if (mainView['url'].indexOf('user.html') > -1) {
+                store.remove(cacheUserinfoKey);
+                setTimeout(() => {
+                    mainView.router.load({
+                        url: 'views/user.html?logout=true',
+                        reload: true
+                    })
+                }, 600)
+                clearInterval(refreshId);
+            }
+        }, 500);
+    }
+
+    jsBack() {
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
+            const { ios, android } = window.currentDevice;
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+                ios && JS_ExitProcess();
+                android && window.yudada.JS_ExitProcess();
+            }
+        } else {
+            mainView.router.back();
         }
-        window.mainView.router.refreshPage();
+    }
+
+    postReleasePicCallback(index, url, name) {
+        const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+        currentPage.find('.release-info-pic-add').remove();
+        const len = currentPage.find('.release-info-pic-list').children('span').length;
+        currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
+        len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+
+    }
+
+    /*
+     * type: demandInfo, level, auth
+     * 信息, 等级, 认证
+     */
+    jsJumpFromPush(obj) {
+        const { cacheUserinfoKey, mWebUrl } = config;
+        const { type, id } = getQuery(obj);
+        if ('demandInfo' == type) {
+            const callback = (data) => {
+                if (data.data) {
+                    const type = data.data.demandInfo.type;
+                    mainView.router.load({
+                        url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
+                    })
+                }
+            }
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'getDemandInfo',
+                data: [id],
+                header: ['token'],
+                val: {
+                    id
+                },
+                type: 'get'
+            }, callback);
+        } else {
+            if (!isLogin()) {
+                nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+                mainView.router.load({
+                    url: 'views/login.html'
+                })
+                return;
+            }
+            if ('level' == type) {
+                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserinfoKey).id}`);
+            } else if ('auth' == type) {
+                customAjax.ajax({
+                    apiCategory: 'auth',
+                    header: ['token'],
+                    type: 'get',
+                    noCache: true
+                }, (data) => {
+                    if (data.code == 1) {
+                        store.set(cacheUserinfoKey, data.data);
+                        if(window.location.hash.indexOf("catIdentityStatus.html") > -1){
+                            mainView.router.refreshPage();
+                            return;
+                        }
+                        goIdentity();
+                    } else {
+                        console.log('获取用户信息失败！')
+                    }
+                });
+            }
+        }
     }
 
     init(f) {
@@ -246,6 +313,9 @@ class CustomClass {
         window['loginFail'] = this.loginFail;
         window['logout'] = this.logout;
         window['initLogout'] = this.initLogout;
+        window['jsBack'] = this.jsBack;
+        window['postReleasePicCallback'] = this.postReleasePicCallback;
+        window['jsJumpFromPush'] = this.jsJumpFromPush;
     }
 }
 

@@ -3,13 +3,12 @@ import customAjax from '../middlewares/customAjax';
 function loginInit(f7, view, page) {
     const { phone } = page.query;
     f7.hideIndicator();
-    const domIndex = $$('.login-phone>input').length - 1;
-    const input = $$('.login-phone>input')[domIndex];
-    const nextBtn = $$('.login-next>a')[domIndex];
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const input = currentPage.find('.login-phone').children('input')[0];
+    const nextBtn = currentPage.find('.login-next').children('a')[0];
     let isPass = false;
-    let isSend = false;
     setTimeout(() => {
-        $$('.login-phone-number input').focus();
+        currentPage.find('.login-phone').children('input').focus();
     }, 400);
 
     const inputChange = () => {
@@ -39,40 +38,17 @@ function loginInit(f7, view, page) {
             nextBtn.click();
         }
     };
-    const callback = (data) => {
-        isSend = false;
-        nextBtn.className += ' on';
-        if (data.code == 1) {
-            view.router.load({
-                url: 'views/loginCode.html' + `?phone=${input.value}&key=${data.data}`
-            })
-        }else{
-            f7.hideIndicator();
-            f7.alert('验证码发送频繁，请稍后再试！', '提示');
-        }
-    };
 
     nextBtn.onclick = () => {
         inputChange();
-        if (!isPass || isSend) {
+        if (!isPass) {
             return;
         }
-        isSend = true;
-        nextBtn.className = nextBtn.className.replace(' on', '');
-        f7.showIndicator();
+        currentPage.find('input').blur();
+        view.router.load({
+            url: 'views/loginCode.html' + `?phone=${input.value}`
+        })
 
-        customAjax.ajax({
-            apiCategory: 'userLogin',
-            api: 'getPhoneCode',
-            data: [],
-            type: 'get',
-            noCache: true,
-            isMandatory: true,
-            val: {
-                type: 1,
-                phone: input.value
-            }
-        }, callback);
     }
 
 }

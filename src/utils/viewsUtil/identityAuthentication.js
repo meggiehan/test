@@ -23,7 +23,6 @@ class CustomClass {
         //Submit individual infomation to server.
     subCardInfo() {
         const { cacheUserinfoKey } = config;
-        const token = store.get(cacheUserinfoKey)['token'];
         const identityClasses = $$('.identity-infomation').attr('class');
         let individualPass = false;
         let individualSrcArr = [];

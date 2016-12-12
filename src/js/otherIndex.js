@@ -27,21 +27,21 @@ function otherIndexInit(f7, view, page) {
         const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
         callNumber = phone;
         level = userInfo['level'];
-        level && $$('.other-user-name>i').addClass(`iconfont icon-v${level}`);
+        level && currentPage.find('.other-user-name').children('i').addClass(`iconfont icon-v${level}`);
 
-        1 == enterpriseAuthenticationState && $$('.other-index-cert-info').addClass('company-identity').show();
-        1 == personalAuthenticationState && $$('.other-index-cert-info').addClass('individual-identity').show();
+        1 == enterpriseAuthenticationState && currentPage.find('.other-index-cert-info').addClass('company-identity').show();
+        1 == personalAuthenticationState && currentPage.find('.other-index-cert-info').addClass('individual-identity').show();
 
-        lastLoginTime && $$('.other-user-info .user-lately-time').text(centerShowTime(lastLoginTime));
-        nickname && $$('.other-user-name>.name').text(trim(nickname));
+        lastLoginTime && currentPage.find('.user-lately-time').text(centerShowTime(lastLoginTime));
+        nickname && currentPage.find('.other-user-name').children('.name').text(trim(nickname));
         imgUrl && ($$('.page-other-index .user-pic img').attr('src', imgUrl + imgPath(8)));
         if (user_ishCertificate_list.list.length) {
             let certHtml = '';
             $$.each(user_ishCertificate_list.list, (index, item) => {
                 certHtml += selldetail.cert(item)
             })
-            html($$('.other-index-cert>.cert-list'), certHtml, f7);
-            $$('.other-index-cert').addClass('show');
+            html(currentPage.find('.other-index-cert').children('.cert-list'), certHtml, f7);
+            currentPage.find('.other-index-cert').addClass('show');
         }
 
         level = userCache['data']['userInfo']['level'];
@@ -53,8 +53,9 @@ function otherIndexInit(f7, view, page) {
         const list = data.data.list;
         if (!list.length) {
             sellInfoNull = true;
-            sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+            sellInfoNull && buyInfoNull && currentPage.find('.other-index-empty-info').show();
             f7.hideIndicator();
+            f7.pullToRefreshDone();
             return;
         }
         let sellHtml = '';
@@ -65,17 +66,18 @@ function otherIndexInit(f7, view, page) {
             sellHtml += home.cat(item, level, nameAuthentication);
         })
         html($$('.other-sell-list .list'), sellHtml, f7);
-        sellHtml ? $$('.other-index-list').addClass('show-sell-list') : $$('.other-index-list').removeClass('show-sell-list');
+        sellHtml ? currentPage.find('.other-index-list').addClass('show-sell-list') : currentPage.find('.other-index-list').removeClass('show-sell-list');
 
         $$('img.lazy').trigger('lazy');
         f7.hideIndicator();
+        f7.pullToRefreshDone();
     }
 
     //get user sell demand list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, 3, 1, '', 2],
+        data: [currentUserId, 3, 1, 2],
         type: 'get',
         val: { id: 1 }
     }, sellListCallback);
@@ -84,7 +86,8 @@ function otherIndexInit(f7, view, page) {
         const list = data.data.list;
         if (!list.length) {
             buyInfoNull = true;
-            sellInfoNull && buyInfoNull && $$('.other-index-empty-info').show();
+            sellInfoNull && buyInfoNull && currentPage.find('.other-index-empty-info').show();
+            f7.pullToRefreshDone();
             return;
         }
         let buyHtml = '';
@@ -95,9 +98,10 @@ function otherIndexInit(f7, view, page) {
             buyHtml += home.buy(item, level);
         })
         html($$('.other-buy-list .list'), buyHtml, f7);
-        buyHtml ? $$('.other-index-list').addClass('show-buy-list') : $$('.other-index-list').removeClass('show-buy-list');
+        buyHtml ? currentPage.find('.other-index-list').addClass('show-buy-list') : currentPage.find('.other-index-list').removeClass('show-buy-list');
 
         $$('img.lazy').trigger('lazy');
+        f7.hideIndicator();
         f7.pullToRefreshDone();
     }
 
@@ -105,13 +109,13 @@ function otherIndexInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'getMyDemandInfoList',
-        data: [currentUserId, 3, 1, '', 1],
+        data: [currentUserId, 3, 1, 1],
         type: 'get',
         val: { id: 1 }
     }, buyListCallback);
 
     //go to other user infomation.
-    $$('.page-other-index .user-header').click(() => {
+    currentPage.find('.user-header').click(() => {
         view.router.load({
             url: `views/otherInfo.html?id=${currentUserId}&goodsId=${id}`
         })
@@ -124,7 +128,8 @@ function otherIndexInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [currentUserId, 3, 1, '', 2],
+            data: [currentUserId, 3, 1, 2],
+            isMandatory: true,
             type: 'get',
             val: { id: 1 }
         }, sellListCallback);
@@ -132,7 +137,7 @@ function otherIndexInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getMyDemandInfoList',
-            data: [currentUserId, 3, 1, '', 1],
+            data: [currentUserId, 3, 1, 1],
             isMandatory: true,
             type: 'get',
             val: { id: 1 }
@@ -140,28 +145,29 @@ function otherIndexInit(f7, view, page) {
     })
 
     //view cert in ew window.
-    $$('.other-index-cert .cert-list').off('click', veiwCert).on('click', veiwCert);
+    currentPage.find('.cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //view current user sell list.
-    $$('.other-sell-cat-all').on('click', () => {
+    currentPage.find('.other-sell-cat-all')[0].onclick = () => {
         type = 2;
         view.router.load({
             url: 'views/otherList.html?' + `id=${currentUserId}&type=${type}`
         })
-    })
+    }
 
     //view current user sell list.
-    $$('.other-buy-cat-all').on('click', () => {
+    currentPage.find('.other-buy-cat-all')[0].onclick = () => {
         type = 1;
         view.router.load({
             url: 'views/otherList.html?' + `id=${currentUserId}&type=${type}`
         })
-    })
+    }
 
     //call to other user.
-    $$('.other-footer-call').on('click', () => {
+    currentPage.find('.other-footer-call')[0].onclick = () => {
+        apiCount('btn_profile_call');
         nativeEvent.contactUs(callNumber);
-    })
+    }
 
     $$('.navbar-inner.other-index .icon-more').off('click', otherIndexClickTip).on('click', otherIndexClickTip);
 }

@@ -4,29 +4,136 @@
             .text-center;
             color: @text-category;
             .text-hidden;
+            &.release-info-pic-tip {
+                text-align: left;
+                padding-left: 0.7rem;
+                margin: 0.5rem 0;
+            }
         }
     }
-    .release-info-select {
-        height: 2rem;
-        line-height: 2rem;
-        padding: 1.5rem 2%;
+    .release-info-header {
+        padding-left: 0.7rem;
         background: @bg-fff;
-        margin-bottom: 1rem;
         .text-shadow(@text-fff);
-        .iconfont {
-            display: inline-block;
-            width: 2rem;
-            height: 2rem;
-            border: 1px solid @themeColor;
+        .release-info-header-title {
+            border-bottom: 1px solid @border-da;
+            .ps-r;
+            width: 100%;
+            overflow: hidden;
+            span {
+                color: @text-category;
+                .ps-a;
+                right: 1.5rem;
+                top: 0;
+                line-height: 4.6rem;
+                display: block;
+                width: 1rem;
+                font-size: 1.6rem;
+                &.check-miss{
+                    color: red;
+                }
+            }
+            input {
+                padding:0.8rem 0.5rem;
+                height: 3rem;
+                // line-height: 3rem;
+                width: 100%;
+                font-size: 1.6rem;
+                border: 0;
+            }
+        }
+        .release-info-pic {
+            padding: 1rem 0;
+            overflow: hidden;
+            .release-info-pic-list {
+                .text-center;
+                &>span {
+                    margin-left: 1.9%;
+                    width: 18.1%;
+                    float: left;
+                    .ps-r;
+                    display: block;
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                    img {
+                        display: block;
+                        width: 100%;
+                    }
+                    b {
+                        .ps-a;
+                        width: 2rem;
+                        height: 2rem;
+                        line-height: 2rem;
+                        background: @text-333;
+                        .text-shadow(@text-333);
+                        vertical-align: middle;
+                        color: @text-fff;
+                        right: -0.5rem;
+                        top: -0.5rem;
+                        border-radius: 50%;
+                        &:before {
+                            vertical-align: middle;
+                        }
+                    }
+                    span {
+                        display: block;
+                        .ps-a;
+                        left: 0;
+                        width: 100%;
+                        bottom: 0;
+                        background: @bg-black-3;
+                        color: @text-fff;
+                        .text-shadow(@bg-black-3);
+                        padding: 0.2rem 0;
+                    }
+                    &.release-info-pic-add {
+                        color: @text-category;
+                        background: @bg-add;
+                        .text-shadow(@bg-add);
+                        min-height: 4.5rem;
+                        i {
+                            display: block;
+                            height: 45%;
+                            padding-top: 10%;
+                            font-size: 2rem;
+                        }
+                        p {
+                            height: 45%;
+                            margin: 0;
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .item-content{
+        &.border-none{
+            border-bottom: 0;
+        }
+        &.release-spec-list, &.release-discription-list{
+            height: auto;
+            min-height: 2rem;
             line-height: 2rem;
-            margin-right: 0.5rem;
-            border-radius: 50%;
             font-size: 1.2rem;
-            .text-shadow(@themeColor);
-            .text-center;
-            background: @themeColor;
-            &:after {
-                color: @text-fff;
+            padding: 0.5rem 0;
+            .item-inner{
+                span{
+                    display: inline-block;
+                    height: 2rem;
+                    margin-right: 0.3rem;
+                    padding: 0.2rem 1rem;
+                    .ps-r;
+                    border: 1px solid @border-da;
+                    border-radius: 1rem;
+                    margin-bottom: 0.5rem;
+                    &.on{
+                        border-color: @text-invite-code;
+                        background: @bg-info-tag;
+                        .text-shadow(@bg-info-tag);
+                    }
+                }
             }
         }
     }
@@ -42,7 +149,7 @@
         .release-info-discription {
             padding-bottom: 0.7rem;
             textarea {
-                height: 6.5rem;
+                min-height: 6.5rem;
                 line-height: 1.2;
             }
             &>span {
@@ -102,6 +209,15 @@
                     font-size: 1.2rem;
                 }
             }
+        }
+    }
+    .release-infomation{
+        margin-top: 1rem;
+        .item-title{
+            color: @text-name;
+        }
+        .release-fish-name{
+            color: @text-name;
         }
     }
 }

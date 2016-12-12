@@ -5,12 +5,11 @@ const env = require('./src/config/development');
 
 const autoprefixer = require('autoprefixer');
 
-const PROD = (process.env.NODE_ENV === 'development');
+const PROD = process.env.npm_lifecycle_event;
 
 const staticBase = 'js';
 const contentBase = './src/build';
-
-module.exports = {
+let initConfig = {
 	resolve: {
 		extensions: ['', '.js']
 	},
@@ -49,13 +48,18 @@ module.exports = {
 				browsers: ['last 3 versions', 'iOS 8', 'Android 4']
 			})
 		]
-	},
-	// devtool: 'source-map',
-	// devServer: {
-	// 	contentBase,
-	// 	port: env.hot_server_port,
-	// 	hot: true,
-	// 	inline: true
-	// },
-	// progress: false
+	}
 }
+
+if(PROD == 'dev' || PROD == 'build-dev'){
+	initConfig.devtool = 'eval';
+	initConfig.progress = false;
+	initConfig.devServer = {
+		contentBase,
+		port: env.hot_server_port,
+		hot: true,
+		inline: true
+	}
+}
+
+module.exports = initConfig;

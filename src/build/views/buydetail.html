@@ -20,67 +20,64 @@
         <div class="selldetail-info">
             <div class="first buydetail-info">
                 <div class="cat-list-title row">
-                    <div class="col-60 goods-name"></div>
-                    <div class="col-40 goods-create-time"></div>
+                    <div class="col-60 goods-name">
+                        <span class="selldetail-label">求购</span>
+                        <span class="buy-goods-name"></span>
+                    </div>
                 </div>
-                <div class="selldetail-price-info">
-                    <span class="selldetail-label">求购</span>
-                    <span class="selldetail-price"></span>
+                <div class="buy-detail-address">
+                    <span>
+                        <b class="iconfont icon-map"></b>
+                        <b>辽宁省大连市</b>
+                    </span>
+                    <!-- |<span class="">距离你<i>543</i>公里</span> -->
                 </div>
+                <div class="selldetail-price-info row">
+                    <span class="selldetail-price col-60">求购数量：<b></b></span>
+                    <span class="col-40 goods-create-time"></span>
+                </div>
+            </div>
+            <div class="info-tages-list"></div>
+            <div class="selldetail-user list-block media-list">
+                <div class="selldetail-userinfo item-content">
+                    <div class="selldetail-user-pic item-media"><img src="img/defimg.png" class="lazy" width="50px"></div>
+                    <div class="item-inner row">
+                        <div class="col-70">
+                            <div class="cat-list-title row">
+                                <div class="col-90 user-name">
+                                    <span></span>
+                                    <i></i>
+                                </div>
+                            </div>
+                            <div class="buy-detail-auth">
+                                <span class="auth-individual">个人认证</span>
+                                <span class="auth-company">企业认证</span>
+                            </div>
+                        </div>
+                        <div class="col-30 iconfont icon-right">进店铺</div>
+                    </div>
+                </div>
+            </div>
+            <div class="buydetail-info-title"><i class="title-label-border"></i>详细信息</div>
+            <div class="row">
+                <span class="col-30">品种：</span>
+                <span class="col-70 budetail-fish-name"></span>
             </div>
             <div class="row">
                 <span class="col-30">规格：</span>
                 <span class="col-70 selldetail-spec"></span>
             </div>
             <div class="row">
-                <span class="col-30">供货地区：</span>
+                <span class="col-30">所在地区：</span>
                 <span class="col-70 selldetail-address"></span>
             </div>
             <div class="row">
                 <span class="col-30">价格：</span>
-                <span class="col-70 selldetail-price"></span>
+                <span class="col-70 selldetail-price buy-detail-price"></span>
             </div>
             <div class="row">
                 <span class="col-30">补充说明：</span>
                 <span class="col-70 selldetail-description"></span>
-            </div>
-        </div>
-        <!-- <div class="selldetail-cert">
-            <div class="selldetail-cert-title">相关证书</div>
-            <div class="selldetail-cert-list">
-                <a href="" class="iconfont icon-right">
-                    <span class="cert-label seedling">苗</span>
-                    具备“苗种生产许可证” －黑鱼
-                </a>
-            </div>
-        </div> -->
-        <div class="selldetail-user">
-            <div class="selldetail-user-title">
-                联系人
-                <span class="cat-user-info iconfont icon-right" onclick="apiCount('cell_profile')">查看更多信息</span>
-            </div>
-            <div class="row selldetail-userinfo">
-                <div class="col-18"><img src="img/defimg.png" class="lazy"></div>
-                <div class="col-80">
-                    <div class="cat-list-title row">
-                        <div class="col-90 user-name">
-                            <span></span>
-                            <i></i>
-                        </div>
-                    </div>
-                    <div class="selldetail-price-info row">
-                        <span class="user-tell col-60">手机号：<b></b></span>
-                        <span class="user-time col-40"></span>
-                    </div>
-                    <div class="buydetail-cert-info">
-                        <span class="iconfont icon-auto-end individual">个人认证</span>
-                        <span class="iconfont icon-auto-end company">企业认证</span>
-                    </div>
-                </div>
-                <!-- <div class="buydetail-ensure">
-                    <span class="buydetail-ensure-label">保</span>
-                    已加入鱼大大官网担保，交易安全有保障
-                </div> -->
             </div>
         </div>
     </div>
@@ -89,7 +86,7 @@
         <div class="col-60 iconfont icon-verify-faild buy-detail-verify-faild" onclick="apiCount('btn_rejectReason')">审核不通过，点击查看原因</div>
         <div class="col-30 iconfont icon-share" onclick="apiCount('btn_share')">分享给好友</div>
         <div class="col-30 iconfont icon-collection icon-collection-btn" onclick="apiCount('btn_favorite')">收藏</div>
-        <div class="col-40 buydetail-call-phone" onclick="apiCount('btn_call')">电话联系</div>
-        <div class="col-40 buydetail-delete-info" onclick="apiCount('btn_delete')">删除</div>
+        <div class="col-40 buydetail-call-phone">打电话</div>
+        <div class="col-40 buydetail-delete-info">删除</div>
     </div>
 </div>

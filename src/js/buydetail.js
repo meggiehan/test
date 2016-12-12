@@ -13,9 +13,9 @@ function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
-    let isReleaseForMe = false;
     let demandInfo_;
     const { shareUrl, cacheUserinfoKey } = config;
     let currentUserId;
@@ -41,7 +41,9 @@ function buydetailInit(f7, view, page) {
                 state,
                 contactName,
                 requirementPhone,
-                refuseDescribe
+                refuseDescribe,
+                descriptionTags,
+                quantityTags
             } = demandInfo;
             const {
                 id,
@@ -52,58 +54,84 @@ function buydetailInit(f7, view, page) {
                 lastLoginTime,
                 level
             } = userInfo;
-            console.log()
             demandInfo_ = demandInfo;
             currentPage.find('.selldetail-footer').removeClass('review');
             currentPage.find('.selldetail-footer').removeClass('verify');
             currentPage.find('.selldetail-footer').removeClass('delete');
-            const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
             lastHeader.find('a.detail-more').show();
 
             if (state == 0 || state == 2) {
-                // currentPage.find('.selldetail-footer').addClass('delete');
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
+                lastHeader.find('right').css('paddingRight', '3rem');
             }
+            const showStyle = {
+                display: '-webkit-box'
+            }
+
+            let tagHtml = '';
+            descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
+                tagHtml += `<span class="iconfont icon-auto-end">${item.tagName}</span>`;
+            })
+            tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').hide();
+
             id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
-            addClassName && ($$('.page-buydetail').addClass(addClassName));
+            addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
-            html($$('.page-buydetail .goods-name'), fishTypeName, f7);
-            html($$('.page-buydetail .goods-create-time'), timeDifference(checkTime), f7);
-            html($$('.page-buydetail .selldetail-price'), price || '面议', f7);
-            specifications ? html($$('.selldetail-spec'), specifications, f7) : $$('.selldetail-spec').parent().remove();
-            stock ? html($$('.selldetail-stock'), stock, f7) : $$('.selldetail-stock').parent().remove();
-            provinceName ? html($$('.selldetail-address'), `${provinceName} ${cityName}`, f7) : $$('.selldetail-address').parent().remove();
-            describe ? html($$('.selldetail-description'), describe, f7) : $$('.selldetail-description').parent().remove();
-            html($$('.page-buydetail .user-name>span'), contactName || '匿名用户', f7);
-            level && $$('.page-buydetail .user-name>i').addClass(`iconfont icon-v${level}`);
-            html($$('.page-buydetail .user-tell>b'), requirementPhone, f7);
-            html($$('.page-buydetail .user-time'), centerShowTime(lastLoginTime), f7);
-            1 == enterpriseAuthenticationState && $$('.buydetail-cert-info').addClass('company-identity').show();
-            1 == personalAuthenticationState && $$('.buydetail-cert-info').addClass('individual-identity').show();
+            currentPage.find('.buy-goods-name').text(fishTypeName);
+            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
+            currentPage.find('.selldetail-price').children('b').text(stock && `${stock}斤` || '大量');
+            currentPage.find('.buy-detail-price').text(price && `${price}斤` || '面议');
+            
+            let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName']) : '';
+            specText && specifications && (specText = `${specText}，${specifications}`);
+            (!specText && specifications) && (specText += specifications);    
+            specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
+            currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
+            currentPage.find('.budetail-fish-name').text(fishTypeName);
+            // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
+            currentPage.find('.icon-map').next('b').text(`${provinceName} ${cityName}`);
+            provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`).parent().css(showStyle) : currentPage.find('.selldetail-address').parent().hide();
+            describe ? currentPage.find('.selldetail-description').text(describe).parent().css(showStyle) : $$('.selldetail-description').parent().hide();
+            level && currentPage.find('.user-name').children('i').addClass(`iconfont icon-v${level}`);
+            currentPage.find('.user-tell').children('b').text(requirementPhone);
+            currentPage.find('.user-time').text(centerShowTime(lastLoginTime));
 
-            personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1 && $$('.user-cert').remove();
-            imgUrl && $$('.selldetail-userinfo img').attr('src', imgUrl + config['imgPath'](8));
+            1 == enterpriseAuthenticationState && currentPage.find('.auth-company').addClass('show');
+            1 == personalAuthenticationState && currentPage.find('.auth-individual').addClass('show');
+
+            if(personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1){
+                currentPage.find('.user-name').css({
+                    lineHeight: '5rem',
+                    height: '5rem'
+                });
+                currentPage.find('.user-cert').hide();
+                currentPage.find('.buy-detail-auth').hide();
+            }
+            imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
 
             if (isLogin()) {
-                if(favorite){
+                if (favorite) {
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
-                }else{
+                } else {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
                 }
             }
-            html($$('.tabbar-price'), price || '面议', f7);
         }
         f7.hideIndicator(300);
         f7.pullToRefreshDone();
     }
 
     currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
+        apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
     }
+
+    const { ios } = window.currentDevice;
+    ios && (currentPage.find('.selldetail-footer').addClass('safira'));
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -133,22 +161,32 @@ function buydetailInit(f7, view, page) {
     })
 
     const collectionCallback = (data) => {
-        const {code} = data;
-        if(8 == code){
+        const { code } = data;
+        if (8 == code) {
             nativeEvent['nativeToast'](0, '您已收藏过该资源!');
-        }else if(1 !== code){
+        } else if (1 !== code) {
             const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
-        }else{
-            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏成功！' : '取消收藏成功！';
+        } else {
+            let info;
+            let collectionNum = Number($$('.user-collection-num').text());
+            if ($$(collectionBtn).hasClass('icon-collection-active')) {
+                info = '添加收藏成功！';
+                $$('.user-collection-num').text(++collectionNum);
+            } else {
+                info = '取消收藏成功！';
+                $$('.user-collection-num').text(--collectionNum);
+                $$('div[data-page="myCollection"]').find('a[href="./views/buydetail.html?id=' + id + '"]').remove();
+            }
             nativeEvent['nativeToast'](1, info);
         }
         f7.hideIndicator();
     }
 
     collectionBtn.onclick = () => {
-        if(!nativeEvent['getNetworkStatus']()){
+        apiCount('btn_favorite');
+        if (!nativeEvent['getNetworkStatus']()) {
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
@@ -191,7 +229,7 @@ function buydetailInit(f7, view, page) {
         })
     }
     currentPage.find('.buydetail-delete-info')[0].onclick = () => {
-        const token = store.get(cacheUserinfoKey)['token'];
+        apiCount('btn_delete');
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
             f7.showIndicator();
             customAjax.ajax({
@@ -210,7 +248,7 @@ function buydetailInit(f7, view, page) {
     }
 
     //View more current user information
-    currentPage.find('.selldetail-user-title')[0].onclick = () => {
+    currentPage.find('.selldetail-userinfo')[0].onclick = () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
@@ -218,6 +256,7 @@ function buydetailInit(f7, view, page) {
 
     currentPage.find('.buydetail-call-phone')[0].onclick = () => {
         const { requirementPhone } = demandInfo_;
+        apiCount('btn_call');
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }
 
@@ -256,8 +295,8 @@ function buydetailInit(f7, view, page) {
         html += '点击查看更多信息~';
         nativeEvent.shareInfo(title, html, url_, messageTile);
     }
-
-    $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
+    lastHeader.find('.right')[0].onclick = detailClickTip;
+    // $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
-import { timeDifference, getDate } from './time';
-import { getCertInfo, imgIsUpload } from './string';
+import { timeDifference, getDate, getDealTime } from './time';
+import { getCertInfo, imgIsUpload, getName } from './string';
 import config from '../config/';
 import store from './locaStorage';
 
@@ -16,6 +16,8 @@ module.exports = {
                 state,
                 price,
                 specifications,
+                imgs,
+                title
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -28,48 +30,52 @@ module.exports = {
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             let img = document.createElement('img');
-            let text = '';
+            let infoImgs;
+            imgs && JSON.parse(imgs).length ? (infoImgs = JSON.parse(imgs)) : (infoImgs = [imge_path]);
             const currentLevel = level && level || userLevel;
-            // $$.each(certificate_type_list, (index, item) => {
-            //     text += item && `<span class="list-cert button ${getCertInfo(item)['classes']}">${getCertInfo(item)['text']}</span>` || '';
-            // })
-            text += certificate_type_list && certificate_type_list[0] ? `<span class="list-cert button ${getCertInfo(certificate_type_list[0])['classes']}">${getCertInfo(certificate_type_list[0])['text']}</span>` : '';
-            // const {text, classes} = getCertInfo(certificate_type);
+
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_selllist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
-            const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
             if (userInfo) {
                 id == userInfo['id'] && (showTime = timeDifference(create_time));
             }
             let imgStr;
-            img.src = imge_path && `${imge_path}${imgPath(11)}`;
-            imgStr = img.complete ? '<img src="' + `${imge_path}${imgPath(11)}` + '"/></div>' :
-                '<img data-src="' + `${imge_path && (imge_path + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"></div>';
+            img.src = `${infoImgs[0]}${imgPath(11)}`;
+            imgStr = img.complete ? '<img src="' + `${infoImgs[0] + imgPath(11)}` + '"/></div>' :
+                '<img data-src="' + `${infoImgs.length && (infoImgs[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
             let res = '';
             let span = '';
-            0 == state && (span = '<span>待审核</span>');
-            2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a class="row cat-list-info" href="./views/selldetail.html?id=' + id + '" ' + clickEvent + '>' +
-                '<div class="col-30">' + span + imgStr +
-                '<div class="col-70">' +
+            const authText = (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) && '实名' || null;
+            0 == state && (span = '<span class="check">待审核</span>');
+            2 == state && (span = '<span class="iconfont icon-info check">审核未通过</span>')
+            1 == state && infoImgs.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
+            res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
+                '<div class="col-30 ps-r item-media">' + span + imgStr +
+                '<div class="col-70 item-inner">' +
                 '<div class="cat-list-title row">' +
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
                 '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
                 '</div>' +
-                '<div class="row cat-list-text">' +
-                '<div class="col-70 goods-weight">' + `${specifications || ''}` + '</div>' +
-                '<div class="col-30 goods-create-time">' + showTime + '</div>' +
+                '<div class="row cat-list-text">' + `${province_name + city_name}${specifications && '    |    ' + specifications || ''}` + '</div>' +
+                '<div class="cat-list-title-auth">' +
+                `${title && '<span><b>特</b><i>'+ title +'</i></span>'|| '' }` +
+                `${authText && '<b>'+authText+'</b>' || ''}` +
                 '</div>' +
-                '<div class="cat-list-address">' +
-                `<i class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></i>${contact_name ? '<span>' + contact_name + '</span>' : ''}${province_name || ''}${city_name || ''}` +
+                '<div class="cat-list-user-name">' +
+                `<span class="user-name">${contact_name || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
+                `<span class="user-release-time">${showTime}</span>` +
                 '</div>' +
-                '<div class="cat-list-tags">'
-            if (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) {
-                res += '<span class="iconfont icon-v button">实名认证</span>';
-                res += text || '';
+                '<div class="cat-list-tags">';
+            if (certificate_type_list && certificate_type_list.length) {
+                $$.each(certificate_type_list, (index, item) => {
+                    const {classes, label, certName} = getCertInfo(item);
+                    res += '<p>' +
+                        '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
+                        '</p>'
+                })
             }
-            res += '</div></div>';
+            res += '</div></div></a>';
             return res;
         },
         buy: (data, userLevel) => {
@@ -92,10 +98,10 @@ module.exports = {
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             // const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
             const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
-            const clickEvent = apiStr ? `onclick="apiCount('${apiStr}');"` : '';
             let img = document.createElement('img');
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
+            const isAuth = (1 == personal_authentication_state) || (1 == enterprise_authentication_state) || false;
             if (userInfo) {
                 id == userInfo['id'] && (showTime = timeDifference(create_time));
             }
@@ -104,19 +110,32 @@ module.exports = {
             let span = '';
             0 == state && (span = '<span>待审核</span>');
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
-            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info" ' + clickEvent + ' >' +
+            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
                 '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
-                '<div class="col-35 buy-price">' + `${stock || ''}` + '</div>' +
+                '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
-                '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
+                '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
+                `<div class="row ${!specifications && 'hide'}">` + 
+                    '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
+                '</div>'+
                 '<div class="home-buy-address">' +
-                `${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}<span>${contact_name || '匿名用户'}</span>指定产地：${province_name || ''}${city_name || ''}` +
+                `${isAuth ? '<span class="buy-list-auth">实名</span>' :''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}` +
                 '</div>'
             return res;
+        },
+        dealInfo: (data) => {
+            const {
+                provinceName,
+                fishTypeName,
+                userName,
+                quantity,
+                tradeDate
+            } = data;
+            return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span>成交  <span class="deal-list-category">${fishTypeName} ${quantity || ''}</span>, ${getDealTime(tradeDate)}</div>`
         }
     },
     search: {
@@ -223,6 +242,62 @@ module.exports = {
                 `<span class="col-33 invite-time right">${getDate(createTime*0.001, true)}</span>` +
                 '</div>';
             return html;
+        }
+    },
+    deal: {
+        list: (data) => {
+            const {
+                provinceName,
+                cityName,
+                fishTypeName,
+                userName,
+                quantity,
+                tradeDate,
+                personAuth,
+                enterpriseAuth,
+                level,
+                imgUrl
+            } = data;
+            let res = '';
+            res += '<a>' +
+                `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName||''}</span></p>` +
+                '<p class="deal-list-user-info">' +
+                `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
+                `<span class="deal-list-user-name">${getName(userName)}</span>` +
+                `<span class="deal-list-time">${getDealTime(tradeDate)}达成交易</span>` +
+                '</p>' +
+                '<p>' +
+                `${1 == personAuth && '<span class="list-cert-style">个人认证用户</span>' || ''}` +
+                `${1 == enterpriseAuth && '<span class="list-cert-style">企业认证用户</span>' || ''}` +
+                `${level && '<span class="list-cert-style">' + level + '级用户</span>' || ''}` +
+                '</p>' +
+                '</a>';
+            return res;
+        }
+    },
+    releaseInfo: {
+        picList: (imgurl, currentPage) => {
+            const isFist = currentPage.find('.release-info-pic-list').children('span').length == 0;
+            let res = '';
+            res += '<span class="col-20">' +
+                `<img class="release-info-img" src="${imgurl}${imgPath(9)}" alt="">` +
+                '<b class="iconfont icon-clear remove-release-img-btn"></b>' +
+                `<span style="display:${isFist ? 'block' : 'none'}">封面</span>` +
+                '</span>'
+            return res;
+        },
+        addPicBtn: () => {
+            let span = '';
+            const height = (($$(window).width() - 7) * 18.1 * 0.01).toFixed(2);
+            span += '<span class="col-20 release-info-pic-add add" style="height:' + height + 'px;overflow:hidden;">' +
+                `<i class="iconfont icon-add add" style="line-height:${height*0.5}px"></i>` +
+                `<p class="add" style="line-height:${height*0.4}px">添加图片</p>` +
+                '</span>'
+            return span;
+        },
+        tag: (data) => {
+            const { id, name } = data;
+            return `<span data-id="${id}">${name}</span>`;
         }
     }
 

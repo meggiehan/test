@@ -15,43 +15,34 @@
 <div data-page="home" class="page toolbar-through page-home no-swipeback no-animation" data-reload="true">
     <!-- Scrollable page content -->
     <div class="page-content pull-to-refresh-content">
-        <div class="pull-to-refresh-layer">
+        <div class="pull-to-refresh-layer"> 
             <div class="preloader"></div>
             <div class="pull-to-refresh-arrow"></div>
         </div>
-        <div class="row list-block media-list">
-            <div class="col-50">
-                <a class="list-block media-list" href="views/filter.html?type=2" onclick="apiCount('btn_buy');">
-                    <div class="item-content home-chushou">
-                        <div class="item-media iconfont icon-buy home-chushou">
-                            <!-- <img src="./img/ic_home_buy.png" alt="" width="50"> -->
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title-row text-hidden home-chushou">出售大厅</div>
-                            <div class="item-subtitle">看看别人在卖什么</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-50 last-child">
-                <a class="list-block media-list" href="views/filter.html?type=1" onclick="apiCount('btn_wanttobuy');">
-                    <div class="item-content home-qiugou">
-                        <div class="item-media iconfont icon-qiugou home-qiugou">
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title-row text-hidden home-qiugou">求购大厅</div>
-                            <div class="item-subtitle">看别人想买什么</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <!-- <div class="row" id="shareToWeixin">
+            <input type="button" value="存入">
+            <input type="button" value="取出">
+            <input type="button" value="分享图片到微信好友">
+            <input type="button" value="分享图片到朋友圈">
+            <input type="button" value="分享web到微信好友">
+            <input type="button" value="分享web到朋友圈">
+            <a href="http://news.qq.com/">腾讯新闻</a>
+        </div> -->
         <!-- carefully chosen Fingerling -->
         <div class="chosen-fingerling">
-            <div class="home-content-title iconfont icon-edit">精选鱼种</div>
+            <!-- <div class="home-content-title iconfont icon-edit">精选鱼种</div> -->
             <div class="chosen-fingerling-list">
                 <div class="list-block media-list row">
-                    <a href="views/filter.html?id=01000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category1');">
+                    <a href="views/filter.html?id=10000" class="home-categorys item-content col-33" onclick="apiCount('ic_category6');">
+                        <div class="item-media ps-r">
+                            <span class="home-category-hot">热门</span>
+                            <img src="./img/ic_category_babyfish.png" width="32" alt="">
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">苗种</div>
+                        </div>
+                    </a>
+                    <a href="views/filter.html?id=01000" class="home-categorys item-content col-33" onclick="apiCount('ic_category1');">
                         <div class="item-media">
                             <img data-src="img/ic_category_commonfish.png" src="img/app_icon_108.png" class="lazy" width="32" alt="">
                         </div>
@@ -59,7 +50,7 @@
                             <div class="item-title">常见鱼</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=02000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category2');">
+                    <a href="views/filter.html?id=02000" class="home-categorys item-content col-33" onclick="apiCount('ic_category2');">
                         <div class="item-media">
                             <img src="img/ic_category_goodfish.png" width="32" alt="">
                         </div>
@@ -67,7 +58,9 @@
                             <div class="item-title">名优鱼</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=03000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category3');">
+                </div>
+                <div class="list-block media-list row">
+                    <a href="views/filter.html?id=03000" class="home-categorys item-content col-33" onclick="apiCount('ic_category3');">
                         <div class="item-media">
                             <img src="./img/ic_category_crabshrimp.png" width="32" alt="">
                         </div>
@@ -75,9 +68,7 @@
                             <div class="item-title">虾蟹</div>
                         </div>
                     </a>
-                </div>
-                <div class="list-block media-list row">
-                    <a href="views/filter.html?id=07000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category4');">
+                    <a href="views/filter.html?id=07000" class="home-categorys item-content col-33" onclick="apiCount('ic_category4');">
                         <div class="item-media">
                             <img src="./img/ic_category_turtle.png" width="32" alt="">
                         </div>
@@ -85,7 +76,7 @@
                             <div class="item-title">龟鳖</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=05000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category5');">
+                    <a href="views/filter.html?id=05000" class="home-categorys item-content col-33" onclick="apiCount('ic_category5');">
                         <div class="item-media">
                             <img src="./img/ic_category_seafish.png" width="32" alt="">
                         </div>
@@ -93,28 +84,70 @@
                             <div class="item-title">海水鱼</div>
                         </div>
                     </a>
-                    <a href="views/filter.html?id=10000" class="home-categorys item-link item-content col-33" onclick="apiCount('ic_category6');">
-                        <div class="item-media">
-                            <img src="./img/ic_category_babyfish.png" width="32" alt="">
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title">水产种苗</div>
-                        </div>
-                    </a>
                 </div>
             </div>
         </div>
+        
+        <div class="home-deal-list list-block media-list" onclick="apiCount('btn_home_trade');">
+            <a href="views/dealList.html" class="item-content item-link">
+                <div class="item-media"><img src="img/deal-logo.png"></div>
+                <div class="item-inner">
+                    <div class="item-title-row">
+                        <div class="item-title home-deal-info-list"></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="row list-block media-list home-select-list">
+            <div class="col-40 text-center">
+                <a class="list-block" href="views/filter.html?type=2" onclick="apiCount('btn_buy');">
+                    <div class="home-chushou">
+                        <p class="home-sell-title">出售大厅</p>
+                        <p>看看别人在卖什么</p>
+                        <div>
+                            <img src="./img/icon_sell.png" alt="出售大厅">
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-60 last-child">
+                <a class="list-block media-list" href="views/filter.html?type=1" onclick="apiCount('btn_wanttobuy');">
+                    <div class="item-content home-qiugou">
+                        <div class="item-inner">
+                            <div class="item-title-row text-hidden home-qougou">求购大厅</div>
+                            <div class="item-subtitle text-hidden">看别人想买什么</div>
+                        </div>
+                        <div class="item-media">
+                            <img src="./img/icon_buy.png" alt="求购大厅" width="40px">
+                        </div>
+                    </div>
+                </a>
+                <a class="list-block media-list" href="views/filter.html?type=2&member=true" onclick="apiCount('btn_home_member');">
+                    <div class="item-content home-level">
+                        <div class="item-inner">
+                            <div class="item-title-row text-hidden home-level">靠谱专区</div>
+                            <div class="item-subtitle text-hidden">品质口碑有保证</div>
+                        </div>
+                        <div class="item-media">
+                            <img src="./img/icon_level.png" alt="靠谱专区" width="40px">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
         <!-- use ajax get date. -->
         <div class="ajax-content">
             <!-- home cat list -->
             <div class="home-cat-list">
-                <div class="home-content-title iconfont icon-category">大家都在看</div>
-                <div class="cat-list-foreach"></div>
+                <div class="home-content-title"><i class="title-label-border"></i>大家都在卖</div>
+                <div class="cat-list-foreach list-block media-list" onclick="apiCount('cell_selllist');"></div>
                 <div class="home-go-more"><a href="./views/filter.html?type=2" class="iconfont icon-go" onclick="apiCount('btn_more_selllist');">查看更多鱼价</a></div>
             </div>
             <div class="home-buy-list">
-                <div class="home-content-title iconfont icon-edit">最新求购信息</div>
-                <div class="buy-list-foreach"></div>
+                <div class="home-content-title"><i class="title-label-border"></i>大家都在买</div>
+                <div class="buy-list-foreach" onclick="apiCount('cell_purchaselist');"></div>
                 <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go" onclick="apiCount('btn_more_purchaselist');">进入求购大厅</a></div>
             </div>
         </div>

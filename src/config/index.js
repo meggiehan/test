@@ -1,7 +1,7 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '1.4 --- 2016/10/14 10:22',
+    version: '1.4 --- 2016/10/31 18:49',
     debug: false,
     /*
      *release branch change the api url to http://api.yudada.com
@@ -38,18 +38,19 @@ const configs = {
             "keyvalue",
             "pageSize",
             "pageNo",
+            "member"
         ],
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
         'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'type'],
-        'deleteDemandInfo': ['id']
+        'deleteDemandInfo': ['id'],
+        'dealList': ['pageNo', 'pageSize']
     },
     fishType: {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']
     },
     userLogin: {
-        'getPhoneCode': [],
         'subUserPass': ['phone_code','key'],
         'login': ['loginName', 'loginPass'],
     },
@@ -68,6 +69,8 @@ const configs = {
     },
     auth: ['token'],
     inviteter: ['code'],
+    demandInfoAdd: [],
+    phoneCode: ['phone', 'type'],
     invite: {
         'users': ['pageSize', 'pageNo']
     },

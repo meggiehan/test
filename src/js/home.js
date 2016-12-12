@@ -14,15 +14,32 @@ function homeInit(f7, view, page) {
         $$('.ajax-content').show();
         $$('.home-loading').hide();
     }
+
+    const dealListCallback = (data) => {
+        const {code} = data;
+        if(1 == code){
+            let dealHtml = '';
+            $$.each(data.data, (index, item) => {
+                dealHtml += home.dealInfo(item);
+            })
+            html($$('.home-deal-info-list'), dealHtml);
+        }
+    }
+    //get deal list.
+    customAjax.ajax({
+        apiCategory: 'demandInfo',
+        api: 'dealList',
+        data: [1, pageSize],
+        type: 'get'
+    }, dealListCallback);
+
     /*
      *  When the type is equal to give a value.Execute the following method.
      */
     const callback = (data, err, type) => {
         //cat sell list
-        if (catType === 2) {
-            if(data.data.list[0]['type'] !== 2){
-                return;
-            }
+        const dataType = data.data.list[0]['type'];
+        if (dataType == 2) {
             let catListHtml = '';
             $$.each(data.data.list, (index, item) => {
                 catListHtml += home.cat(item);
@@ -33,10 +50,7 @@ function homeInit(f7, view, page) {
             $$('.home-loading').hide(100);
         }
         //cat buy list
-        if (catType === 1) {
-            if(data.data.list[0]['type'] !== 1){
-                return;
-            }
+        if (dataType == 1) {
             let buyListHtml = '';
             $$.each(data.data.list, (index, item) => {
                 buyListHtml += home.buy(item);
@@ -72,13 +86,20 @@ function homeInit(f7, view, page) {
     const ptrContent = $$('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
         catType = 2;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',
             data: ["", "", 2, "", 10, 1],
             type: 'get',
-            isMandatory: true
+            isMandatory
         }, callback);
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'dealList',
+            data: [1, pageSize],
+            type: 'get'
+        }, dealListCallback);
     })
 
     //go home page;
@@ -88,6 +109,40 @@ function homeInit(f7, view, page) {
             url: 'views/search.html'
         })
     })
+
+    // //存储数据
+    // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
+    //     const a = JSON.stringify([{sk: 123}]);
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.setDataToNative('sk', a);
+    // }
+
+    // $$('#shareToWeixin').children().eq(1)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     alert(nativeEvent.getDataToNative('sk'));
+    // }
+
+    // //分享
+    // $$('#shareToWeixin').children().eq(2)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(0, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
+    // }
+
+    // $$('#shareToWeixin').children().eq(3)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(1, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
+    // }
+
+    // $$('#shareToWeixin').children().eq(4)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(2, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
+    // }
+
+    // $$('#shareToWeixin').children().eq(5)[0].onclick = () => {
+    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
+    //     nativeEvent.shareInfoToWeixin(3, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
+    // }
+
 }
 
 module.exports = {
