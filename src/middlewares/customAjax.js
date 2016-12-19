@@ -154,7 +154,8 @@ class CustomClass {
                     } else {
                         f7.hideIndicator();
                         f7.pullToRefreshDone();
-                        f7.alert(_data.message, '提示', activeLogout);
+                        activeLogout();
+                        // f7.alert(_data.message, '提示');
                         return;
                     }
 

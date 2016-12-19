@@ -24,7 +24,7 @@ module.exports = {
         let res = arr[0];
         arr.shift();
         arr.forEach((item, index) => {
-            0 != index && (res += '*');
+            res += '*';
         })
         return res;
     },
@@ -33,9 +33,9 @@ module.exports = {
         const arr = str.split('');
         let res = arr[0];
         const lastStr = arr.pop();
-        arr.shift;
+        arr.shift();
         arr.forEach((item, index) => {
-            0 != index && (res += '*');
+            res += '*';
         })
         res += lastStr;
         return res;

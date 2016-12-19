@@ -24,8 +24,7 @@ function activeLogout() {
     nativeEvent.setNativeUserInfo();
     // nativeEvent.logOut();
     mainView.router.load({
-         url: 'views/user.html',
-         reload: true
+         url: 'views/user.html'
     })
 }
 
