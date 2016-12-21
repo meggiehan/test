@@ -77,6 +77,7 @@ class CustomClass {
 
         if (header) {
             header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['access-token'] = nativeEvent['getUserValue']() || '');
+            // header.indexOf('token') > -1 && (headers['access-token'] = 'dcc7fb6af65f4118a3a0ca5c38f00ed1');
         }
 
         if (!noCache) {
