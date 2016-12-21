@@ -32,6 +32,7 @@ import { inviteFriendsListInit } from './js/inviteFriendsList';
 import { myCollectionInit } from './js/myCollection';
 import { dealListInit } from './js/dealList';
 import { releaseSelectTagInit } from './js/releaseSelectTag';
+import { notFoundInit } from './js/notFound';
 
 
 
@@ -39,11 +40,10 @@ const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { ios, android, androidChrome, osVersion } = device;
 const { version, timeout } = config;
-
 console.log(`current app version: ${version}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
-
+window.isTipBack = false;
 let isBack = false;
 // init f7
 let initAppConfig = {
@@ -72,14 +72,17 @@ let initAppConfig = {
         }
     },
     preroute: (view, options) => {
-        const goPage = view['url'];
-        const { history, loadPage } = view;
+        const { history } = view;
         const currentPage = options && options['url'];
 
         //if router back, doing.
         const len = history.length;
+        const _currentPage = history[len - 1];
+        var btns = document.getElementsByClassName('modal-button');
+        if(!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf("放弃发布") > -1){
+            return false;
+        }
         if (!currentPage && len >= 1) {
-            const _currentPage = history[len - 1];
             const backPage = history[len - 2];
             // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
@@ -104,6 +107,27 @@ let initAppConfig = {
             }
             $$('.release-select-model').removeClass('on');
 
+            if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7) {
+                f7.modal({
+                    title:  '确定放弃这次发布吗？',
+                    text: '亲，您已经填写了信息，还没发布呢，确定直接离开？发布一条信息，就有更大几率完成交易噢~',
+                    buttons: [
+                        {
+                            text: '放弃发布',
+                            onClick: () => {
+                                window.isTipBack = true;
+                                mainView.router.back();
+                            }
+                        },
+                        {
+                            text: '继续填写',
+                            onClick: () => {}
+                        }
+                    ]
+                })
+                return false;
+            }
+
             if (android && !androidChrome) {
                 if (isBack) {
                     return false;
@@ -119,7 +143,7 @@ let initAppConfig = {
 }
 
 android && !androidChrome && (initAppConfig['swipeBackPage'] = false);
-const f7 = new Framework7(initAppConfig);
+var f7 = new Framework7(initAppConfig);
 const mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
@@ -190,12 +214,6 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
     page.name === 'dealList' && dealListInit(f7, mainView, page);
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
+    page.name === 'notFound' && notFoundInit(f7, mainView, page);
 });
 
-// window.onload = () => {
-//     if(!nativeEvent.getJumpDate()){
-//         return;
-//     }
-//     const isLoadData = nativeEvent.getJumpDate();
-//     jsJumpFromPush(isLoadData);
-// }

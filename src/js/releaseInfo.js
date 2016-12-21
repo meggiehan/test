@@ -4,7 +4,7 @@ import { trim, html, getProvinceId, getCityId, getAddressIndex, getTagInfo } fro
 import { search, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
-import { isEmailStr } from '../utils/string';
+import { isEmailStr, saveSelectFishCache } from '../utils/string';
 
 function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
@@ -25,6 +25,14 @@ function releaseInfoInit(f7, view, page) {
     const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
     const descriptInput = currentPage.find('textarea')[0];
 
+    window.isTipBack = false;
+
+    saveSelectFishCache({
+        name: fishName,
+        id: fishId,
+        parentId: parentFishId
+    })
+
     const specBox = currentPage.find('.release-spec-list-box');
     const descriptBox = currentPage.find('.release-discription-list-box');
 
@@ -39,6 +47,10 @@ function releaseInfoInit(f7, view, page) {
     }
 
     currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+    $$('.release-back-select-fish>span.back')[0].onclick = () => {
+        window.isTipBack = true;
+        mainView.router.back();
+    }
 
     if (window['selectedAddress'] && window['selectedAddress']['provinceName']) {
         addressInput[0] && (addressInput.val(window['selectedAddress']['provinceName'] + window['selectedAddress']['cityName']));
@@ -47,7 +59,8 @@ function releaseInfoInit(f7, view, page) {
     }
     if (type == 1) {
         html(currentPage.find('.release-sub-info'), '发布求购信息', f7);
-        currentPage.find('.release-info-header-title').remove();
+        currentPage.find('.release-info-discription-label').text('具体要求');
+        currentPage.find('.release-text-tag-box').remove();
         currentPage.find('.release-type').text('求购品种');
         currentPage.find('.release-info-pic-tip').remove();
         currentPage.find('.release-info-header').remove();
@@ -235,11 +248,11 @@ function releaseInfoInit(f7, view, page) {
             if (!filterVal) {
                 return;
             }
-            currentPage.find('.release-info-header-title').children().eq(1).text(12 - filterVal.length + 1)
-            if (val && val.length >= 9) {
+            currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
+            if (val && val.length >= 7) {
                 currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-                if (val && val.length >= 12) {
-                    currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 12));
+                if (val && val.length >= 10) {
+                    currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
                 }
             } else {
                 currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');

@@ -220,7 +220,8 @@ class CustomClass {
         if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
             return false;
         }
-        return ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
+        const val = ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
+        return val ? JSON.parse(val) : val;
     }
 
     setDataToNative(key, val) {
@@ -228,7 +229,8 @@ class CustomClass {
         if (!window['JS_SaveObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_SaveObjectWithKey'])) {
             return false;
         }
-        ios ? JS_SaveObjectWithKey(key, val) : window.yudada.JS_SaveObjectWithKey(key, val);
+        const value = val ? JSON.stringify(val) : '';
+        ios ? JS_SaveObjectWithKey(key, value) : window.yudada.JS_SaveObjectWithKey(key, value);
     }
 
     //get app push data.

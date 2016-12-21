@@ -16,14 +16,17 @@ function loginCodeInit(f7, view, page) {
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
     $$('.login-code-phone').text(phone);
+    let isActiveClick = false;
 
     const getCodeCallback = (data) => {
+        isActiveClick = false;
         if (data.code == 1) {
             nativeEvent.nativeToast(1, '短信验证码发送成功,请您注意查收!');
             setTimeout(() => {
                 input.focus();
             }, 500)
         }else{
+            isActiveClick = true;
             vioceBtn.click();
         }
     };
@@ -65,7 +68,7 @@ function loginCodeInit(f7, view, page) {
         isSend = false;
         const { code } = data;
         if (1 == code) {
-            nativeEvent.nativeToast(1, '当前使用短信服务的人过多，已为你发送语音验证码!');
+            nativeEvent.nativeToast(1, isActiveClick ? '当前使用短信服务的人过多，已为你发送语音验证码!' : '语音验证码已拨出，请注意接听！');
             const setIntervalId = setInterval(() => {
                 if (_voiceCodeWaitTime < 0) {
                     clearInterval(setIntervalId);

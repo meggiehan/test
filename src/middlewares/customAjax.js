@@ -66,6 +66,7 @@ class CustomClass {
         let headers = {};
         let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
         apiCategory == 'demandInfoAdd' && !api && (url = `${config.url}demandInfo`);
+        url.indexOf('deleteDemandInfo') > - 1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
         parameType && (newData = JSON.stringify(newData));
 
         if (val) {
@@ -76,6 +77,7 @@ class CustomClass {
 
         if (header) {
             header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['access-token'] = nativeEvent['getUserValue']() || '');
+            // header.indexOf('token') > -1 && (headers['access-token'] = 'dcc7fb6af65f4118a3a0ca5c38f00ed1');
         }
 
         if (!noCache) {
@@ -99,7 +101,7 @@ class CustomClass {
         })
 
         $$.ajax({
-            type,
+            method: type,
             url,
             timeout,
             headers,
@@ -154,7 +156,8 @@ class CustomClass {
                     } else {
                         f7.hideIndicator();
                         f7.pullToRefreshDone();
-                        f7.alert(_data.message, '提示', activeLogout);
+                        activeLogout();
+                        // f7.alert(_data.message, '提示');
                         return;
                     }
 
@@ -168,12 +171,23 @@ class CustomClass {
                     f7.hideIndicator();
                     f7.alert(_data.message, '提示');
                     return;
+                }else if(3 == _data.code){
+                    if(url.indexOf('/auth') > -1){
+                        f7.alert(_data.message);
+                        return;
+                    }
+                    f7.showIndicator();
+                    setTimeout(() => {
+                        mainView.router.reloadPage('views/notFound.html?errInfo=' + _data.message)
+                    }, 400)
                 }
-                if (!noCache) {
-                    _this.checkMaxLenAndDelete();
-                    store.set(saveKey, data);
+                if(3 !== _data.code){
+                    if (!noCache) {
+                        _this.checkMaxLenAndDelete();
+                        store.set(saveKey, data);
+                    }
+                    callback(JSON.parse(data), null, true);
                 }
-                callback(JSON.parse(data), null, true);
             }
         })
     }

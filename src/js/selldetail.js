@@ -254,6 +254,7 @@ function selldetailInit(f7, view, page) {
                 $$('.other-list-info>a[href="./views/selldetail.html?id=' + id + '"]').remove();
                 $$('.user-sell-num').text(sellNum);
                 view.router.back();
+                view.router.refreshPage();
             }
         })
     }
@@ -266,11 +267,11 @@ function selldetailInit(f7, view, page) {
                 api: 'deleteDemandInfo',
                 header: ['token'],
                 parameType: 'application/json',
-                data: [id],
                 val: {
                     id
                 },
-                type: 'post'
+                type: 'DELETE',
+                noCache: true
             }, deleteCallback);
         })
     }

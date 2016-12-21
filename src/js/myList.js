@@ -7,80 +7,140 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function myListInit(f7, view, page) {
-    const { type } = page.query;
+    let type = 2;
     const { pageSize, cacheUserinfoKey } = config;
-    const { id, level } = store.get(cacheUserinfoKey);
-    const load = $$('.page-my-list .infinite-scroll-preloader');
-    const showAllInfo = $$('.page-my-list .filter-search-empty-info');
-    let pageNo = 1;
-    let isShowAll = false;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentHeader = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
+
+    const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
+    const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
+    const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
+    const showSellAllInfo = currentPage.find('.sell-collection-empty-info');
+    const showBuyAllInfo = currentPage.find('.buy-collection-empty-info');
+
+    const sellContent = currentPage.find('.sell-collection-list-info');
+    const buyContent = currentPage.find('.buy-collection-list-info');
+    const openGuide = nativeEvent.getDataToNative('refreshGuide');
+
+    if(!openGuide){
+        nativeEvent.setDataToNative('refreshGuide', 'true');
+        $$('.my-list-guide-model').addClass('on');
+    }
+
+    //close guide.
+    $$('.my-list-guide-model')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        if(ele.className.indexOf('my-list-guide-model') > -1 || ele.className.indexOf('footer') > -1){
+            $$('.my-list-guide-model').removeClass('on');
+        }
+    }
+
+    const sellEmpty = currentPage.find('.sell-collection-list-empty');
+    const buyEmpty = currentPage.find('.buy-collection-list-empty');
+    let emptyInfo = sellEmpty;
+
+    let sellPageNo = 1;
+    let buyPageNo = 1;
+
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
-    $$('.my-list-title').text(2 == type ? '我的出售' : '我的求购');
-    load.hide();
 
     const callback = (data) => {
-        const { code, message } = data;
+        const { code } = data;
+        f7.hideIndicator();
+        f7.pullToRefreshDone();
         if (code !== 1) {
-            f7.alert(message, '提示');
-            f7.pullToRefreshDone();
+            // f7.alert('请求过于频繁，请稍后再试！', '提示');
             return;
         }
+
         let otehrHtml = '';
+        let content, listLength, load;
+        if (2 == type) {
+            content = sellContent;
+            load = sellLoad;
+        } else {
+            content = buyContent;
+            load = buyLoad;
+        }
+        listLength = content.children('a').length;
+
         $$.each(data.data.list, (index, item) => {
             if (2 == type) {
-                otehrHtml += home.cat(item, level);
+                otehrHtml += home.cat(item, level,'', true);
             } else {
                 otehrHtml += home.buy(item, level);
             }
         })
 
-        showAllInfo.hide();
-        if (isInfinite && !pullToRefresh) {
-            $$('.other-list-info').append(otehrHtml);
-            loading = false;
+        if (!pullToRefresh && data.data.list.length) {
+            content.append(otehrHtml);
         } else {
-            html($$('.other-list-info'), otehrHtml, f7);
+            html(content, otehrHtml, f7);
         }
 
+        if (data.data.list.length < pageSize || !data.data.list.length) {
+            2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
+            load.hide();
+        }else{
+            2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
+            load.show();
+        }
+
+        if (!listLength && !data.data.list.length) {
+            2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
+            emptyInfo.show();
+        } else {
+            emptyInfo.hide();
+        }
+        pullToRefresh = false;
+        isInfinite = false;
+        loading = false;
         setTimeout(() => {
             $$('img.lazy').trigger('lazy');
         }, 400)
-        f7.hideIndicator();
-        f7.pullToRefreshDone();
-
-        pullToRefresh = false;
-        isInfinite = false;
-
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
-            isShowAll = true;
-            load.hide();
-            showAllInfo.show();
-        } else {
-            load.show();
-        }
-        if (!$$('.other-list-info>a').length && !data.data.list.length) {
-            2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
-            showAllInfo.hide();
-        } else {
-            $$('.my-sell-list-empty').hide();
-            $$('.my-buy-list-empty').hide();
-        }
     }
 
-    customAjax.ajax({
-        apiCategory: 'demandInfo',
-        api: 'getMyDemandInfoList',
-        header: ['token'],
-        data: [id, pageSize, pageNo, type],
-        type: 'get'
-    }, callback);
+    const getListInfo = () => {
+        const pageNo = type == 2 ? sellPageNo : buyPageNo;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
+        emptyInfo = type == 2 ? sellEmpty : buyEmpty;
 
-    $$('.page-my-list .infinite-scroll').on('infinite', function() {
-        if (isShowAll) {
+        isInfinite = false;
+        pullToRefresh = false;
+        loading = false;
+
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'getMyDemandInfoList',
+            header: ['token'],
+            data: ['', pageSize, pageNo, type],
+            type: 'get',
+            isMandatory
+        }, callback);
+    }
+
+    //get list for service;
+    getListInfo();
+    currentPage.find('#tab1').on('show', function() {
+        type = 2;
+        currentHeader.find('.center').text('我的出售');
+        !sellContent.children('a').length && getListInfo();
+    });
+
+    currentPage.find('#tab2').on('show', function() {
+        type = 1;
+        currentHeader.find('.center').text('我的求购');
+        !buyContent.children('a').length && getListInfo();
+    });
+
+    currentPage.find('.infinite-scroll').on('infinite', function() {
+        if (2 == type ? showSellAllInfo.css('display') == 'block' :
+            showBuyAllInfo.css('display') == 'block') {
             return;
         }
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
         isInfinite = true;
         // Exit, if loading in progress
         if (loading) return;
@@ -88,32 +148,37 @@ function myListInit(f7, view, page) {
         // Set loading flag
         loading = true;
         pullToRefresh = false;
-        pageNo++;
+        type == 2 ? sellPageNo++ : buyPageNo++;
+        const pageNo = type == 2 ? sellPageNo : buyPageNo;
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            header: ['token'],
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, type],
+            header: ['token'],
+            data: ['', pageSize, pageNo, type],
             type: 'get',
-            noCache: true
+            isMandatory
         }, callback);
     });
 
     // pull to refresh.
-    const ptrContent = $$('.page-my-list .pull-to-refresh-content');
+    const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
-        pageNo = 1;
+        type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
+        const load = type == 2 ? sellLoad : buyLoad;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
+        2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
+        emptyInfo = type == 2 ? sellEmpty : buyEmpty;
+
         pullToRefresh = true;
-        showAllInfo.hide();
-        isShowAll = false;
+        emptyInfo.hide();
         isInfinite = false;
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            header: ['token'],
             api: 'getMyDemandInfoList',
-            data: [id, pageSize, pageNo, type],
+            header: ['token'],
+            data: ['', pageSize, 1, type],
             type: 'get',
-            noCache: true
+            isMandatory
         }, callback);
     })
 }

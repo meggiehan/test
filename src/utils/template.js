@@ -9,7 +9,7 @@ const hashStr = location.hash;
 
 module.exports = {
     home: {
-        cat: (data, userLevel, nameAuthentication) => {
+        cat: (data, userLevel, nameAuthentication, isMyList) => {
             const {
                 id,
                 level,
@@ -65,26 +65,33 @@ module.exports = {
                 '<div class="cat-list-user-name">' +
                 `<span class="user-name">${contact_name || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
                 `<span class="user-release-time">${showTime}</span>` +
-                '</div>' +
-                '<div class="cat-list-tags">';
-            if (certificate_type_list && certificate_type_list.length) {
-                $$.each(certificate_type_list, (index, item) => {
-                    const {classes, label, certName} = getCertInfo(item);
-                    res += '<p>' +
-                        '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
-                        '</p>'
-                })
-            }
+                '</div>';
+
+            let certList = '';
+
+             if(!isMyList){
+                 certList += '<div class="cat-list-tags">';
+                 if (certificate_type_list && certificate_type_list.length) {
+                     $$.each(certificate_type_list, (index, item) => {
+                         const {classes, label, certName} = getCertInfo(item);
+                         certList += '<p>' +
+                             '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
+                             '</p>'
+                     })
+                 }
+             }
+            res += certList;
             res += '</div></div></a>';
             return res;
         },
-        buy: (data, userLevel) => {
+        buy: (data, userLevel, nameAuthentication) => {
             const {
                 id,
                 level,
                 stock,
                 state,
                 specifications,
+                describe
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -112,7 +119,7 @@ module.exports = {
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
+                '<div class="col-65 buy-name">' + span + (describe || fish_type_name) + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
