@@ -7,7 +7,7 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function myListInit(f7, view, page) {
-    let type = 2;
+    let type = page.query['type'] || 2;
     const { pageSize, cacheUserinfoKey } = config;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const currentHeader = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
@@ -47,11 +47,11 @@ function myListInit(f7, view, page) {
     let pullToRefresh = false;
 
     const callback = (data) => {
-        const { code } = data;
+        const { code, message } = data;
         f7.hideIndicator();
         f7.pullToRefreshDone();
         if (code !== 1) {
-            // f7.alert('请求过于频繁，请稍后再试！', '提示');
+            console.log('获取我的发信息列表失败！error=' + (message || ''));
             return;
         }
 
@@ -70,7 +70,7 @@ function myListInit(f7, view, page) {
             if (2 == type) {
                 otehrHtml += home.cat(item, level,'', true);
             } else {
-                otehrHtml += home.buy(item, level);
+                otehrHtml += home.buy(item, level, '', true);
             }
         })
 
@@ -134,6 +134,10 @@ function myListInit(f7, view, page) {
         currentHeader.find('.center').text('我的求购');
         !buyContent.children('a').length && getListInfo();
     });
+
+    f7.showTab(2 == type ? '#tab1' : '#tab2');
+    const tabIndex = 2 == type ? 0 : 1;
+    currentHeader.find('.tab-link').removeClass('active').eq(tabIndex).addClass('active');
 
     currentPage.find('.infinite-scroll').on('infinite', function() {
         if (2 == type ? showSellAllInfo.css('display') == 'block' :

@@ -1,5 +1,5 @@
 import { timeDifference, getDate, getDealTime } from './time';
-import { getCertInfo, imgIsUpload, getName } from './string';
+import { getCertInfo, imgIsUpload, getName, getInfoStatus } from './string';
 import config from '../config/';
 import store from './locaStorage';
 
@@ -34,7 +34,6 @@ module.exports = {
             imgs && JSON.parse(imgs).length ? (infoImgs = JSON.parse(imgs)) : (infoImgs = [imge_path]);
             const currentLevel = level && level || userLevel;
 
-            const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_selllist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);
             if (userInfo) {
@@ -47,8 +46,6 @@ module.exports = {
             let res = '';
             let span = '';
             const authText = (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) && '实名' || null;
-            0 == state && (span = '<span class="check">待审核</span>');
-            2 == state && (span = '<span class="iconfont icon-info check">审核未通过</span>')
             1 == state && infoImgs.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
             res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
                 '<div class="col-30 ps-r item-media">' + span + imgStr +
@@ -82,9 +79,16 @@ module.exports = {
              }
             res += certList;
             res += '</div></div></a>';
+            if(isMyList){
+                const {text, className} = getInfoStatus(state);
+                res += '<div class="sell-list-status">' +
+                        `<span class="${className} f-l">${text}</span>` +
+                        `${1 == state}`
+                       '</div>'
+            }
             return res;
         },
-        buy: (data, userLevel, nameAuthentication) => {
+        buy: (data, userLevel, nameAuthentication, isMyList) => {
             const {
                 id,
                 level,
@@ -103,8 +107,6 @@ module.exports = {
             const city_name = data['city_name'] || data['cityName'];
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
-            // const isV = personal_authentication_state === 1 || enterprise_authentication_state === 1;
-            const apiStr = (hashStr.indexOf('home.html') > -1 && 'cell_purchaselist') || (hashStr.indexOf('filter.html') > -1 && 'cell_list') || null;
             let img = document.createElement('img');
             let showTime = timeDifference(check_time);
             const userInfo = store.get(cacheUserinfoKey);

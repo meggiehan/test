@@ -363,6 +363,15 @@ module.exports = {
         const m = newDate.getMonth() + 1 >= 10 ? newDate.getMonth() + 1 : ('0' + (newDate.getMonth() + 1));
         const d = newDate.getDate() >= 10 ? newDate.getDate() : ('0' + newDate.getDate());
         return y + '/' + m + '/' + d;
+    },
+
+    getInfoStatus: (state) => {
+        const text = (0 == state && '待审核') || (2 == state && '审核未通过') || (2 == state && '已发布');
+        const className = (0 == state && 'check') || (2 == state && 'faild') || (2 == state && 'pass');
+        return {
+            text,
+            className
+        }
     }
 
 }
