@@ -68,7 +68,7 @@ function myListInit(f7, view, page) {
 
         $$.each(data.data.list, (index, item) => {
             if (2 == type) {
-                otehrHtml += home.cat(item, level);
+                otehrHtml += home.cat(item, level,'', true);
             } else {
                 otehrHtml += home.buy(item, level);
             }

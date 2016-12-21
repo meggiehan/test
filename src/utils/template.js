@@ -9,7 +9,7 @@ const hashStr = location.hash;
 
 module.exports = {
     home: {
-        cat: (data, userLevel, nameAuthentication) => {
+        cat: (data, userLevel, nameAuthentication, isMyList) => {
             const {
                 id,
                 level,
@@ -65,20 +65,26 @@ module.exports = {
                 '<div class="cat-list-user-name">' +
                 `<span class="user-name">${contact_name || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
                 `<span class="user-release-time">${showTime}</span>` +
-                '</div>' +
-                '<div class="cat-list-tags">';
-            if (certificate_type_list && certificate_type_list.length) {
-                $$.each(certificate_type_list, (index, item) => {
-                    const {classes, label, certName} = getCertInfo(item);
-                    res += '<p>' +
-                        '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
-                        '</p>'
-                })
-            }
+                '</div>';
+
+            let certList = '';
+
+             if(!isMyList){
+                 certList += '<div class="cat-list-tags">';
+                 if (certificate_type_list && certificate_type_list.length) {
+                     $$.each(certificate_type_list, (index, item) => {
+                         const {classes, label, certName} = getCertInfo(item);
+                         certList += '<p>' +
+                             '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
+                             '</p>'
+                     })
+                 }
+             }
+            res += certList;
             res += '</div></div></a>';
             return res;
         },
-        buy: (data, userLevel) => {
+        buy: (data, userLevel, nameAuthentication) => {
             const {
                 id,
                 level,
