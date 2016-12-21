@@ -24,7 +24,7 @@ function otherIndexInit(f7, view, page) {
     if (userCache) {
         const { userInfo, user_ishCertificate_list } = userCache['data'];
         const { enterpriseAuthenticationState, personalAuthenticationState, lastLoginTime, nickname, imgUrl, phone } = userInfo;
-        const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
+        // const text = userUtils.getAuthenticationText(enterpriseAuthenticationState, '', personalAuthenticationState)['myCenterText'];
         callNumber = phone;
         level = userInfo['level'];
         level && currentPage.find('.other-user-name').children('i').addClass(`iconfont icon-v${level}`);

@@ -71,6 +71,8 @@
                 .goods-name {
                     font-size: 2rem;
                     color: @text-name;
+                    width: 100%;
+                    .word-break;
                 }
                 .goods-create-time {
                     color: @text-subtitle;
@@ -183,12 +185,15 @@
                     white-space: nowrap;
                     .text-hidden;
                     overflow: visible;
-                    color: @text-subtitle;
                     font-size: 1.4rem;
                     min-height: 5rem;
                     line-height: 5rem;
                     text-align: right;
                     float: right;
+                    color: @themeColor;
+                    &:after{
+                        color: @text-subtitle;
+                    }
                 }
                 .col-70 {
                     width: 73%;

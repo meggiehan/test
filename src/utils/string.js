@@ -1,5 +1,7 @@
 import nativeEvent from './nativeEvent';
+import config from '../config';
 
+const { fishCacheObj } = config;
 module.exports = {
     trim: (str) => {
         if (!str) {
@@ -337,6 +339,30 @@ module.exports = {
             // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
             // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
         return res;
+    },
+
+    saveSelectFishCache: (obj) => {
+        const {id, parentId, name } = obj;
+        if(name && name.indexOf('全部') == -1){
+            const {fishCacheKey, maxLength} = fishCacheObj;
+            let currentFishCache = nativeEvent.getDataToNative(fishCacheKey) || [];
+            let index = -10;
+            currentFishCache && currentFishCache.length && $$.each(currentFishCache, (key, val) => {
+                name == val.name && (index = key);
+            })
+            Number(index) > -1 && currentFishCache.splice(index, 1);
+            currentFishCache.length > maxLength && currentFishCache.shift();
+            currentFishCache.push(obj);
+            nativeEvent.setDataToNative(fishCacheKey, currentFishCache);
+        }
+    },
+
+    getCurrentDay: () => {
+        const newDate = new Date();
+        const y = newDate.getFullYear();
+        const m = newDate.getMonth() + 1 >= 10 ? newDate.getMonth() + 1 : ('0' + (newDate.getMonth() + 1));
+        const d = newDate.getDate() >= 10 ? newDate.getDate() : ('0' + newDate.getDate());
+        return y + '/' + m + '/' + d;
     }
 
 }

@@ -85,6 +85,7 @@ module.exports = {
                 stock,
                 state,
                 specifications,
+                describe
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -112,7 +113,7 @@ module.exports = {
             2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + span + fish_type_name + '</div>' +
+                '<div class="col-65 buy-name">' + span + (describe || fish_type_name) + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +

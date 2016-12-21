@@ -16,6 +16,10 @@ const configs = {
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
     shareUrl: 'http://m.yudada.com/infoDetail.html',
+    fishCacheObj: {
+        fishCacheKey: 'selectFishCache',
+        maxLength: 10
+    },
     /*
      *release branch change the url to http://m.yudada.com
      */
@@ -78,6 +82,5 @@ const configs = {
         demandInfoList: ['token', 'pageSize', 'pageNo', 'demandType'],
         demandInfo: []
     }
-
 }
 export default configs;

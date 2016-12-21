@@ -81,7 +81,7 @@ function buydetailInit(f7, view, page) {
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
-            currentPage.find('.buy-goods-name').text(fishTypeName);
+            currentPage.find('.buy-goods-name').text(describe || fishTypeName);
             currentPage.find('.goods-create-time').text(timeDifference(checkTime));
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}` || '面议');
@@ -224,7 +224,8 @@ function buydetailInit(f7, view, page) {
                 const buyNum = parseInt($$('.user-buy-num').text()) - 1;
                 $$('.other-list-info>a[href="./views/buydetail.html?id=' + id + '"]').remove();
                 $$('.user-buy-num').text(buyNum);
-                view.router.back()
+                view.router.back();
+                view.router.refreshPage();
             }
         })
     }
@@ -237,11 +238,11 @@ function buydetailInit(f7, view, page) {
                 header: ['token'],
                 parameType: 'application/json',
                 api: 'deleteDemandInfo',
-                data: [id],
+                type: 'DELETE',
                 val: {
                     id
                 },
-                type: 'post'
+                noCache: true
             }, deleteCallback);
         })
 

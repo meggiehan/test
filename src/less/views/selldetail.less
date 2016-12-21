@@ -256,12 +256,15 @@
                     white-space: nowrap;
                     .text-hidden;
                     overflow: visible;
-                    color: @text-subtitle;
                     font-size: 1.4rem;
                     min-height: 5rem;
                     line-height: 5rem;
                     text-align: right;
                     float: right;
+                    color: @themeColor;
+                    &:after{
+                        color: @text-subtitle;
+                    }
                 }
                 .col-70 {
                     width: 73%;
