@@ -30,8 +30,8 @@ function myListInit(f7, view, page) {
     //close guide.
     $$('.my-list-guide-model')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        if(ele.className.indexOf('') > -1){
-
+        if(ele.className.indexOf('my-list-guide-model') > -1 || ele.className.indexOf('footer') > -1){
+            $$('.my-list-guide-model').removeClass('on');
         }
     }
 
