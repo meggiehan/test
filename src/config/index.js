@@ -15,7 +15,7 @@ const configs = {
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
-    shareUrl: 'http://m.test.yudada.com/infoDetail.html',
+    shareUrl: 'm.yudada.com/demandInfo/',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
         maxLength: 10
@@ -49,7 +49,9 @@ const configs = {
         'userAddDemandInfo': [],
         'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'type'],
         'deleteDemandInfo': ['id'],
-        'dealList': ['pageNo', 'pageSize']
+        'dealList': ['pageNo', 'pageSize'],
+        'refreshLog': ['demandInfoId'],
+        'mine': ['pageSize', 'pageNo', 'type']
     },
     fishType: {
         'getChildrenFishTypeList': ['id','release','type','keyvalue']

@@ -162,7 +162,7 @@ class CustomClass {
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
             return false;
         }
-        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('token', '');
+        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('accessToken', '');
     }
 
     nativeGoBack() {
@@ -244,7 +244,7 @@ class CustomClass {
 
     /**
      * share info to weixin.
-     * 0 : 分享图片到微信好友    参数2 : 图片url
+     * 0: 分享图片到微信好友    参数2 : 图片url
      * 1: 分享图片到朋友圈        参数2 : 图片url
      * 2: 分享web到微信好友   参数2: web  url    参数3: 图片url   参数4: 描述   参数5: 标题
      * 3: 分享web到朋友圈    参数2: web url  参数3 : 图片url   参数4: 描述   参数5: 标题

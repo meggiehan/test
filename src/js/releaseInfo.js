@@ -30,7 +30,8 @@ function releaseInfoInit(f7, view, page) {
     saveSelectFishCache({
         name: fishName,
         id: fishId,
-        parentId: parentFishId
+        parant_id: parentFishId,
+        parant_name: parentFishName
     })
 
     const specBox = currentPage.find('.release-spec-list-box');

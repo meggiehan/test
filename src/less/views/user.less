@@ -169,19 +169,13 @@
                 color: @text-subtitle;
                 .iconfont {
                     font-size: 2.4rem;
-                    &.icon-qiugou:before {
-                        color: @text-qiugou;
-                    }
-                    &.icon-me-qiugou:before {
-                        color: @text-chushou;
-                    }
-                    &.icon-collection-active{
-                        color: @bg-collection;
-                        font-size: 2.2rem;
-                    }
+                    color: @text-user-icon;
                 }
                 .col-15 {
                     width: 10%;
+                    &.icon-verification, &.icon-call{
+                        font-size: 2rem;
+                    }
                 }
                 .col-85 {
                     width: 90%;
@@ -254,7 +248,6 @@
             margin-top: 1rem;
             a {
                 .icon-call {
-                    color: @themeColor;
                     .text-left;
                 }
                 .icon-info {
@@ -270,9 +263,6 @@
                     }
                 }
                 &.user-invit {
-                    .icon-invite{
-                        color: @text-invite-icon;
-                    }
                     .col-85.first {
                         .col-60 {
                             width: 65%;
@@ -300,11 +290,6 @@
                                 display: none;
                             }
                         }
-                    }
-                }
-                &.user-member{
-                    .icon-member{
-                        color: @text-member;
                     }
                 }
             }

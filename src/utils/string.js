@@ -342,7 +342,7 @@ module.exports = {
     },
 
     saveSelectFishCache: (obj) => {
-        const {id, parentId, name } = obj;
+        const { name } = obj;
         if(name && name.indexOf('全部') == -1){
             const {fishCacheKey, maxLength} = fishCacheObj;
             let currentFishCache = nativeEvent.getDataToNative(fishCacheKey) || [];
@@ -366,8 +366,8 @@ module.exports = {
     },
 
     getInfoStatus: (state) => {
-        const text = (0 == state && '待审核') || (2 == state && '审核未通过') || (2 == state && '已发布');
-        const className = (0 == state && 'check') || (2 == state && 'faild') || (2 == state && 'pass');
+        const text = (0 == state && '待审核') || (2 == state && '审核未通过') || (1 == state && '已发布');
+        const className = (0 == state && 'check') || (2 == state && 'faild') || (1 == state && 'pass');
         return {
             text,
             className

@@ -1,12 +1,10 @@
-import { timeDifference, getDate, getDealTime } from './time';
-import { getCertInfo, imgIsUpload, getName, getInfoStatus } from './string';
+import {timeDifference, getDate, getDealTime} from './time';
+import {getCertInfo, imgIsUpload, getName, getInfoStatus} from './string';
 import config from '../config/';
 import store from './locaStorage';
 
 
-const { cacheUserinfoKey, imgPath, backgroundImgUrl, identity } = config;
-const hashStr = location.hash;
-
+const {cacheUserinfoKey, imgPath, backgroundImgUrl, identity} = config;
 module.exports = {
     home: {
         cat: (data, userLevel, nameAuthentication, isMyList) => {
@@ -17,7 +15,9 @@ module.exports = {
                 price,
                 specifications,
                 imgs,
-                title
+                title,
+                refreshed,
+                type
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -42,7 +42,7 @@ module.exports = {
             let imgStr;
             img.src = `${infoImgs[0]}${imgPath(11)}`;
             imgStr = img.complete ? '<img src="' + `${infoImgs[0] + imgPath(11)}` + '"/></div>' :
-                '<img data-src="' + `${infoImgs.length && (infoImgs[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
+            '<img data-src="' + `${infoImgs.length && (infoImgs[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
             let res = '';
             let span = '';
             const authText = (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) && '实名' || null;
@@ -56,8 +56,8 @@ module.exports = {
                 '</div>' +
                 '<div class="row cat-list-text">' + `${province_name + city_name}${specifications && '    |    ' + specifications || ''}` + '</div>' +
                 '<div class="cat-list-title-auth">' +
-                `${title && '<span><b>特</b><i>'+ title +'</i></span>'|| '' }` +
-                `${authText && '<b>'+authText+'</b>' || ''}` +
+                `${title && '<span><b>特</b><i>' + title + '</i></span>' || '' }` +
+                `${authText && '<b>' + authText + '</b>' || ''}` +
                 '</div>' +
                 '<div class="cat-list-user-name">' +
                 `<span class="user-name">${contact_name || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
@@ -66,25 +66,27 @@ module.exports = {
 
             let certList = '';
 
-             if(!isMyList){
-                 certList += '<div class="cat-list-tags">';
-                 if (certificate_type_list && certificate_type_list.length) {
-                     $$.each(certificate_type_list, (index, item) => {
-                         const {classes, label, certName} = getCertInfo(item);
-                         certList += '<p>' +
-                             '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
-                             '</p>'
-                     })
-                 }
-             }
+            if (!isMyList) {
+                certList += '<div class="cat-list-tags">';
+                if (certificate_type_list && certificate_type_list.length) {
+                    $$.each(certificate_type_list, (index, item) => {
+                        const {classes, label, certName} = getCertInfo(item);
+                        certList += '<p>' +
+                            '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
+                            '</p>'
+                    })
+                }
+            }
             res += certList;
             res += '</div></div></a>';
-            if(isMyList){
+            if (isMyList) {
                 const {text, className} = getInfoStatus(state);
-                res += '<div class="sell-list-status">' +
-                        `<span class="${className} f-l">${text}</span>` +
-                        `${1 == state}`
-                       '</div>'
+                const refreshBtn = refreshed ? '<span class="refresh-btn disabled">今天已刷新</span>' : `<span class="refresh-btn" data-id="${id}">刷新信息</span>`;
+                res += '<div class="list-check-status">' +
+                        `<div><span class="${className} f-l">${text}</span>` +
+                        (1 == state ? (refreshBtn + `<span class="sell-list-share" data-type="${type}" data-id="${id}">分享给朋友</span>`) : '') + '</div>' +
+                        '<p></p>' +
+                    '</div>';
             }
             return res;
         },
@@ -95,7 +97,9 @@ module.exports = {
                 stock,
                 state,
                 specifications,
-                describe
+                describe,
+                refreshed,
+                type
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -116,24 +120,32 @@ module.exports = {
             }
             const currentLevel = level && level || userLevel;
             let res = '';
-            let span = '';
-            0 == state && (span = '<span>待审核</span>');
-            2 == state && (span = '<span class="iconfont icon-info">审核未通过</span>')
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + span + (describe || fish_type_name) + '</div>' +
+                '<div class="col-65 buy-name">' + (describe || fish_type_name) + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
                 '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
-                `<div class="row ${!specifications && 'hide'}">` + 
-                    '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
-                '</div>'+
+                `<div class="row ${!specifications && 'hide'}">` +
+                '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
+                '</div>' +
                 '<div class="home-buy-address">' +
-                `${isAuth ? '<span class="buy-list-auth">实名</span>' :''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel +'" style="margin:0;font-size: 2rem;"></span>' : ''}` +
-                '</div>'
+                `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
+                '</div></a>';
+
+            if (isMyList) {
+                const {text, className} = getInfoStatus(state);
+                const refreshBtn = refreshed ? '<span class="refresh-btn disabled">今天已刷新</span>' : `<span class="refresh-btn" data-id="${id}">刷新信息</span>`;
+                res += '<div class="list-check-status">' +
+                        `<div><span class="${className} f-l">${text}</span>` +
+                        (1 == state ? (refreshBtn + `<span class="sell-list-share" data-type="${type}" data-id="${id}">分享给朋友</span>`) : '') + '</div>' +
+                        '<p></p>' +
+                    '</div>';
+            }
+
             return res;
         },
         dealInfo: (data) => {
@@ -157,7 +169,7 @@ module.exports = {
             } = data;
             let li = '';
             li += release ? `<a href="views/releaseInfo.html?type=${type}&fishId=${id}&fishName=${name}&parentFishId=${parant_id}&parentFishName=${parant_name}">${name}</a>` :
-                `<a href="views/filter.html?id=${id}&search=true" data-reload="true">${name}</a>`;
+                `<a href="views/filter.html?id=${id}&search=true" data-reload="true" data-name="${name}" data-parent-name="${parant_name}" data-id="${id}" data-parent-id="${parant_id}">${name}</a>`;
             return li;
         },
         historyLink: (data) => {
@@ -177,7 +189,7 @@ module.exports = {
                 state
             } = data;
             let link = '';
-            const { label, text, classes, certName } = getCertInfo(type);
+            const {label, text, classes, certName} = getCertInfo(type);
             link += '<a class="iconfont icon-right open-cert-button" data-url="' + `${path}@1o` + '">' +
                 '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name}` +
                 '</a>'
@@ -248,7 +260,7 @@ module.exports = {
             html += `<div class="row ${isLast ? 'last' : ''}">` +
                 `<span class="col-33 left">${phone || ''}</span>` +
                 `<span class="col-33">${nickname || ''}</span>` +
-                `<span class="col-33 invite-time right">${getDate(createTime*0.001, true)}</span>` +
+                `<span class="col-33 invite-time right">${getDate(createTime * 0.001, true)}</span>` +
                 '</div>';
             return html;
         }
@@ -269,7 +281,7 @@ module.exports = {
             } = data;
             let res = '';
             res += '<a>' +
-                `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName||''}</span></p>` +
+                `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName || ''}</span></p>` +
                 '<p class="deal-list-user-info">' +
                 `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
                 `<span class="deal-list-user-name">${getName(userName)}</span>` +
@@ -299,18 +311,16 @@ module.exports = {
             let span = '';
             const height = (($$(window).width() - 7) * 18.1 * 0.01).toFixed(2);
             span += '<span class="col-20 release-info-pic-add add" style="height:' + height + 'px;overflow:hidden;">' +
-                `<i class="iconfont icon-add add" style="line-height:${height*0.5}px"></i>` +
-                `<p class="add" style="line-height:${height*0.4}px">添加图片</p>` +
+                `<i class="iconfont icon-add add" style="line-height:${height * 0.5}px"></i>` +
+                `<p class="add" style="line-height:${height * 0.4}px">添加图片</p>` +
                 '</span>'
             return span;
         },
         tag: (data) => {
-            const { id, name } = data;
+            const {id, name} = data;
             return `<span data-id="${id}">${name}</span>`;
         }
     }
-
-
 
 
 }

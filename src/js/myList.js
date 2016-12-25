@@ -1,14 +1,13 @@
 import store from '../utils/locaStorage';
 import config from '../config';
-import { selldetail, home } from '../utils/template';
+import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function myListInit(f7, view, page) {
     let type = page.query['type'] || 2;
-    const { pageSize, cacheUserinfoKey } = config;
+    const { pageSize, cacheUserinfoKey, shareUrl} = config;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const currentHeader = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
 
@@ -21,6 +20,9 @@ function myListInit(f7, view, page) {
     const sellContent = currentPage.find('.sell-collection-list-info');
     const buyContent = currentPage.find('.buy-collection-list-info');
     const openGuide = nativeEvent.getDataToNative('refreshGuide');
+
+    let sellDate = [];
+    let buyDate = [];
 
     if(!openGuide){
         nativeEvent.setDataToNative('refreshGuide', 'true');
@@ -66,21 +68,23 @@ function myListInit(f7, view, page) {
         }
         listLength = content.children('a').length;
 
-        $$.each(data.data.list, (index, item) => {
+        $$.each(data.data.records, (index, item) => {
             if (2 == type) {
+                sellDate.push(item);
                 otehrHtml += home.cat(item, level,'', true);
             } else {
+                buyDate.push(item);
                 otehrHtml += home.buy(item, level, '', true);
             }
         })
 
-        if (!pullToRefresh && data.data.list.length) {
+        if (!pullToRefresh && data.data.records.length) {
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);
         }
 
-        if (data.data.list.length < pageSize || !data.data.list.length) {
+        if (data.data.records.length < pageSize || !data.data.records.length) {
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -88,7 +92,7 @@ function myListInit(f7, view, page) {
             load.show();
         }
 
-        if (!listLength && !data.data.list.length) {
+        if (!listLength && !data.data.records.length) {
             2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
             emptyInfo.show();
         } else {
@@ -113,9 +117,9 @@ function myListInit(f7, view, page) {
 
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getMyDemandInfoList',
+            api: 'mine',
             header: ['token'],
-            data: ['', pageSize, pageNo, type],
+            data: [pageSize, pageNo, type],
             type: 'get',
             isMandatory
         }, callback);
@@ -156,9 +160,9 @@ function myListInit(f7, view, page) {
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getMyDemandInfoList',
+            api: 'mine',
             header: ['token'],
-            data: ['', pageSize, pageNo, type],
+            data: [pageSize, pageNo, type],
             type: 'get',
             isMandatory
         }, callback);
@@ -168,7 +172,7 @@ function myListInit(f7, view, page) {
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
         type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
-        const load = type == 2 ? sellLoad : buyLoad;
+        type == 2 ? (sellDate = []) : (buyDate = []);
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
         emptyInfo = type == 2 ? sellEmpty : buyEmpty;
@@ -178,13 +182,81 @@ function myListInit(f7, view, page) {
         isInfinite = false;
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getMyDemandInfoList',
+            api: 'mine',
             header: ['token'],
-            data: ['', pageSize, 1, type],
+            data: [pageSize, 1, type],
             type: 'get',
             isMandatory
         }, callback);
     })
+
+    let activeInfoId = null;
+    //refresh and share info.
+    const refreshCallback = (data) => {
+        const {code, message} = data;
+        1 != code && nativeEvent.nativeToast(1 == code ? 1 : 0, message);
+        1 == code && $$('span.refresh-btn[data-id="'+ activeInfoId +'"]').addClass('disabled');
+        1 == code && nativeEvent.nativeToast(1, `今天刷新信息次数还剩${data.data}次!`);
+    }
+    currentPage.find('.tabs.swiper-wrapper')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        //refresh info
+        if(ele.className.indexOf('refresh-btn') > -1 && $(ele).attr('data-id') && ele.className.indexOf('disabled') == -1){
+            const clickInfoId = $(ele).attr('data-id');
+            activeInfoId = clickInfoId;
+            customAjax.ajax({
+                apiCategory: 'demandInfo',
+                api: 'refreshLog',
+                header: ['token'],
+                parameType: 'application/json',
+                data: [id],
+                type: 'post',
+                isMandatory: true
+            }, refreshCallback);
+        }
+        //share info
+        if(ele.className.indexOf('sell-list-share') > -1 && $(ele).attr('data-id')){
+            const infoType = $(ele).attr('data-type');
+            const itemId = $(ele).attr('data-id');
+            let listItem = null;
+            $$.each(2 == infoType ? sellDate : buyDate, (index,item) => {
+                item.id == itemId && (listItem = item);
+            })
+
+            let title = '';
+            let description = '';
+            let shareImg;
+
+            const {
+                specifications,
+                stock,
+                provinceName,
+                cityName,
+                fishTypeName,
+                price,
+                imgePath,
+                imgs
+            } = listItem;
+
+            if(1 == infoType){
+                shareImg = imgePath;
+            }else{
+                imgs && JSON.parse(imgs).length ? (shareImg = JSON.parse(imgs)[0]) : (shareImg = imgePath);
+            }
+            title += `【${2 == infoType ? '出售' : '求购'}】${fishTypeName}, ${provinceName||''}${cityName||''}`;
+            description += stock ? `${(2 == infoType ? '出售' : '求购') + '数量:' + stock}，` : '';
+            description += price ? `${'价格:' + price}，` : '';
+            description += specifications ? `${'规格:' + specifications}，` : '';
+            description += '点击查看更多信息~';
+            window.shareInfo = {
+                title,
+                webUrl: `${shareUrl}${listItem.id}`,
+                imgUrl: shareImg,
+                description
+            }
+            $$('.share-to-weixin-model').addClass('on');
+        }
+    }
 }
 
 module.exports = {
