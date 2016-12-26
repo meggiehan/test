@@ -45,7 +45,6 @@ function otherInfoInit(f7, view, page) {
             $$('.other-authentication-info').addClass('individual');
             name && $$('.other-info-name').text(getName(name));
             identificationCard && $$('.other-info-number').text(getBusinessLicenseNumber(identificationCard));
-
         }
         f7.hideIndicator();
     }

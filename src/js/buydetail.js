@@ -87,7 +87,7 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}` || '面议');
             
-            let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName']) : '';
+            let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName'] || '') : '';
             specText && specifications && (specText = `${specText}，${specifications}`);
             (!specText && specifications) && (specText += specifications);    
             specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();

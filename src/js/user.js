@@ -66,7 +66,7 @@ function userInit(f7, view, page) {
             if (!oldDate || new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime()) {
                 const {
                     nickname,
-                    nameAuthentication
+                    personalAuthenticationState
                 } = userInfomation;
                 if(!nickname){
                     f7.modal({
@@ -89,7 +89,7 @@ function userInit(f7, view, page) {
                     })
                     return;
                 }
-                if(!nameAuthentication){
+                if(1 != personalAuthenticationState){
                     f7.modal({
                         title:  '提示',
                         text: '实名认证有助于交易成交，交易额翻番不是梦~',

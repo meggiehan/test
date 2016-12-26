@@ -209,8 +209,12 @@ function myListInit(f7, view, page) {
                 api: 'refreshLog',
                 header: ['token'],
                 parameType: 'application/json',
-                data: [id],
-                type: 'post',
+                data: [clickInfoId, 'refresh'],
+                val:{
+                    id:clickInfoId,
+                    action: 'refreshLog'
+                },
+                type: 'POST',
                 isMandatory: true
             }, refreshCallback);
         }

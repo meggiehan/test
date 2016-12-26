@@ -6,7 +6,7 @@ const configs = {
     /*
      *release branch change the api url to http://api.yudada.com
      */
-    url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/', 
+    url: nativeEvent['getAPi']() || 'http://api.test.yudada.com/',
     // url: '://192.168.20.109:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms
@@ -15,7 +15,7 @@ const configs = {
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
-    shareUrl: 'm.yudada.com/demandInfo/',
+    shareUrl: 'm.test.yudada.com/demandInfo/',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
         maxLength: 10
@@ -42,7 +42,8 @@ const configs = {
             "keyvalue",
             "pageSize",
             "pageNo",
-            "member"
+            "member",
+            "fishTagId"
         ],
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],
@@ -50,11 +51,13 @@ const configs = {
         'getMyDemandInfoList': ['userId', 'pageSize', 'pageNo', 'type'],
         'deleteDemandInfo': ['id'],
         'dealList': ['pageNo', 'pageSize'],
-        'refreshLog': ['demandInfoId'],
-        'mine': ['pageSize', 'pageNo', 'type']
+        'refreshLog': ['demandInfoId', 'action'],
+        'mine': ['pageSize', 'pageNo', 'type'],
+        'personalHome': ['userId']
     },
     fishType: {
-        'getChildrenFishTypeList': ['id','release','type','keyvalue']
+        'getChildrenFishTypeList': ['id','release','type','keyvalue'],
+        'tags': []
     },
     userLogin: {
         'subUserPass': ['phone_code','key'],

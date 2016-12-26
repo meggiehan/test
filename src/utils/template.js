@@ -186,12 +186,13 @@ module.exports = {
                 type,
                 fish_type_name,
                 path,
-                state
+                fishTypeName,
+                url
             } = data;
             let link = '';
             const {label, text, classes, certName} = getCertInfo(type);
-            link += '<a class="iconfont icon-right open-cert-button" data-url="' + `${path}@1o` + '">' +
-                '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name}` +
+            link += '<a class="iconfont icon-right open-cert-button" data-url="' + `${path || url}@1o` + '">' +
+                '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”-${fish_type_name || fishTypeName}` +
                 '</a>'
             return link;
         }
@@ -280,7 +281,7 @@ module.exports = {
                 imgUrl
             } = data;
             let res = '';
-            res += '<a>' +
+            res += '<a href="views/otherIndex.html?id='+ id +'">' +
                 `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName || ''}</span></p>` +
                 '<p class="deal-list-user-info">' +
                 `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
