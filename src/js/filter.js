@@ -140,10 +140,10 @@ function filterInit(f7, view, page) {
     const fishTypeRootCallback = (data) => {
         let typeHtml = '';
         if (!release) {
-            typeHtml += `<span data-id="0" class="active-ele">全部鱼种</span>`;
+            typeHtml += `<span data-id="0" class="${fishTagId ? '' : 'active-ele'}">全部鱼种</span>`;
             let fishTypeNameQuery;
             $$.each(data.data, (index, item) => {
-                typeHtml += filter.fishType(item);
+                typeHtml += filter.fishType(item, fishTagId == item.id ? 'active-ele' : '');
                 // !fishTagId && !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
                 fishTagId && (fishTypeNameQuery = fishTagName)
             })
@@ -164,8 +164,13 @@ function filterInit(f7, view, page) {
         let typeHtml = '';
         let fishTypeNameQuery;
         if (!release) {
-            typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`;
-            $$.each(data.data.list, (index, item) => {
+            let fishArr = [];
+            !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
+            fishTagId && $$.each(data.data.list, (index, item) => {
+                fishTagId == item.fish_tag_id && fishArr.push(item);
+            })
+            fishTagId  && (typeHtml += `<span data-postcode="${fishTagId}" class="first active-ele">全部${fishTagName}</span>`);
+            $$.each(!!fishTagId ? fishArr : data.data.list, (index, item) => {
                 const classes = index % 3 === 0 && 'on' || '';
                 typeHtml += filter.fishType(item, classes);
                 !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
@@ -232,7 +237,7 @@ function filterInit(f7, view, page) {
 
         if (rootId == '0') {
             categoryFish = allFishTypeChild;
-            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && 'active-ele'}">${ele.innerText}</span>`;
+            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && !fishTagId && 'active-ele'}">${ele.innerText}</span>`;
         } else if (-1 == rootId) {
             const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
             if (cacheFish) {
@@ -241,16 +246,16 @@ function filterInit(f7, view, page) {
                 })
             }
         } else {
-            if(!release){
+            if (!release) {
                 $$.each(allFishTypeChild, (index, item) => {
                     item.fish_tag_id == rootId && categoryFish.push(item);
                 })
-            }else{
+            } else {
                 $$.each(allFishTypeChild, (index, item) => {
                     item.parant_id == rootId && categoryFish.push(item);
                 })
             }
-            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${currentFishId == rootId && 'active-ele'}">全部${ele.innerText}</span>`;
+            typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${((currentFishId && currentFishId == rootId) || (fishTagId && rootId == fishTagId)) && 'active-ele'}">全部${ele.innerText}</span>`;
         }
         $$('.filter-fish-type span').removeClass('active-ele');
         ele.className = 'active-ele';
@@ -483,9 +488,12 @@ function filterInit(f7, view, page) {
             searchBtn.val('');
             isInfinite = false;
             pageNo = 1;
-            if(ele.getAttribute('data-postcode')){
+            if (ele.getAttribute('data-postcode')) {
                 currentFishId = '';
                 fishTagId = ele.getAttribute('data-postcode');
+            }
+            if (ele.innerText == '全部鱼种') {
+                fishTagId = '';
             }
             customAjax.ajax({
                 apiCategory: 'demandInfo',
