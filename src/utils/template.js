@@ -54,7 +54,7 @@ module.exports = {
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
                 '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
                 '</div>' +
-                '<div class="row cat-list-text">' + `${province_name + city_name}${specifications && '    |    ' + specifications || ''}` + '</div>' +
+                '<div class="row cat-list-text">' + `${(province_name || '') + (city_name || '')}${specifications && '    |    ' + specifications || ''}` + '</div>' +
                 '<div class="cat-list-title-auth">' +
                 `${title && '<span><b>特</b><i>' + title + '</i></span>' || '' }` +
                 `${authText && '<b>' + authText + '</b>' || ''}` +
@@ -278,14 +278,15 @@ module.exports = {
                 personAuth,
                 enterpriseAuth,
                 level,
-                imgUrl
+                imgUrl,
+                userId
             } = data;
             let res = '';
-            res += '<a href="views/otherIndex.html?id='+ id +'">' +
+            res += '<a href="views/otherIndex.html?currentUserId='+ userId +'">' +
                 `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName || ''}</span></p>` +
                 '<p class="deal-list-user-info">' +
                 `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
-                `<span class="deal-list-user-name">${getName(userName)}</span>` +
+                `<span class="deal-list-user-name">${getName(userName)}</span>|` +
                 `<span class="deal-list-time">${getDealTime(tradeDate)}达成交易</span>` +
                 '</p>' +
                 '<p>' +

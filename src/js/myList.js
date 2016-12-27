@@ -194,9 +194,12 @@ function myListInit(f7, view, page) {
     //refresh and share info.
     const refreshCallback = (data) => {
         const {code, message} = data;
-        1 != code && nativeEvent.nativeToast(1 == code ? 1 : 0, message);
-        1 == code && $$('span.refresh-btn[data-id="'+ activeInfoId +'"]').addClass('disabled');
-        1 == code && nativeEvent.nativeToast(1, `今天刷新信息次数还剩${data.data}次!`);
+        if(1 == code){
+            $$('span.refresh-btn[data-id="'+ activeInfoId +'"]').addClass('disabled').text('今日已刷新');
+            nativeEvent.nativeToast(1, `今天刷新信息次数还剩${data.data}次!`);
+        }else{
+            nativeEvent.nativeToast(0, message);
+        }
     }
     currentPage.find('.tabs.swiper-wrapper')[0].onclick = (e) => {
         const ele = e.target || window.event.target;

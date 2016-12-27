@@ -495,6 +495,9 @@ function filterInit(f7, view, page) {
             if (ele.innerText == '全部鱼种') {
                 fishTagId = '';
             }
+            if(childId && !ele.getAttribute('data-postcode')){
+                fishTagId = '';
+            }
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfoList',
