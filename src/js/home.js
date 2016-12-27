@@ -119,9 +119,9 @@ function homeInit(f7, view, page) {
                 bannerHtml += home.banner(item);
             })
             bannerHtml && html($$('.home-slider .swiper-wrapper'), bannerHtml, f7);
-            f7.swiper('.swiper-slow', {
+            data.length > 1 && f7.swiper('.swiper-slow', {
                 pagination:'.swiper-slow .swiper-pagination',
-                speed: 600
+                speed: 400
             });
             setTimeout(() => {
                 1 != data.length && $$('.home-slider .swiper-pagination span').show();
