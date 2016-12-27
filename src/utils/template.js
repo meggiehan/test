@@ -55,7 +55,7 @@ module.exports = {
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
                 '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
                 '</div>' +
-                '<div class="row cat-list-text">' + `${(province_name || '') + (city_name || '')}${(specifications && '    |    ' + specifications || '') || ((quantity_tags && JSON.parse(quantity_tags).length && ( '    |    ' + JSON.parse(quantity_tags)[0].tagName)))}` + '</div>' +
+                '<div class="row cat-list-text">' + `${(province_name || '') + (city_name || '')}${(specifications && '    |    ' + specifications || '') || ((quantity_tags && JSON.parse(quantity_tags).length && ( '    |    ' + JSON.parse(quantity_tags)[0].tagName))) || ''}` + '</div>' +
                 '<div class="cat-list-title-auth">' +
                 `${title && '<span><b>特</b><i>' + title + '</i></span>' || '' }` +
                 `${authText && '<b>' + authText + '</b>' || ''}` +
@@ -132,7 +132,7 @@ module.exports = {
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
                 `<div class="row ${!specifications && 'hide'}">` +
-                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantity_tags && JSON.parse(quantity_tags).length && JSON.parse(quantity_tags)[0].tagName)}` + '</div>' +
+                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantity_tags && JSON.parse(quantity_tags).length && JSON.parse(quantity_tags)[0].tagName) || ''}` + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
                 `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
