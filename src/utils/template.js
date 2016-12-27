@@ -131,7 +131,7 @@ module.exports = {
                 '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
-                `<div class="row ${!specifications && 'hide'}">` +
+                `<div class="row ${(!specifications && (!quantity_tags || !JSON.parse(quantity_tags).length)) && 'hide'}">` +
                 '<div class="col-65 buy-spec">规格：' + `${specifications || (quantity_tags && JSON.parse(quantity_tags).length && JSON.parse(quantity_tags)[0].tagName) || ''}` + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
