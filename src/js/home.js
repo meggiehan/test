@@ -110,6 +110,39 @@ function homeInit(f7, view, page) {
         })
     })
 
+    //get banner date to server;
+    const bannerCallback = (res) => {
+        const {code, data} = res;
+        if(1 == code && data.length){
+            let bannerHtml = '';
+            $$.each(data, (index, item) => {
+                bannerHtml += home.banner(item);
+            })
+            bannerHtml && html($$('.home-slider .swiper-wrapper'), bannerHtml, f7);
+            f7.swiper('.swiper-slow', {
+                pagination:'.swiper-slow .swiper-pagination',
+                speed: 600
+            });
+            setTimeout(() => {
+                1 != data.length && $$('.home-slider .swiper-pagination span').show();
+            }, 550)
+            $$('.home-slider').show(200);
+        }
+    }
+    customAjax.ajax({
+        apiCategory: 'banners',
+        data: [],
+        type: 'get'
+    }, bannerCallback);
+
+    $$('.home-slider')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        if($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG'){
+            const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
+            nativeEvent['goNewWindow'](openUrl);
+        }
+    }
+
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = JSON.stringify([{sk: 123}]);

@@ -157,6 +157,10 @@ module.exports = {
                 tradeDate
             } = data;
             return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span>成交  <span class="deal-list-category">${fishTypeName} ${quantity || ''}</span>, ${getDealTime(tradeDate)}</div>`
+        },
+        banner: (data) => {
+            const {imgUrl, link} = data;
+            return `<div class="swiper-slide" data-href="${link}"><img src="${imgUrl}" alt=""></div>`;
         }
     },
     search: {
