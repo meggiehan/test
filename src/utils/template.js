@@ -17,7 +17,8 @@ module.exports = {
                 imgs,
                 title,
                 refreshed,
-                type
+                type,
+                quantity_tags
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -54,7 +55,7 @@ module.exports = {
                 '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
                 '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
                 '</div>' +
-                '<div class="row cat-list-text">' + `${province_name + city_name}${specifications && '    |    ' + specifications || ''}` + '</div>' +
+                '<div class="row cat-list-text">' + `${(province_name || '') + (city_name || '')}${(specifications && '    |    ' + specifications || '') || ((quantity_tags && JSON.parse(quantity_tags).length && ( '    |    ' + JSON.parse(quantity_tags)[0].tagName))) || ''}` + '</div>' +
                 '<div class="cat-list-title-auth">' +
                 `${title && '<span><b>特</b><i>' + title + '</i></span>' || '' }` +
                 `${authText && '<b>' + authText + '</b>' || ''}` +
@@ -99,7 +100,8 @@ module.exports = {
                 specifications,
                 describe,
                 refreshed,
-                type
+                type,
+                quantity_tags
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -129,8 +131,8 @@ module.exports = {
                 '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
                 '<div class="col-35 buy-time">' + showTime + '</div>' +
                 '</div>' +
-                `<div class="row ${!specifications && 'hide'}">` +
-                '<div class="col-65 buy-spec">规格：' + `${specifications || ''}` + '</div>' +
+                `<div class="row ${(!specifications && (!quantity_tags || !JSON.parse(quantity_tags).length)) && 'hide'}">` +
+                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantity_tags && JSON.parse(quantity_tags).length && JSON.parse(quantity_tags)[0].tagName) || ''}` + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
                 `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
@@ -157,6 +159,10 @@ module.exports = {
                 tradeDate
             } = data;
             return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span>成交  <span class="deal-list-category">${fishTypeName} ${quantity || ''}</span>, ${getDealTime(tradeDate)}</div>`
+        },
+        banner: (data) => {
+            const {imgUrl, link} = data;
+            return `<div class="swiper-slide" data-href="${link}"><img src="${imgUrl}" alt=""></div>`;
         }
     },
     search: {
@@ -278,14 +284,15 @@ module.exports = {
                 personAuth,
                 enterpriseAuth,
                 level,
-                imgUrl
+                imgUrl,
+                userId
             } = data;
             let res = '';
-            res += '<a href="views/otherIndex.html?id='+ id +'">' +
+            res += '<a href="views/otherIndex.html?currentUserId='+ userId +'">' +
                 `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName || ''}</span></p>` +
                 '<p class="deal-list-user-info">' +
                 `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
-                `<span class="deal-list-user-name">${getName(userName)}</span>` +
+                `<span class="deal-list-user-name">${getName(userName)}</span>|` +
                 `<span class="deal-list-time">${getDealTime(tradeDate)}达成交易</span>` +
                 '</p>' +
                 '<p>' +
