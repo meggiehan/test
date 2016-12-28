@@ -5,10 +5,12 @@ import { html } from '../utils/string';
 import { goUser } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import { getAll } from '../utils/locaStorage';
+import {isLogin} from '../middlewares/loginMiddle';
+import store from '../utils/locaStorage';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
-    const { pageSize } = config;
+    const { pageSize, cacheUserinfoKey } = config;
     let catType = 2;
     if (getAll().length) {
         $$('.ajax-content').show();
@@ -138,8 +140,17 @@ function homeInit(f7, view, page) {
     $$('.home-slider')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG'){
+            if(!isLogin()){
+                f7.alert('此活动需要登录才能参加，请您先去登录！','提示', function(){
+                    view.router.load({
+                        url: 'views/login.html'
+                    })
+                })
+                return;
+            }
+            const {loginName, id} = store.get(cacheUserinfoKey);
             const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            nativeEvent['goNewWindow'](openUrl);
+            nativeEvent['goNewWindow'](openUrl + `?id=${id}&phone=${loginName}`);
         }
     }
 

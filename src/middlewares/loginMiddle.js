@@ -33,17 +33,9 @@ function loginSucc(data, callback) {
     const {
         imgUrl,
         nickname,
-        phone,
         name,
-        identificationCard,
-        personalAuthenticationState,
-        enterpriseAuthenticationState,
-        enterpriseName,
-        businessLicenseNo,
         loginName,
-        provinceName,
         point,
-        cityName,
         level,
         favoriteCount
     } = data;
