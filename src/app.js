@@ -230,12 +230,12 @@ $$('.share-to-weixin-model')[0].onclick = (e) => {
 
 $$('.share-to-friends')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
-    const url = imgUrl ? (encodeURI(imgUrl) + '@1e_1c_2o_0l_100h_100w_90q.src') : 'http://m.yudada.com/img/app_icon_108.png';
+    const url = imgUrl ? encodeURI(imgUrl) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
 }
 
 $$('.share-to-friends-circle')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
-    const url = imgUrl ? (encodeURI(imgUrl) + '@1e_1c_2o_0l_100h_100w_90q.src') : 'http://m.yudada.com/img/app_icon_108.png';
+    const url = imgUrl ? encodeURI(imgUrl) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
 }

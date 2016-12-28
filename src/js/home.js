@@ -150,7 +150,7 @@ function homeInit(f7, view, page) {
             }
             const {loginName, id} = store.get(cacheUserinfoKey);
             const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            nativeEvent['goNewWindow'](openUrl + `?id=${id}&phone=${loginName}`);
+            window.location.href = openUrl + `/${id}?id=${id}&phone=${loginName}`;
         }
     }
 
