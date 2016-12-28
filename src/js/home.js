@@ -148,9 +148,10 @@ function homeInit(f7, view, page) {
                 })
                 return;
             }
-            const {loginName, id} = store.get(cacheUserinfoKey);
+            // const {loginName, id} = store.get(cacheUserinfoKey);
+            const access_token = nativeEvent.getUserValue();
             const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            window.location.href = openUrl + `/${id}?id=${id}&phone=${loginName}`;
+            window.location.href = openUrl + `/${access_token}`;
         }
     }
 

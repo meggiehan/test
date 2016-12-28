@@ -92,6 +92,7 @@ function selldetailInit(f7, view, page) {
             currentPage.find('.goods-name').text(fishTypeName);
             currentPage.find('.info-release-time').text(timeDifference(checkTime));
             currentPage.find('.info-price').text(price || '价格面议');
+            currentPage.find('.selldetail-price').text(price || '价格面议');
             currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
             currentPage.find('.selldetail-name').text(fishTypeName);
 
