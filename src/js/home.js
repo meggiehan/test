@@ -157,6 +157,8 @@ function homeInit(f7, view, page) {
         }
     }
 
+    nativeEvent.setDataToNative('appIndexUrl', window.location.href);
+
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = JSON.stringify([{sk: 123}]);
