@@ -325,8 +325,8 @@ function selldetailInit(f7, view, page) {
 
         title += `【出售】${fishTypeName}, ${provinceName||''}${cityName||''}`;
         description += stock ? `${'出售数量： ' + stock}，` : '';
-        description += price ? `${'价格' + price}，` : '';
-        description += specifications ? `${'规格' + specifications}，` : '';
+        description += price ? `${'价格：' + price}，` : '';
+        description += specifications ? `${'规格：' + specifications}，` : '';
         description += '点击查看更多信息~';
         window.shareInfo = {
             title,
