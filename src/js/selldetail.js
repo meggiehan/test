@@ -309,6 +309,7 @@ function selldetailInit(f7, view, page) {
     }
 
     //share
+    // const {device} = f7;
     shareBtn.onclick = () => {
         let title = '';
         let description = '';
@@ -333,6 +334,7 @@ function selldetailInit(f7, view, page) {
             imgUrl: shareImg,
             description
         }
+        // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
         $$('.share-to-weixin-model').addClass('on');
     }
     lastHeader.find('.right')[0].onclick = detailClickTip;

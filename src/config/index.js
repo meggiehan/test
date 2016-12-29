@@ -15,7 +15,7 @@ const configs = {
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
-    shareUrl: 'm.test.yudada.com/demandInfo/',
+    shareUrl: 'http://m.test.yudada.com/demandInfo/',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
         maxLength: 10

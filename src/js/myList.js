@@ -201,6 +201,8 @@ function myListInit(f7, view, page) {
             nativeEvent.nativeToast(0, message);
         }
     }
+
+    // const {device} = f7;
     currentPage.find('.tabs.swiper-wrapper')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         //refresh info
@@ -261,7 +263,8 @@ function myListInit(f7, view, page) {
                 imgUrl: shareImg,
                 description
             }
-            $$('.share-to-weixin-model').addClass('on');
+            // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare.shareInfo(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
+            $$('.share-to-weixin-model').addClass('on')
         }
     }
 }

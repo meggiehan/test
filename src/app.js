@@ -168,7 +168,6 @@ window.currentDevice = f7.device;
 //get search history form native.
 nativeEvent['searchHistoryActions'](2, '');
 
-//get curren address cache in object on window.
 /*
  * Trigger lazy load img.
  */
@@ -230,12 +229,14 @@ $$('.share-to-weixin-model')[0].onclick = (e) => {
 
 $$('.share-to-friends')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
+    // const checkUrl = webUrl.indexOf('http:') == -1 ? ('http://' + webUrl) : webUrl;
     const url = imgUrl ? encodeURI(imgUrl) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
 }
 
 $$('.share-to-friends-circle')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
+    // const checkUrl = webUrl.indexOf('http:') == -1 ? ('http://' + webUrl) : webUrl;
     const url = imgUrl ? encodeURI(imgUrl) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
 }

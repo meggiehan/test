@@ -273,6 +273,7 @@ function buydetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
+    // const {device} = f7;
     shareBtn.onclick = () => {
         let title = '';
         let description = '';
@@ -297,6 +298,7 @@ function buydetailInit(f7, view, page) {
             imgUrl: imgePath,
             description
         }
+        // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare.shareInfo(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
         $$('.share-to-weixin-model').addClass('on');
     }
     lastHeader.find('.right')[0].onclick = detailClickTip;

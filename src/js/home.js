@@ -11,6 +11,7 @@ import store from '../utils/locaStorage';
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const { pageSize, cacheUserinfoKey } = config;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     let catType = 2;
     if (getAll().length) {
         $$('.ajax-content').show();
@@ -137,7 +138,7 @@ function homeInit(f7, view, page) {
         type: 'get'
     }, bannerCallback);
 
-    $$('.home-slider')[0].onclick = (e) => {
+    currentPage.find('.home-slider')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG'){
             if(!isLogin()){
@@ -148,6 +149,7 @@ function homeInit(f7, view, page) {
                 })
                 return;
             }
+            f7.showIndicator();
             // const {loginName, id} = store.get(cacheUserinfoKey);
             const access_token = nativeEvent.getUserValue();
             const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
