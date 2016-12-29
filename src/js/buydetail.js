@@ -288,10 +288,15 @@ function buydetailInit(f7, view, page) {
         } = demandInfo_;
 
         title += `【求购】${fishTypeName}, ${provinceName||''}${cityName||''}`;
-        description += stock ? `${'求购数量： ' + stock}，` : '';
-        description += price ? `${'价格：' + price}，` : '';
-        description += specifications ? `${'规格：' + specifications}，` : '';
-        description += '点击查看更多信息~';
+        if(!demandInfo_.title){
+            description += stock ? `${'求购数量： ' + stock}，` : '';
+            description += price ? `${'价格：' + price}，` : '';
+            description += specifications ? `${'规格：' + specifications}，` : '';
+            description += '点击查看更多信息~';
+        }else{
+            description += demandInfo_.title;
+        }
+
         window.shareInfo = {
             title,
             webUrl: `${shareUrl}${id}`,
