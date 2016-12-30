@@ -229,14 +229,14 @@ $$('.share-to-weixin-model')[0].onclick = (e) => {
 
 $$('.share-to-friends')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
-    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
+    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_50,w_50') : '';
     url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
 }
 
 $$('.share-to-friends-circle')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
-    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
+    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_50,w_50') : '';
     url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
 }
