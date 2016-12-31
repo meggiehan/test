@@ -240,3 +240,8 @@ $$('.share-to-friends-circle')[0].onclick = () => {
     url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
 }
+
+const districtData = nativeEvent['getDistricInfo']() || '';
+if(districtData){
+    nativeEvent.setDataToNative('districtData', districtData);
+}
