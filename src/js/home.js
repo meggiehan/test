@@ -141,6 +141,10 @@ function homeInit(f7, view, page) {
     currentPage.find('.home-slider')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG'){
+            const districtData = nativeEvent['getDistricInfo']() || '';
+            if(districtData){
+                nativeEvent.setDataToNative('districtData', districtData);
+            }
             if(!isLogin()){
                 f7.alert('此活动需要登录才能参加，请您先去登录！','提示', function(){
                     view.router.load({

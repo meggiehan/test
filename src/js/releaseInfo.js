@@ -241,25 +241,25 @@ function releaseInfoInit(f7, view, page) {
     }
 
     //title check.
-    if (currentPage.find('.release-info-header-title').length) {
-        currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
-            const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-            const filterVal = isEmailStr(val);
-            currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
-            if (!filterVal) {
-                return;
-            }
-            currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
-            if (val && val.length >= 7) {
-                currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-                if (val && val.length >= 10) {
-                    currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
-                }
-            } else {
-                currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
-            }
-        }
-    }
+    // if (currentPage.find('.release-info-header-title').length) {
+    //     currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
+    //         const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
+    //         const filterVal = isEmailStr(val);
+    //         currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
+    //         if (!filterVal) {
+    //             return;
+    //         }
+    //         currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
+    //         if (val && val.length >= 7) {
+    //             currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
+    //             if (val && val.length >= 10) {
+    //                 currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
+    //             }
+    //         } else {
+    //             currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
+    //         }
+    //     }
+    // }
 
     priceInput[0].onkeyup = () => {
         const val = priceInput[0].value;
@@ -318,8 +318,8 @@ function releaseInfoInit(f7, view, page) {
         const phone = isEmailStr(trim(tellInput[0].value));
         const title = isEmailStr(trim(currentPage.find('.release-info-header-title').children().val()));
         let error;
-        if (title && title.length > 12) {
-            error = '标题最大长度为12位字符！'
+        if (title && title.length > 10) {
+            error = '标题最大长度为10位字符！'
         } else if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
             error = '请您输入正确的手机号码！';
         } else if (!trim(address)) {
