@@ -5,10 +5,13 @@ import { html } from '../utils/string';
 import { goUser } from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import { getAll } from '../utils/locaStorage';
+import {isLogin} from '../middlewares/loginMiddle';
+import store from '../utils/locaStorage';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
-    const { pageSize } = config;
+    const { pageSize, cacheUserinfoKey } = config;
+    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     let catType = 2;
     if (getAll().length) {
         $$('.ajax-content').show();
@@ -109,6 +112,52 @@ function homeInit(f7, view, page) {
             url: 'views/search.html'
         })
     })
+
+    //get banner date to server;
+    const bannerCallback = (res) => {
+        const {code, data} = res;
+        if(1 == code && data.length){
+            let bannerHtml = '';
+            $$.each(data, (index, item) => {
+                bannerHtml += home.banner(item);
+            })
+            bannerHtml && html($$('.home-slider .swiper-wrapper'), bannerHtml, f7);
+            data.length > 1 && f7.swiper('.swiper-slow', {
+                pagination:'.swiper-slow .swiper-pagination',
+                speed: 400
+            });
+            setTimeout(() => {
+                1 != data.length && $$('.home-slider .swiper-pagination span').show();
+            }, 550)
+            $$('.home-slider').show(200);
+        }
+    }
+    customAjax.ajax({
+        apiCategory: 'banners',
+        data: [],
+        type: 'get'
+    }, bannerCallback);
+
+    currentPage.find('.home-slider')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        if($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG'){
+            if(!isLogin()){
+                f7.alert('此活动需要登录才能参加，请您先去登录！','提示', function(){
+                    view.router.load({
+                        url: 'views/login.html'
+                    })
+                })
+                return;
+            }
+            f7.showIndicator();
+            // const {loginName, id} = store.get(cacheUserinfoKey);
+            const access_token = nativeEvent.getUserValue();
+            const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
+            window.location.href = openUrl + `/${access_token}`;
+        }
+    }
+
+    nativeEvent.setDataToNative('appIndexUrl', window.location.href);
 
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {

@@ -44,6 +44,7 @@ console.log(`current app version: ${version}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;
+window.shraeInfo = {};
 let isBack = false;
 // init f7
 let initAppConfig = {
@@ -167,7 +168,6 @@ window.currentDevice = f7.device;
 //get search history form native.
 nativeEvent['searchHistoryActions'](2, '');
 
-//get curren address cache in object on window.
 /*
  * Trigger lazy load img.
  */
@@ -217,3 +217,26 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'notFound' && notFoundInit(f7, mainView, page);
 });
 
+
+//call weixin share func.
+$$('.share-to-weixin-model')[0].onclick = (e) => {
+    const ele = e.target || window.event.target;
+    const classes = ele.className;
+    if(classes.indexOf('footer') > -1 || classes.indexOf('share-to-weixin-model') > -1){
+        $$('.share-to-weixin-model').removeClass('on');
+    }
+}
+
+$$('.share-to-friends')[0].onclick = () => {
+    const {webUrl, imgUrl, description, title} = window.shareInfo;
+    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
+    url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
+    nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
+}
+
+$$('.share-to-friends-circle')[0].onclick = () => {
+    const {webUrl, imgUrl, description, title} = window.shareInfo;
+    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
+    url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
+    nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
+}

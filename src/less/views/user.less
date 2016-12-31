@@ -111,6 +111,9 @@
                 padding: 1rem 0;
                 &.my-sell-list{
                     color: @text-chushou-bak;
+                    .num-title{
+                        font-size: 1.5rem;
+                    }
                 }
                 &.my-buy-list{
                     color: @bg-color;
@@ -126,12 +129,12 @@
         }
         .user-refresh-auth{
             margin-top: 1rem;
-            padding: 0 2%;
+            padding: 0;
             background: @bg-fff;
             .text-shadow(@text-fff);
             .col-50{
                 width: 50%;
-                padding: 1rem 0;
+                padding: 1.2rem 0;
                 padding-left: 1%;
                 &:last-child{
                     padding-left: 3%;
@@ -140,9 +143,11 @@
                     margin: 0;
                     .text-hidden;
                     font-size:1.2rem;
+                    color: @text-subtitle;
                     &:first-child{
                         font-size:1.6rem;
-                        padding-bottom: 0.4rem;
+                        margin-bottom: 0.3rem;
+                        color: @text-name;
                     }
                 }
                 &:first-child{
@@ -150,38 +155,34 @@
                 }
                 .item-inner{
                     padding: 0;
-                    margin-left: 0.5rem;
+                    margin-left: 1rem;
                     &:after{
                         display: none;
                     }
                 }
                 .item-media{
                     padding: 0;
+                    margin-left: 4%;
                 }
             }
         }
         .user-help-list {
-            padding-left: 0.7rem;
+            padding-left: .6rem;
             background: @bg-fff;
             .text-shadow(@text-fff);
             a {
-                line-height: 4rem;
+                line-height: 4.4rem;
                 color: @text-subtitle;
                 .iconfont {
                     font-size: 2.4rem;
-                    &.icon-qiugou:before {
-                        color: @text-qiugou;
-                    }
-                    &.icon-me-qiugou:before {
-                        color: @text-chushou;
-                    }
-                    &.icon-collection-active{
-                        color: @bg-collection;
-                        font-size: 2.2rem;
-                    }
+                    color: @text-user-icon;
+                    text-align: center;
                 }
                 .col-15 {
                     width: 10%;
+                    &.icon-verification, &.icon-call{
+                        font-size: 2rem;
+                    }
                 }
                 .col-85 {
                     width: 90%;
@@ -205,6 +206,7 @@
                     .col-40 {
                         font-size: 1.6rem;
                         .text-right;
+                        color: @text-mt-center;
                     }
                 }
             }
@@ -253,10 +255,6 @@
         .user-help-list {
             margin-top: 1rem;
             a {
-                .icon-call {
-                    color: @themeColor;
-                    .text-left;
-                }
                 .icon-info {
                     font-size: 3rem;
                     .text-left;
@@ -270,9 +268,6 @@
                     }
                 }
                 &.user-invit {
-                    .icon-invite{
-                        color: @text-invite-icon;
-                    }
                     .col-85.first {
                         .col-60 {
                             width: 65%;
@@ -300,11 +295,6 @@
                                 display: none;
                             }
                         }
-                    }
-                }
-                &.user-member{
-                    .icon-member{
-                        color: @text-member;
                     }
                 }
             }

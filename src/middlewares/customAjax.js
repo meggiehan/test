@@ -67,6 +67,8 @@ class CustomClass {
         let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
         apiCategory == 'demandInfoAdd' && !api && (url = `${config.url}demandInfo`);
         url.indexOf('deleteDemandInfo') > - 1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
+        url.indexOf('demandInfo/refreshLog/') > - 1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
+        url.indexOf('userInformation') > - 1 && (url = url.replace('userInformation', 'userInfo'));
         parameType && (newData = JSON.stringify(newData));
 
         if (val) {
@@ -77,7 +79,7 @@ class CustomClass {
 
         if (header) {
             header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['access-token'] = nativeEvent['getUserValue']() || '');
-            // header.indexOf('token') > -1 && (headers['access-token'] = 'dcc7fb6af65f4118a3a0ca5c38f00ed1');
+            // header.indexOf('token') > -1 && (headers['access-token'] = 'af75c855d3974d0cb76bb4f891cb1713');
         }
 
         if (!noCache) {

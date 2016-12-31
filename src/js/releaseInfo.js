@@ -30,7 +30,8 @@ function releaseInfoInit(f7, view, page) {
     saveSelectFishCache({
         name: fishName,
         id: fishId,
-        parentId: parentFishId
+        parant_id: parentFishId,
+        parant_name: parentFishName
     })
 
     const specBox = currentPage.find('.release-spec-list-box');
@@ -47,7 +48,7 @@ function releaseInfoInit(f7, view, page) {
     }
 
     currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
-    $$('.release-back-select-fish>span.back')[0].onclick = () => {
+    currentPage.find('.release-back-select-fish').children('.back')[0].onclick = () => {
         window.isTipBack = true;
         mainView.router.back();
     }

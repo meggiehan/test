@@ -342,7 +342,7 @@ module.exports = {
     },
 
     saveSelectFishCache: (obj) => {
-        const {id, parentId, name } = obj;
+        const { name } = obj;
         if(name && name.indexOf('全部') == -1){
             const {fishCacheKey, maxLength} = fishCacheObj;
             let currentFishCache = nativeEvent.getDataToNative(fishCacheKey) || [];
@@ -351,7 +351,7 @@ module.exports = {
                 name == val.name && (index = key);
             })
             Number(index) > -1 && currentFishCache.splice(index, 1);
-            currentFishCache.length > maxLength && currentFishCache.shift();
+            currentFishCache.length > (maxLength - 1) && currentFishCache.shift();
             currentFishCache.push(obj);
             nativeEvent.setDataToNative(fishCacheKey, currentFishCache);
         }
@@ -363,6 +363,15 @@ module.exports = {
         const m = newDate.getMonth() + 1 >= 10 ? newDate.getMonth() + 1 : ('0' + (newDate.getMonth() + 1));
         const d = newDate.getDate() >= 10 ? newDate.getDate() : ('0' + newDate.getDate());
         return y + '/' + m + '/' + d;
+    },
+
+    getInfoStatus: (state) => {
+        const text = (0 == state && '待审核') || (2 == state && '审核未通过') || (1 == state && '已发布');
+        const className = (0 == state && 'check') || (2 == state && 'faild') || (1 == state && 'pass');
+        return {
+            text,
+            className
+        }
     }
 
 }

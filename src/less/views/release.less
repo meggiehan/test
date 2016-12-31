@@ -52,7 +52,7 @@
   font-size: 2.4rem;
 }
 
-.release-select-model, .my-list-guide-model {
+.release-select-model, .my-list-guide-model, .share-to-weixin-model {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -108,6 +108,14 @@
       &:first-child {
         border-bottom: 1px solid @border-da;
       }
+      &.share-to-friends, &.share-to-friends-circle{
+        span{
+          width: 60%;
+          &.first-child{
+            width: 40%;
+          }
+        }
+      }
       span {
         display: inline-block;
         height: 100%;
@@ -127,7 +135,7 @@
             .ps-r;
             top: 50%;
             margin: 0 auto;
-            margin-top: -3rem;
+            margin-top: -2.5rem;
           }
         }
       }

@@ -1,6 +1,6 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import { trim, html } from '../utils/string';
+import { trim, html, saveSelectFishCache } from '../utils/string';
 import store from '../utils/locaStorage';
 import nativeEvent from '../utils/nativeEvent';
 import { search } from '../utils/template';
@@ -156,6 +156,23 @@ function searchInit(f7, view, page) {
             searchButton.trigger('click');
             return;
         }
+    }
+
+    $$('.search-return-list')[0].onclick = (e) => {
+        const ele = e.target || event.target;
+        if(ele.tagName != 'A'){
+            return;
+        }
+        const name = $$(ele).attr('data-name');
+        const id = $$(ele).attr('data-id');
+        const parant_id = $$(ele).attr('data-parent-id');
+        const parant_name = $$(ele).attr('data-parent-name');
+        saveSelectFishCache({
+            name,
+            id,
+            parant_id,
+            parant_name
+        })
     }
 
     //From the release page to jump over the processing;

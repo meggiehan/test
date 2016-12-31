@@ -1,10 +1,8 @@
 import config from '../config';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
-import { selldetail } from '../utils/template';
 import { timeDifference, centerShowTime } from '../utils/time';
-import { home } from '../utils/template';
-import { html } from '../utils/string';
+import { html, saveSelectFishCache } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
 import { isLogin } from '../middlewares/loginMiddle';
@@ -36,6 +34,9 @@ function buydetailInit(f7, view, page) {
                 describe,
                 cityName,
                 fishTypeName,
+                fishParentTypeName,
+                fishTypeId,
+                fishParentTypeId,
                 price,
                 checkTime,
                 state,
@@ -86,13 +87,13 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}` || '面议');
             
-            let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName']) : '';
+            let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName'] || '') : '';
             specText && specifications && (specText = `${specText}，${specifications}`);
             (!specText && specifications) && (specText += specifications);    
             specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
             currentPage.find('.budetail-fish-name').text(fishTypeName);
-            // stock ? currentPage.find('.selldetail-stock').text(stock) : currentPage.find('.selldetail-stock').parent().remove();
+            currentPage.find('.buydetail-stock').css(showStyle).text(stock || '大量');
             currentPage.find('.icon-map').next('b').text(`${provinceName} ${cityName}`);
             provinceName ? currentPage.find('.selldetail-address').text(`${provinceName} ${cityName}`).parent().css(showStyle) : currentPage.find('.selldetail-address').parent().hide();
             describe ? currentPage.find('.selldetail-description').text(describe).parent().css(showStyle) : $$('.selldetail-description').parent().hide();
@@ -120,6 +121,13 @@ function buydetailInit(f7, view, page) {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
                 }
             }
+
+            saveSelectFishCache({
+                name: fishTypeName,
+                id: fishTypeId,
+                parant_id: fishParentTypeId,
+                parant_name: fishParentTypeName
+            })
         }
         f7.hideIndicator(300);
         f7.pullToRefreshDone();
@@ -265,36 +273,38 @@ function buydetailInit(f7, view, page) {
     $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
     //share
+    // const {device} = f7;
     shareBtn.onclick = () => {
         let title = '';
-        let messageTile = '';
-        let html = '';
-        const url_ = `${shareUrl}?id=${id}`;
+        let description = '';
         const {
             specifications,
             stock,
             provinceName,
-            describe,
             cityName,
             fishTypeName,
             price,
-            createTime,
-            contactName,
-            requirementPhone
+            imgePath
         } = demandInfo_;
 
         title += `【求购】${fishTypeName}, ${provinceName||''}${cityName||''}`;
-        messageTile += `我在鱼大大看到求购信息${fishTypeName||''}，`;
-        messageTile += stock ? `${'库存 ' + stock}，` : '';
-        messageTile += price ? `${'价格' + price}，` : '';
-        messageTile += specifications ? `${'规格' + specifications}，` : '';
-        messageTile += `，对你很有用，赶紧看看吧: ${url_}`;
-        html += `求购${fishTypeName},`;
-        html += stock ? `${'库存 ' + stock}，` : '';
-        html += price ? `${'价格' + price}，` : '';
-        html += specifications ? `${'规格' + specifications}，` : '';
-        html += '点击查看更多信息~';
-        nativeEvent.shareInfo(title, html, url_, messageTile);
+        if(!demandInfo_.title){
+            description += stock ? `${'求购数量： ' + stock}，` : '';
+            description += price ? `${'价格：' + price}，` : '';
+            description += specifications ? `${'规格：' + specifications}，` : '';
+            description += '点击查看更多信息~';
+        }else{
+            description += demandInfo_.title;
+        }
+
+        window.shareInfo = {
+            title,
+            webUrl: `${shareUrl}${id}`,
+            imgUrl: imgePath,
+            description
+        }
+        // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare.shareInfo(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
+        $$('.share-to-weixin-model').addClass('on');
     }
     lastHeader.find('.right')[0].onclick = detailClickTip;
     // $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);

@@ -47,16 +47,20 @@
             <div class="other-sell-list">
                 <div class="title row">
                     <div class="col-50">正在出售</div>
-                    <div class="col-50 other-sell-cat-all iconfont icon-right" onclick="apiCount('cell_profile_sellMore')">查看全部</div>
                 </div>
-                <div class="list  list-block media-list" onclick="apiCount('cell_profile_sellItem')"></div>
+                <div class="list  list-block media-list" onclick="apiCount('cell_profile_sellMore')"></div>
+                <div class="other-all-buy-info other-sell-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
+                    <span class="btn iconfont icon-go">更多出售的信息</span>
+                </div>
             </div>
             <div class="other-buy-list">
                 <div class="title row">
                     <div class="col-50">正在求购</div>
-                    <div class="col-50 other-buy-cat-all iconfont icon-right" onclick="apiCount('cell_profile_purchaseMore')">查看全部</div>
                 </div>
                 <div class="list" onclick="apiCount('cell_profile_purchaseItem')"></div>
+                <div class="other-all-buy-info other-buy-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
+                    <span class="btn iconfont icon-go">更多求购的信息</span>
+                </div>
             </div>
         </div>
         <p class="other-index-empty-info">他还没有发布过信息哦~</p>
@@ -64,7 +68,7 @@
     <div class="toolbar tabbar">
         <div class="toolbar-inner other-footer-call">
             <!-- Toolbar links -->
-            <a class="iconfont icon-call">打电话</a>
+            <a class="iconfont icon-call">电话联系</a>
         </div>
     </div>
 </div>

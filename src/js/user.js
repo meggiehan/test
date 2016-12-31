@@ -63,10 +63,10 @@ function userInit(f7, view, page) {
             userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
-            if (!oldDate || new Date(oldDate) < new Date(getCurrentDay())) {
+            if (!oldDate || new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime()) {
                 const {
                     nickname,
-                    nameAuthentication
+                    personalAuthenticationState
                 } = userInfomation;
                 if(!nickname){
                     f7.modal({
@@ -89,7 +89,7 @@ function userInit(f7, view, page) {
                     })
                     return;
                 }
-                if(!nameAuthentication){
+                if(1 != personalAuthenticationState){
                     f7.modal({
                         title:  '提示',
                         text: '实名认证有助于交易成交，交易额翻番不是梦~',
@@ -186,6 +186,7 @@ function userInit(f7, view, page) {
     //view my release list.
     $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
+    currentPage.find('.user-refresh-auth').off('click', myListSell).on('click', myListSell);
 
     //go home page;
     $$('.href-go-home').off('click', goHome).on('click', goHome);
