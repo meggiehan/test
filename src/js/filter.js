@@ -7,7 +7,15 @@ import nativeEvent from '../utils/nativeEvent';
 
 
 function filterInit(f7, view, page) {
-    const _district = nativeEvent['getDistricInfo']();
+    let _district;
+    const districtData = nativeEvent['getDistricInfo']() || '';
+    if(districtData){
+        _district = districtData;
+        nativeEvent.setDataToNative('districtData', districtData);
+    }else{
+        _district = nativeEvent.getDataToNative('districtData');
+    }
+
     const {ios, android, androidChrome, osVersion} = window.currentDevice;
     const {keyvalue, release, type, id, cityId, search, fishTagName} = page.query;
     const member = page['query']['member'] || false;

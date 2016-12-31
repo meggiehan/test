@@ -298,7 +298,7 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
-        const _district = nativeEvent['getDistricInfo']();
+        const _district = nativeEvent['getDistricInfo']() || nativeEvent.getDataToNative('districtData');
         if (window.addressObj) {
             provinceName = window.addressObj['provinceName'];
             cityName = window.addressObj['cityName'];
