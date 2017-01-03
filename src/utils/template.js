@@ -126,7 +126,7 @@ module.exports = {
             let res = '';
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + (describe || fish_type_name) + '</div>' +
+                '<div class="col-65 buy-name">' + fish_type_name + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
@@ -138,7 +138,9 @@ module.exports = {
                 '</div>' +
                 '<div class="home-buy-address">' +
                 `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
-                '</div></a>';
+                '</div>' +
+                (describe ? ('<div class="buy-list-describe"><span>具体要求</span>'+ describe +'</div>') : '') +
+                '</a>';
 
             if (isMyList) {
                 const {text, className} = getInfoStatus(state);
