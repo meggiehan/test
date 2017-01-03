@@ -50,7 +50,8 @@ function selldetailInit(f7, view, page) {
                 title,
                 descriptionTags,
                 quantityTags,
-                imgs
+                imgs,
+                sort
             } = demandInfo;
             const {
                 id,
@@ -90,7 +91,7 @@ function selldetailInit(f7, view, page) {
             }
             imgs && JSON.parse(imgs).length && currentPage.find('.sell-detail-img-list').show();
             currentPage.find('.goods-name').text(fishTypeName);
-            currentPage.find('.info-release-time').text(timeDifference(checkTime));
+            currentPage.find('.info-release-time').text(timeDifference(sort));
             currentPage.find('.info-price').text(price || '价格面议');
             currentPage.find('.selldetail-price').text(price || '价格面议');
             currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);

@@ -18,7 +18,8 @@ module.exports = {
                 title,
                 refreshed,
                 type,
-                quantity_tags
+                quantity_tags,
+                sort
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -33,13 +34,13 @@ module.exports = {
             let img = document.createElement('img');
             let infoImgs;
             imgs && JSON.parse(imgs).length ? (infoImgs = JSON.parse(imgs)) : (infoImgs = [imge_path]);
-            const currentLevel = level && level || userLevel;
+            const currentLevel = level || userLevel;
 
-            let showTime = timeDifference(check_time);
-            const userInfo = store.get(cacheUserinfoKey);
-            if (userInfo) {
-                id == userInfo['id'] && (showTime = timeDifference(create_time));
-            }
+            let showTime = timeDifference(sort);
+            // const userInfo = store.get(cacheUserinfoKey);
+            // if (userInfo) {
+            //     id == userInfo['id'] && (showTime = timeDifference(create_time));
+            // }
             let imgStr;
             img.src = `${infoImgs[0]}${imgPath(11)}`;
             imgStr = img.complete ? '<img src="' + `${infoImgs[0] + imgPath(11)}` + '"/></div>' :
@@ -101,7 +102,8 @@ module.exports = {
                 describe,
                 refreshed,
                 type,
-                quantity_tags
+                quantity_tags,
+                sort //refreshTime
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -114,13 +116,13 @@ module.exports = {
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             let img = document.createElement('img');
-            let showTime = timeDifference(check_time);
-            const userInfo = store.get(cacheUserinfoKey);
+            let showTime = timeDifference(sort);
+            // const userInfo = store.get(cacheUserinfoKey);
             const isAuth = (1 == personal_authentication_state) || (1 == enterprise_authentication_state) || false;
-            if (userInfo) {
-                id == userInfo['id'] && (showTime = timeDifference(create_time));
-            }
-            const currentLevel = level && level || userLevel;
+            // if (userInfo) {
+            //     id == userInfo['id'] && (showTime = timeDifference(create_time));
+            // }
+            const currentLevel = level || userLevel;
             let res = '';
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +

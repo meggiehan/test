@@ -44,7 +44,8 @@ function buydetailInit(f7, view, page) {
                 requirementPhone,
                 refuseDescribe,
                 descriptionTags,
-                quantityTags
+                quantityTags,
+                sort
             } = demandInfo;
             const {
                 id,
@@ -83,7 +84,7 @@ function buydetailInit(f7, view, page) {
             addClassName && currentPage.addClass(addClassName);
             currentUserId = userInfo['id'];
             currentPage.find('.buy-goods-name').text(describe || fishTypeName);
-            currentPage.find('.goods-create-time').text(timeDifference(checkTime));
+            currentPage.find('.goods-create-time').text(timeDifference(sort));
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}` || '面议');
             

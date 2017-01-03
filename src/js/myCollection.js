@@ -33,6 +33,7 @@ function myCollectionInit(f7, view, page) {
 
     const callback = (data) => {
         const { code } = data;
+        let currentPageNo;
         f7.hideIndicator();
         f7.pullToRefreshDone();
         if (code !== 1) {
@@ -45,9 +46,11 @@ function myCollectionInit(f7, view, page) {
         if (2 == type) {
             content = sellContent;
             load = sellLoad;
+            currentPageNo = sellPageNo;
         } else {
             content = buyContent;
             load = buyLoad;
+            currentPageNo = buyPageNo;
         }
         listLength = content.children('a').length;
 
@@ -59,7 +62,7 @@ function myCollectionInit(f7, view, page) {
             }
         })
 
-        if (!pullToRefresh && data.data.length) {
+        if (!pullToRefresh && data.data.length && (currentPageNo != 1)) {
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);
