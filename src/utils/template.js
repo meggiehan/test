@@ -103,7 +103,8 @@ module.exports = {
                 refreshed,
                 type,
                 quantity_tags,
-                sort //refreshTime
+                sort, //refreshTime
+                description
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -117,6 +118,7 @@ module.exports = {
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
             let img = document.createElement('img');
             let showTime = timeDifference(sort);
+            const descriptionInfo = describe || description;
             // const userInfo = store.get(cacheUserinfoKey);
             const isAuth = (1 == personal_authentication_state) || (1 == enterprise_authentication_state) || false;
             // if (userInfo) {
@@ -139,7 +141,7 @@ module.exports = {
                 '<div class="home-buy-address">' +
                 `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
                 '</div>' +
-                (describe ? ('<div class="buy-list-describe"><span>具体要求</span>'+ describe +'</div>') : '') +
+                (descriptionInfo ? ('<div class="buy-list-describe"><span>具体要求</span>'+ descriptionInfo +'</div>') : '') +
                 '</a>';
 
             if (isMyList) {
