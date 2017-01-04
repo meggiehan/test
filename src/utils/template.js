@@ -102,7 +102,6 @@ module.exports = {
                 describe,
                 refreshed,
                 type,
-                quantity_tags,
                 sort, //refreshTime
                 description
             } = data;
@@ -116,6 +115,7 @@ module.exports = {
             const city_name = data['city_name'] || data['cityName'];
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
+            const quantity_tags = data['quantity_tags'] || data['quantityTags'];
             let img = document.createElement('img');
             let showTime = timeDifference(sort);
             const descriptionInfo = describe || description;
