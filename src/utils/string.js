@@ -282,9 +282,9 @@ module.exports = {
             return d * PI / 180.0;
         }
 
-        var f = getRad((lat1 + lat2) / 2);
-        var g = getRad((lat1 - lat2) / 2);
-        var l = getRad((lng1 - lng2) / 2);
+        var f = getRed((lat1 + lat2) / 2);
+        var g = getRed((lat1 - lat2) / 2);
+        var l = getRed((lng1 - lng2) / 2);
 
         var sg = Math.sin(g);
         var sl = Math.sin(l);

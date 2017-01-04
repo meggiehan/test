@@ -50,6 +50,7 @@ function myListInit(f7, view, page) {
 
     const callback = (data) => {
         const { code, message } = data;
+        let currentPageNo;
         f7.hideIndicator();
         f7.pullToRefreshDone();
         if (code !== 1) {
@@ -62,9 +63,11 @@ function myListInit(f7, view, page) {
         if (2 == type) {
             content = sellContent;
             load = sellLoad;
+            currentPageNo = sellPageNo;
         } else {
             content = buyContent;
             load = buyLoad;
+            currentPageNo = buyPageNo;
         }
         listLength = content.children('a').length;
 
@@ -78,7 +81,7 @@ function myListInit(f7, view, page) {
             }
         })
 
-        if (!pullToRefresh && data.data.records.length) {
+        if (!pullToRefresh && data.data.records.length && (currentPageNo != 1)) {
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);

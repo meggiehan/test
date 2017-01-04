@@ -13,6 +13,7 @@
 @bg-black-3: rgba(0, 0, 0, 0.3);
 @bg-black-7: rgba(0, 0, 0, 0.7);
 @bg-category: #EDEDED;
+@bg-discrb: #C0F4A8;
 @bg-body: #efeff4;
 @bg-auditing: #FF3535;
 @bg-auditing-4: rgba(255, 53, 53, .7);
@@ -490,7 +491,7 @@ input::-webkit-input-placeholder {
 }
 
 .list-block.media-list a.cat-list-info {
-    padding: 2%;
+    padding: 0.5rem 2%;
     border-bottom: 1px solid @border-da;
     -webkit-align-items: inherit;
     -webkit-box-align: start;
@@ -705,7 +706,7 @@ input::-webkit-input-placeholder {
 }
 
 a.buy-list-info {
-    padding: 2%;
+    padding: 0.5rem 2%;
     display: block;
     border-bottom: 1px solid @border-da;
     vertical-align: middle;
@@ -714,9 +715,9 @@ a.buy-list-info {
     }
     .buy-name {
         color: @text-name;
-        font-size: 2rem;
+        font-size: 1.6rem;
         .text-hidden;
-        padding-bottom: 0.6rem;
+        padding-bottom: 0.2rem;
         span {
             display: inline-block;
             margin-right: 0.3rem;
@@ -747,6 +748,7 @@ a.buy-list-info {
         color: @text-category;
         font-size: 1.4rem;
         .text-hidden;
+        padding-bottom: 0.1rem;
     }
     .buy-time {
         color: @text-category;
@@ -770,19 +772,38 @@ a.buy-list-info {
     .buy-address {
         color: @text-category;
         .text-hidden;
+        font-size: 1.4rem;
     }
     .home-buy-address {
         color: @text-category;
-        margin-top: .6rem;
+        font-size: 1.4rem;
         .text-hidden;
         span {
             vertical-align: middle;
             &:before {
                 color: @text-level;
                 font-size: 2rem;
-                margin-right: 0.2rem;
+                margin-right: 0.3rem;
                 vertical-align: top;
             }
+        }
+    }
+    .buy-list-describe{
+        .text-hidden;
+        margin-top: 0.5rem;
+        padding: 1rem 0 0.5rem;
+        border-top:1px solid @border-da;
+        color: @text-category;
+        font-size: 1.4rem;
+        span{
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            margin-right: 0.3rem;
+            background: @bg-discrb;
+            .text-shadow(@bg-discrb);
+            color: @themeColor;
+            border-radius: 0.3rem;
+            font-size: 1.2rem;
         }
     }
 }

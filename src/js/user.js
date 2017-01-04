@@ -63,11 +63,12 @@ function userInit(f7, view, page) {
             userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
-            if (!oldDate || new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime()) {
+            if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
                     nickname,
                     personalAuthenticationState
                 } = userInfomation;
+                nativeEvent.setDataToNative('oldDate', getCurrentDay());
                 if(!nickname){
                     f7.modal({
                         title:  '提示',

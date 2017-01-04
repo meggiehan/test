@@ -18,7 +18,7 @@ module.exports = {
                 title,
                 refreshed,
                 type,
-                quantity_tags
+                sort
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -30,16 +30,17 @@ module.exports = {
             const city_name = data['city_name'] || data['cityName'];
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
+            const quantity_tags = data['quantity_tags'] || data['quantityTags']
             let img = document.createElement('img');
             let infoImgs;
             imgs && JSON.parse(imgs).length ? (infoImgs = JSON.parse(imgs)) : (infoImgs = [imge_path]);
-            const currentLevel = level && level || userLevel;
+            const currentLevel = level || userLevel;
 
-            let showTime = timeDifference(check_time);
-            const userInfo = store.get(cacheUserinfoKey);
-            if (userInfo) {
-                id == userInfo['id'] && (showTime = timeDifference(create_time));
-            }
+            let showTime = timeDifference(sort);
+            // const userInfo = store.get(cacheUserinfoKey);
+            // if (userInfo) {
+            //     id == userInfo['id'] && (showTime = timeDifference(create_time));
+            // }
             let imgStr;
             img.src = `${infoImgs[0]}${imgPath(11)}`;
             imgStr = img.complete ? '<img src="' + `${infoImgs[0] + imgPath(11)}` + '"/></div>' :
@@ -101,7 +102,8 @@ module.exports = {
                 describe,
                 refreshed,
                 type,
-                quantity_tags
+                sort, //refreshTime
+                description
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -113,18 +115,20 @@ module.exports = {
             const city_name = data['city_name'] || data['cityName'];
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
+            const quantity_tags = data['quantity_tags'] || data['quantityTags'];
             let img = document.createElement('img');
-            let showTime = timeDifference(check_time);
-            const userInfo = store.get(cacheUserinfoKey);
+            let showTime = timeDifference(sort);
+            const descriptionInfo = describe || description;
+            // const userInfo = store.get(cacheUserinfoKey);
             const isAuth = (1 == personal_authentication_state) || (1 == enterprise_authentication_state) || false;
-            if (userInfo) {
-                id == userInfo['id'] && (showTime = timeDifference(create_time));
-            }
-            const currentLevel = level && level || userLevel;
+            // if (userInfo) {
+            //     id == userInfo['id'] && (showTime = timeDifference(create_time));
+            // }
+            const currentLevel = level || userLevel;
             let res = '';
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + (describe || fish_type_name) + '</div>' +
+                '<div class="col-65 buy-name">' + fish_type_name + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
@@ -136,7 +140,9 @@ module.exports = {
                 '</div>' +
                 '<div class="home-buy-address">' +
                 `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
-                '</div></a>';
+                '</div>' +
+                (descriptionInfo ? ('<div class="buy-list-describe"><span>具体要求</span>'+ descriptionInfo +'</div>') : '') +
+                '</a>';
 
             if (isMyList) {
                 const {text, className} = getInfoStatus(state);
