@@ -18,7 +18,6 @@ module.exports = {
                 title,
                 refreshed,
                 type,
-                quantity_tags,
                 sort
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
@@ -31,6 +30,7 @@ module.exports = {
             const city_name = data['city_name'] || data['cityName'];
             const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
             const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
+            const quantity_tags = data['quantity_tags'] || data['quantityTags']
             let img = document.createElement('img');
             let infoImgs;
             imgs && JSON.parse(imgs).length ? (infoImgs = JSON.parse(imgs)) : (infoImgs = [imge_path]);
