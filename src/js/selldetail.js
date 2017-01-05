@@ -3,7 +3,7 @@ import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import { selldetail } from '../utils/template';
 import { timeDifference, centerShowTime } from '../utils/time';
-import { html, saveSelectFishCache } from '../utils/string';
+import { html, saveSelectFishCache, getRange, getAddressIndex } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert, detailMoreEvent } from '../utils/domListenEvent';
 import { isLogin } from '../middlewares/loginMiddle';
@@ -51,7 +51,9 @@ function selldetailInit(f7, view, page) {
                 descriptionTags,
                 quantityTags,
                 imgs,
-                sort
+                sort,
+                latitude,
+                longitude
             } = demandInfo;
             const {
                 id,
@@ -71,6 +73,10 @@ function selldetailInit(f7, view, page) {
             const showStyle = {
                 display: '-webkit-box'
             }
+
+            const {lat,lng} = getAddressIndex(provinceName, cityName);
+            const rangeText = getRange(lat, lng);
+            rangeText > -1 && currentPage.find('.city-distance').addClass('show').find('i').text(rangeText);
 
             if (state == 0 || state == 2) {
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
@@ -103,7 +109,7 @@ function selldetailInit(f7, view, page) {
             specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
 
             stock ? currentPage.find('.selldetail-stock').text(stock).parent().css(showStyle) : currentPage.find('.selldetail-stock').parent().hide();
-            provinceName ? currentPage.find('.city-name').children('b').text(`${provinceName} ${cityName}`).parent().css(showStyle) : currentPage.find('.city-name').parent().hide();
+            provinceName ? currentPage.find('.city-name').children('b').text(`${provinceName} ${cityName}`).parent().css({display: 'inline-block'}) : currentPage.find('.city-name').parent().hide();
             describe ? currentPage.find('.selldetail-description').text(describe).parent().css(showStyle) : currentPage.find('.selldetail-description').parent().hide();
             let certHtml = '';
             let tagHtml = '';

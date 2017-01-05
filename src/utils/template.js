@@ -1,5 +1,5 @@
 import {timeDifference, getDate, getDealTime} from './time';
-import {getCertInfo, imgIsUpload, getName, getInfoStatus} from './string';
+import {getCertInfo, imgIsUpload, getName, getInfoStatus, getRange} from './string';
 import config from '../config/';
 import store from './locaStorage';
 
@@ -18,7 +18,9 @@ module.exports = {
                 title,
                 refreshed,
                 type,
-                sort
+                sort,
+                latitude,
+                longitude
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -90,6 +92,7 @@ module.exports = {
                         '<p></p>' +
                     '</div>';
             }
+            getRange(latitude,longitude);
             return res;
         },
         buy: (data, userLevel, nameAuthentication, isMyList) => {
@@ -103,7 +106,9 @@ module.exports = {
                 refreshed,
                 type,
                 sort, //refreshTime
-                description
+                description,
+                latitude,
+                longitude
             } = data;
             const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
             const imge_path = data['imge_path'] || data['imgePath'];
@@ -153,7 +158,7 @@ module.exports = {
                         '<p></p>' +
                     '</div>';
             }
-
+            getRange(latitude,longitude);
             return res;
         },
         dealInfo: (data) => {

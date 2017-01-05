@@ -150,7 +150,7 @@ module.exports = {
 
     getAddressIndex(provinceName, cityName) {
         const district = nativeEvent['getDistricInfo']();
-        let provinceIndex, cityIndex, currentProvince;
+        let provinceIndex, cityIndex, currentProvince, lat, lng;
         $$.each(district['root']['province'], (index, item) => {
             if (item['name'] == provinceName) {
                 provinceIndex = index;
@@ -161,6 +161,8 @@ module.exports = {
         currentProvince && currentProvince['city'] && $$.each(currentProvince['city'], (index, item) => {
             if (item['name'] == cityName) {
                 cityIndex = index;
+                lat = item.lat;
+                lng = item.lng;
                 return;
             }
         })
@@ -169,7 +171,9 @@ module.exports = {
         !cityIndex && (cityIndex = 0);
         return {
             provinceIndex,
-            cityIndex
+            cityIndex,
+            lat,
+            lng
         }
     },
 
@@ -277,37 +281,26 @@ module.exports = {
      * @param {Object} lng2
      */
 
-    getRange: (lat1, lng1, lat2, lng2) => {
-        const getRed = (d) => {
-            return d * PI / 180.0;
+    getRange: (lat1, lng1) => {
+        const lat2 = window['addressObj'] && window['addressObj']['latitude'];
+        const lng2 = window['addressObj'] && window['addressObj']['longitude'];
+        if(!lng2 || !lat2 || !lat1 || !lng1){
+            return false;
+        }
+        const rad = function(d){
+            return d * Math.PI / 180.0;
         }
 
-        var f = getRed((lat1 + lat2) / 2);
-        var g = getRed((lat1 - lat2) / 2);
-        var l = getRed((lng1 - lng2) / 2);
+        let radLat1 = rad(Number(lat1));
+        let radLat2 = rad(Number(lat2));
+        let a = radLat1 - radLat2;
+        let b = rad(Number(lng1)) - rad(Number(lng2));
 
-        var sg = Math.sin(g);
-        var sl = Math.sin(l);
-        var sf = Math.sin(f);
-
-        var s, c, w, r, d, h1, h2;
-        var a = EARTH_RADIUS;
-        var fl = 1 / 298.257;
-
-        sg = sg * sg;
-        sl = sl * sl;
-        sf = sf * sf;
-
-        s = sg * (1 - sl) + (1 - sf) * sl;
-        c = (1 - sg) * (1 - sl) + sf * sl;
-
-        w = Math.atan(Math.sqrt(s / c));
-        r = Math.sqrt(s * c) / w;
-        d = 2 * w * a;
-        h1 = (3 * r - 1) / 2 / c;
-        h2 = (3 * r + 1) / 2 / s;
-
-        return d * (1 + fl * (h1 * sf * (1 - sg) - h2 * (1 - sf) * sg));
+        let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        s = s * 6378.137;
+        s = Math.round(s * 10000) / 10000;
+        return Number(s).toFixed(2);
     },
 
     isEmailStr: (val) => {

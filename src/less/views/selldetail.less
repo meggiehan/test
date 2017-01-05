@@ -67,7 +67,6 @@
                 color: @text-category;
                 font-size: 1.4rem;
                 .city-name {
-                    padding-right: 0.3rem;
                     color: @text-category;
                     font-size: 1.4rem;
                     i:before {
@@ -80,7 +79,10 @@
                     }
                 }
                 .city-distance {
-                    padding-left: 0.3rem;
+                    display: none;
+                    &.show{
+                        display: inline-block;
+                    }
                     i {
                         color: @themeColor;
                     }

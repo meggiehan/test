@@ -2,7 +2,7 @@ import config from '../config';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import { timeDifference, centerShowTime } from '../utils/time';
-import { html, saveSelectFishCache } from '../utils/string';
+import { html, saveSelectFishCache, getRange, getAddressIndex } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
 import { isLogin } from '../middlewares/loginMiddle';
@@ -45,7 +45,9 @@ function buydetailInit(f7, view, page) {
                 refuseDescribe,
                 descriptionTags,
                 quantityTags,
-                sort
+                sort,
+                latitude,
+                longitude
             } = demandInfo;
             const {
                 id,
@@ -71,6 +73,10 @@ function buydetailInit(f7, view, page) {
             const showStyle = {
                 display: '-webkit-box'
             }
+
+            const {lat,lng} = getAddressIndex(provinceName, cityName);
+            const rangeText = getRange(lat, lng);
+            rangeText > -1 && currentPage.find('.city-distance').addClass('show').find('i').text(rangeText);
 
             let tagHtml = '';
             descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
