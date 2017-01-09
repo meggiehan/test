@@ -138,21 +138,23 @@ function filterInit(f7, view, page) {
         isInfinite = false;
     }
 
+
+    //init fish category and tag render.
     const fishTypeRootCallback = (data) => {
         let typeHtml = '';
+        const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+        cacheFish && cacheFish.length && (typeHtml += `<span data-id="-1" class="${!fishTagId ? 'active-ele' : ''}">最近使用鱼种</span>`);
         if (!release) {
-            typeHtml += `<span data-id="0" class="${fishTagId ? '' : 'active-ele'}">全部鱼种</span>`;
+            typeHtml += `<span data-id="0" class="${(fishTagId || typeHtml) ? '' : 'active-ele'}">全部鱼种</span>`;
             let fishTypeNameQuery;
             $$.each(data.data, (index, item) => {
                 typeHtml += filter.fishType(item, fishTagId == item.id ? 'active-ele' : '');
                 // !fishTagId && !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
                 fishTagId && (fishTypeNameQuery = fishTagName)
             })
-            fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
+            fishTypeNameQuery ? $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery)) : (cacheFish.length && $$('.filter-tab>.tab1>span').text(getTabStr('最近使用鱼种')));
         } else {
-            const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-            cacheFish && cacheFish.length && (typeHtml += `<span data-id="-1" class="active-ele">最近使用鱼种</span>`);
-            typeHtml += `<span data-id="0" class="${cacheFish && cacheFish.length ? '' : 'active-ele'}">全部鱼种</span>`;
+            typeHtml += `<span data-id="0" class="${!!typeHtml ? '' : 'active-ele'}">全部鱼种</span>`;
             $$.each(data.data.list, (index, item) => {
                 typeHtml += filter.fishType(item);
             })
@@ -164,24 +166,26 @@ function filterInit(f7, view, page) {
         allFishTypeChild = data.data.list;
         let typeHtml = '';
         let fishTypeNameQuery;
-        if (!release) {
-            let fishArr = [];
-            !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
-            fishTagId && $$.each(data.data.list, (index, item) => {
-                fishTagId == item.fish_tag_id && fishArr.push(item);
-            })
-            fishTagId  && (typeHtml += `<span data-postcode="${fishTagId}" class="first active-ele">全部${fishTagName}</span>`);
-            $$.each(!!fishTagId ? fishArr : data.data.list, (index, item) => {
-                const classes = index % 3 === 0 && 'on' || '';
-                typeHtml += filter.fishType(item, classes);
-                !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
-            })
-        } else {
-            const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey) || [];
-            if (cacheFish && cacheFish.length) {
-                $$.each(cacheFish, (index, item) => {
-                    const classes = index % 3 === 0 && 'on' || '';
+
+        const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey) || [];
+        !fishTagId && cacheFish.length && $$.each(cacheFish.reverse(), (index, item) => {
+            const classes = index % 3 === 0 && 'on' || '';
+            typeHtml += filter.fishType(item, classes);
+        })
+
+        if (!typeHtml) {
+            if (!release) {
+                let fishArr = [];
+                !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
+                fishTagId && $$.each(data.data.list, (index, item) => {
+                    fishTagId == item.fish_tag_id && fishArr.push(item);
+                })
+                fishTagId && (typeHtml += `<span data-postcode="${fishTagId}" class="first ${currentFishId ? '' : 'active-ele'}">全部${fishTagName}</span>`);
+                $$.each(!!fishTagId ? fishArr : data.data.list, (index, item) => {
+                    let classes = index % 3 === 0 && 'on' || '';
+                    item['id'] == currentFishId && (classes += ' active-ele');
                     typeHtml += filter.fishType(item, classes);
+                    !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
                 })
             } else {
                 typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`;
@@ -190,9 +194,10 @@ function filterInit(f7, view, page) {
                     typeHtml += filter.fishType(item, classes);
                     !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
                 })
-            }
 
+            }
         }
+
         fishTypeNameQuery && currentNavbar.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
@@ -242,7 +247,7 @@ function filterInit(f7, view, page) {
         } else if (-1 == rootId) {
             const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
             if (cacheFish) {
-                $$.each(cacheFish, (index, item) => {
+                $$.each(cacheFish.reverse(), (index, item) => {
                     categoryFish.push(item);
                 })
             }
@@ -496,7 +501,7 @@ function filterInit(f7, view, page) {
             if (ele.innerText == '全部鱼种') {
                 fishTagId = '';
             }
-            if(childId && !ele.getAttribute('data-postcode')){
+            if (childId && !ele.getAttribute('data-postcode')) {
                 fishTagId = '';
             }
             customAjax.ajax({
