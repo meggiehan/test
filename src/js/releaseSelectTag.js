@@ -14,9 +14,16 @@ function releaseSelectTagInit(f7, view, page) {
     f7.hideIndicator();
 
     let specListHtml = '';
-    $$.each(getTagInfo()['specList'], (index, item) => {
-        specListHtml += releaseInfo.tag(item);
-    })
+    if(window.realeseInfomation.fishParentTypeName == '水产苗种'){
+        $$.each(getTagInfo()['specList'], (index, item) => {
+            specListHtml += releaseInfo.tag(item);
+        })
+    }else{
+        $$.each(getTagInfo()['adultFishTags'], (index, item) => {
+            specListHtml += releaseInfo.tag(item);
+        })
+    }
+
     html(currentPage.find('.tag-list'), specListHtml, f7);
 
     currentPage.find('.tag-list')[0].onclick = (e) => {

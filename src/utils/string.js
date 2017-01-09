@@ -258,6 +258,14 @@ module.exports = {
             type: 1,
             category: 1
         }]
+
+        const  adultFishTags = [
+            {id: 24, name: '<0.5斤'},
+            {id: 25, name: '0.5-1斤'},
+            {id: 26, name: '1-5斤'},
+            {id: 27, name: '5-10斤'},
+            {id: 28, name: '>10斤'},
+        ]
         let specList = [];
         $$.each(tagList, (index, item) => {
             0 == item.type && specList.push(item);
@@ -269,7 +277,8 @@ module.exports = {
         })
         return {
             specList,
-            discriptionList
+            discriptionList,
+            adultFishTags
         }
     },
 
@@ -285,7 +294,7 @@ module.exports = {
         const lat2 = window['addressObj'] && window['addressObj']['latitude'];
         const lng2 = window['addressObj'] && window['addressObj']['longitude'];
         if(!lng2 || !lat2 || !lat1 || !lng1){
-            return false;
+            return -2;
         }
         const rad = function(d){
             return d * Math.PI / 180.0;

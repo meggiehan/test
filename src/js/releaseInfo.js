@@ -75,9 +75,16 @@ function releaseInfoInit(f7, view, page) {
 
     //render tags;
     let specListHtml = '';
-    parentFishName == '水产苗种' && $$.each(getTagInfo()['specList'], (index, item) => {
-        specListHtml += releaseInfo.tag(item);
-    })
+    if(parentFishName == '水产苗种'){
+        $$.each(getTagInfo()['specList'], (index, item) => {
+            specListHtml += releaseInfo.tag(item);
+        })
+    }else{
+        $$.each(getTagInfo()['adultFishTags'], (index, item) => {
+            specListHtml += releaseInfo.tag(item);
+        })
+    }
+
     html(specBox, specListHtml, f7);
     !specListHtml && currentPage.find('.release-spec-list').hide().prev().removeClass('border-none');
 
