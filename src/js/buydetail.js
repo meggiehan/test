@@ -2,7 +2,7 @@ import config from '../config';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import { timeDifference, centerShowTime } from '../utils/time';
-import { html, saveSelectFishCache, getRange, getAddressIndex } from '../utils/string';
+import { html, saveSelectFishCache, getRange, getAddressIndex, callCheckLogin } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
 import { isLogin } from '../middlewares/loginMiddle';
@@ -275,7 +275,29 @@ function buydetailInit(f7, view, page) {
     }
 
     currentPage.find('.buydetail-call-phone')[0].onclick = () => {
-        const { requirementPhone } = demandInfo_;
+        if (!isLogin()) {
+            f7.modal({
+                title: '友情提示',
+                text: '为了保证信息安全，请登录后拨打电话',
+                buttons: [
+                    {
+                        text: '我再想想',
+                        onClick: () => {
+                        }
+                    },
+                    {
+                        text: '安全登录',
+                        onClick: () => {
+                            mainView.router.load({
+                                url: 'views/login.html'
+                            })
+                        }
+                    }
+                ]
+            })
+            return;
+        }
+        const {requirementPhone} = demandInfo_;
         apiCount('btn_call');
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }

@@ -99,6 +99,8 @@ let initAppConfig = {
                 $$('.modal-button').length && $$('.modal-button')[0].click();
             }
 
+            $$('div.footer').length && $$('div.footer').click();
+
             if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1) {
                 mainView.router.load({
                     url: 'views/home.html',

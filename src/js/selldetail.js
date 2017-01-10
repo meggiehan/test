@@ -1,21 +1,21 @@
 import config from '../config';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
-import { selldetail } from '../utils/template';
-import { timeDifference, centerShowTime } from '../utils/time';
-import { html, saveSelectFishCache, getRange, getAddressIndex } from '../utils/string';
+import {selldetail} from '../utils/template';
+import {timeDifference, centerShowTime} from '../utils/time';
+import {html, saveSelectFishCache, getRange, getAddressIndex, callCheckLogin} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip, veiwCert, detailMoreEvent } from '../utils/domListenEvent';
-import { isLogin } from '../middlewares/loginMiddle';
+import {detailClickTip, veiwCert, detailMoreEvent} from '../utils/domListenEvent';
+import {isLogin} from '../middlewares/loginMiddle';
 
 function selldetailInit(f7, view, page) {
-    const { id } = page.query;
+    const {id} = page.query;
     const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
     const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
     const certList = currentPage.find('.selldetail-cert-list');
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const shareBtn = currentPage.find('.icon-share')[0];
-    const { shareUrl, cacheUserinfoKey, timeout } = config;
+    const {shareUrl, cacheUserinfoKey, timeout} = config;
     let demandInfo_;
     let currentUserId;
     let errorInfo;
@@ -74,9 +74,9 @@ function selldetailInit(f7, view, page) {
                 display: '-webkit-box'
             }
 
-            const {lat,lng} = getAddressIndex(provinceName, cityName);
+            const {lat, lng} = getAddressIndex(provinceName, cityName);
             const rangeText = getRange(lat, lng);
-            if(rangeText > -1){
+            if (rangeText > -1) {
                 rangeText > 200 ?
                     currentPage.find('.city-distance').addClass('show').html(`| 距离你<i>${rangeText}</i>公里`) :
                     currentPage.find('.city-distance').addClass('show').text('| 离你很近');
@@ -104,7 +104,7 @@ function selldetailInit(f7, view, page) {
             currentPage.find('.info-release-time').text(timeDifference(sort));
             currentPage.find('.info-price').text(price || '价格面议');
             currentPage.find('.selldetail-price').text(price || '价格面议');
-            currentPage.find('.selldetail-address').text(`${provinceName||''}${cityName||''}`);
+            currentPage.find('.selldetail-address').text(`${provinceName || ''}${cityName || ''}`);
             currentPage.find('.selldetail-name').text(fishTypeName);
 
             let specText = quantityTags && JSON.parse(quantityTags).length && (JSON.parse(quantityTags)[0]['tagName'] || '') || '';
@@ -123,7 +123,7 @@ function selldetailInit(f7, view, page) {
             tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').remove();
 
             $$.each(user_ishCertificate_list.list, (index, item) => {
-                const { fish_type_name } = item;
+                const {fish_type_name} = item;
                 fishTypeName == fish_type_name && (certHtml += selldetail.cert(item));
             })
             certHtml ? html(certList, certHtml, f7) : certList.parent().remove();
@@ -140,7 +140,7 @@ function selldetailInit(f7, view, page) {
 
             1 == enterpriseAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(1).addClass('show');
             1 == personalAuthenticationState && currentPage.find('.sell-detail-auth').children('span').eq(0).addClass('show');
-            if(personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1){
+            if (personalAuthenticationState !== 1 && enterpriseAuthenticationState !== 1) {
                 currentPage.find('.user-name').css({
                     lineHeight: '5rem',
                     height: '5rem'
@@ -169,7 +169,7 @@ function selldetailInit(f7, view, page) {
         f7.pullToRefreshDone();
     }
 
-    const { ios } = window.currentDevice;
+    const {ios} = window.currentDevice;
     ios && (currentPage.find('.selldetail-footer').addClass('safira'));
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -184,7 +184,7 @@ function selldetailInit(f7, view, page) {
 
     // pull to refresh.
     const ptrContent = currentPage.find('.sell-detail-refresh');
-    ptrContent.on('refresh', function(e) {
+    ptrContent.on('refresh', function (e) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfo',
@@ -205,13 +205,35 @@ function selldetailInit(f7, view, page) {
     }
 
     currentPage.find('.selldetail-call-phone')[0].onclick = () => {
-        const { requirementPhone } = demandInfo_;
+        if (!isLogin()) {
+            f7.modal({
+                title: '友情提示',
+                text: '为了保证信息安全，请登录后拨打电话',
+                buttons: [
+                    {
+                        text: '我再想想',
+                        onClick: () => {
+                        }
+                    },
+                    {
+                        text: '安全登录',
+                        onClick: () => {
+                            mainView.router.load({
+                                url: 'views/login.html'
+                            })
+                        }
+                    }
+                ]
+            })
+            return;
+        }
+        const {requirementPhone} = demandInfo_;
         apiCount('btn_call');
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }
 
     const collectionCallback = (data) => {
-        const { code } = data;
+        const {code} = data;
         if (8 == code) {
             nativeEvent['nativeToast'](0, '您已收藏过该资源!');
         } else if (1 !== code) {
@@ -267,7 +289,7 @@ function selldetailInit(f7, view, page) {
 
     //delete release infomation.
     const deleteCallback = (data) => {
-        const { code, message } = data;
+        const {code, message} = data;
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
@@ -334,13 +356,13 @@ function selldetailInit(f7, view, page) {
             price,
         } = demandInfo_;
 
-        title += `【出售】${fishTypeName}, ${provinceName||''}${cityName||''}`;
-        if(!demandInfo_.title){
+        title += `【出售】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
+        if (!demandInfo_.title) {
             description += stock ? `${'出售数量： ' + stock}，` : '';
             description += price ? `${'价格：' + price}，` : '';
             description += specifications ? `${'规格：' + specifications}，` : '';
             description += '点击查看更多信息~';
-        }else{
+        } else {
             description += demandInfo_.title
         }
         window.shareInfo = {

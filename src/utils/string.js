@@ -375,5 +375,4 @@ module.exports = {
             className
         }
     }
-
 }
