@@ -143,18 +143,18 @@ function filterInit(f7, view, page) {
     const fishTypeRootCallback = (data) => {
         let typeHtml = '';
         const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-        cacheFish && cacheFish.length && (typeHtml += `<span data-id="-1" class="${!fishTagId ? 'active-ele' : ''}">最近使用鱼种</span>`);
+        cacheFish && cacheFish.length && (typeHtml += `<span data-id="-1">最近使用鱼种</span>`);
         if (!release) {
-            typeHtml += `<span data-id="0" class="${(fishTagId || typeHtml) ? '' : 'active-ele'}">全部鱼种</span>`;
+            typeHtml += `<span data-id="0" class="${fishTagId ? '' : 'active-ele'}">全部鱼种</span>`;
             let fishTypeNameQuery;
             $$.each(data.data, (index, item) => {
                 typeHtml += filter.fishType(item, fishTagId == item.id ? 'active-ele' : '');
                 // !fishTagId && !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
                 fishTagId && (fishTypeNameQuery = fishTagName)
             })
-            fishTypeNameQuery ? $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery)) : (cacheFish.length && $$('.filter-tab>.tab1>span').text(getTabStr('最近使用鱼种')));
+            fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         } else {
-            typeHtml += `<span data-id="0" class="${!!typeHtml ? '' : 'active-ele'}">全部鱼种</span>`;
+            typeHtml += `<span data-id="0" class="${'active-ele'}">全部鱼种</span>`;
             $$.each(data.data.list, (index, item) => {
                 typeHtml += filter.fishType(item);
             })
@@ -167,13 +167,13 @@ function filterInit(f7, view, page) {
         let typeHtml = '';
         let fishTypeNameQuery;
 
-        const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey) || [];
-        !fishTagId && cacheFish.length && $$.each(cacheFish.reverse(), (index, item) => {
-            const classes = index % 3 === 0 && 'on' || '';
-            typeHtml += filter.fishType(item, classes);
-        })
+        // const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey) || [];
+        // !fishTagId && cacheFish.length && $$.each(cacheFish.reverse(), (index, item) => {
+        //     const classes = index % 3 === 0 && 'on' || '';
+        //     typeHtml += filter.fishType(item, classes);
+        // })
 
-        if (!typeHtml) {
+        // if (!typeHtml) {
             if (!release) {
                 let fishArr = [];
                 !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
@@ -196,7 +196,7 @@ function filterInit(f7, view, page) {
                 })
 
             }
-        }
+        // }
 
         fishTypeNameQuery && currentNavbar.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
