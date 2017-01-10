@@ -309,7 +309,7 @@ module.exports = {
                 Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
         s = s * 6378.137;
         s = Math.round(s * 10000) / 10000;
-        return Number(s).toFixed(2);
+        return Number(s).toFixed(0);
     },
 
     isEmailStr: (val) => {

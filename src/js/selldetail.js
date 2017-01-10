@@ -76,7 +76,11 @@ function selldetailInit(f7, view, page) {
 
             const {lat,lng} = getAddressIndex(provinceName, cityName);
             const rangeText = getRange(lat, lng);
-            rangeText > -1 && currentPage.find('.city-distance').addClass('show').find('i').text(rangeText);
+            if(rangeText > -1){
+                rangeText > 200 ?
+                    currentPage.find('.city-distance').addClass('show').html(`| 距离你<i>${rangeText}</i>公里`) :
+                    currentPage.find('.city-distance').addClass('show').text('| 离你很近');
+            }
 
             if (state == 0 || state == 2) {
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
