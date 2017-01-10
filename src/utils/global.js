@@ -297,6 +297,12 @@ class CustomClass {
         }
     }
 
+    jumpToLogin(){
+        mainView.router.load({
+            url: 'views/login.html'
+        })
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -316,6 +322,7 @@ class CustomClass {
         window['jsBack'] = this.jsBack;
         window['postReleasePicCallback'] = this.postReleasePicCallback;
         window['jsJumpFromPush'] = this.jsJumpFromPush;
+        window['jumpToLogin'] = this.jumpToLogin;
     }
 }
 

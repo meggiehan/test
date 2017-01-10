@@ -1,6 +1,6 @@
 import Framework7 from './js/lib/framework7';
 // import _ from 'lodash';
-import store from './utils/locaStorage';
+import version from './config/version.json';
 import config from './config';
 import { homeInit } from './js/home';
 import { searchInit } from './js/search';
@@ -23,7 +23,6 @@ import { fishCertInit } from './js/fishCert';
 import { releaseSuccInit } from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
 import { getQuery } from './utils/string';
-import { isLogin } from './middlewares/loginMiddle';
 import { catIdentityStatusInit } from './js/catIdentityStatus';
 import { editNameInit } from './js/editName';
 import { inviteCodeInit } from './js/inviteCode';
@@ -38,9 +37,9 @@ import { notFoundInit } from './js/notFound';
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
-const { ios, android, androidChrome, osVersion } = device;
-const { version, timeout } = config;
-console.log(`current app version: ${version}!`);
+const { android, androidChrome } = device;
+const { timeout } = config;
+console.log(`current app update time: ${version.date}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;
