@@ -41,10 +41,10 @@ function homeInit(f7, view, page) {
      */
     const callback = (data, err, type) => {
         //cat sell list
-        const dataType = data.data.list[0]['type'];
+        const dataType = data.data[0]['type'];
         if (dataType == 2) {
             let catListHtml = '';
-            $$.each(data.data.list, (index, item) => {
+            $$.each(data.data, (index, item) => {
                 catListHtml += home.cat(item);
             })
 
@@ -55,13 +55,13 @@ function homeInit(f7, view, page) {
         //cat buy list
         if (dataType == 1) {
             let buyListHtml = '';
-            $$.each(data.data.list, (index, item) => {
+            $$.each(data.data, (index, item) => {
                 buyListHtml += home.buy(item);
             })
 
             html($$('.buy-list-foreach'), buyListHtml, f7);
         }
-        if (data.data && data.data.list && catType === 2) {
+        if (data.data && data.data.length && catType === 2) {
             catType = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
@@ -80,7 +80,7 @@ function homeInit(f7, view, page) {
      */
     customAjax.ajax({
         apiCategory: 'demandInfo',
-        api: 'getDemandInfoList',
+        api: 'list',
         data: ["", "", 2, "", 10, 1],
         type: 'get'
     }, callback);
@@ -92,7 +92,7 @@ function homeInit(f7, view, page) {
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getDemandInfoList',
+            api: 'list',
             data: ["", "", 2, "", 10, 1],
             type: 'get',
             isMandatory

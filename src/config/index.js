@@ -34,11 +34,11 @@ const configs = {
     },
     servicePhoneNumber: '18115381185',
     demandInfo: {
-        'getDemandInfoList': [
+        'list': [
             "fishTypeId",
             "cityId",
             "type",
-            "keyvalue",
+            "fuzzyFishTypeName",
             "pageSize",
             "pageNo",
             "member",

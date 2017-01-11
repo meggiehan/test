@@ -94,7 +94,7 @@ function releaseSuccInit(f7, view, page) {
     }
     customAjax.ajax({
         apiCategory: 'demandInfo',
-        api: 'getDemandInfoList',
+        api: 'list',
         data: [id, '', type == 1 ? 2 : 1, '', pageSize, 1],
         type: 'get'
     }, callback);

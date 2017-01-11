@@ -1,5 +1,4 @@
 import Framework7 from './js/lib/framework7';
-// import _ from 'lodash';
 import version from './config/version.json';
 import config from './config';
 import { homeInit } from './js/home';

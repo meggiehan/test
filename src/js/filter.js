@@ -22,7 +22,7 @@ function filterInit(f7, view, page) {
     let allFishTypeChild;
     let isShowAll = false;
     let tabChange = false;
-    let searchValue = keyvalue && keyvalue.replace('“', '').replace('”', '');
+    let fuzzyFishTypeName = keyvalue && keyvalue.replace('“', '').replace('”', '');
     let currentFishId = id || '';
     let currentCityId = cityId || '';
     let fishTagId = page.query['fishTagId'] || '';
@@ -40,7 +40,7 @@ function filterInit(f7, view, page) {
      * 3: releaseSelectType -> filter. query: release and type
      * 4: member -> member . get member user list.
      */
-    trim(searchValue) && searchBtn.val(searchValue);
+    trim(fuzzyFishTypeName) && searchBtn.val(fuzzyFishTypeName);
 
     //when member filter.
     if (member) {
@@ -211,7 +211,7 @@ function filterInit(f7, view, page) {
     release && customAjax.ajax({
         apiCategory: 'fishType',
         api: 'getChildrenFishTypeList',
-        data: [0, release || '', _type, searchValue],
+        data: [0, release || '', _type, fuzzyFishTypeName],
         val: {
             id: 0
         },
@@ -222,7 +222,7 @@ function filterInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'fishType',
         api: 'getChildrenFishTypeList',
-        data: [id, release || '', _type, searchValue],
+        data: [id, release || '', _type, fuzzyFishTypeName],
         type: 'get',
     }, fishTypeChildCallback);
 
@@ -294,7 +294,7 @@ function filterInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfoList',
-            data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member, fishTagId],
+            data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
             type: 'get',
         }, listCallback);
         //root district render;
@@ -353,8 +353,8 @@ function filterInit(f7, view, page) {
                 currentNavbar.find('.tab3').children('span').text(tabText);
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
-                    api: 'getDemandInfoList',
-                    data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member, fishTagId],
+                    api: 'list',
+                    data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                     type: 'get'
                 }, listCallback);
             }
@@ -390,8 +390,8 @@ function filterInit(f7, view, page) {
             currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             customAjax.ajax({
                 apiCategory: 'demandInfo',
-                api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member, fishTagId],
+                api: 'list',
+                data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                 type: 'get'
             }, listCallback);
         }
@@ -410,8 +410,8 @@ function filterInit(f7, view, page) {
             pageNo++;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
-                api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member, fishTagId],
+                api: 'list',
+                data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                 type: 'get',
                 isMandatory: true
             }, listCallback);
@@ -426,8 +426,8 @@ function filterInit(f7, view, page) {
             pageNo = 1;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
-                api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member, fishTagId],
+                api: 'list',
+                data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                 type: 'get',
                 isMandatory
             }, listCallback);
@@ -444,25 +444,12 @@ function filterInit(f7, view, page) {
     } else {
         f7.hideIndicator();
         currentFishId = null;
-        // currentPage.find('.filter-release-next').removeClass('pass');
         currentNavbar.addClass('filter-release-info');
         currentPage.addClass('filter-release-info');
         currentPage.find('.filter-tabs-content').addClass('on active');
         currentPage.find('.filter-fish-type').addClass('active');
         currentPage.find('.winodw-mask').addClass('on');
         currentPage.find('.toolbar').hide();
-        // currentPage.find('.filter-release-next').click(() => {
-        //     const text = _type == 1 ? '求购' : '出售';
-        //     if (!currentFishId) {
-        //         f7.alert(`请选择您需要${text}鱼的种类`);
-        //         return;
-        //     }
-        //
-        //     view.router.load({
-        //         url: 'views/releaseInfo.html?' +
-        //             `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
-        //     })
-        // })
     }
 
     // select fish category;
@@ -490,7 +477,7 @@ function filterInit(f7, view, page) {
             $$('.filter-tabs-content').removeClass('on');
             $$('.filter-tab>div').removeClass('active-ele');
             isShowAll = false;
-            searchValue = '';
+            fuzzyFishTypeName = '';
             searchBtn.val('');
             isInfinite = false;
             pageNo = 1;
@@ -506,8 +493,8 @@ function filterInit(f7, view, page) {
             }
             customAjax.ajax({
                 apiCategory: 'demandInfo',
-                api: 'getDemandInfoList',
-                data: [currentFishId, currentCityId, _type, searchValue, pageSize, pageNo, member, fishTagId],
+                api: 'list',
+                data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                 type: 'get'
             }, listCallback);
             !ele.getAttribute('data-postcode') && $$(ele).attr('data-id') && saveSelectFishCache({
@@ -534,7 +521,7 @@ function filterInit(f7, view, page) {
         const reload = !release && isHasFilterPage > 1;
         apiCount(!release ? 'textfield_search_list' : 'btn_text_fishType_search');
         view.router.load({
-            url: `views/search.html?release=${release}&type=${_type}&keyvalue＝${searchValue}`,
+            url: `views/search.html?release=${release}&type=${_type}&keyvalue＝${fuzzyFishTypeName}`,
             reload
         })
     })
@@ -544,7 +531,6 @@ function filterInit(f7, view, page) {
         setTimeout(() => {
             const winHeight = $$(window).height();
             const navbarHeight = $$('.navbar').height();
-            const footerHeight = $$('.tabbar').height();
             currentPage.find('.filter-tabs-content').css({height: `${winHeight - navbarHeight}px`});
         }, 0)
     }
