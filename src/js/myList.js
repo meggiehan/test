@@ -8,8 +8,8 @@ import customAjax from '../middlewares/customAjax';
 function myListInit(f7, view, page) {
     let type = page.query['type'] || 2;
     const { pageSize, cacheUserinfoKey, shareUrl} = config;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const currentHeader = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
 
     const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');

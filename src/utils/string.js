@@ -151,7 +151,7 @@ module.exports = {
     getAddressIndex(provinceName, cityName) {
         const district = nativeEvent['getDistricInfo']();
         let provinceIndex, cityIndex, currentProvince, lat, lng;
-        $$.each(district['root']['province'], (index, item) => {
+        district && $$.each(district['root']['province'], (index, item) => {
             if (item['name'] == provinceName) {
                 provinceIndex = index;
                 currentProvince = item;
@@ -169,6 +169,8 @@ module.exports = {
 
         !provinceIndex && (provinceIndex = 0);
         !cityIndex && (cityIndex = 0);
+        !lat && (lat = 0);
+        !lng && (lng = 0);
         return {
             provinceIndex,
             cityIndex,

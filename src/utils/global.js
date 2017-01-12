@@ -5,7 +5,7 @@ import framework7 from '../js/lib/framework7';
 import { fishCert, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { goIdentity } from './domListenEvent';
-import { logOut, isLogin } from '../middlewares/loginMiddle';
+import { logOut, isLogin, loginViewHide } from '../middlewares/loginMiddle';
 import { getQuery } from './string';
 
 const f7 = new framework7({
@@ -142,8 +142,9 @@ class CustomClass {
          */
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
-        const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-        currentPage.find('input').blur();
+        // const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+        // currentPage.find('input').blur();
+        loginViewHide();
         window.mainView.router.load({
             url: `views/user.html?uuid=${token}`,
             animatePage: true
@@ -303,6 +304,10 @@ class CustomClass {
         })
     }
 
+    getWeixinDataFromNative(data){
+        console.log(data)
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -323,6 +328,7 @@ class CustomClass {
         window['postReleasePicCallback'] = this.postReleasePicCallback;
         window['jsJumpFromPush'] = this.jsJumpFromPush;
         window['jumpToLogin'] = this.jumpToLogin;
+        window['getWeixinDataFromNative'] = this.getWeixinDataFromNative;
     }
 }
 

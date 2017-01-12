@@ -257,6 +257,14 @@ class CustomClass {
         ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '');
     }
 
+    callWeixinLogin() {
+        const { ios, android } = window.currentDevice;
+        if (!window['JS_WeChatLogin'] && (!window['yudada'] || !window['yudada']['JS_WeChatLogin'])) {
+            return false;
+        }
+        ios ? JS_WeChatLogin() : window.yudada.JS_WeChatLogin();
+    }
+
 }
 
 const nativeEvent = new CustomClass;

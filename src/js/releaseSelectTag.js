@@ -9,7 +9,7 @@ import { search, releaseInfo } from '../utils/template';
 function releaseSelectTagInit(f7, view, page) {
     const { cacheUserinfoKey } = config;
     const userInfo = store.get(cacheUserinfoKey);
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     let isSend = false;
     f7.hideIndicator();
 

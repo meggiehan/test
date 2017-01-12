@@ -11,7 +11,7 @@ function inviteFriendsInit(f7, view, page) {
        	logOut();
     }
     f7.hideIndicator();
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main.pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { cacheUserinfoKey } = config;
     const userInfo = store.get(cacheUserinfoKey);
     const {

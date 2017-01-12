@@ -1,26 +1,27 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import { home } from '../utils/template';
-import { html } from '../utils/string';
-import { goUser } from '../utils/domListenEvent';
+import {home} from '../utils/template';
+import {html} from '../utils/string';
+import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import { getAll } from '../utils/locaStorage';
+import {getAll} from '../utils/locaStorage';
 import {isLogin} from '../middlewares/loginMiddle';
-import store from '../utils/locaStorage';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
-    const { pageSize, cacheUserinfoKey } = config;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    let catType = 2;
+    const {pageSize} = config;
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+
+    /***判断是否有数据缓存，如果有就直接显示缓存***/
     if (getAll().length) {
         $$('.ajax-content').show();
         $$('.home-loading').hide();
     }
 
+    /***成交列表 render***/
     const dealListCallback = (data) => {
         const {code} = data;
-        if(1 == code){
+        if (1 == code) {
             let dealHtml = '';
             $$.each(data.data, (index, item) => {
                 dealHtml += home.dealInfo(item);
@@ -28,7 +29,6 @@ function homeInit(f7, view, page) {
             html($$('.home-deal-info-list'), dealHtml);
         }
     }
-    //get deal list.
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'dealList',
@@ -36,74 +36,48 @@ function homeInit(f7, view, page) {
         type: 'get'
     }, dealListCallback);
 
-    /*
-     *  When the type is equal to give a value.Execute the following method.
-     */
+    /***render 首页的信息列表***/
     const callback = (data, err, type) => {
-        //cat sell list
-        const dataType = data.data[0]['type'];
-        if (dataType == 2) {
+        const {buyDemands, saleDemands} = data.data;
+        if (saleDemands.length) {
             let catListHtml = '';
-            $$.each(data.data, (index, item) => {
+            $$.each(saleDemands, (index, item) => {
                 catListHtml += home.cat(item);
             })
-
             html($$('.cat-list-foreach'), catListHtml, f7);
-            $$('.ajax-content').show(200);
-            $$('.home-loading').hide(100);
         }
-        //cat buy list
-        if (dataType == 1) {
+
+        if (buyDemands.length) {
             let buyListHtml = '';
-            $$.each(data.data, (index, item) => {
+            $$.each(buyDemands, (index, item) => {
                 buyListHtml += home.buy(item);
             })
-
             html($$('.buy-list-foreach'), buyListHtml, f7);
         }
-        if (data.data && data.data.length && catType === 2) {
-            catType = 1;
-            customAjax.ajax({
-                apiCategory: 'demandInfo',
-                api: 'getDemandInfoList',
-                data: ["", "", 1, "", 10, 1],
-                type: 'get'
-            }, callback);
-        }
+        $$('.ajax-content').show(200);
+        $$('.home-loading').hide(100);
+
         //pull to refresh done.
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
     }
-
-    /*
-     * initialization home page and send ajax to get list data.
-     */
-    customAjax.ajax({
-        apiCategory: 'demandInfo',
-        api: 'list',
-        data: ["", "", 2, "", 10, 1],
-        type: 'get'
-    }, callback);
-
-    // pull to refresh.
-    const ptrContent = $$('.pull-to-refresh-content');
-    ptrContent.on('refresh', function(e) {
-        catType = 2;
-        const isMandatory = !!nativeEvent['getNetworkStatus']();
+    /****获取首页信息***/
+    function getHomeListInfo () {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'list',
-            data: ["", "", 2, "", 10, 1],
-            type: 'get',
-            isMandatory
-        }, callback);
-        customAjax.ajax({
-            apiCategory: 'demandInfo',
-            api: 'dealList',
-            data: [1, pageSize],
+            data: ['true'],
+            val: {
+                index: 'index'
+            },
             type: 'get'
-        }, dealListCallback);
-    })
+        }, callback);
+    }
+    getHomeListInfo();
+
+    /***刷新首页列表数据***/
+    const ptrContent = $$('.pull-to-refresh-content');
+    ptrContent.on('refresh', getHomeListInfo);
 
     //go home page;
     $$('.href-go-user').off('click', goUser).on('click', goUser);
@@ -116,14 +90,14 @@ function homeInit(f7, view, page) {
     //get banner date to server;
     const bannerCallback = (res) => {
         const {code, data} = res;
-        if(1 == code && data.length){
+        if (1 == code && data.length) {
             let bannerHtml = '';
             $$.each(data, (index, item) => {
                 bannerHtml += home.banner(item);
             })
             bannerHtml && html($$('.home-slider .swiper-wrapper'), bannerHtml, f7);
             data.length > 1 && f7.swiper('.swiper-slow', {
-                pagination:'.swiper-slow .swiper-pagination',
+                pagination: '.swiper-slow .swiper-pagination',
                 speed: 400
             });
             setTimeout(() => {
@@ -135,18 +109,19 @@ function homeInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'banners',
         data: [],
-        type: 'get'
+        type: 'get',
+        noCache: true
     }, bannerCallback);
 
     currentPage.find('.home-slider')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        if($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG'){
+        if ($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG') {
             const districtData = nativeEvent['getDistricInfo']() || '';
-            if(districtData){
+            if (districtData) {
                 nativeEvent.setDataToNative('districtData', districtData);
             }
-            if(!isLogin()){
-                f7.alert('此活动需要登录才能参加，请您先去登录！','提示', function(){
+            if (!isLogin()) {
+                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', function () {
                     view.router.load({
                         url: 'views/login.html'
                     })
@@ -154,14 +129,11 @@ function homeInit(f7, view, page) {
                 return;
             }
             f7.showIndicator();
-            // const {loginName, id} = store.get(cacheUserinfoKey);
             const access_token = nativeEvent.getUserValue();
             const openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
             window.location.href = openUrl + `/${access_token}`;
         }
     }
-
-    nativeEvent.setDataToNative('appIndexUrl', window.location.href);
 
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
@@ -196,6 +168,9 @@ function homeInit(f7, view, page) {
     //     nativeEvent.shareInfoToWeixin(3, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
     // }
 
+    // $$('#wei-xin-login')[0].onclick = () => {
+    //     nativeEvent.callWeixinLogin();
+    // }
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 import framework7 from '../js/lib/framework7';
-import { isLogin } from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from './nativeEvent';
 import config from '../config';
 import store from './locaStorage';
@@ -11,7 +11,7 @@ const f7 = new framework7({
     fastClicks: true,
     modalTitle: '温馨提示',
 });
-const { servicePhoneNumber } = config;
+const {servicePhoneNumber} = config;
 module.exports = {
     filterTabClick: (e) => {
         const event = e || window.event;
@@ -96,19 +96,18 @@ module.exports = {
         })
     },
     goMyCenter: () => {
-        const url = isLogin() ? 'views/myCenter.html' : 'views/login.html';
-        mainView.router.load({
-            url
-        })
+        if (isLogin()) {
+            mainView.router.load({
+                url: 'views/myCenter.html'
+            })
+        } else {
+            loginViewShow();
+        }
     },
 
     myListBuy: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/myList.html?type=1'
@@ -118,11 +117,7 @@ module.exports = {
 
     myListSell: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/myList.html?type=2'
@@ -132,11 +127,7 @@ module.exports = {
 
     uploadCert: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/fishCert.html'
@@ -145,7 +136,7 @@ module.exports = {
     },
 
     goIdentity: () => {
-        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        const {cacheUserinfoKey, servicePhoneNumber} = config;
         let personalAuthenticationState, enterpriseAuthenticationState;
         let userInfomation = store.get(cacheUserinfoKey);
         if (userInfomation) {
@@ -153,11 +144,7 @@ module.exports = {
             enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
         }
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
         } else {
             const url = (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) ?
                 'views/identityAuthentication.html' : 'views/catIdentityStatus.html';
@@ -173,18 +160,18 @@ module.exports = {
     },
 
     cancleIndividual: () => {
-        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        const {cacheUserinfoKey, servicePhoneNumber} = config;
         let userInfomation = store.get(cacheUserinfoKey);
         const cancleIndividualCallback = (data) => {
-            const { code, message } = data;
+            const {code, message} = data;
             // f7.alert(message, '提示', () => {
             // f7.closeModal('.popup-individual-authentication');
             $$('page-identity-status').removeClass('individual-review');
             mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
-                // })
+                url: 'views/user.html',
+                reload: true
+            })
+            // })
         }
         f7.confirm('你确定撤销身份认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
@@ -200,17 +187,17 @@ module.exports = {
     },
 
     canclCompany: () => {
-        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        const {cacheUserinfoKey, servicePhoneNumber} = config;
         let userInfomation = store.get(cacheUserinfoKey);
         const cancleCompanyCallback = (data) => {
-            const { code, message } = data;
+            const {code, message} = data;
             // f7.alert(message, '提示', () => {
             $$('page-identity-status').removeClass('company-review');
             mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
-                // })
+                url: 'views/user.html',
+                reload: true
+            })
+            // })
         }
         f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
@@ -230,12 +217,12 @@ module.exports = {
         const ele = event.target;
         let classes = ele.className;
         const id = $$(ele).attr('data-id');
-        const { cacheUserinfoKey } = config;
+        const {cacheUserinfoKey} = config;
         const userInfo = store.get(cacheUserinfoKey);
         let dataIndex = ele.getAttribute('data-index');
 
         const deleteCallback = (data) => {
-            const { code, message } = data;
+            const {code, message} = data;
             if (1 == code) {
                 $$('.fish-cert-list>.col-50').length == 1 && $$('.fish-cert-content').removeClass('show');
                 mainView.router.refreshPage();
@@ -259,7 +246,7 @@ module.exports = {
                     // parameType: 'application/json',
                     api: 'deleteUserFishCertificate',
                     data: [id],
-                    val: { id },
+                    val: {id},
                     type: 'post'
                 }, deleteCallback);
             }
@@ -291,11 +278,7 @@ module.exports = {
 
     inviteFriends: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/inviteFriends.html'

@@ -7,7 +7,7 @@ import customAjax from '../middlewares/customAjax';
 
 function myCollectionInit(f7, view, page) {
     let type = 2; //default: 2
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
     const { pageSize, cacheUserinfoKey } = config;
     const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };

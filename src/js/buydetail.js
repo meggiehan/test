@@ -2,16 +2,16 @@ import config from '../config';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import { timeDifference, centerShowTime } from '../utils/time';
-import { html, saveSelectFishCache, getRange, getAddressIndex, callCheckLogin } from '../utils/string';
+import { html, saveSelectFishCache, getRange, getAddressIndex } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import { detailClickTip, veiwCert, timeout, detailMoreEvent } from '../utils/domListenEvent';
-import { isLogin } from '../middlewares/loginMiddle';
+import { detailClickTip, veiwCert } from '../utils/domListenEvent';
+import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
 
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     let demandInfo_;
@@ -38,7 +38,6 @@ function buydetailInit(f7, view, page) {
                 fishTypeId,
                 fishParentTypeId,
                 price,
-                checkTime,
                 state,
                 contactName,
                 requirementPhone,
@@ -46,12 +45,9 @@ function buydetailInit(f7, view, page) {
                 descriptionTags,
                 quantityTags,
                 sort,
-                latitude,
-                longitude
             } = demandInfo;
             const {
                 id,
-                enterpriseAuthenticationTime,
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
                 imgUrl,
@@ -212,11 +208,7 @@ function buydetailInit(f7, view, page) {
             return;
         }
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
             return;
         }
         const httpType = $$(collectionBtn).hasClass('icon-collection-active') ? 'DELETE' : 'POST';
@@ -287,11 +279,7 @@ function buydetailInit(f7, view, page) {
                     },
                     {
                         text: '安全登录',
-                        onClick: () => {
-                            mainView.router.load({
-                                url: 'views/login.html'
-                            })
-                        }
+                        onClick: loginViewShow
                     }
                 ]
             })

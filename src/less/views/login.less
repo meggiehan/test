@@ -1,38 +1,90 @@
-.page-login{
-	.login-phone-number{
-		margin: 0 auto 1rem;
-		padding:0.5rem 2%;
-		background: @bg-fff;
-		.text-shadow(@text-fff);
-		.item-content{
-			padding-left: 0;
-			color: @text-category;
-			.item-inner{
-				.item-title.label{
-					width: 27%;
-				}
-				padding-right: 0;
-				&:after{
-					display: none;
-				}
-			}
-		}
-	}
-	.login-next{
-		a{
-			width:60%;
-			margin: 0 auto;
-			background: @border-da;
-			.text-shadow(@border-da);
-			height: 4rem;
-			line-height: 4rem;
-			border:0;
-			font-size: 1.8rem;
-			color: @text-fff;
-			&.on{
-				background: @themeColor;
-				.text-shadow(@themeColor);
-			}
-		}
-	}
+.page-login {
+    .login-phone-number {
+        margin: 0 auto 1rem;
+        padding: 0.5rem 2%;
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        .item-content {
+            padding-left: 0;
+            color: @text-category;
+            .item-inner {
+                .item-title.label {
+                    width: 27%;
+                }
+                padding-right: 0;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+    .login-next, .weixin-login-btn {
+        a {
+            width: 60%;
+            margin: 0 auto;
+            background: @border-da;
+            .text-shadow(@border-da);
+            height: 4rem;
+            line-height: 4rem;
+            border: 0;
+            font-size: 1.8rem;
+            color: @text-fff;
+            &.on {
+                background: @themeColor;
+                .text-shadow(@themeColor);
+            }
+        }
+    }
+    .user-protocol {
+        .text-center;
+        color: @text-subtitle;
+        line-height: 2rem;
+        a {
+            color: @themeColor;
+        }
+        .iconfont:before {
+            font-size: 2rem;
+            vertical-align: middle;
+            position: relative;
+            top: -0.2rem;
+            margin-right: 0.4rem;
+        }
+    }
+    .break-up-line {
+        color: @text-category;
+        width: 60%;
+        margin: 2rem auto 1rem;
+        height: 2rem;
+        line-height: 2rem;
+        display: block;
+        .text-center;
+        .ps-r;
+        &:before, &:after {
+            content: '.';
+            display: block;
+            width: 35%;
+            .ps-a;
+            height: 0;
+            overflow: hidden;
+            top: 1rem;
+            border-bottom: 1px solid @text-subtitle;
+        }
+        &:before {
+            left: 0;
+        }
+        &:after {
+            right: 0;
+        }
+    }
+    .weixin-login-btn {
+        a {
+            display: block;
+            color: @text-fff;
+            background: @bg-weixin-btn;
+            .text-shadow(@bg-weixin-btn);
+        }
+        i{
+            font-size: 2.4rem;
+        }
+    }
 }

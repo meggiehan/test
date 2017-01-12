@@ -6,11 +6,11 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 import { centerShowTime } from '../utils/time';
 import { otherIndexClickTip, veiwCert } from '../utils/domListenEvent';
-import { isLogin } from '../middlewares/loginMiddle';
+import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
 
 function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { imgPath } = config;
     let callNumber;
     let level;
@@ -129,11 +129,7 @@ function otherIndexInit(f7, view, page) {
                     },
                     {
                         text: '安全登录',
-                        onClick: () => {
-                            mainView.router.load({
-                                url: 'views/login.html'
-                            })
-                        }
+                        onClick: loginViewShow
                     }
                 ]
             })

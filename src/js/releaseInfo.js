@@ -10,8 +10,8 @@ function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
     const { ios } = currentDevice;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const currentNav = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentNav = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const tellInput = currentPage.find('input[placeholder="请填写手机号"]');
     const addressInput = currentPage.find('.release-write-address').children('input');
     const priceInput = currentPage.find('.release-write-price').children('input');

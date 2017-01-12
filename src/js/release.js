@@ -6,7 +6,7 @@ function releaseInit(f7, view, page) {
     // views/filter.html?type=1&release=true
     // views/filter.html?type=2&release=true
     f7.hideIndicator();
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { servicePhoneNumber, debug } = config;
     currentPage.find('.release-sound')[0].onclick = soundRelease;
     if (!window['addressObj'] || (window['addressObj'] && !window['addressObj']['initCityName'])) {

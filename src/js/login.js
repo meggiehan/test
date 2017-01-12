@@ -3,7 +3,7 @@ import customAjax from '../middlewares/customAjax';
 function loginInit(f7, view, page) {
     const { phone } = page.query;
     f7.hideIndicator();
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
     const input = currentPage.find('.login-phone').children('input')[0];
     const nextBtn = currentPage.find('.login-next').children('a')[0];
     let isPass = false;
@@ -45,7 +45,7 @@ function loginInit(f7, view, page) {
             return;
         }
         currentPage.find('input').blur();
-        view.router.load({
+        loginView.router.load({
             url: 'views/loginCode.html' + `?phone=${input.value}`
         })
 

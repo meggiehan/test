@@ -9,11 +9,11 @@ import nativeEvent from '../utils/nativeEvent';
 function filterInit(f7, view, page) {
     const _district = nativeEvent['getDistricInfo']() || nativeEvent.getDataToNative('districtData');
 
-    const {ios, android, androidChrome, osVersion} = window.currentDevice;
+    const {android, androidChrome, osVersion} = window.currentDevice;
     const {keyvalue, release, type, id, cityId, search, fishTagName} = page.query;
     const member = page['query']['member'] || false;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const currentNavbar = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = currentPage.find('.filter-empty-search-result');
     const load = currentPage.find('.infinite-scroll-preloader');
@@ -50,7 +50,7 @@ function filterInit(f7, view, page) {
             height: '65%',
             top: '17.4rem'
         });
-        const scrollEvent = (e) => {
+        const scrollEvent = () => {
             const top = currentPage.find('.page-content').scrollTop();
             const height = 80 - top;
             if (top <= 80) {
@@ -82,11 +82,11 @@ function filterInit(f7, view, page) {
         }
         let listHtml = '';
         if (_type == 1) {
-            $$.each(data.data.list, (index, item) => {
+            $$.each(data.data, (index, item) => {
                 listHtml += home.buy(item);
             })
         } else {
-            $$.each(data.data.list, (index, item) => {
+            $$.each(data.data, (index, item) => {
                 listHtml += home.cat(item);
             })
         }
@@ -114,26 +114,13 @@ function filterInit(f7, view, page) {
             load.show();
         }
         tabChange && listLength && pageNo == 1 && currentPage.find('.page-content').scrollTop(0);
-        if (listLength && data.data.list.length < pageSize) {
+        if (listLength && data.data.length < pageSize) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         }
 
-        //for Android 4. 4 version do processing.
-        if (parseFloat(currentDevice['osVersion']) <= 4.1 && !isInfinite && pullToRefresh && android && !androidChrome && !release) {
-            setTimeout(() => {
-                $$('.page-content').css('overflow', 'hidden');
-            }, 700)
-            setTimeout(() => {
-                $$('.page-content').css('overflow', 'auto');
-                f7.hideIndicator();
-            }, 750)
-        } else {
-            f7.hideIndicator();
-        }
-
-        // f7.hideIndicator();
+        f7.hideIndicator();
         pullToRefresh = false;
         isInfinite = false;
     }
@@ -293,7 +280,7 @@ function filterInit(f7, view, page) {
          */
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getDemandInfoList',
+            api: 'list',
             data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
             type: 'get',
         }, listCallback);

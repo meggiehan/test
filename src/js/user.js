@@ -1,7 +1,7 @@
 import store from '../utils/locaStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import {loginSucc, isLogin} from '../middlewares/loginMiddle';
+import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
 import {getCurrentDay} from '../utils/string';
@@ -20,7 +20,7 @@ function userInit(f7, view, page) {
     f7.hideIndicator();
     const {uuid, logout} = page.query;
     let loginStatus = logout ? false : isLogin(uuid);
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {cacheUserinfoKey, imgPath, mWebUrl} = config;
     let userInfomation = store.get(cacheUserinfoKey);
 
@@ -142,11 +142,7 @@ function userInit(f7, view, page) {
     currentPage.find('a.user-member')[0].onclick = () => {
         apiCount('btn_myCenter_myLevel');
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
             return;
         }
         nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInfomation['id']}`);
@@ -158,11 +154,7 @@ function userInit(f7, view, page) {
 
     currentPage.find('.my-collection-list')[0].onclick = () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
             return;
         }
         mainView.router.load({

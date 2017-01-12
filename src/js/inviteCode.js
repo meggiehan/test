@@ -11,7 +11,7 @@ function inviteCodeInit(f7, view, page) {
     	logOut();
     }
     f7.hideIndicator();
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const codeInput = currentPage.find('input');
     const subBtn = currentPage.find('a.button');
     let isPass = false;

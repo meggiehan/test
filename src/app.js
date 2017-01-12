@@ -32,8 +32,6 @@ import { dealListInit } from './js/dealList';
 import { releaseSelectTagInit } from './js/releaseSelectTag';
 import { notFoundInit } from './js/notFound';
 
-
-
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
 const { android, androidChrome } = device;
@@ -44,6 +42,7 @@ android && (animatStatus = androidChrome);
 window.isTipBack = false;
 window.shraeInfo = {};
 let isBack = false;
+
 // init f7
 let initAppConfig = {
     // swipeBackPage: false,
@@ -55,7 +54,6 @@ let initAppConfig = {
     // pushStatePreventOnLoad: true,
     pushState: true,
     animateNavBackIcon: true,
-    // pushStateSeparator: '?#!/',
     animatePages: animatStatus,
     preloadPreviousPage: true,
     modalButtonOk: '确定',
@@ -83,7 +81,6 @@ let initAppConfig = {
         }
         if (!currentPage && len >= 1) {
             const backPage = history[len - 2];
-            // the current page is prohibited to back prev page.
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
                 return false;
             }
@@ -96,7 +93,6 @@ let initAppConfig = {
                 $$('.modal-overlay-visible').trigger('click');
                 $$('.modal-button').length && $$('.modal-button')[0].click();
             }
-
             $$('div.footer').length && $$('div.footer').click();
 
             if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1) {
@@ -107,7 +103,6 @@ let initAppConfig = {
                 return false;
             }
             $$('.release-select-model').removeClass('on');
-
             if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7) {
                 f7.modal({
                     title:  '确定放弃这次发布吗？',
@@ -129,11 +124,11 @@ let initAppConfig = {
                 return false;
             }
 
+            /***避免低版本的安卓手机返回触发两次***/
             if (android && !androidChrome) {
                 if (isBack) {
                     return false;
                 }
-                // nativeEvent['nativeGoBack']();
                 isBack = true;
                 setTimeout(() => {
                     isBack = false;
@@ -150,6 +145,11 @@ const mainView = f7.addView('.view-main', {
     domCache: true
 })
 
+const loginView = f7.addView('.view-login', {
+    dynamicNavbar: true,
+    domCache: true
+})
+
 // load index
 mainView.router.load({
     url: 'views/home.html',
@@ -157,15 +157,19 @@ mainView.router.load({
     reload: true
 })
 
+/***抽离出登录模块，登录view初始化载入的页面***/
+loginView.router.load({
+    url: 'views/login.html',
+    reload: true
+})
+
 window.$$ = Dom7;
 window.jQuery = Dom7;
 window.$ = Dom7;
-
 window.mainView = mainView;
+window.loginView = loginView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
-
-//get search history form native.
 nativeEvent['searchHistoryActions'](2, '');
 
 /*
@@ -174,14 +178,13 @@ nativeEvent['searchHistoryActions'](2, '');
 $$('img.lazy').trigger('lazy');
 /*
  * some kinds of loading style.
- * 1: app.showIndicator() 
- * 2: app.showPreloader() 
- * 3: app.showPreloader('My text...') 
+ * 1: app.showIndicator()
+ * 2: app.showPreloader()
+ * 3: app.showPreloader('My text...')
  * hide: app.hide*
  */
 
 const initApp = f7.onPageInit("*", (page) => {
-    // show loading.
     if (page.name !== 'home' && page.name) {
         f7.showIndicator();
     } else {
@@ -245,3 +248,16 @@ const districtData = nativeEvent['getDistricInfo']() || '';
 if(districtData){
     nativeEvent.setDataToNative('districtData', districtData);
 }
+
+/***关闭登录视图, 以及login视图后退***/
+$$('.view-login>.navbar').click((e) => {
+    const ele = e.target || window.event.target;
+    if($$(ele).hasClass('login-view-close')){
+        $$('.view-login').removeClass('show');
+    }
+
+    // if($$(ele).hasClass('login-view-back')){
+    //     loginView.router.back();
+    // }
+    return;
+})

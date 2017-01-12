@@ -7,7 +7,7 @@ function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
     const { phone } = page.query;
     const {  voiceCodeWaitTime, mWebUrl } = config;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
     const input = currentPage.find('.login-code-write').children('input')[0];
     const vioceBtn = currentPage.find('.login-code-voice')[0];
     const subBtn = currentPage.find('.login-code-submit')[0];

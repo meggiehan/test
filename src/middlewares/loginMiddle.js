@@ -22,7 +22,6 @@ function logOut() {
 function activeLogout() {
     store.remove(cacheUserinfoKey);
     nativeEvent.setNativeUserInfo();
-    // nativeEvent.logOut();
     mainView.router.load({
          url: 'views/user.html'
     })
@@ -50,9 +49,23 @@ function loginSucc(data, callback) {
     callback(data);
 }
 
+function loginViewShow(){
+    $$('.view-login').addClass('show');
+    loginView.router.load({
+        url: 'views/login.html',
+        reload: true
+    })
+}
+
+function loginViewHide(){
+    $$('.view-login').removeClass('show');
+}
+
 module.exports = {
     isLogin,
     logOut,
     loginSucc,
-    activeLogout
+    activeLogout,
+    loginViewShow,
+    loginViewHide
 }

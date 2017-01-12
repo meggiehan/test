@@ -17,7 +17,7 @@ const newF7 = new framework7({
 function releaseSuccInit(f7, view, page) {
     const { type, id, fishName, phone } = page.query;
     const { pageSize, cacheUserinfoKey, shareUrl } = config;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     currentPage.find('span.release-succ-name').text(fishName);
     if (!isLogin()) {
         newF7.confirm('登录之后可以随时查看自己发布的信息，有更多好处，现在去登录吧？', '友情提示', () => {

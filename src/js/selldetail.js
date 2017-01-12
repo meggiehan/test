@@ -6,16 +6,16 @@ import {timeDifference, centerShowTime} from '../utils/time';
 import {html, saveSelectFishCache, getRange, getAddressIndex, callCheckLogin} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import {detailClickTip, veiwCert, detailMoreEvent} from '../utils/domListenEvent';
-import {isLogin} from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function selldetailInit(f7, view, page) {
     const {id} = page.query;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const certList = currentPage.find('.selldetail-cert-list');
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const shareBtn = currentPage.find('.icon-share')[0];
-    const {shareUrl, cacheUserinfoKey, timeout} = config;
+    const {shareUrl, cacheUserinfoKey} = config;
     let demandInfo_;
     let currentUserId;
     let errorInfo;
@@ -24,7 +24,6 @@ function selldetailInit(f7, view, page) {
         if (data.data) {
             const {
                 userInfo,
-                business_license_url,
                 demandInfo,
                 user_ishCertificate_list,
                 favorite
@@ -42,7 +41,6 @@ function selldetailInit(f7, view, page) {
                 fishParentTypeId,
                 state,
                 price,
-                checkTime,
                 imgePath,
                 contactName,
                 requirementPhone,
@@ -51,13 +49,10 @@ function selldetailInit(f7, view, page) {
                 descriptionTags,
                 quantityTags,
                 imgs,
-                sort,
-                latitude,
-                longitude
+                sort
             } = demandInfo;
             const {
                 id,
-                enterpriseAuthenticationTime,
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
                 lastLoginTime,
@@ -217,11 +212,7 @@ function selldetailInit(f7, view, page) {
                     },
                     {
                         text: '安全登录',
-                        onClick: () => {
-                            mainView.router.load({
-                                url: 'views/login.html'
-                            })
-                        }
+                        onClick: loginViewShow
                     }
                 ]
             })
@@ -265,11 +256,7 @@ function selldetailInit(f7, view, page) {
             return;
         }
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
             return;
         }
         const httpType = $$(collectionBtn).hasClass('icon-collection-active') ? 'DELETE' : 'POST';
