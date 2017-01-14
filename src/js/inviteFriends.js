@@ -11,7 +11,7 @@ function inviteFriendsInit(f7, view, page) {
        	logOut();
     }
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main.pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { cacheUserinfoKey } = config;
     const userInfo = store.get(cacheUserinfoKey);
     const {
@@ -24,8 +24,8 @@ function inviteFriendsInit(f7, view, page) {
         registerCount,
         nickname
     } = userInfo || {};
-    registerCount && ($$('.invite-friends-number').text(registerCount));
-    invitationCode && $$('.invite-friends-code-val').text(invitationCode);
+    registerCount && currentPage.find('.invite-friends-number').text(registerCount);
+    invitationCode && currentPage.find('.invite-friends-code-val').text(invitationCode);
     const overlay = '<div class="modal-overlay modal-overlay-visible modal-overlay-invite-code"></div>';
     const closeInviteModal = () => {
         f7.closeModal('.picker-invite-code');

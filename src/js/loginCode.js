@@ -6,7 +6,7 @@ import nativeEvent from '../utils/nativeEvent';
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
     const { phone } = page.query;
-    const {  voiceCodeWaitTime, mWebUrl } = config;
+    const {  voiceCodeWaitTime } = config;
     const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
     const input = currentPage.find('.login-code-write').children('input')[0];
     const vioceBtn = currentPage.find('.login-code-voice')[0];
@@ -114,12 +114,6 @@ function loginCodeInit(f7, view, page) {
         nativeEvent.nativeLogin(phone, input.value);
     }
     subBtn.onclick = userLogin;
-
-    //go to agreement of yudada.
-    currentPage.find('.user-protocol').children('a')[0].onclick = () => {
-        apiCount('btn_term');
-        nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
-    }
 }
 
 module.exports = {

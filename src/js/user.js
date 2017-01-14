@@ -4,7 +4,7 @@ import config from '../config';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import {getCurrentDay} from '../utils/string';
+import {getCurrentDay, alertTitleText} from '../utils/string';
 import {
     goHome,
     goMyCenter,
@@ -23,6 +23,7 @@ function userInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {cacheUserinfoKey, imgPath, mWebUrl} = config;
     let userInfomation = store.get(cacheUserinfoKey);
+    const weixinData = nativeEvent.getDataToNative('weixinData');
 
     const qrCodeFun = (data) => {
         const {
@@ -69,9 +70,9 @@ function userInit(f7, view, page) {
                     personalAuthenticationState
                 } = userInfomation;
                 nativeEvent.setDataToNative('oldDate', getCurrentDay());
-                if(!nickname){
+                if (!nickname) {
                     f7.modal({
-                        title:  '提示',
+                        title: '提示',
                         text: '你还没填写你的名字，填写完整有助于交易成交~',
                         buttons: [
                             {
@@ -84,15 +85,16 @@ function userInit(f7, view, page) {
                             },
                             {
                                 text: '取消',
-                                onClick: () => {}
+                                onClick: () => {
+                                }
                             }
                         ]
                     })
                     return;
                 }
-                if(1 != personalAuthenticationState){
+                if (1 != personalAuthenticationState) {
                     f7.modal({
-                        title:  '提示',
+                        title: '提示',
                         text: '实名认证有助于交易成交，交易额翻番不是梦~',
                         buttons: [
                             {
@@ -101,7 +103,8 @@ function userInit(f7, view, page) {
                             },
                             {
                                 text: '取消',
-                                onClick: () => {}
+                                onClick: () => {
+                                }
                             }
                         ]
                     })
@@ -132,6 +135,18 @@ function userInit(f7, view, page) {
             noCache: true,
         }, loginCallback);
     } else {
+        /*
+         * 如果只是微信登录
+         * */
+        if (weixinData) {
+            const {imgUrl, nickName} = weixinData;
+            currentPage.find('.modify-text').text('绑定');
+            nickName && currentPage.find('.user-name').children('span').text(nickName);
+            imgUrl && currentPage.find('.user-pic').children('img').attr('src', `${imgUrl}${imgPath(8)}`);
+            currentPage.find('.user-tell-number').text('绑定手机号，可使用更多功能');
+            currentPage.find('.user-header').addClass('login-succ');
+        }
+
         setTimeout(() => {
             currentPage.css({
                 borderBottom: '1px solid #efeff4'
@@ -142,7 +157,7 @@ function userInit(f7, view, page) {
     currentPage.find('a.user-member')[0].onclick = () => {
         apiCount('btn_myCenter_myLevel');
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
             return;
         }
         nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInfomation['id']}`);
@@ -154,7 +169,7 @@ function userInit(f7, view, page) {
 
     currentPage.find('.my-collection-list')[0].onclick = () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
             return;
         }
         mainView.router.load({
@@ -183,6 +198,19 @@ function userInit(f7, view, page) {
 
     //go home page;
     $$('.href-go-home').off('click', goHome).on('click', goHome);
+
+    /*
+    * 绑定账号
+    * */
+    currentPage.find('.user-bind-account')[0].onclick = () => {
+        if (!isLogin() && !nativeEvent.getDataToNative('weixinData')) {
+            f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
+            return;
+        }
+        mainView.router.load({
+            url: 'views/bindAccount.html'
+        })
+    }
 }
 
 module.exports = {

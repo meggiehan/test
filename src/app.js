@@ -31,6 +31,7 @@ import { myCollectionInit } from './js/myCollection';
 import { dealListInit } from './js/dealList';
 import { releaseSelectTagInit } from './js/releaseSelectTag';
 import { notFoundInit } from './js/notFound';
+import {bindAccountInit} from './js/bindAccount';
 
 const deviceF7 = new Framework7();
 const { device } = deviceF7;
@@ -43,7 +44,9 @@ window.isTipBack = false;
 window.shraeInfo = {};
 let isBack = false;
 
-// init f7
+/*
+* 初始化f7的参数
+* */
 let initAppConfig = {
     // swipeBackPage: false,
     // uniqueHistoryIgnoreGetParameters: true,
@@ -68,11 +71,12 @@ let initAppConfig = {
             searchInit(f7, mainView, { query })
         }
     },
+    /*
+    * 返回上个页面的一些路由拦截操作
+    * */
     preroute: (view, options) => {
         const { history } = view;
         const currentPage = options && options['url'];
-
-        //if router back, doing.
         const len = history.length;
         const _currentPage = history[len - 1];
         var btns = document.getElementsByClassName('modal-button');
@@ -138,6 +142,9 @@ let initAppConfig = {
     }
 }
 
+/*
+* 在低端安卓机中切换页面动画效果不流畅，所以判断在4.4以下的安卓机禁止启用动画
+* */
 android && !androidChrome && (initAppConfig['swipeBackPage'] = false);
 var f7 = new Framework7(initAppConfig);
 const mainView = f7.addView('.view-main', {
@@ -145,21 +152,20 @@ const mainView = f7.addView('.view-main', {
     domCache: true
 })
 
+/*
+* 抽离出登录视图
+* */
 const loginView = f7.addView('.view-login', {
     dynamicNavbar: true,
     domCache: true
 })
 
-// load index
+/*
+* 主视图初始化加载首页
+* */
 mainView.router.load({
     url: 'views/home.html',
     animatePages: false,
-    reload: true
-})
-
-/***抽离出登录模块，登录view初始化载入的页面***/
-loginView.router.load({
-    url: 'views/login.html',
     reload: true
 })
 
@@ -184,6 +190,9 @@ $$('img.lazy').trigger('lazy');
  * hide: app.hide*
  */
 
+/*
+* 页面加载完成后根据name执行相应的controller
+* */
 const initApp = f7.onPageInit("*", (page) => {
     if (page.name !== 'home' && page.name) {
         f7.showIndicator();
@@ -194,6 +203,7 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'editName' && editNameInit(f7, mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
     page.name === 'login' && loginInit(f7, mainView, page);
+    page.name === 'bindPhone' && loginInit(f7, mainView, page);
     page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
     page.name === 'search' && searchInit(f7, mainView, page);
     page.name === 'filter' && filterInit(f7, mainView, page);
@@ -218,10 +228,12 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'dealList' && dealListInit(f7, mainView, page);
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
     page.name === 'notFound' && notFoundInit(f7, mainView, page);
+    page.name === 'bindAccount' && bindAccountInit(f7, mainView, page);
 });
 
-
-//call weixin share func.
+/*
+* 关闭微信分享model
+* */
 $$('.share-to-weixin-model')[0].onclick = (e) => {
     const ele = e.target || window.event.target;
     const classes = ele.className;
@@ -230,6 +242,9 @@ $$('.share-to-weixin-model')[0].onclick = (e) => {
     }
 }
 
+/*
+* 微信分享给朋友
+* */
 $$('.share-to-friends')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
     let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
@@ -237,6 +252,9 @@ $$('.share-to-friends')[0].onclick = () => {
     nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
 }
 
+/*
+ * 微信分享到朋友圈
+ * */
 $$('.share-to-friends-circle')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
     let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
@@ -249,15 +267,13 @@ if(districtData){
     nativeEvent.setDataToNative('districtData', districtData);
 }
 
-/***关闭登录视图, 以及login视图后退***/
+/*
+* 关闭登录视图
+* */
 $$('.view-login>.navbar').click((e) => {
     const ele = e.target || window.event.target;
     if($$(ele).hasClass('login-view-close')){
         $$('.view-login').removeClass('show');
     }
-
-    // if($$(ele).hasClass('login-view-back')){
-    //     loginView.router.back();
-    // }
     return;
 })

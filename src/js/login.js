@@ -1,9 +1,13 @@
-import customAjax from '../middlewares/customAjax';
+import config from '../config';
+import nativeEvent from '../utils/nativeEvent';
+import { loginViewHide } from '../middlewares/loginMiddle';
 
 function loginInit(f7, view, page) {
-    const { phone } = page.query;
+    const {phone, notBindPhone} = page.query;
+    const {mWebUrl} = config;
     f7.hideIndicator();
     const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
+    const currentNavbar = $$($$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length - 1]);
     const input = currentPage.find('.login-phone').children('input')[0];
     const nextBtn = currentPage.find('.login-next').children('a')[0];
     let isPass = false;
@@ -12,7 +16,7 @@ function loginInit(f7, view, page) {
     }, 400);
 
     const inputChange = () => {
-        const val = input.value ;
+        const val = input.value;
         let classes = nextBtn.className;
         if (/^1[3|4|5|7|8]\d{9}$/.test(val)) {
             classes += ' on';
@@ -23,14 +27,17 @@ function loginInit(f7, view, page) {
             isPass = false;
         }
     }
-    if(phone){
+    if (phone) {
         input.value = phone;
         inputChange();
     }
     input.oninput = () => {
         inputChange();
     };
-    //listen
+
+    /*
+    * 输入框输入监听事件
+    * */
     input.onkeypress = (e) => {
         const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;
@@ -51,6 +58,36 @@ function loginInit(f7, view, page) {
 
     }
 
+    /*
+    * 打开第三方webview，载入帮助页面
+    * */
+    if (currentPage.find('.user-protocol').length) {
+        currentPage.find('.user-protocol').children('a')[0].onclick = () => {
+            apiCount('btn_term');
+            nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
+        }
+    }
+
+    /*
+    * 判断是否为微信登录而未绑定手机号的情况，显示以及隐藏跳过按钮
+    * 跳过绑定手机号
+    * */
+    if (currentNavbar.find('.bind-phone-break').length) {
+        !notBindPhone && currentNavbar.find('.bind-phone-break').show();
+        currentNavbar.find('.bind-phone-break')[0].onclick = () => {
+            loginViewHide();
+            mainView.router.refreshPage();
+        }
+    }
+
+    /*
+    * 调用native微信登录
+    * */
+    if(currentPage.find('.weixin-login-btn').length){
+        currentPage.find('.weixin-login-btn')[0].onclick = () => {
+            nativeEvent.callWeixinLogin();
+        }
+    }
 }
 
 module.exports = {

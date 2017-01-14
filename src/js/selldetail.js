@@ -3,7 +3,7 @@ import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import {selldetail} from '../utils/template';
 import {timeDifference, centerShowTime} from '../utils/time';
-import {html, saveSelectFishCache, getRange, getAddressIndex, callCheckLogin} from '../utils/string';
+import {html, saveSelectFishCache, getRange, getAddressIndex, callCheckLogin, alertTitleText} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import {detailClickTip, veiwCert, detailMoreEvent} from '../utils/domListenEvent';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
@@ -16,6 +16,7 @@ function selldetailInit(f7, view, page) {
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const shareBtn = currentPage.find('.icon-share')[0];
     const {shareUrl, cacheUserinfoKey} = config;
+    const weixinData = nativeEvent.getDataToNative('weixinData');
     let demandInfo_;
     let currentUserId;
     let errorInfo;
@@ -203,7 +204,7 @@ function selldetailInit(f7, view, page) {
         if (!isLogin()) {
             f7.modal({
                 title: '友情提示',
-                text: '为了保证信息安全，请登录后拨打电话',
+                text: weixinData ? '绑定手机号后，可以使用全部功能!' : '为了保证信息安全，请登录后拨打电话',
                 buttons: [
                     {
                         text: '我再想想',
@@ -256,7 +257,7 @@ function selldetailInit(f7, view, page) {
             return;
         }
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
             return;
         }
         const httpType = $$(collectionBtn).hasClass('icon-collection-active') ? 'DELETE' : 'POST';

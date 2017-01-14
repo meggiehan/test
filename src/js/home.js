@@ -5,20 +5,24 @@ import {html} from '../utils/string';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {getAll} from '../utils/locaStorage';
-import {isLogin} from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const {pageSize} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
-    /***判断是否有数据缓存，如果有就直接显示缓存***/
+    /*
+    * 判断是否有数据缓存，如果有就直接显示缓存
+    * */
     if (getAll().length) {
         $$('.ajax-content').show();
         $$('.home-loading').hide();
     }
 
-    /***成交列表 render***/
+    /*
+    * 成交列表 render
+    * */
     const dealListCallback = (data) => {
         const {code} = data;
         if (1 == code) {
@@ -36,7 +40,9 @@ function homeInit(f7, view, page) {
         type: 'get'
     }, dealListCallback);
 
-    /***render 首页的信息列表***/
+    /*
+    * render 首页的信息列表
+    * */
     const callback = (data, err, type) => {
         const {buyDemands, saleDemands} = data.data;
         if (saleDemands.length) {
@@ -61,7 +67,9 @@ function homeInit(f7, view, page) {
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
     }
-    /****获取首页信息***/
+    /*
+    * 获取首页信息
+    * */
     function getHomeListInfo () {
         customAjax.ajax({
             apiCategory: 'demandInfo',
@@ -75,7 +83,9 @@ function homeInit(f7, view, page) {
     }
     getHomeListInfo();
 
-    /***刷新首页列表数据***/
+    /*
+    * 刷新首页列表数据
+    * */
     const ptrContent = $$('.pull-to-refresh-content');
     ptrContent.on('refresh', getHomeListInfo);
 
@@ -87,7 +97,9 @@ function homeInit(f7, view, page) {
         })
     })
 
-    //get banner date to server;
+    /*
+    * 获取banner信息，并且render swiper.
+    * */
     const bannerCallback = (res) => {
         const {code, data} = res;
         if (1 == code && data.length) {
@@ -113,6 +125,9 @@ function homeInit(f7, view, page) {
         noCache: true
     }, bannerCallback);
 
+    /*
+    * 点击活动banner，打开第三方webview.
+    * */
     currentPage.find('.home-slider')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if ($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG') {
@@ -121,11 +136,7 @@ function homeInit(f7, view, page) {
                 nativeEvent.setDataToNative('districtData', districtData);
             }
             if (!isLogin()) {
-                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', function () {
-                    view.router.load({
-                        url: 'views/login.html'
-                    })
-                })
+                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow)
                 return;
             }
             f7.showIndicator();
@@ -135,16 +146,26 @@ function homeInit(f7, view, page) {
         }
     }
 
+    /*
+    * 调用微信登录
+    * */
+    if($$('.weixin-login-btn').length){
+        $$('.weixin-login-btn')[0].onclick = nativeEvent.callWeixinLogin;
+    }
+
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
-    //     const a = JSON.stringify([{sk: 123}]);
-    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
-    //     nativeEvent.setDataToNative('sk', a);
+    //     const a = {
+    //         sk:123,
+    //         jj: 'qwe',
+    //         ok: 'klk'
+    //     };
+    //     // nativeEvent.setDataToNative('sk', a);
+    //     nativeEvent.setUerInfoToNative(a);
     // }
 
     // $$('#shareToWeixin').children().eq(1)[0].onclick = () => {
-    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
-    //     alert(nativeEvent.getDataToNative('sk'));
+    //     console.log(nativeEvent.getDataToNative('sk'));
     // }
 
     // //分享

@@ -12,6 +12,7 @@ function otherIndexInit(f7, view, page) {
     const { id, currentUserId } = page.query;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { imgPath } = config;
+    const weixinData = nativeEvent.getDataToNative('weixinData');
     let callNumber;
     let level;
     let nameAuthentication;
@@ -120,7 +121,7 @@ function otherIndexInit(f7, view, page) {
         if (!isLogin()) {
             f7.modal({
                 title: '友情提示',
-                text: '为了保证信息安全，请登录后拨打电话',
+                text: weixinData ? '绑定手机号后，可以使用全部功能!' : '为了保证信息安全，请登录后拨打电话',
                 buttons: [
                     {
                         text: '我再想想',

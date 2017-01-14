@@ -4,12 +4,13 @@ import nativeEvent from './nativeEvent';
 import config from '../config';
 import store from './locaStorage';
 import customAjax from '../middlewares/customAjax';
+import {alertTitleText} from '../utils/string'
 
 const f7 = new framework7({
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
-    modalTitle: '温馨提示',
+    modalTitle: '温馨提示'
 });
 const {servicePhoneNumber} = config;
 module.exports = {
@@ -107,7 +108,7 @@ module.exports = {
 
     myListBuy: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/myList.html?type=1'
@@ -117,7 +118,7 @@ module.exports = {
 
     myListSell: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/myList.html?type=2'
@@ -127,7 +128,7 @@ module.exports = {
 
     uploadCert: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/fishCert.html'
@@ -144,7 +145,7 @@ module.exports = {
             enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
         }
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             const url = (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) ?
                 'views/identityAuthentication.html' : 'views/catIdentityStatus.html';
@@ -278,7 +279,7 @@ module.exports = {
 
     inviteFriends: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', loginViewShow)
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/inviteFriends.html'

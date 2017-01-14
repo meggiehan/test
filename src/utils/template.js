@@ -33,9 +33,13 @@ module.exports = {
             let res = '';
             let span = '';
 
-            img.src = `${imgList[0]}${imgPath(11)}`;
-            imgStr = img.complete ? '<img src="' + `${imgList[0] + imgPath(11)}` + '"/></div>' :
-            '<img data-src="' + `${(imgList[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
+            if(imgList){
+                img.src = `${imgList[0]}${imgPath(11)}`;
+                imgStr = img.complete ? '<img src="' + `${imgList[0] + imgPath(11)}` + '"/></div>' :
+                '<img data-src="' + `${(imgList[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
+            }else{
+                imgStr = '<img data-src="backgroundImgUrl" /></div>';
+            }
 
             const authText = nameAuthenticated ? '实名' : false;
             1 == state && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');

@@ -376,5 +376,14 @@ module.exports = {
             text,
             className
         }
+    },
+
+    alertTitleText: () => {
+        const token = nativeEvent.getUserValue();
+        const weixinData = nativeEvent.getDataToNative('weixinData');
+        let text;
+        !token && !weixinData && (text = '您还没登录，请先登录!')
+        !token && weixinData && (text = '绑定手机号后，可以使用全部功能!')
+        return text;
     }
 }

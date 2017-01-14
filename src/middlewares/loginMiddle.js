@@ -4,6 +4,10 @@ import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
 const { cacheUserinfoKey } = config;
+
+/*
+* 判断用户是否登录
+* */
 function isLogin(uuid) {
     const nativeToken = nativeEvent.getUserValue() || uuid;
     if (!nativeToken) {
@@ -14,11 +18,17 @@ function isLogin(uuid) {
     }
 }
 
+/*
+ * native通知h5登出，清除h5用户信息
+ * */
 function logOut() {
     store.remove(cacheUserinfoKey);
     nativeEvent.logOut();
 }
 
+/*
+ * 主动登出，清除h5用户信息并且通知native清除用户信息
+ * */
 function activeLogout() {
     store.remove(cacheUserinfoKey);
     nativeEvent.setNativeUserInfo();
@@ -27,6 +37,9 @@ function activeLogout() {
     })
 }
 
+/*
+* 登录成功之后对user页面的信息刷新
+* */
 function loginSucc(data, callback) {
     const { imgPath } = config;
     const {
@@ -49,14 +62,32 @@ function loginSucc(data, callback) {
     callback(data);
 }
 
+/*
+* 显示登录模块。
+* 1：当有没有token并且没有微信数据的时候，是正常的登录流程，load登录页面
+* 2：当有微信数据而没有token时，就是绑定手机号流程，load绑定个手机号页面
+* */
 function loginViewShow(){
-    $$('.view-login').addClass('show');
+    const token = nativeEvent.getUserValue();
+    const weixinData = nativeEvent.getDataToNative('weixinData');
+    let url;
+    if(!token && !weixinData){
+        url = 'views/login.html';
+    }
+
+    if(!token && weixinData){
+        url = 'views/bindPhone.html';
+    }
     loginView.router.load({
-        url: 'views/login.html',
+        url,
         reload: true
     })
+    $$('.view-login').addClass('show');
 }
 
+/*
+* 隐藏登录页面
+* */
 function loginViewHide(){
     $$('.view-login').removeClass('show');
 }

@@ -1,6 +1,6 @@
-.page-login {
+.page-login, .page-bind-phone {
     .login-phone-number {
-        margin: 0 auto 1rem;
+        margin: 0 auto 2rem;
         padding: 0.5rem 2%;
         background: @bg-fff;
         .text-shadow(@text-fff);
@@ -24,10 +24,10 @@
             margin: 0 auto;
             background: @border-da;
             .text-shadow(@border-da);
-            height: 4rem;
-            line-height: 4rem;
+            height: 3.5rem;
+            line-height: 3.5rem;
             border: 0;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: @text-fff;
             &.on {
                 background: @themeColor;
@@ -39,6 +39,7 @@
         .text-center;
         color: @text-subtitle;
         line-height: 2rem;
+        margin-top: 0.5rem;
         a {
             color: @themeColor;
         }
@@ -53,7 +54,7 @@
     .break-up-line {
         color: @text-category;
         width: 60%;
-        margin: 2rem auto 1rem;
+        margin: 2.5rem auto 1rem;
         height: 2rem;
         line-height: 2rem;
         display: block;
@@ -84,7 +85,19 @@
             .text-shadow(@bg-weixin-btn);
         }
         i{
-            font-size: 2.4rem;
+            font-size: 3rem;
+            .ps-r;
+            top: -0.2rem;
+            margin-right: 0.4rem;
         }
     }
+    .bind-phone-description{
+        margin-top: 0.5rem;
+        .text-center;
+        color: @text-category;
+    }
+}
+.navbar .bind-phone-break{
+    font-size: 1.4rem;
+    display: none;
 }

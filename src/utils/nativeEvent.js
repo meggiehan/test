@@ -4,7 +4,9 @@ import framework7 from '../js/lib/framework7';
 window.currentDevice = new framework7()['device'];
 class CustomClass {
 
-    //The third party statistics.
+    /*
+    * 调用native统计事件（友盟统计）
+    * */
     apiCount(id) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_UMengToCount'] && (!window['yudada'] || !window['yudada']['JS_UMengToCount'])) {
@@ -14,7 +16,9 @@ class CustomClass {
         android && window.yudada.JS_UMengToCount(id);
     }
 
-    // contact us 
+    /*
+    * 调用native拨打电话
+    * */
     contactUs(phone) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])) {
@@ -24,7 +28,9 @@ class CustomClass {
         android && window.yudada.JS_MakeCall(phone.toString());
     }
 
-    //choose address
+    /*
+    * 调用native选择地区页面
+    * */
     eventChooseAddress(type, provinceIndex, cityIndex) {
         //pageType:0:release page  1:mycenter page
         const { ios, android } = window.currentDevice;
@@ -35,7 +41,9 @@ class CustomClass {
         android && window.yudada.JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
     }
 
-    //get current address.
+    /*
+    * 调用native定位
+    * */
     getAddress() {
         const { ios, android } = window.currentDevice;
         if (!window['JS_LocationOfDevice'] && (!window['yudada'] || !window['yudada']['JS_LocationOfDevice'])) {
@@ -45,7 +53,9 @@ class CustomClass {
         android && window.yudada.JS_LocationOfDevice();
     }
 
-    //select pic
+    /*
+    * 调用native选择图片组件
+    * */
     postPic(mark, id, path, functionName) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
@@ -62,7 +72,9 @@ class CustomClass {
         android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id, '', '');
     }
 
-    //cat pic
+    /*
+    * 调用native查看图片组件
+    * */
     catPic(url) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_ShowOriginalImg'] && (!window['yudada'] || !window['yudada']['JS_ShowOriginalImg'])) {
@@ -257,6 +269,9 @@ class CustomClass {
         ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '');
     }
 
+    /*
+    * 调用native微信登录/绑定
+    * */
     callWeixinLogin() {
         const { ios, android } = window.currentDevice;
         if (!window['JS_WeChatLogin'] && (!window['yudada'] || !window['yudada']['JS_WeChatLogin'])) {
@@ -265,6 +280,17 @@ class CustomClass {
         ios ? JS_WeChatLogin() : window.yudada.JS_WeChatLogin();
     }
 
+    /*
+    * 存入用户信息
+    * @data: object
+    * */
+    setUerInfoToNative(data) {
+        const { ios } = window.currentDevice;
+        if (!window['JS_SetNativeUserInfo'] && (!window['yudada'] || !window['yudada']['JS_SetNativeUserInfo'])) {
+            return false;
+        }
+        ios ? JS_SetNativeUserInfo(data || {}) : window.yudada.JS_SetNativeUserInfo(data || {});
+    }
 }
 
 const nativeEvent = new CustomClass;

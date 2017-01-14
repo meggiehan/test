@@ -2,20 +2,24 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from '../utils/locaStorage';
 import framework7 from '../js/lib/framework7';
-import { fishCert, releaseInfo } from '../utils/template';
+import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { goIdentity } from './domListenEvent';
-import { logOut, isLogin, loginViewHide } from '../middlewares/loginMiddle';
+import { isLogin, loginViewHide, loginViewShow } from '../middlewares/loginMiddle';
 import { getQuery } from './string';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
-    modalTitle: '温馨提示',
+    modalTitle: '温馨提示'
 });
 
 class CustomClass {
+
+    /*
+    * native返回认证上传的信息，h5更新用户关联信息
+    * */
     getPhoneSrc(srcimg, src, index) {
         const { identity, cacheUserinfoKey, imgPath } = config;
         let individualCert = true;
@@ -53,6 +57,9 @@ class CustomClass {
         }
     }
 
+    /*
+    * native返回h5发布信息是选择地区信息
+    * */
     getProandCity(province, city, provinceId, cityId) {
         if (!window['addressObj']) {
             window['addressObj'] = {};
@@ -71,6 +78,9 @@ class CustomClass {
         releaseAddressBtn.length && releaseAddressBtn.val(`${province}${city}`);
     }
 
+    /*
+    * 更新用户信息
+    * */
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
         const { identity, cacheUserinfoKey } = config;
         const { ios, android } = window.currentDevice;
@@ -105,6 +115,9 @@ class CustomClass {
         mainView.router.load({ url });
     }
 
+    /*
+    * native传给h5定位信息
+    * */
     getAdreesSys(province, city, longitude, latitude) {
         window['addressObj'] = {};
         window['addressObj']['initProvinceName'] = province;
@@ -113,6 +126,9 @@ class CustomClass {
         window['addressObj']['latitude'] = latitude;
     }
 
+    /*
+    * native给h5鱼类资质证书的资源信息，h5更新
+    * */
     subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
         const { identity, cacheUserinfoKey } = config;
         const userInfo = store.get(cacheUserinfoKey);
@@ -135,6 +151,9 @@ class CustomClass {
         }, callback);
     }
 
+    /*
+    * native登录后跳转h5页面
+    * */
     getKey(token, userId, state, status) {
         /*
          *   status == '0': user fisrt login.
@@ -142,15 +161,16 @@ class CustomClass {
          */
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
-        // const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-        // currentPage.find('input').blur();
         loginViewHide();
-        window.mainView.router.load({
-            url: `views/user.html?uuid=${token}`,
+        mainView.router.load({
+            url: `views/user.html?uuid=${token || ''}`,
             animatePage: true
         })
     }
 
+    /*
+    * 退出app
+    * */
     exitApp() {
         const { ios, android } = window.currentDevice;
         if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
@@ -171,6 +191,9 @@ class CustomClass {
         }
     }
 
+    /*
+    * 调用native统计
+    * */
     apiCount(name) {
         nativeEvent.apiCount(name);
     }
@@ -185,12 +208,15 @@ class CustomClass {
         store.set(cacheHistoryKey, resArr);
     }
 
+    /*
+    * 登录失败时，native通知h5
+    * */
     loginFail() {
-        const len = $$('.pages>.page').length - 1;
+        const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
         f7.hidePreloader();
-        $$('.login-code-write>input').val('');
-        $$('.login-code-submit').removeClass('on');
-        $$($$('.pages>.page')[len]).find('input[type="tel"]').focus();
+        currentPage.find('.login-code-write').children('input').val('');
+        currentPage.find('.login-code-submit').removeClass('on');
+        currentPage.find('input[type="tel"]').focus();
     }
 
     logout() {
@@ -219,15 +245,23 @@ class CustomClass {
         }, 500);
     }
 
+    /*
+    * 安卓手机物理键返回callback
+    * */
     jsBack() {
-        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
-            const { ios, android } = window.currentDevice;
-            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
-                ios && JS_ExitProcess();
-                android && window.yudada.JS_ExitProcess();
+        if($$('.view-login').hasClass('show')){
+            const currentNavbar = $$($$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length - 1]);
+            currentNavbar.find('.iconfont').click();
+        }else{
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
+                const { ios, android } = window.currentDevice;
+                if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+                    ios && JS_ExitProcess();
+                    android && window.yudada.JS_ExitProcess();
+                }
+            } else {
+                mainView.router.back();
             }
-        } else {
-            mainView.router.back();
         }
     }
 
@@ -269,9 +303,7 @@ class CustomClass {
         } else {
             if (!isLogin()) {
                 nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-                mainView.router.load({
-                    url: 'views/login.html'
-                })
+                loginViewShow();
                 return;
             }
             if ('level' == type) {
@@ -298,14 +330,35 @@ class CustomClass {
         }
     }
 
+    /*
+    * native调用h5登录页面
+    * */
     jumpToLogin(){
-        mainView.router.load({
-            url: 'views/login.html'
-        })
+        loginViewShow();
     }
 
+    /*
+    * 从native获取微信的用户信息
+    * */
     getWeixinDataFromNative(data){
-        console.log(data)
+        // console.log(data)
+        const weixinObj = {
+            imgUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20170114/1484381433_8739.png',
+            nickName: '张全蛋',
+            // token: '123'
+        }
+        nativeEvent.setDataToNative('weixinData', weixinObj);
+        if(weixinObj.token){
+            mainView.router.load({
+                url: 'views/user.html',
+                reload: true
+            })
+            loginViewHide();
+        }else{
+            loginView.router.load({
+                url: 'views/bindPhone.html?notBindPhone=true'
+            })
+        }
     }
 
     init(f) {
