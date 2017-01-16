@@ -4,7 +4,7 @@ import { selldetail, home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
 import config from '../config';
-import {isLogin} from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import framework7 from './lib/framework7';
 
 const newF7 = new framework7({
@@ -22,9 +22,7 @@ function releaseSuccInit(f7, view, page) {
     if (!isLogin()) {
         newF7.confirm('登录之后可以随时查看自己发布的信息，有更多好处，现在去登录吧？', '友情提示', () => {
             apiCount('btn_text_guideLogin_yes');
-            mainView.router.load({
-                url: 'views/login.html?phone=' + phone
-            })
+            loginViewShow(phone);
         })
     }else{
         const releaseF7 = new framework7({

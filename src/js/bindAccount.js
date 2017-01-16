@@ -35,10 +35,10 @@ function bindAccountInit(f7, view, page) {
     };
 
     /*
-    * 解绑微信号
-    * */
+     * 解绑微信号
+     * */
     const unbindCallback = (data) => {
-        if(data){
+        if (data) {
             nativeEvent.setDataToNative('weixinData', '');
             mainView.router.refreshPage();
             return;
@@ -49,19 +49,43 @@ function bindAccountInit(f7, view, page) {
     currentPage.find('.col-50.weixin')[0].onclick = () => {
         if (currentPage.find('.bind-account-weixin').hasClass('unbind')) {
             nativeEvent.callWeixinLogin();
-        } else { //解绑微信
-            f7.modal({
-                title: '解绑账号',
-                text: isLogin() ?
-                    '解绑了之后就无法使用微信登录本账号了，是否仍要解绑？' :
-                    '该账号是你登录鱼大大的唯一方式，绑定手机号之后可以解绑该账号！',
-                buttons: [
-                    {
-                        text: isLogin() ? '确定解绑' : '绑定手机号',
-                        onClick: () => {
-                            if(!isLogin()){
-                                loginViewShow();
-                            }else{
+        } else {
+            //解绑微信
+            if (currentPage.find('.bind-account-phone').hasClass('unbind')) {
+                //未绑定手机号时解绑微信
+                f7.modal({
+                    title: '解绑账号',
+                    text: '该账号是你登录鱼大大的唯一方式，绑定手机号之后可以解绑该账号！',
+                    buttons: [
+                        {
+                            text: '我再想想',
+                            onClick: () => {}
+                        },
+                        {
+                            text: '绑定手机号',
+                            onClick: loginViewShow
+                        },
+                        {
+                            text: '退出微信号',
+                            onClick: () => {
+                                nativeEvent.setDataToNative('weixinData', '');
+                            }
+                        }
+                    ]
+                })
+            } else {
+                //已经绑定手机号时解绑微信
+                f7.modal({
+                    title: '解绑账号',
+                    text: '解绑了之后就无法使用微信登录本账号了，是否仍要解绑？',
+                    buttons: [
+                        {
+                            text: '我再想想',
+                            onClick: () => {}
+                        },
+                        {
+                            text: '确定解绑',
+                            onClick: () => {
                                 customAjax.ajax({
                                     apiCategory: 'thirdPlatform',
                                     api: 'weChat',
@@ -72,13 +96,9 @@ function bindAccountInit(f7, view, page) {
                                 }, unbindCallback);
                             }
                         }
-                    },
-                    {
-                        text: '我在想想',
-                        onClick: () => {}
-                    }
-                ]
-            })
+                    ]
+                })
+            }
         }
     };
 }

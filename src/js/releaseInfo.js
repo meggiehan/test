@@ -37,12 +37,10 @@ function releaseInfoInit(f7, view, page) {
     const specBox = currentPage.find('.release-spec-list-box');
     const descriptBox = currentPage.find('.release-discription-list-box');
 
-    let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
+    let provinceName, cityName, provinceId, cityId, initProvinceName, initCityName;
     let isSendInfo = false;
 
     if (window.addressObj) {
-        longitude = window.addressObj['longitude'];
-        latitude = window.addressObj['latitude'];
         initProvinceName = window.addressObj['initProvinceName'];
         initCityName = window.addressObj['initCityName'];
     }
@@ -361,6 +359,8 @@ function releaseInfoInit(f7, view, page) {
             error = '补充说明最大长度为50位字符！'
         }
 
+        const {lng, lat} = getAddressIndex(provinceName, cityName);
+
         return {
             error,
             fishParentTypeId: parentFishId,
@@ -373,8 +373,8 @@ function releaseInfoInit(f7, view, page) {
             specifications: spec,
             stock,
             address,
-            longitude,
-            latitude,
+            longitude: lng || '',
+            latitude: lat || '',
             description,
             provinceId,
             cityId,

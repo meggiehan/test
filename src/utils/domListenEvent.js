@@ -44,7 +44,8 @@ module.exports = {
     },
 
     detailClickTip: () => {
-        const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+        const lastHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
         var popoverHTML = '<div class="popover detail-right-more" style="width:35%">' +
             '<div class="popover-inner">' +
             '<div class="list-block">' +
@@ -57,14 +58,12 @@ module.exports = {
             '</div>'
         f7.popover(popoverHTML, lastHeader.find('span.iconfont'));
         const detailMoreEvent = (e) => {
-            const event = e || window.event;
             const dataId = e.target.getAttribute('data-id');
             if (1 == dataId) {
                 f7.closeModal('.detail-right-more');
                 apiCount('btn_info_nav_more_share');
-                const currentPage = $$('.page')[$$('.page').length - 1];
                 setTimeout(() => {
-                    $$(currentPage).find('div.icon-share').trigger('click');
+                    currentPage.find('div.icon-share').trigger('click');
                 }, 500)
             } else if (2 == dataId) {
                 apiCount('btn_infonav_more_report');
@@ -188,17 +187,13 @@ module.exports = {
     },
 
     canclCompany: () => {
-        const {cacheUserinfoKey, servicePhoneNumber} = config;
-        let userInfomation = store.get(cacheUserinfoKey);
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         const cancleCompanyCallback = (data) => {
-            const {code, message} = data;
-            // f7.alert(message, '提示', () => {
-            $$('page-identity-status').removeClass('company-review');
+            currentPage.find('page-identity-status').removeClass('company-review');
             mainView.router.load({
                 url: 'views/user.html',
                 reload: true
             })
-            // })
         }
         f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
             customAjax.ajax({

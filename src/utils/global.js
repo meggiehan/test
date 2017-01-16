@@ -266,7 +266,7 @@ class CustomClass {
     }
 
     postReleasePicCallback(index, url, name) {
-        const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         currentPage.find('.release-info-pic-add').remove();
         const len = currentPage.find('.release-info-pic-list').children('span').length;
         currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
@@ -345,7 +345,7 @@ class CustomClass {
         const weixinObj = {
             imgUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20170114/1484381433_8739.png',
             nickName: '张全蛋',
-            // token: '123'
+            token: '123'
         }
         nativeEvent.setDataToNative('weixinData', weixinObj);
         if(weixinObj.token){

@@ -73,7 +73,7 @@ function loginInit(f7, view, page) {
     * 跳过绑定手机号
     * */
     if (currentNavbar.find('.bind-phone-break').length) {
-        !notBindPhone && currentNavbar.find('.bind-phone-break').show();
+        notBindPhone && currentNavbar.find('.bind-phone-break').children('span').show();
         currentNavbar.find('.bind-phone-break')[0].onclick = () => {
             loginViewHide();
             mainView.router.refreshPage();

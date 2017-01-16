@@ -66,13 +66,14 @@ function loginSucc(data, callback) {
 * 显示登录模块。
 * 1：当有没有token并且没有微信数据的时候，是正常的登录流程，load登录页面
 * 2：当有微信数据而没有token时，就是绑定手机号流程，load绑定个手机号页面
+* 3: 在发布成功页面登录，带来手机号自动填入
 * */
-function loginViewShow(){
+function loginViewShow(phone){
     const token = nativeEvent.getUserValue();
     const weixinData = nativeEvent.getDataToNative('weixinData');
     let url;
     if(!token && !weixinData){
-        url = 'views/login.html';
+        url = Number(phone) ? ('views/login.html?phone=' + phone) : 'views/login.html';
     }
 
     if(!token && weixinData){
