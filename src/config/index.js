@@ -85,6 +85,12 @@ const configs = {
     favorite: {
         demandInfoList: ['token', 'pageSize', 'pageNo', 'demandType'],
         demandInfo: []
+    },
+    /*
+    * 解绑微信号
+    * */
+    thirdPlatform: {
+        'weChat': []
     }
 }
 export default configs;

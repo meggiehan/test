@@ -8,7 +8,7 @@ import { isEmailStr, saveSelectFishCache } from '../utils/string';
 
 function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
-    const { ios } = currentDevice;
+    // const { ios } = currentDevice;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentNav = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
@@ -73,7 +73,9 @@ function releaseInfoInit(f7, view, page) {
     }
     currentPage.find('.release-fish-name').text(fishName);
 
-    //render tags;
+    /*
+    * render 鱼种规格标签
+    * */
     let specListHtml = '';
     if(parentFishName == '水产苗种'){
         $$.each(getTagInfo()['specList'], (index, item) => {
@@ -88,6 +90,9 @@ function releaseInfoInit(f7, view, page) {
     html(specBox, specListHtml, f7);
     !specListHtml && currentPage.find('.release-spec-list').hide().prev().removeClass('border-none');
 
+    /*
+    * render补充说明标签
+    * */
     let discriptListHtml = '';
     $$.each(getTagInfo()['discriptionList'], (index, item) => {
         if (parentFishName == '水产苗种') {
@@ -99,7 +104,9 @@ function releaseInfoInit(f7, view, page) {
     html(descriptBox, discriptListHtml, f7);
     !discriptListHtml && currentPage.find('.release-discription-list').hide();
 
-    //select tags
+    /*
+    * 选择鱼种规格标签
+    * */
     let specTag = {};
     currentPage.find('.release-spec-list-box')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
@@ -112,6 +119,9 @@ function releaseInfoInit(f7, view, page) {
         specTag.tagName = $$(ele).text();
     }
 
+    /*
+    * 选择补充说明标签
+    * */
     let descriptTags = [];
     currentPage.find('.release-discription-list-box')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
@@ -144,6 +154,9 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
+    /*
+    * 选择地区调用native组件
+    * */
     addressInput.on('click', () => {
         if (window.addressObj && window.addressObj['initProvinceName'] || window['selectedAddress']) {
             const provinceName = window['selectedAddress'] ? window['selectedAddress']['provinceName'] : window.addressObj['initProvinceName'];
@@ -161,6 +174,9 @@ function releaseInfoInit(f7, view, page) {
     phoneNumber && tellInput.val(phoneNumber);
     nickname && contactInput.val(nickname);
 
+    /*
+    * 手机号码效验
+    * */
     const testRequireInfo = () => {
         const val = trim(tellInput[0].value);
         if (/^1[3|4|5|7|8]\d{9}$/.test(val) && addressInput[0].value) {
@@ -220,7 +236,9 @@ function releaseInfoInit(f7, view, page) {
 
     }
 
-    //add pic and remove img.
+    /*
+    * 添加/删除出售信息自定义图片
+    * */
     if (currentPage.find('.release-info-pic').length) {
         currentPage.find('.release-info-pic')[0].onclick = (e) => {
             const ele = e.target || window.event.target;
@@ -238,7 +256,9 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
-    //get img list url;
+    /*
+    * 获取自定义图片的路径
+    * */
     const getImgListUrl = () => {
         let res = [];
         $$.each(currentPage.find('.release-info-img'), (index, item) => {
@@ -367,7 +387,9 @@ function releaseInfoInit(f7, view, page) {
     }
 
 
-    // submit release infomation to server;
+    /*
+    * 点击发布按钮提交发布信息
+    * */
     subBtn.onclick = () => {
         apiCount('btn_text_post');
         let data = subInfoTest();

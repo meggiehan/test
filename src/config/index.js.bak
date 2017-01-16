@@ -6,7 +6,7 @@ const configs = {
      *release branch change the api url to http://api.yudada.com
      */
     url: nativeEvent['getAPi']() || 'https://api.yudada.com/',
-    // url: '://192.168.20.109:8080/',
+    // url: 'https://10.228.17.28:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms
     pageSize: 20,
@@ -34,11 +34,11 @@ const configs = {
     },
     servicePhoneNumber: '18115381185',
     demandInfo: {
-        'getDemandInfoList': [
+        'list': [
             "fishTypeId",
             "cityId",
             "type",
-            "keyvalue",
+            "fuzzyFishTypeName",
             "pageSize",
             "pageNo",
             "member",
@@ -85,6 +85,12 @@ const configs = {
     favorite: {
         demandInfoList: ['token', 'pageSize', 'pageNo', 'demandType'],
         demandInfo: []
+    },
+    /*
+    * 解绑微信号
+    * */
+    thirdPlatform: {
+        'weChat': []
     }
 }
 export default configs;
