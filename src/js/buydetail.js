@@ -20,6 +20,9 @@ function buydetailInit(f7, view, page) {
     let currentUserId;
     let errorInfo;
 
+    /*
+     * 拿到数据，编辑页面
+     * */
     const callback = (data) => {
         if (data.data) {
             const {
@@ -130,6 +133,9 @@ function buydetailInit(f7, view, page) {
                 }
             }
 
+            /*
+            * 存入最近使用鱼种
+            * */
             saveSelectFishCache({
                 name: fishTypeName,
                 id: fishTypeId,
@@ -141,40 +147,39 @@ function buydetailInit(f7, view, page) {
         f7.pullToRefreshDone();
     }
 
+    /*
+     * 查看审核不通过message
+     * */
     currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
         apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
     }
 
+    /*
+     * 样式兼容
+     * */
     const { ios } = window.currentDevice;
     ios && (currentPage.find('.selldetail-footer').addClass('safira'));
 
-    customAjax.ajax({
-        apiCategory: 'demandInfo',
-        api: 'getDemandInfo',
-        data: [id],
-        header: ['token'],
-        val: {
-            id
-        },
-        type: 'get'
-    }, callback);
-
-    // pull to refresh.
+    /*
+     * 初始化获取数据跟刷新数据
+     * */
     const ptrContent = currentPage.find('.buy-detail-refresh');
-    ptrContent.on('refresh', function(e) {
+    const initData = () => {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfo',
             data: [id],
             header: ['token'],
-            isMandatory: true,
             val: {
                 id
             },
             type: 'get'
         }, callback);
-    })
+    }
+    ptrContent.on('refresh', initData)
+    initData();
+
 
     const collectionCallback = (data) => {
         const { code } = data;
@@ -200,6 +205,9 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator();
     }
 
+    /*
+     * 点击收藏信息
+     * */
     collectionBtn.onclick = () => {
         apiCount('btn_favorite');
         if (!nativeEvent['getNetworkStatus']()) {
@@ -227,7 +235,9 @@ function buydetailInit(f7, view, page) {
         }, collectionCallback);
     }
 
-    //delete release infomation.
+    /*
+     * 删除自己发布的信息
+     * */
     const deleteCallback = (data) => {
         const { code, message } = data;
         f7.hideIndicator();
@@ -260,13 +270,18 @@ function buydetailInit(f7, view, page) {
 
     }
 
-    //View more current user information
+    /*
+     * 跳转至个人主页
+     * */
     currentPage.find('.selldetail-userinfo')[0].onclick = () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
     }
 
+    /*
+     * 点击打电话，判断是否登录状态
+     * */
     currentPage.find('.buydetail-call-phone')[0].onclick = () => {
         if (!isLogin()) {
             f7.modal({
@@ -291,11 +306,14 @@ function buydetailInit(f7, view, page) {
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }
 
-    //view cert of new window.
-    $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
+    /*
+    * 查看证书，调用native查看图片组件
+    * */
+    currentPage.find('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
-    //share
-    // const {device} = f7;
+    /*
+     * 分享信息
+     * */
     shareBtn.onclick = () => {
         let title = '';
         let description = '';
@@ -325,11 +343,13 @@ function buydetailInit(f7, view, page) {
             imgUrl: imgePath,
             description
         }
-        // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare.shareInfo(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
         $$('.share-to-weixin-model').addClass('on');
     }
-    lastHeader.find('.right')[0].onclick = detailClickTip;
-    // $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
+
+    /*
+     * 点击右上角nav，选择分享或者举报
+     * */
+    lastHeader.find('.detail-more')[0].onclick = detailClickTip;
 }
 
 module.exports = {

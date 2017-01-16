@@ -21,6 +21,9 @@ function selldetailInit(f7, view, page) {
     let currentUserId;
     let errorInfo;
 
+    /*
+    * 拿到数据，编辑页面
+    * */
     const callback = (data) => {
         if (data.data) {
             const {
@@ -154,6 +157,9 @@ function selldetailInit(f7, view, page) {
                 }
             }
 
+            /*
+             * 存入最近使用鱼种
+             * */
             saveSelectFishCache({
                 name: fishTypeName,
                 id: fishTypeId,
@@ -165,41 +171,42 @@ function selldetailInit(f7, view, page) {
         f7.pullToRefreshDone();
     }
 
+    /*
+    * 样式兼容
+    * */
     const {ios} = window.currentDevice;
     ios && (currentPage.find('.selldetail-footer').addClass('safira'));
-    customAjax.ajax({
-        apiCategory: 'demandInfo',
-        api: 'getDemandInfo',
-        data: [id],
-        header: ['token'],
-        val: {
-            id
-        },
-        type: 'get'
-    }, callback);
 
-    // pull to refresh.
+    /*
+    * 初始化获取数据跟刷新数据
+    * */
     const ptrContent = currentPage.find('.sell-detail-refresh');
-    ptrContent.on('refresh', function (e) {
+    const initData = () => {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'getDemandInfo',
             data: [id],
             header: ['token'],
-            isMandatory: true,
             val: {
                 id
             },
             type: 'get'
         }, callback);
-    })
+    }
+    initData();
+    ptrContent.on('refresh', initData)
 
-    // dom event;
+    /*
+    * 查看审核不通过message
+    * */
     currentPage.find('.sell-detail-verify-faild ')[0].onclick = () => {
         apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
     }
 
+    /*
+    * 点击打电话，判断是否登录状态
+    * */
     currentPage.find('.selldetail-call-phone')[0].onclick = () => {
         if (!isLogin()) {
             f7.modal({
@@ -224,6 +231,9 @@ function selldetailInit(f7, view, page) {
         requirementPhone && nativeEvent.contactUs(requirementPhone);
     }
 
+    /*
+    * 点击收藏信息
+    * */
     const collectionCallback = (data) => {
         const {code} = data;
         if (8 == code) {
@@ -275,7 +285,9 @@ function selldetailInit(f7, view, page) {
         }, collectionCallback);
     }
 
-    //delete release infomation.
+    /*
+    * 删除自己发布的信息
+    * */
     const deleteCallback = (data) => {
         const {code, message} = data;
         f7.hideIndicator();
@@ -307,17 +319,23 @@ function selldetailInit(f7, view, page) {
         })
     }
 
-    //View more current user information
+    /*
+    * 跳转至个人主页
+    * */
     currentPage.find('.view-user-index').on('click', () => {
         view.router.load({
             url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
         })
     })
 
-    //view cert of new window.
-    $$('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
+    /*
+    * 查看鱼类资质证书
+    * */
+    currentPage.find('.selldetail-cert-list').off('click', veiwCert).on('click', veiwCert);
 
-    //cat info list img;
+    /*
+    * 查看上传的图片，调用native组件，可放大缩小
+    * */
     if (currentPage.find('.info-img-list')[0]) {
         currentPage.find('.info-img-list')[0].onclick = (e) => {
             const ele = e.target || window.event.target;
@@ -329,8 +347,9 @@ function selldetailInit(f7, view, page) {
         }
     }
 
-    //share
-    // const {device} = f7;
+    /*
+    * 分享信息
+    * */
     shareBtn.onclick = () => {
         let title = '';
         let description = '';
@@ -359,12 +378,13 @@ function selldetailInit(f7, view, page) {
             imgUrl: shareImg,
             description
         }
-        // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
         $$('.share-to-weixin-model').addClass('on');
     }
-    lastHeader.find('.right')[0].onclick = detailClickTip;
-    // $$('.navbar-inner.detail-text .detail-more').off('click', detailClickTip).on('click', detailClickTip);
-    $$('.detail-right-more').off('click', detailMoreEvent).on('click', detailMoreEvent);
+
+    /*
+    * 点击右上角nav，选择分享或者举报
+    * */
+    lastHeader.find('.detail-more')[0].onclick = detailClickTip;
 }
 
 module.exports = {
