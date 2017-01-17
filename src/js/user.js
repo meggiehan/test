@@ -139,9 +139,9 @@ function userInit(f7, view, page) {
          * 如果只是微信登录
          * */
         if (weixinData) {
-            const {imgUrl, nickName} = weixinData;
+            const {imgUrl, nickname} = weixinData;
             currentPage.find('.modify-text').text('绑定');
-            nickName && currentPage.find('.user-name').children('span').text(nickName);
+            nickname && currentPage.find('.user-name').children('span').text(nickname);
             imgUrl && currentPage.find('.user-pic').children('img').attr('src', `${imgUrl}${imgPath(8)}`);
             currentPage.find('.user-tell-number').text('绑定手机号，可使用更多功能');
             currentPage.find('.user-header').addClass('login-succ');
