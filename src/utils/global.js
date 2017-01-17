@@ -341,14 +341,13 @@ class CustomClass {
     * 从native获取微信的用户信息
     * */
     getWeixinDataFromNative(data){
-        // console.log(data)
-        const weixinObj = {
-            imgUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20170114/1484381433_8739.png',
-            nickName: '张全蛋',
-            token: '123'
-        }
-        nativeEvent.setDataToNative('weixinData', weixinObj);
-        if(weixinObj.token){
+        // const weixinObj = {
+        //     imgUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20170114/1484381433_8739.png',
+        //     nickName: '张全蛋',
+        //     token: '123'
+        // }
+        nativeEvent.setDataToNative('weixinData', data);
+        if(nativeEvent.getUserValue()){
             mainView.router.load({
                 url: 'views/user.html',
                 reload: true
