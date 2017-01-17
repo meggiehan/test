@@ -61,6 +61,7 @@ fs.writeFile('./src/config/version.json', JSON.stringify(writeObj), (err) => {
 });
 
 if (PROD === 'dev' || PROD === 'build-dev') {
+    // initConfig.devtool = 'source-map';
     initConfig.devtool = 'eval';
     initConfig.progress = false;
     initConfig.devServer = {

@@ -108,7 +108,7 @@ function homeInit(f7, view, page) {
                 index: 'index'
             },
             type: 'get',
-            isMandatory: !nativeEvent.getNetworkStatus()
+            isMandatory: nativeEvent.getNetworkStatus()
         }, callback);
     }
 

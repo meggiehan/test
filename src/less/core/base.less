@@ -55,12 +55,15 @@
 @text-review: #7c4e0c;
 @text-verify-faild: #880707;
 @text-verify-review: #880707;
+@border-tehemColor: #84E159;
 @appAnimate: ease;
 @appAnimateTime: 150ms;
 @themeColor: @bg-color;
 @tabbar-unselect: #929292;
 html {
+    -webkit-text-size-adjust:none;
     font-size: 62.5%; //1rem = 10px
+    //-webkit-transform: scale(5/6);
 }
 
 body {
@@ -316,6 +319,10 @@ input::-webkit-input-placeholder {
 
 .fw-l {
     font-weight: normal;
+}
+
+.fw-b{
+    font-weight: bold;
 }
 
 .pull-left {

@@ -23,6 +23,7 @@ function isLogin(uuid) {
  * */
 function logOut() {
     store.remove(cacheUserinfoKey);
+    nativeEvent.setDataToNative('weixinData', '');
     nativeEvent.logOut();
 }
 
@@ -32,6 +33,7 @@ function logOut() {
 function activeLogout() {
     store.remove(cacheUserinfoKey);
     nativeEvent.setNativeUserInfo();
+    nativeEvent.setDataToNative('weixinData', '');
     mainView.router.load({
          url: 'views/user.html'
     })

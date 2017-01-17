@@ -118,24 +118,24 @@ function otherIndexInit(f7, view, page) {
 
     //call to other user.
     currentPage.find('.other-footer-call')[0].onclick = () => {
-        if (!isLogin()) {
-            f7.modal({
-                title: '友情提示',
-                text: weixinData ? '绑定手机号后，可以使用全部功能!' : '为了保证信息安全，请登录后拨打电话',
-                buttons: [
-                    {
-                        text: '我再想想',
-                        onClick: () => {
-                        }
-                    },
-                    {
-                        text: '安全登录',
-                        onClick: loginViewShow
-                    }
-                ]
-            })
-            return;
-        }
+        // if (!isLogin()) {
+        //     f7.modal({
+        //         title: '友情提示',
+        //         text: weixinData ? '绑定手机号后，可以使用全部功能!' : '为了保证信息安全，请登录后拨打电话',
+        //         buttons: [
+        //             {
+        //                 text: '我再想想',
+        //                 onClick: () => {
+        //                 }
+        //             },
+        //             {
+        //                 text: '安全登录',
+        //                 onClick: loginViewShow
+        //             }
+        //         ]
+        //     })
+        //     return;
+        // }
         apiCount('btn_profile_call');
         nativeEvent.contactUs(callNumber);
     }

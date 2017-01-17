@@ -174,7 +174,8 @@ function buydetailInit(f7, view, page) {
             val: {
                 id
             },
-            type: 'get'
+            type: 'get',
+            isMandatory: nativeEvent.getNetworkStatus()
         }, callback);
     }
     ptrContent.on('refresh', initData)
@@ -283,24 +284,24 @@ function buydetailInit(f7, view, page) {
      * 点击打电话，判断是否登录状态
      * */
     currentPage.find('.buydetail-call-phone')[0].onclick = () => {
-        if (!isLogin()) {
-            f7.modal({
-                title: '友情提示',
-                text: weixinData ? '绑定手机号后，可以使用全部功能!' : '为了保证信息安全，请登录后拨打电话',
-                buttons: [
-                    {
-                        text: '我再想想',
-                        onClick: () => {
-                        }
-                    },
-                    {
-                        text: '安全登录',
-                        onClick: loginViewShow
-                    }
-                ]
-            })
-            return;
-        }
+        // if (!isLogin()) {
+        //     f7.modal({
+        //         title: '友情提示',
+        //         text: weixinData ? '绑定手机号后，可以使用全部功能!' : '为了保证信息安全，请登录后拨打电话',
+        //         buttons: [
+        //             {
+        //                 text: '我再想想',
+        //                 onClick: () => {
+        //                 }
+        //             },
+        //             {
+        //                 text: '安全登录',
+        //                 onClick: loginViewShow
+        //             }
+        //         ]
+        //     })
+        //     return;
+        // }
         const {requirementPhone} = demandInfo_;
         apiCount('btn_call');
         requirementPhone && nativeEvent.contactUs(requirementPhone);

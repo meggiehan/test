@@ -15,7 +15,7 @@ function bindAccountInit(f7, view, page) {
         currentPage.find('.bind-account-phone').addClass('bind');
         if (userInfo) {
             const {loginName} = userInfo;
-            const phoneText = loginName.subStr(0, 3) + '*****' + loginName.subStr(7, 11);
+            const phoneText = loginName.substring(0, 3) + '*****' + loginName.substring(7, 11);
             currentPage.find('.bind-account-phone').children('.text').text(phoneText)
         }
     } else {

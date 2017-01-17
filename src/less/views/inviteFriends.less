@@ -3,17 +3,19 @@
         background: @bg-fff;
     	overflow: hidden;
         .invite-friends-logo {
-            padding: 3rem 2rem 2.5rem;
+            .ps-r;
             img {
-                width: 65%;
+                width: 100%;
                 margin: 0 auto;
                 display: block;
             }
-            p {
-                .text-center;
-                color: @text-name;
-                font-size: 1.6rem;
-                margin: 0;
+            div{
+                .ps-a;
+                width: 60%;
+                left: 20%;
+                bottom: 0;
+                background: @bg-fff;
+                .text-shadow(@bg-fff);
             }
         }
         .invite-friends-code {
@@ -31,7 +33,9 @@
             }
         }
         .invite-friends-actions {
-            padding: 4rem 7% 1rem;
+            padding: 1.5rem 7% 1rem;
+            .ps-r;
+            box-shadow: 0 -0.3rem 0.5rem -0.1rem @text-subtitle;
             a {
                 display: block;
                 margin-bottom: 1rem;
@@ -70,11 +74,114 @@
                 }
                 &.link {
                     color: @text-subtitle;
-                    font-size: 1.6rem;
+                    font-size: 1.4rem;
+                    box-sizing: border-box;
+                    .box-size();
                     .text-center;
-                    padding-top: 0.5rem;
+                    display: block;
+                    .ps-r;
+                    height: 13rem;
+                    width: 13rem;
+                    line-height: 13rem;
+                    border-radius: 6.5rem;
+                    border:2xp solid @border-tehemColor;
+                    padding: 0;
+                    margin:0rem auto 3rem;
+                    p{
+                        font-size: 1.2rem;
+                        .ps-a;
+                        width: 100%;
+                        left: 0;
+                        line-height: 1;
+                        height: 1.2rem;
+                        margin: 0;
+                        &.top{
+                            top: 1.2rem;
+                        }
+                        &.bottom{
+                            bottom: 1.7rem;
+                            &:after{
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
+                    .invite-friends-number{
+                        font-size: 3rem;
+                        .fw-b;
+                        color: @themeColor;
+                    }
                 }
             }
+            .invite-friends-actions-info{
+                .text-center;
+                font-size: 1.6rem;
+                padding-top: 0.5rem;
+                color: @text-name;
+                p{
+                    margin: 0.5rem 0 0;
+                    line-height: 1.2;
+                    span{
+                        color: @text-price;
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and (min-width: 350px) and (max-width: 400px) {
+    .page-invite-friends .page-content .invite-friends-logo div{
+        padding: 0.5rem;
+    }
+    .page-invite-friends .page-content .invite-friends-actions a.link{
+        width: 15rem;
+        height: 15rem;
+        line-height: 15rem;
+        border-radius: 7.5rem;
+        margin-bottom: 4rem;
+        margin-top: 1rem;
+        p{
+            font-size: 1.4rem;
+            &.top{
+                top: 1.5rem;
+            }
+            &.bottom{
+                bottom: 2rem;
+            }
+        }
+        .invite-friends-number{
+            font-size: 3.2rem;
+        }
+    }
+}
+
+@media screen and (min-width: 401px) and (max-width: 500px) {
+    .page-invite-friends .page-content .invite-friends-logo div{
+        padding: 0.5rem;
+        p{
+            font-size: 1.8rem;
+        }
+        span{
+            font-size: 3.6rem;
+        }
+    }
+    .page-invite-friends .page-content .invite-friends-actions a.link{
+        width: 17rem;
+        height: 17rem;
+        line-height: 17rem;
+        border-radius: 8.5rem;
+        margin-bottom: 5.5rem;
+        margin-top: 2rem;
+        p{
+            font-size: 1.6rem;
+            &.top{
+                top: 1.8rem;
+            }
+            &.bottom{
+                bottom: 2.4rem;
+            }
+        }
+        .invite-friends-number{
+            font-size: 4rem;
         }
     }
 }
