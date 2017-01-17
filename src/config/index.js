@@ -91,6 +91,7 @@ const configs = {
     * */
     thirdPlatform: {
         'weChat': []
-    }
+    },
+    initPage: []
 }
 export default configs;

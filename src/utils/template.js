@@ -149,8 +149,8 @@ module.exports = {
             return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span>成交  <span class="deal-list-category">${fishTypeName} ${quantity || ''}</span>, ${getDealTime(tradeDate)}</div>`
         },
         banner: (data) => {
-            const {imgUrl, link} = data;
-            return `<div class="swiper-slide" data-href="${link}"><img src="${imgUrl + '@1e_1c_2o_0l_120h_500w_90q.src'}" alt=""></div>`;
+            const {imgUrl, link, loginRequired} = data;
+            return `<div class="swiper-slide" data-login="${loginRequired ? 1 : 0}" data-href="${link}"><img src="${imgUrl + '@1e_1c_2o_0l_120h_500w_90q.src'}" alt=""></div>`;
         }
     },
     search: {

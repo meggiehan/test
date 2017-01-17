@@ -7,7 +7,7 @@ import nativeEvent from '../utils/nativeEvent';
 
 
 function filterInit(f7, view, page) {
-    const _district = nativeEvent['getDistricInfo']() || nativeEvent.getDataToNative('districtData');
+    const _district = nativeEvent['getDistricInfo']();
 
     const {android, androidChrome, osVersion} = window.currentDevice;
     const {keyvalue, release, type, id, cityId, search, fishTagName} = page.query;

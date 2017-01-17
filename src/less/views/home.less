@@ -376,15 +376,19 @@
 
 .home-slider{
     display: none;
+    background: @bg-fff;
     .swiper-pagination span{
         display: none;
+        &.inline{
+            display: inline-block;
+        }
     }
     .swiper-slide {
-        background: #fff;
+        background: @bg-fff;
         box-sizing: border-box;
         span {
             text-align:center;
-            display:block;
+            display: block;
             margin: 20px;
             font-size:21px;
         }

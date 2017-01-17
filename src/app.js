@@ -262,11 +262,6 @@ $$('.share-to-friends-circle')[0].onclick = () => {
     nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
 }
 
-const districtData = nativeEvent['getDistricInfo']() || '';
-if(districtData){
-    nativeEvent.setDataToNative('districtData', districtData);
-}
-
 /*
 * 关闭登录视图
 * */
