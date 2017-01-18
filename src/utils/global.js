@@ -353,6 +353,9 @@ class CustomClass {
                 url: 'views/bindPhone.html?notBindPhone=true'
             })
         }
+        if(mainView.url && mainView.url.indexOf('bindAccount') > -1){
+            mainView.router.refreshPage();
+        }
     }
 
     init(f) {

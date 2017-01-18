@@ -289,7 +289,13 @@ class CustomClass {
         if (!window['JS_SetNativeUserInfo'] && (!window['yudada'] || !window['yudada']['JS_SetNativeUserInfo'])) {
             return false;
         }
-        ios ? JS_SetNativeUserInfo(data || {}) : window.yudada.JS_SetNativeUserInfo(data || {});
+        if(ios){
+            JS_SetNativeUserInfo(data || {});
+        }else{
+            $$.each(data, (key, val) => {
+                window.yudada.JS_SetNativeUserInfo(key || '', val || '');
+            })
+        }
     }
 }
 

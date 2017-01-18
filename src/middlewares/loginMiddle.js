@@ -24,8 +24,12 @@ function isLogin(uuid) {
 function logOut() {
     store.remove(cacheUserinfoKey);
     nativeEvent.setDataToNative('weixinData', '');
-    nativeEvent.setUerInfoToNative('inviterId', 0);
-    nativeEvent.setUerInfoToNative('unionId', '');
+    nativeEvent.setUerInfoToNative({
+        inviterId: 0
+    });
+    nativeEvent.setUerInfoToNative({
+        unionId: ''
+    });
     nativeEvent.logOut();
 }
 
@@ -36,8 +40,12 @@ function activeLogout() {
     store.remove(cacheUserinfoKey);
     nativeEvent.setNativeUserInfo();
     nativeEvent.setDataToNative('weixinData', '');
-    nativeEvent.setUerInfoToNative('inviterId', 0);
-    nativeEvent.setUerInfoToNative('unionId', '');
+    nativeEvent.setUerInfoToNative({
+        inviterId: 0
+    });
+    nativeEvent.setUerInfoToNative({
+        unionId: ''
+    });
     mainView.router.load({
          url: 'views/user.html'
     })

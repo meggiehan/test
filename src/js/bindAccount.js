@@ -11,6 +11,43 @@ function bindAccountInit(f7, view, page) {
     const token = nativeEvent.getUserValue();
     const weixinData = nativeEvent.getDataToNative('weixinData');
     const userInfo = store.get(cacheUserinfoKey);
+
+    if(!token && !weixinData){
+        mainView.router.load({
+            url: 'views/user.html',
+            reload: true
+        })
+    }
+
+    currentPage.find('.bind-account-phone').removeClass('bind unbind');
+    currentPage.find('.bind-account-weixin').removeClass('bind unbind');
+
+    function editWeixin(data){
+        const {nickname} = data;
+        nickname && currentPage.find('.bind-account-weixin').addClass('bind');
+        nickname && currentPage.find('.text').children('i').text(nickname);
+    }
+
+    const bindListCallback = (data) => {
+        if(1 == data.code){
+            if(data.data.length){
+                editWeixin(data.data[0]);
+            }else{
+                currentPage.find('.bind-account-weixin').addClass('unbind');
+            }
+        }
+    }
+
+    function getThirdPlatformsList(){
+        customAjax.ajax({
+            apiCategory: 'thirdPlatforms',
+            api: 'mine',
+            header: ['token'],
+            type: 'get',
+            noCache: true
+        }, bindListCallback);
+    }
+
     if (token) {
         currentPage.find('.bind-account-phone').addClass('bind');
         if (userInfo) {
@@ -18,16 +55,14 @@ function bindAccountInit(f7, view, page) {
             const phoneText = loginName.substring(0, 3) + '*****' + loginName.substring(7, 11);
             currentPage.find('.bind-account-phone').children('.text').text(phoneText)
         }
+        getThirdPlatformsList();
     } else {
         currentPage.find('.bind-account-phone').addClass('unbind');
-    }
-
-    if (weixinData) {
-        const {nickname} = weixinData;
-        currentPage.find('.bind-account-weixin').addClass('bind');
-        currentPage.find('.text').children('i').text(nickname);
-    } else {
-        currentPage.find('.bind-account-weixin').addClass('unbind');
+        if (weixinData) {
+            editWeixin(JSON.parse(weixinData));
+        } else {
+            currentPage.find('.bind-account-weixin').addClass('unbind');
+        }
     }
 
     currentPage.find('.col-50.phone')[0].onclick = () => {
@@ -41,10 +76,8 @@ function bindAccountInit(f7, view, page) {
         const {code, message} = data;
         if (1 == code) {
             nativeEvent.setDataToNative('weixinData', '');
-            nativeEvent.setUerInfoToNative('unionId', '');
-            mainView.router.load({
-                url: 'views/user.html'
-            })
+            nativeEvent.setUerInfoToNative({unionId: ''});
+            mainView.router.refreshPage();
             return;
         }
         f7.alert('温馨提示', message);
@@ -79,6 +112,10 @@ function bindAccountInit(f7, view, page) {
                         }
                     ]
                 })
+                setTimeout(() => {
+                    $$('.modal-in').length && $$('.modal-in').addClass('yudada-style');
+                    $$('.modal-in').css('marginTop', '-115px')
+                }, 50)
             } else {
                 //已经绑定手机号时解绑微信
                 f7.modal({

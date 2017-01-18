@@ -10,7 +10,7 @@ function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     /*
-     * 判断是否有数据缓存，如果有就直接显示缓存
+     * 判断是否有数据缓存，如果有就直接显示
      * */
     if (getAll().length) {
         currentPage.find('.ajax-content').show();
@@ -132,7 +132,6 @@ function homeInit(f7, view, page) {
             isMandatory: nativeEvent.getNetworkStatus()
         }, callback);
     }
-
     getHomeListInfo();
 
     /*
@@ -150,7 +149,6 @@ function homeInit(f7, view, page) {
             url: 'views/search.html'
         })
     })
-
 
     /*
      * 点击活动banner，打开第三方webview.

@@ -92,6 +92,12 @@ const configs = {
     thirdPlatform: {
         'weChat': []
     },
-    initPage: []
+    initPage: [],
+    /*
+    * 获取第三方账号信息列表
+    * */
+    thirdPlatforms: {
+        mine: []
+    }
 }
 export default configs;
