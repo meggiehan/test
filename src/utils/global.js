@@ -342,9 +342,6 @@ class CustomClass {
     * */
     getWeixinDataFromNative(data){
         nativeEvent.setDataToNative('weixinData', data);
-        if(data.unionId){
-            nativeEvent.setDataToNative('unionId', data.unionId);
-        }
         if(nativeEvent.getUserValue()){
             mainView.router.load({
                 url: 'views/user.html',

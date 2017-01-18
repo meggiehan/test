@@ -17,24 +17,6 @@ function otherIndexInit(f7, view, page) {
     let level;
     let nameAuthentication;
 
-    const callback = (data) => {
-        const {userInfo, saleDemands, buyDemands, fishCertificateList} = data.data;
-        renderUserInfo(userInfo, fishCertificateList);
-        renderList(buyDemands, saleDemands);
-    }
-
-    function getInfo(){
-        customAjax.ajax({
-            apiCategory: 'userInformation',
-            data: [currentUserId],
-            val:{
-                id: currentUserId
-            },
-            type: 'get',
-            noCache: true
-        }, callback);
-    }
-    getInfo();
     function renderUserInfo(userInfo, cerList){
         const { enterpriseAuthenticationState, personalAuthenticationState, lastLoginTime, nickname, imgUrl, phone } = userInfo;
         callNumber = phone;
@@ -88,35 +70,64 @@ function otherIndexInit(f7, view, page) {
         $$('img.lazy').trigger('lazy');
         f7.pullToRefreshDone();
     }
-    //go to other user infomation.
+
+    const callback = (data) => {
+        const {userInfo, saleDemands, buyDemands, fishCertificateList} = data.data;
+        renderUserInfo(userInfo, fishCertificateList);
+        renderList(buyDemands, saleDemands);
+    }
+
+    function getInfo(){
+        customAjax.ajax({
+            apiCategory: 'userInformation',
+            data: [currentUserId],
+            val:{
+                id: currentUserId
+            },
+            type: 'get',
+            isMandatory: nativeEvent.getNetworkStatus()
+        }, callback);
+    }
+
+    /*
+    * 获取/刷新个人信息
+    * */
+    const ptrContent = currentPage.find('.other-index-refresh');
+    getInfo();
+    ptrContent.on('refresh', getInfo);
+
+
+    /*
+    * 进入他人资料
+    * */
     currentPage.find('.user-header').click(() => {
         view.router.load({
             url: `views/otherInfo.html?id=${currentUserId}&goodsId=${id}`
         })
     })
 
-    // pull to refresh.
-    const ptrContent = currentPage.find('.other-index-refresh');
-    ptrContent.on('refresh', getInfo);
-
-    //view cert in ew window.
+    /*
+    * 调用native组件查看鱼类资质证书
+    * */
     currentPage.find('.cert-list').off('click', veiwCert).on('click', veiwCert);
 
-    //view current user sell list.
+    /*
+    * 查看他人的出售/求购列表
+    * */
     currentPage.find('.other-sell-cat-all')[0].onclick = () => {
         view.router.load({
             url: 'views/otherList.html?' + `id=${currentUserId}&type=2`
         })
     }
-
-    //view current user sell list.
     currentPage.find('.other-buy-cat-all')[0].onclick = () => {
         view.router.load({
             url: 'views/otherList.html?' + `id=${currentUserId}&type=1`
         })
     }
 
-    //call to other user.
+    /*
+    * 电话联系， 调用native拨打电话
+    * */
     currentPage.find('.other-footer-call')[0].onclick = () => {
         // if (!isLogin()) {
         //     f7.modal({

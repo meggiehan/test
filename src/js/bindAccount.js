@@ -23,9 +23,9 @@ function bindAccountInit(f7, view, page) {
     }
 
     if (weixinData) {
-        const {nickName} = weixinData;
+        const {nickname} = weixinData;
         currentPage.find('.bind-account-weixin').addClass('bind');
-        currentPage.find('.text').children('i').text(nickName);
+        currentPage.find('.text').children('i').text(nickname);
     } else {
         currentPage.find('.bind-account-weixin').addClass('unbind');
     }
@@ -38,12 +38,16 @@ function bindAccountInit(f7, view, page) {
      * 解绑微信号
      * */
     const unbindCallback = (data) => {
-        if (data) {
+        const {code, message} = data;
+        if (1 == code) {
             nativeEvent.setDataToNative('weixinData', '');
-            mainView.router.refreshPage();
+            nativeEvent.setUerInfoToNative('unionId', '');
+            mainView.router.load({
+                url: 'views/user.html'
+            })
             return;
         }
-        f7.alert('温馨提示', '解绑账号失败，请重试！');
+        f7.alert('温馨提示', message);
     }
 
     currentPage.find('.col-50.weixin')[0].onclick = () => {
@@ -68,7 +72,9 @@ function bindAccountInit(f7, view, page) {
                         {
                             text: '退出微信号',
                             onClick: () => {
-                                nativeEvent.setDataToNative('weixinData', '');
+                                unbindCallback({
+                                    code: 1
+                                });
                             }
                         }
                     ]

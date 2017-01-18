@@ -25,14 +25,15 @@ function userInit(f7, view, page) {
     let userInfomation = store.get(cacheUserinfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
 
+    /*
+    * 生成二维码
+    * */
     const qrCodeFun = (data) => {
         const {
             scanLink,
             imgUrl,
             invitationCode
         } = data || {scanLink: 'http://baidu.com'};
-
-        //use qrcodejs create qr code on local.
         if (!$$('.picker-invite-code-content>img').length) {
             window.qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
                 text: scanLink,
@@ -62,6 +63,7 @@ function userInit(f7, view, page) {
             userInfomation = data.data;
             store.set(cacheUserinfoKey, data.data);
             userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
+            nativeEvent.setUerInfoToNative('inviterId', data.data.inviterId);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
@@ -121,6 +123,11 @@ function userInit(f7, view, page) {
             })
         }, 1000)
     }
+
+    /*
+    * 判断登录状态
+    * 已登录：微信登录/手机号登录
+    * */
     if (loginStatus) {
         if (userInfomation) {
             loginSucc(userInfomation, userUtils.getBussesInfoCallback);
@@ -147,6 +154,9 @@ function userInit(f7, view, page) {
             currentPage.find('.user-header').addClass('login-succ');
         }
 
+        /*
+        * f7页面渲染的bug，部分页面未渲染出来，强制性再次渲染就ok
+        * */
         setTimeout(() => {
             currentPage.css({
                 borderBottom: '1px solid #efeff4'
@@ -154,6 +164,9 @@ function userInit(f7, view, page) {
         }, 1000)
     }
 
+    /*
+    * 进入我的等级，新开第三方webView
+    * */
     currentPage.find('a.user-member')[0].onclick = () => {
         apiCount('btn_myCenter_myLevel');
         if (!isLogin()) {
@@ -163,10 +176,16 @@ function userInit(f7, view, page) {
         nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInfomation['id']}`);
     }
 
+    /*
+    * 进入帮助中心，新开第三方webView
+    * */
     currentPage.find('a.user-help-service')[0].onclick = () => {
         nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
     }
 
+    /*
+    * 我的收藏列表
+    * */
     currentPage.find('.my-collection-list')[0].onclick = () => {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
@@ -177,26 +196,41 @@ function userInit(f7, view, page) {
         })
     }
 
-    //if login succ, replace to change user info page, else replace to login page.
+    /*
+    * 进入个人资料
+    * */
     $$('.user-header').off('click', goMyCenter).on('click', goMyCenter);
 
-    //cilck identity authentication.
+    /*
+    * 进入实名认证页面
+    * */
     $$('.go-identity').off('click', goIdentity).on('click', goIdentity);
 
-    //cilck upload fish cert.
+    /*
+    * 进入鱼类资质证书管理页面
+    * */
     $$('.go-verification').off('click', uploadCert).on('click', uploadCert);
 
-    //click contact us button.
+    /*
+    * 联系客服
+    * */
     $$('.user-help-list>.user-call-service').off('click', contactUs).on('click', contactUs);
 
+    /*
+    * 进入邀请界面
+    * */
     $$('.user-help-list>.user-invit').off('click', inviteFriends).on('click', inviteFriends);
 
-    //view my release list.
+    /*
+    * 进入我的出售/求购列表/刷新信息列表
+    * */
     $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
     currentPage.find('.user-refresh-auth').off('click', myListSell).on('click', myListSell);
 
-    //go home page;
+    /*
+    * 回到首页
+    * */
     $$('.href-go-home').off('click', goHome).on('click', goHome);
 
     /*

@@ -35,42 +35,42 @@ function homeInit(f7, view, page) {
             bannerHtml += home.banner(item);
         })
         bannerHtml && html($$('.home-slider .swiper-wrapper'), bannerHtml, f7);
-
+        bannerHtml && $$('.home-slider').show();
         /*
-        * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
-        * */
+         * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
+         * */
         window.yudadaSwiper && window.yudadaSwiper.destroy(false, false);
-        data.length > 1 && setTimeout(() => {
-            if(data.length) {
-                window.yudadaSwiper = new f7.swiper('.swiper-slow', {
-                    pagination: '.swiper-slow .swiper-pagination',
-                    lazyLoading: true,
-                    paginationClickable: true,
-                    initialSlide: 0,
-                    speed: 400,
-                    autoplay: 4000,
-                    centeredSlides: true,
-                    loop: true,
-                    autoplayDisableOnInteraction: true,
-                    onTouchEnd: (swiper, e) => {
-                        /*
-                        * 为了解决手动滑动后，焦点选择错误以及自动滚动关闭的bug
-                        * */
-                        setTimeout(() => {
-                            const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
-                            $$('.home-slider .swiper-pagination span').
-                            removeClass('swiper-pagination-bullet-active').eq(index).
-                            addClass('swiper-pagination-bullet-active');
-                            window.yudadaSwiper.startAutoplay();
-                        }, 50)
-                    }
-
-                });
-            }
-            $$('.home-slider .swiper-pagination span').addClass('inline');
-        }, 200)
-        $$('.home-slider').show(220);
+        if (data.length > 1) {
+            window.yudadaSwiper = new f7.swiper('.swiper-slow', {
+                pagination: '.swiper-slow .swiper-pagination',
+                lazyLoading: true,
+                paginationClickable: true,
+                initialSlide: 0,
+                speed: 400,
+                autoplay: 4000,
+                centeredSlides: true,
+                loop: true,
+                autoplayDisableOnInteraction: true,
+                onTouchStart: (swiper, e) => {
+                    window.yudadaSwiper.stopAutoplay();
+                },
+                onTouchEnd: (swiper, e) => {
+                    /*
+                     * 为了解决手动滑动后，焦点选择错误以及自动滚动关闭的bug
+                     * */
+                    setTimeout(() => {
+                        const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
+                        $$('.home-slider .swiper-pagination span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
+                        window.yudadaSwiper.startAutoplay();
+                    }, 80)
+                },
+                onInit: () => {
+                    $$('.home-slider .swiper-pagination span').addClass('inline');
+                }
+            })
+        }
     }
+
     const renderFishTags = (tagList) => {
         console.log('render tag list!')
     }
@@ -87,7 +87,7 @@ function homeInit(f7, view, page) {
         apiCategory: 'initPage',
         data: [],
         type: 'get',
-        isMandatory: nativeEvent.getNetworkStatus()
+        isMandatory: nativeEvent.getNetworkStatus(),
     }, initDataCallback);
 
     /*
