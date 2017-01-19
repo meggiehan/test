@@ -358,6 +358,65 @@ class CustomClass {
         }
     }
 
+    /*
+    * 绑定手机号失败，native调用提示
+    * */
+    phoneBindFaild(){
+        const { servicePhoneNumber } = config;
+        f7.modal({
+            title: '暂时无法绑定',
+            text: '你的手机号码已被其他微信账号绑定，你可以：<br/>1:绑定其它手机号码<br/>2:联系客服',
+            buttons: [
+                {
+                    text: '绑定其它手机号',
+                    onClick: () => {
+                        loginView.router.back();
+                    }
+                },
+                {
+                    text: '联系客服',
+                    onClick: () => {
+                        nativeEvent.contactUs(servicePhoneNumber);
+                    }
+                },
+                {
+                    text: '我再想想',
+                    onClick: () => {}
+                }
+            ]
+        })
+        setTimeout(() => {
+            $$('.modal-in').length && $$('.modal-in').addClass('yudada-style');
+            $$('.modal-in').css('marginTop', '-140px')
+        }, 50)
+    }
+
+    /*
+     * 绑定微信号失败，native调用提示
+     * */
+    weixinBindFaild(){
+        const { servicePhoneNumber } = config;
+        f7.modal({
+            title: '暂时无法绑定',
+            text: '你的微信号已被其他用户绑定，你可以：<br/>1:绑定其它微信号<br/>2:联系客服',
+            buttons: [
+                {
+                    text: '我知道了',
+                    onClick: () => {
+                        loginView.router.refreshPage();
+                        mainView.router.refreshPage();
+                    }
+                },
+                {
+                    text: '联系客服',
+                    onClick: () => {
+                        nativeEvent.contactUs(servicePhoneNumber);
+                    }
+                }
+            ]
+        })
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -379,6 +438,8 @@ class CustomClass {
         window['jsJumpFromPush'] = this.jsJumpFromPush;
         window['jumpToLogin'] = this.jumpToLogin;
         window['getWeixinDataFromNative'] = this.getWeixinDataFromNative;
+        window['phoneBindFaild'] = this.phoneBindFaild;
+        window['weixinBindFaild'] = this.weixinBindFaild;
     }
 }
 

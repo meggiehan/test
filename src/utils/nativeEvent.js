@@ -89,7 +89,6 @@ class CustomClass {
     * */
     shareInfo(title, html, url, message, imgUrl) {
         const { ios, android } = window.currentDevice;
-        const {config} = config;
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])) {
             return false;
         }

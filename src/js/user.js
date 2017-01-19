@@ -206,7 +206,7 @@ function userInit(f7, view, page) {
     /*
     * 进入实名认证页面
     * */
-    $$('.go-identity').off('click', goIdentity).on('click', goIdentity);
+    currentPage.find('.go-identity')[0].onclick = goIdentity;
 
     /*
     * 进入鱼类资质证书管理页面
@@ -228,7 +228,7 @@ function userInit(f7, view, page) {
     * */
     $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
     $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
-    currentPage.find('.user-refresh-auth').off('click', myListSell).on('click', myListSell);
+    currentPage.find('.user-refresh-auth').children()[0].onclick = myListSell;
 
     /*
     * 回到首页

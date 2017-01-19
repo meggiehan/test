@@ -4,8 +4,17 @@ import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
+import {isLogin} from '../middlewares/loginMiddle';
 
 function myListInit(f7, view, page) {
+    if (!isLogin()) {
+        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+        mainView.router.load({
+            url: 'views/login.html',
+            reload: true
+        })
+        return;
+    }
     let type = page.query['type'] || 2;
     const { pageSize, cacheUserinfoKey, shareUrl} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
