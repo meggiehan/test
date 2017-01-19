@@ -478,6 +478,11 @@ function filterInit(f7, view, page) {
             if (childId && !ele.getAttribute('data-postcode')) {
                 fishTagId = '';
             }
+            //统计最近使用鱼种点击情况
+            if(currentPage.find('.col-35').children('.active-ele').text() == '最近使用鱼种'){
+                apiCount('btn_filter_fishtype_recentUsed');
+            }
+
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'list',

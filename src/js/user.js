@@ -243,6 +243,7 @@ function userInit(f7, view, page) {
             f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
             return;
         }
+        apiCount('btn_bindAccounts');
         mainView.router.load({
             url: 'views/bindAccount.html'
         })

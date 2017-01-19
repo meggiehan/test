@@ -12,7 +12,7 @@ function bindAccountInit(f7, view, page) {
     const weixinData = nativeEvent.getDataToNative('weixinData');
     const userInfo = store.get(cacheUserinfoKey);
 
-    if(!token && !weixinData){
+    if (!token && !weixinData) {
         mainView.router.load({
             url: 'views/user.html',
             reload: true
@@ -22,23 +22,23 @@ function bindAccountInit(f7, view, page) {
     currentPage.find('.bind-account-phone').removeClass('bind unbind');
     currentPage.find('.bind-account-weixin').removeClass('bind unbind');
 
-    function editWeixin(data){
+    function editWeixin(data) {
         const {nickname} = data;
         nickname && currentPage.find('.bind-account-weixin').addClass('bind');
         nickname && currentPage.find('.text').children('i').text(nickname);
     }
 
     const bindListCallback = (data) => {
-        if(1 == data.code){
-            if(data.data.length){
+        if (1 == data.code) {
+            if (data.data.length) {
                 editWeixin(data.data[0]);
-            }else{
+            } else {
                 currentPage.find('.bind-account-weixin').addClass('unbind');
             }
         }
     }
 
-    function getThirdPlatformsList(){
+    function getThirdPlatformsList() {
         customAjax.ajax({
             apiCategory: 'thirdPlatforms',
             api: 'mine',
@@ -66,7 +66,11 @@ function bindAccountInit(f7, view, page) {
     }
 
     currentPage.find('.col-50.phone')[0].onclick = () => {
-        currentPage.find('.bind-account-phone').hasClass('unbind') && loginViewShow();
+        if (currentPage.find('.bind-account-phone').hasClass('unbind')) {
+            loginViewShow();
+            apiCount('btn_bind_phone');
+        }
+        ;
     };
 
     /*
@@ -88,8 +92,10 @@ function bindAccountInit(f7, view, page) {
 
     currentPage.find('.col-50.weixin')[0].onclick = () => {
         if (currentPage.find('.bind-account-weixin').hasClass('unbind')) {
+            apiCount('btn_bind_bindwechat');
             nativeEvent.callWeixinLogin();
         } else {
+            apiCount('btn_bind_unbindwechat');
             //解绑微信
             if (currentPage.find('.bind-account-phone').hasClass('unbind')) {
                 //未绑定手机号时解绑微信
@@ -99,7 +105,8 @@ function bindAccountInit(f7, view, page) {
                     buttons: [
                         {
                             text: '我再想想',
-                            onClick: () => {}
+                            onClick: () => {
+                            }
                         },
                         {
                             text: '绑定手机号',
@@ -127,7 +134,8 @@ function bindAccountInit(f7, view, page) {
                     buttons: [
                         {
                             text: '我再想想',
-                            onClick: () => {}
+                            onClick: () => {
+                            }
                         },
                         {
                             text: '确定解绑',

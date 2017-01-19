@@ -85,6 +85,7 @@ function loginInit(f7, view, page) {
     * */
     if(currentPage.find('.weixin-login-btn').length){
         currentPage.find('.weixin-login-btn')[0].onclick = () => {
+            apiCount('btn_login_wechat');
             nativeEvent.callWeixinLogin();
         }
     }
