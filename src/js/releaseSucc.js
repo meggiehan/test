@@ -43,6 +43,8 @@ function releaseSuccInit(f7, view, page) {
             state
         } = window['releaseInfo'];
 
+        const userInfo = store.get(cacheUserinfoKey);
+
         1 == state && $$('.release-succ-head>p span').text('所有人都可以看到你的信息啦');
         1 == state && $$('.release-succ-head>p').eq(0).hide();
 
@@ -68,7 +70,7 @@ function releaseSuccInit(f7, view, page) {
             html += price ? `${'价格' + price}，` : '';
             html += specifications ? `${'规格' + specifications}，` : '';
             html += '点击查看更多信息~';
-            nativeEvent.shareInfo(title, html, url_, messageTile);
+            nativeEvent.shareInfo(title, html, url_, messageTile, userInfo.imgUrl);
         })
     }
 

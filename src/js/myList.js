@@ -29,7 +29,9 @@ function myListInit(f7, view, page) {
         $$('.my-list-guide-model').addClass('on');
     }
 
-    //close guide.
+    /*
+    * 关闭刷新信息引导
+    * */
     $$('.my-list-guide-model')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if(ele.className.indexOf('my-list-guide-model') > -1 || ele.className.indexOf('footer') > -1){
@@ -111,7 +113,6 @@ function myListInit(f7, view, page) {
 
     const getListInfo = () => {
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
-        const isMandatory = !!nativeEvent['getNetworkStatus']();
         emptyInfo = type == 2 ? sellEmpty : buyEmpty;
 
         isInfinite = false;
@@ -124,7 +125,7 @@ function myListInit(f7, view, page) {
             header: ['token'],
             data: [pageSize, pageNo, type],
             type: 'get',
-            isMandatory
+            isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
     }
 
@@ -271,7 +272,6 @@ function myListInit(f7, view, page) {
                 imgUrl: shareImg,
                 description
             }
-            // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare.shareInfo(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
             $$('.share-to-weixin-model').addClass('on')
         }
     }

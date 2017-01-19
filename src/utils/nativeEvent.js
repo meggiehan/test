@@ -84,14 +84,17 @@ class CustomClass {
         android && window.yudada.JS_ShowOriginalImg(url);
     }
 
-    //weixin share infomation.
-    shareInfo(title, html, url, message) {
+    /*
+    * 调用友盟分享
+    * */
+    shareInfo(title, html, url, message, imgUrl) {
         const { ios, android } = window.currentDevice;
+        const {config} = config;
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])) {
             return false;
         }
-        ios && JS_ToShare(title, html, url, message);
-        android && window.yudada.JS_ToShare(title, html, url, message);
+        ios && JS_ToShare(title, html, url, message, imgUrl || '');
+        android && window.yudada.JS_ToShare(title, html, url, message, imgUrl || '');
     }
 
     //release voice info.
@@ -187,7 +190,7 @@ class CustomClass {
             return true;
         }
         const status = ios ? JS_GetNetWorkStates() : window.yudada.JS_GetNetWorkStates();
-        return Number(status);
+        return Number(status) > 0;
     }
 
     getDeviceInfomation() {

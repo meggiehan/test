@@ -77,7 +77,10 @@ function bindAccountInit(f7, view, page) {
         if (1 == code) {
             nativeEvent.setDataToNative('weixinData', '');
             nativeEvent.setUerInfoToNative({unionId: ''});
-            mainView.router.refreshPage();
+            mainView.router.load({
+                url: 'views/user.html',
+                reload: true
+            })
             return;
         }
         f7.alert('温馨提示', message);
