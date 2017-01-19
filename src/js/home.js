@@ -52,12 +52,6 @@ function homeInit(f7, view, page) {
                 centeredSlides: true,
                 loop: true,
                 autoplayDisableOnInteraction: true,
-                onSlideChangeStart: (swiper) => {
-                    $$('.home-slider .swiper-pagination span').addClass('inline');
-                },
-                onSlideChangeEnd: (swiper) => {
-                    $$('.home-slider .swiper-pagination span').addClass('inline');
-                },
                 onTouchStart: (swiper, e) => {
                     window.yudadaSwiper.stopAutoplay();
                 },
@@ -68,11 +62,13 @@ function homeInit(f7, view, page) {
                     setTimeout(() => {
                         const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
                         $$('.home-slider .swiper-pagination span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
-                        $$('.home-slider .swiper-pagination span').addClass('inline');
+                        $$('.home-slider .swiper-pagination span').removeClass('hide');
                         window.yudadaSwiper.startAutoplay();
                     }, 80)
                 }
             })
+        }else{
+            $$('.home-slider .swiper-pagination span').addClass('hide');
         }
     }
 
