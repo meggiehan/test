@@ -4,7 +4,7 @@ import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import {filterTabClick} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-
+import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function filterInit(f7, view, page) {
     const _district = nativeEvent['getDistricInfo']();
@@ -33,6 +33,7 @@ function filterInit(f7, view, page) {
     let pullToRefresh = false;
     let releaseFishName;
     let parentFishInfo = {};
+    const weixinData = nativeEvent.getDataToNative('weixinData');
     /*
      * Three cases into the filter page.
      * 1: home -> filter. query: type
@@ -525,6 +526,20 @@ function filterInit(f7, view, page) {
             const navbarHeight = $$('.navbar').height();
             currentPage.find('.filter-tabs-content').css({height: `${winHeight - navbarHeight}px`});
         }, 0)
+    }
+
+    /*
+    * 进入发布信息页面
+    * */
+    currentPage.find('.filter-need-release')[0].onclick = () => {
+        apiCount('btn_post');
+        if(!isLogin() && weixinData){
+            f7.alert('绑定手机号后，可以使用全部功能!','温馨提示', loginViewShow);
+            return;
+        }
+        view.router.load({
+            url: 'views/release.html'
+        })
     }
 }
 

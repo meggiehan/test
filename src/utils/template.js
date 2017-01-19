@@ -119,7 +119,7 @@ module.exports = {
                 '<div class="col-35 buy-time">' + timeDifference(sort) + '</div>' +
                 '</div>' +
                 `<div class="row ${!specifications && (!quantityTagList || !quantityTagList.length) && 'hide'}">` +
-                '<div class="col-65 buy-spec">规格：' + `${quantityTagList && quantityTagList.length && quantityTagList[0].tagName || ''}` + '</div>' +
+                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantityTagList && quantityTagList.length && quantityTagList[0].tagName) || ''}` + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
                 `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contactName || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
