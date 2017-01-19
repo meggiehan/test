@@ -69,6 +69,7 @@ class CustomClass {
         url.indexOf('deleteDemandInfo') > - 1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
         url.indexOf('demandInfo/refreshLog/') > - 1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
         url.indexOf('userInformation') > - 1 && (url = url.replace('userInformation', 'userInfo'));
+        url.indexOf('listFiltered') > - 1 && (url = url.replace('listFiltered', 'list/filtered'));
         parameType && (newData = JSON.stringify(newData));
 
         if (val) {

@@ -28,7 +28,7 @@ function otherListInit(f7, view, page) {
             return;
         }
         let otehrHtml = '';
-        $$.each(data.data.list, (index, item) => {
+        $$.each(data.data.records, (index, item) => {
             if (2 == type) {
                 otehrHtml += home.cat(item, level);
             } else {
@@ -51,14 +51,14 @@ function otherListInit(f7, view, page) {
 
         pullToRefresh = false;
         isInfinite = false;
-        if ($$('.other-list-info>a').length && data.data.list.length < pageSize || !$$('.other-list-info>a').length) {
+        if ($$('.other-list-info>a').length && data.data.records.length < pageSize || !$$('.other-list-info>a').length) {
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         }else{
             load.show();
         }
-        if (!$$('.other-list-info>a').length && !data.data.list.length) {
+        if (!$$('.other-list-info>a').length && !data.data.records.length) {
             2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
             showAllInfo.hide();
         } else {
@@ -70,11 +70,10 @@ function otherListInit(f7, view, page) {
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
-        api: 'getMyDemandInfoList',
+        api: 'listFiltered',
         data: [id, pageSize, pageNo, type],
         type: 'get',
-        val: { id: 1 },
-        isMandatory: !!nativeEvent['getNetworkStatus']()
+        isMandatory: nativeEvent['getNetworkStatus']()
     }, callback);
 
     // Attach 'infinite' event handler
@@ -85,25 +84,22 @@ function otherListInit(f7, view, page) {
         isInfinite = true;
         // Exit, if loading in progress
         if (loading) return;
-        const isMandatory = !!nativeEvent['getNetworkStatus']();
         // Set loading flag
         loading = true;
         pullToRefresh = false;
         pageNo++;
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getMyDemandInfoList',
+            api: 'listFiltered',
             data: [id, pageSize, pageNo, type],
             type: 'get',
-            val: { id: 1 },
-            isMandatory
+            isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
     });
 
     // pull to refresh.
     const ptrContent = $$('.page-other-list .pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
-        const isMandatory = !!nativeEvent['getNetworkStatus']();
         pageNo = 1;
         pullToRefresh = true;
         isInfinite = false;
@@ -111,11 +107,10 @@ function otherListInit(f7, view, page) {
         isShowAll = false;
         customAjax.ajax({
             apiCategory: 'demandInfo',
-            api: 'getMyDemandInfoList',
+            api: 'listFiltered',
             data: [id, pageSize, pageNo, type],
             type: 'get',
-            isMandatory,
-            val: { id: 1 }
+            isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
     })
 
