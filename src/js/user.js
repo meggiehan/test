@@ -247,6 +247,20 @@ function userInit(f7, view, page) {
             url: 'views/bindAccount.html'
         })
     }
+
+    /*
+     * 前往发布信息页面
+     * */
+    currentPage.find('.to-release-page')[0].onclick = () => {
+        apiCount('btn_tabbar_post');
+        if(!isLogin() && weixinData){
+            f7.alert('绑定手机号后，可以使用全部功能!','温馨提示', loginViewShow);
+            return;
+        }
+        view.router.load({
+            url: 'views/release.html'
+        })
+    }
 }
 
 module.exports = {

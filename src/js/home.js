@@ -9,6 +9,7 @@ import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const weixinData = nativeEvent.getDataToNative('weixinData');
     /*
      * 判断是否有数据缓存，如果有就直接显示
      * */
@@ -39,7 +40,7 @@ function homeInit(f7, view, page) {
         /*
          * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
          * */
-        window.yudadaSwiper && window.yudadaSwiper.destroy(false, false);
+        window.yudadaSwiper && window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
         if (data.length > 1) {
             window.yudadaSwiper = new f7.swiper('.swiper-slow', {
                 pagination: '.swiper-slow .swiper-pagination',
@@ -136,6 +137,7 @@ function homeInit(f7, view, page) {
             isMandatory: nativeEvent.getNetworkStatus()
         }, callback);
     }
+
     getHomeListInfo();
 
     /*
@@ -177,6 +179,20 @@ function homeInit(f7, view, page) {
      * */
     if ($$('.weixin-login-btn').length) {
         $$('.weixin-login-btn')[0].onclick = nativeEvent.callWeixinLogin;
+    }
+
+    /*
+     * 前往发布信息页面
+     * */
+    currentPage.find('.to-release-page')[0].onclick = () => {
+        apiCount('btn_tabbar_post');
+        if (!isLogin() && weixinData) {
+            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
+            return;
+        }
+        view.router.load({
+            url: 'views/release.html'
+        })
     }
 
     // //存储数据
