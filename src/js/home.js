@@ -87,8 +87,7 @@ function homeInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'initPage',
         data: [],
-        type: 'get',
-        isMandatory: nativeEvent.getNetworkStatus(),
+        type: 'get'
     }, initDataCallback);
 
     /*

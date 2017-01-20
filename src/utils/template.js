@@ -150,7 +150,7 @@ module.exports = {
         },
         banner: (data) => {
             const {imgUrl, link, loginRequired} = data;
-            return `<div class="swiper-slide" data-login="${loginRequired ? 1 : 0}" data-href="${link}"><img src="${imgUrl + '@1e_1c_2o_0l_120h_500w_90q.src'}" alt=""></div>`;
+            return `<div class="swiper-slide" data-login="${loginRequired ? 1 : 0}" data-href="${link}"><img src="${imgUrl}" alt=""></div>`;
         }
     },
     search: {

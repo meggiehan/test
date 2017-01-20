@@ -374,8 +374,11 @@
 .home-slider{
     display: none;
     background: @bg-fff;
-    .swiper-pagination span.hide{
-        display: none;
+    .swiper-pagination span{
+        background: @themeColor;
+        &.hide{
+            display: none;
+        }
     }
     .swiper-slide {
         background: @bg-fff;

@@ -15,7 +15,8 @@ function loginCodeInit(f7, view, page) {
     let isSend = false;
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
-    $$('.login-code-phone').text(phone);
+    const weixinData = nativeEvent.getDataToNative('weixinData');
+    currentPage.find('.login-code-phone').text(phone);
     let isActiveClick = false;
 
     const getCodeCallback = (data) => {
@@ -89,7 +90,9 @@ function loginCodeInit(f7, view, page) {
         f7.hideIndicator();
     }
 
-    //get voice test code;
+    /**
+     * 获取语音验证码
+     * */
     vioceBtn.onclick = () => {
         if (isCountDown) {
             return;
@@ -105,12 +108,16 @@ function loginCodeInit(f7, view, page) {
         }, callback);
     }
 
-    //User registration. return user login infomation.
+    weixinData && currentPage.find('.login-code-submit').text('绑定手机号');
+
+    /**
+     * 调用native登录接口
+     * */
     let userLogin = () => {
         if (!isPass || isSend) {
             return;
         }
-        f7.showPreloader('登录中...');
+        f7.showPreloader(weixinData ? '绑定手机号中...' : '登录中...');
         nativeEvent.nativeLogin(phone, input.value);
     }
     subBtn.onclick = userLogin;
