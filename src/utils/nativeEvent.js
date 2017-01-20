@@ -4,7 +4,7 @@ import framework7 from '../js/lib/framework7';
 window.currentDevice = new framework7()['device'];
 class CustomClass {
 
-    /*
+    /**
     * 调用native统计事件（友盟统计）
     * */
     apiCount(id) {
@@ -16,7 +16,7 @@ class CustomClass {
         android && window.yudada.JS_UMengToCount(id);
     }
 
-    /*
+    /**
     * 调用native拨打电话
     * */
     contactUs(phone) {
@@ -28,7 +28,7 @@ class CustomClass {
         android && window.yudada.JS_MakeCall(phone.toString());
     }
 
-    /*
+    /**
     * 调用native选择地区页面
     * */
     eventChooseAddress(type, provinceIndex, cityIndex) {
@@ -41,7 +41,7 @@ class CustomClass {
         android && window.yudada.JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
     }
 
-    /*
+    /**
     * 调用native定位
     * */
     getAddress() {
@@ -53,7 +53,7 @@ class CustomClass {
         android && window.yudada.JS_LocationOfDevice();
     }
 
-    /*
+    /**
     * 调用native选择图片组件
     * */
     postPic(mark, id, path, functionName) {
@@ -72,7 +72,7 @@ class CustomClass {
         android && window.yudada.JS_PictureSeletor(_mark, "上传照片", id, '', '');
     }
 
-    /*
+    /**
     * 调用native查看图片组件
     * */
     catPic(url) {
@@ -84,7 +84,7 @@ class CustomClass {
         android && window.yudada.JS_ShowOriginalImg(url);
     }
 
-    /*
+    /**
     * 调用友盟分享
     * */
     shareInfo(title, html, url, message, imgUrl) {
@@ -217,7 +217,7 @@ class CustomClass {
     }
 
     searchHistoryActions(type, val) {
-        /*
+        /**
          *  type == 1: save search history;
          *  type == 2: get search history;
          *  type == 3: clear search history.
@@ -271,7 +271,7 @@ class CustomClass {
         ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '');
     }
 
-    /*
+    /**
     * 调用native微信登录/绑定
     * */
     callWeixinLogin() {
@@ -282,7 +282,7 @@ class CustomClass {
         ios ? JS_WeChatLogin() : window.yudada.JS_WeChatLogin();
     }
 
-    /*
+    /**
     * 存入用户信息
     * @data: object
     * */
@@ -295,7 +295,7 @@ class CustomClass {
             JS_SetNativeUserInfo(data || {});
         }else{
             $$.each(data, (key, val) => {
-                window.yudada.JS_SetNativeUserInfo(key || '', val || '');
+                window.yudada.JS_PerferenceSetShared(key || '', val || '');
             })
         }
     }
