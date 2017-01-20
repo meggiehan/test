@@ -295,7 +295,7 @@ class CustomClass {
             JS_SetNativeUserInfo(data || {});
         }else{
             $$.each(data, (key, val) => {
-                window.yudada.JS_PerferenceSetShared(key || '', val || '');
+                window.yudada.JS_PerferenceSetShared(key || '', val || 0);
             })
         }
     }
