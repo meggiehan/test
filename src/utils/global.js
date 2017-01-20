@@ -405,7 +405,6 @@ class CustomClass {
                 {
                     text: '我知道了',
                     onClick: () => {
-                        loginView.router.refreshPage();
                         mainView.router.refreshPage();
                     }
                 },
