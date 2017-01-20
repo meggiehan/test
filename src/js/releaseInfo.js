@@ -71,7 +71,7 @@ function releaseInfoInit(f7, view, page) {
     }
     currentPage.find('.release-fish-name').text(fishName);
 
-    /*
+    /**
     * render 鱼种规格标签
     * */
     let specListHtml = '';
@@ -88,7 +88,7 @@ function releaseInfoInit(f7, view, page) {
     html(specBox, specListHtml, f7);
     !specListHtml && currentPage.find('.release-spec-list').hide().prev().removeClass('border-none');
 
-    /*
+    /**
     * render补充说明标签
     * */
     let discriptListHtml = '';
@@ -102,7 +102,7 @@ function releaseInfoInit(f7, view, page) {
     html(descriptBox, discriptListHtml, f7);
     !discriptListHtml && currentPage.find('.release-discription-list').hide();
 
-    /*
+    /**
     * 选择鱼种规格标签
     * */
     let specTag = {};
@@ -117,7 +117,7 @@ function releaseInfoInit(f7, view, page) {
         specTag.tagName = $$(ele).text();
     }
 
-    /*
+    /**
     * 选择补充说明标签
     * */
     let descriptTags = [];
@@ -152,7 +152,7 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
-    /*
+    /**
     * 选择地区调用native组件
     * */
     addressInput.on('click', () => {
@@ -172,7 +172,7 @@ function releaseInfoInit(f7, view, page) {
     phoneNumber && tellInput.val(phoneNumber);
     nickname && contactInput.val(nickname);
 
-    /*
+    /**
     * 手机号码效验
     * */
     const testRequireInfo = () => {
@@ -234,7 +234,7 @@ function releaseInfoInit(f7, view, page) {
 
     }
 
-    /*
+    /**
     * 添加/删除出售信息自定义图片
     * */
     if (currentPage.find('.release-info-pic').length) {
@@ -254,7 +254,7 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
-    /*
+    /**
     * 获取自定义图片的路径
     * */
     const getImgListUrl = () => {
@@ -265,26 +265,28 @@ function releaseInfoInit(f7, view, page) {
         return res;
     }
 
-    //title check.
-    // if (currentPage.find('.release-info-header-title').length) {
-    //     currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
-    //         const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-    //         const filterVal = isEmailStr(val);
-    //         currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
-    //         if (!filterVal) {
-    //             return;
-    //         }
-    //         currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
-    //         if (val && val.length >= 7) {
-    //             currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-    //             if (val && val.length >= 10) {
-    //                 currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
-    //             }
-    //         } else {
-    //             currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
-    //         }
-    //     }
-    // }
+    /**
+     * 监听检查标题输入
+     * */
+    if (currentPage.find('.release-info-header-title').length) {
+        currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
+            const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
+            const filterVal = isEmailStr(val);
+            currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
+            if (!filterVal) {
+                return;
+            }
+            // currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
+            // if (val && val.length >= 7) {
+            //     currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
+                if (val && val.length >= 10) {
+                    currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
+                }
+            // } else {
+            //     currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
+            // }
+        }
+    }
 
     priceInput[0].onkeyup = () => {
         const val = priceInput[0].value;
@@ -387,7 +389,7 @@ function releaseInfoInit(f7, view, page) {
     }
 
 
-    /*
+    /**
     * 点击发布按钮提交发布信息
     * */
     subBtn.onclick = () => {

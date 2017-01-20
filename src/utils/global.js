@@ -363,6 +363,7 @@ class CustomClass {
     * */
     phoneBindFaild(){
         const { servicePhoneNumber } = config;
+        f7.hidePreloader();
         f7.modal({
             title: '暂时无法绑定',
             text: '你的手机号码已被其他微信账号绑定，你可以：<br/>1:绑定其它手机号码<br/>2:联系客服',
@@ -396,6 +397,7 @@ class CustomClass {
      * */
     weixinBindFaild(){
         const { servicePhoneNumber } = config;
+        f7.hidePreloader();
         f7.modal({
             title: '暂时无法绑定',
             text: '你的微信号已被其他用户绑定，你可以：<br/>1:绑定其它微信号<br/>2:联系客服',

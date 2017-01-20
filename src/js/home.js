@@ -78,9 +78,9 @@ function homeInit(f7, view, page) {
     const initDataCallback = (data) => {
         const {banners, trades, fishTags} = data.data;
         if (1 == data.code) {
-            banners.length && renderBanners(banners);
-            trades.length && renderDealList(trades);
-            fishTags.length && renderFishTags(fishTags);
+            banners && banners.length && renderBanners(banners);
+            trades && trades.length && renderDealList(trades);
+            fishTags && fishTags.length && renderFishTags(fishTags);
             return;
         }
     }
