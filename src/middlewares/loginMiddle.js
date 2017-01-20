@@ -28,7 +28,7 @@ function logOut() {
         inviterId: 0
     });
     nativeEvent.setUerInfoToNative({
-        unionId: ''
+        unionId: 0
     });
     nativeEvent.logOut();
 }

@@ -21,6 +21,10 @@ function selldetailInit(f7, view, page) {
     let currentUserId;
     let errorInfo;
 
+    if(!window['addressObj']){
+        nativeEvent.getAddress();
+    }
+
     /*
     * 拿到数据，编辑页面
     * */
