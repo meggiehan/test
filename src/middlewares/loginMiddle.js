@@ -44,7 +44,7 @@ function activeLogout() {
         inviterId: 0
     });
     nativeEvent.setUerInfoToNative({
-        unionId: ''
+        unionId: 0
     });
     mainView.router.load({
          url: 'views/user.html'

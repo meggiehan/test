@@ -102,6 +102,7 @@ function bindAccountInit(f7, view, page) {
                 f7.modal({
                     title: '解绑账号',
                     text: '该账号是你登录鱼大大的唯一方式，绑定手机号之后可以解绑该账号！',
+                    verticalButtons: 'true',
                     buttons: [
                         {
                             text: '我再想想',
@@ -122,10 +123,6 @@ function bindAccountInit(f7, view, page) {
                         }
                     ]
                 })
-                setTimeout(() => {
-                    $$('.modal-in').length && $$('.modal-in').addClass('yudada-style');
-                    $$('.modal-in').css('marginTop', '-115px')
-                }, 50)
             } else {
                 //已经绑定手机号时解绑微信
                 f7.modal({
