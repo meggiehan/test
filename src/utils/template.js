@@ -42,7 +42,7 @@ module.exports = {
             }
 
             const authText = nameAuthenticated ? '实名' : false;
-            imgList && 1 == state && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
+            imgList && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
             res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
                 '<div class="col-30 ps-r item-media">' + span + imgStr +
                 '<div class="col-70 item-inner">' +
