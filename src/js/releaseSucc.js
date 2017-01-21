@@ -45,8 +45,8 @@ function releaseSuccInit(f7, view, page) {
 
         const userInfo = store.get(cacheUserinfoKey);
 
-        1 == state && $$('.release-succ-head>p span').text('所有人都可以看到你的信息啦');
-        1 == state && $$('.release-succ-head>p').eq(0).hide();
+        1 == state && currentPage.find('.release-succ-head').find('span').text('所有人都可以看到你的信息啦');
+        1 == state && currentPage.find('.release-succ-head>p').eq(0).hide();
 
         const catBtn = `<a href='views/${1 == type ? "buydetail" : "selldetail"}.html?id=${id}' class='button col-45' onclick="apiCount('btn_text_goDetail')" class='button col-45 first'>查看信息详情</a>`;
         currentPage.find('.release-succ-back-btn').children('a').eq(1).remove();

@@ -80,7 +80,7 @@ function bindAccountInit(f7, view, page) {
         const {code, message} = data;
         if (1 == code) {
             nativeEvent.setDataToNative('weixinData', '');
-            nativeEvent.setUerInfoToNative({unionId: 0});
+            nativeEvent.setUerInfoToNative({unionId: ''});
             mainView.router.load({
                 url: 'views/user.html',
                 reload: true

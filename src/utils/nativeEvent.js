@@ -4,6 +4,17 @@ import framework7 from '../js/lib/framework7';
 window.currentDevice = new framework7()['device'];
 class CustomClass {
 
+    doubleClickFeedback(){
+        if(this.doubleClick){
+            return true;
+        }
+        this.doubleClick = true;
+        setTimeout(() => {
+            this.doubleClick = false;
+        }, 300);
+        return false;
+    }
+
     /**
     * 调用native统计事件（友盟统计）
     * */
@@ -20,6 +31,9 @@ class CustomClass {
     * 调用native拨打电话
     * */
     contactUs(phone) {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])) {
             return false;
@@ -57,6 +71,9 @@ class CustomClass {
     * 调用native选择图片组件
     * */
     postPic(mark, id, path, functionName) {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
             return false;
@@ -76,6 +93,9 @@ class CustomClass {
     * 调用native查看图片组件
     * */
     catPic(url) {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_ShowOriginalImg'] && (!window['yudada'] || !window['yudada']['JS_ShowOriginalImg'])) {
             return false;
@@ -88,6 +108,9 @@ class CustomClass {
     * 调用友盟分享
     * */
     shareInfo(title, html, url, message, imgUrl) {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])) {
             return false;
@@ -209,6 +232,9 @@ class CustomClass {
     }
 
     goNewWindow(url) {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_JumpToThirdWeb'] && (!window['yudada'] || !window['yudada']['JS_JumpToThirdWeb'])) {
             return false;
@@ -264,6 +290,9 @@ class CustomClass {
      * 3: 分享web到朋友圈    参数2: web url  参数3 : 图片url   参数4: 描述   参数5: 标题
      */
     shareInfoToWeixin(par1, par2, par3, par4, par5) {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])) {
             return false;
@@ -275,6 +304,9 @@ class CustomClass {
     * 调用native微信登录/绑定
     * */
     callWeixinLogin() {
+        if(this.doubleClickFeedback()){
+            return
+        }
         const { ios, android } = window.currentDevice;
         if (!window['JS_WeChatLogin'] && (!window['yudada'] || !window['yudada']['JS_WeChatLogin'])) {
             return false;

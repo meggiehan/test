@@ -1,19 +1,19 @@
 import config from '../config/';
 import store from '../utils/locaStorage';
-import { trim, html } from '../utils/string';
+import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
-const { cacheUserinfoKey } = config;
+const {cacheUserinfoKey} = config;
 
 /*
-* 判断用户是否登录
-* */
+ * 判断用户是否登录
+ * */
 function isLogin(uuid) {
     const nativeToken = nativeEvent.getUserValue() || uuid;
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
         return false;
-    } else{
+    } else {
         return true;
     }
 }
@@ -28,7 +28,7 @@ function logOut() {
         inviterId: 0
     });
     nativeEvent.setUerInfoToNative({
-        unionId: 0
+        unionId: ''
     });
     nativeEvent.logOut();
 }
@@ -44,18 +44,18 @@ function activeLogout() {
         inviterId: 0
     });
     nativeEvent.setUerInfoToNative({
-        unionId: 0
+        unionId: ''
     });
     mainView.router.load({
-         url: 'views/user.html'
+        url: 'views/user.html'
     })
 }
 
 /*
-* 登录成功之后对user页面的信息刷新
-* */
+ * 登录成功之后对user页面的信息刷新
+ * */
 function loginSucc(data, callback) {
-    const { imgPath } = config;
+    const {imgPath} = config;
     const {
         imgUrl,
         nickname,
@@ -77,20 +77,20 @@ function loginSucc(data, callback) {
 }
 
 /*
-* 显示登录模块。
-* 1：当有没有token并且没有微信数据的时候，是正常的登录流程，load登录页面
-* 2：当有微信数据而没有token时，就是绑定手机号流程，load绑定个手机号页面
-* 3: 在发布成功页面登录，带来手机号自动填入
-* */
-function loginViewShow(phone){
+ * 显示登录模块。
+ * 1：当有没有token并且没有微信数据的时候，是正常的登录流程，load登录页面
+ * 2：当有微信数据而没有token时，就是绑定手机号流程，load绑定个手机号页面
+ * 3: 在发布成功页面登录，带来手机号自动填入
+ * */
+function loginViewShow(phone) {
     const token = nativeEvent.getUserValue();
     const weixinData = nativeEvent.getDataToNative('weixinData');
     let url;
-    if(!token && !weixinData){
+    if (!token && !weixinData) {
         url = Number(phone) ? ('views/login.html?phone=' + phone) : 'views/login.html';
     }
 
-    if(!token && weixinData){
+    if (!token && weixinData) {
         url = 'views/bindPhone.html';
     }
     loginView.router.load({
@@ -101,9 +101,9 @@ function loginViewShow(phone){
 }
 
 /*
-* 隐藏登录页面
-* */
-function loginViewHide(){
+ * 隐藏登录页面
+ * */
+function loginViewHide() {
     $$('.view-login').removeClass('show');
 }
 

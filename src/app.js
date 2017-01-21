@@ -272,3 +272,13 @@ $$('.view-login>.navbar').click((e) => {
     }
     return;
 })
+
+/**
+ * 调用native定位，获取当前定位信息
+ * */
+if(!window['addressObj']){
+    nativeEvent.getAddress();
+}
+
+
+
