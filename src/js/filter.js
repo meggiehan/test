@@ -7,10 +7,8 @@ import nativeEvent from '../utils/nativeEvent';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function filterInit(f7, view, page) {
-    const _district = nativeEvent['getDistricInfo']();
-
-    const {android, androidChrome, osVersion} = window.currentDevice;
-    const {keyvalue, release, type, id, cityId, search, fishTagName} = page.query;
+    const _district = nativeEvent['getDistricInfo']() || {root:{province: []}};
+    const {keyvalue, release, type, id, cityId, search, fishTagName, assurance} = page.query;
     const member = page['query']['member'] || false;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
@@ -34,6 +32,7 @@ function filterInit(f7, view, page) {
     let releaseFishName;
     let parentFishInfo = {};
     const weixinData = nativeEvent.getDataToNative('weixinData');
+    window.contentScrollTop = 0;
     /*
      * Three cases into the filter page.
      * 1: home -> filter. query: type
@@ -43,33 +42,25 @@ function filterInit(f7, view, page) {
      */
     trim(fuzzyFishTypeName) && searchBtn.val(fuzzyFishTypeName);
 
-    //when member filter.
-    if (member) {
-        currentNavbar.find('.filter-member-img').show();
-        currentPage.find('.page-content').css('paddingTop', '17.4rem');
-        currentPage.find('.filter-tabs-content').css({
-            height: '65%',
-            top: '17.4rem'
-        });
-        const scrollEvent = () => {
-            const top = currentPage.find('.page-content').scrollTop();
-            const height = 80 - top;
-            if (top <= 80) {
-                currentPage.find('.page-content').css('paddingTop', `${94 + height}px`);
-                currentNavbar.find('.filter-member-img').css('height', height + 'px');
-                currentPage.find('.filter-tabs-content').css('top', `${94 + height}px`);
-            } else {
-                currentPage.find('.page-content').css('paddingTop', '9.4rem');
-                currentNavbar.find('.filter-member-img').css('height', '0');
-                currentPage.find('.filter-tabs-content').css('top', '9.4rem');
-            }
-        }
-        currentPage.find('.page-content')[0].onscroll = (ev) => {
-            setTimeout(() => {
-                scrollEvent(ev)
-            }, 50)
-        };
+    /**
+     * 担保交易跟靠谱专区
+     * */
+    if (member || assurance) {
+        currentPage.find('.filter-member-img').show();
+        currentPage.find('.winodw-mask').addClass("has-img");
+        currentPage.find('.filter-tabs-content').addClass('has-img');
     }
+
+    currentPage.find('.page-content').scroll(() => {
+        const top = currentPage.find('.page-content').scrollTop();
+        if(member || assurance){
+            top > 70 ? currentPage.find('.filter-tab').addClass('fix-tab') :
+                currentPage.find('.filter-tab').removeClass('fix-tab');
+            window.contentScrollTop = top;
+        }else{
+            currentPage.find('.filter-tab').addClass('fix-tab');
+        }
+    })
 
     /*
      * Ajax callback.
@@ -186,7 +177,7 @@ function filterInit(f7, view, page) {
             }
         // }
 
-        fishTypeNameQuery && currentNavbar.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
+        fishTypeNameQuery && currentPage.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
     }
@@ -271,7 +262,7 @@ function filterInit(f7, view, page) {
         currentPage.find('.filter-info-type').children('p').eq(eleIndex).addClass('active-ele');
         if (_type == 1) {
             currentPage.find('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
-            currentNavbar.find('.filter-tab-title').eq(2).find('span').text('求购');
+            currentPage.find('.filter-tab-title').eq(2).find('span').text('求购');
             currentPage.find('.tabbat-text').children('span').text('我要买鱼');
         } else {
             currentPage.find('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
@@ -338,7 +329,7 @@ function filterInit(f7, view, page) {
                 currentPage.find('.tabbat-text').children('span').text(_type == 1 ? '我要买鱼' : '我要卖鱼')
                 pageNo = 1;
                 isInfinite = false;
-                currentNavbar.find('.tab3').children('span').text(tabText);
+                currentPage.find('.tab3').children('span').text(tabText);
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
                     api: 'list',
@@ -348,7 +339,9 @@ function filterInit(f7, view, page) {
             }
             currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
-            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+            currentPage.find('.filter-tab').children('div').removeClass('active-ele');
+            currentPage.find('.page-content').removeClass('over-hide');
+            currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
         }
 
         // select city
@@ -367,7 +360,7 @@ function filterInit(f7, view, page) {
                 const districtText = ele.innerText;
                 // const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
                 // const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
-                currentNavbar.find('.tab2').children('span').text(getTabStr(districtText));
+                currentPage.find('.tab2').children('span').text(getTabStr(districtText));
                 ele.className += ' active-ele';
             }
             pageNo = 1;
@@ -375,7 +368,9 @@ function filterInit(f7, view, page) {
             currentCityId = postcode;
             currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
-            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+            currentPage.find('.filter-tab').children('div').removeClass('active-ele');
+            currentPage.find('.page-content').removeClass('over-hide');
+            currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'list',
@@ -432,7 +427,6 @@ function filterInit(f7, view, page) {
     } else {
         f7.hideIndicator();
         currentFishId = null;
-        currentNavbar.addClass('filter-release-info');
         currentPage.addClass('filter-release-info');
         currentPage.find('.filter-tabs-content').addClass('on active');
         currentPage.find('.filter-fish-type').addClass('active');
@@ -496,6 +490,9 @@ function filterInit(f7, view, page) {
                 parant_id: $$(ele).attr('data-parent-id'),
                 parant_name: $$(ele).attr('data-parent-name')
             })
+
+            currentPage.find('.page-content').removeClass('over-hide');
+            currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
         } else {
             view.router.load({
                 url: 'views/releaseInfo.html?' +
@@ -505,7 +502,7 @@ function filterInit(f7, view, page) {
     }
 
     //js location to other page
-    $$('.home-search-mask').on('click', () => {
+    currentNavbar.find('.home-search-mask').on('click', () => {
         const currentHistory = view['history'];
         let isHasFilterPage = 0;
         $$.each(currentHistory, (index, item) => {

@@ -10,41 +10,43 @@
                     </a>
                 </div>
             </form>
-            <div class="filter-member-img"></div>
-            <div class="filter-tab">
-                <div class="filter-tab-title tab1" onclick="apiCount('btn_filter_fishtype');">
-                    <span>全部鱼种</span>
-                    <b class="filter-tab-icon"></b>
-                </div>
-                <div class="filter-tab-title on tab2" onclick="apiCount('btn_filter_location');">
-                    <span>地区</span>
-                    <b class="filter-tab-icon"></b>
-                    <i class="left"></i><i class="right"></i>
-                </div>
-                <div class="filter-tab-title tab3" onclick="apiCount('btn_filter_type');">
-                    <span>出售</span>
-                    <b class="filter-tab-icon"></b>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 <div class="page swipeback page-filter" data-page="filter">
-    <div class="page-content infinite-scroll pull-to-refresh-content">
-        <div class="pull-to-refresh-layer ">
-            <div class="preloader "></div>
-            <div class="pull-to-refresh-arrow "></div>
+    <div class="page-content infinite-scroll">
+        <div class="filter-member-img"></div>
+        <div class="filter-tab">
+            <div class="filter-tab-title tab1" onclick="apiCount('btn_filter_fishtype');">
+                <span>全部鱼种</span>
+                <b class="filter-tab-icon"></b>
+            </div>
+            <div class="filter-tab-title on tab2" onclick="apiCount('btn_filter_location');">
+                <span>地区</span>
+                <b class="filter-tab-icon"></b>
+                <i class="left"></i><i class="right"></i>
+            </div>
+            <div class="filter-tab-title tab3" onclick="apiCount('btn_filter_type');">
+                <span>出售</span>
+                <b class="filter-tab-icon"></b>
+            </div>
         </div>
-        <div class="filter-list  list-block media-list"></div>
-        <div class="filter-empty-search-result">
-            <div class="iconfont icon-empty-search"></div>
-            <p class="title">没有找到符合条件的结果</p>
-            <p>换个条件试试吧</p>
-        </div>
-        <p class="filter-search-empty-info">已显示全部</p>
-        <!-- Preloader -->
-        <div class="infinite-scroll-preloader ">
-            <div class="preloader "></div>
+        <div class="pull-to-refresh-content">
+            <div class="pull-to-refresh-layer ">
+                <div class="preloader "></div>
+                <div class="pull-to-refresh-arrow "></div>
+            </div>
+            <div class="filter-list  list-block media-list"></div>
+            <div class="filter-empty-search-result">
+                <div class="iconfont icon-empty-search"></div>
+                <p class="title">没有找到符合条件的结果</p>
+                <p>换个条件试试吧</p>
+            </div>
+            <p class="filter-search-empty-info">已显示全部</p>
+            <!-- Preloader -->
+            <div class="infinite-scroll-preloader ">
+                <div class="preloader "></div>
+            </div>
         </div>
     </div>
     <!-- mask -->
