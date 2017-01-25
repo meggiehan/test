@@ -91,6 +91,10 @@ function bindAccountInit(f7, view, page) {
     }
 
     currentPage.find('.col-50.weixin')[0].onclick = () => {
+        if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+            f7.alert("绑定失败");
+            return;
+        }
         if (currentPage.find('.bind-account-weixin').hasClass('unbind')) {
             apiCount('btn_bind_bindwechat');
             nativeEvent.callWeixinLogin();

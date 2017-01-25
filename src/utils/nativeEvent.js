@@ -260,6 +260,14 @@ class CustomClass {
         if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
             return false;
         }
+        // android不判断是否安装微信
+        if (key =='isWXAppInstalled') {
+            if (android) {
+                return true;
+            } else {
+                return JS_GetObjectWithKey(key);
+            }
+        }
         const val = ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
         return val ? JSON.parse(val) : val;
     }

@@ -356,6 +356,10 @@ function selldetailInit(f7, view, page) {
     * 分享信息
     * */
     shareBtn.onclick = () => {
+        if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+            f7.alert("分享失败");
+            return;
+        }
         let title = '';
         let description = '';
         const shareImg = currentPage.find('.sell-detail-img>img').attr('src');
