@@ -6,8 +6,11 @@ function loginInit(f7, view, page) {
     const {phone, notBindPhone} = page.query;
     const {mWebUrl} = config;
     f7.hideIndicator();
-    const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
-    const currentNavbar = $$($$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length - 1]);
+    const currentPage = $$(
+        $$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
+    const currentNavbar = $$(
+        $$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length
+                                                - 1]);
     const input = currentPage.find('.login-phone').children('input')[0];
     const nextBtn = currentPage.find('.login-next').children('a')[0];
     let isPass = false;
@@ -36,8 +39,8 @@ function loginInit(f7, view, page) {
     };
 
     /*
-    * 输入框输入监听事件
-    * */
+     * 输入框输入监听事件
+     * */
     input.onkeypress = (e) => {
         const event = e || window.event;
         const code = event.keyCode || event.which || event.charCode;
@@ -53,14 +56,14 @@ function loginInit(f7, view, page) {
         }
         currentPage.find('input').blur();
         loginView.router.load({
-            url: 'views/loginCode.html' + `?phone=${input.value}`
-        })
+                                  url: 'views/loginCode.html' + `?phone=${input.value}`
+                              })
 
     }
 
     /*
-    * 打开第三方webview，载入帮助页面
-    * */
+     * 打开第三方webview，载入帮助页面
+     * */
     if (currentPage.find('.user-protocol').length) {
         currentPage.find('.user-protocol').children('a')[0].onclick = () => {
             apiCount('btn_term');
@@ -69,9 +72,9 @@ function loginInit(f7, view, page) {
     }
 
     /*
-    * 判断是否为微信登录而未绑定手机号的情况，显示以及隐藏跳过按钮
-    * 跳过绑定手机号
-    * */
+     * 判断是否为微信登录而未绑定手机号的情况，显示以及隐藏跳过按钮
+     * 跳过绑定手机号
+     * */
     if (currentNavbar.find('.bind-phone-break').length) {
         notBindPhone && currentNavbar.find('.bind-phone-break').children('span').show();
         currentNavbar.find('.bind-phone-break')[0].onclick = () => {
@@ -81,14 +84,23 @@ function loginInit(f7, view, page) {
     }
 
     /*
-    * 调用native微信登录
-    * */
-    if(currentPage.find('.weixin-login-btn').length){
+     * 调用native微信登录
+     * */
+    if (currentPage.find('.weixin-login-btn').length) {
         currentPage.find('.weixin-login-btn')[0].onclick = () => {
             apiCount('btn_login_wechat');
             nativeEvent.callWeixinLogin();
         }
     }
+
+    /**
+     * 没有微信 隐藏微信按钮
+     */
+    if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+        currentPage.find(".break-up-line").hide();
+        currentPage.find(".weixin-login-btn").hide();
+    }
+
 }
 
 module.exports = {
