@@ -32,6 +32,8 @@ function filterInit(f7, view, page) {
     let releaseFishName;
     let parentFishInfo = {};
     const weixinData = nativeEvent.getDataToNative('weixinData');
+
+    const ptrContent = currentPage.find('.pull-to-refresh-content');
     window.contentScrollTop = 0;
     /*
      * Three cases into the filter page.
@@ -51,14 +53,30 @@ function filterInit(f7, view, page) {
         currentPage.find('.filter-tabs-content').addClass('has-img');
     }
 
+    /**
+     * 针对等不筛选滚动固定效果单独处理。
+     * */
     currentPage.find('.page-content').scroll(() => {
         const top = currentPage.find('.page-content').scrollTop();
         if(member || assurance){
-            top > 70 ? currentPage.find('.filter-tab').addClass('fix-tab') :
+            if(top > 70){
+                currentPage.find('.filter-tab').addClass('fix-tab');
+                currentPage.find('.page-content').addClass('filter-fix-tab');
+            }else{
                 currentPage.find('.filter-tab').removeClass('fix-tab');
+                currentPage.find('.page-content').removeClass('filter-fix-tab');
+            }
             window.contentScrollTop = top;
         }else{
             currentPage.find('.filter-tab').addClass('fix-tab');
+            currentPage.find('.page-content').addClass('filter-fix-tab');
+        }
+
+        if(window.contentScrollTop > 3){
+            f7.destroyPullToRefresh(ptrContent);
+            f7.pullToRefreshDone();
+        }else if(window.contentScrollTop <= 3){
+            f7.initPullToRefresh(ptrContent);
         }
     })
 
@@ -75,11 +93,11 @@ function filterInit(f7, view, page) {
         let listHtml = '';
         if (_type == 1) {
             $$.each(data.data, (index, item) => {
-                listHtml += home.buy(item);
+                item && (listHtml += home.buy(item));
             })
         } else {
             $$.each(data.data, (index, item) => {
-                listHtml += home.cat(item);
+                item && (listHtml += home.cat(item));
             })
         }
         showAllInfo.hide();
@@ -379,7 +397,9 @@ function filterInit(f7, view, page) {
             }, listCallback);
         }
 
-        // Attach 'infinite' event handler
+        /**
+         * 上拉加载更多
+         * */
         currentPage.find('.infinite-scroll').on('infinite', function () {
             if (isShowAll) {
                 return;
@@ -400,9 +420,13 @@ function filterInit(f7, view, page) {
             }, listCallback);
         });
 
-        // pull to refresh.
-        const ptrContent = currentPage.find('.pull-to-refresh-content');
-        ptrContent.on('refresh', function (e) {
+        /**
+         * 下拉列表刷新
+         * */
+        const refreshFunc = () => {
+            if(window.contentScrollTop > 3){
+                f7.pullToRefreshDone();
+            }
             const isMandatory = !!nativeEvent['getNetworkStatus']();
             pullToRefresh = true;
             isShowAll = false;
@@ -414,7 +438,8 @@ function filterInit(f7, view, page) {
                 type: 'get',
                 isMandatory
             }, listCallback);
-        })
+        }
+        ptrContent.on('refresh', refreshFunc);
 
         //get all tag name;
         customAjax.ajax({
