@@ -10,8 +10,14 @@ const {cacheUserinfoKey} = config;
  * */
 function isLogin(uuid) {
     const nativeToken = nativeEvent.getUserValue() || uuid;
+    const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
+
+        //更新用户中心登录状态
+        if('user' == mainView.activePage.name && currentPage.find('.login-succ').length){
+            mainView.router.refreshPage();
+        }
         return false;
     } else {
         return true;
@@ -33,7 +39,7 @@ function logOut() {
     nativeEvent.logOut();
 }
 
-/*
+/**
  * 主动登出，清除h5用户信息并且通知native清除用户信息
  * */
 function activeLogout() {
@@ -51,7 +57,7 @@ function activeLogout() {
     })
 }
 
-/*
+/**
  * 登录成功之后对user页面的信息刷新
  * */
 function loginSucc(data, callback) {
@@ -76,7 +82,7 @@ function loginSucc(data, callback) {
     callback(data);
 }
 
-/*
+/**
  * 显示登录模块。
  * 1：当有没有token并且没有微信数据的时候，是正常的登录流程，load登录页面
  * 2：当有微信数据而没有token时，就是绑定手机号流程，load绑定个手机号页面
@@ -100,7 +106,7 @@ function loginViewShow(phone) {
     $$('.view-login').addClass('show');
 }
 
-/*
+/**
  * 隐藏登录页面
  * */
 function loginViewHide() {

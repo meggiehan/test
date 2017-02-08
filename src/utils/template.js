@@ -151,6 +151,12 @@ module.exports = {
         banner: (data) => {
             const {imgUrl, link, loginRequired} = data;
             return `<div class="swiper-slide" data-login="${loginRequired ? 1 : 0}" data-href="${link}"><img src="${imgUrl}" alt=""></div>`;
+        },
+        renderFishList: (data, index) => {
+            const {id, name} = data;
+            const isBorder = (index + 2)%3 == 0;
+            const str = `${isBorder ? '|' : ''}<a href="views/filter.html?fishId=${id}">${name}</a>${isBorder ? '|' : ''}`
+            return str;
         }
     },
     search: {
@@ -315,6 +321,71 @@ module.exports = {
         tag: (data) => {
             const {id, name} = data;
             return `<span data-id="${id}">${name}</span>`;
+        }
+    },
+
+    fishCar: {
+        list: (data) => {
+            const {
+                carSizeTagName,
+                contactName,
+                contactPhone,
+                drivingAge,
+                hasTeam,
+                routes,
+                skillTags
+            } = data;
+            let str = '';
+            let text = '';
+            let districtList = '';
+            hasTeam && (text += '有车队');
+            skillTags && skillTags.length && $$.each(skillTags, (index, item) => {
+                text += `、${item.name}`
+            })
+
+            routes && routes.length && $$.each(routes, (index, item) => {
+                districtList += `<span>${item.departureProvinceName} - ${item.destinationProvinceName}</span>`;
+            })
+
+            str += '<div class="driver-info">' +
+                        '<div class="left">' +
+                            '<p class="title">' +
+                            `${contactName} <span>(鱼车${carSizeTagName} | ${drivingAge}年驾龄)</span>` +
+                            '</p>' +
+                            `<p>${text}</p>` +
+                            '<div class="other-info">' +
+                                `<p>线路：${(routes && routes.length) ? (routes.length + '条') : '全国'}</p>` +
+                                `${districtList ? ('<div>'+ districtList +'</div>') : ''}` +
+                            '</div>' +
+                        '</div>' +
+                        `<div data-phone="${contactPhone}" class="right iconfont icon-call"></div>` +
+                    '</div>'
+            return str;
+        },
+        demandList: (data) => {
+            const {createTime, description, userInfoView} = data;
+            const {imgUrl, level, nickname, phone} = userInfoView || {};
+            let str = '';
+            str += '<div class="driver-info">' +
+                        '<div class="left list-block media-list">' +
+                            '<div class="title item-content item-link">' +
+                                '<div class="item-media">' +
+                                    `<img width="50" data-src="${imgUrl}" src="img/app_icon_108.png" alt="">` +
+                                '</div>' +
+                                '<div class="item-inner">' +
+                                    '<div class="item-title-row">' +
+                                        '<p class="title">' +
+                                        `${nickname || '匿名用户'}<span class="iconfont icon-v${level}"></span>` +
+                                        '</p>' +
+                                        `<p>${timeDifference(createTime)}</p>` +
+                                    '</div>' +
+                                '</div>' +
+                                '</div>' +
+                            `<div class="content">${description}</div>` +
+                        '</div>' +
+                        `<div class="right iconfont icon-call" data-phone="${phone}"></div>` +
+                    '</div>';
+            return str;
         }
     }
 

@@ -53,9 +53,9 @@ function buydetailInit(f7, view, page) {
                 descriptionTags,
                 quantityTags,
                 sort,
+                userId
             } = demandInfo;
             const {
-                id,
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
                 imgUrl,
@@ -92,7 +92,7 @@ function buydetailInit(f7, view, page) {
             })
             tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').hide();
 
-            id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
+            userId == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && currentPage.addClass(addClassName);

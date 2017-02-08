@@ -328,14 +328,14 @@ class CustomClass {
             return false;
         }
         if(ios){
-            JS_SetNativeUserInfo(data || {});
+            data && JS_SetNativeUserInfo(data);
         }else{
             $$.each(data, (key, val) => {
-                window.yudada.JS_PerferenceSetShared(key || '', val || 0);
+                key && window.yudada.JS_PerferenceSetShared(key, val);
             })
         }
     }
 }
 
-const nativeEvent = new CustomClass;
+const nativeEvent = new CustomClass();
 export default nativeEvent;

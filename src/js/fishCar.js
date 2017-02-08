@@ -1,0 +1,258 @@
+import customAjax from '../middlewares/customAjax';
+import config from '../config';
+import nativeEvent from '../utils/nativeEvent';
+import {html, getProvinceId} from '../utils/string';
+import {fishCar, filter} from '../utils/template';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+
+function fishCarInit(f7, view, page) {
+    const {pageSize, mWebUrl} = config;
+    const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const contentBox = currentPage.find('.page-list-view').children('.list');
+    const showAllText = currentPage.find('.filter-search-empty-info');
+    const downLoading = currentPage.find('.infinite-scroll-preloader');
+    const emptyContent = currentPage.find('.filter-empty-search-result');
+    f7.hideIndicator();
+    let provinceId = '';
+    let pageNo = 1;
+    let isFishCarList = true;
+    let isInfinite = false;
+    let isShowAll = false;
+    let isRefresh = false;
+
+    if (window.addressObj) {
+        if (window.addressObj.initProvinceName) {
+            provinceId = getProvinceId(window.addressObj.initProvinceName)['provinceId'];
+        }
+    }
+
+    /**
+     * 初始化render省份信息
+     * */
+    let rootDistrict = '<span class="active-ele" data-postcode="0">全国</span>';
+    $$.each(_district.root.province, (index, item) => {
+        rootDistrict += filter.districtRender(item);
+    })
+    html(currentPage.find('.district-model').children('.list-item'), rootDistrict, f7);
+    if (!!provinceId) {
+        currentPage.find('.list-item').children('span').removeClass('active-ele');
+        currentPage.find('span[data-postcode="' + provinceId + '"]').addClass('active-ele');
+        currentPage.find('.select-city').children().find('span').text(window.addressObj.initProvinceName);
+    }
+
+    /**
+     * 调用f7选择组件
+     * */
+    const provinceArr = ['全国'];
+    $$.each(_district.root.province, (index, item) => {
+        provinceArr.push(item.name);
+    })
+    f7.picker({
+        input: currentPage.find('#select-city-input'),
+        toolbarCloseText: '确定',
+        rotateEffect: true,
+        onOpen: (p) => {
+            $$('.link.close-picker')[0].onclick = () => {
+
+            }
+            pageNo = 1;
+            getList(false);
+        },
+        cols: [
+            {
+                textAlign: 'center',
+                values: provinceArr
+            }
+        ],
+        onChange: function (p, name) {
+            currentPage.find('.select-city').children().find('span').text(name);
+            provinceId = getProvinceId(name)['provinceId'];
+        }
+    });
+
+    function callback(res, type) {
+        const {code, message, data} = res;
+        if (1 == code) {
+            if (data && data.length) {
+                emptyContent.hide();
+                let str = '';
+                $$.each(data, (index, item) => {
+                    if ('demandInfo' == type) {
+                        str += fishCar.demandList(item);
+                    } else {
+                        str += fishCar.list(item);
+                    }
+                })
+
+                if (isRefresh || (1 == pageNo)) {
+                    contentBox.html('');
+                }
+                ;
+                str && contentBox.append(str);
+
+                //显示全部
+                if (data.length < pageSize) {
+                    isShowAll = true;
+                    downLoading.hide();
+                    showAllText.show();
+                }
+            } else if (pageNo == 1) {
+                contentBox.html('');
+                emptyContent.show();
+                isShowAll = true;
+                downLoading.hide();
+                showAllText.hide();
+            }
+            isRefresh = false;
+            isInfinite = false;
+            f7.pullToRefreshDone();
+        }
+    }
+
+    /**
+     * 获取鱼车列表相关操作
+     * */
+    function getFishCarList(bool) {
+        customAjax.ajax({
+            apiCategory: 'fishCars',
+            data: [provinceId, pageSize, pageNo],
+            type: 'get',
+            isMandatory: bool
+        }, (data) => {
+            callback(data, 'list');
+        });
+    }
+
+    /**
+     * 获取鱼车需求列表相关操作
+     * */
+    function getFishCarDemandList(bool) {
+        customAjax.ajax({
+            apiCategory: 'fishCarDemands',
+            data: ['', pageSize, pageNo],
+            type: 'get',
+            isMandatory: bool
+        }, (data) => {
+            callback(data, 'demandInfo');
+        });
+    }
+
+    /**
+     * 数据最终请求
+     * */
+    function getList(bool) {
+        if (isFishCarList) {
+            getFishCarList(bool);
+        } else {
+            getFishCarDemandList(bool);
+        }
+    }
+
+    getList(false);
+
+    /**
+     * 上啦加载
+     * */
+    currentPage.find('.infinite-scroll').on('infinite', function () {
+        if (isInfinite || isShowAll) {
+            return;
+        }
+        downLoading.show();
+        showAllText.hide();
+        isInfinite = true;
+        pageNo++;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
+        getList(isMandatory);
+    })
+
+    /**
+     * 下拉刷新
+     * */
+    currentPage.find('.pull-to-refresh-content').on('refresh', function () {
+        isRefresh = true;
+        isShowAll = false;
+        pageNo = 1;
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
+        getList(isMandatory);
+    })
+
+    /**
+     * 切换鱼车跟需求列表
+     * */
+    currentPage.find('.filter-tab')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        if (!$$(ele).hasClass('filter-tab-title')) {
+            return;
+        }
+        if ($$(ele).hasClass('on')) {
+            return;
+        }
+        contentBox.html('');
+
+        pageNo = 1;
+        isInfinite = false;
+        isShowAll = false;
+        isRefresh = false;
+        emptyContent.hide();
+        downLoading.show();
+        showAllText.hide();
+
+        const text = $$(ele).text();
+        isFishCarList = '找司机' == text;
+        if (isFishCarList) {
+            currentPage.find('.select-city').show();
+            currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
+        } else {
+            currentPage.find('.select-city').hide();
+            currentPage.find('.tabbat-text').children('span').text('成为签约司机');
+        }
+        currentPage.find('.filter-tab').children('div').removeClass('on');
+        $$(ele).addClass('on');
+        getList(false);
+    }
+
+    /**
+     * 列表滚动监听
+     * */
+    currentPage.find('.page-content').scroll(() => {
+        const top = currentPage.find('.page-content').scrollTop();
+        if (top > 100) {
+            currentPage.find('.filter-tab').addClass('fix-tab');
+        } else {
+            currentPage.find('.filter-tab').removeClass('fix-tab');
+        }
+    })
+
+    /**
+     * 拨打电话
+     * */
+    currentPage.find('.page-list-view').children('.list')[0].onclick = (e) => {
+        const ele = e.target || window.event.target;
+        if (!$$(ele).attr('data-phone')) {
+            return;
+        }
+        nativeEvent.contactUs($$(ele).attr('data-phone'));
+    }
+
+    /**
+     * 叫司机/发布需求
+     * */
+    currentPage.find('.tabbat-text').children('span')[0].onclick = () => {
+        if (isFishCarList) {
+            if (!isLogin()) {
+                f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', loginViewShow);
+                return;
+            }
+            mainView.router.load({
+                url: 'views/releaseFishCarDemand.html'
+            })
+        } else {
+            nativeEvent.goNewWindow(`${mWebUrl}/fishCars/postPage`);
+        }
+    }
+}
+
+module.exports = {
+    fishCarInit,
+}

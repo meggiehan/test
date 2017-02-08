@@ -1,42 +1,44 @@
 import Framework7 from './js/lib/framework7';
 import version from './config/version.json';
 import config from './config';
-import { homeInit } from './js/home';
-import { searchInit } from './js/search';
-import { filterInit } from './js/filter';
-import { selldetailInit } from './js/selldetail';
-import { buydetailInit } from './js/buydetail';
-import { releaseInit } from './js/release';
-import { releaseInfoInit } from './js/releaseInfo';
-import { loginInit } from './js/login';
-import { loginCodeInit } from './js/loginCode';
-import { userInit } from './js/user';
-import { myCenterInit } from './js/myCenter';
-import { identityAuthenticationInit } from './js/identityAuthentication';
+import {homeInit} from './js/home';
+import {searchInit} from './js/search';
+import {filterInit} from './js/filter';
+import {selldetailInit} from './js/selldetail';
+import {buydetailInit} from './js/buydetail';
+import {releaseInit} from './js/release';
+import {releaseInfoInit} from './js/releaseInfo';
+import {loginInit} from './js/login';
+import {loginCodeInit} from './js/loginCode';
+import {userInit} from './js/user';
+import {myCenterInit} from './js/myCenter';
+import {identityAuthenticationInit} from './js/identityAuthentication';
 import globalEvent from './utils/global';
-import { otherIndexInit } from './js/otherIndex';
-import { otherInfoInit } from './js/otherInfo';
-import { otherListInit } from './js/otherList';
-import { myListInit } from './js/myList';
-import { fishCertInit } from './js/fishCert';
-import { releaseSuccInit } from './js/releaseSucc';
+import {otherIndexInit} from './js/otherIndex';
+import {otherInfoInit} from './js/otherInfo';
+import {otherListInit} from './js/otherList';
+import {myListInit} from './js/myList';
+import {fishCertInit} from './js/fishCert';
+import {releaseSuccInit} from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
-import { getQuery } from './utils/string';
-import { catIdentityStatusInit } from './js/catIdentityStatus';
-import { editNameInit } from './js/editName';
-import { inviteCodeInit } from './js/inviteCode';
-import { inviteFriendsInit } from './js/inviteFriends';
-import { inviteFriendsListInit } from './js/inviteFriendsList';
-import { myCollectionInit } from './js/myCollection';
-import { dealListInit } from './js/dealList';
-import { releaseSelectTagInit } from './js/releaseSelectTag';
-import { notFoundInit } from './js/notFound';
+import {getQuery} from './utils/string';
+import {catIdentityStatusInit} from './js/catIdentityStatus';
+import {editNameInit} from './js/editName';
+import {inviteCodeInit} from './js/inviteCode';
+import {inviteFriendsInit} from './js/inviteFriends';
+import {inviteFriendsListInit} from './js/inviteFriendsList';
+import {myCollectionInit} from './js/myCollection';
+import {dealListInit} from './js/dealList';
+import {releaseSelectTagInit} from './js/releaseSelectTag';
+import {notFoundInit} from './js/notFound';
 import {bindAccountInit} from './js/bindAccount';
+import {fishCarInit} from './js/fishCar';
+import {releaseFishCarDemandInit} from './js/releaseFishCarDemand'
 
 const deviceF7 = new Framework7();
-const { device } = deviceF7;
-const { android, androidChrome } = device;
-const { timeout } = config;
+const {device} = deviceF7;
+const {android, androidChrome} = device;
+const {timeout} = config;
 console.log(`current app update time: ${version.date}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -45,8 +47,8 @@ window.shraeInfo = {};
 let isBack = false;
 
 /*
-* 初始化f7的参数
-* */
+ * 初始化f7的参数
+ * */
 let initAppConfig = {
     // swipeBackPage: false,
     // uniqueHistoryIgnoreGetParameters: true,
@@ -68,19 +70,19 @@ let initAppConfig = {
         next(content);
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
-            searchInit(f7, mainView, { query })
+            searchInit(f7, mainView, {query})
         }
     },
     /*
-    * 返回上个页面的一些路由拦截操作
-    * */
+     * 返回上个页面的一些路由拦截操作
+     * */
     preroute: (view, options) => {
-        const { history } = view;
+        const {history} = view;
         const currentPage = options && options['url'];
         const len = history.length;
         const _currentPage = history[len - 1];
         var btns = document.getElementsByClassName('modal-button');
-        if(!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf("放弃发布") > -1){
+        if (!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf("放弃发布") > -1) {
             return false;
         }
         if (!currentPage && len >= 1) {
@@ -109,7 +111,7 @@ let initAppConfig = {
             $$('.release-select-model').removeClass('on');
             if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7) {
                 f7.modal({
-                    title:  '确定放弃这次发布吗？',
+                    title: '确定放弃这次发布吗？',
                     text: '亲，您已经填写了信息，还没发布呢，确定直接离开？发布一条信息，就有更大几率完成交易噢~',
                     buttons: [
                         {
@@ -121,7 +123,8 @@ let initAppConfig = {
                         },
                         {
                             text: '继续填写',
-                            onClick: () => {}
+                            onClick: () => {
+                            }
                         }
                     ]
                 })
@@ -143,8 +146,8 @@ let initAppConfig = {
 }
 
 /*
-* 在低端安卓机中切换页面动画效果不流畅，所以判断在4.4以下的安卓机禁止启用动画
-* */
+ * 在低端安卓机中切换页面动画效果不流畅，所以判断在4.4以下的安卓机禁止启用动画
+ * */
 android && !androidChrome && (initAppConfig['swipeBackPage'] = false);
 var f7 = new Framework7(initAppConfig);
 const mainView = f7.addView('.view-main', {
@@ -153,16 +156,16 @@ const mainView = f7.addView('.view-main', {
 })
 
 /*
-* 抽离出登录视图
-* */
+ * 抽离出登录视图
+ * */
 const loginView = f7.addView('.view-login', {
     dynamicNavbar: true,
     domCache: true
 })
 
 /*
-* 主视图初始化加载首页
-* */
+ * 主视图初始化加载首页
+ * */
 mainView.router.load({
     url: 'views/home.html',
     animatePages: false,
@@ -191,8 +194,8 @@ $$('img.lazy').trigger('lazy');
  */
 
 /*
-* 页面加载完成后根据name执行相应的controller
-* */
+ * 页面加载完成后根据name执行相应的controller
+ * */
 const initApp = f7.onPageInit("*", (page) => {
     if (page.name !== 'home' && page.name) {
         f7.showIndicator();
@@ -229,22 +232,24 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
     page.name === 'notFound' && notFoundInit(f7, mainView, page);
     page.name === 'bindAccount' && bindAccountInit(f7, mainView, page);
+    page.name === 'fishCar' && fishCarInit(f7, mainView, page);
+    page.name === 'releaseFishCarDemand' && releaseFishCarDemandInit(f7, mainView, page);
 });
 
 /*
-* 关闭微信分享model
-* */
+ * 关闭微信分享model
+ * */
 $$('.share-to-weixin-model')[0].onclick = (e) => {
     const ele = e.target || window.event.target;
     const classes = ele.className;
-    if(classes.indexOf('footer') > -1 || classes.indexOf('share-to-weixin-model') > -1){
+    if (classes.indexOf('footer') > -1 || classes.indexOf('share-to-weixin-model') > -1) {
         $$('.share-to-weixin-model').removeClass('on');
     }
 }
 
 /*
-* 微信分享给朋友
-* */
+ * 微信分享给朋友
+ * */
 $$('.share-to-friends')[0].onclick = () => {
     const {webUrl, imgUrl, description, title} = window.shareInfo;
     let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
@@ -263,11 +268,11 @@ $$('.share-to-friends-circle')[0].onclick = () => {
 }
 
 /*
-* 关闭登录视图
-* */
+ * 关闭登录视图
+ * */
 $$('.view-login>.navbar').click((e) => {
     const ele = e.target || window.event.target;
-    if($$(ele).hasClass('login-view-close')){
+    if ($$(ele).hasClass('login-view-close')) {
         $$('.view-login').removeClass('show');
     }
     return;
@@ -276,7 +281,7 @@ $$('.view-login>.navbar').click((e) => {
 /**
  * 调用native定位，获取当前定位信息
  * */
-if(!window['addressObj']){
+if (!window['addressObj']) {
     nativeEvent.getAddress();
 }
 

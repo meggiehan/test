@@ -1,0 +1,57 @@
+div[data-page="releaseFishCarDemand"] {
+    .navbar {
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        .default-theme-blank {
+            .back {
+                color: @themeColor;
+            }
+            .center {
+                color: @text-name;
+            }
+        }
+    }
+
+    .page-content{
+        .align-top, &>.item-content{
+            background: @bg-fff;
+            .text-shadow(@bg-fff);
+            &>.item-inner:after{
+                display: none;
+            }
+            .item-content{
+                textarea{
+                    line-height: 2rem;
+                    height: 17.5rem;
+                }
+            }
+        }
+        &>.item-content{
+            border-bottom: 1px solid @border-da;
+        }
+        p{
+            margin: 0;
+            line-height: 3rem;
+            font-size: 1.2rem;
+            color: @text-category;
+            padding-left: 1.5rem;
+        }
+    }
+
+    .toolbar{
+        .toolbar-inner{
+            padding: 0;
+            a{
+                display: block;
+                width: 100%;
+                height: 100%;
+                background: @text-test;
+                .text-shadow(@text-test);
+                font-size: 1.8rem;
+                line-height: 5rem;
+                .text-center;
+                color: @text-fff;
+            }
+        }
+    }
+}

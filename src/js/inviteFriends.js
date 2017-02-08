@@ -42,7 +42,10 @@ function inviteFriendsInit(f7, view, page) {
         }, 50)
     };
     $$('.close-picker-invite-code')[0].onclick = closeInviteModal;
-    //share to QQ or weixin, message.
+
+    /**
+     * 调用友盟分享
+     * */
     currentPage.find('.invite-friends-share-weixin')[0].onclick = () => {
         apiCount('btn_inviteFriends_share');
         const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;

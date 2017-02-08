@@ -7,8 +7,8 @@ import nativeEvent from '../utils/nativeEvent';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function filterInit(f7, view, page) {
-    const _district = nativeEvent['getDistricInfo']() || {root:{province: []}};
-    const {keyvalue, release, type, id, cityId, search, fishTagName, assurance} = page.query;
+    const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+    const {keyvalue, release, type, id, cityId, search, fishTagName, assurance, fishId} = page.query;
     const member = page['query']['member'] || false;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
@@ -21,7 +21,7 @@ function filterInit(f7, view, page) {
     let isShowAll = false;
     let tabChange = false;
     let fuzzyFishTypeName = keyvalue && keyvalue.replace('“', '').replace('”', '');
-    let currentFishId = id || '';
+    let currentFishId = id || fishId || '';
     let currentCityId = cityId || '';
     let fishTagId = page.query['fishTagId'] || '';
     let pageNo = 1;
@@ -54,35 +54,51 @@ function filterInit(f7, view, page) {
     }
 
     /**
+     * 下拉列表刷新
+     * */
+    const refreshFunc = () => {
+        const isMandatory = !!nativeEvent['getNetworkStatus']();
+        pullToRefresh = true;
+        isShowAll = false;
+        pageNo = 1;
+        customAjax.ajax({
+            apiCategory: 'demandInfo',
+            api: 'list',
+            data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
+            type: 'get',
+            isMandatory
+        }, listCallback);
+    }
+    ptrContent.on('refresh', refreshFunc);
+
+    /**
      * 针对等不筛选滚动固定效果单独处理。
      * */
     currentPage.find('.page-content').scroll(() => {
         const top = currentPage.find('.page-content').scrollTop();
-        if(member || assurance){
-            if(top > 70){
+        window.contentScrollTop = top;
+        if (member || assurance) {
+            if (top > 70) {
                 currentPage.find('.filter-tab').addClass('fix-tab');
                 currentPage.find('.page-content').addClass('filter-fix-tab');
-            }else{
+            } else {
                 currentPage.find('.filter-tab').removeClass('fix-tab');
                 currentPage.find('.page-content').removeClass('filter-fix-tab');
             }
-            window.contentScrollTop = top;
-        }else{
-            currentPage.find('.filter-tab').addClass('fix-tab');
-            currentPage.find('.page-content').addClass('filter-fix-tab');
-        }
-
-        if(window.contentScrollTop > 3){
-            f7.destroyPullToRefresh(ptrContent);
-            f7.pullToRefreshDone();
-        }else if(window.contentScrollTop <= 3){
-            f7.initPullToRefresh(ptrContent);
+        } else {
+            if (top > 1) {
+                currentPage.find('.filter-tab').addClass('fix-tab');
+                currentPage.find('.page-content').addClass('filter-fix-tab');
+            } else {
+                currentPage.find('.filter-tab').removeClass('fix-tab');
+                currentPage.find('.page-content').removeClass('filter-fix-tab');
+            }
         }
     })
 
-    /*
-     * Ajax callback.
-     */
+    /**
+     * 获取列表数据回来后的操作
+     * */
     const listCallback = (data) => {
         const {code, message} = data;
         if (code !== 1) {
@@ -108,7 +124,7 @@ function filterInit(f7, view, page) {
             currentPage.find('.filter-list').text('');
             html(currentPage.find('.filter-list'), listHtml, f7);
         }
-        //pull to refresh done.
+
         f7.pullToRefreshDone();
         $$('img.lazy').trigger('lazy');
         currentPage.find('.tabbar').show();
@@ -135,8 +151,9 @@ function filterInit(f7, view, page) {
         isInfinite = false;
     }
 
-
-    //init fish category and tag render.
+    /**
+     * 初始化渲染鱼种分类跟标签
+     * */
     const fishTypeRootCallback = (data) => {
         let typeHtml = '';
         const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
@@ -157,6 +174,13 @@ function filterInit(f7, view, page) {
             })
         }
         html(currentPage.find('.filter-fish-type').children('.col-35'), typeHtml, f7);
+
+        if (fishTagId && fishId && !release) {
+            const tagText = currentPage.find('span[data-id="' + fishTagId + '"]').text() || '';
+            currentPage.find('.filter-fish-type').children('.col-35').find('span').removeClass('active-ele');
+            currentPage.find('span[data-id="' + fishTagId + '"]').addClass('active-ele');
+            tagText && currentPage.find('.filter-fish-type').children('.col-65').find('span').eq(0).text('全部' + tagText)
+        }
     }
 
     const fishTypeChildCallback = (data) => {
@@ -171,40 +195,52 @@ function filterInit(f7, view, page) {
         // })
 
         // if (!typeHtml) {
-            if (!release) {
-                let fishArr = [];
-                !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
-                fishTagId && $$.each(data.data.list, (index, item) => {
-                    fishTagId == item.fish_tag_id && fishArr.push(item);
-                })
-                fishTagId && (typeHtml += `<span data-postcode="${fishTagId}" class="first ${currentFishId ? '' : 'active-ele'}">全部${fishTagName}</span>`);
-                $$.each(!!fishTagId ? fishArr : data.data.list, (index, item) => {
-                    let classes = index % 3 === 0 && 'on' || '';
-                    item['id'] == currentFishId && (classes += ' active-ele');
-                    typeHtml += filter.fishType(item, classes);
-                    !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
-                })
-            } else {
-                typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`;
+        if (!release) {
+            let fishArr = [];
+            if (fishId) {
+                let currentFishItem;
                 $$.each(data.data.list, (index, item) => {
-                    const classes = index % 3 === 0 && 'on' || '';
-                    typeHtml += filter.fishType(item, classes);
-                    !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
+                    item.id == fishId && (currentFishItem = item);
                 })
-
+                currentFishItem && (fishTagId = currentFishItem['fish_tag_id']);
             }
+            !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
+            fishTagId && $$.each(data.data.list, (index, item) => {
+                fishTagId == item.fish_tag_id && fishArr.push(item);
+            })
+            fishTagId && (typeHtml += `<span data-postcode="${fishTagId}" class="first ${currentFishId ? '' : 'active-ele'}">全部${fishTagName || ''}</span>`);
+            $$.each(!!fishTagId ? fishArr : data.data.list, (index, item) => {
+                let classes = index % 3 === 0 && 'on' || '';
+                item['id'] == currentFishId && (classes += ' active-ele');
+                typeHtml += filter.fishType(item, classes);
+                !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
+
+            })
+        } else {
+            $$.each(data.data.list, (index, item) => {
+                const classes = index % 3 === 0 && 'on' || '';
+                typeHtml += filter.fishType(item, classes);
+                !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
+            })
+        }
         // }
 
         fishTypeNameQuery && currentPage.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
+
+        if (!release && fishId && fishTagId) {
+            const tagText = currentPage.find('span[data-id="' + fishTagId + '"]').text() || '';
+            currentPage.find('.filter-fish-type').children('.col-35').find('span').removeClass('active-ele');
+            currentPage.find('span[data-id="' + fishTagId + '"]').addClass('active-ele');
+            tagText && currentPage.find('.filter-fish-type').children('.col-65').find('span').eq(0).text('全部' + tagText)
+        }
     }
 
 
-    /*
-     * Ajax.
-     */
-    // get root fish type;
+    /**
+     * 获取父类鱼种
+     * */
     release && customAjax.ajax({
         apiCategory: 'fishType',
         api: 'getChildrenFishTypeList',
@@ -215,7 +251,9 @@ function filterInit(f7, view, page) {
         type: 'get',
     }, fishTypeRootCallback);
 
-    // get all fish type;
+    /**
+     * 获取子类鱼种
+     * */
     customAjax.ajax({
         apiCategory: 'fishType',
         api: 'getChildrenFishTypeList',
@@ -224,10 +262,9 @@ function filterInit(f7, view, page) {
     }, fishTypeChildCallback);
 
 
-    /*
-     * Bind event to dom.
-     */
-    // select fish type child.
+    /**
+     * 选择父类鱼种
+     * */
     currentPage.find('.filter-fish-type').children('.col-35')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if (ele.tagName !== 'SPAN') {
@@ -272,7 +309,9 @@ function filterInit(f7, view, page) {
 
     $$('.filter-tab').off('click', filterTabClick).on('click', filterTabClick);
 
-    // filter category and release infomation.
+    /**
+     * 是否为发布页面
+     * */
     if (!release) {
 
         // sell or buy active; default type = 1
@@ -285,7 +324,7 @@ function filterInit(f7, view, page) {
         } else {
             currentPage.find('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
         }
-        /*
+        /**
          * initialization filter page and send ajax to get list data.
          */
         customAjax.ajax({
@@ -294,17 +333,22 @@ function filterInit(f7, view, page) {
             data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
             type: 'get',
         }, listCallback);
-        //root district render;
+
+        /**
+         * 初始化render地区信息
+         * */
         let rootDistrict = '<span class="active-ele" data-postcode="0">全国</span>';
         $$.each(_district.root.province, (index, item) => {
             rootDistrict += filter.districtRender(item);
         })
         html($$('.filter-district>.col-35'), rootDistrict, f7);
         html($$('.filter-district>.col-65'), '<span class="active-ele" data-postcode="">全国</span>', f7);
-        //child district render
+
+        /**
+         * 选择父类地区渲染子类地区
+         * */
         currentPage.find('.filter-district').children('.col-35')[0].onclick = (e) => {
-            const event = e || window.event;
-            const ele = e.target;
+            const ele = e.target || window.event.target;
             if (ele.tagName !== 'SPAN') {
                 return;
             }
@@ -362,7 +406,9 @@ function filterInit(f7, view, page) {
             currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
         }
 
-        // select city
+        /**
+         * 选择城市后处理业务
+         * */
         currentPage.find('.filter-district').children('.col-65')[0].onclick = (e) => {
             const event = e || window.event;
             const ele = event.target;
@@ -407,8 +453,6 @@ function filterInit(f7, view, page) {
             isInfinite = true;
             // Exit, if loading in progress
             if (loading) return;
-
-            // Set loading flag
             loading = true;
             pageNo++;
             customAjax.ajax({
@@ -419,38 +463,21 @@ function filterInit(f7, view, page) {
                 isMandatory: true
             }, listCallback);
         });
-
-        /**
-         * 下拉列表刷新
-         * */
-        const refreshFunc = () => {
-            if(window.contentScrollTop > 3){
-                f7.pullToRefreshDone();
-            }
-            const isMandatory = !!nativeEvent['getNetworkStatus']();
-            pullToRefresh = true;
-            isShowAll = false;
-            pageNo = 1;
-            customAjax.ajax({
-                apiCategory: 'demandInfo',
-                api: 'list',
-                data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
-                type: 'get',
-                isMandatory
-            }, listCallback);
-        }
-        ptrContent.on('refresh', refreshFunc);
-
-        //get all tag name;
         customAjax.ajax({
             apiCategory: 'fishType',
             api: 'tags',
             data: [],
             type: 'get'
         }, fishTypeRootCallback);
-
     } else {
         f7.hideIndicator();
+
+        setTimeout(() => {
+            const winHeight = $$(window).height();
+            const navbarHeight = $$('.navbar').height();
+            currentPage.find('.filter-tabs-content').css({height: `${winHeight - navbarHeight}px`});
+        }, 0)
+
         currentFishId = null;
         currentPage.addClass('filter-release-info');
         currentPage.find('.filter-tabs-content').addClass('on active');
@@ -459,11 +486,17 @@ function filterInit(f7, view, page) {
         currentPage.find('.toolbar').hide();
     }
 
-    // select fish category;
+    if(release){
+        currentPage.find('.filter-tab').hide();
+        currentPage.find('.filter-tabs-content').css('top', '5.4rem')
+    }
+
+    /**
+     * 选择子类鱼种
+     * */
     currentPage.find('.filter-fish-type').children('.col-65')[0].onclick = (e) => {
         const event = e || window.event;
         const ele = event.target;
-        const classes = ele.className;
         if (ele.tagName !== 'SPAN') {
             return;
         }
@@ -498,8 +531,10 @@ function filterInit(f7, view, page) {
             if (childId && !ele.getAttribute('data-postcode')) {
                 fishTagId = '';
             }
-            //统计最近使用鱼种点击情况
-            if(currentPage.find('.col-35').children('.active-ele').text() == '最近使用鱼种'){
+            /**
+             * 统计最近使用鱼种点击情况
+             * */
+            if (currentPage.find('.col-35').children('.active-ele').text() == '最近使用鱼种') {
                 apiCount('btn_filter_fishtype_recentUsed');
             }
 
@@ -526,7 +561,9 @@ function filterInit(f7, view, page) {
         }
     }
 
-    //js location to other page
+    /**
+     * 跳转搜索页面
+     * */
     currentNavbar.find('.home-search-mask').on('click', () => {
         const currentHistory = view['history'];
         let isHasFilterPage = 0;
@@ -541,22 +578,13 @@ function filterInit(f7, view, page) {
         })
     })
 
-    //if release page go to select fish type page, Calculation filter-tabs-content height;
-    if (release) {
-        setTimeout(() => {
-            const winHeight = $$(window).height();
-            const navbarHeight = $$('.navbar').height();
-            currentPage.find('.filter-tabs-content').css({height: `${winHeight - navbarHeight}px`});
-        }, 0)
-    }
-
-    /*
-    * 进入发布信息页面
-    * */
+    /**
+     * 进入发布信息页面
+     * */
     currentPage.find('.filter-need-release')[0].onclick = () => {
         apiCount('btn_post');
-        if(!isLogin() && weixinData){
-            f7.alert('绑定手机号后，可以使用全部功能!','温馨提示', loginViewShow);
+        if (!isLogin() && weixinData) {
+            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;
         }
         view.router.load({

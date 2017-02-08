@@ -35,7 +35,7 @@ module.exports = {
                 classes.indexOf('tab2') > -1 && currentPage.find('div.filter-district').addClass('active');
                 classes.indexOf('tab3') > -1 && currentPage.find('div.filter-info-type').addClass('active');
 
-                if (window.contentScrollTop) {
+                if (window.contentScrollTop && currentPage.children('.has-img').length) {
                     const listTop = 175 - window.contentScrollTop > 95 ? (175 - window.contentScrollTop) : 95;
                     currentPage.find('.filter-tabs-content').css('top', `${listTop}px`);
                     currentPage.find('.winodw-mask').css('transform', `translate3d(0, ${listTop + 2}px ,0)`);

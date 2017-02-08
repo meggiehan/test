@@ -1,15 +1,17 @@
 import customAjax from '../middlewares/customAjax';
 import {home} from '../utils/template';
 import {html} from '../utils/string';
+import config from '../config';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll} from '../utils/locaStorage';
+import {getAll, get} from '../utils/locaStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
+    const {fishCacheObj} = config;
     /*
      * 判断是否有数据缓存，如果有就直接显示
      * */
@@ -90,7 +92,21 @@ function homeInit(f7, view, page) {
         type: 'get'
     }, initDataCallback);
 
-    /*
+
+    /**
+     * render 最近使用鱼种
+     * */
+    const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+    if(fishCacheData && fishCacheData.length){
+        let str = '';
+        $$.each(fishCacheData.reverse(), (index, item) => {
+            str += home.renderFishList(item, index);
+        })
+        currentPage.find('.fish-cache-list').html(str);
+        currentPage.find('.home-fish-cache-list').show();
+    }
+
+    /**
      * render 首页的信息列表
      * */
     const callback = (data, err, type) => {
@@ -120,7 +136,7 @@ function homeInit(f7, view, page) {
     /*
      * 获取首页信息
      * */
-    function getHomeListInfo() {
+    function getHomeListInfo(bool, onlyUseCache) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'list',
@@ -129,17 +145,22 @@ function homeInit(f7, view, page) {
                 index: 'index'
             },
             type: 'get',
-            isMandatory: nativeEvent.getNetworkStatus()
+            isMandatory: bool,
+            onlyUseCache
         }, callback);
     }
-
-    getHomeListInfo();
+    getHomeListInfo(false, true);
 
     /*
      * 刷新首页列表数据
      * */
     const ptrContent = $$('.pull-to-refresh-content');
-    ptrContent.on('refresh', getHomeListInfo);
+    ptrContent.on('refresh', () => {
+        getHomeListInfo(nativeEvent.getNetworkStatus());
+    });
+    setTimeout(() => {
+        f7.pullToRefreshTrigger(ptrContent);
+    }, 50);
 
     /*
      * 跳转页面

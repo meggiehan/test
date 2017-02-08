@@ -70,7 +70,6 @@ function bindAccountInit(f7, view, page) {
             loginViewShow();
             apiCount('btn_bind_phone');
         }
-        ;
     };
 
     /*
