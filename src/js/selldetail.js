@@ -57,10 +57,10 @@ function selldetailInit(f7, view, page) {
                 descriptionTags,
                 quantityTags,
                 imgs,
-                sort
+                sort,
+                userId
             } = demandInfo;
             const {
-                id,
                 personalAuthenticationState,
                 enterpriseAuthenticationState,
                 lastLoginTime,
@@ -91,7 +91,7 @@ function selldetailInit(f7, view, page) {
                 lastHeader.find('a.detail-more').hide();
                 lastHeader.find('right').css('paddingRight', '3rem');
             }
-            id == locaUserId && currentPage.find('.selldetail-footer').addClass('delete');
+            userId == locaUserId && currentPage.find('.selldetail-footer').addClass('delete');
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && currentPage.addClass(addClassName);

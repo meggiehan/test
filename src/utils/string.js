@@ -1,7 +1,7 @@
 import nativeEvent from './nativeEvent';
 import config from '../config';
 
-const { fishCacheObj } = config;
+const {fishCacheObj} = config;
 module.exports = {
     trim: (str) => {
         if (!str) {
@@ -69,7 +69,7 @@ module.exports = {
         return res + '...';
     },
 
-    getProvinceId: (district, provinceName) => {
+    getSingleProvinceId: (district, provinceName) => {
         if (!provinceName) {
             return;
         }
@@ -261,7 +261,7 @@ module.exports = {
             category: 1
         }]
 
-        const  adultFishTags = [
+        const adultFishTags = [
             {id: 24, name: '<0.5斤'},
             {id: 25, name: '0.5-1斤'},
             {id: 26, name: '1-5斤'},
@@ -295,10 +295,10 @@ module.exports = {
     getRange: (lat1, lng1) => {
         const lat2 = window['addressObj'] && window['addressObj']['latitude'];
         const lng2 = window['addressObj'] && window['addressObj']['longitude'];
-        if(!lng2 || !lat2 || !lat1 || !lng1){
+        if (!lng2 || !lat2 || !lat1 || !lng1) {
             return -2;
         }
-        const rad = function(d){
+        const rad = function (d) {
             return d * Math.PI / 180.0;
         }
 
@@ -307,8 +307,8 @@ module.exports = {
         let a = radLat1 - radLat2;
         let b = rad(Number(lng1)) - rad(Number(lng2));
 
-        let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
-                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * 6378.137;
         s = Math.round(s * 10000) / 10000;
         return Number(s).toFixed(0);
@@ -337,17 +337,17 @@ module.exports = {
             val.indexOf(item) > -1 && (res = res.replace(item, ''));
         })
         // res = res.replace(new RegExp(ranges.join('|'), 'g'), '')
-            // .replace(/\ud83d[\ude00-\ude4f]/g, '')
-            // .replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '')
-            // .replace(/[\uE000-\uF8FF]/g, '')
-            // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
-            // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
+        // .replace(/\ud83d[\ude00-\ude4f]/g, '')
+        // .replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '')
+        // .replace(/[\uE000-\uF8FF]/g, '')
+        // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
+        // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
         return res;
     },
 
     saveSelectFishCache: (obj) => {
-        const { name } = obj;
-        if(name && name.indexOf('全部') == -1){
+        const {name} = obj;
+        if (name && name.indexOf('全部') == -1) {
             const {fishCacheKey, maxLength} = fishCacheObj;
             let currentFishCache = nativeEvent.getDataToNative(fishCacheKey) || [];
             let index = -10;
@@ -385,5 +385,30 @@ module.exports = {
         !token && !weixinData && (text = '您还没登录，请先登录!')
         !token && weixinData && (text = '绑定手机号后，可以使用全部功能!')
         return text;
+    },
+
+    /**
+     *
+     * 根据地区名字获取id
+     */
+    getProvinceId: (provinceName, cityName) => {
+        const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+        let provinceId, cityId, selectItem;
+        provinceName && $$.each(_district.root.province, (index, item) => {
+            if(provinceName === item.name){
+                provinceId = item.postcode;
+                selectItem = item;
+            }
+        })
+
+        cityName && $$.each(selectItem && selectItem.city, (index, item) => {
+            if(cityName === item.name){
+                cityId = item.postcode;
+            }
+        })
+        return {
+            provinceId,
+            cityId
+        }
     }
 }

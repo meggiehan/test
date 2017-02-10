@@ -91,7 +91,7 @@ module.exports = {
             return $_f_date;
         }
         var $_hours = test.getHours();
-        var $_minute = test.getMinutes();
+        var $_minute = test.getMinutes() > 9 ? test.getMinutes() : `0${test.getMinutes()}`;
         return `${$_month}月${$_day}日${$_hours}:${$_minute}`;
     },
     getDealTime: (data) => {

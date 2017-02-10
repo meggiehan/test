@@ -1,6 +1,6 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import { trim, html, getProvinceId, getCityId, getAddressIndex, getTagInfo } from '../utils/string';
+import { trim, html, getSingleProvinceId, getCityId, getAddressIndex, getTagInfo } from '../utils/string';
 import { search, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
@@ -333,7 +333,7 @@ function releaseInfoInit(f7, view, page) {
             cityId = window.addressObj['cityId'];
             !provinceName && (provinceName = initProvinceName);
             !cityName && (cityName = initCityName);
-            !provinceId && provinceName && (provinceId = getProvinceId(_district, provinceName));
+            !provinceId && provinceName && (provinceId = getSingleProvinceId(_district, provinceName));
             !cityId && (cityId = getCityId(_district, provinceName, cityName));
         }
         const price = isEmailStr(trim(priceInput[0].value));

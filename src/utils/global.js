@@ -163,8 +163,7 @@ class CustomClass {
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         loginViewHide();
         mainView.router.load({
-            url: `views/user.html?uuid=${token || ''}`,
-            animatePage: true
+            url: `views/user.html?uuid=${token || ''}`
         })
     }
 

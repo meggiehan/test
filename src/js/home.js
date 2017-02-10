@@ -1,15 +1,17 @@
 import customAjax from '../middlewares/customAjax';
 import {home} from '../utils/template';
 import {html} from '../utils/string';
+import config from '../config';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll} from '../utils/locaStorage';
+import {getAll, get} from '../utils/locaStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
+    const {fishCacheObj} = config;
     /*
      * 判断是否有数据缓存，如果有就直接显示
      * */
@@ -28,22 +30,25 @@ function homeInit(f7, view, page) {
         $$.each(data, (index, item) => {
             dealHtml += home.dealInfo(item);
         })
-        html($$('.home-deal-info-list'), dealHtml);
+        html(currentPage.find('.home-deal-info-list'), dealHtml);
     }
     const renderBanners = (data) => {
         let bannerHtml = '';
         $$.each(data, (index, item) => {
             bannerHtml += home.banner(item);
         })
-        bannerHtml && html($$('.home-slider .swiper-wrapper'), bannerHtml, f7);
-        bannerHtml && $$('.home-slider').show();
+        bannerHtml && html(currentPage.find('.swiper-wrapper'), bannerHtml, f7);
+        bannerHtml && currentPage.find('.home-slider').show();
         /*
          * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
          * */
-        window.yudadaSwiper && window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
+        if(window.yudadaSwiper){
+            window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
+            window.yudadaSwiper = null;
+        }
         if (data.length > 1) {
-            window.yudadaSwiper = new f7.swiper('.swiper-slow', {
-                pagination: '.swiper-slow .swiper-pagination',
+            window.yudadaSwiper = f7.swiper('.swiper-slow', {
+                pagination: currentPage.find('.swiper-pagination'),
                 lazyLoading: true,
                 paginationClickable: true,
                 initialSlide: 0,
@@ -61,14 +66,14 @@ function homeInit(f7, view, page) {
                      * */
                     setTimeout(() => {
                         const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
-                        $$('.home-slider .swiper-pagination span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
-                        $$('.home-slider .swiper-pagination span').removeClass('hide');
+                        currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
+                        currentPage.find('.swiper-pagination').children('span').removeClass('hide');
                         window.yudadaSwiper.startAutoplay();
                     }, 80)
                 }
             })
         }else{
-            $$('.home-slider .swiper-pagination span').addClass('hide');
+            currentPage.find('.swiper-pagination').children('span').addClass('hide');
         }
     }
 
@@ -90,7 +95,21 @@ function homeInit(f7, view, page) {
         type: 'get'
     }, initDataCallback);
 
-    /*
+
+    /**
+     * render 最近使用鱼种
+     * */
+    const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+    if(fishCacheData && fishCacheData.length){
+        let str = '';
+        $$.each(fishCacheData.reverse(), (index, item) => {
+            str += home.renderFishList(item, index);
+        })
+        currentPage.find('.fish-cache-list').html(str);
+        currentPage.find('.home-fish-cache-list').show();
+    }
+
+    /**
      * render 首页的信息列表
      * */
     const callback = (data, err, type) => {
@@ -100,7 +119,7 @@ function homeInit(f7, view, page) {
             $$.each(saleDemands, (index, item) => {
                 catListHtml += home.cat(item);
             })
-            html($$('.cat-list-foreach'), catListHtml, f7);
+            html(currentPage.find('.cat-list-foreach'), catListHtml, f7);
         }
 
         if (buyDemands.length) {
@@ -108,10 +127,10 @@ function homeInit(f7, view, page) {
             $$.each(buyDemands, (index, item) => {
                 buyListHtml += home.buy(item);
             })
-            html($$('.buy-list-foreach'), buyListHtml, f7);
+            html(currentPage.find('.buy-list-foreach'), buyListHtml, f7);
         }
-        $$('.ajax-content').show(200);
-        $$('.home-loading').hide(100);
+        currentPage.find('.ajax-content').show(200);
+        currentPage.find('.home-loading').hide(100);
 
         //pull to refresh done.
         f7.pullToRefreshDone();
@@ -120,7 +139,7 @@ function homeInit(f7, view, page) {
     /*
      * 获取首页信息
      * */
-    function getHomeListInfo() {
+    function getHomeListInfo(bool, onlyUseCache) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'list',
@@ -129,17 +148,22 @@ function homeInit(f7, view, page) {
                 index: 'index'
             },
             type: 'get',
-            isMandatory: nativeEvent.getNetworkStatus()
+            isMandatory: bool,
+            onlyUseCache
         }, callback);
     }
-
-    getHomeListInfo();
+    getHomeListInfo(false, true);
 
     /*
      * 刷新首页列表数据
      * */
-    const ptrContent = $$('.pull-to-refresh-content');
-    ptrContent.on('refresh', getHomeListInfo);
+    const ptrContent = currentPage.find('.pull-to-refresh-content');
+    ptrContent.on('refresh', () => {
+        getHomeListInfo(nativeEvent.getNetworkStatus());
+    });
+    setTimeout(() => {
+        f7.pullToRefreshTrigger(ptrContent);
+    }, 50);
 
     /*
      * 跳转页面

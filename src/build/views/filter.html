@@ -10,22 +10,6 @@
                     </a>
                 </div>
             </form>
-            <div class="filter-member-img"></div>
-            <div class="filter-tab">
-                <div class="filter-tab-title tab1" onclick="apiCount('btn_filter_fishtype');">
-                    <span>全部鱼种</span>
-                    <b class="filter-tab-icon"></b>
-                </div>
-                <div class="filter-tab-title on tab2" onclick="apiCount('btn_filter_location');">
-                    <span>地区</span>
-                    <b class="filter-tab-icon"></b>
-                    <i class="left"></i><i class="right"></i>
-                </div>
-                <div class="filter-tab-title tab3" onclick="apiCount('btn_filter_type');">
-                    <span>出售</span>
-                    <b class="filter-tab-icon"></b>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -34,6 +18,22 @@
         <div class="pull-to-refresh-layer ">
             <div class="preloader "></div>
             <div class="pull-to-refresh-arrow "></div>
+        </div>
+        <div class="filter-member-img"></div>
+        <div class="filter-tab">
+            <div class="filter-tab-title tab1" onclick="apiCount('btn_filter_fishtype');">
+                <span>全部鱼种</span>
+                <b class="filter-tab-icon"></b>
+            </div>
+            <div class="filter-tab-title on tab2" onclick="apiCount('btn_filter_location');">
+                <span>地区</span>
+                <b class="filter-tab-icon"></b>
+                <i class="left"></i><i class="right"></i>
+            </div>
+            <div class="filter-tab-title tab3" onclick="apiCount('btn_filter_type');">
+                <span>出售</span>
+                <b class="filter-tab-icon"></b>
+            </div>
         </div>
         <div class="filter-list  list-block media-list"></div>
         <div class="filter-empty-search-result">
@@ -49,7 +49,8 @@
     </div>
     <!-- mask -->
     <div class="winodw-mask "></div>
-    <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png " src="img/app_icon_108.png " class="lazy " width="32 " alt=" ">
+    <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png "
+         src="img/app_icon_108.png " class="lazy " width="32 " alt=" ">
     <!-- tab content -->
     <div class="filter-tabs-content ">
         <div class="filter-tab-content row filter-fish-type">
@@ -61,8 +62,10 @@
             <div class="col-65 "></div>
         </div>
         <div class="filter-tab-content row filter-info-type">
-            <p class="iconfont filter-sell icon-tick " data-type="2" onclick="apiCount('btn_filter_location_item1')">出售</p>
-            <p class="iconfont filter-buy icon-tick " data-type="1" onclick="apiCount('btn_filter_location_item2')">求购</p>
+            <p class="iconfont filter-sell icon-tick " data-type="2" onclick="apiCount('btn_filter_location_item1')">
+                出售</p>
+            <p class="iconfont filter-buy icon-tick " data-type="1" onclick="apiCount('btn_filter_location_item2')">
+                求购</p>
         </div>
     </div>
     <div class="toolbar tabbar ">

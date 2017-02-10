@@ -55,10 +55,12 @@ var writeObj = {
     date: new Date(Date.now() + 8 * 60 * 60 * 1000)
 }
 
-fs.writeFile('./src/config/version.json', JSON.stringify(writeObj), (err) => {
-    if (err) throw err;
-    console.log('It\'s saved!');
-});
+if(PROD === 'build'){
+    fs.writeFile('./src/config/version.json', JSON.stringify(writeObj), (err) => {
+        if (err) throw err;
+        console.log('It\'s saved!');
+    });
+}
 
 if (PROD === 'dev' || PROD === 'build-dev') {
     // initConfig.devtool = 'source-map';

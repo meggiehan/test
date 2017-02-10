@@ -115,8 +115,8 @@ class CustomClass {
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])) {
             return false;
         }
-        ios && JS_ToShare(title, html, url, message, imgUrl || '');
-        android && window.yudada.JS_ToShare(title, html, url, message, imgUrl || '');
+        ios && JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
+        android && window.yudada.JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
     }
 
     //release voice info.
@@ -328,14 +328,14 @@ class CustomClass {
             return false;
         }
         if(ios){
-            JS_SetNativeUserInfo(data || {});
+            data && JS_SetNativeUserInfo(data);
         }else{
             $$.each(data, (key, val) => {
-                window.yudada.JS_PerferenceSetShared(key || '', val || 0);
+                key && window.yudada.JS_PerferenceSetShared(key, val);
             })
         }
     }
 }
 
-const nativeEvent = new CustomClass;
+const nativeEvent = new CustomClass();
 export default nativeEvent;

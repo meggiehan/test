@@ -50,9 +50,11 @@ function userInit(f7, view, page) {
         }
 
         if (imgUrl) {
-            $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8));
-            $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
+            $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8)).show();
+        }else{
+            $$('.picker-invite-head-img').hide();
         }
+        $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
     }
 
     const loginCallback = (data) => {
