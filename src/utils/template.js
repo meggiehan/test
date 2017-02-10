@@ -1,5 +1,5 @@
 import {timeDifference, getDate, getDealTime} from './time';
-import {getCertInfo, imgIsUpload, getName, getInfoStatus} from './string';
+import {getCertInfo, imgIsUpload, getName, getInfoStatus, getRange} from './string';
 import config from '../config/';
 import store from './locaStorage';
 
@@ -14,65 +14,59 @@ module.exports = {
                 state,
                 price,
                 specifications,
-                imgs,
+                imgList,
                 title,
                 refreshed,
                 type,
-                sort
+                sort,
+                contactName,
+                fishCertificateList,
+                fishTypeName,
+                nameAuthenticated,
+                provinceName,
+                cityName,
+                quantityTagList
             } = data;
-            const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
-            const imge_path = data['imge_path'] || data['imgePath'];
-            const fish_type_name = data['fish_type_name'] || data['fishTypeName'];
-            const check_time = data['check_time'] || data['checkTime'];
-            const create_time = data['create_time'] || data['createTime'];
-            const contact_name = data['contact_name'] || data['contactName'];
-            const province_name = data['province_name'] || data['provinceName'];
-            const city_name = data['city_name'] || data['cityName'];
-            const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
-            const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
-            const quantity_tags = data['quantity_tags'] || data['quantityTags']
             let img = document.createElement('img');
-            let infoImgs;
-            imgs && JSON.parse(imgs).length ? (infoImgs = JSON.parse(imgs)) : (infoImgs = [imge_path]);
             const currentLevel = level || userLevel;
-
-            let showTime = timeDifference(sort);
-            // const userInfo = store.get(cacheUserinfoKey);
-            // if (userInfo) {
-            //     id == userInfo['id'] && (showTime = timeDifference(create_time));
-            // }
             let imgStr;
-            img.src = `${infoImgs[0]}${imgPath(11)}`;
-            imgStr = img.complete ? '<img src="' + `${infoImgs[0] + imgPath(11)}` + '"/></div>' :
-            '<img data-src="' + `${infoImgs.length && (infoImgs[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
             let res = '';
             let span = '';
-            const authText = (personal_authentication_state === 1 || enterprise_authentication_state === 1 || 1 === nameAuthentication) && '实名' || null;
-            1 == state && infoImgs.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
+
+            if(imgList){
+                img.src = `${imgList[0]}${imgPath(11)}`;
+                imgStr = img.complete ? '<img src="' + `${imgList[0] + imgPath(11)}` + '"/></div>' :
+                '<img data-src="' + `${(imgList[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
+            }else{
+                imgStr = '<img data-src="backgroundImgUrl" /></div>';
+            }
+
+            const authText = nameAuthenticated ? '实名' : false;
+            imgList && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
             res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
                 '<div class="col-30 ps-r item-media">' + span + imgStr +
                 '<div class="col-70 item-inner">' +
                 '<div class="cat-list-title row">' +
-                '<div class="col-60 goods-name">' + fish_type_name + '</div>' +
+                '<div class="col-60 goods-name">' + fishTypeName + '</div>' +
                 '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
                 '</div>' +
-                '<div class="row cat-list-text">' + `${(province_name || '') + (city_name || '')}${(specifications && '    |    ' + specifications || '') || ((quantity_tags && JSON.parse(quantity_tags).length && ( '    |    ' + JSON.parse(quantity_tags)[0].tagName))) || ''}` + '</div>' +
+                '<div class="row cat-list-text">' + `${(provinceName || '') + (cityName || '')}${(specifications && '    |    ' + specifications || '') || ((quantityTagList && quantityTagList.length ? ( '    |    ' + quantityTagList[0].tagName) : ''))}` + '</div>' +
                 '<div class="cat-list-title-auth">' +
                 `${title && '<span><b>特</b><i>' + title + '</i></span>' || '' }` +
-                `${authText && '<b>' + authText + '</b>' || ''}` +
+                `${authText ? '<b>' + authText + '</b>' : ''}` +
                 '</div>' +
                 '<div class="cat-list-user-name">' +
-                `<span class="user-name">${contact_name || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
-                `<span class="user-release-time">${showTime}</span>` +
+                `<span class="user-name">${contactName || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
+                `<span class="user-release-time">${timeDifference(sort)}</span>` +
                 '</div>';
 
             let certList = '';
 
             if (!isMyList) {
                 certList += '<div class="cat-list-tags">';
-                if (certificate_type_list && certificate_type_list.length) {
-                    $$.each(certificate_type_list, (index, item) => {
-                        const {classes, label, certName} = getCertInfo(item);
+                if (fishCertificateList && fishCertificateList.length) {
+                    $$.each(fishCertificateList, (index, item) => {
+                        const {classes, label, certName} = getCertInfo(item.type);
                         certList += '<p>' +
                             '<span class="cert-label ' + classes + '">' + label + '</span>' + `具备“${certName}”` +
                             '</p>'
@@ -85,9 +79,9 @@ module.exports = {
                 const {text, className} = getInfoStatus(state);
                 const refreshBtn = refreshed ? '<span class="refresh-btn disabled">今天已刷新</span>' : `<span class="refresh-btn" data-id="${id}">刷新信息</span>`;
                 res += '<div class="list-check-status">' +
-                        `<div><span class="${className} f-l">${text}</span>` +
-                        (1 == state ? (refreshBtn + `<span class="sell-list-share" data-type="${type}" data-id="${id}">分享给朋友</span>`) : '') + '</div>' +
-                        '<p></p>' +
+                    `<div><span class="${className} f-l">${text}</span>` +
+                    (1 == state ? (refreshBtn + `<span class="sell-list-share" data-type="${type}" data-id="${id}">分享给朋友</span>`) : '') + '</div>' +
+                    '<p></p>' +
                     '</div>';
             }
             return res;
@@ -103,57 +97,45 @@ module.exports = {
                 refreshed,
                 type,
                 sort, //refreshTime
+                cityName,
+                contactName,
+                fishTypeName,
+                nameAuthenticated,
+                provinceName,
+                quantityTagList,
                 description
             } = data;
-            const certificate_type_list = data['certificate_type_list'] || data['certificateTypeList'];
-            const imge_path = data['imge_path'] || data['imgePath'];
-            const fish_type_name = data['fish_type_name'] || data['fishTypeName'];
-            const check_time = data['check_time'] || data['checkTime'];
-            const create_time = data['create_time'] || data['createTime'];
-            const contact_name = data['contact_name'] || data['contactName'];
-            const province_name = data['province_name'] || data['provinceName'];
-            const city_name = data['city_name'] || data['cityName'];
-            const personal_authentication_state = data['personal_authentication_state'] || data['personalAuthenticationState'];
-            const enterprise_authentication_state = data['enterprise_authentication_state'] || data['enterpriseAuthenticationState'];
-            const quantity_tags = data['quantity_tags'] || data['quantityTags'];
-            let img = document.createElement('img');
-            let showTime = timeDifference(sort);
-            const descriptionInfo = describe || description;
-            // const userInfo = store.get(cacheUserinfoKey);
-            const isAuth = (1 == personal_authentication_state) || (1 == enterprise_authentication_state) || false;
-            // if (userInfo) {
-            //     id == userInfo['id'] && (showTime = timeDifference(create_time));
-            // }
+            const isAuth = nameAuthenticated || false;
             const currentLevel = level || userLevel;
             let res = '';
+
             res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
                 '<div class="row">' +
-                '<div class="col-65 buy-name">' + fish_type_name + '</div>' +
+                '<div class="col-65 buy-name">' + fishTypeName + '</div>' +
                 '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
                 '</div>' +
                 '<div class="row">' +
-                '<div class="col-65 buy-address">' + `所在地区：${province_name || ''}${city_name || ''}` + '</div>' +
-                '<div class="col-35 buy-time">' + showTime + '</div>' +
+                '<div class="col-65 buy-address">' + `所在地区：${provinceName || ''}${cityName || ''}` + '</div>' +
+                '<div class="col-35 buy-time">' + timeDifference(sort) + '</div>' +
                 '</div>' +
-                `<div class="row ${(!specifications && (!quantity_tags || !JSON.parse(quantity_tags).length)) && 'hide'}">` +
-                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantity_tags && JSON.parse(quantity_tags).length && JSON.parse(quantity_tags)[0].tagName) || ''}` + '</div>' +
+                `<div class="row ${!specifications && (!quantityTagList || !quantityTagList.length) && 'hide'}">` +
+                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantityTagList && quantityTagList.length && quantityTagList[0].tagName) || ''}` + '</div>' +
                 '</div>' +
                 '<div class="home-buy-address">' +
-                `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contact_name || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
+                `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contactName || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
                 '</div>' +
-                (descriptionInfo ? ('<div class="buy-list-describe"><span>具体要求</span>'+ descriptionInfo +'</div>') : '') +
+                (description ? ('<div class="buy-list-describe"><span>具体要求</span>' + description + '</div>') : '') +
                 '</a>';
 
             if (isMyList) {
                 const {text, className} = getInfoStatus(state);
                 const refreshBtn = refreshed ? '<span class="refresh-btn disabled">今天已刷新</span>' : `<span class="refresh-btn" data-id="${id}">刷新信息</span>`;
                 res += '<div class="list-check-status">' +
-                        `<div><span class="${className} f-l">${text}</span>` +
-                        (1 == state ? (refreshBtn + `<span class="sell-list-share" data-type="${type}" data-id="${id}">分享给朋友</span>`) : '') + '</div>' +
-                        '<p></p>' +
+                    `<div><span class="${className} f-l">${text}</span>` +
+                    (1 == state ? (refreshBtn + `<span class="sell-list-share" data-type="${type}" data-id="${id}">分享给朋友</span>`) : '') + '</div>' +
+                    '<p></p>' +
                     '</div>';
             }
-
             return res;
         },
         dealInfo: (data) => {
@@ -167,8 +149,14 @@ module.exports = {
             return `<div class="home-deal-info">[${provinceName}]<span class="deal-list-name">${getName(userName)}</span>成交  <span class="deal-list-category">${fishTypeName} ${quantity || ''}</span>, ${getDealTime(tradeDate)}</div>`
         },
         banner: (data) => {
-            const {imgUrl, link} = data;
-            return `<div class="swiper-slide" data-href="${link}"><img src="${imgUrl + '@1e_1c_2o_0l_120h_500w_90q.src'}" alt=""></div>`;
+            const {imgUrl, link, loginRequired} = data;
+            return `<div class="swiper-slide" data-login="${loginRequired ? 1 : 0}" data-href="${link}"><img src="${imgUrl}" alt=""></div>`;
+        },
+        renderFishList: (data, index) => {
+            const {id, name} = data;
+            const isBorder = (index + 2)%3 == 0;
+            const str = `${isBorder ? '|' : ''}<a href="views/filter.html?fishId=${id}">${name}</a>${isBorder ? '|' : ''}`
+            return str;
         }
     },
     search: {
@@ -294,7 +282,7 @@ module.exports = {
                 userId
             } = data;
             let res = '';
-            res += '<a href="views/otherIndex.html?currentUserId='+ userId +'">' +
+            res += '<a href="views/otherIndex.html?currentUserId=' + userId + '">' +
                 `<p class="deal-list-title">${fishTypeName} ${quantity || '若干'} <span>${provinceName}${cityName || ''}</span></p>` +
                 '<p class="deal-list-user-info">' +
                 `<img src="${imgUrl && imgUrl + imgPath(4) || 'img/defimg.png'}">` +
@@ -333,6 +321,71 @@ module.exports = {
         tag: (data) => {
             const {id, name} = data;
             return `<span data-id="${id}">${name}</span>`;
+        }
+    },
+
+    fishCar: {
+        list: (data) => {
+            const {
+                carSizeTagName,
+                contactName,
+                contactPhone,
+                drivingAge,
+                hasTeam,
+                routes,
+                skillTags
+            } = data;
+            let str = '';
+            let text = '';
+            let districtList = '';
+            hasTeam && (text += '有车队');
+            skillTags && skillTags.length && $$.each(skillTags, (index, item) => {
+                text += `、${item.name}`
+            })
+
+            routes && routes.length && $$.each(routes, (index, item) => {
+                districtList += `<span>${item.departureProvinceName} - ${item.destinationProvinceName}</span>`;
+            })
+
+            str += '<div class="driver-info">' +
+                        '<div class="left">' +
+                            '<p class="title">' +
+                            `${contactName} <span>(鱼车${carSizeTagName} | ${drivingAge}年驾龄)</span>` +
+                            '</p>' +
+                            `<p>${text}</p>` +
+                            '<div class="other-info">' +
+                                `<p>线路：${(routes && routes.length) ? (routes.length + '条') : '全国'}</p>` +
+                                `${districtList ? ('<div>'+ districtList +'</div>') : ''}` +
+                            '</div>' +
+                        '</div>' +
+                        `<div data-phone="${contactPhone}" class="right iconfont icon-call"></div>` +
+                    '</div>'
+            return str;
+        },
+        demandList: (data) => {
+            const {createTime, description, userInfoView} = data;
+            const {imgUrl, level, nickname, phone} = userInfoView || {};
+            let str = '';
+            str += '<div class="driver-info">' +
+                        '<div class="left list-block media-list">' +
+                            '<div class="title item-content item-link">' +
+                                '<div class="item-media">' +
+                                    `<img width="50" data-src="${imgUrl}" src="img/app_icon_108.png" alt="">` +
+                                '</div>' +
+                                '<div class="item-inner">' +
+                                    '<div class="item-title-row">' +
+                                        '<p class="title">' +
+                                        `${nickname || '匿名用户'}<span class="iconfont icon-v${level}"></span>` +
+                                        '</p>' +
+                                        `<p>${timeDifference(createTime)}</p>` +
+                                    '</div>' +
+                                '</div>' +
+                                '</div>' +
+                            `<div class="content">${description}</div>` +
+                        '</div>' +
+                        `<div class="right iconfont icon-call" data-phone="${phone}"></div>` +
+                    '</div>';
+            return str;
         }
     }
 

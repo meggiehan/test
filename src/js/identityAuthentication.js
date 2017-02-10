@@ -14,19 +14,18 @@ function identityAuthenticationInit(f7, view, page) {
         })
         return;
     }
-    const individualBtn = $$('.identity-individual');
-    const companyBtn = $$('.identity-company');
-    const certBox = $$('.identity-infomation');
-    const authenticationDemo = $$('.identity-pic-demo');
-    const subBtn = $$('.identity-submit>.identity-submit-btn');
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const individualBtn = currentPage.find('.identity-individual');
+    const companyBtn = currentPage.find('.identity-company');
+    const certBox = currentPage.find('.identity-infomation');
+    const authenticationDemo = currentPage.find('.identity-pic-demo');
+    const subBtn = currentPage.find('.identity-submit-btn');
     const { cacheUserinfoKey } = config;
     const {
         enterpriseAuthenticationState,
         personalAuthenticationState
     } = store.get(cacheUserinfoKey);
     let individualType = 0;
-    let individualPicNum = 0;
-    let companyPicNum = 0;
     identityAuthenticationUtils.init(f7);
 
     /*
@@ -38,13 +37,13 @@ function identityAuthenticationInit(f7, view, page) {
             return;
         }
         individualType = 1;
-        $$('.identity-select-type .col-50').removeClass('active');
+        currentPage.find('.identity-select-type').find('.col-50').removeClass('active');
         individualBtn.addClass('active');
         certBox.addClass('individual').removeClass('company');
         authenticationDemo.addClass('show');
         subBtn.hasClass('individual-pass') ? subBtn.addClass('pass') : subBtn.removeClass('pass');
     }
-    $$.each($$('.identity-individual-pic>div'), (index, item) => {
+    $$.each(currentPage.find('.identity-individual-pic').children('div'), (index, item) => {
         $$(item).on('click', () => {
             nativeEvent.postPic(index, '');
         })
@@ -60,30 +59,30 @@ function identityAuthenticationInit(f7, view, page) {
             return;
         }
         individualType = 2;
-        $$('.identity-select-type .col-50').removeClass('active');
+        currentPage.find('.identity-select-type').find('.col-50').removeClass('active');
         companyBtn.addClass('active');
         certBox.addClass('company').removeClass('individual');
         authenticationDemo.removeClass('show');
         subBtn.hasClass('company-pass') ? subBtn.addClass('pass') : subBtn.removeClass('pass');
     }
 
-    $$('.identity-company-pic>div').on('click', () => {
+    currentPage.find('.identity-company-pic').children('div').on('click', () => {
         nativeEvent.postPic(3, '');
     })
 
     //click submit set ajax.
-    $$('.identity-submit>a').on('click', () => {
-        const classes = $$('.identity-submit>a').attr('class');
+    currentPage.find('.identity-submit').children('a').on('click', () => {
+        // const classes = $$('.identity-submit>a').attr('class');
         identityAuthenticationUtils.subCardInfo();
     })
 
     if (enterpriseAuthenticationState == 1) {
-        $$('.identity-select-type .identity-company p').eq(1).text('已认证');
+        currentPage.find('.identity-company').children('p').eq(1).text('已认证');
         individualBtn.addClass('active');
         certBox.addClass('individual').removeClass('company');
         authenticationDemo.addClass('show');
     } else if (personalAuthenticationState == 1) {
-        $$('.identity-select-type .identity-individual p').eq(1).text('已认证');
+        currentPage.find('.identity-individual').children('p').eq(1).text('已认证');
         companyBtn.addClass('active');
         certBox.addClass('company').removeClass('individual');
     }

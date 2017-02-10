@@ -4,7 +4,7 @@ import { selldetail, home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
 import config from '../config';
-import {isLogin} from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import framework7 from './lib/framework7';
 
 const newF7 = new framework7({
@@ -17,14 +17,18 @@ const newF7 = new framework7({
 function releaseSuccInit(f7, view, page) {
     const { type, id, fishName, phone } = page.query;
     const { pageSize, cacheUserinfoKey, shareUrl } = config;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     currentPage.find('span.release-succ-name').text(fishName);
+
+    /**
+     * 发布成功之后的操作
+     * 1：未登录的引导登录
+     * 2：已登录的引导分享发布的信息
+     * */
     if (!isLogin()) {
         newF7.confirm('登录之后可以随时查看自己发布的信息，有更多好处，现在去登录吧？', '友情提示', () => {
             apiCount('btn_text_guideLogin_yes');
-            mainView.router.load({
-                url: 'views/login.html?phone=' + phone
-            })
+            loginViewShow(phone);
         })
     }else{
         const releaseF7 = new framework7({
@@ -45,14 +49,19 @@ function releaseSuccInit(f7, view, page) {
             state
         } = window['releaseInfo'];
 
-        1 == state && $$('.release-succ-head>p span').text('所有人都可以看到你的信息啦');
-        1 == state && $$('.release-succ-head>p').eq(0).hide();
+        const userInfo = store.get(cacheUserinfoKey);
+
+        1 == state && currentPage.find('.release-succ-head').find('span').text('所有人都可以看到你的信息啦');
+        1 == state && currentPage.find('.release-succ-head>p').eq(0).hide();
 
         const catBtn = `<a href='views/${1 == type ? "buydetail" : "selldetail"}.html?id=${id}' class='button col-45' onclick="apiCount('btn_text_goDetail')" class='button col-45 first'>查看信息详情</a>`;
         currentPage.find('.release-succ-back-btn').children('a').eq(1).remove();
         currentPage.find('.release-succ-back-btn').append(catBtn);
-        
-        releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
+
+        /**
+         * 未实名认证的不引导分享
+         * */
+        1 == state && releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
             apiCount('btn_text_guideShare_yes');
             let title = '';
             let messageTile = '';
@@ -70,10 +79,13 @@ function releaseSuccInit(f7, view, page) {
             html += price ? `${'价格' + price}，` : '';
             html += specifications ? `${'规格' + specifications}，` : '';
             html += '点击查看更多信息~';
-            nativeEvent.shareInfo(title, html, url_, messageTile);
+            nativeEvent.shareInfo(title, html, url_, messageTile, userInfo.imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
         })
     }
 
+    /**
+     * 发布成功后获取相似的反向信息（出售 -> 求购/ 求购 -> 出售）
+     * */
     const callback = (data) => {
         const { code, message } = data;
         if (code !== 1) {
@@ -94,7 +106,7 @@ function releaseSuccInit(f7, view, page) {
     }
     customAjax.ajax({
         apiCategory: 'demandInfo',
-        api: 'getDemandInfoList',
+        api: 'list',
         data: [id, '', type == 1 ? 2 : 1, '', pageSize, 1],
         type: 'get'
     }, callback);

@@ -1,36 +1,61 @@
 import framework7 from '../js/lib/framework7';
-import { isLogin } from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from './nativeEvent';
 import config from '../config';
 import store from './locaStorage';
 import customAjax from '../middlewares/customAjax';
+import {alertTitleText} from '../utils/string'
 
 const f7 = new framework7({
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
-    modalTitle: '温馨提示',
+    modalTitle: '温馨提示'
 });
-const { servicePhoneNumber } = config;
+const {servicePhoneNumber} = config;
 module.exports = {
     filterTabClick: (e) => {
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         const event = e || window.event;
         let ele = event.target;
         let classes = ele.className;
         const clickTab = () => {
             if (classes.indexOf('active-ele') > -1) {
                 ele.className = classes.replace('active-ele', '');
-                $$('.winodw-mask').removeClass('on');
-                $$('.filter-tabs-content').removeClass('on');
+                currentPage.find('.winodw-mask').removeClass('on');
+                currentPage.find('.filter-tabs-content').removeClass('on');
+                currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
             } else {
-                $$('.filter-tab>div').removeClass('active-ele');
+                currentPage.find('.filter-tab').children('div').removeClass('active-ele');
                 ele.className += ' active-ele';
-                $$('.winodw-mask').addClass('on');
-                $$('.filter-tabs-content').addClass('on');
-                $$('.filter-tabs-content>div').removeClass('active');
-                classes.indexOf('tab1') > -1 && $$('.filter-tabs-content>div.filter-fish-type').addClass('active');
-                classes.indexOf('tab2') > -1 && $$('.filter-tabs-content>div.filter-district').addClass('active');
-                classes.indexOf('tab3') > -1 && $$('.filter-tabs-content>div.filter-info-type').addClass('active');
+                currentPage.find('.winodw-mask').addClass('on');
+                currentPage.find('.filter-tabs-content').addClass('on');
+                currentPage.find('.filter-tabs-content').children('div').removeClass('active');
+                classes.indexOf('tab1') > -1 && currentPage.find('div.filter-fish-type').addClass('active');
+                classes.indexOf('tab2') > -1 && currentPage.find('div.filter-district').addClass('active');
+                classes.indexOf('tab3') > -1 && currentPage.find('div.filter-info-type').addClass('active');
+
+                if (window.contentScrollTop && currentPage.children('.has-img').length) {
+                    const listTop = 175 - window.contentScrollTop > 95 ? (175 - window.contentScrollTop) : 95;
+                    currentPage.find('.filter-tabs-content').css('top', `${listTop}px`);
+                    currentPage.find('.winodw-mask').css('transform', `translate3d(0, ${listTop + 2}px ,0)`);
+                }else{
+                    if(currentPage.children('.has-img').length){
+                        currentPage.find('.winodw-mask').css('transform', `translate3d(0, 17.5rem ,0)`);
+                        currentPage.find('.filter-tabs-content').css('top', '17.5rem');
+                    }else{
+                        currentPage.find('.winodw-mask').css('transform', `translate3d(0, 9.7rem ,0)`);
+                        currentPage.find('.filter-tabs-content').css('top', '9.5rem');
+                    }
+                }
+            }
+
+            if (currentPage.children('.has-img').length) {
+                if (currentPage.find('.filter-tab').children('.active-ele').length) {
+                    currentPage.find('.page-content').addClass('over-hide');
+                } else {
+                    currentPage.find('.page-content').removeClass('over-hide');
+                }
             }
         }
         if (ele.parentNode.className.indexOf('filter-tab-title') > -1) {
@@ -43,7 +68,8 @@ module.exports = {
     },
 
     detailClickTip: () => {
-        const lastHeader = $$($$('.navbar>div')[$$('.navbar>div').length - 1]);
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+        const lastHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
         var popoverHTML = '<div class="popover detail-right-more" style="width:35%">' +
             '<div class="popover-inner">' +
             '<div class="list-block">' +
@@ -56,14 +82,12 @@ module.exports = {
             '</div>'
         f7.popover(popoverHTML, lastHeader.find('span.iconfont'));
         const detailMoreEvent = (e) => {
-            const event = e || window.event;
             const dataId = e.target.getAttribute('data-id');
             if (1 == dataId) {
                 f7.closeModal('.detail-right-more');
                 apiCount('btn_info_nav_more_share');
-                const currentPage = $$('.page')[$$('.page').length - 1];
                 setTimeout(() => {
-                    $$(currentPage).find('div.icon-share').trigger('click');
+                    currentPage.find('div.icon-share').trigger('click');
                 }, 500)
             } else if (2 == dataId) {
                 apiCount('btn_infonav_more_report');
@@ -96,19 +120,18 @@ module.exports = {
         })
     },
     goMyCenter: () => {
-        const url = isLogin() ? 'views/myCenter.html' : 'views/login.html';
-        mainView.router.load({
-            url
-        })
+        if (isLogin()) {
+            mainView.router.load({
+                url: 'views/myCenter.html'
+            })
+        } else {
+            loginViewShow();
+        }
     },
 
     myListBuy: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/myList.html?type=1'
@@ -118,11 +141,7 @@ module.exports = {
 
     myListSell: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/myList.html?type=2'
@@ -132,11 +151,7 @@ module.exports = {
 
     uploadCert: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/fishCert.html'
@@ -145,7 +160,7 @@ module.exports = {
     },
 
     goIdentity: () => {
-        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        const {cacheUserinfoKey, servicePhoneNumber} = config;
         let personalAuthenticationState, enterpriseAuthenticationState;
         let userInfomation = store.get(cacheUserinfoKey);
         if (userInfomation) {
@@ -153,11 +168,7 @@ module.exports = {
             enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
         }
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             const url = (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) ?
                 'views/identityAuthentication.html' : 'views/catIdentityStatus.html';
@@ -173,18 +184,18 @@ module.exports = {
     },
 
     cancleIndividual: () => {
-        const { cacheUserinfoKey, servicePhoneNumber } = config;
+        const {cacheUserinfoKey, servicePhoneNumber} = config;
         let userInfomation = store.get(cacheUserinfoKey);
         const cancleIndividualCallback = (data) => {
-            const { code, message } = data;
+            const {code, message} = data;
             // f7.alert(message, '提示', () => {
             // f7.closeModal('.popup-individual-authentication');
             $$('page-identity-status').removeClass('individual-review');
             mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
-                // })
+                url: 'views/user.html',
+                reload: true
+            })
+            // })
         }
         f7.confirm('你确定撤销身份认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
@@ -200,17 +211,13 @@ module.exports = {
     },
 
     canclCompany: () => {
-        const { cacheUserinfoKey, servicePhoneNumber } = config;
-        let userInfomation = store.get(cacheUserinfoKey);
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         const cancleCompanyCallback = (data) => {
-            const { code, message } = data;
-            // f7.alert(message, '提示', () => {
-            $$('page-identity-status').removeClass('company-review');
+            currentPage.find('page-identity-status').removeClass('company-review');
             mainView.router.load({
-                    url: 'views/user.html',
-                    reload: true
-                })
-                // })
+                url: 'views/user.html',
+                reload: true
+            })
         }
         f7.confirm('你确定撤销企业认证审核吗？', '撤销审核', () => {
             customAjax.ajax({
@@ -230,12 +237,12 @@ module.exports = {
         const ele = event.target;
         let classes = ele.className;
         const id = $$(ele).attr('data-id');
-        const { cacheUserinfoKey } = config;
+        const {cacheUserinfoKey} = config;
         const userInfo = store.get(cacheUserinfoKey);
         let dataIndex = ele.getAttribute('data-index');
 
         const deleteCallback = (data) => {
-            const { code, message } = data;
+            const {code, message} = data;
             if (1 == code) {
                 $$('.fish-cert-list>.col-50').length == 1 && $$('.fish-cert-content').removeClass('show');
                 mainView.router.refreshPage();
@@ -259,7 +266,7 @@ module.exports = {
                     // parameType: 'application/json',
                     api: 'deleteUserFishCertificate',
                     data: [id],
-                    val: { id },
+                    val: {id},
                     type: 'post'
                 }, deleteCallback);
             }
@@ -291,11 +298,7 @@ module.exports = {
 
     inviteFriends: () => {
         if (!isLogin()) {
-            f7.alert('您还没登录，请先登录。', '温馨提示', () => {
-                mainView.router.load({
-                    url: 'views/login.html',
-                })
-            })
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
             mainView.router.load({
                 url: 'views/inviteFriends.html'

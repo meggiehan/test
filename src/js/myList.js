@@ -4,12 +4,21 @@ import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
+import {isLogin} from '../middlewares/loginMiddle';
 
 function myListInit(f7, view, page) {
+    if (!isLogin()) {
+        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+        mainView.router.load({
+            url: 'views/login.html',
+            reload: true
+        })
+        return;
+    }
     let type = page.query['type'] || 2;
     const { pageSize, cacheUserinfoKey, shareUrl} = config;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const currentHeader = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
 
     const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
@@ -29,7 +38,9 @@ function myListInit(f7, view, page) {
         $$('.my-list-guide-model').addClass('on');
     }
 
-    //close guide.
+    /*
+    * 关闭刷新信息引导
+    * */
     $$('.my-list-guide-model')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
         if(ele.className.indexOf('my-list-guide-model') > -1 || ele.className.indexOf('footer') > -1){
@@ -111,7 +122,6 @@ function myListInit(f7, view, page) {
 
     const getListInfo = () => {
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
-        const isMandatory = !!nativeEvent['getNetworkStatus']();
         emptyInfo = type == 2 ? sellEmpty : buyEmpty;
 
         isInfinite = false;
@@ -124,7 +134,7 @@ function myListInit(f7, view, page) {
             header: ['token'],
             data: [pageSize, pageNo, type],
             type: 'get',
-            isMandatory
+            isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
     }
 
@@ -211,6 +221,7 @@ function myListInit(f7, view, page) {
         //refresh info
         if(ele.className.indexOf('refresh-btn') > -1 && $(ele).attr('data-id') && ele.className.indexOf('disabled') == -1){
             const clickInfoId = $(ele).attr('data-id');
+            apiCount('btn_refreshInfo');
             activeInfoId = clickInfoId;
             customAjax.ajax({
                 apiCategory: 'demandInfo',
@@ -271,7 +282,6 @@ function myListInit(f7, view, page) {
                 imgUrl: shareImg,
                 description
             }
-            // device.ios ? $$('.share-to-weixin-model').addClass('on') : window.yudada.JS_ToShare.shareInfo(title, description, `${shareUrl}${id}`, title + ',' + description + `${shareUrl}${id}`);
             $$('.share-to-weixin-model').addClass('on')
         }
     }

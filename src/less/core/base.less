@@ -23,7 +23,9 @@
 @bg-f1: #f1f1f1;
 @bg-f7: #f7f7f7;
 @bg-hot: #E82F2F;
+@bg-weixin-btn: #70CD2F;
 @bg-info-tag: #D2FFBD;
+@bg-fish-theme: #F7B643;
 @boder-color: #e2e2e2;
 @border-cert: #ddd;
 @border-da: #eaeaea;
@@ -54,17 +56,29 @@
 @text-review: #7c4e0c;
 @text-verify-faild: #880707;
 @text-verify-review: #880707;
+@border-tehemColor: #84E159;
 @appAnimate: ease;
 @appAnimateTime: 150ms;
 @themeColor: @bg-color;
 @tabbar-unselect: #929292;
 html {
+    -webkit-text-size-adjust:none;
     font-size: 62.5%; //1rem = 10px
+    //-webkit-transform: scale(5/6);
 }
 
 body {
     font-size: 1.4rem;
     background: @bg-body;
+    .view-login{
+        position: fixed;
+        left: 0;
+        bottom: -1000px;
+        transition: all 0.3s ease;
+        &.show{
+            bottom:0;
+        }
+    }
 }
 
 body *,
@@ -140,13 +154,11 @@ input::-webkit-input-placeholder {
     min-height: 5.4rem;
     background: @themeColor;
     .text-shadow(@themeColor);
-    // .box-shadow-bottom(@bg-666);
     z-index: 510;
     .navbar-inner {
         height: 5.4rem;
         padding: 0;
         &.filter-navbar {
-            height: 9.4rem;
             &.navbar-on-left {
                 height: 5.4rem;
                 overflow: hidden;
@@ -167,6 +179,12 @@ input::-webkit-input-placeholder {
             color: @text-fff;
             vertical-align: middle;
             &.right {
+                &.bind-phone-break{
+                    span{
+                        display: none;
+                        font-size: 1.4rem;
+                    }
+                }
                 a,
                 span {
                     font-size: 2.4rem;
@@ -184,6 +202,9 @@ input::-webkit-input-placeholder {
                     line-height: 2rem;
                     height: 2rem;
                 }
+            }
+            &.icon-clear:before{
+                font-size: 2.4rem;
             }
             &.my-collection-tab {
                 padding: 0rem 0.7rem 0.75rem;
@@ -297,6 +318,10 @@ input::-webkit-input-placeholder {
 
 .fw-l {
     font-weight: normal;
+}
+
+.fw-b{
+    font-weight: bold;
 }
 
 .pull-left {
@@ -863,3 +888,8 @@ a.buy-list-info {
         margin: 0;
     }
 }
+
+
+
+
+

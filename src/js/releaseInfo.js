@@ -1,6 +1,6 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import { trim, html, getProvinceId, getCityId, getAddressIndex, getTagInfo } from '../utils/string';
+import { trim, html, getSingleProvinceId, getCityId, getAddressIndex, getTagInfo } from '../utils/string';
 import { search, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/locaStorage';
@@ -8,10 +8,10 @@ import { isEmailStr, saveSelectFishCache } from '../utils/string';
 
 function releaseInfoInit(f7, view, page) {
     f7.hideIndicator();
-    const { ios } = currentDevice;
+    // const { ios } = currentDevice;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
-    const currentNav = $$($$('.navbar>.navbar-inner')[$$('.navbar>.navbar-inner').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentNav = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const tellInput = currentPage.find('input[placeholder="请填写手机号"]');
     const addressInput = currentPage.find('.release-write-address').children('input');
     const priceInput = currentPage.find('.release-write-price').children('input');
@@ -37,12 +37,10 @@ function releaseInfoInit(f7, view, page) {
     const specBox = currentPage.find('.release-spec-list-box');
     const descriptBox = currentPage.find('.release-discription-list-box');
 
-    let provinceName, cityName, provinceId, cityId, longitude, latitude, initProvinceName, initCityName;
+    let provinceName, cityName, provinceId, cityId, initProvinceName, initCityName;
     let isSendInfo = false;
 
     if (window.addressObj) {
-        longitude = window.addressObj['longitude'];
-        latitude = window.addressObj['latitude'];
         initProvinceName = window.addressObj['initProvinceName'];
         initCityName = window.addressObj['initCityName'];
     }
@@ -73,14 +71,26 @@ function releaseInfoInit(f7, view, page) {
     }
     currentPage.find('.release-fish-name').text(fishName);
 
-    //render tags;
+    /**
+    * render 鱼种规格标签
+    * */
     let specListHtml = '';
-    parentFishName == '水产苗种' && $$.each(getTagInfo()['specList'], (index, item) => {
-        specListHtml += releaseInfo.tag(item);
-    })
+    if(parentFishName == '水产苗种'){
+        $$.each(getTagInfo()['specList'], (index, item) => {
+            specListHtml += releaseInfo.tag(item);
+        })
+    }else{
+        $$.each(getTagInfo()['adultFishTags'], (index, item) => {
+            specListHtml += releaseInfo.tag(item);
+        })
+    }
+
     html(specBox, specListHtml, f7);
     !specListHtml && currentPage.find('.release-spec-list').hide().prev().removeClass('border-none');
 
+    /**
+    * render补充说明标签
+    * */
     let discriptListHtml = '';
     $$.each(getTagInfo()['discriptionList'], (index, item) => {
         if (parentFishName == '水产苗种') {
@@ -92,7 +102,9 @@ function releaseInfoInit(f7, view, page) {
     html(descriptBox, discriptListHtml, f7);
     !discriptListHtml && currentPage.find('.release-discription-list').hide();
 
-    //select tags
+    /**
+    * 选择鱼种规格标签
+    * */
     let specTag = {};
     currentPage.find('.release-spec-list-box')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
@@ -105,6 +117,9 @@ function releaseInfoInit(f7, view, page) {
         specTag.tagName = $$(ele).text();
     }
 
+    /**
+    * 选择补充说明标签
+    * */
     let descriptTags = [];
     currentPage.find('.release-discription-list-box')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
@@ -137,6 +152,9 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
+    /**
+    * 选择地区调用native组件
+    * */
     addressInput.on('click', () => {
         if (window.addressObj && window.addressObj['initProvinceName'] || window['selectedAddress']) {
             const provinceName = window['selectedAddress'] ? window['selectedAddress']['provinceName'] : window.addressObj['initProvinceName'];
@@ -154,6 +172,9 @@ function releaseInfoInit(f7, view, page) {
     phoneNumber && tellInput.val(phoneNumber);
     nickname && contactInput.val(nickname);
 
+    /**
+    * 手机号码效验
+    * */
     const testRequireInfo = () => {
         const val = trim(tellInput[0].value);
         if (/^1[3|4|5|7|8]\d{9}$/.test(val) && addressInput[0].value) {
@@ -213,7 +234,9 @@ function releaseInfoInit(f7, view, page) {
 
     }
 
-    //add pic and remove img.
+    /**
+    * 添加/删除出售信息自定义图片
+    * */
     if (currentPage.find('.release-info-pic').length) {
         currentPage.find('.release-info-pic')[0].onclick = (e) => {
             const ele = e.target || window.event.target;
@@ -231,7 +254,9 @@ function releaseInfoInit(f7, view, page) {
         }
     }
 
-    //get img list url;
+    /**
+    * 获取自定义图片的路径
+    * */
     const getImgListUrl = () => {
         let res = [];
         $$.each(currentPage.find('.release-info-img'), (index, item) => {
@@ -240,26 +265,28 @@ function releaseInfoInit(f7, view, page) {
         return res;
     }
 
-    //title check.
-    // if (currentPage.find('.release-info-header-title').length) {
-    //     currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
-    //         const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
-    //         const filterVal = isEmailStr(val);
-    //         currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
-    //         if (!filterVal) {
-    //             return;
-    //         }
-    //         currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
-    //         if (val && val.length >= 7) {
-    //             currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-    //             if (val && val.length >= 10) {
-    //                 currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
-    //             }
-    //         } else {
-    //             currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
-    //         }
-    //     }
-    // }
+    /**
+     * 监听检查标题输入
+     * */
+    if (currentPage.find('.release-info-header-title').length) {
+        currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
+            const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
+            const filterVal = isEmailStr(val);
+            currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
+            if (!filterVal) {
+                return;
+            }
+            // currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
+            // if (val && val.length >= 7) {
+            //     currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
+                if (val && val.length >= 10) {
+                    currentPage.find('.release-info-header-title').children().eq(0).val(filterVal.substr(0, 10));
+                }
+            // } else {
+            //     currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
+            // }
+        }
+    }
 
     priceInput[0].onkeyup = () => {
         const val = priceInput[0].value;
@@ -298,7 +325,7 @@ function releaseInfoInit(f7, view, page) {
     }
 
     const subInfoTest = () => {
-        const _district = nativeEvent['getDistricInfo']() || nativeEvent.getDataToNative('districtData');
+        const _district = nativeEvent['getDistricInfo']();
         if (window.addressObj) {
             provinceName = window.addressObj['provinceName'];
             cityName = window.addressObj['cityName'];
@@ -306,7 +333,7 @@ function releaseInfoInit(f7, view, page) {
             cityId = window.addressObj['cityId'];
             !provinceName && (provinceName = initProvinceName);
             !cityName && (cityName = initCityName);
-            !provinceId && provinceName && (provinceId = getProvinceId(_district, provinceName));
+            !provinceId && provinceName && (provinceId = getSingleProvinceId(_district, provinceName));
             !cityId && (cityId = getCityId(_district, provinceName, cityName));
         }
         const price = isEmailStr(trim(priceInput[0].value));
@@ -334,6 +361,8 @@ function releaseInfoInit(f7, view, page) {
             error = '补充说明最大长度为50位字符！'
         }
 
+        const {lng, lat} = getAddressIndex(provinceName, cityName);
+
         return {
             error,
             fishParentTypeId: parentFishId,
@@ -346,8 +375,8 @@ function releaseInfoInit(f7, view, page) {
             specifications: spec,
             stock,
             address,
-            longitude,
-            latitude,
+            longitude: lng || '',
+            latitude: lat || '',
             description,
             provinceId,
             cityId,
@@ -360,7 +389,9 @@ function releaseInfoInit(f7, view, page) {
     }
 
 
-    // submit release infomation to server;
+    /**
+    * 点击发布按钮提交发布信息
+    * */
     subBtn.onclick = () => {
         apiCount('btn_text_post');
         let data = subInfoTest();

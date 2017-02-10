@@ -1,13 +1,12 @@
 import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
-    version: '1.7 --- 2016/12/31 00:00',
     debug: false,
     /*
      *release branch change the api url to http://api.yudada.com
      */
-    url: nativeEvent['getAPi']() || 'http://api.yudada.com/',
-    // url: '://192.168.20.109:8080/',
+    url: nativeEvent['getAPi']() || 'https://api.yudada.com/',
+    // url: 'https://10.228.17.28:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms
     pageSize: 20,
@@ -35,16 +34,17 @@ const configs = {
     },
     servicePhoneNumber: '18115381185',
     demandInfo: {
-        'getDemandInfoList': [
+        'list': [
             "fishTypeId",
             "cityId",
             "type",
-            "keyvalue",
+            "fuzzyFishTypeName",
             "pageSize",
             "pageNo",
             "member",
             "fishTagId"
         ],
+        'listFiltered': ['userId', 'pageSize', 'pageNo', 'type', 'state'],
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
@@ -81,11 +81,29 @@ const configs = {
     demandInfoAdd: [],
     phoneCode: ['phone', 'type'],
     invite: {
-        'users': ['pageSize', 'pageNo']
+        'users': ['pageSize', 'pageNo', 'userId']
     },
     favorite: {
         demandInfoList: ['token', 'pageSize', 'pageNo', 'demandType'],
         demandInfo: []
-    }
+    },
+    /*
+    * 解绑微信号
+    * */
+    thirdPlatform: {
+        'weChat': []
+    },
+    initPage: [],
+    /*
+    * 获取第三方账号信息列表
+    * */
+    thirdPlatforms: {
+        mine: []
+    },
+    /**
+     * 鱼车相关
+     * */
+    fishCars: ['provinceId', 'pageSize', 'pageNo'],
+    fishCarDemands: ['description', 'pageSize', 'pageNo']
 }
 export default configs;

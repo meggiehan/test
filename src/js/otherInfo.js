@@ -7,7 +7,7 @@ import { getName, getBusinessLicenseNumber } from '../utils/string';
 function otherInfoInit(f7, view, page) {
     const { id, goodsId } = page.query;
     const userCache = store.get(`getDemandInfo_id_${goodsId}`);
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
     const { imgPath, mWebUrl } = config;
     const editCallback = (data) => {

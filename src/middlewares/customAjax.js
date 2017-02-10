@@ -14,7 +14,11 @@ class CustomClass {
     getKey(api, key, val) {
         let res = `${api}`;
         Dom7.each(key, (index, k) => {
-            const str = `_${k}_${val && val[index] || ''}`;
+            let value = '';
+            if(val && (val[index] || (val[index] == 0))){
+                value = val[index];
+            }
+            const str = `_${k}_${value}`;
             res += str;
         })
         return res;
@@ -56,7 +60,7 @@ class CustomClass {
      */
     ajax(obj, callback) {
         const $$ = Dom7;
-        const { api, data, apiCategory, type, isMandatory, noCache, val, header, parameType } = obj;
+        const { api, data, apiCategory, type, isMandatory, noCache, val, header, parameType, onlyUseCache } = obj;
 
         const key = api ? config[apiCategory][api] : config[apiCategory];
         const { timeout, cacheUserinfoKey } = config;
@@ -69,6 +73,17 @@ class CustomClass {
         url.indexOf('deleteDemandInfo') > - 1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
         url.indexOf('demandInfo/refreshLog/') > - 1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
         url.indexOf('userInformation') > - 1 && (url = url.replace('userInformation', 'userInfo'));
+        url.indexOf('listFiltered') > - 1 && (url = url.replace('listFiltered', 'list/filtered'));
+
+        /**
+         * 不同type的API参数处理
+         * 例如：post跟get的参数不同
+         * */
+        if('fishCarDemands' == apiCategory && 'post' == type){
+           delete newData.pageNo;
+           delete newData.pageSize;
+        }
+
         parameType && (newData = JSON.stringify(newData));
 
         if (val) {
@@ -88,7 +103,9 @@ class CustomClass {
         }
         const _this = this;
 
-        //Equipment in the absence of the network.
+        /**
+         * 没有网络的时候提示用户，且不向服务器发送请求
+         * */
         if(!nativeEvent['getNetworkStatus']()){
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
@@ -96,7 +113,17 @@ class CustomClass {
             return;
         }
 
-        //Add device information to header.
+        /**
+         * 仅仅只使用缓存
+         * 首页：先显示缓存，在触发下拉刷新逻辑
+         * */
+        if(onlyUseCache){
+            return;
+        }
+
+        /**
+         * 在headr中添加设备信息
+         * */
         const deviceInfo = nativeEvent['getDeviceInfomation']();
         $$.each(deviceInfo, (key, val) => {
             headers[key] = val;
@@ -112,6 +139,10 @@ class CustomClass {
             cache: false,
             processData: true,
             crossDomain: true,
+
+            /**
+             * 服务的回来的ajax，根据status处理失败请求
+             * */
             error: function(err, status) {
                 if (parseInt(status) >= 500) {
                     nativeEvent.nativeToast(0, '服务器繁忙，请稍后再试！');
@@ -126,6 +157,10 @@ class CustomClass {
                 }
                 // callback(null, err);
             },
+
+            /**
+             * 服务器回来的ajax根据不同的code进行处理。
+             * */
             success: function(data, status) {
                 const _data = JSON.parse(data);
 
@@ -140,7 +175,6 @@ class CustomClass {
                                 window['releaseInfo'] = data['data'];
                                 mainView.router.load({
                                     url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`,
-                                    // reload: true
                                 })
                             } else {
                                 f7.alert(message, '提示');
@@ -162,7 +196,6 @@ class CustomClass {
                         // f7.alert(_data.message, '提示');
                         return;
                     }
-
                 } else if (0 == _data.code) {
                     f7.hideIndicator();
                     f7.alert(_data.message, '提示');
@@ -176,15 +209,20 @@ class CustomClass {
                 }else if(3 == _data.code){
                     if(url.indexOf('/auth') > -1){
                         f7.alert(_data.message);
+                        activeLogout();
                         return;
                     }
                     f7.showIndicator();
                     setTimeout(() => {
-                        mainView.router.reloadPage('views/notFound.html?errInfo=' + _data.message)
+                        mainView.router.load({
+                            url: 'views/notFound.html?errInfo=' + _data.message,
+                            reload: true
+                        })
                     }, 400)
+                    return;
                 }
-                if(3 !== _data.code){
-                    if (!noCache) {
+                if(3 !== _data.code && (-1 !== data.code)){
+                    if (!noCache && saveKey) {
                         _this.checkMaxLenAndDelete();
                         store.set(saveKey, data);
                     }

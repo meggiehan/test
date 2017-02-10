@@ -3,11 +3,20 @@ import config from '../config';
 import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
+import { isLogin } from '../middlewares/loginMiddle';
 import customAjax from '../middlewares/customAjax';
 
 function myCollectionInit(f7, view, page) {
+    if (!isLogin()) {
+        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+        mainView.router.load({
+            url: 'views/login.html',
+            reload: true
+        })
+        return;
+    }
     let type = 2; //default: 2
-    const currentPage = $$($$('.pages>.page')[$$('.pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
     const { pageSize, cacheUserinfoKey } = config;
     const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
@@ -149,7 +158,8 @@ function myCollectionInit(f7, view, page) {
     // pull to refresh.
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
-        type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
+        sellPageNo = 1;
+        buyPageNo = 1;
         const load = type == 2 ? sellLoad : buyLoad;
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
