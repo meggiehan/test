@@ -69,7 +69,7 @@ module.exports = {
         return res + '...';
     },
 
-    getProvinceId: (district, provinceName) => {
+    getSingleProvinceId: (district, provinceName) => {
         if (!provinceName) {
             return;
         }

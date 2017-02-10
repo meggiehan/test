@@ -158,7 +158,8 @@ function myCollectionInit(f7, view, page) {
     // pull to refresh.
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function(e) {
-        type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
+        sellPageNo = 1;
+        buyPageNo = 1;
         const load = type == 2 ? sellLoad : buyLoad;
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();

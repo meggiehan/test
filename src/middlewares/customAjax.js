@@ -100,14 +100,6 @@ class CustomClass {
         if (!noCache) {
             const cacheData = store.get(saveKey);
             cacheData && !isMandatory && callback(cacheData);
-
-            /**
-             * 仅仅只使用缓存
-             * 首页：先显示缓存，在触发下拉刷新逻辑
-             * */
-            if(onlyUseCache){
-                return;
-            }
         }
         const _this = this;
 
@@ -118,6 +110,14 @@ class CustomClass {
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
+            return;
+        }
+
+        /**
+         * 仅仅只使用缓存
+         * 首页：先显示缓存，在触发下拉刷新逻辑
+         * */
+        if(onlyUseCache){
             return;
         }
 

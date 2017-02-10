@@ -52,7 +52,7 @@ function inviteFriendsInit(f7, view, page) {
         const str = `养得好不如卖的好，鱼大大实名认证水产交易平台`;
         const messageTile = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！赶紧看看吧:${invitationLink}`;
 
-        nativeEvent.shareInfo(title, str, invitationLink, messageTile, imgUrl);
+        nativeEvent.shareInfo(title, str, invitationLink, messageTile, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
     };
 
     currentPage.find('a.go-invite-friends-list')[0].onclick = () => {

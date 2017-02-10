@@ -72,8 +72,7 @@ function otherListInit(f7, view, page) {
         apiCategory: 'demandInfo',
         api: 'listFiltered',
         data: [id, pageSize, pageNo, type],
-        type: 'get',
-        isMandatory: nativeEvent['getNetworkStatus']()
+        type: 'get'
     }, callback);
 
     // Attach 'infinite' event handler

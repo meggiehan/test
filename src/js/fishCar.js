@@ -54,21 +54,19 @@ function fishCarInit(f7, view, page) {
         rotateEffect: true,
         onOpen: (p) => {
             $$('.link.close-picker')[0].onclick = () => {
-
+                const name = currentPage.find('#select-city-input').val();
+                currentPage.find('.select-city').children().find('span').text(name);
+                provinceId = getProvinceId(name)['provinceId'];
+                pageNo = 1;
+                getList(false);
             }
-            pageNo = 1;
-            getList(false);
         },
         cols: [
             {
                 textAlign: 'center',
                 values: provinceArr
             }
-        ],
-        onChange: function (p, name) {
-            currentPage.find('.select-city').children().find('span').text(name);
-            provinceId = getProvinceId(name)['provinceId'];
-        }
+        ]
     });
 
     function callback(res, type) {
@@ -219,8 +217,10 @@ function fishCarInit(f7, view, page) {
         const top = currentPage.find('.page-content').scrollTop();
         if (top > 100) {
             currentPage.find('.filter-tab').addClass('fix-tab');
+            currentPage.find('.page-content').css('padding-top', '9.4rem');
         } else {
             currentPage.find('.filter-tab').removeClass('fix-tab');
+            currentPage.find('.page-content').css('padding-top', '5.4rem');
         }
     })
 

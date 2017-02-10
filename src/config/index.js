@@ -81,7 +81,7 @@ const configs = {
     demandInfoAdd: [],
     phoneCode: ['phone', 'type'],
     invite: {
-        'users': ['pageSize', 'pageNo']
+        'users': ['pageSize', 'pageNo', 'userId']
     },
     favorite: {
         demandInfoList: ['token', 'pageSize', 'pageNo', 'demandType'],
