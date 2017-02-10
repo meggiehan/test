@@ -55,7 +55,7 @@ var writeObj = {
     date: new Date(Date.now() + 8 * 60 * 60 * 1000)
 }
 
-if(PROD === 'build-dev'){
+if(PROD === 'build'){
     fs.writeFile('./src/config/version.json', JSON.stringify(writeObj), (err) => {
         if (err) throw err;
         console.log('It\'s saved!');

@@ -115,8 +115,8 @@ class CustomClass {
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])) {
             return false;
         }
-        ios && JS_ToShare(title, html, url, message, imgUrl || '');
-        android && window.yudada.JS_ToShare(title, html, url, message, imgUrl || '');
+        ios && JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
+        android && window.yudada.JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
     }
 
     //release voice info.

@@ -214,11 +214,15 @@ class CustomClass {
                     }
                     f7.showIndicator();
                     setTimeout(() => {
-                        mainView.router.reloadPage('views/notFound.html?errInfo=' + _data.message)
+                        mainView.router.load({
+                            url: 'views/notFound.html?errInfo=' + _data.message,
+                            reload: true
+                        })
                     }, 400)
+                    return;
                 }
-                if(3 !== _data.code){
-                    if (!noCache) {
+                if(3 !== _data.code && (-1 !== data.code)){
+                    if (!noCache && saveKey) {
                         _this.checkMaxLenAndDelete();
                         store.set(saveKey, data);
                     }

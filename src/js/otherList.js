@@ -71,7 +71,7 @@ function otherListInit(f7, view, page) {
     customAjax.ajax({
         apiCategory: 'demandInfo',
         api: 'listFiltered',
-        data: [id, pageSize, pageNo, type],
+        data: [id, pageSize, pageNo, type, 1],
         type: 'get'
     }, callback);
 
@@ -90,7 +90,7 @@ function otherListInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'listFiltered',
-            data: [id, pageSize, pageNo, type],
+            data: [id, pageSize, pageNo, type, 1],
             type: 'get',
             isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
@@ -107,7 +107,7 @@ function otherListInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'listFiltered',
-            data: [id, pageSize, pageNo, type],
+            data: [id, pageSize, pageNo, type, 1],
             type: 'get',
             isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);

@@ -44,7 +44,7 @@ const configs = {
             "member",
             "fishTagId"
         ],
-        'listFiltered': ['userId', 'pageSize', 'pageNo', 'type'],
+        'listFiltered': ['userId', 'pageSize', 'pageNo', 'type', 'state'],
         'getFishTypeList/5': ['keyvalue'],
         'getDemandInfo': ['id'],
         'userAddDemandInfo': [],
