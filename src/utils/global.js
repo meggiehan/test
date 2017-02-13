@@ -22,8 +22,10 @@ class CustomClass {
     * */
     getPhoneSrc(srcimg, src, index) {
         const { identity, cacheUserinfoKey, imgPath } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         let individualCert = true;
-        const id = store.get(cacheUserinfoKey)['id'];
+        const id = store.get(cacheUserinfoKey) ? store.get(cacheUserinfoKey)['id'] : '';
+        const _index = Number(index);
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
@@ -35,7 +37,7 @@ class CustomClass {
                 store.set(cacheUserinfoKey, userInfoChange);
             }
         }
-        if (index == 4) {
+        if (_index == 4) {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateUserInfo',
@@ -43,14 +45,25 @@ class CustomClass {
                 type: 'post',
                 noCache: true,
             }, callback);
-        } else if (index > -1 && index <= 2) {
-            $$('.identity-individual-pic>div').eq(index).addClass('on');
-            $$('.identity-individual-pic>div').eq(index).find('img').attr('src', src + identity['individual']);
-            $$.each($$('.identity-individual-pic>div'), (index, item) => {
-                !$$('.identity-individual-pic>div').eq(index).find('img').attr('src') && (individualCert = false);
+        } else if (_index > -1 && _index <= 2) {
+            /**
+             * 上传司机身份证
+             * */
+            if(currentPage.find('.post-driver-header').length){
+                currentPage.find('.post-box').children('.left').children('div').html(`<img src="${src}${identity['individual']}" />`);
+                return;
+            }
+
+            /**
+             * 上传非司机身份证
+             * */
+            $$('.identity-individual-pic>div').eq(_index).addClass('on');
+            $$('.identity-individual-pic>div').eq(_index).find('img').attr('src', src + identity['individual']);
+            $$.each($$('.identity-individual-pic>div'), (_index, item) => {
+                !$$('.identity-individual-pic>div').eq(_index).find('img').attr('src') && (individualCert = false);
             })
             individualCert && ($$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass'));
-        } else if (3 == index) {
+        } else if (3 == _index) {
             $$('.identity-company-pic>div').addClass('on');
             $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
             $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
@@ -414,6 +427,15 @@ class CustomClass {
         })
     }
 
+    /**
+     * 上传司机驾照回调函数
+     * */
+    postDriverFileCallback(index, url, name){
+        const { identity } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
+        currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -437,6 +459,7 @@ class CustomClass {
         window['getWeixinDataFromNative'] = this.getWeixinDataFromNative;
         window['phoneBindFaild'] = this.phoneBindFaild;
         window['weixinBindFaild'] = this.weixinBindFaild;
+        window['postDriverFileCallback'] = this.postDriverFileCallback;
     }
 }
 

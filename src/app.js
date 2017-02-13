@@ -34,6 +34,7 @@ import {notFoundInit} from './js/notFound';
 import {bindAccountInit} from './js/bindAccount';
 import {fishCarInit} from './js/fishCar';
 import {releaseFishCarDemandInit} from './js/releaseFishCarDemand'
+import {postDriverAuthInit} from './js/postDriverAuth';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -234,6 +235,11 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'bindAccount' && bindAccountInit(f7, mainView, page);
     page.name === 'fishCar' && fishCarInit(f7, mainView, page);
     page.name === 'releaseFishCarDemand' && releaseFishCarDemandInit(f7, mainView, page);
+
+    /**
+     * 上传司机信息页面
+     * */
+    page.name === 'postDriverAuth' && postDriverAuthInit(f7, mainView, page);
 });
 
 /*

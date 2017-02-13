@@ -248,7 +248,10 @@ function fishCarInit(f7, view, page) {
                 url: 'views/releaseFishCarDemand.html'
             })
         } else {
-            nativeEvent.goNewWindow(`${mWebUrl}/fishCars/postPage`);
+            // nativeEvent.goNewWindow(`${mWebUrl}/fishCars/postPage`);
+            view.router.load({
+                url: 'views/postDriverAuth.html'
+            })
         }
     }
 }

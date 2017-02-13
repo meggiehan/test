@@ -1,0 +1,91 @@
+div[data-page="postDriverAuth"] {
+    .navbar {
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        .default-theme-blank {
+            .back {
+                color: @themeColor;
+            }
+            .center {
+                color: @text-name;
+            }
+        }
+    }
+}
+.page-post-driver-auth{
+    .post-driver-select{
+        background: @bg-fff;
+        padding-left: 1rem;
+        .item-content{
+            padding: 0;
+            font-size: 1.4rem;
+            .item-title{
+                width: 40%;
+            }
+            input{
+                font-size: 1.4rem;
+            }
+        }
+    }
+    /*证件上传样式*/
+    .post-driver-auth-info{
+        margin-top: 1rem;
+        color: @text-category;
+        font-size: 1.5rem;
+        background: @bg-fff;
+        padding: 1rem;
+        .post-example-pic{
+            overflow: hidden;
+            text-align: center;
+        }
+        .post-example-pic .left{
+            float: left;
+            padding-right: 0.5rem;
+            width: 50%;
+            .box-size();
+        }
+        .post-example-pic .right{
+            float: right;
+            padding-left: 0.5rem;
+            width: 50%;
+            .box-size();
+        }
+
+        .post-example-pic>div>div{
+            border-radius: 0.5rem;
+            min-height: 8rem;
+            line-height: 8rem;
+            background: @bg-f1;
+            overflow: hidden;
+            font-size: 1.4rem;
+        }
+        .post-box>div>div{
+            border: 1px solid @border-c5;
+        }
+        .post-example-pic div img{
+            display: block;
+            width: 100%;
+        }
+        .post-example-pic>div>div .iconfont{
+            font-size: 1.6rem;
+            position: relative;
+            top: -0.2rem;
+        }
+        .post-example-pic>div p{
+            margin-top: 0.6rem;
+            font-size: 1.4rem;
+            color: @text-subtitle;
+        }
+    }
+    .toolbar-inner{
+        padding: 0;
+        background: @bg-v;
+        .text-shadow(@bg-v);
+        a{
+            color: @bg-fff;
+            div{
+                font-size: 1.8rem;
+            }
+        }
+    }
+}
