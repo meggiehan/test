@@ -216,6 +216,14 @@ function homeInit(f7, view, page) {
         })
     }
 
+    /**
+     * 担保交易提示
+     * */
+    currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
+        f7.alert('担保交易功能即将上线，敬请期待！');
+        return;
+    }
+
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = {
