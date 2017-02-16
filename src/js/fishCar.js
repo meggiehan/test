@@ -212,7 +212,7 @@ function fishCarInit(f7, view, page) {
         isFishCarList = '找司机' == text;
         if (isFishCarList) {
             currentPage.find('.select-city').show();
-            currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
+            currentPage.find('.tabbat-text').children('span').text('鱼车司机登录');
             apiCount('btn_fishcar_tab_drivers');
         } else {
             currentPage.find('.select-city').hide();
