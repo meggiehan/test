@@ -1,7 +1,5 @@
 import customAjax from '../middlewares/customAjax';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
-import config from '../config';
-import store from '../utils/locaStorage';
 import nativeEvent from '../utils/nativeEvent';
 
 function releaseFishCarDemandInit(f7, view, page) {
@@ -15,8 +13,7 @@ function releaseFishCarDemandInit(f7, view, page) {
         return;
     }
 
-    const {cacheUserinfoKey} = config;
-    const {loginName} = store.get(cacheUserinfoKey);
+    const loginName = nativeEvent['getUserInfo']['loginName'];
     currentPage.find('.release-phone').text(loginName);
 
     currentPage.find('.toolbar-inner').children('a')[0].onclick = () => {
@@ -33,12 +30,13 @@ function releaseFishCarDemandInit(f7, view, page) {
             const {code, message} = data;
             if(1 == code){
                 nativeEvent.nativeToast('1', '发布成功！');
-                mainView.router.back();
+                mainView.router.back({
+                    query: {
+                        demand: true
+                    }
+                });
                 setTimeout(() => {
-                    mainView.router.load({
-                        url: 'views/fishCar.html?demand=true',
-                        reload: true
-                    });
+                    mainView.router.refreshPage();
                 }, 100)
             }else{
                 console.log(message);

@@ -2,10 +2,41 @@ import store from '../utils/locaStorage';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
 import { html, trim } from '../utils/string';
+import customAjax from '../middlewares/customAjax';
 
 function postDriverAuthInit(f7, view, page) {
-    f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const {id} = page.query;
+
+    /**
+     * 如果存在id，则是修改，反则是新增申请
+     * */
+    if(!id){
+        f7.hideIndicator();
+    }else{
+        /**
+         * 获取司机信息详情
+         * */
+        function callback(data){
+            const {code, message} = data;
+            if(1 == code){
+                window.driverData = data.data;
+
+            }else{
+                console.log('message');
+            }
+            f7.hideIndicator();
+        }
+
+        customAjax.ajax({
+            apiCategory: 'fishCarDrivers',
+            data: [id],
+            val:{
+                id
+            },
+            type: 'get'
+        }, callback);
+    }
 
     /**
      * 工龄选择框绑定

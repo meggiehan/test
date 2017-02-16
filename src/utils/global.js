@@ -176,9 +176,7 @@ class CustomClass {
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         loginViewHide();
         if('user' == mainView.activePage){
-            mainView.router.load({
-                url: `views/user.html?uuid=${token || ''}`
-            })
+            mainView.router.refreshPage();
         }
     }
 

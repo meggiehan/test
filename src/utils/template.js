@@ -338,7 +338,10 @@ module.exports = {
             let districtList = '';
 
             routeList && routeList.length && $$.each(routeList, (index, item) => {
-                districtList += `<span>${item.departureProvinceName} - ${item.destinationProvinceName}</span>`;
+                const text = item.departureProvinceName == item.destinationProvinceName ?
+                            `${item.destinationProvinceName}内` :
+                            `${item.departureProvinceName} - ${item.destinationProvinceName}`;
+                districtList += `<span>${text}</span>`;
             })
 
             str += `<a class="driver-info" href="views/driverDemandInfo.html?id=${id}">` +
