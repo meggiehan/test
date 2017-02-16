@@ -212,11 +212,11 @@ function fishCarInit(f7, view, page) {
         isFishCarList = '找司机' == text;
         if (isFishCarList) {
             currentPage.find('.select-city').show();
-            currentPage.find('.tabbat-text').children('span').text('鱼车司机登录');
+            currentPage.find('.tabbat-text').children('span').text('发布鱼车需求');
             apiCount('btn_fishcar_tab_drivers');
         } else {
             currentPage.find('.select-city').hide();
-            currentPage.find('.tabbat-text').children('span').text('成为签约司机');
+            currentPage.find('.tabbat-text').children('span').text('鱼车司机登记');
             apiCount('btn_fishcar_tab_demands');
         }
         currentPage.find('.filter-tab').children('div').removeClass('on');

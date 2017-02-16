@@ -172,13 +172,31 @@ class CustomClass {
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
          */
-        f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         loginViewHide();
-        if('user' == mainView.activePage){
-            mainView.router.load({
-                url: `views/user.html?uuid=${token || ''}`
-            })
+        if('user' == mainView.activePage.name){
+            mainView.router.refreshPage();
+        }else{
+            const loginCallback = (data) => {
+                const {code, message} = data;
+                const { cacheUserinfoKey } = config;
+                if(1 == code){
+                    store.set(cacheUserinfoKey, data.data);
+                    nativeEvent.setUerInfoToNative({
+                        inviterId: data.data.inviterId
+                    });
+                }else{
+                    console.log(message);
+                }
+                f7.hidePreloader();
+            }
+
+            customAjax.ajax({
+                apiCategory: 'auth',
+                header: ['token'],
+                type: 'get',
+                noCache: true,
+            }, loginCallback);
         }
     }
 
