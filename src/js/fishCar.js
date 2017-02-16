@@ -14,7 +14,6 @@ function fishCarInit(f7, view, page) {
     const showAllText = currentPage.find('.filter-search-empty-info');
     const downLoading = currentPage.find('.infinite-scroll-preloader');
     const emptyContent = currentPage.find('.filter-empty-search-result');
-    const {demand} = page.query;
     f7.hideIndicator();
     let provinceId = '';
     let pageNo = 1;
@@ -27,15 +26,6 @@ function fishCarInit(f7, view, page) {
         if (window.addressObj.initProvinceName) {
             provinceId = getProvinceId(window.addressObj.initProvinceName)['provinceId'];
         }
-    }
-
-    /**
-     * 根据参数切换到需求列表
-     * */
-    if(demand){
-        isFishCarList = false;
-        currentPage.find('.select-city').hide();
-        currentPage.find('.filter-tab').children().removeClass('on').eq(1).addClass('on');
     }
 
     /**
@@ -212,7 +202,7 @@ function fishCarInit(f7, view, page) {
         isFishCarList = '找司机' == text;
         if (isFishCarList) {
             currentPage.find('.select-city').show();
-            currentPage.find('.tabbat-text').children('span').text('发布鱼车需求');
+            currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
             apiCount('btn_fishcar_tab_drivers');
         } else {
             currentPage.find('.select-city').hide();
@@ -253,7 +243,7 @@ function fishCarInit(f7, view, page) {
     /**
      * 叫司机/发布需求
      * */
-    currentPage.find('.tabbat-text').children('span')[0].onclick = () => {
+    currentPage.find('.fish-car-release')[0].onclick = () => {
         if (isFishCarList) {
             if (!isLogin()) {
                 f7.alert('手机号登录后才能发布需求，请您先登录！', '温馨提示', loginViewShow);

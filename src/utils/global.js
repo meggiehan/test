@@ -176,6 +176,7 @@ class CustomClass {
         loginViewHide();
         if('user' == mainView.activePage.name){
             mainView.router.refreshPage();
+            f7.hidePreloader();
         }else{
             const loginCallback = (data) => {
                 const {code, message} = data;
@@ -254,8 +255,9 @@ class CustomClass {
     logout() {
         const { cacheUserinfoKey } = config;
         store.remove(cacheUserinfoKey);
+        nativeEvent.setNativeUserInfo();
         window.mainView.router.load({
-            url: `views/user.html?logout=true`,
+            url: `views/user.html`,
             animatePages: false,
             reload: true
         })
