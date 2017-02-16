@@ -18,8 +18,8 @@ import {
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    const {uuid, logout} = page.query;
-    let loginStatus = logout ? false : isLogin(uuid);
+    const {uuid} = page.query;
+    let loginStatus = isLogin(uuid);
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {cacheUserinfoKey, imgPath, mWebUrl} = config;
     let userInfomation = store.get(cacheUserinfoKey);
