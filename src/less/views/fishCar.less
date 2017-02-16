@@ -37,24 +37,29 @@ div[data-page="fishCar"] {
             }
         }
     }
-    .page-content > .filter-tab {
-        height: 4rem;
-        line-height: 4rem;
-        overflow: hidden;
-        .filter-tab-title {
-            width: 40%;
-            margin: 0 5%;
-            display: block;
-            float: left;
-            font-size: 1.6rem;
-            &.on {
+    .page-content {
+        width: 100%;
+        overflow-x: hidden;
+        & > .filter-tab {
+            height: 4rem;
+            line-height: 4rem;
+            overflow: hidden;
+            .filter-tab-title {
                 width: 40%;
-                color: @text-test;
-                border-bottom: 2px solid @text-test;
-                .box-size();
+                margin: 0 5%;
+                display: block;
+                float: left;
+                font-size: 1.6rem;
+                &.on {
+                    width: 40%;
+                    color: @text-test;
+                    border-bottom: 2px solid @text-test;
+                    .box-size();
+                }
             }
         }
     }
+
     .page-list-view {
         .select-city {
             padding: 1.5rem 0 1rem;

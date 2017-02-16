@@ -7,9 +7,11 @@ import customAjax from '../middlewares/customAjax';
 function postDriverAuthInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {id} = page.query;
+    const {identity} = config;
 
     /**
      * 如果存在id，则是修改，反则是新增申请
+     * 填满返回的信息
      * */
     if(!id){
         f7.hideIndicator();
@@ -21,7 +23,19 @@ function postDriverAuthInit(f7, view, page) {
             const {code, message} = data;
             if(1 == code){
                 window.driverData = data.data;
-
+                const {
+                    name,
+                    phone,
+                    workingAge,
+                    hasTeam,
+                    drivingLicence
+                } = data.data;
+                currentPage.find('.post-driver-name').val(name);
+                currentPage.find('.post-driver-phone').val(phone);
+                currentPage.find('.post-driver-age').val(`${workingAge}年`);
+                currentPage.find('.post-driver-team').val(hasTeam ? '是' : '否');
+                currentPage.find('.post-box').children('.left').find('div').html('<p>身份证已经上传过了，不允许修改！</p>');
+                currentPage.find('.post-box').children('.right').find('div').html(`<img src="${drivingLicence}${identity['individual']}" />`);
             }else{
                 console.log('message');
             }
@@ -73,6 +87,9 @@ function postDriverAuthInit(f7, view, page) {
      * 点击上传身份证
      * */
     currentPage.find('.post-box').children('.left')[0].onclick = () => {
+        if(id){
+            return;
+        }
         nativeEvent.postPic(0, '');
     }
 
@@ -92,7 +109,8 @@ function postDriverAuthInit(f7, view, page) {
         const age = trim(currentPage.find('.post-driver-age').val());
         const team = trim(currentPage.find('.post-driver-team').val());
         let errors = '';
-        if(2 != currentPage.find('.post-box').children().find('img').length){
+        const len = currentPage.find('.post-box').children().find('img').length;
+        if((!id && 2 !== len) || (id && !len)){
             errors = '请上传完整的证件照片！'
         }
 
@@ -121,11 +139,11 @@ function postDriverAuthInit(f7, view, page) {
             phone,
             age,
             team,
-            authUrl: currentPage.find('.post-box').children().find('img').eq(0).attr('src').split('@')[0],
-            driverUrl: currentPage.find('.post-box').children().find('img').eq(1).attr('src').split('@')[0]
+            authUrl: id ? '' : currentPage.find('.post-box').children('.left').find('img').eq(0).attr('src').split('@')[0],
+            driverUrl: currentPage.find('.post-box').children('.right').find('img').eq(0).attr('src').split('@')[0]
         }
         view.router.load({
-            url: 'views/postDriverInfo.html'
+            url: `views/postDriverInfo.html?id=${id || ''}`
         })
     }
 }

@@ -1,13 +1,15 @@
 import store from '../utils/locaStorage';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
-import {html, trim, getFishTankId, getOxygenTankId, getProvinceId} from '../utils/string';
+import {html, trim, getFishTankId, getOxygenTankId, getProvinceId, getFishTankName, getOxygenTankName} from '../utils/string';
 import {fishCar} from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 
 function postDriverInfoInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const {id} = page.query;
+    const {identity} = config;
 
     /**
      * 路线范围选择
@@ -165,8 +167,8 @@ function postDriverInfoInit(f7, view, page) {
             res.push({
                 departureProvinceId: getProvinceId(valArr[0])['provinceId'],
                 departureProvinceName: valArr[0],
-                destinationProvinceId: getProvinceId(valArr[1])['provinceId'],
-                destinationProvinceName: valArr[1],
+                destinationProvinceId: getProvinceId(valArr[1])['provinceId'] || getProvinceId(valArr[0])['provinceId'],
+                destinationProvinceName: valArr[1] || valArr[0],
             })
         })
         return res;
@@ -194,6 +196,13 @@ function postDriverInfoInit(f7, view, page) {
     function callback(data){
         const {code, message} = data;
         if(1 == code){
+            if(id){
+                nativeEvent.nativeToast('1', '修改成功！');
+                view.router.load({
+                    url: 'views/user.html'
+                })
+                return;
+            }
             view.router.load({
                 url: 'views/recruitDriverSuccess.html'
             })
@@ -266,15 +275,90 @@ function postDriverInfoInit(f7, view, page) {
             routeList: getFishCarAddress(),
             auxiliaryList: getTagList()
         }
-        customAjax.ajax({
-            apiCategory: 'postFishCars',
-            parameType: 'application/json',
-            data: data,
-            type: 'post',
-            isMandatory: true,
-            noCache: true
-        }, callback);
+        if(id){
+            customAjax.ajax({
+                apiCategory: 'fishCarDrivers',
+                parameType: 'application/json',
+                data: data,
+                header: ['token'],
+                type: 'put',
+                val:{
+                    id
+                },
+                isMandatory: true,
+                noCache: true
+            }, callback);
+        }else{
+            customAjax.ajax({
+                apiCategory: 'postFishCars',
+                parameType: 'application/json',
+                data: data,
+                type: 'post',
+                isMandatory: true,
+                noCache: true
+            }, callback);
+        }
+    }
 
+    /**
+     * 如果存在id，则是修改，反则是新增申请
+     * 填满返回的信息
+     * */
+    if(!id){
+        f7.hideIndicator();
+    }else{
+        currentPage.find('.submit-btn').children().text('提交修改');
+        const {
+            routeList,
+            roadTransportQualificationCertificate,
+            roadTransportCertificate,
+            fishTankMaterial,
+            fishTankBoxCount,
+            oxygenTankMaterial,
+            fishTankSize,
+            auxiliaryList
+        } = window.driverData;
+        //render路线
+        if(routeList && routeList.length){
+            currentPage.find('.post-driver-select-address').val('多条路线');
+            currentPage.find('.add-address-click-box').remove();
+
+            $$.each(routeList, (index, item) => {
+                const {departureProvinceName, destinationProvinceName} = item;
+                const address = departureProvinceName == destinationProvinceName ?
+                    `${destinationProvinceName}内` : `${departureProvinceName}-${destinationProvinceName}`;
+                currentPage.find('.post-driver-select').append(fishCar.selectAddress(index, address));
+            })
+
+            if(currentPage.find('.post-select-address').length < 5){
+                currentPage.find('.post-driver-select').append(fishCar.addBtn());
+            }
+        }else{
+            currentPage.find('.post-driver-select-address').val('全国');
+        }
+
+        //填写鱼罐材质
+        currentPage.find('.post-driver-fish-box').val(getFishTankName(fishTankMaterial));
+
+        //填写鱼罐方数
+        currentPage.find('.post-driver-fish-box-size').val(`${fishTankSize}方`);
+
+        //填写分箱数
+        currentPage.find('.post-driver-fish-box-number').val(`${fishTankBoxCount}个`);
+
+        //填写氧气罐材质
+        currentPage.find('.post-driver-fish-oxygen-tank').val(getOxygenTankName(oxygenTankMaterial));
+
+        //填选辅助设备
+        if(auxiliaryList && auxiliaryList.length){
+            $$.each(auxiliaryList, (index, item) => {
+                currentPage.find('.post-driver-device-list').children(`span[data-id="${item.id}"]`).addClass('on');
+            })
+        }
+
+        //填写证件
+        currentPage.find('.post-box').children('.left').children('div').html(`<img src="${roadTransportQualificationCertificate}${identity['individual']}" />`);
+        currentPage.find('.post-box').children('.right').children('div').html(`<img src="${roadTransportCertificate}${identity['individual']}" />`);
     }
 }
 

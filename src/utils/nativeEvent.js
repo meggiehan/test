@@ -11,6 +11,7 @@ class CustomClass {
         this.doubleClick = true;
         setTimeout(() => {
             this.doubleClick = false;
+            console.log('点击太频繁！');
         }, 300);
         return false;
     }
@@ -296,9 +297,9 @@ class CustomClass {
         }
         let res;
         if(ios){
-            res = JS_SaveObjectWithKey(key || '');
+            res = JS_PerferenceGetShared(key || '');
         }else{
-            res = window.yudada.JS_SaveObjectWithKey(key || '');
+            res = window.yudada.JS_PerferenceGetShared(key || '');
         }
         return res;
     }

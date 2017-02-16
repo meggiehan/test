@@ -74,7 +74,7 @@ function driverDemandInfoInit(f7, view, page) {
              * render司机头像
              * */
             if(headImgUrl){
-                currentPage.find('.driver-head-img').attr(`${headImgUrl}${imgPath(8)}`)
+                currentPage.find('.driver-head-img').attr('src', `${headImgUrl}${imgPath(8)}`);
             }
 
         }else{

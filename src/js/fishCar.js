@@ -269,7 +269,7 @@ function fishCarInit(f7, view, page) {
                 return;
             }
 
-            if(nativeEvent['getUserInfo']['fishCarDriverId']){
+            if(store.get(cacheUserinfoKey)['fishCarDriverId']){
                 f7.alert('您已经登记过司机了！');
                 return;
             }

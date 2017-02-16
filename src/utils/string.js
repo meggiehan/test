@@ -517,5 +517,23 @@ module.exports = {
                 break;
         }
         return id;
+    },
+
+    /**
+     * 获取氧气罐name
+     * */
+    getOxygenTankName: (id) => {
+        let text;
+        switch(id){
+            case 1:
+                text = '液氧罐';
+                break;
+            case 2:
+                text = '普通氧气罐';
+                break;
+            default:
+                break;
+        }
+        return text;
     }
 }
