@@ -27,6 +27,8 @@ function releaseFishCarDemandInit(f7, view, page) {
             return;
         }
 
+        apiCount('btn_fishcar_postDemands');
+
         function callback(data){
             const {code, message} = data;
             if(1 == code){

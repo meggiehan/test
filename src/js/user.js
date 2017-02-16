@@ -269,6 +269,7 @@ function userInit(f7, view, page) {
      * 鱼车司机登记
      * */
     currentPage.find('.user-fish-car-driver')[0].onclick = () => {
+        apiCount('btn_myCenter_registerDriver');
         if(!isLogin()){
             f7.alert('手机号登录之后才可以登记，请先登录!','温馨提示', loginViewShow);
             return;
@@ -284,6 +285,7 @@ function userInit(f7, view, page) {
      * */
     currentPage.find('.driver-edit')[0].onclick = () => {
         const id = currentPage.find('.driver-edit').attr('data-id');
+        apiCount('btn_myCenter_editDriverInfo');
         if(!id){
             f7.alert('您的鱼车司机账号已被冻结，请联系客服！');
             return;
@@ -295,6 +297,7 @@ function userInit(f7, view, page) {
     }
 
     currentPage.find('.driver-reject')[0] = () => {
+        apiCount('btn_myCenter_driverRefuseReason');
         const message = currentPage.find('.driver-reject').attr('data-message');
         f7.alert(message);
         return;

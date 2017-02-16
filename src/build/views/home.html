@@ -97,15 +97,15 @@
         <!--</div>-->
 
         <div class="home-nav-list row">
-            <a href="views/filter.html?type=2&member=true" class="col-33">
+            <a href="views/filter.html?type=2&member=true" onclick="apiCount('btn_home_member')" class="col-33">
                 <img src="img/ic_kaopu.png" alt="">
                 <p>靠谱专区</p>
             </a>
-            <a href="views/assurance.html?type=2&assurance=true" class="col-33">
+            <a href="views/assurance.html?type=2&assurance=true" onclick="apiCount('btn_home_assurance')" class="col-33">
                 <img src="img/ic_danbao.png" alt="">
                 <p>担保交易</p>
             </a>
-            <a href="views/fishCar.html" class="col-33">
+            <a href="views/fishCar.html" onclick="apiCount('btn_home_fishcar')" class="col-33">
                 <img src="img/ic_yuche.png" alt="">
                 <p>叫鱼车</p>
             </a>
@@ -154,7 +154,7 @@
         <!--最近使用的鱼种-->
         <div class="home-fish-cache-list">
             <div class="home-content-title"><i class="title-label-border"></i>关心的鱼种</div>
-            <div class="fish-cache-list"></div>
+            <div class="fish-cache-list" onclick="apiCount('btn_home_fishtype_recentUsed');"></div>
         </div>
 
         <!-- use ajax get date. -->

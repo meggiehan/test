@@ -213,9 +213,11 @@ function fishCarInit(f7, view, page) {
         if (isFishCarList) {
             currentPage.find('.select-city').show();
             currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
+            apiCount('btn_fishcar_tab_drivers');
         } else {
             currentPage.find('.select-city').hide();
             currentPage.find('.tabbat-text').children('span').text('成为签约司机');
+            apiCount('btn_fishcar_tab_demands');
         }
         currentPage.find('.filter-tab').children('div').removeClass('on');
         $$(ele).addClass('on');
@@ -244,6 +246,7 @@ function fishCarInit(f7, view, page) {
         if (!$$(ele).attr('data-phone')) {
             return;
         }
+        apiCount('btn_fishcar_demandCall');
         nativeEvent.contactUs($$(ele).attr('data-phone'));
     }
 
@@ -260,6 +263,7 @@ function fishCarInit(f7, view, page) {
                 url: 'views/releaseFishCarDemand.html'
             })
         } else {
+            apiCount('btn_fishcar_registerDriver');
             if (!isLogin()) {
                 f7.alert('手机号登录后才能进行司机登录流程，请您先登录！', '温馨提示', loginViewShow);
                 return;
