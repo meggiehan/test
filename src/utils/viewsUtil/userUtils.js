@@ -130,7 +130,9 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                     currentPage.find('.driver-reject').attr('data-message', driverRefuseDescribe);
                 }
             }else{
-                currentPage.find('.user-fish-car-driver').show();
+                currentPage.find('.user-fish-car-driver').css({
+                    display: '-webkit-box'
+                });
             }
         }
     }
