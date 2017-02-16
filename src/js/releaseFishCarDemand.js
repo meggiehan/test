@@ -27,13 +27,18 @@ function releaseFishCarDemandInit(f7, view, page) {
             return;
         }
 
+        apiCount('btn_fishcar_postDemands');
+
         function callback(data){
             const {code, message} = data;
             if(1 == code){
                 nativeEvent.nativeToast('1', '发布成功！');
                 mainView.router.back();
                 setTimeout(() => {
-                    mainView.router.refreshPage();
+                    mainView.router.load({
+                        url: 'views/fishCar.html?demand=true',
+                        reload: true
+                    });
                 }, 100)
             }else{
                 console.log(message);

@@ -1,8 +1,8 @@
 import Framework7 from './js/lib/framework7';
 import version from './config/version.json';
 import config from './config';
-import {homeInit} from './js/home';
 import {searchInit} from './js/search';
+import {homeInit} from './js/home';
 import {filterInit} from './js/filter';
 import {selldetailInit} from './js/selldetail';
 import {buydetailInit} from './js/buydetail';
@@ -21,7 +21,7 @@ import {myListInit} from './js/myList';
 import {fishCertInit} from './js/fishCert';
 import {releaseSuccInit} from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
-import {getQuery} from './utils/string';
+import {getQuery, gerProvinceList, getCreateDriverListLabel} from './utils/string';
 import {catIdentityStatusInit} from './js/catIdentityStatus';
 import {editNameInit} from './js/editName';
 import {inviteCodeInit} from './js/inviteCode';
@@ -34,6 +34,10 @@ import {notFoundInit} from './js/notFound';
 import {bindAccountInit} from './js/bindAccount';
 import {fishCarInit} from './js/fishCar';
 import {releaseFishCarDemandInit} from './js/releaseFishCarDemand'
+import {postDriverAuthInit} from './js/postDriverAuth';
+import {postDriverInfoInit} from './js/postDriverInfo';
+import {fishCar} from './utils/template';
+import {driverDemandInfoInit} from  './js/driverDemandInfo';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -234,6 +238,14 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'bindAccount' && bindAccountInit(f7, mainView, page);
     page.name === 'fishCar' && fishCarInit(f7, mainView, page);
     page.name === 'releaseFishCarDemand' && releaseFishCarDemandInit(f7, mainView, page);
+    page.name === 'driverDemandInfo' && driverDemandInfoInit(f7, mainView, page);
+
+    /**
+     * 上传司机信息页面
+     * */
+    page.name === 'postDriverAuth' && postDriverAuthInit(f7, mainView, page);
+    page.name === 'postDriverInfo' && postDriverInfoInit(f7, mainView, page);
+    page.name === 'recruitDriverSuccess' && f7.hideIndicator();
 });
 
 /*
@@ -285,5 +297,172 @@ if (!window['addressObj']) {
     nativeEvent.getAddress();
 }
 
+/**
+ * 省内运输跟跨省运输切换
+ * */
+$$('.edit-driver-address-model .province-address-select>div').click((e) => {
+    const ele = e.target || widnow.event.target;
+    let currentItem = $$(ele);
+    if(ele.tagName == 'SPAN'){
+        currentItem = $$(ele).parent();
+    }
+    if(currentItem.hasClass('on')){
+        return;
+    }
 
+    if(currentItem.hasClass('pull-left')){
+        $$('.edit-driver-address-model .province-address-select>div').removeClass('on').eq(0).addClass('on');
+        $$('.edit-driver-address-model .province-select-item').removeClass('on').eq(0).addClass('on');
+    }else{
+        $$('.edit-driver-address-model .province-address-select>div').removeClass('on').eq(1).addClass('on');
+        $$('.edit-driver-address-model .province-select-item').removeClass('on').eq(1).addClass('on');
+    }
+})
 
+/**
+ * picker绑定省份数据（司机添加或者修改路线）
+ * 因为只执行一次，所以放在入口文件
+ * */
+setTimeout(() => {
+    /*省内选择*/
+    f7.picker({
+        input: $$('.edit-driver-address-model .province-select').find('input'),
+        toolbarCloseText: '确定',
+        rotateEffect: true,
+        cols: [
+            {
+                textAlign: 'center',
+                values: gerProvinceList()
+            }
+        ]
+    });
+
+    /*跨省出发地*/
+    f7.picker({
+        input: $$('.edit-driver-address-model .provinces-select').find('input').eq(0),
+        toolbarCloseText: '确定',
+        rotateEffect: true,
+        cols: [
+            {
+                textAlign: 'center',
+                values: gerProvinceList()
+            }
+        ]
+    });
+
+    /*跨省目的地*/
+    f7.picker({
+        input: $$('.edit-driver-address-model .provinces-select').find('input').eq(1),
+        toolbarCloseText: '确定',
+        rotateEffect: true,
+        cols: [
+            {
+                textAlign: 'center',
+                values: gerProvinceList()
+            }
+        ]
+    });
+}, 1000)
+
+/**
+ * 以下是司机选择路线的操作
+ * 1：关闭model
+ * 2：添加路线
+ * 3：编辑保存路线
+ * 4：删除路线
+ * */
+$$('.edit-driver-address-model-cancel').click(() => {
+    $$('.edit-driver-address-model').removeClass('add edit');
+});
+
+$$('.edit-driver-address-model-add').click(() => {
+    let address;
+    if($$('.province-address-select .pull-left').hasClass('on')){
+        //省内运鱼
+
+        if('请选择' == $$('.province-select').find('input').val()){
+            f7.alert('请选择省份！');
+            return;
+        }
+        address = `${$$('.province-select').find('input')
+            .val()}-${$$('.province-select').find('input').val()}`;
+    }else{
+        //跨省运鱼
+        if('请选择' == $$('.provinces-select').find('input').eq(0).val()){
+            f7.alert('请选择出发省份！');
+            return;
+        }
+
+        if('请选择' == $$('.provinces-select').find('input').eq(1).val()){
+            f7.alert('请选择目的地省份！');
+            return;
+        }
+
+        if($$('.provinces-select').find('input').eq(0).val() == $$('.provinces-select').find('input').eq(1).val()){
+            f7.alert('跨省路线中出发省份不能跟目的地省份相同！');
+            return;
+        }
+        address = `${$$('.provinces-select').find('input').eq(0)
+            .val()}-${$$('.provinces-select').find('input').eq(1).val()}`;
+    }
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const length = currentPage.find('.post-select-address').length;
+    currentPage.find('.add-address-click-box').remove();
+    currentPage.find('.post-driver-select').append(fishCar.selectAddress(length, address));
+    if(currentPage.find('.post-select-address').length < 5){
+        currentPage.find('.post-driver-select').append(fishCar.addBtn());
+    }
+    $$('.edit-driver-address-model').removeClass('add edit');
+})
+
+$$('.edit-driver-address-model-save').click(() => {
+    let address;
+    if($$('.province-address-select .pull-left').hasClass('on')){
+        //省内运鱼
+
+        if('请选择' == $$('.province-select').find('input').val()){
+            f7.alert('请选择省份！');
+            return;
+        }
+        address = `${$$('.province-select').find('input')
+            .val()}-${$$('.province-select').find('input').val()}`;
+    }else{
+        //跨省运鱼
+        if('请选择' == $$('.provinces-select').find('input').eq(0).val()){
+            f7.alert('请选择出发省份！');
+            return;
+        }
+
+        if('请选择' == $$('.provinces-select').find('input').eq(1).val()){
+            f7.alert('请选择目的地省份！');
+            return;
+        }
+
+        if($$('.provinces-select').find('input').eq(0).val() == $$('.provinces-select').find('input').eq(1).val()){
+            f7.alert('跨省路线中出发省份不能跟目的地省份相同！');
+            return;
+        }
+        address = `${$$('.provinces-select').find('input').eq(0)
+            .val()}-${$$('.provinces-select').find('input').eq(1).val()}`;
+    }
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    currentPage.find('.post-select-address').find('input').eq(window.addressIndex)
+        .val(address).attr('placeholder', address);
+    $$('.edit-driver-address-model').removeClass('add edit');
+})
+
+$$('.edit-driver-address-model-delete').click(() => {
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    currentPage.find('.post-select-address').eq(window.addressIndex).remove();
+    const itemLen = currentPage.find('.post-select-address').length;
+    for(let i=0;i<itemLen;i++){
+        if(i <= window.addressIndex){
+            currentPage.find('.post-select-address').eq(i)
+                .find('.item-title').text(`路线${getCreateDriverListLabel(i)}`).attr('data-index', i);
+        }
+    }
+    if(!currentPage.find('.add-address-click-box').length){
+        currentPage.find('.post-driver-select').append(fishCar.addBtn());
+    }
+    $$('.edit-driver-address-model').removeClass('add edit');
+})

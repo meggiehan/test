@@ -91,7 +91,7 @@ function homeInit(f7, view, page) {
     }
     customAjax.ajax({
         apiCategory: 'initPage',
-        data: [],
+        data: ['2'],
         type: 'get'
     }, initDataCallback);
 
@@ -103,7 +103,9 @@ function homeInit(f7, view, page) {
     if(fishCacheData && fishCacheData.length){
         let str = '';
         $$.each(fishCacheData.reverse(), (index, item) => {
-            str += home.renderFishList(item, index);
+            if(index <= 2){
+                str += home.renderFishList(item, index);
+            }
         })
         currentPage.find('.fish-cache-list').html(str);
         currentPage.find('.home-fish-cache-list').show();

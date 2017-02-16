@@ -131,74 +131,67 @@
                 margin-right: 0.5rem;
             }
         }
+        .home-fish-cache-list{
+            margin-bottom: 0.5rem;
+            display: none;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            .fish-cache-list{
+                overflow: hidden;
+                border-top:1px solid @border-da;
+                padding: 0 2%;
+                color: @border-da;
+                a{
+                    display: inline-block;
+                    .text-center;
+                    width: 32.6%;
+                    height: 4rem;
+                    line-height: 4rem;
+                    color: @text-category;
+                    font-size: 1.6rem;
+                    .text-hidden;
+                    vertical-align: middle;
+                }
+            }
+        }
         & > .row {
             border-bottom: 1px solid @border-da;
             background: @bg-fff;
             .text-shadow(@text-fff);
-            margin: 0 0 1rem 0;
             &.home-select-list {
-                &>div{
-                    height: 14rem;
-                }
-                a {
-                    color: @text-subtitle;
-                    p {
-                        margin: 0;
+                margin:0.5rem;
+                border: 0;
+                .col-50{
+                    width: 50%;
+                    padding-right: 0.25rem;
+                    &:last-child{
+                        padding-right: 0;
+                        padding-left: 0.25rem;
                     }
-                }
-                div.col-40 {
-                    width: 40%;
-                    padding: 1.3rem 0;
-                    border-right: 1px solid @border-da;
-                    .home-chushou{
-                        p{
-                            font-size: 1.2rem;
-                            margin-bottom: 0.2rem;
-                            &.home-sell-title{
-                                font-size: 1.8rem;
-                                color: @text-chushou-bak;
-                            }
-                        }
-                        img{
-                            width: 50px;
-                            display: block;
-                            margin: 1.2rem auto 0;
-                        }
-                    }
-                }
-                div.col-60 {
-                    width: 60%;
-                    &>a{
-                        height: 7rem;
+                    a{
                         display: block;
-                        padding: 0.3rem 0;
-                        .box-size();
-                        div:after{
-                            display: none;
-                        }
-                        &:first-child{
-                            border-bottom: 1px solid @border-da;
-                        }
+                        width: 84%;
+                        background: @bg-fff;
+                        .text-shadow(@bg-fff);
+                        padding: 0.1rem 8%;
                         .item-content{
-                            padding-left: 10%;
-                        }
-                        div{
-                            font-size: 1.2rem;
-                            .item-title-row{
-                                font-size: 1.8rem;
-                                padding-bottom: 0.2irem;
-                                &.home-qougou{
-                                    color: @text-level;
+                            padding-left: 0;
+                            .item-inner{
+                                padding-right: 0;
+                                &:after{
+                                    display: none;
                                 }
-                                &.home-level{
-                                    color: @text-qiugou;
+                                .item-title-row{
+                                    font-size: 1.8rem;
+                                    color: @text-chushou-bak;
+                                    &.home-qiugou{
+                                        color: @text-level;
+                                    }
                                 }
-                            }
-                            &.item-media{
-                                padding-right: 15%;
-                                width: 4rem;
-                                display: -webkit-box;
-                                box-sizing: initial;
+                                .item-subtitle{
+                                    font-size: 1.2rem;
+                                    color: @text-subtitle;
+                                }
                             }
                         }
                     }
@@ -206,8 +199,8 @@
             }
         }
         .home-select-list {
-            margin-top: 1rem;
             border-top: 1px solid @border-da;
+            background: @bg-body;
         }
         .chosen-fingerling {
             background-color: @bg-fff;
@@ -259,7 +252,6 @@
         }
         .home-deal-list {
             background: @bg-fff;
-            margin-bottom: 1rem;
             padding: 0.5rem 2%;
             a {
                 &.active-state {
@@ -363,6 +355,24 @@
             .text-center;
             padding-top: 1rem;
         }
+        .home-nav-list{
+            margin-bottom: 0;
+            &>a{
+                padding:1.2rem 0;
+                .text-center;
+                display: block;
+                width: 33%;
+                img{
+                    display: block;
+                    width: 5rem;
+                    margin: 0 auto 0.9rem;
+                }
+                p{
+                    margin: 0;
+                    color: @text-name;
+                }
+            }
+        }
     }
 }
 
@@ -396,6 +406,18 @@
     }
     &.swiper-container {
         min-height: 7rem;
-        margin-bottom: 1rem;
+    }
+}
+@media screen and (min-width: 360px) and (max-width: 400px) {
+    .page-home .page-content>.row.home-select-list .col-50 a{
+        padding: 0.3rem 10%;
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 401px) and (max-width: 500px) {
+    .page-home .page-content>.row.home-select-list .col-50 a{
+        padding: 0.5rem 12%;
+        width: 76%;
     }
 }
