@@ -175,9 +175,11 @@ class CustomClass {
         f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         loginViewHide();
-        mainView.router.load({
-            url: `views/user.html?uuid=${token || ''}`
-        })
+        if('user' == mainView.activePage){
+            mainView.router.load({
+                url: `views/user.html?uuid=${token || ''}`
+            })
+        }
     }
 
     /*
@@ -436,6 +438,24 @@ class CustomClass {
         currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
     }
 
+    /**
+     * 上传司机道路运输从业资格证回调函数
+     * */
+    postDriverRoadTransportFileCallback(index, url, name){
+        const { identity } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
+        currentPage.find('.post-box').children('.left').children('div').html(`<img src="${url}${identity['individual']}" />`);
+    }
+
+    /**
+     * 上传司机道路运输证回调函数
+     * */
+    postDriverTransportCertificateFileCallback(index, url, name){
+        const { identity } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
+        currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -460,6 +480,8 @@ class CustomClass {
         window['phoneBindFaild'] = this.phoneBindFaild;
         window['weixinBindFaild'] = this.weixinBindFaild;
         window['postDriverFileCallback'] = this.postDriverFileCallback;
+        window['postDriverRoadTransportFileCallback'] = this.postDriverRoadTransportFileCallback;
+        window['postDriverTransportCertificateFileCallback'] = this.postDriverTransportCertificateFileCallback;
     }
 }
 

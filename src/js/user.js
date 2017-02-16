@@ -264,6 +264,42 @@ function userInit(f7, view, page) {
             url: 'views/release.html'
         })
     }
+
+    /**
+     * 鱼车司机登记
+     * */
+    currentPage.find('.user-fish-car-driver')[0].onclick = () => {
+        if(!isLogin()){
+            f7.alert('手机号登录之后才可以登记，请先登录!','温馨提示', loginViewShow);
+            return;
+        }
+        view.router.load({
+            url: 'views/postDriverAuth.html'
+        })
+    }
+
+    /**
+     * 鱼车信息提示
+     * 修改鱼车信息、查看审核未通过提示.
+     * */
+    currentPage.find('.driver-edit')[0].onclick = () => {
+        const id = currentPage.find('.driver-edit').attr('data-id');
+        if(!id){
+            f7.alert('您的鱼车司机账号已被冻结，请联系客服！');
+            return;
+        }else{
+            view.router.load({
+                url: `views/postDriverAuth.html?id=${id}`
+            })
+        }
+    }
+
+    currentPage.find('.driver-reject')[0] = () => {
+        const message = currentPage.find('.driver-reject').attr('data-message');
+        f7.alert(message);
+        return;
+    }
+
 }
 
 module.exports = {

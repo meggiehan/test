@@ -90,8 +90,8 @@ function postDriverAuthInit(f7, view, page) {
             phone,
             age,
             team,
-            authUrl: currentPage.find('.post-box').children().find('img').eq(0).attr('src'),
-            driverUrl: currentPage.find('.post-box').children().find('img').eq(1).attr('src')
+            authUrl: currentPage.find('.post-box').children().find('img').eq(0).attr('src').split('@')[0],
+            driverUrl: currentPage.find('.post-box').children().find('img').eq(1).attr('src').split('@')[0]
         }
         view.router.load({
             url: 'views/postDriverInfo.html'

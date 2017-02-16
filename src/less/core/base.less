@@ -20,6 +20,7 @@
 @bg-review: #fff7d9;
 @bg-verify-faild: #fde8e8;
 @bg-collection: #F7DF3F;
+@bg-edit-btn: #E7FFDC;
 @bg-f1: #f1f1f1;
 @bg-f7: #f7f7f7;
 @bg-hot: #E82F2F;
@@ -30,6 +31,7 @@
 @border-cert: #ddd;
 @border-da: #eaeaea;
 @border-c5: #C5C5C5;
+@border-c8: #c8c7cc;
 @text-333: #333;
 @text-fff: #fff;
 @text-user-icon: #4c4c4c;
@@ -57,6 +59,7 @@
 @text-verify-faild: #880707;
 @text-verify-review: #880707;
 @border-tehemColor: #84E159;
+@model-border: #979797;
 @appAnimate: ease;
 @appAnimateTime: 150ms;
 @themeColor: @bg-color;
@@ -326,6 +329,10 @@ input::-webkit-input-placeholder {
 
 .pull-left {
     float: left;
+}
+
+.pull-right {
+    float: right;
 }
 
 .section-hidden {
@@ -945,4 +952,229 @@ a.buy-list-info {
     }
 }
 
+/**
+* 招募鱼车司机修改路线model
+*/
+.edit-driver-address-model{
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 15%;
+    .box-size();
+    top:-100rem;
+    background: @bg-black-3;
+    z-index: 6000;
+    transition: all 0.3s ease;
+    .content-box{
+        width: 100%;
+        height: 33rem;
+        .ps-r;
+        top: 50%;
+        margin-top: -16.5rem;
+        background: @bg-fff;
+        border-radius: 0.5rem;
+        .box-size();
+        .header{
+            font-size: 1.8rem;
+            color: @text-name;
+            padding: 1rem 0;
+            .text-center;
+            border-bottom:1px solid @model-border;
+            margin-bottom: 1.5rem;
+            line-height: 2.2rem;
+            height: 2.2rem;
+            overflow: hidden;
+            span{
+                display: none;
+            }
+        }
+        .content{
+            padding: 0 2rem;
+            font-size: 1.8rem;
+            color: @text-name;
+            height: 23rem;
+            p{
+                margin: 0;
+                margin-bottom: 0.75rem;
+                color: @text-category;
+                overflow: hidden;
+            }
+            div{
+                overflow: hidden;
+                &.province-address-select{
+                    padding-bottom: 1.6rem;
+                    line-height: 5rem;
+                    height: 5rem;
+                    div{
+                        display: inline-block;
+                        &.on{
+                            .radio{
+                                display: none;
+                            }
+                            .iconfont{
+                                display: inline-block;
+                                color: @bg-v;
+                            }
+                        }
+                        .iconfont{
+                            font-size: 2.8rem;
+                            .ps-r;
+                            top: -0.4rem;
+                            display: none;
+                        }
+                        .radio{
+                            display: inline-block;
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: 1rem;
+                            border: 1px solid @text-category;
+                            vertical-align: middle;
+                            .box-size();
+                            .ps-r;
+                            top: -0.2rem;
+                        }
+                    }
+                }
+                &.province-select-item{
+                    display: none;
+                    &.on{
+                        display: block;
+                    }
+                    input{
+                        width: 50%;
+                        border:0;
+                        font-size: 1.8rem;
+                        padding: 0;
+                        margin: 0;
+                        &.pull-right{
+                            .text-right;
+                        }
+                    }
+                }
+            }
+        }
+        .footer{
+            overflow: hidden;
+            padding: 0 2rem;
+            .box-size();
+            &>div{
+                display: none;
+            }
+            span{
+                display: block;
+                float: left;
+                width: 32%;
+                .text-center;
+                font-size: 1.6rem;
+                .box-size();
+                height: 3rem;
+                line-height: 3rem;
+                color: @text-category;
+                border: 1px solid @bg-v;
+                border-radius: 0.5rem;
+                color: @text-fff;
+                background: @bg-v;
+                .text-shadow(@bg-v);
+                font-size: 1.4rem;
+                margin-left: 2%;
+                &.edit-driver-address-model-cancel{
+                    margin-left: 0;
+                    color: @bg-v;
+                    background: @bg-fff;
+                    .text-shadow(@bg-fff);
+                    border-color: @bg-v;
+                }
+                &.edit-driver-address-model-delete{
+                    color: @text-price;
+                    background: @bg-fff;
+                    .text-shadow(@bg-fff);
+                    border-color: @text-price;
+                }
+            }
+            .add{
+                span{
+                    width: 49%;
+                }
+            }
+        }
+    }
+    &.add{
+        top: 0;
+        .header{
+            .add{
+                display: block;
+            }
+        }
+        .footer{
+            .add{
+                display: block;
+            }
+        }
+    }
+    &.edit{
+        top: 0;
+        .header{
+            .edit{
+                display: block;
+            }
+        }
+        .footer{
+            .edit{
+                display: block;
+            }
+        }
+    }
+}
 
+/**
+* 列表搜索提示样式
+*/
+.infinite-scroll-preloader {
+    .text-center;
+    padding: 0 0.5rem;
+}
+
+.filter-search-empty-info {
+    .text-center;
+    color: @text-category;
+    font-size: 1.6rem;
+    display: none;
+}
+
+.filter-empty-search-result {
+    padding-top: 6rem;
+    .text-center;
+    display: none;
+    .icon-empty-search {
+        width: 10rem;
+        height: 10rem;
+        border-radius: 5rem;
+        color: @text-fff;
+        font-size: 6rem;
+        .text-center;
+        line-height: 10rem;
+        background: @border-da;
+        margin: 0 auto;
+    }
+    p {
+        color: @text-subtitle;
+        margin: 0;
+        &.title {
+            color: @text-category;
+            padding: 1rem 0 0.2rem;
+            font-size: 1.6rem;
+        }
+    }
+    &.fish-car-empty{
+        img{
+            display: block;
+            width: 25%;
+            margin:0 auto 1rem;
+        }
+        .title{
+            color: @text-name;
+            font-size: 1.8rem;
+        }
+    }
+}
