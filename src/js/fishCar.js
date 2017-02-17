@@ -114,6 +114,7 @@ function fishCarInit(f7, view, page) {
             }
             isRefresh = false;
             isInfinite = false;
+            currentPage.find('.page-content').scrollTop(0);
             currentPage.find('img.lazy').trigger('lazy');
         }
     }
@@ -194,6 +195,7 @@ function fishCarInit(f7, view, page) {
         currentPage.find('.select-city').show();
         currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
         apiCount('btn_fishcar_tab_drivers');
+        pageNo = 1;
         currentPage.find('.filter-tab').children('div').removeClass('on').eq(0).addClass('on');
         currentNavbar.find('.filter-tab').children('div').removeClass('on').eq(0).addClass('on');
         getList(false);
@@ -207,6 +209,7 @@ function fishCarInit(f7, view, page) {
         currentPage.find('.select-city').hide();
         currentPage.find('.tabbat-text').children('span').text('鱼车司机登记');
         apiCount('btn_fishcar_tab_demands');
+        pageNo = 1;
         currentPage.find('.filter-tab').children('div').removeClass('on').eq(1).addClass('on');
         currentNavbar.find('.filter-tab').children('div').removeClass('on').eq(1).addClass('on');
         getList(false);
