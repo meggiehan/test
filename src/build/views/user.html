@@ -26,6 +26,11 @@
                 </div>
             </div>
         </div>
+        <div class="user-info-driver-check">
+            <a class="driver-edit">修改鱼车信息</a>
+            <p class="driver-checking"><span class="iconfont icon-info"></span>鱼车信息审核中，请耐心等待</p>
+            <p class="driver-reject"><span class="iconfont icon-info"></span>鱼车信息审核未通过，点击查看原因</p>
+        </div>
         <div class="user-info-list row">
             <a class="my-sell-list col-33">
                 <div onclick="apiCount('btn_mysell')">
@@ -106,6 +111,16 @@
                     <div class="col-40 iconfont icon-right"><span class="user-invite-num">已邀请0人</span><span class="user-new-activity">可提升靠谱指数</span></div>
                 </div>
             </a>
+
+            <a class="row user-fish-car-driver">
+                <div class="col-15 iconfont icon-fish-car"></div>
+                <div class="col-85 row first">
+                    <div class="col-60">鱼车司机登记</div>
+                    <div class="col-40 iconfont icon-right"><span>接单赚钱更方便</span></div>
+                </div>
+            </a>
+            <p></p>
+
             <a class="row user-bind-account">
                 <div class="col-15 iconfont icon-lock"></div>
                 <div class="col-85 row first" onclick="apiCount('btn_contact')">
@@ -113,6 +128,7 @@
                     <div class="col-40 iconfont icon-right"></div>
                 </div>
             </a>
+
             <a class="row user-call-service">
                 <div class="col-15 iconfont icon-call"></div>
                 <div class="col-85 row first" onclick="apiCount('btn_contact')">
@@ -137,8 +153,8 @@
                 </div>
             </a> -->
         </div>
-        <p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>
-        </p>
+        <!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
+        <!--</p>-->
     </div>
     <div class="toolbar tabbar">
         <div class="toolbar-inner">

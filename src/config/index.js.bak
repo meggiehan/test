@@ -93,7 +93,7 @@ const configs = {
     thirdPlatform: {
         'weChat': []
     },
-    initPage: [],
+    initPage: ['key'],
     /*
     * 获取第三方账号信息列表
     * */
@@ -104,6 +104,8 @@ const configs = {
      * 鱼车相关
      * */
     fishCars: ['provinceId', 'pageSize', 'pageNo'],
-    fishCarDemands: ['description', 'pageSize', 'pageNo']
+    postFishCars: [],
+    fishCarDemands: ['description', 'pageSize', 'pageNo'],
+    fishCarDrivers: ['driverId']
 }
 export default configs;

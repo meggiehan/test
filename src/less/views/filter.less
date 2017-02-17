@@ -6,6 +6,61 @@
         form {
             box-shadow: none;
         }
+        .filter-tab {
+            display: none;
+            position: static;
+            z-index: 100;
+            border-bottom: 1px solid @border-da;
+            height: 4rem;
+            line-height: 4rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            overflow: hidden;
+            font-size: 1.4rem;
+            .filter-tab-title {
+                .text-center;
+                color: @text-search;
+                vertical-align: middle;
+                display: block;
+                float: left;
+                line-height: 4rem;
+                height: 4rem;
+                width: 33%;
+                .text-hidden;
+                .border-box;
+                &.on {
+                    width: 34%;
+                    .ps-r;
+                    &>i {
+                        display: block;
+                        .ps-a;
+                        width: 0;
+                        height: 50%;
+                        padding: 0;
+                        margin: 0;
+                        top: 25%;
+                        border-left: 1px solid @border-da;
+                        &.right {
+                            right: 0;
+                        }
+                        &.left {
+                            left: 0;
+                        }
+                    }
+                }
+                &.active-ele {
+                    color: @themeColor;
+                    b {
+                        .transform(rotate(180deg));
+                        border-top-color: @themeColor;
+                    }
+                }
+                b {
+                    .transform(translate3d(0, -0.2rem, 0));
+                    .transition(all, @appAnimateTime, @appAnimate);
+                }
+            }
+        }
     }
 }
 
@@ -320,44 +375,6 @@
                     }
                 }
             }
-        }
-    }
-}
-
-.infinite-scroll-preloader {
-    .text-center;
-    padding: 0 0.5rem;
-}
-
-.filter-search-empty-info {
-    .text-center;
-    color: @text-category;
-    font-size: 1.6rem;
-    display: none;
-}
-
-.filter-empty-search-result {
-    padding-top: 6rem;
-    .text-center;
-    display: none;
-    .icon-empty-search {
-        width: 10rem;
-        height: 10rem;
-        border-radius: 5rem;
-        color: @text-fff;
-        font-size: 6rem;
-        .text-center;
-        line-height: 10rem;
-        background: @border-da;
-        margin: 0 auto;
-    }
-    p {
-        color: @text-subtitle;
-        margin: 0;
-        &.title {
-            color: @text-category;
-            padding: 1rem 0 0.2rem;
-            font-size: 1.6rem;
         }
     }
 }

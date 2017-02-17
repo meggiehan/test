@@ -71,6 +71,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
     userUtils.getBussesInfoCallback = (data) => {
         const authenticationBtn = $$('p.user-identity-text');
         const verificationBtn = $$('span.user-verification-num');
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         let text = '';
         if (data) {
             userUtils.data = data;
@@ -82,9 +83,10 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 personalAuthenticationState,
                 personalAuthenticationTime,
                 enterpriseAuthenticationTime,
-                registerCount, //invit number
-                invitationLink, //share url.
-                invitationCode
+                registerCount,
+                driverRefuseDescribe,
+                driverState,
+                fishCarDriverId
             } = data;
 
             buyNumber && html($$('.user-buy-num'), buyNumber, null);
@@ -105,8 +107,35 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             $$('.user-invit>.first').removeClass('invit-numbers');
             registerCount && $$('.user-invit>.first').addClass('invit-numbers');
             $$('.user-invite-num').text(`已邀请${registerCount}人`);
-            $$('.user-go-invite-page').addClass('show');
+            // $$('.user-go-invite-page').addClass('show');
             text && authenticationBtn.text(text);
+            /**
+             * 判断是司机用户
+             */
+            if(fishCarDriverId){
+                currentPage.find('.user-info-driver-check').removeClass('check reject edit');
+                currentPage.find('.user-fish-car-driver').hide();
+                if(0 == driverState){
+                    currentPage.find('.user-info-driver-check').addClass('check');
+                }
+
+                if(1 == driverState || 3 == driverState){
+                    currentPage.find('.user-info-driver-check').addClass('edit');
+                    1 == driverState && currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
+                    3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id');
+                }
+
+                if(2 == driverState){
+                    currentPage.find('.user-info-driver-check').addClass('reject');
+                    currentPage.find('.driver-reject').attr('data-message', driverRefuseDescribe);
+                }
+                currentPage.find('.user-invit').children('div').eq(1).addClass('border-none');
+            }else{
+                currentPage.find('.user-invit').children('div').eq(1).removeClass('border-none');
+                currentPage.find('.user-fish-car-driver').css({
+                    display: '-webkit-box'
+                });
+            }
         }
     }
 

@@ -22,8 +22,10 @@ class CustomClass {
     * */
     getPhoneSrc(srcimg, src, index) {
         const { identity, cacheUserinfoKey, imgPath } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         let individualCert = true;
-        const id = store.get(cacheUserinfoKey)['id'];
+        const id = store.get(cacheUserinfoKey) ? store.get(cacheUserinfoKey)['id'] : '';
+        const _index = Number(index);
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
@@ -35,7 +37,7 @@ class CustomClass {
                 store.set(cacheUserinfoKey, userInfoChange);
             }
         }
-        if (index == 4) {
+        if (_index == 4) {
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateUserInfo',
@@ -43,14 +45,25 @@ class CustomClass {
                 type: 'post',
                 noCache: true,
             }, callback);
-        } else if (index > -1 && index <= 2) {
-            $$('.identity-individual-pic>div').eq(index).addClass('on');
-            $$('.identity-individual-pic>div').eq(index).find('img').attr('src', src + identity['individual']);
-            $$.each($$('.identity-individual-pic>div'), (index, item) => {
-                !$$('.identity-individual-pic>div').eq(index).find('img').attr('src') && (individualCert = false);
+        } else if (_index > -1 && _index <= 2) {
+            /**
+             * 上传司机身份证
+             * */
+            if(currentPage.find('.post-driver-header').length){
+                currentPage.find('.post-box').children('.left').children('div').html(`<img src="${src}${identity['individual']}" />`);
+                return;
+            }
+
+            /**
+             * 上传非司机身份证
+             * */
+            $$('.identity-individual-pic>div').eq(_index).addClass('on');
+            $$('.identity-individual-pic>div').eq(_index).find('img').attr('src', src + identity['individual']);
+            $$.each($$('.identity-individual-pic>div'), (_index, item) => {
+                !$$('.identity-individual-pic>div').eq(_index).find('img').attr('src') && (individualCert = false);
             })
             individualCert && ($$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass'));
-        } else if (3 == index) {
+        } else if (3 == _index) {
             $$('.identity-company-pic>div').addClass('on');
             $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
             $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
@@ -159,12 +172,39 @@ class CustomClass {
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
          */
-        f7.hidePreloader();
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         loginViewHide();
-        mainView.router.load({
-            url: `views/user.html?uuid=${token || ''}`
-        })
+        f7.hideIndicator();
+        if('user' == mainView.activePage.name){
+            mainView.router.refreshPage();
+            f7.hidePreloader();
+        }else if('bindAccount' == mainView.activePage.name){
+            mainView.router.load({
+                url: 'views/user.html'
+            })
+            f7.hidePreloader();
+        }else{
+            const loginCallback = (data) => {
+                const {code, message} = data;
+                const { cacheUserinfoKey } = config;
+                if(1 == code){
+                    store.set(cacheUserinfoKey, data.data);
+                    nativeEvent.setUerInfoToNative({
+                        inviterId: data.data.inviterId
+                    });
+                }else{
+                    console.log(message);
+                }
+                f7.hidePreloader();
+            }
+
+            customAjax.ajax({
+                apiCategory: 'auth',
+                header: ['token'],
+                type: 'get',
+                noCache: true,
+            }, loginCallback);
+        }
     }
 
     /*
@@ -221,8 +261,9 @@ class CustomClass {
     logout() {
         const { cacheUserinfoKey } = config;
         store.remove(cacheUserinfoKey);
+        nativeEvent.setNativeUserInfo();
         window.mainView.router.load({
-            url: `views/user.html?logout=true`,
+            url: `views/user.html`,
             animatePages: false,
             reload: true
         })
@@ -235,7 +276,7 @@ class CustomClass {
                 store.remove(cacheUserinfoKey);
                 setTimeout(() => {
                     mainView.router.load({
-                        url: 'views/user.html?logout=true',
+                        url: 'views/user.html',
                         reload: true
                     })
                 }, 600)
@@ -351,6 +392,7 @@ class CustomClass {
             loginView.router.load({
                 url: 'views/bindPhone.html?notBindPhone=true'
             })
+            mainView.router.refreshPage();
         }
         if(mainView.url && mainView.url.indexOf('bindAccount') > -1){
             mainView.router.refreshPage();
@@ -414,6 +456,33 @@ class CustomClass {
         })
     }
 
+    /**
+     * 上传司机驾照回调函数
+     * */
+    postDriverFileCallback(index, url, name){
+        const { identity } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
+        currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
+    }
+
+    /**
+     * 上传司机道路运输从业资格证回调函数
+     * */
+    postDriverRoadTransportFileCallback(index, url, name){
+        const { identity } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
+        currentPage.find('.post-box').children('.left').children('div').html(`<img src="${url}${identity['individual']}" />`);
+    }
+
+    /**
+     * 上传司机道路运输证回调函数
+     * */
+    postDriverTransportCertificateFileCallback(index, url, name){
+        const { identity } = config;
+        const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
+        currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
+    }
+
     init(f) {
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -437,6 +506,9 @@ class CustomClass {
         window['getWeixinDataFromNative'] = this.getWeixinDataFromNative;
         window['phoneBindFaild'] = this.phoneBindFaild;
         window['weixinBindFaild'] = this.weixinBindFaild;
+        window['postDriverFileCallback'] = this.postDriverFileCallback;
+        window['postDriverRoadTransportFileCallback'] = this.postDriverRoadTransportFileCallback;
+        window['postDriverTransportCertificateFileCallback'] = this.postDriverTransportCertificateFileCallback;
     }
 }
 

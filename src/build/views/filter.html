@@ -10,6 +10,21 @@
                     </a>
                 </div>
             </form>
+            <div class="filter-tab">
+                <div class="filter-tab-title tab1" data-index="0" onclick="apiCount('btn_filter_fishtype');">
+                    <span>全部鱼种</span>
+                    <b class="filter-tab-icon"></b>
+                </div>
+                <div class="filter-tab-title on tab2" data-index="1" onclick="apiCount('btn_filter_location');">
+                    <span>地区</span>
+                    <b class="filter-tab-icon"></b>
+                    <i class="left"></i><i class="right"></i>
+                </div>
+                <div class="filter-tab-title tab3" data-index="2" onclick="apiCount('btn_filter_type');">
+                    <span>出售</span>
+                    <b class="filter-tab-icon"></b>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -21,16 +36,16 @@
         </div>
         <div class="filter-member-img"></div>
         <div class="filter-tab">
-            <div class="filter-tab-title tab1" onclick="apiCount('btn_filter_fishtype');">
+            <div class="filter-tab-title tab1" data-index="0" onclick="apiCount('btn_filter_fishtype');">
                 <span>全部鱼种</span>
                 <b class="filter-tab-icon"></b>
             </div>
-            <div class="filter-tab-title on tab2" onclick="apiCount('btn_filter_location');">
+            <div class="filter-tab-title on tab2" data-index="1" onclick="apiCount('btn_filter_location');">
                 <span>地区</span>
                 <b class="filter-tab-icon"></b>
                 <i class="left"></i><i class="right"></i>
             </div>
-            <div class="filter-tab-title tab3" onclick="apiCount('btn_filter_type');">
+            <div class="filter-tab-title tab3" data-index="2" onclick="apiCount('btn_filter_type');">
                 <span>出售</span>
                 <b class="filter-tab-icon"></b>
             </div>

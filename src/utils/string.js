@@ -410,5 +410,130 @@ module.exports = {
             provinceId,
             cityId
         }
+    },
+
+    /**
+     * 获取所以的省份名字信息
+     * */
+    gerProvinceList: () => {
+        const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+        let list = [];
+        $$.each(_district.root.province, (index, item) => {
+            list.push(item.name);
+        })
+        return list;
+    },
+
+    /**
+     * 获取鱼车填写路线列表中的特殊项标
+     *
+     * */
+    getCreateDriverListLabel: (number) => {
+        let label;
+        switch(number){
+            case 0:
+                label = '①';
+                break;
+            case 1:
+                label = '②';
+                break;
+            case 2:
+                label = '③';
+                break;
+            case 3:
+                label = '④';
+                break;
+            case 4:
+                label = '⑤';
+                break;
+            default:
+                label = '';
+                break;
+        }
+        return label;
+    },
+
+    /**
+     * 获取鱼罐材质id
+     * */
+    getFishTankId: (text) => {
+        let id;
+        switch(text){
+            case '玻璃钢':
+                id = 1;
+                break;
+            case '塑胶':
+                id = 2;
+                break;
+            case '不锈钢':
+                id = 3;
+                break;
+            case '白铁':
+                id = 4;
+                break;
+            case '铁':
+                id = 5;
+                break;
+        }
+        return id;
+    },
+
+    /**
+     * 获取鱼罐材质name
+     * */
+    getFishTankName: (id) => {
+        let name;
+        switch(id){
+            case 1:
+                name = '玻璃钢';
+                break;
+            case 2:
+                name = '塑胶';
+                break;
+            case 3:
+                name = '不锈钢';
+                break;
+            case 4:
+                name = '白铁';
+                break;
+            case 5:
+                name = '铁';
+                break;
+        }
+        return name;
+    },
+
+    /**
+     * 获取氧气罐id
+     * */
+    getOxygenTankId: (text) => {
+        let id;
+        switch(text){
+            case '液氧罐':
+                id = 1;
+                break;
+            case '普通氧气罐':
+                id = 2;
+                break;
+        }
+        return id;
+    },
+
+    /**
+     * 获取氧气罐name
+     * */
+    getOxygenTankName: (id) => {
+        let text;
+        switch(id){
+            case 1:
+                text = '液氧罐';
+                break;
+            case 2:
+                text = '普通氧气罐';
+                break;
+            default:
+                break;
+        }
+        return text;
     }
 }

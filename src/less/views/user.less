@@ -12,7 +12,7 @@
             color: @text-fff;
             .item-content {
                 padding-left: 0;
-                &>div {
+                & > div {
                     padding: 0;
                     &:after {
                         display: none;
@@ -37,8 +37,8 @@
             img {
                 display: block;
                 border-radius: 50%;
-                &.active{
-                    border: 3px solid rgba(238,238,238, 0.5);
+                &.active {
+                    border: 3px solid rgba(238, 238, 238, 0.5);
                 }
             }
 
@@ -81,7 +81,7 @@
                     .user-name {
                         font-size: 1.8rem;
                         .text-hidden;
-                        i.iconfont{
+                        i.iconfont {
                             display: inline-block;
                             margin-left: 0.5rem;
                             vertical-align: middle;
@@ -95,7 +95,7 @@
                             color: @text-level;
                             font-size: 2.2rem;
                         }
-                        span{
+                        span {
                             display: inline-block;
                             max-width: 79%;
                             .text-hidden;
@@ -107,77 +107,142 @@
                 }
             }
         }
-        .user-info-list{
+        .user-info-driver-check {
+            background: @bg-fff;
+            .text-shadow(@bg-fff);
+            p, a {
+                margin: 0;
+                display: none;
+            }
+            &.check, &.reject {
+                line-height: 4rem;
+                padding-left: 1rem;
+                height: 4rem;
+                font-size: 1.6rem;
+                color: @text-category;
+                .iconfont {
+                    font-size: 3rem;
+                    color: @text-chushou;
+                    .ps-r;
+                    top: -0.2rem;
+                }
+                border-bottom: 1px solid @boder-color;
+            }
+            &.check {
+                .driver-checking {
+                    display: block;
+                }
+            }
+            &.reject {
+                .driver-reject {
+                    display: block;
+                }
+            }
+            &.edit {
+                padding-top: 1.2rem;
+                .driver-edit {
+                    width: 75%;
+                    margin-left: 12.5%;
+                    height: 3rem;
+                    line-height: 3rem;
+                    display: block;
+                    background: @bg-edit-btn;
+                    .text-shadow(@bg-edit-btn);
+                    .text-center;
+                    color: @themeColor;
+                    font-size: 1.6rem;
+                    border: 1px solid @themeColor;
+                    border-radius: 0.3rem;
+                }
+            }
+        }
+        .user-info-list {
             background: @bg-fff;
             .text-shadow(@text-fff);
-            a{
+            a {
                 font-size: 1.6rem;
                 .text-center;
-                padding: 1rem 0;
-                &.my-sell-list{
+                padding: 1.5rem 0 1rem;
+                &.my-sell-list {
                     color: @text-chushou-bak;
-                    .num-title{
+                    .num-title {
                         font-size: 1.5rem;
                     }
                 }
-                &.my-buy-list{
+                &.my-buy-list {
                     color: @bg-color;
                 }
                 &.my-collection-list {
                     color: @text-collection;
                 }
-                &>div div{
+                & > div div {
                     color: @text-black;
                     padding-top: 0.3rem;
                 }
             }
         }
-        .user-refresh-auth{
+        .user-refresh-auth {
             margin-top: 1rem;
             padding: 0;
             background: @bg-fff;
             .text-shadow(@text-fff);
-            .col-50{
+            .col-50 {
                 width: 50%;
                 padding: 1.2rem 0;
                 padding-left: 1%;
-                &:last-child{
+                &:last-child {
                     padding-left: 3%;
                 }
-                p{
+                p {
                     margin: 0;
                     .text-hidden;
-                    font-size:1.2rem;
+                    font-size: 1.2rem;
                     color: @text-subtitle;
-                    &:first-child{
-                        font-size:1.6rem;
+                    &:first-child {
+                        font-size: 1.6rem;
                         margin-bottom: 0.3rem;
                         color: @text-name;
                     }
                 }
-                &:first-child{
-                    border-right:1px solid @border-da;
+                &:first-child {
+                    border-right: 1px solid @border-da;
                 }
-                .item-inner{
+                .item-inner {
                     padding: 0;
                     margin-left: 1rem;
-                    &:after{
+                    &:after {
                         display: none;
                     }
                 }
-                .item-media{
+                .item-media {
                     padding: 0;
                     margin-left: 4%;
                 }
             }
         }
         .user-help-list {
-            padding-left: .6rem;
             background: @bg-fff;
             .text-shadow(@text-fff);
+            & > p {
+                height: 1rem;
+                background: @bg-body;
+                width: 100%;
+                display: block;
+                margin: 0;
+                border-top: 1px solid @border-da;
+            }
             a {
                 line-height: 4.4rem;
                 color: @text-subtitle;
+                padding-left: .6rem;
+                &.user-fish-car-driver {
+                    .icon-fish-car:before {
+                        font-size: 3rem;
+                    }
+                    .col-85.first {
+                        border-bottom: 0;
+                    }
+                }
                 .iconfont {
                     font-size: 2.4rem;
                     color: @text-user-icon;
@@ -185,18 +250,21 @@
                 }
                 .col-15 {
                     width: 10%;
-                    &.icon-verification, &.icon-call{
+                    &.icon-verification, &.icon-call {
                         font-size: 2rem;
                     }
                 }
                 .col-85 {
                     width: 90%;
                     padding-right: 0.7rem;
-                    &>div {
+                    & > div {
                         .text-hidden;
                     }
                     &.first {
                         border-bottom: 1px solid @border-da;
+                        &.border-none{
+                            border-bottom: 0;
+                        }
                         .col-60 {
                             width: 45%;
                         }
@@ -315,19 +383,19 @@
     }
 }
 
-
 @media screen and (min-width: 340px) and (max-width: 400px) {
-    .page-user .page-content .user-refresh-auth .col-50{
-        padding-left:4%;
-        &:last-child{
+    .page-user .page-content .user-refresh-auth .col-50 {
+        padding-left: 4%;
+        &:last-child {
             padding-left: 6%;
         }
     }
 }
+
 @media screen and (min-width: 401px) {
-    .page-user .page-content .user-refresh-auth .col-50{
-        padding-left:6%;
-        &:last-child{
+    .page-user .page-content .user-refresh-auth .col-50 {
+        padding-left: 6%;
+        &:last-child {
             padding-left: 8%;
         }
     }

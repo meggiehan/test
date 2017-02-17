@@ -11,6 +11,7 @@ class CustomClass {
         this.doubleClick = true;
         setTimeout(() => {
             this.doubleClick = false;
+            console.log('点击太频繁！');
         }, 300);
         return false;
     }
@@ -242,6 +243,9 @@ class CustomClass {
         ios ? JS_JumpToThirdWeb(url) : window.yudada.JS_JumpToThirdWeb(url);
     }
 
+    /**
+     * 搜索历史操作
+     * */
     searchHistoryActions(type, val) {
         /**
          *  type == 1: save search history;
@@ -255,6 +259,9 @@ class CustomClass {
         ios ? JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
     }
 
+    /**
+     * 跟native获取h5存入的信息
+     * */
     getDataToNative(key) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
@@ -268,6 +275,9 @@ class CustomClass {
         return val ? JSON.parse(val) : val;
     }
 
+    /**
+     * 存入数据到nativve
+     * */
     setDataToNative(key, val) {
         const { ios, android } = window.currentDevice;
         if (!window['JS_SaveObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_SaveObjectWithKey'])) {
@@ -275,6 +285,23 @@ class CustomClass {
         }
         const value = val ? JSON.stringify(val) : '';
         ios ? JS_SaveObjectWithKey(key, value) : window.yudada.JS_SaveObjectWithKey(key, value);
+    }
+
+    /**
+     * 根据key去native获取用户中心的数据
+     * */
+    getUserInfo(key) {
+        const { ios } = window.currentDevice;
+        if (!window['JS_PerferenceGetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceGetShared'])) {
+            return false;
+        }
+        let res;
+        if(ios){
+            res = JS_PerferenceGetShared(key || '');
+        }else{
+            res = window.yudada.JS_PerferenceGetShared(key || '');
+        }
+        return res;
     }
 
     //get app push data.

@@ -74,6 +74,7 @@ class CustomClass {
         url.indexOf('demandInfo/refreshLog/') > - 1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
         url.indexOf('userInformation') > - 1 && (url = url.replace('userInformation', 'userInfo'));
         url.indexOf('listFiltered') > - 1 && (url = url.replace('listFiltered', 'list/filtered'));
+        url.indexOf('postFishCars') > - 1 && (url = url.replace('postFishCars', 'fishCars'));
 
         /**
          * 不同type的API参数处理

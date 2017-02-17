@@ -1,5 +1,5 @@
 import {timeDifference, getDate, getDealTime} from './time';
-import {getCertInfo, imgIsUpload, getName, getInfoStatus, getRange} from './string';
+import {getCertInfo, imgIsUpload, getName, getInfoStatus, getCreateDriverListLabel, getFishTankName} from './string';
 import config from '../config/';
 import store from './locaStorage';
 
@@ -327,42 +327,39 @@ module.exports = {
     fishCar: {
         list: (data) => {
             const {
-                carSizeTagName,
                 contactName,
-                contactPhone,
-                drivingAge,
-                hasTeam,
-                routes,
-                skillTags
+                workingAge,
+                routeList,
+                fishTankSize,
+                fishTankMaterial,
+                id
             } = data;
             let str = '';
-            let text = '';
             let districtList = '';
-            hasTeam && (text += '有车队');
-            skillTags && skillTags.length && $$.each(skillTags, (index, item) => {
-                text += `、${item.name}`
+
+            routeList && routeList.length && $$.each(routeList, (index, item) => {
+                const text = item.departureProvinceName == item.destinationProvinceName ?
+                            `${item.destinationProvinceName}内` :
+                            `${item.departureProvinceName} - ${item.destinationProvinceName}`;
+                districtList += `<span>${text}</span>`;
             })
 
-            routes && routes.length && $$.each(routes, (index, item) => {
-                districtList += `<span>${item.departureProvinceName} - ${item.destinationProvinceName}</span>`;
-            })
-
-            str += '<div class="driver-info">' +
+            str += `<a class="driver-info" href="views/driverDemandInfo.html?id=${id}">` +
                         '<div class="left">' +
-                            '<p class="title">' +
-                            `${contactName} <span>(鱼车${carSizeTagName} | ${drivingAge}年驾龄)</span>` +
-                            '</p>' +
-                            `<p>${text}</p>` +
+                            `<p class="title">${contactName}</p>` +
+                            `<p>鱼车${fishTankSize}方 | ${getFishTankName(fishTankMaterial)}鱼罐</p>` +
                             '<div class="other-info">' +
-                                `<p>线路：${(routes && routes.length) ? (routes.length + '条') : '全国'}</p>` +
+                                `<p>线路：${(routeList && routeList.length) ? (routeList.length + '条') : '全国'}</p>` +
                                 `${districtList ? ('<div>'+ districtList +'</div>') : ''}` +
                             '</div>' +
                         '</div>' +
-                        `<div data-phone="${contactPhone}" class="right iconfont icon-call"></div>` +
-                    '</div>'
+                        `<div class="right">${workingAge}年驾龄</div>` +
+                        '<span class="iconfont icon-right"></span>' +
+                    '</a>'
             return str;
         },
         demandList: (data) => {
+            const {imgPath} = config;
             const {createTime, description, userInfoView} = data;
             const {imgUrl, level, nickname, phone} = userInfoView || {};
             let str = '';
@@ -370,12 +367,12 @@ module.exports = {
                         '<div class="left list-block media-list">' +
                             '<div class="title item-content item-link">' +
                                 '<div class="item-media">' +
-                                    `<img width="50" data-src="${imgUrl}" src="img/app_icon_108.png" alt="">` +
+                                    `<img width="50" data-src="${imgUrl}${imgPath(8)}" src="img/defimg.png" class="lazy">` +
                                 '</div>' +
                                 '<div class="item-inner">' +
                                     '<div class="item-title-row">' +
                                         '<p class="title">' +
-                                        `${nickname || '匿名用户'}<span class="iconfont icon-v${level}"></span>` +
+                                        `${nickname || '匿名用户'}${level ? ('<span class="iconfont icon-v' + level + '"></span>') : ''}` +
                                         '</p>' +
                                         `<p>${timeDifference(createTime)}</p>` +
                                     '</div>' +
@@ -383,11 +380,57 @@ module.exports = {
                                 '</div>' +
                             `<div class="content">${description}</div>` +
                         '</div>' +
-                        `<div class="right iconfont icon-call" data-phone="${phone}"></div>` +
+                        `<div class="demandinfo-right iconfont icon-call" data-phone="${phone}"></div>` +
                     '</div>';
+            return str;
+        },
+        selectAddress: (number, address) => {
+            let res = '';
+            res += '<div class="item-content post-select-address">' +
+                '<div class="item-inner">' +
+                `<div class="item-title" data-index="${number}">路线${getCreateDriverListLabel(number)}</div>` +
+                '<div class="item-input">' +
+                `<input type="text" class="post-driver-name" value="${address}" readonly placeholder="${address}">` +
+                '<span class="iconfont icon-right"></span>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            return res;
+        },
+        addBtn: () => {
+            let res = '';
+            res += '<div class="item-content add-address-click-box add-item-btn" style="display: block">' +
+                '<div class="item-inner add-item-btn">' +
+                '<span class="iconfont icon-add add-item-btn"></span>' +
+                '<span class="add-item-btn">点击添加路线</span>' +
+                '</div>' +
+                '</div>';
+            return res;
+        },
+        tagList: () => {
+            const data = [
+                {id: 39, text: '电动上下鱼装置'},
+                {id: 40, text: '换水桶'},
+                {id: 41, text: '鱼篓'},
+                {id: 42, text: '捞兜'},
+                {id: 43, text: '电子秤'},
+                {id: 44, text: '行车记录仪'},
+            ];
+            let str = '';
+            $$.each(data, (index, item) => {
+                str += `<span data-id="${item.id}">${item.text}</span>`;
+            })
+            return str;
+        }
+
+    },
+    driverDemeandInfo: {
+        device: (data) => {
+            let str = '';
+            $$.each(data, (index, item) => {
+                str += `<span class="col-50 ${index%2 == 0 ? 'on' : ''}"><i class="iconfont icon-tick"></i>${item.tagName}</span>`
+            })
             return str;
         }
     }
-
-
 }

@@ -15,7 +15,9 @@ function isLogin(uuid) {
         store.remove(cacheUserinfoKey);
 
         //更新用户中心登录状态
-        if('user' == mainView.activePage.name && currentPage.find('.login-succ').length){
+        if('user' == mainView.activePage.name &&
+            currentPage.find('.login-succ').length &&
+            !nativeEvent.getDataToNative('weixinData')){
             mainView.router.refreshPage();
         }
         return false;
