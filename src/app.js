@@ -36,7 +36,7 @@ import {fishCarInit} from './js/fishCar';
 import {releaseFishCarDemandInit} from './js/releaseFishCarDemand'
 import {postDriverAuthInit} from './js/postDriverAuth';
 import {postDriverInfoInit} from './js/postDriverInfo';
-import {fishCar} from './utils/template';
+import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
 
 const deviceF7 = new Framework7();

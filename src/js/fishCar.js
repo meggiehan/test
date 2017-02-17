@@ -54,6 +54,7 @@ function fishCarInit(f7, view, page) {
         input: currentPage.find('#select-city-input'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        value: [window.addressObj && window.addressObj.initProvinceName || ''],
         onOpen: (p) => {
             $$('.link.close-picker')[0].onclick = () => {
                 const name = currentPage.find('#select-city-input').val();
