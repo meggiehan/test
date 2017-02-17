@@ -8,6 +8,8 @@ function postDriverAuthInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {id} = page.query;
     const {identity} = config;
+    let defaultAge = '';
+    let defaultTeam = '';
 
     /**
      * 如果存在id，则是修改，反则是新增申请
@@ -33,7 +35,11 @@ function postDriverAuthInit(f7, view, page) {
                 currentPage.find('.post-driver-name').val(nickName);
                 currentPage.find('.post-driver-phone').val(phone);
                 currentPage.find('.post-driver-age').val(`${workingAge}年`);
+                defaultAge = `${workingAge}年`;
+
                 currentPage.find('.post-driver-team').val(hasTeam ? '是' : '否');
+                defaultTeam = hasTeam ? '是' : '否';
+
                 currentPage.find('.post-box').children('.left').find('div').html('<p>身份证已经上传过了，不允许修改！</p>');
                 currentPage.find('.post-box').children('.right').find('div').html(`<img src="${drivingLicence}${identity['individual']}" />`);
             }else{
@@ -59,6 +65,7 @@ function postDriverAuthInit(f7, view, page) {
         input: currentPage.find('.post-driver-age'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [defaultAge || ''],
         cols: [
             {
                 textAlign: 'center',
@@ -75,6 +82,7 @@ function postDriverAuthInit(f7, view, page) {
         input: currentPage.find('.post-driver-team'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [defaultTeam || ''],
         cols: [
             {
                 textAlign: 'center',

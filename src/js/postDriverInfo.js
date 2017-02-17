@@ -10,6 +10,11 @@ function postDriverInfoInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {id} = page.query;
     const {identity} = config;
+    let selectedAddress = '';
+    let selectedFishTankSize = '';
+    let selectFishTankNumber = '';
+    let selectedFishTankMaterial = '';
+    let selectOxygenTankMaterial = '';
 
     /**
      * 路线范围选择
@@ -18,6 +23,7 @@ function postDriverInfoInit(f7, view, page) {
         input: currentPage.find('.post-driver-select-address'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [selectedAddress || ''],
         cols: [
             {
                 textAlign: 'center',
@@ -53,27 +59,13 @@ function postDriverInfoInit(f7, view, page) {
     }
 
     /**
-     * 车队选择框绑定
-     * */
-    f7.picker({
-        input: currentPage.find('.post-driver-team'),
-        toolbarCloseText: '确定',
-        rotateEffect: true,
-        cols: [
-            {
-                textAlign: 'center',
-                values: ['是', '否']
-            }
-        ]
-    });
-
-    /**
      * 鱼罐方数选择
      * */
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-size'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [selectedFishTankSize || ''],
         cols: [
             {
                 textAlign: 'center',
@@ -91,6 +83,7 @@ function postDriverInfoInit(f7, view, page) {
         input: currentPage.find('.post-driver-fish-box-number'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [selectFishTankNumber || ''],
         cols: [
             {
                 textAlign: 'center',
@@ -121,6 +114,7 @@ function postDriverInfoInit(f7, view, page) {
         input: currentPage.find('.post-driver-fish-box'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [selectedFishTankMaterial || ''],
         cols: [
             {
                 textAlign: 'center',
@@ -136,6 +130,7 @@ function postDriverInfoInit(f7, view, page) {
         input: currentPage.find('.post-driver-fish-oxygen-tank'),
         toolbarCloseText: '确定',
         rotateEffect: true,
+        // value: [selectOxygenTankMaterial || ''],
         cols: [
             {
                 textAlign: 'center',
@@ -322,6 +317,7 @@ function postDriverInfoInit(f7, view, page) {
         } = window.driverData;
         //render路线
         if(routeList && routeList.length){
+            selectedAddress = '多条路线';
             currentPage.find('.post-driver-select-address').val('多条路线');
             currentPage.find('.add-address-click-box').remove();
 
@@ -336,20 +332,25 @@ function postDriverInfoInit(f7, view, page) {
                 currentPage.find('.post-driver-select').append(fishCar.addBtn());
             }
         }else{
+            selectedAddress = '全国';
             currentPage.find('.post-driver-select-address').val('全国');
         }
 
         //填写鱼罐材质
         currentPage.find('.post-driver-fish-box').val(getFishTankName(fishTankMaterial));
+        selectedFishTankMaterial = getFishTankName(fishTankMaterial);
 
         //填写鱼罐方数
         currentPage.find('.post-driver-fish-box-size').val(`${fishTankSize}方`);
+        selectedFishTankSize = `${fishTankSize}方`;
 
         //填写分箱数
         currentPage.find('.post-driver-fish-box-number').val(`${fishTankBoxCount}个`);
+        selectFishTankNumber = `${fishTankBoxCount}个`;
 
         //填写氧气罐材质
         currentPage.find('.post-driver-fish-oxygen-tank').val(getOxygenTankName(oxygenTankMaterial));
+        selectOxygenTankMaterial = getOxygenTankName(oxygenTankMaterial);
 
         //填选辅助设备
         if(auxiliaryList && auxiliaryList.length){
