@@ -311,7 +311,7 @@ function filterInit(f7, view, page) {
          * */
         if (classes.indexOf('active-ele') > -1) {
             $$(ele).removeClass('active-ele');
-            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+            $$('.filter-tab-title').removeClass('active-ele');
             currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
             currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
@@ -372,6 +372,7 @@ function filterInit(f7, view, page) {
         if (_type == 1) {
             currentPage.find('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
             currentPage.find('.filter-tab-title').eq(2).find('span').text('求购');
+            currentNavbar.find('.filter-tab-title').eq(2).find('span').text('求购');
             currentPage.find('.tabbat-text').children('span').text('我要买鱼');
         } else {
             currentPage.find('.filter-list').removeClass('buy-list-info').addClass('cat-list-info');
@@ -444,6 +445,7 @@ function filterInit(f7, view, page) {
                 pageNo = 1;
                 isInfinite = false;
                 currentPage.find('.tab3').children('span').text(tabText);
+                currentNavbar.find('.tab3').children('span').text(tabText);
                 customAjax.ajax({
                     apiCategory: 'demandInfo',
                     api: 'list',
@@ -454,6 +456,7 @@ function filterInit(f7, view, page) {
             currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
             currentPage.find('.filter-tab').children('div').removeClass('active-ele');
+            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             currentPage.find('.page-content').removeClass('over-hide');
             currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
         }
@@ -477,6 +480,7 @@ function filterInit(f7, view, page) {
                 // const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
                 // const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
                 currentPage.find('.tab2').children('span').text(getTabStr(districtText));
+                currentNavbar.find('.tab2').children('span').text(getTabStr(districtText));
                 ele.className += ' active-ele';
             }
             pageNo = 1;
