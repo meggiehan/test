@@ -315,6 +315,7 @@ function filterInit(f7, view, page) {
             currentPage.find('.winodw-mask').removeClass('on');
             currentPage.find('.filter-tabs-content').removeClass('on');
             currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
+            currentPage.find('.page-content').removeClass('over-hide');
         } else {
             currentPage.find('.filter-tab').children('div').removeClass('active-ele');
             $$(ele).addClass('active-ele');

@@ -42,7 +42,7 @@ import {driverDemandInfoInit} from  './js/driverDemandInfo';
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
-const {timeout} = config;
+const {timeout, fishCacheObj} = config;
 console.log(`current app update time: ${version.date}!`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -247,6 +247,29 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'postDriverInfo' && postDriverInfoInit(f7, mainView, page);
     page.name === 'recruitDriverSuccess' && f7.hideIndicator();
 });
+
+/**
+ * 返回动画完成之后调用
+ * */
+f7.onPageAfterBack('*', (page) => {
+    const {name} = mainView.activePage;
+    setTimeout(() => {
+        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+        if('home' == name){
+            const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+            if(fishCacheData && fishCacheData.length){
+                let str = '';
+                $$.each(fishCacheData.reverse(), (index, item) => {
+                    if(index <= 2){
+                        str += home.renderFishList(item, index);
+                    }
+                })
+                currentPage.find('.fish-cache-list').html(str);
+                str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
+            }
+        }
+    }, 100)
+})
 
 /*
  * 关闭微信分享model

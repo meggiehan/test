@@ -88,7 +88,7 @@ function fishCarInit(f7, view, page) {
                 if (isRefresh || (1 == pageNo)) {
                     contentBox.html('');
                 }
-                ;
+
                 str && contentBox.append(str);
 
                 //显示全部
@@ -107,6 +107,7 @@ function fishCarInit(f7, view, page) {
                 isShowAll = true;
                 downLoading.hide();
                 showAllText.hide();
+                currentPage.find('.page-content').scrollTop(0);
             }
             f7.pullToRefreshDone();
             if(isRefresh){
@@ -114,7 +115,6 @@ function fishCarInit(f7, view, page) {
             }
             isRefresh = false;
             isInfinite = false;
-            currentPage.find('.page-content').scrollTop(0);
             currentPage.find('img.lazy').trigger('lazy');
         }
     }
