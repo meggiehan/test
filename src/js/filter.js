@@ -498,6 +498,8 @@ function filterInit(f7, view, page) {
                 data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                 type: 'get'
             }, listCallback);
+            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+            currentPage.find('.filter-tab').children('div').removeClass('active-ele');
         }
 
         /**
