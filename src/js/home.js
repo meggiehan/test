@@ -99,17 +99,19 @@ function homeInit(f7, view, page) {
     /**
      * render 最近使用鱼种
      * */
-    const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-    if(fishCacheData && fishCacheData.length){
-        let str = '';
-        $$.each(fishCacheData.reverse(), (index, item) => {
-            if(index <= 2){
-                str += home.renderFishList(item, index);
-            }
-        })
-        currentPage.find('.fish-cache-list').html(str);
-        currentPage.find('.home-fish-cache-list').show();
-    }
+    setTimeout(() => {
+        const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+        if(fishCacheData && fishCacheData.length){
+            let str = '';
+            $$.each(fishCacheData.reverse(), (index, item) => {
+                if(index <= 2){
+                    str += home.renderFishList(item, index);
+                }
+            })
+            currentPage.find('.fish-cache-list').html(str);
+            str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
+        }
+    }, 300);
 
     /**
      * render 首页的信息列表
