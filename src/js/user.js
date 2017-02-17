@@ -20,7 +20,7 @@ function userInit(f7, view, page) {
     f7.hideIndicator();
     const {uuid} = page.query;
     let loginStatus = isLogin(uuid);
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
     const {cacheUserinfoKey, imgPath, mWebUrl} = config;
     let userInfomation = store.get(cacheUserinfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
@@ -203,7 +203,7 @@ function userInit(f7, view, page) {
     /*
     * 进入个人资料
     * */
-    $$('.user-header').off('click', goMyCenter).on('click', goMyCenter);
+    currentPage.find('.user-header')[0].onclick = goMyCenter;
 
     /*
     * 进入实名认证页面
@@ -213,29 +213,29 @@ function userInit(f7, view, page) {
     /*
     * 进入鱼类资质证书管理页面
     * */
-    $$('.go-verification').off('click', uploadCert).on('click', uploadCert);
+    currentPage.find('.go-verification')[0].onclick = uploadCert;
 
     /*
     * 联系客服
     * */
-    $$('.user-help-list>.user-call-service').off('click', contactUs).on('click', contactUs);
+    currentPage.find('.user-call-service')[0].onclick = contactUs;
 
     /*
     * 进入邀请界面
     * */
-    $$('.user-help-list>.user-invit').off('click', inviteFriends).on('click', inviteFriends);
+    currentPage.find('.user-invit')[0].onclick = inviteFriends;
 
     /*
     * 进入我的出售/求购列表/刷新信息列表
     * */
-    $$('.user-info-list>a.my-buy-list').off('click', myListBuy).on('click', myListBuy);
-    $$('.user-info-list>a.my-sell-list').off('click', myListSell).on('click', myListSell);
+    currentPage.find('a.my-buy-list')[0].onclick = myListBuy;
+    currentPage.find('a.my-sell-list')[0].onclick = myListSell;
     currentPage.find('.user-refresh-auth').children()[0].onclick = myListSell;
 
     /*
     * 回到首页
     * */
-    $$('.href-go-home').off('click', goHome).on('click', goHome);
+    currentPage.find('.href-go-home')[0].onclick = goHome;
 
     /*
     * 绑定账号

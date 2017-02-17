@@ -275,7 +275,7 @@ class CustomClass {
                 store.remove(cacheUserinfoKey);
                 setTimeout(() => {
                     mainView.router.load({
-                        url: 'views/user.html?logout=true',
+                        url: 'views/user.html',
                         reload: true
                     })
                 }, 600)

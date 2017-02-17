@@ -24,13 +24,13 @@ function postDriverAuthInit(f7, view, page) {
             if(1 == code){
                 window.driverData = data.data;
                 const {
-                    name,
+                    nickName,
                     phone,
                     workingAge,
                     hasTeam,
                     drivingLicence
                 } = data.data;
-                currentPage.find('.post-driver-name').val(name);
+                currentPage.find('.post-driver-name').val(nickName);
                 currentPage.find('.post-driver-phone').val(phone);
                 currentPage.find('.post-driver-age').val(`${workingAge}年`);
                 currentPage.find('.post-driver-team').val(hasTeam ? '是' : '否');

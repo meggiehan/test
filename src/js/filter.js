@@ -2,7 +2,6 @@ import {trim, html, getTabStr, saveSelectFishCache} from '../utils/string';
 import {home, filter} from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import {filterTabClick} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
@@ -51,6 +50,8 @@ function filterInit(f7, view, page) {
         currentPage.find('.filter-member-img').show();
         currentPage.find('.winodw-mask').addClass("has-img");
         currentPage.find('.filter-tabs-content').addClass('has-img');
+    } else {
+        currentNavbar.find('.filter-tab').show();
     }
 
     /**
@@ -79,20 +80,15 @@ function filterInit(f7, view, page) {
         window.contentScrollTop = top;
         if (member || assurance) {
             if (top > 70) {
-                currentPage.find('.filter-tab').addClass('fix-tab');
-                currentPage.find('.page-content').addClass('filter-fix-tab');
+                currentNavbar.find('.filter-tab').show();
+                currentPage.find('.filter-tab').hide();
+                console.log('show')
             } else {
-                currentPage.find('.filter-tab').removeClass('fix-tab');
-                currentPage.find('.page-content').removeClass('filter-fix-tab');
+                currentNavbar.find('.filter-tab').hide();
+                currentPage.find('.filter-tab').show();
             }
         } else {
-            if (top > 1) {
-                currentPage.find('.filter-tab').addClass('fix-tab');
-                currentPage.find('.page-content').addClass('filter-fix-tab');
-            } else {
-                currentPage.find('.filter-tab').removeClass('fix-tab');
-                currentPage.find('.page-content').removeClass('filter-fix-tab');
-            }
+            currentNavbar.find('.filter-tab').show();
         }
     })
 
@@ -307,7 +303,62 @@ function filterInit(f7, view, page) {
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7)
     }
 
-    $$('.filter-tab').off('click', filterTabClick).on('click', filterTabClick);
+    const selectModelAction = (ele) => {
+        let classes = ele.className;
+        /**
+         * 点击鱼种地区出售弹出筛选model
+         * */
+        if (classes.indexOf('active-ele') > -1) {
+            $$(ele).removeClass('active-ele');
+            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+            currentPage.find('.winodw-mask').removeClass('on');
+            currentPage.find('.filter-tabs-content').removeClass('on');
+            currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
+        } else {
+            currentPage.find('.filter-tab').children('div').removeClass('active-ele');
+            $$(ele).addClass('active-ele');
+            currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
+            currentNavbar.find('.filter-tab').children('div').eq($$(ele).attr('data-index')).addClass('active-ele');
+            currentPage.find('.winodw-mask').addClass('on');
+            currentPage.find('.filter-tabs-content').addClass('on');
+            currentPage.find('.filter-tabs-content').children('div').removeClass('active');
+            classes.indexOf('tab1') > -1 && currentPage.find('div.filter-fish-type').addClass('active');
+            classes.indexOf('tab2') > -1 && currentPage.find('div.filter-district').addClass('active');
+            classes.indexOf('tab3') > -1 && currentPage.find('div.filter-info-type').addClass('active');
+
+            if (window.contentScrollTop && currentPage.children('.has-img').length) {
+                const listTop = 175 - window.contentScrollTop > 95 ? (175 - window.contentScrollTop) : 95;
+                currentPage.find('.filter-tabs-content').css('top', `${listTop}px`);
+                currentPage.find('.winodw-mask').css('transform', `translate3d(0, ${listTop + 2}px ,0)`);
+            } else {
+                if (currentPage.children('.has-img').length) {
+                    currentPage.find('.winodw-mask').css('transform', `translate3d(0, 17.5rem ,0)`);
+                    currentPage.find('.filter-tabs-content').css('top', '17.5rem');
+                } else {
+                    currentPage.find('.winodw-mask').css('transform', `translate3d(0, 9.7rem ,0)`);
+                    currentPage.find('.filter-tabs-content').css('top', '9.5rem');
+                }
+            }
+
+            if (currentPage.children('.has-img').length) {
+                if (currentPage.find('.filter-tab').children('.active-ele').length) {
+                    currentPage.find('.page-content').addClass('over-hide');
+                } else {
+                    currentPage.find('.page-content').removeClass('over-hide');
+                }
+            }
+
+        }
+    }
+
+    currentPage.find('.filter-tab-title').click((e) => {
+        const event = e || window.event;
+        let ele = event.target;
+        if (ele.parentNode.className.indexOf('filter-tab-title') > -1) {
+            ele = ele.parentNode;
+        }
+        selectModelAction(ele);
+    });
 
     /**
      * 是否为发布页面
@@ -486,7 +537,7 @@ function filterInit(f7, view, page) {
         currentPage.find('.toolbar').hide();
     }
 
-    if(release){
+    if (release) {
         currentPage.find('.filter-tab').hide();
         currentPage.find('.filter-tabs-content').css('top', '5.4rem')
     }
@@ -591,6 +642,17 @@ function filterInit(f7, view, page) {
             url: 'views/release.html'
         })
     }
+
+    /**
+     * 头部tab标签切换事件
+     * 有两个tab标签，为了做效果隐藏于显示
+     * */
+    currentNavbar.find('.filter-tab-title').click((e) => {
+        const ele = e.target || window.event.target;
+        const tab = ele.tagName == 'DIV' ? ele : ele.parentNode;
+        const index = $$(tab).attr('data-index');
+        selectModelAction(currentPage.find('.filter-tab-title')[index]);
+    })
 }
 
 module.exports = {

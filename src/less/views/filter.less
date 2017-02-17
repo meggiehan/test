@@ -6,6 +6,61 @@
         form {
             box-shadow: none;
         }
+        .filter-tab {
+            display: none;
+            .ps-r;
+            z-index: 100;
+            border-bottom: 1px solid @border-da;
+            height: 4rem;
+            line-height: 4rem;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            overflow: hidden;
+            font-size: 1.4rem;
+            .filter-tab-title {
+                .text-center;
+                color: @text-search;
+                vertical-align: middle;
+                display: block;
+                float: left;
+                line-height: 4rem;
+                height: 4rem;
+                width: 33%;
+                .text-hidden;
+                .border-box;
+                &.on {
+                    width: 34%;
+                    .ps-r;
+                    &>i {
+                        display: block;
+                        .ps-a;
+                        width: 0;
+                        height: 50%;
+                        padding: 0;
+                        margin: 0;
+                        top: 25%;
+                        border-left: 1px solid @border-da;
+                        &.right {
+                            right: 0;
+                        }
+                        &.left {
+                            left: 0;
+                        }
+                    }
+                }
+                &.active-ele {
+                    color: @themeColor;
+                    b {
+                        .transform(rotate(180deg));
+                        border-top-color: @themeColor;
+                    }
+                }
+                b {
+                    .transform(translate3d(0, -0.2rem, 0));
+                    .transition(all, @appAnimateTime, @appAnimate);
+                }
+            }
+        }
     }
 }
 

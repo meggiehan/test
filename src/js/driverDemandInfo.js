@@ -21,7 +21,7 @@ function driverDemandInfoInit(f7, view, page) {
         const {code, message} = data;
         if(1 == code){
             const {
-                name,
+                contactName,
                 phone,
                 workingAge,
                 hasTeam,
@@ -33,7 +33,7 @@ function driverDemandInfoInit(f7, view, page) {
                 headImgUrl
             } = data.data;
 
-            currentPage.find('.driver-name').text(name);
+            currentPage.find('.driver-name').text(contactName);
             currentPage.find('.driver-other-info').text(`${workingAge}年经验${hasTeam ? '、有车队' : ''}`);
             currentPage.find('.head-tell').attr('data-phone', phone);
 
