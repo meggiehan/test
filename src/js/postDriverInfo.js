@@ -164,11 +164,13 @@ function postDriverInfoInit(f7, view, page) {
         let res = [];
         $$.each(currentPage.find('.post-select-address'), (index, item) => {
             const valArr = $$(item).find('input').val().split('-');
+            const onlyStart = 1 == valArr.length ? valArr[0].substring(0,valArr[0].length-1) : '';
+            const startId = onlyStart ? getProvinceId(onlyStart)['provinceId'] : '';
             res.push({
-                departureProvinceId: getProvinceId(valArr[0])['provinceId'],
-                departureProvinceName: valArr[0],
-                destinationProvinceId: getProvinceId(valArr[1])['provinceId'] || getProvinceId(valArr[0])['provinceId'],
-                destinationProvinceName: valArr[1] || valArr[0],
+                departureProvinceId: startId || getProvinceId(valArr[0])['provinceId'],
+                departureProvinceName: onlyStart || valArr[0],
+                destinationProvinceId: startId || getProvinceId(valArr[1])['provinceId'],
+                destinationProvinceName: onlyStart || valArr[1],
             })
         })
         return res;

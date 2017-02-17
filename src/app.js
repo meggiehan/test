@@ -385,7 +385,7 @@ $$('.edit-driver-address-model-add').click(() => {
             return;
         }
         address = `${$$('.province-select').find('input')
-            .val()}-${$$('.province-select').find('input').val()}`;
+            .val()}内`;
     }else{
         //跨省运鱼
         if('请选择' == $$('.provinces-select').find('input').eq(0).val()){
@@ -402,8 +402,9 @@ $$('.edit-driver-address-model-add').click(() => {
             f7.alert('跨省路线中出发省份不能跟目的地省份相同！');
             return;
         }
-        address = `${$$('.provinces-select').find('input').eq(0)
-            .val()}-${$$('.provinces-select').find('input').eq(1).val()}`;
+        const startVal = $$('.provinces-select').find('input').eq(0).val();
+        const endVal = $$('.provinces-select').find('input').eq(1).val();
+        address = `${startVal}-${endVal}`;
     }
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const length = currentPage.find('.post-select-address').length;
@@ -424,8 +425,7 @@ $$('.edit-driver-address-model-save').click(() => {
             f7.alert('请选择省份！');
             return;
         }
-        address = `${$$('.province-select').find('input')
-            .val()}-${$$('.province-select').find('input').val()}`;
+        address = `${$$('.province-select').find('input').val()}内`;
     }else{
         //跨省运鱼
         if('请选择' == $$('.provinces-select').find('input').eq(0).val()){
@@ -442,8 +442,9 @@ $$('.edit-driver-address-model-save').click(() => {
             f7.alert('跨省路线中出发省份不能跟目的地省份相同！');
             return;
         }
-        address = `${$$('.provinces-select').find('input').eq(0)
-            .val()}-${$$('.provinces-select').find('input').eq(1).val()}`;
+        const startVal = $$('.provinces-select').find('input').eq(0).val();
+        const endVal = $$('.provinces-select').find('input').eq(1).val();
+        address = `${startVal}-${endVal}`;
     }
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     currentPage.find('.post-select-address').find('input').eq(window.addressIndex)
