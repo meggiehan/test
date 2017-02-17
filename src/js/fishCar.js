@@ -50,11 +50,11 @@ function fishCarInit(f7, view, page) {
     $$.each(_district.root.province, (index, item) => {
         provinceArr.push(item.name);
     })
-    f7.picker({
+
+    let pickerObj = {
         input: currentPage.find('#select-city-input'),
         toolbarCloseText: '确定',
         rotateEffect: true,
-        value: [window.addressObj && window.addressObj.initProvinceName || ''],
         onOpen: (p) => {
             $$('.link.close-picker')[0].onclick = () => {
                 const name = currentPage.find('#select-city-input').val();
@@ -70,7 +70,12 @@ function fishCarInit(f7, view, page) {
                 values: provinceArr
             }
         ]
-    });
+    }
+    if(window.addressObj && window.addressObj.initProvinceName){
+        provinceArr.indexOf(window.addressObj.initProvinceName) > -1 &&
+        (pickerObj.value = [window.addressObj.initProvinceName]);
+    }
+    f7.picker(pickerObj);
 
     function callback(res, type) {
         const {code, message, data} = res;
