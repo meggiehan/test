@@ -10,6 +10,33 @@ div[data-page="fishCar"] {
                 color: @text-name;
             }
         }
+        .filter-tab {
+            height: 4rem;
+            line-height: 4rem;
+            overflow: hidden;
+            width: 100%;
+            .ps-a;
+            left: 0;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            top: 5.4rem;
+            display: none;
+            border-bottom:1px solid @boder-da;
+            .filter-tab-title {
+                width: 40%;
+                margin: 0 5%;
+                display: block;
+                float: left;
+                color: @text-category;
+                font-size: 1.6rem;
+                &.on {
+                    width: 40%;
+                    color: @text-test;
+                    border-bottom: 2px solid @text-test;
+                    .box-size();
+                }
+            }
+        }
     }
     .page-content {
         position: static;

@@ -10,6 +10,7 @@ function fishCarInit(f7, view, page) {
     const {pageSize, cacheUserinfoKey} = config;
     const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const contentBox = currentPage.find('.page-list-view').children('.list');
     const showAllText = currentPage.find('.filter-search-empty-info');
     const downLoading = currentPage.find('.infinite-scroll-preloader');
@@ -182,6 +183,41 @@ function fishCarInit(f7, view, page) {
     })
 
     /**
+     * 点击找司机
+     * */
+    const driverList = () => {
+        isFishCarList = true;
+        currentPage.find('.select-city').show();
+        currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
+        apiCount('btn_fishcar_tab_drivers');
+        currentPage.find('.filter-tab').children('div').removeClass('on').eq(0).addClass('on');
+        currentNavbar.find('.filter-tab').children('div').removeClass('on').eq(0).addClass('on');
+        getList(false);
+    }
+
+    /**
+     * 点击我要拉货
+     * */
+    const getDemandInfo = () => {
+        isFishCarList = false;
+        currentPage.find('.select-city').hide();
+        currentPage.find('.tabbat-text').children('span').text('鱼车司机登记');
+        apiCount('btn_fishcar_tab_demands');
+        currentPage.find('.filter-tab').children('div').removeClass('on').eq(1).addClass('on');
+        currentNavbar.find('.filter-tab').children('div').removeClass('on').eq(1).addClass('on');
+        getList(false);
+    }
+
+    currentNavbar.find('.filter-tab-title').click((e) => {
+        const ele = e.target || window.event.target;
+        if($$(ele).text() == '找司机'){
+            driverList();
+        }else{
+            getDemandInfo();
+        }
+    })
+
+    /**
      * 切换鱼车跟需求列表
      * */
     currentPage.find('.filter-tab')[0].onclick = (e) => {
@@ -205,29 +241,25 @@ function fishCarInit(f7, view, page) {
         const text = $$(ele).text();
         isFishCarList = '找司机' == text;
         if (isFishCarList) {
-            currentPage.find('.select-city').show();
-            currentPage.find('.tabbat-text').children('span').text('发布叫鱼车信息');
-            apiCount('btn_fishcar_tab_drivers');
+            driverList();
         } else {
-            currentPage.find('.select-city').hide();
-            currentPage.find('.tabbat-text').children('span').text('鱼车司机登记');
-            apiCount('btn_fishcar_tab_demands');
+            getDemandInfo();
         }
-        currentPage.find('.filter-tab').children('div').removeClass('on');
-        $$(ele).addClass('on');
-        getList(false);
     }
 
     /**
      * 列表滚动监听
      * */
+    currentNavbar.find('.filter-tab').hide();
     currentPage.find('.page-content').scroll(() => {
         const top = currentPage.find('.page-content').scrollTop();
         if (top > 100) {
-            currentPage.find('.filter-tab').addClass('fix-tab');
+            currentNavbar.find('.filter-tab').show();
+            currentPage.find('.filter-tab').hide();
             currentPage.find('.page-content').css('padding-top', '9.4rem');
         } else {
-            currentPage.find('.filter-tab').removeClass('fix-tab');
+            currentNavbar.find('.filter-tab').hide();
+            currentPage.find('.filter-tab').show();
             currentPage.find('.page-content').css('padding-top', '5.4rem');
         }
     })

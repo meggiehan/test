@@ -14,59 +14,6 @@ const f7 = new framework7({
 });
 const {servicePhoneNumber} = config;
 module.exports = {
-    filterTabClick: (e) => {
-        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-        const event = e || window.event;
-        let ele = event.target;
-        let classes = ele.className;
-        const clickTab = () => {
-            if (classes.indexOf('active-ele') > -1) {
-                ele.className = classes.replace('active-ele', '');
-                currentPage.find('.winodw-mask').removeClass('on');
-                currentPage.find('.filter-tabs-content').removeClass('on');
-                currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
-            } else {
-                currentPage.find('.filter-tab').children('div').removeClass('active-ele');
-                ele.className += ' active-ele';
-                currentPage.find('.winodw-mask').addClass('on');
-                currentPage.find('.filter-tabs-content').addClass('on');
-                currentPage.find('.filter-tabs-content').children('div').removeClass('active');
-                classes.indexOf('tab1') > -1 && currentPage.find('div.filter-fish-type').addClass('active');
-                classes.indexOf('tab2') > -1 && currentPage.find('div.filter-district').addClass('active');
-                classes.indexOf('tab3') > -1 && currentPage.find('div.filter-info-type').addClass('active');
-
-                if (window.contentScrollTop && currentPage.children('.has-img').length) {
-                    const listTop = 175 - window.contentScrollTop > 95 ? (175 - window.contentScrollTop) : 95;
-                    currentPage.find('.filter-tabs-content').css('top', `${listTop}px`);
-                    currentPage.find('.winodw-mask').css('transform', `translate3d(0, ${listTop + 2}px ,0)`);
-                }else{
-                    if(currentPage.children('.has-img').length){
-                        currentPage.find('.winodw-mask').css('transform', `translate3d(0, 17.5rem ,0)`);
-                        currentPage.find('.filter-tabs-content').css('top', '17.5rem');
-                    }else{
-                        currentPage.find('.winodw-mask').css('transform', `translate3d(0, 9.7rem ,0)`);
-                        currentPage.find('.filter-tabs-content').css('top', '9.5rem');
-                    }
-                }
-            }
-
-            if (currentPage.children('.has-img').length) {
-                if (currentPage.find('.filter-tab').children('.active-ele').length) {
-                    currentPage.find('.page-content').addClass('over-hide');
-                } else {
-                    currentPage.find('.page-content').removeClass('over-hide');
-                }
-            }
-        }
-        if (ele.parentNode.className.indexOf('filter-tab-title') > -1) {
-            ele = ele.parentNode;
-            classes = ele.className;
-            clickTab();
-        } else if (classes.indexOf('filter-tab-title') > -1) {
-            clickTab();
-        }
-    },
-
     detailClickTip: () => {
         const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         const lastHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);

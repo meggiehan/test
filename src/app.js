@@ -457,7 +457,7 @@ $$('.edit-driver-address-model-delete').click(() => {
     currentPage.find('.post-select-address').eq(window.addressIndex).remove();
     const itemLen = currentPage.find('.post-select-address').length;
     for(let i=0;i<itemLen;i++){
-        if(i <= window.addressIndex){
+        if(i <= (itemLen - window.addressIndex)){
             currentPage.find('.post-select-address').eq(i)
                 .find('.item-title').text(`路线${getCreateDriverListLabel(i)}`).attr('data-index', i);
         }
