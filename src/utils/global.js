@@ -180,7 +180,7 @@ class CustomClass {
             f7.hidePreloader();
         }else if('bindAccount' == mainView.activePage.name){
             mainView.router.refreshPage();
-            mainView.router.refreshPreviousPage();
+            // mainView.router.refreshPreviousPage();
             f7.hidePreloader();
         }else{
             const loginCallback = (data) => {

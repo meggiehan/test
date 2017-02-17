@@ -112,6 +112,11 @@ let initAppConfig = {
                 })
                 return false;
             }
+            if('bindAccount' == mainView.activePage.name){
+                setTimeout(() => {
+                    mainView.router.refreshPage();
+                }, 400);
+            }
             $$('.release-select-model').removeClass('on');
             if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7) {
                 f7.modal({

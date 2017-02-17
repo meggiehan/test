@@ -108,9 +108,12 @@ function fishCarInit(f7, view, page) {
                 downLoading.hide();
                 showAllText.hide();
             }
+            f7.pullToRefreshDone();
+            if(isRefresh){
+                currentNavbar.find('.filter-tab').hide();
+            }
             isRefresh = false;
             isInfinite = false;
-            f7.pullToRefreshDone();
             currentPage.find('img.lazy').trigger('lazy');
         }
     }
@@ -179,6 +182,7 @@ function fishCarInit(f7, view, page) {
         isShowAll = false;
         pageNo = 1;
         const isMandatory = !!nativeEvent['getNetworkStatus']();
+        currentNavbar.find('.filter-tab').hide();
         getList(isMandatory);
     })
 
