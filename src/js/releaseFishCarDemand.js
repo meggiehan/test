@@ -37,7 +37,7 @@ function releaseFishCarDemandInit(f7, view, page) {
                 setTimeout(() => {
                     const prevPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
                     prevPage.find('.filter-tab').children().eq(1).trigger('click');
-                }, 500)
+                }, 700)
             } else {
                 console.log(message);
             }
