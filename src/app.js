@@ -317,7 +317,9 @@ $$('.view-login>.navbar').click((e) => {
  * 调用native定位，获取当前定位信息
  * */
 if (!window['addressObj']) {
-    nativeEvent.getAddress();
+    setTimeout(() => {
+        nativeEvent.getAddress();
+    }, 500);
 }
 
 /**
