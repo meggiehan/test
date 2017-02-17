@@ -296,7 +296,7 @@ function userInit(f7, view, page) {
         }
     }
 
-    currentPage.find('.driver-reject')[0] = () => {
+    currentPage.find('.driver-reject')[0].onclick = () => {
         apiCount('btn_myCenter_driverRefuseReason');
         const message = currentPage.find('.driver-reject').attr('data-message');
         f7.alert(message);

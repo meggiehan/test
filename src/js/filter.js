@@ -59,6 +59,7 @@ function filterInit(f7, view, page) {
      * */
     const refreshFunc = () => {
         const isMandatory = !!nativeEvent['getNetworkStatus']();
+        currentNavbar.find('.filter-tab').hide();
         pullToRefresh = true;
         isShowAll = false;
         pageNo = 1;
@@ -122,6 +123,9 @@ function filterInit(f7, view, page) {
         }
 
         f7.pullToRefreshDone();
+        if(pullToRefresh){
+            currentNavbar.find('.filter-tab').hide();
+        }
         $$('img.lazy').trigger('lazy');
         currentPage.find('.tabbar').show();
         const listLength = currentPage.find('.filter-list').children('a').length;
@@ -141,7 +145,6 @@ function filterInit(f7, view, page) {
             load.hide();
             showAllInfo.show();
         }
-
         f7.hideIndicator();
         pullToRefresh = false;
         isInfinite = false;
