@@ -50,8 +50,6 @@ function filterInit(f7, view, page) {
         currentPage.find('.filter-member-img').show();
         currentPage.find('.winodw-mask').addClass("has-img");
         currentPage.find('.filter-tabs-content').addClass('has-img');
-    } else {
-        currentNavbar.find('.filter-tab').show();
     }
 
     /**
@@ -59,7 +57,6 @@ function filterInit(f7, view, page) {
      * */
     const refreshFunc = () => {
         const isMandatory = !!nativeEvent['getNetworkStatus']();
-        currentNavbar.find('.filter-tab').hide();
         pullToRefresh = true;
         isShowAll = false;
         pageNo = 1;
@@ -89,7 +86,11 @@ function filterInit(f7, view, page) {
                 currentPage.find('.filter-tab').show();
             }
         } else {
-            currentNavbar.find('.filter-tab').show();
+            if(top < 2){
+                currentNavbar.find('.filter-tab').hide();
+            }else{
+                currentNavbar.find('.filter-tab').show();
+            }
         }
     })
 
@@ -123,9 +124,6 @@ function filterInit(f7, view, page) {
         }
 
         f7.pullToRefreshDone();
-        if(pullToRefresh){
-            currentNavbar.find('.filter-tab').hide();
-        }
         $$('img.lazy').trigger('lazy');
         currentPage.find('.tabbar').show();
         const listLength = currentPage.find('.filter-list').children('a').length;
@@ -542,6 +540,7 @@ function filterInit(f7, view, page) {
 
     if (release) {
         currentPage.find('.filter-tab').hide();
+        currentNavbar.find('.filter-tab').hide();
         currentPage.find('.filter-tabs-content').css('top', '5.4rem')
     }
 

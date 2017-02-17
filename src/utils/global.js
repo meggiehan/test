@@ -179,8 +179,9 @@ class CustomClass {
             mainView.router.refreshPage();
             f7.hidePreloader();
         }else if('bindAccount' == mainView.activePage.name){
-            mainView.router.refreshPage();
-            // mainView.router.refreshPreviousPage();
+            mainView.router.load({
+                url: 'views/user.html'
+            })
             f7.hidePreloader();
         }else{
             const loginCallback = (data) => {
