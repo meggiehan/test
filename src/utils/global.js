@@ -174,8 +174,13 @@ class CustomClass {
          */
         !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
         loginViewHide();
+        f7.hideIndicator();
         if('user' == mainView.activePage.name){
             mainView.router.refreshPage();
+            f7.hidePreloader();
+        }else if('bindAccount' == mainView.activePage.name){
+            mainView.router.refreshPage();
+            mainView.router.refreshPreviousPage();
             f7.hidePreloader();
         }else{
             const loginCallback = (data) => {
@@ -386,6 +391,7 @@ class CustomClass {
             loginView.router.load({
                 url: 'views/bindPhone.html?notBindPhone=true'
             })
+            mainView.router.refreshPage();
         }
         if(mainView.url && mainView.url.indexOf('bindAccount') > -1){
             mainView.router.refreshPage();

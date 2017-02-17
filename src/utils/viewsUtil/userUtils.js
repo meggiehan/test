@@ -129,7 +129,9 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                     currentPage.find('.user-info-driver-check').addClass('reject');
                     currentPage.find('.driver-reject').attr('data-message', driverRefuseDescribe);
                 }
+                currentPage.find('.user-invit').children('div').eq(1).addClass('border-none');
             }else{
+                currentPage.find('.user-invit').children('div').eq(1).removeClass('border-none');
                 currentPage.find('.user-fish-car-driver').css({
                     display: '-webkit-box'
                 });

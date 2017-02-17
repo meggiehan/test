@@ -95,6 +95,10 @@ function fishCarInit(f7, view, page) {
                     isShowAll = true;
                     downLoading.hide();
                     showAllText.show();
+                }else{
+                    downLoading.show();
+                    showAllText.hide();
+                    isShowAll = false;
                 }
             } else if (pageNo == 1) {
                 contentBox.html('');
