@@ -87,6 +87,7 @@ function fishCarInit(f7, view, page) {
                 })
 
                 if (isRefresh || (1 == pageNo)) {
+                    currentPage.find('.page-content').scrollTop(0);
                     contentBox.html('');
                 }
 
@@ -102,15 +103,12 @@ function fishCarInit(f7, view, page) {
                     showAllText.hide();
                     isShowAll = false;
                 }
-            }
-
-            if (pageNo == 1) {
+            }else if (pageNo == 1) {
                 contentBox.html('');
                 emptyContent.show();
                 isShowAll = true;
                 downLoading.hide();
                 showAllText.hide();
-                currentPage.find('.page-content').scrollTop(0);
             }
 
             f7.pullToRefreshDone();
