@@ -268,7 +268,7 @@ f7.onPageAfterBack('*', (page) => {
                 str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
             }
         }
-    }, 100)
+    }, 250)
 })
 
 /*

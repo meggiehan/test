@@ -111,7 +111,7 @@ function homeInit(f7, view, page) {
             currentPage.find('.fish-cache-list').html(str);
             str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
         }
-    }, 300);
+    }, 400);
 
     /**
      * render 首页的信息列表

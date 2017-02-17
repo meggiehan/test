@@ -101,7 +101,9 @@ function fishCarInit(f7, view, page) {
                     showAllText.hide();
                     isShowAll = false;
                 }
-            } else if (pageNo == 1) {
+            }
+
+            if (pageNo == 1) {
                 contentBox.html('');
                 emptyContent.show();
                 isShowAll = true;
@@ -109,6 +111,7 @@ function fishCarInit(f7, view, page) {
                 showAllText.hide();
                 currentPage.find('.page-content').scrollTop(0);
             }
+
             f7.pullToRefreshDone();
             if(isRefresh){
                 currentNavbar.find('.filter-tab').hide();
