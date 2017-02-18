@@ -16,7 +16,7 @@ function releaseFishCarDemandInit(f7, view, page) {
         return;
     }
 
-    const loginName = store.get(cacheUserinfoKey)['loginName'];
+    const loginName = store.get(cacheUserinfoKey) ? store.get(cacheUserinfoKey)['loginName'] : '';
     currentPage.find('.release-phone').text(loginName);
 
     currentPage.find('.toolbar-inner').children('a')[0].onclick = () => {
@@ -26,8 +26,6 @@ function releaseFishCarDemandInit(f7, view, page) {
             f7.alert('请您填写具体需求，越清楚越容易被鱼车司机联系！', '温馨提示');
             return;
         }
-
-        apiCount('btn_fishcar_postDemands');
 
         function callback(data) {
             const {code, message} = data;

@@ -71,7 +71,7 @@ function fishCarInit(f7, view, page) {
             }
         ]
     }
-    if(window.addressObj && window.addressObj.initProvinceName){
+    if (window.addressObj && window.addressObj.initProvinceName) {
         provinceArr.indexOf(window.addressObj.initProvinceName) > -1 &&
         (pickerObj.value = [window.addressObj.initProvinceName]);
     }
@@ -103,12 +103,12 @@ function fishCarInit(f7, view, page) {
                     isShowAll = true;
                     downLoading.hide();
                     showAllText.show();
-                }else{
+                } else {
                     downLoading.show();
                     showAllText.hide();
                     isShowAll = false;
                 }
-            }else if (pageNo == 1) {
+            } else if (pageNo == 1) {
                 contentBox.html('');
                 emptyContent.show();
                 isShowAll = true;
@@ -117,7 +117,7 @@ function fishCarInit(f7, view, page) {
             }
 
             f7.pullToRefreshDone();
-            if(isRefresh){
+            if (isRefresh) {
                 currentNavbar.find('.filter-tab').hide();
             }
             isRefresh = false;
@@ -224,9 +224,9 @@ function fishCarInit(f7, view, page) {
 
     currentNavbar.find('.filter-tab-title').click((e) => {
         const ele = e.target || window.event.target;
-        if($$(ele).text() == '找司机'){
+        if ($$(ele).text() == '找司机') {
             driverList();
-        }else{
+        } else {
             getDemandInfo();
         }
     })
@@ -295,27 +295,68 @@ function fishCarInit(f7, view, page) {
      * */
     currentPage.find('.fish-car-release')[0].onclick = () => {
         if (isFishCarList) {
-            if (!isLogin()) {
-                f7.alert('手机号登录后才能发布需求，请您先登录！', '温馨提示', loginViewShow);
-                return;
-            }
-            mainView.router.load({
-                url: 'views/releaseFishCarDemand.html'
-            })
+            apiCount('btn_fishcar_postDemands');
         } else {
             apiCount('btn_fishcar_registerDriver');
-            if (!isLogin()) {
+        }
+        if (isLogin()) {
+            if(!store.get(cacheUserinfoKey)){
+                f7.showIndicator();
+                const loginCallback = (data) => {
+                    const {code, message} = data;
+                    if (1 == code) {
+                        store.set(cacheUserinfoKey, data.data);
+                        nativeEvent.setUerInfoToNative({
+                            inviterId: data.data.inviterId
+                        });
+                        if (isFishCarList) {
+                            mainView.router.load({
+                                url: 'views/releaseFishCarDemand.html'
+                            })
+                        } else {
+                            if (store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['fishCarDriverId']) {
+                                f7.alert('您已经登记过司机了！');
+                                return;
+                            }
+                            view.router.load({
+                                url: 'views/postDriverAuth.html'
+                            })
+                        }
+                    } else {
+                        console.log(message);
+                    }
+                    f7.hideIndicator();
+                }
+                customAjax.ajax({
+                    apiCategory: 'auth',
+                    header: ['token'],
+                    type: 'get',
+                    noCache: true,
+                }, loginCallback);
+            }else{
+                if (isFishCarList) {
+                    mainView.router.load({
+                        url: 'views/releaseFishCarDemand.html'
+                    })
+                } else {
+                    if (store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['fishCarDriverId']) {
+                        f7.alert('您已经登记过司机了！');
+                        return;
+                    }
+                    view.router.load({
+                        url: 'views/postDriverAuth.html'
+                    })
+                }
+            }
+
+        } else{
+            if (isFishCarList) {
+                f7.alert('手机号登录后才能发布需求，请您先登录！', '温馨提示', loginViewShow);
+                return;
+            } else {
                 f7.alert('手机号登录后才能进行司机登录流程，请您先登录！', '温馨提示', loginViewShow);
                 return;
             }
-
-            if(store.get(cacheUserinfoKey)['fishCarDriverId']){
-                f7.alert('您已经登记过司机了！');
-                return;
-            }
-            view.router.load({
-                url: 'views/postDriverAuth.html'
-            })
         }
     }
 }
