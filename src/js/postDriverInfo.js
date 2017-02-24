@@ -118,7 +118,7 @@ function postDriverInfoInit(f7, view, page) {
         cols: [
             {
                 textAlign: 'center',
-                values: ['玻璃钢', '塑胶', '不锈钢', '白铁', '铁']
+                values: ['玻璃钢', '塑胶', '不锈钢', '白铁', '铁', '铝']
             }
         ]
     });
