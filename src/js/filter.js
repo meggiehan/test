@@ -77,13 +77,14 @@ function filterInit(f7, view, page) {
         const top = currentPage.find('.page-content').scrollTop();
         window.contentScrollTop = top;
         if (member || assurance) {
-            if (top > 70) {
+            if (top > 79) {
                 currentNavbar.find('.filter-tab').show();
                 currentPage.find('.filter-tab').hide();
-                console.log('show')
+                currentPage.find('.page-content').css('padding-top', '9.4rem');
             } else {
                 currentNavbar.find('.filter-tab').hide();
                 currentPage.find('.filter-tab').show();
+                currentPage.find('.page-content').css('padding-top', '5.4rem');
             }
         } else {
             if(top < 2){
@@ -221,8 +222,10 @@ function filterInit(f7, view, page) {
             })
         }
         // }
-
-        fishTypeNameQuery && currentPage.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
+        if(fishTypeNameQuery){
+            currentPage.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
+            currentNavbar.find('.tab1').children('span').text(getTabStr(fishTypeNameQuery));
+        }
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
 
