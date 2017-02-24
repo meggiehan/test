@@ -93,7 +93,7 @@ function releaseSuccInit(f7, view, page) {
             return;
         }
         let strHtml = '';
-        $$.each(data.data.list, (index, item) => {
+        $$.each(data.data, (index, item) => {
             if (2 == type) {
                 strHtml += home.buy(item);
             } else {

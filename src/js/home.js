@@ -44,7 +44,6 @@ function homeInit(f7, view, page) {
          * */
         if(window.yudadaSwiper){
             window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
-            window.yudadaSwiper = null;
         }
         if (data.length > 1) {
             window.yudadaSwiper = f7.swiper('.swiper-slow', {
@@ -58,7 +57,11 @@ function homeInit(f7, view, page) {
                 loop: true,
                 autoplayDisableOnInteraction: true,
                 onTouchStart: (swiper, e) => {
-                    window.yudadaSwiper.stopAutoplay();
+                    if($$.isArray(window.yudadaSwiper)){
+                        window.yudadaSwiper[window.yudadaSwiper.length - 1].stopAutoplay();
+                    }else{
+                        window.yudadaSwiper.stopAutoplay();
+                    }
                 },
                 onTouchEnd: (swiper, e) => {
                     /*
@@ -68,7 +71,11 @@ function homeInit(f7, view, page) {
                         const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
                         currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
                         currentPage.find('.swiper-pagination').children('span').removeClass('hide');
-                        window.yudadaSwiper.startAutoplay();
+                        if($$.isArray(window.yudadaSwiper)){
+                            window.yudadaSwiper[window.yudadaSwiper.length - 1].startAutoplay();
+                        }else{
+                            window.yudadaSwiper.startAutoplay();
+                        }
                     }, 80)
                 }
             })
@@ -138,7 +145,7 @@ function homeInit(f7, view, page) {
 
         //pull to refresh done.
         f7.pullToRefreshDone();
-        $$('img.lazy').trigger('lazy');
+        currentPage.find('img.lazy').trigger('lazy');
     }
     /*
      * 获取首页信息
