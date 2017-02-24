@@ -23,11 +23,11 @@ function fishCarInit(f7, view, page) {
     let isShowAll = false;
     let isRefresh = false;
 
-    if (window.addressObj) {
-        if (window.addressObj.initProvinceName) {
-            provinceId = getProvinceId(window.addressObj.initProvinceName)['provinceId'];
-        }
-    }
+    // if (window.addressObj) {
+    //     if (window.addressObj.initProvinceName) {
+    //         provinceId = getProvinceId(window.addressObj.initProvinceName)['provinceId'];
+    //     }
+    // }
 
     /**
      * 初始化render省份信息
@@ -37,11 +37,11 @@ function fishCarInit(f7, view, page) {
         rootDistrict += filter.districtRender(item);
     })
     html(currentPage.find('.district-model').children('.list-item'), rootDistrict, f7);
-    if (!!provinceId) {
-        currentPage.find('.list-item').children('span').removeClass('active-ele');
-        currentPage.find('span[data-postcode="' + provinceId + '"]').addClass('active-ele');
-        currentPage.find('.select-city').children().find('span').text(window.addressObj.initProvinceName);
-    }
+    // if (!!provinceId) {
+    //     currentPage.find('.list-item').children('span').removeClass('active-ele');
+    //     currentPage.find('span[data-postcode="' + provinceId + '"]').addClass('active-ele');
+    //     currentPage.find('.select-city').children().find('span').text(window.addressObj.initProvinceName);
+    // }
 
     /**
      * 调用f7选择组件

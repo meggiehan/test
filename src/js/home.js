@@ -138,7 +138,7 @@ function homeInit(f7, view, page) {
 
         //pull to refresh done.
         f7.pullToRefreshDone();
-        $$('img.lazy').trigger('lazy');
+        currentPage.find('img.lazy').trigger('lazy');
     }
     /*
      * 获取首页信息

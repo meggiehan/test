@@ -223,10 +223,6 @@ function postDriverInfoInit(f7, view, page) {
         const fishOxygenTank = trim(currentPage.find('.post-driver-fish-oxygen-tank').val());
         let errors = '';
 
-        if(2 !== currentPage.find('.post-box').children().find('img').length){
-            errors = '请上传完整的证件照片！';
-        }
-
         if(!fishOxygenTank){
             errors = '请选择氧气罐材质！';
         }
@@ -256,6 +252,11 @@ function postDriverInfoInit(f7, view, page) {
             return;
         }
         f7.showIndicator();
+        const roadTransportQualificationCertificate = currentPage.find('.post-box').children('.left').find('img').length ?
+            currentPage.find('.post-box').children('.left').find('img').eq(0).attr('src').split('@')[0] : '';
+        const roadTransportCertificate = currentPage.find('.post-box').children('.right').find('img').length ?
+            currentPage.find('.post-box').children('.right').find('img').eq(0).attr('src').split('@')[0] : '';
+
         let data = {
             contactName: window.authObj.name,
             contactPhone: window.authObj.phone,
@@ -263,8 +264,8 @@ function postDriverInfoInit(f7, view, page) {
             hasTeam: '是' == window.authObj.team,
             positiveIdUrl: window.authObj.authUrl,
             drivingLicence: window.authObj.driverUrl,
-            roadTransportQualificationCertificate: currentPage.find('.post-box').children().find('img').eq(0).attr('src').split('@')[0],
-            roadTransportCertificate: currentPage.find('.post-box').children().find('img').eq(1).attr('src').split('@')[0],
+            roadTransportQualificationCertificate,
+            roadTransportCertificate,
             fishTankMaterial: getFishTankId(fishTank),
             fishTankSize: Number(fishTankSize.replace('方', '')),
             fishTankBoxCount: Number(fishBoxNumber.replace('个', '')),
@@ -360,8 +361,10 @@ function postDriverInfoInit(f7, view, page) {
         }
 
         //填写证件
-        currentPage.find('.post-box').children('.left').children('div').html(`<img src="${roadTransportQualificationCertificate}${identity['individual']}" />`);
-        currentPage.find('.post-box').children('.right').children('div').html(`<img src="${roadTransportCertificate}${identity['individual']}" />`);
+        roadTransportQualificationCertificate && currentPage.find('.post-box').children('.left').children('div').
+        html(`<img src="${roadTransportQualificationCertificate}${identity['individual']}" />`);
+        roadTransportCertificate && currentPage.find('.post-box').children('.right').children('div').
+        html(`<img src="${roadTransportCertificate}${identity['individual']}" />`);
     }
 }
 

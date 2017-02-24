@@ -362,12 +362,14 @@ module.exports = {
             const {imgPath} = config;
             const {createTime, description, userInfoView} = data;
             const {imgUrl, level, nickname, phone} = userInfoView || {};
+            const imgStr = imgUrl ? `<img width="50" data-src="${imgUrl}${imgPath(8)}" src="img/defimg.png" class="lazy">` :
+                `<img width="50" src="img/defimg.png">`;
             let str = '';
             str += '<div class="driver-info">' +
                         '<div class="left list-block media-list">' +
                             '<div class="title item-content item-link">' +
                                 '<div class="item-media">' +
-                                    `<img width="50" data-src="${imgUrl}${imgPath(8)}" src="img/defimg.png" class="lazy">` +
+                                    imgStr +
                                 '</div>' +
                                 '<div class="item-inner">' +
                                     '<div class="item-title-row">' +

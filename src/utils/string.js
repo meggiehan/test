@@ -319,6 +319,7 @@ module.exports = {
             return '';
         }
         let res = val;
+        let isReplace = false;
         const ranges = [
             // '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
             // '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
@@ -334,7 +335,10 @@ module.exports = {
             '%'
         ];
         $$.each(ranges, (index, item) => {
-            val.indexOf(item) > -1 && (res = res.replace(item, ''));
+            if(val.indexOf(item) > -1){
+                isReplace = true;
+                res = res.replace(item, '')
+            }
         })
         // res = res.replace(new RegExp(ranges.join('|'), 'g'), '')
         // .replace(/\ud83d[\ude00-\ude4f]/g, '')
@@ -342,7 +346,7 @@ module.exports = {
         // .replace(/[\uE000-\uF8FF]/g, '')
         // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
         // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
-        return res;
+        return isReplace ? res : '';
     },
 
     saveSelectFishCache: (obj) => {
@@ -474,6 +478,12 @@ module.exports = {
             case '铁':
                 id = 5;
                 break;
+            case '铝':
+                id = 6;
+                break;
+            default:
+                id = 0;
+                break;
         }
         return id;
     },
@@ -499,6 +509,12 @@ module.exports = {
             case 5:
                 name = '铁';
                 break;
+            case 6:
+                name = '铝';
+                break;
+            default:
+                name = '未知';
+                break;
         }
         return name;
     },
@@ -514,6 +530,9 @@ module.exports = {
                 break;
             case '普通氧气罐':
                 id = 2;
+                break;
+            default:
+                id = 0;
                 break;
         }
         return id;
@@ -532,6 +551,7 @@ module.exports = {
                 text = '普通氧气罐';
                 break;
             default:
+                text = '未知';
                 break;
         }
         return text;
