@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
 import {html, trim, getFishTankId, getOxygenTankId, getProvinceId, getFishTankName, getOxygenTankName} from '../utils/string';

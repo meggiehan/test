@@ -3,13 +3,12 @@
  */
 
 import RestTemplate from '../../middlewares/RestTemplate';
-import Auth from '../../middlewares/Auth';
+import {getToken} from '../../middlewares/loginMiddle';
 import config from '../../config';
 
 class UserModel {
-
-    static get(callback) {
-        RestTemplate.get(`${config.url}auth`, {"access-token": Auth.getToken()}, {}, callback);
+    get(callback) {
+        RestTemplate.get(`auth`, {"access-token": getToken()}, {}, callback);
     }
 
 }

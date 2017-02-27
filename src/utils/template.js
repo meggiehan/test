@@ -1,7 +1,7 @@
 import {timeDifference, getDate, getDealTime} from './time';
 import {getCertInfo, imgIsUpload, getName, getInfoStatus, getCreateDriverListLabel, getFishTankName} from './string';
 import config from '../config/';
-import store from './locaStorage';
+import store from './localStorage';
 
 
 const {cacheUserinfoKey, imgPath, backgroundImgUrl, identity} = config;

@@ -2,7 +2,7 @@ import customAjax from '../middlewares/customAjax';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import config from '../config';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 
 function releaseFishCarDemandInit(f7, view, page) {
     f7.hideIndicator();

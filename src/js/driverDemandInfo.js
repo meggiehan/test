@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import {getName, trim, getFishTankName} from '../utils/string';
 import {logOut} from '../middlewares/loginMiddle';

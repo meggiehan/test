@@ -3,7 +3,7 @@ import customAjax from '../middlewares/customAjax';
 import { trim, html, getSingleProvinceId, getCityId, getAddressIndex, getTagInfo } from '../utils/string';
 import { search, releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import { isEmailStr, saveSelectFishCache } from '../utils/string';
 
 function releaseInfoInit(f7, view, page) {

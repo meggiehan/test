@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
@@ -19,8 +19,7 @@ import {
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    const {uuid} = page.query;
-    let loginStatus = isLogin(uuid);
+    let loginStatus = isLogin();
     const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
     const {cacheUserinfoKey, imgPath, mWebUrl} = config;
     let userInfomation = store.get(cacheUserinfoKey);
@@ -140,13 +139,7 @@ function userInit(f7, view, page) {
                 qrCodeFun(userInfomation);
             }, 0)
         }
-        customAjax.ajax({
-            apiCategory: 'auth',
-            header: ['token'],
-            type: 'get',
-            noCache: true,
-        }, loginCallback);
-        // UserModel.get(loginCallback);
+        UserModel.get(loginCallback);
     } else {
         /*
          * 如果只是微信登录

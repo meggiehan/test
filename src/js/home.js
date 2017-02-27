@@ -4,7 +4,7 @@ import {html} from '../utils/string';
 import config from '../config';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll, get} from '../utils/locaStorage';
+import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function homeInit(f7, view, page) {

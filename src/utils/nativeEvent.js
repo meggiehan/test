@@ -285,6 +285,7 @@ class CustomClass {
         }
         const value = val ? JSON.stringify(val) : '';
         ios ? JS_SaveObjectWithKey(key, value) : window.yudada.JS_SaveObjectWithKey(key, value);
+        return true;
     }
 
     /**

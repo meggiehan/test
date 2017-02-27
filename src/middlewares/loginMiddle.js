@@ -1,5 +1,5 @@
 import config from '../config/';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 const {cacheUserinfoKey} = config;
@@ -7,16 +7,15 @@ const {cacheUserinfoKey} = config;
 /*
  * 判断用户是否登录
  * */
-function isLogin(uuid) {
-    const nativeToken = localStorage.getItem("accessToken") || uuid;
+function isLogin() {
+    const nativeToken = store.get("accessToken");
     const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
 
         //更新用户中心登录状态
-        if('user' == mainView.activePage.name &&
-            currentPage.find('.login-succ').length &&
-            !nativeEvent.getDataToNative('weixinData')){
+        if ('user' == mainView.activePage.name &&
+            currentPage.find('.login-succ').length && !nativeEvent.getDataToNative('weixinData')) {
             mainView.router.refreshPage();
         }
         return false;
@@ -30,33 +29,32 @@ function isLogin(uuid) {
  * */
 function logOut(f7) {
     f7.modal({
-                 title: '退出登录',
-                 text: '确认退出登录?',
-                 buttons: [
-                     {
-                         text: '确认',
-                         onClick: () => {
-                             store.remove(cacheUserinfoKey);
-                             store.remove("accessToken");
-                             nativeEvent.setDataToNative('weixinData', '');
-                             nativeEvent.setUerInfoToNative({
-                                                                inviterId: 0
-                                                            });
-                             nativeEvent.setUerInfoToNative({
-                                                                unionId: ''
-                                                            });
-                             mainView.router.load({
-                                 url: "views/user.html"
-                                                  });
-                         }
-                     },
-                     {
-                         text: '取消',
-                         onClick: () => {
-                         }
-                     }
-                 ]
-             });
+        title: '退出登录',
+        text: '确认退出登录?',
+        buttons: [
+            {
+                text: '确认',
+                onClick: () => {
+                    store.remove(cacheUserinfoKey);
+                    store.remove("accessToken");
+                    nativeEvent.setDataToNative('weixinData', '');
+                    nativeEvent.setUerInfoToNative({
+                        inviterId: 0
+                    });
+                    nativeEvent.setUerInfoToNative({
+                        unionId: ''
+                    });
+                    mainView.router.load({
+                        url: "views/user.html"
+                    });
+                }
+            },
+            {
+                text: '取消',
+                onClick: () => {}
+            }
+        ]
+    });
 }
 
 /**
@@ -126,6 +124,14 @@ function loginViewShow(phone) {
     $$('.view-login').addClass('show');
 }
 
+function getToken() {
+    return store.get("accessToken");
+};
+
+function setToken(accessToken) {
+    store.set("accessToken", accessToken);
+}
+
 /**
  * 隐藏登录页面
  * */
@@ -139,5 +145,7 @@ module.exports = {
     loginSucc,
     activeLogout,
     loginViewShow,
-    loginViewHide
+    loginViewHide,
+    getToken,
+    setToken
 }

@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
