@@ -1,11 +1,10 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import { trim, html, saveSelectFishCache } from '../utils/string';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import nativeEvent from '../utils/nativeEvent';
 import { search } from '../utils/template';
 import { setHistory } from '../utils/viewsUtil/searchUtils';
-
 
 function searchInit(f7, view, page) {
     f7.hideIndicator();

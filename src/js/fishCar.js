@@ -4,7 +4,7 @@ import nativeEvent from '../utils/nativeEvent';
 import {html, getProvinceId} from '../utils/string';
 import {fishCar, filter} from '../utils/template';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 
 function fishCarInit(f7, view, page) {
     const {pageSize, cacheUserinfoKey} = config;

@@ -1,13 +1,13 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import { trim, html } from '../utils/string';
+import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import store from '../utils/locaStorage'
+import store from '../utils/localStorage'
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
-    const { phone } = page.query;
-    const {  voiceCodeWaitTime } = config;
+    const {phone} = page.query;
+    const {voiceCodeWaitTime} = config;
     const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
     const input = currentPage.find('.login-code-write').children('input')[0];
     const vioceBtn = currentPage.find('.login-code-voice')[0];
@@ -27,7 +27,7 @@ function loginCodeInit(f7, view, page) {
             setTimeout(() => {
                 input.focus();
             }, 500)
-        }else{
+        } else {
             isActiveClick = true;
             vioceBtn.click();
         }
@@ -68,7 +68,7 @@ function loginCodeInit(f7, view, page) {
 
     const callback = (data) => {
         isSend = false;
-        const { code } = data;
+        const {code} = data;
         if (1 == code) {
             nativeEvent.nativeToast(1, isActiveClick ? '当前使用短信服务的人过多，已为你发送语音验证码!' : '语音验证码已拨出，请注意接听！');
             const setIntervalId = setInterval(() => {
@@ -111,9 +111,8 @@ function loginCodeInit(f7, view, page) {
 
     weixinData && currentPage.find('.login-code-submit').text('绑定手机号');
 
-    const loginCallBack = (result)=> {
+    const loginCallBack = (result) => {
         const {code, message, data} = result;
-        console.log(data.token);
         if (1 === code) {
             nativeEvent.setDataToNative("accessToken", data.token);
             localStorage.setItem("accessToken", data.token);
@@ -134,16 +133,16 @@ function loginCodeInit(f7, view, page) {
         // nativeEvent.nativeLogin(phone, input.value);
         // 登录
         customAjax.ajax({
-                            apiCategory: 'auth',
-                            data: {
-                                phone: phone,
-                                code: input.value
-                            },
-                            parameType: 'application/json',
-                            type: 'post',
-                            noCache: true,
-                            isMandatory: true
-                        }, loginCallBack);
+            apiCategory: 'auth',
+            data: {
+                phone: phone,
+                code: input.value
+            },
+            parameType: 'application/json',
+            type: 'post',
+            noCache: true,
+            isMandatory: true
+        }, loginCallBack);
 
     };
     subBtn.onclick = userLogin;

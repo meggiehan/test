@@ -1,6 +1,6 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import store from '../utils/locaStorage';
+import store from './localStorage';
 import framework7 from '../js/lib/framework7';
 import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';

@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { html } from '../utils/string';
 import { invite } from '../utils/template';

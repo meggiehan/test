@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { getName, trim } from '../utils/string';
 import { getDate, timeDifference } from '../utils/time';

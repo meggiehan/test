@@ -2,7 +2,7 @@ import framework7 from '../js/lib/framework7';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from './nativeEvent';
 import config from '../config';
-import store from './locaStorage';
+import store from './localStorage';
 import customAjax from '../middlewares/customAjax';
 import {alertTitleText} from '../utils/string'
 

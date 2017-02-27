@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { getName, getAddressIndex } from '../utils/string';
 import { logOut, isLogin } from '../middlewares/loginMiddle';

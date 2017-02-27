@@ -1,5 +1,5 @@
 import config from '../config/';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import { logOut, activeLogout } from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
@@ -11,16 +11,30 @@ const f7 = new framework7({
     modalTitle: '温馨提示',
 });
 class CustomClass {
-    getKey(api, key, val) {
-        let res = `${api}`;
-        Dom7.each(key, (index, k) => {
-            let value = '';
-            if(val && (val[index] || (val[index] == 0))){
-                value = val[index];
-            }
-            const str = `_${k}_${value}`;
-            res += str;
-        })
+
+    /**
+     * 旧的方法api跟参数分开配置，参数为array
+     * 新的方法就直接是object传进来
+     * */
+    getKey(apiCategory, api, key, val) {
+        let res = `${apiCategory ? 'apiCategory_' : ''}${api || ''}`;
+        if($$.isArray(key)){
+            Dom7.each(key, (index, k) => {
+                let value = '';
+                if(val && (val[index] || (val[index] == 0))){
+                    value = val[index];
+                }
+                res += `_${k}_${value}`;
+            })
+        }else{
+            Dom7.each(key, (k, v) => {
+                let value = '';
+                if(v || (v == 0)){
+                    value = v;
+                }
+                res += `_${k}_${value}`;
+            })
+        }
         return res;
     }
     getData(key, val) {
@@ -32,13 +46,12 @@ class CustomClass {
     }
     checkMaxLenAndDelete() {
         const { cacheMaxLen, cacheUserinfoKey, cacheHistoryKey } = config;
-        const storage = window.localStorage;
-        const len = storage.length;
+        const len = store.getAll().length;
         let i = 1;
         let isDel = false;
         const disableDeleteArr = [cacheUserinfoKey, cacheHistoryKey];
         if (len >= cacheMaxLen) {
-            Dom7.each(storage, (key, value) => {
+            Dom7.each(store.getAll(), (key, value) => {
                 if (i === len - 1 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
                     store.remove(key);
                     isDel = true;
@@ -64,7 +77,7 @@ class CustomClass {
 
         const key = api ? config[apiCategory][api] : config[apiCategory];
         const { timeout, cacheUserinfoKey } = config;
-        const saveKey = api in ['login', 'getUserInfo'] ? cacheUserinfoKey : this.getKey(api, key, data);
+        const saveKey = api in ['login', 'getUserInfo'] ? cacheUserinfoKey : this.getKey(apiCategory, api, key, data);
         let newData = $$.isArray(data) ? this.getData(key, data) : data;
 
         let headers = {};
@@ -94,7 +107,7 @@ class CustomClass {
         }
 
         if (header) {
-            header.indexOf('token') > -1 && (headers['access-token'] = localStorage.getItem("accessToken") || '');
+            header.indexOf('token') > -1 && (headers['access-token'] = store.get("accessToken") || '');
             // header.indexOf('token') > -1 && (headers['access-token'] = 'af75c855d3974d0cb76bb4f891cb1713');
         }
 

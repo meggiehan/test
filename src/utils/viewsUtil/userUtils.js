@@ -1,4 +1,4 @@
-import store from '../../utils/locaStorage';
+import store from '../localStorage';
 import objectUtil from '../clone';
 import { getBusinessLicenseNumber, getName, html } from '../string';
 

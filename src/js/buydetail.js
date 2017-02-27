@@ -1,6 +1,6 @@
 import config from '../config';
 import customAjax from '../middlewares/customAjax';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import { timeDifference, centerShowTime } from '../utils/time';
 import { html, saveSelectFishCache, getRange, getAddressIndex, alertTitleText } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
