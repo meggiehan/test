@@ -2,14 +2,13 @@ import config from '../config/';
 import store from '../utils/locaStorage';
 import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-
 const {cacheUserinfoKey} = config;
 
 /*
  * 判断用户是否登录
  * */
 function isLogin(uuid) {
-    const nativeToken = nativeEvent.getUserValue() || uuid;
+    const nativeToken = localStorage.getItem("accessToken") || uuid;
     const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
@@ -29,16 +28,35 @@ function isLogin(uuid) {
 /*
  * native通知h5登出，清除h5用户信息
  * */
-function logOut() {
-    store.remove(cacheUserinfoKey);
-    nativeEvent.setDataToNative('weixinData', '');
-    nativeEvent.setUerInfoToNative({
-        inviterId: 0
-    });
-    nativeEvent.setUerInfoToNative({
-        unionId: ''
-    });
-    nativeEvent.logOut();
+function logOut(f7) {
+    f7.modal({
+                 title: '退出登录',
+                 text: '确认退出登录?',
+                 buttons: [
+                     {
+                         text: '确认',
+                         onClick: () => {
+                             store.remove(cacheUserinfoKey);
+                             store.remove("accessToken");
+                             nativeEvent.setDataToNative('weixinData', '');
+                             nativeEvent.setUerInfoToNative({
+                                                                inviterId: 0
+                                                            });
+                             nativeEvent.setUerInfoToNative({
+                                                                unionId: ''
+                                                            });
+                             mainView.router.load({
+                                 url: "views/user.html"
+                                                  });
+                         }
+                     },
+                     {
+                         text: '取消',
+                         onClick: () => {
+                         }
+                     }
+                 ]
+             });
 }
 
 /**
