@@ -94,7 +94,7 @@ class CustomClass {
         }
 
         if (header) {
-            header.indexOf('token') > -1 && nativeEvent['getUserValue']() && (headers['access-token'] = nativeEvent['getUserValue']() || '');
+            header.indexOf('token') > -1 && (headers['access-token'] = localStorage.getItem("accessToken") || '');
             // header.indexOf('token') > -1 && (headers['access-token'] = 'af75c855d3974d0cb76bb4f891cb1713');
         }
 

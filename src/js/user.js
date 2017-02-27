@@ -5,6 +5,7 @@ import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
 import {getCurrentDay, alertTitleText} from '../utils/string';
+import UserModel from './model/UserModel';
 import {
     goHome,
     goMyCenter,
@@ -145,6 +146,7 @@ function userInit(f7, view, page) {
             type: 'get',
             noCache: true,
         }, loginCallback);
+        // UserModel.get(loginCallback);
     } else {
         /*
          * 如果只是微信登录

@@ -2,6 +2,7 @@ import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import { trim, html } from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
+import store from '../utils/locaStorage'
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
@@ -63,7 +64,7 @@ function loginCodeInit(f7, view, page) {
         const text = `接收语音验证码大概需要${_voiceCodeWaitTime}秒`;
         html(vioceBtn, text, f7);
         _voiceCodeWaitTime--;
-    }
+    };
 
     const callback = (data) => {
         isSend = false;
@@ -106,9 +107,21 @@ function loginCodeInit(f7, view, page) {
             noCache: true,
             isMandatory: true
         }, callback);
-    }
+    };
 
     weixinData && currentPage.find('.login-code-submit').text('绑定手机号');
+
+    const loginCallBack = (result)=> {
+        const {code, message, data} = result;
+        console.log(data.token);
+        if (1 === code) {
+            nativeEvent.setDataToNative("accessToken", data.token);
+            localStorage.setItem("accessToken", data.token);
+            getKey(data.token, '', '', 0);
+        } else {
+            f7.alert(message);
+        }
+    };
 
     /**
      * 调用native登录接口
@@ -118,11 +131,24 @@ function loginCodeInit(f7, view, page) {
             return;
         }
         f7.showPreloader(weixinData ? '绑定手机号中...' : '登录中...');
-        nativeEvent.nativeLogin(phone, input.value);
-    }
+        // nativeEvent.nativeLogin(phone, input.value);
+        // 登录
+        customAjax.ajax({
+                            apiCategory: 'auth',
+                            data: {
+                                phone: phone,
+                                code: input.value
+                            },
+                            parameType: 'application/json',
+                            type: 'post',
+                            noCache: true,
+                            isMandatory: true
+                        }, loginCallBack);
+
+    };
     subBtn.onclick = userLogin;
 }
 
 module.exports = {
     loginCodeInit
-}
+};
