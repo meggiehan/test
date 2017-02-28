@@ -69,6 +69,6 @@ function myCenterInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     myCenterInit
 }

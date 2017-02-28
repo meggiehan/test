@@ -67,6 +67,6 @@ function inviteFriendsInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     inviteFriendsInit
 }

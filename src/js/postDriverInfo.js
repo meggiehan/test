@@ -276,7 +276,7 @@ function postDriverInfoInit(f7, view, page) {
         if(id){
             customAjax.ajax({
                 apiCategory: 'fishCarDrivers',
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: data,
                 header: ['token'],
                 type: 'put',
@@ -289,7 +289,7 @@ function postDriverInfoInit(f7, view, page) {
         }else{
             customAjax.ajax({
                 apiCategory: 'postFishCars',
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: data,
                 type: 'post',
                 isMandatory: true,
@@ -368,6 +368,6 @@ function postDriverInfoInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     postDriverInfoInit
 }

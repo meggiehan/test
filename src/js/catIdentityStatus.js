@@ -15,6 +15,6 @@ function catIdentityStatusInit(f7, view, page) {
     $$('.cancel-company-verify-buuton').off('click', canclCompany).on('click', canclCompany);
 }
 
-module.exports = {
+export {
     catIdentityStatusInit,
 }

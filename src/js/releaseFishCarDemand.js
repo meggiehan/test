@@ -46,12 +46,12 @@ function releaseFishCarDemandInit(f7, view, page) {
             data: [text, '', ''],
             type: 'post',
             header: ['token'],
-            parameType: 'application/json',
+            paramsType: 'application/json',
             noCache: true
         }, callback);
     }
 }
 
-module.exports = {
-    releaseFishCarDemandInit,
+export {
+    releaseFishCarDemandInit
 }

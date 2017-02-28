@@ -48,6 +48,6 @@ function fishCertInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     fishCertInit,
 }

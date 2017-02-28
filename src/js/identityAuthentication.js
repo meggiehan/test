@@ -90,6 +90,6 @@ function identityAuthenticationInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     identityAuthenticationInit
 }

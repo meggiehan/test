@@ -179,6 +179,6 @@ function myCollectionInit(f7, view, page) {
     })
 }
 
-module.exports = {
+export {
     myCollectionInit,
 }

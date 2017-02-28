@@ -115,6 +115,6 @@ function otherListInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     otherListInit,
 }

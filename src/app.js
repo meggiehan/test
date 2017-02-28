@@ -38,8 +38,9 @@ import {postDriverAuthInit} from './js/postDriverAuth';
 import {postDriverInfoInit} from './js/postDriverInfo';
 import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
-import {updateCtrl} from './js/service/updateVersion/updateController';
+import {updateCtrl} from './js/service/updateVersion/updateVersionCtrl';
 import {JsBridge} from './middlewares/JsBridge';
+import {invitationInit} from './js/service/invitation/invitationCtrl'
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -536,8 +537,5 @@ $$('.large-version-update').click(() => {
     }
 })
 
-
-
-
-
-
+/* 初始化邀请码 */
+invitationInit(f7, mainView);

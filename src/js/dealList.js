@@ -101,6 +101,6 @@ function dealListInit(f7, view, page) {
     })
 }
 
-module.exports = {
+export {
     dealListInit
 }

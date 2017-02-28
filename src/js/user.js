@@ -300,6 +300,6 @@ function userInit(f7, view, page) {
 
 }
 
-module.exports = {
-    userInit,
+export {
+    userInit
 }

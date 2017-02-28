@@ -101,6 +101,6 @@ function inviteFriendsListInit(f7, view, page) {
     });
 }
 
-module.exports = {
+export {
     inviteFriendsListInit
 }

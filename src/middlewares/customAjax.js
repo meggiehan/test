@@ -75,7 +75,7 @@ class CustomClass {
      */
     ajax(obj, callback) {
         const $$ = Dom7;
-        const {api, data, apiCategory, type, isMandatory, noCache, val, header, parameType, onlyUseCache} = obj;
+        const {api, data, apiCategory, type, isMandatory, noCache, val, header, paramsType, onlyUseCache} = obj;
 
         const key = api ? config[apiCategory][api] : config[apiCategory];
         const {timeout, cacheUserinfoKey} = config;
@@ -100,7 +100,7 @@ class CustomClass {
             delete newData.pageSize;
         }
 
-        parameType && (newData = JSON.stringify(newData));
+        paramsType && (newData = JSON.stringify(newData));
 
         if (val) {
             $$.each(val, (key, value) => {
@@ -150,7 +150,7 @@ class CustomClass {
             url,
             timeout,
             headers,
-            contentType: parameType || 'application/x-www-form-urlencoded',
+            contentType: paramsType || 'application/x-www-form-urlencoded',
             data: newData,
             cache: false,
             processData: true,
@@ -199,7 +199,7 @@ class CustomClass {
                         _this.ajax({
                             apiCategory: 'demandInfoAdd',
                             header: ['token'],
-                            parameType: 'application/json',
+                            paramsType: 'application/json',
                             data: newData,
                             type: 'post',
                             isMandatory: true,

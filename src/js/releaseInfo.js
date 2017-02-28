@@ -447,7 +447,7 @@ function releaseInfoInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfoAdd',
             header: ['token'],
-            parameType: 'application/json',
+            paramsType: 'application/json',
             data: data,
             type: 'post',
             isMandatory: true,
@@ -456,6 +456,6 @@ function releaseInfoInit(f7, view, page) {
     }
 
 }
-module.exports = {
-    releaseInfoInit,
+export {
+    releaseInfoInit
 }

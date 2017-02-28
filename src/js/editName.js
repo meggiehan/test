@@ -84,6 +84,6 @@ function editNameInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     editNameInit
 }

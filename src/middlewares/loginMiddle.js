@@ -120,7 +120,7 @@ function loginViewShow(phone) {
     loginView.router.load({
         url,
         reload: true
-    })
+    });
     $$('.view-login').addClass('show');
 }
 
@@ -148,4 +148,4 @@ export {
     loginViewHide,
     getToken,
     setToken
-}
+};

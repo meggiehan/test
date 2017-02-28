@@ -34,8 +34,10 @@ export default class RestTemplate {
         customAjax.ajax({
             apiCategory: url,
             header: ['token'],
+            val: params,
             type: 'post',
             data: body,
+            paramsType: 'application/json',
             noCache: true
         }, callback);
     };

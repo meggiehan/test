@@ -227,7 +227,7 @@ function myListInit(f7, view, page) {
                 apiCategory: 'demandInfo',
                 api: 'refreshLog',
                 header: ['token'],
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: [clickInfoId, 'refresh'],
                 val:{
                     id:clickInfoId,
@@ -287,6 +287,6 @@ function myListInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     myListInit
 }

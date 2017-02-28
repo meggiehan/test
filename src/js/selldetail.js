@@ -314,7 +314,7 @@ function selldetailInit(f7, view, page) {
                 apiCategory: 'demandInfo',
                 api: 'deleteDemandInfo',
                 header: ['token'],
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 val: {
                     id
                 },
@@ -396,6 +396,6 @@ function selldetailInit(f7, view, page) {
     lastHeader.find('.detail-more')[0].onclick = detailClickTip;
 }
 
-module.exports = {
-    selldetailInit,
+export {
+    selldetailInit
 }

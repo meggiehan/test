@@ -1,6 +1,8 @@
 @import './core/mixins.less';
 @import './core/base.less';
 @import './core/icon.less';
+@import "core/listViews";
+@import "core/animate";
 
 @import './views/search.less';
 @import './views/home.less';
@@ -39,10 +41,11 @@
 *postDriverAuth跟postDriverInfo页面公用一个less
 */
 @import './views/postDriverAuth.less';
-
 @import "./views/recruitDriverSuccess.less";
 
 /**
 * model样式
 */
-@import "./modal/update.less";
+@import "modal/updateVersion.less";
+@import "./modal/invitation.less";
+@import "modal/fishCarAddressModal";
