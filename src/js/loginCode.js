@@ -2,7 +2,8 @@ import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
-import store from '../utils/localStorage'
+import store from '../utils/localStorage';
+import invitationModel from './service/invitation/invitationModel';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
@@ -115,8 +116,14 @@ function loginCodeInit(f7, view, page) {
         const {code, message, data} = result;
         if (1 === code) {
             nativeEvent.setDataToNative("accessToken", data.token);
-            localStorage.setItem("accessToken", data.token);
+            store.set("accessToken", data.token);
             getKey(data.token, '', '', 0);
+            if (1 == store.get("login-invitation")) {
+                invitationModel.f7 = f7;
+                invitationModel.acceptInvitation(code, () => {
+                    store.set("login-invitation", 0);
+                });
+            }
         } else {
             f7.alert(message);
         }
