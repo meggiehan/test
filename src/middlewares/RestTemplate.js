@@ -6,13 +6,13 @@ import customAjax from '../middlewares/customAjax';
 
 export default class RestTemplate {
 
-    static get(url, headers, params, callback) {
+    static get(url, headers, params, callback, noCache) {
         customAjax.ajax({
             apiCategory: url,
             header: ['token'],
             type: 'get',
             data: params,
-            noCache: true
+            noCache
         }, callback);
         // $$.ajax({
         //     method: 'get',

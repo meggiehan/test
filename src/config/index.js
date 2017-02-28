@@ -15,6 +15,8 @@ const configs = {
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
     shareUrl: 'http://m.test.yudada.com/demandInfo/',
+    isOpenInviteNumberKey: 'isOpenInviteNumberKey',
+    isInvitePointNumberKey: 'isInvitePointNumberKey',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
         maxLength: 10

@@ -15,7 +15,7 @@ gulp.task('less', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/less/*.less', 'src/less/core/*.less', 'src/less/views/*.less'], ['less']); //当所有less文件发生改变时，调用testLess任务
+    gulp.watch(['src/less/*.less', 'src/less/modal/*.less', 'src/less/core/*.less', 'src/less/views/*.less'], ['less']); //当所有less文件发生改变时，调用testLess任务
 });
 
 gulp.task('zip', () => {

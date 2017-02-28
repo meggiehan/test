@@ -126,7 +126,7 @@ function loginViewShow(phone) {
 
 function getToken() {
     return store.get("accessToken");
-};
+}
 
 function setToken(accessToken) {
     store.set("accessToken", accessToken);
@@ -139,7 +139,7 @@ function loginViewHide() {
     $$('.view-login').removeClass('show');
 }
 
-module.exports = {
+export {
     isLogin,
     logOut,
     loginSucc,

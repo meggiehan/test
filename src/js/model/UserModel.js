@@ -8,7 +8,7 @@ import config from '../../config';
 
 class UserModel {
     get(callback) {
-        RestTemplate.get(`auth`, {"access-token": getToken()}, {}, callback);
+        RestTemplate.get(`auth`, {"access-token": getToken()}, {}, callback, true);
     }
 
 }
