@@ -4,7 +4,6 @@
 
 import RestTemplate from '../../middlewares/RestTemplate';
 import {getToken} from '../../middlewares/loginMiddle';
-import config from '../../config';
 
 class UserModel {
     get(callback) {

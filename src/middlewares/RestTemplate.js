@@ -8,12 +8,12 @@ export default class RestTemplate {
 
     static get(url, headers, params, callback) {
         customAjax.ajax({
-            apiCategory: url,
-            header: ['token'],
-            type: 'get',
-            data: params,
-            noCache: true
-        }, callback);
+                            apiCategory: url,
+                            header: ['token'],
+                            type: 'get',
+                            data: params,
+                            noCache: true
+                        }, callback);
         // $$.ajax({
         //     method: 'get',
         //     url,
@@ -32,12 +32,14 @@ export default class RestTemplate {
 
     static post(url, headers, params, body, callback) {
         customAjax.ajax({
-            apiCategory: url,
-            header: ['token'],
-            type: 'post',
-            data: body,
-            noCache: true
-        }, callback);
+                            apiCategory: url,
+                            header: ['token'],
+                            val: params,
+                            type: 'post',
+                            data: body,
+                            parameType: 'application/json',
+                            noCache: true
+                        }, callback);
     };
 
     static put(url, headers, params, body, callback) {

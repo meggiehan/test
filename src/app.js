@@ -38,6 +38,7 @@ import {postDriverAuthInit} from './js/postDriverAuth';
 import {postDriverInfoInit} from './js/postDriverInfo';
 import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
+import {invitationInit} from './js/service/invitation/invitationCtrl'
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -491,4 +492,7 @@ $$('.edit-driver-address-model-delete').click(() => {
         currentPage.find('.post-driver-select').append(fishCar.addBtn());
     }
     $$('.edit-driver-address-model').removeClass('add edit');
-})
+});
+
+/* 初始化邀请码 */
+invitationInit(f7, mainView);
