@@ -67,6 +67,6 @@ function otherInfoInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     otherInfoInit
 }

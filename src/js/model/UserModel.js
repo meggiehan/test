@@ -7,7 +7,7 @@ import {getToken} from '../../middlewares/loginMiddle';
 
 class UserModel {
     get(callback) {
-        RestTemplate.get(`auth`, {"access-token": getToken()}, {}, callback);
+        RestTemplate.get(`auth`, {"access-token": getToken()}, {}, callback, true);
     }
 
 }

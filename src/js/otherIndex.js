@@ -154,6 +154,6 @@ function otherIndexInit(f7, view, page) {
     $$('.navbar-inner.other-index .icon-more').off('click', otherIndexClickTip).on('click', otherIndexClickTip);
 }
 
-module.exports = {
+export {
     otherIndexInit
 }

@@ -263,7 +263,7 @@ function buydetailInit(f7, view, page) {
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 header: ['token'],
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 api: 'deleteDemandInfo',
                 type: 'DELETE',
                 val: {
@@ -361,6 +361,6 @@ function buydetailInit(f7, view, page) {
     lastHeader.find('.detail-more')[0].onclick = detailClickTip;
 }
 
-module.exports = {
+export {
     buydetailInit,
 }

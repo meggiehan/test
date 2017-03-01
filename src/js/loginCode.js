@@ -145,7 +145,7 @@ function loginCodeInit(f7, view, page) {
                 phone: phone,
                 code: input.value
             },
-            parameType: 'application/json',
+            paramsType: 'application/json',
             type: 'post',
             noCache: true,
             isMandatory: true
@@ -155,6 +155,6 @@ function loginCodeInit(f7, view, page) {
     subBtn.onclick = userLogin;
 }
 
-module.exports = {
+export {
     loginCodeInit
 };

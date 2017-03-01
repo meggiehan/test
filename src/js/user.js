@@ -22,7 +22,7 @@ function userInit(f7, view, page) {
     let loginStatus = isLogin();
     const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
     const {cacheUserinfoKey, imgPath, mWebUrl} = config;
-    let userInfomation = store.get(cacheUserinfoKey);
+    let userInformation = store.get(cacheUserinfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
 
     /*
@@ -62,9 +62,9 @@ function userInit(f7, view, page) {
         const {code, message} = data;
         if (code == 1) {
             qrCodeFun(data.data);
-            userInfomation = data.data;
+            userInformation = data.data;
             store.set(cacheUserinfoKey, data.data);
-            userInfomation && loginSucc(userInfomation, userUtils.getBussesInfoCallback);
+            userInformation && loginSucc(userInformation, userUtils.getBussesInfoCallback);
             nativeEvent.setUerInfoToNative({
                 inviterId: data.data.inviterId
             });
@@ -74,7 +74,7 @@ function userInit(f7, view, page) {
                 const {
                     nickname,
                     personalAuthenticationState
-                } = userInfomation;
+                } = userInformation;
                 nativeEvent.setDataToNative('oldDate', getCurrentDay());
                 if (!nickname) {
                     f7.modal({
@@ -133,10 +133,10 @@ function userInit(f7, view, page) {
     * 已登录：微信登录/手机号登录
     * */
     if (loginStatus) {
-        if (userInfomation) {
-            loginSucc(userInfomation, userUtils.getBussesInfoCallback);
+        if (userInformation) {
+            loginSucc(userInformation, userUtils.getBussesInfoCallback);
             setTimeout(() => {
-                qrCodeFun(userInfomation);
+                qrCodeFun(userInformation);
             }, 0)
         }
         UserModel.get(loginCallback);
@@ -172,7 +172,7 @@ function userInit(f7, view, page) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
             return;
         }
-        nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInfomation['id']}`);
+        nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInformation['id']}`);
     }
 
     /*
@@ -300,6 +300,6 @@ function userInit(f7, view, page) {
 
 }
 
-module.exports = {
-    userInit,
+export {
+    userInit
 }

@@ -113,6 +113,6 @@ function releaseSuccInit(f7, view, page) {
 
 }
 
-module.exports = {
-    releaseSuccInit,
+export {
+    releaseSuccInit
 }

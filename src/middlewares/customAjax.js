@@ -1,6 +1,6 @@
 import config from '../config/';
 import store from '../utils/localStorage';
-import { logOut, activeLogout } from '../middlewares/loginMiddle';
+import {logOut, activeLogout} from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
 
@@ -11,25 +11,24 @@ const f7 = new framework7({
     modalTitle: '温馨提示',
 });
 class CustomClass {
-
     /**
      * 旧的方法api跟参数分开配置，参数为array
      * 新的方法就直接是object传进来
      * */
     getKey(apiCategory, api, key, val) {
-        let res = `${apiCategory ? 'apiCategory_' : ''}${api || ''}`;
-        if($$.isArray(key)){
+        let res = `${apiCategory ? (apiCategory + '_') : ''}${api || ''}`;
+        if ($$.isArray(key)) {
             Dom7.each(key, (index, k) => {
                 let value = '';
-                if(val && (val[index] || (val[index] == 0))){
+                if (val && (val[index] || (val[index] == 0))) {
                     value = val[index];
                 }
                 res += `_${k}_${value}`;
             })
-        }else{
+        } else {
             Dom7.each(key, (k, v) => {
                 let value = '';
-                if(v || (v == 0)){
+                if (v || (v == 0)) {
                     value = v;
                 }
                 res += `_${k}_${value}`;
@@ -37,6 +36,7 @@ class CustomClass {
         }
         return res;
     }
+
     getData(key, val) {
         let obj = {};
         Dom7.each(key, (index, k) => {
@@ -44,8 +44,9 @@ class CustomClass {
         })
         return obj;
     }
+
     checkMaxLenAndDelete() {
-        const { cacheMaxLen, cacheUserinfoKey, cacheHistoryKey } = config;
+        const {cacheMaxLen, cacheUserinfoKey, cacheHistoryKey} = config;
         const len = store.getAll().length;
         let i = 1;
         let isDel = false;
@@ -73,32 +74,32 @@ class CustomClass {
      */
     ajax(obj, callback) {
         const $$ = Dom7;
-        const { api, data, apiCategory, type, isMandatory, noCache, val, header, parameType, onlyUseCache } = obj;
+        const {api, data, apiCategory, type, isMandatory, noCache, val, header, paramsType, onlyUseCache} = obj;
 
         const key = api ? config[apiCategory][api] : config[apiCategory];
-        const { timeout, cacheUserinfoKey } = config;
+        const {timeout, cacheUserinfoKey} = config;
         const saveKey = api in ['login', 'getUserInfo'] ? cacheUserinfoKey : this.getKey(apiCategory, api, key, data);
         let newData = $$.isArray(data) ? this.getData(key, data) : data;
 
         let headers = {};
         let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
         apiCategory == 'demandInfoAdd' && !api && (url = `${config.url}demandInfo`);
-        url.indexOf('deleteDemandInfo') > - 1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
-        url.indexOf('demandInfo/refreshLog/') > - 1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
-        url.indexOf('userInformation') > - 1 && (url = url.replace('userInformation', 'userInfo'));
-        url.indexOf('listFiltered') > - 1 && (url = url.replace('listFiltered', 'list/filtered'));
-        url.indexOf('postFishCars') > - 1 && (url = url.replace('postFishCars', 'fishCars'));
+        url.indexOf('deleteDemandInfo') > -1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
+        url.indexOf('demandInfo/refreshLog/') > -1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
+        url.indexOf('userInformation') > -1 && (url = url.replace('userInformation', 'userInfo'));
+        url.indexOf('listFiltered') > -1 && (url = url.replace('listFiltered', 'list/filtered'));
+        url.indexOf('postFishCars') > -1 && (url = url.replace('postFishCars', 'fishCars'));
 
         /**
          * 不同type的API参数处理
          * 例如：post跟get的参数不同
          * */
-        if('fishCarDemands' == apiCategory && 'post' == type){
-           delete newData.pageNo;
-           delete newData.pageSize;
+        if ('fishCarDemands' == apiCategory && 'post' == type) {
+            delete newData.pageNo;
+            delete newData.pageSize;
         }
 
-        parameType && (newData = JSON.stringify(newData));
+        paramsType && (newData = JSON.stringify(newData));
 
         if (val) {
             $$.each(val, (key, value) => {
@@ -120,7 +121,7 @@ class CustomClass {
         /**
          * 没有网络的时候提示用户，且不向服务器发送请求
          * */
-        if(!nativeEvent['getNetworkStatus']()){
+        if (!nativeEvent['getNetworkStatus']()) {
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
@@ -131,7 +132,7 @@ class CustomClass {
          * 仅仅只使用缓存
          * 首页：先显示缓存，在触发下拉刷新逻辑
          * */
-        if(onlyUseCache){
+        if (onlyUseCache) {
             return;
         }
 
@@ -148,7 +149,7 @@ class CustomClass {
             url,
             timeout,
             headers,
-            contentType: parameType || 'application/x-www-form-urlencoded',
+            contentType: paramsType || 'application/x-www-form-urlencoded',
             data: newData,
             cache: false,
             processData: true,
@@ -157,7 +158,7 @@ class CustomClass {
             /**
              * 服务的回来的ajax，根据status处理失败请求
              * */
-            error: function(err, status) {
+            error: function (err, status) {
                 if (parseInt(status) >= 500) {
                     nativeEvent.nativeToast(0, '服务器繁忙，请稍后再试！');
                 } else {
@@ -166,7 +167,7 @@ class CustomClass {
                 f7.pullToRefreshDone();
                 f7.hideIndicator();
 
-                if(url.indexOf('favorite/demandInfo/') > -1){
+                if (url.indexOf('favorite/demandInfo/') > -1) {
                     callback(null, err);
                 }
                 // callback(null, err);
@@ -175,15 +176,15 @@ class CustomClass {
             /**
              * 服务器回来的ajax根据不同的code进行处理。
              * */
-            success: function(data, status) {
+            success: function (data, status) {
                 const _data = JSON.parse(data);
 
                 if (_data.code == 2 && _data.message) {
                     if (url.indexOf('userAddDemandInfo') > -1) {
-                        const { type, fishTypeId, fishTypeName, requirementPhone } = newData;
+                        const {type, fishTypeId, fishTypeName, requirementPhone} = newData;
                         const callback = (data) => {
                             f7.hideIndicator();
-                            const { code, message } = data;
+                            const {code, message} = data;
                             if (1 == code) {
                                 $$('.release-sub-info').removeClass('pass');
                                 window['releaseInfo'] = data['data'];
@@ -197,7 +198,7 @@ class CustomClass {
                         _this.ajax({
                             apiCategory: 'demandInfoAdd',
                             header: ['token'],
-                            parameType: 'application/json',
+                            paramsType: 'application/json',
                             data: newData,
                             type: 'post',
                             isMandatory: true,
@@ -213,15 +214,15 @@ class CustomClass {
                 } else if (0 == _data.code) {
                     f7.hideIndicator();
                     f7.alert(_data.message, '提示');
-                }else if( -1 == _data.code){
+                } else if (-1 == _data.code) {
                     f7.hideIndicator();
                     nativeEvent.nativeToast(0, '服务器异常，请稍后再试！');
-                }else if(4 == _data.code){
+                } else if (4 == _data.code) {
                     f7.hideIndicator();
                     f7.alert(_data.message, '提示');
                     return;
-                }else if(3 == _data.code){
-                    if(url.indexOf('/auth') > -1){
+                } else if (3 == _data.code) {
+                    if (url.indexOf('/auth') > -1) {
                         f7.alert(_data.message);
                         activeLogout();
                         return;
@@ -235,10 +236,10 @@ class CustomClass {
                     }, 400)
                     return;
                 }
-                if(3 !== _data.code && (-1 !== data.code)){
+                if (3 !== _data.code && (-1 !== data.code)) {
                     if (!noCache && saveKey) {
                         _this.checkMaxLenAndDelete();
-                        store.set(saveKey, data);
+                        store.set(saveKey, JSON.parse(data));
                     }
                     callback(JSON.parse(data), null, true);
                 }

@@ -64,7 +64,7 @@ function releaseSelectTagInit(f7, view, page) {
         customAjax.ajax({
             apiCategory: 'demandInfoAdd',
             header: ['token'],
-            parameType: 'application/json',
+            paramsType: 'application/json',
             data: window.realeseInfomation,
             type: 'post',
             isMandatory: true,
@@ -73,6 +73,6 @@ function releaseSelectTagInit(f7, view, page) {
     }
 }
 
-module.exports = {
-    releaseSelectTagInit,
+export {
+    releaseSelectTagInit
 }

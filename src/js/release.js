@@ -24,6 +24,6 @@ function releaseInit(f7, view, page) {
     }
 }
 
-module.exports = {
-    releaseInit,
+export {
+    releaseInit
 }

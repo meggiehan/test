@@ -69,7 +69,7 @@ function inviteCodeInit(f7, view, page) {
             apiCategory: 'inviteter',
             data: [trim(codeInput.val())],
             header: ['token'],
-            parameType: 'application/json',
+            paramsType: 'application/json',
             type: 'post',
             noCache: true,
         }, callback);
@@ -77,6 +77,6 @@ function inviteCodeInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     inviteCodeInit
 }

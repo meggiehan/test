@@ -361,6 +361,6 @@ function fishCarInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     fishCarInit,
 }

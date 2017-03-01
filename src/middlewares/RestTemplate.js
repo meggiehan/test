@@ -6,14 +6,14 @@ import customAjax from '../middlewares/customAjax';
 
 export default class RestTemplate {
 
-    static get(url, headers, params, callback) {
+    static get(url, headers, params, callback, noCache) {
         customAjax.ajax({
-                            apiCategory: url,
-                            header: ['token'],
-                            type: 'get',
-                            data: params,
-                            noCache: true
-                        }, callback);
+            apiCategory: url,
+            header: ['token'],
+            type: 'get',
+            data: params,
+            noCache
+        }, callback);
         // $$.ajax({
         //     method: 'get',
         //     url,
@@ -32,14 +32,14 @@ export default class RestTemplate {
 
     static post(url, headers, params, body, callback) {
         customAjax.ajax({
-                            apiCategory: url,
-                            header: ['token'],
-                            val: params,
-                            type: 'post',
-                            data: body,
-                            parameType: 'application/json',
-                            noCache: true
-                        }, callback);
+            apiCategory: url,
+            header: ['token'],
+            val: params,
+            type: 'post',
+            data: body,
+            paramsType: 'application/json',
+            noCache: true
+        }, callback);
     };
 
     static put(url, headers, params, body, callback) {

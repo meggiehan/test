@@ -157,7 +157,7 @@ class CustomClass {
             apiCategory: 'userInfo',
             api: 'addUserFishCertificate',
             header: ['token'],
-            // parameType: 'application/json',
+            // paramsType: 'application/json',
             data: [path, uploadFilename, fileSize],
             type: 'post',
             noCache: true,

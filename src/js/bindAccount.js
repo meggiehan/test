@@ -144,7 +144,7 @@ function bindAccountInit(f7, view, page) {
                                     apiCategory: 'thirdPlatform',
                                     api: 'weChat',
                                     header: ['token'],
-                                    parameType: 'application/json',
+                                    paramsType: 'application/json',
                                     type: 'DELETE',
                                     noCache: true
                                 }, unbindCallback);
@@ -157,6 +157,6 @@ function bindAccountInit(f7, view, page) {
     };
 }
 
-module.exports = {
+export {
     bindAccountInit
 }

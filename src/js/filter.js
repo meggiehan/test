@@ -667,6 +667,6 @@ function filterInit(f7, view, page) {
     })
 }
 
-module.exports = {
+export {
     filterInit
 }
