@@ -4,6 +4,8 @@ import UpdateVersionMode from './UpdateVersionModel';
 import config from '../../../config';
 import nativeEvent from '../../../utils/nativeEvent';
 import {JsBridge} from '../../../middlewares/JsBridge';
+import {invitationInit} from '../../service/invitation/invitationCtrl'
+
 
 /**
  * @param returnCode
@@ -28,16 +30,17 @@ function updateCtrl(f7) {
             returnCode,
             versionNumber
         } = res;
-
         //没有更新，进入邀请流程
         if(1 == returnCode){
+            /* 初始化邀请码 */
+            invitationInit(f7, mainView);
             return;
+        }else{
+            $body.attr('data-update-version', versionNumber);
         }
 
         //有大版本更新
         if(2 == returnCode){
-            nativeEvent.downLoadApp(filePath);
-
             $updateInfoText.html(describe.split("\n").join("<br />"));
             $updateModalBox.css(
                 'margin-top', `-${$updateModalBox.height()*0.5 + 10}px`
@@ -48,7 +51,10 @@ function updateCtrl(f7) {
                 force && $updateModal.addClass('force');
                 $body.attr('data-update-url', filePath);
             }else{
-                JsBridge('JS_Download', filePath, (data) => {
+                JsBridge('JS_Download', {
+                    filePath,
+                    name: 'webapp.apk'
+                }, (data) => {
                     if(1 == data){
                         $updateModal.addClass('large');
                         force && $updateModal.addClass('force');
@@ -62,13 +68,14 @@ function updateCtrl(f7) {
 
         //有小版本更新
         if(3 == returnCode){
-            nativeEvent.downLoadApp(filePath);
-
             $updateInfoText.html(describe.split("\n").join("<br />"));
             $updateModalBox.css(
                 'margin-top', `-${$updateModalBox.height()*0.5 + 10}px`
             )
-            JsBridge('JS_Download', filePath, (data) => {
+            JsBridge('JS_Download', {
+                filePath,
+                name: 'webapp.zip'
+            }, (data) => {
                 if(1 == data){
                     $updateModal.addClass('small');
                 }else{
@@ -81,6 +88,44 @@ function updateCtrl(f7) {
     UpdateVersionMode.get(updateCallback);
 }
 
+function updateClickEvent(){
+    const $body = $('body');
+    /**
+     * 小版本更新
+     * */
+    $$('.small-version-update').click(() => {
+        store.set('newVersion', $body.attr('data-update-version'));
+        JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {})
+    })
+
+    /**
+     * 大版本更新
+     * 非强制更新/强制更新
+     * */
+    $$('.large-version-update').click(() => {
+        if (android) {
+            if (!$$('.update-app-modal').hasClass('force') && (5 != window.yudada.JS_GetNetWorkStates())) {
+                f7.showIndicator();
+                JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
+                    if(1 == data){
+                        store.set('newVersion', $body.attr('data-update-version'));
+                        JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {})
+                    }else{
+                        nativeEvent.nativeToast(0, '下载失败！');
+                    }
+                })
+            }else{
+                store.set('newVersion', $body.attr('data-update-version'));
+                JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {});
+            }
+        } else {
+            store.set('newVersion', $body.attr('data-update-version'));
+            JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {})
+        }
+    })
+}
+
 export {
-    updateCtrl
+    updateCtrl,
+    updateClickEvent
 };

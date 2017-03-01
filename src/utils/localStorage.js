@@ -1,11 +1,12 @@
 import nativeEvent from './nativeEvent';
+// import {JsBridge} from '../middlewares/JsBridge';
 
 /**
  *优先使用native存储的数据，如果没有就用h5存储的数据
  * */
 module.exports = {
     get: (key) => {
-        if(window['JS_UMengToCount'] || window['yudada']){
+        if(window.JS_GetObjectWithKey || (window.yudada && window.JS_GetObjectWithKey)){
             return nativeEvent.getDataToNative(key);
         }else{
             if (!window.localStorage.getItem(key)) {

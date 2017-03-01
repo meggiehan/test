@@ -11,13 +11,12 @@ const f7 = new framework7({
     modalTitle: '温馨提示',
 });
 class CustomClass {
-
     /**
      * 旧的方法api跟参数分开配置，参数为array
      * 新的方法就直接是object传进来
      * */
     getKey(apiCategory, api, key, val) {
-        let res = `${apiCategory ? 'apiCategory_' : ''}${api || ''}`;
+        let res = `${apiCategory ? (apiCategory + '_') : ''}${api || ''}`;
         if ($$.isArray(key)) {
             Dom7.each(key, (index, k) => {
                 let value = '';
@@ -240,7 +239,7 @@ class CustomClass {
                 if (3 !== _data.code && (-1 !== data.code)) {
                     if (!noCache && saveKey) {
                         _this.checkMaxLenAndDelete();
-                        store.set(saveKey, data);
+                        store.set(saveKey, JSON.parse(data));
                     }
                     callback(JSON.parse(data), null, true);
                 }

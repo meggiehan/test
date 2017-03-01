@@ -38,9 +38,7 @@ import {postDriverAuthInit} from './js/postDriverAuth';
 import {postDriverInfoInit} from './js/postDriverInfo';
 import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
-import {updateCtrl} from './js/service/updateVersion/updateVersionCtrl';
-import {JsBridge} from './middlewares/JsBridge';
-import {invitationInit} from './js/service/invitation/invitationCtrl'
+import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -502,40 +500,6 @@ $$('.edit-driver-address-model-delete').click(() => {
 updateCtrl(f7);
 
 /**
- * 小版本更新
+ * 更新版本按钮操作事件
  * */
-$$('.small-version-update').click(() => {
-    JsBridge('JSAppUpdate', 'yudada.zip', (data) => {
-        if (1 == data) {
-            $$('.update-app-modal').addClass('small');
-        } else {
-            nativeEvent.nativeToast(0, '下载失败！');
-        }
-    })
-})
-
-/**
- * 大版本更新
- * 非强制更新/强制更新
- * */
-$$('.large-version-update').click(() => {
-    if (android) {
-        if (!$$('.update-app-modal').hasClass('force') && (5 != window.yudada.JS_GetNetWorkStates())) {
-            f7.showIndicator();
-            JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
-                if(1 == data){
-                    JsBridge('JSAppUpdate', 'yudada.apk', (data) => {})
-                }else{
-                    nativeEvent.nativeToast(0, '下载失败！');
-                }
-            })
-        }else{
-            JsBridge('JSAppUpdate', 'yudada.apk', (data) => {})
-        }
-    } else {
-        JsBridge('JSAppUpdate', 'yudada.apk', (data) => {})
-    }
-})
-
-/* 初始化邀请码 */
-invitationInit(f7, mainView);
+updateClickEvent();

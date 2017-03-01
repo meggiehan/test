@@ -363,22 +363,6 @@ class CustomClass {
             })
         }
     }
-
-    /**
-     * 版本更新通知native下载新版本
-     * @url: 新版本下载地址
-     * */
-    downLoadApp(url, callback) {
-        const { ios } = window.currentDevice;
-        if (!window['downLoadApp'] && (!window['yudada'] || !window['yudada']['downLoadApp'])) {
-            return false;
-        }
-        if(ios){
-            downLoadApp(url);
-        }else{
-            window.yudada.downLoadApp(key, val);
-        }
-    }
 }
 
 const nativeEvent = new CustomClass();
