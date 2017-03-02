@@ -5,7 +5,7 @@
 
 import {getToken, isLogin, loginViewShow} from '../../../middlewares/loginMiddle';
 import store from '../../../utils/localStorage';
-import invitationModel from './invitationModel';
+import invitationModel from './InvitationModel';
 
 function invitationInit(f7, view) {
     console.log("init invitation modal");

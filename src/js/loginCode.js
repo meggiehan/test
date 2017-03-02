@@ -3,7 +3,7 @@ import config from '../config';
 import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/localStorage';
-import invitationModel from './service/invitation/invitationModel';
+import invitationModel from './service/invitation/InvitationModel';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
