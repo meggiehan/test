@@ -8,7 +8,12 @@ import invitationModel from './service/invitation/InvitationModel';
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
     const {phone} = page.query;
-    const {voiceCodeWaitTime} = config;
+    const {
+        cacheUserinfoKey,
+        waitAddPointerKey,
+        voiceCodeWaitTime,
+        inviteInfoKey
+    } = config;
     const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
     const input = currentPage.find('.login-code-write').children('input')[0];
     const vioceBtn = currentPage.find('.login-code-voice')[0];
@@ -118,11 +123,10 @@ function loginCodeInit(f7, view, page) {
             nativeEvent.setDataToNative("accessToken", data.token);
             store.set("accessToken", data.token);
             getKey(data.token, '', '', 0);
-            if (1 == store.get("login-invitation")) {
+            if (1 == store.get(waitAddPointerKey)) {
+                const {invitationCode} = store.get(inviteInfoKey);
                 invitationModel.f7 = f7;
-                invitationModel.acceptInvitation(code, () => {
-                    store.set("login-invitation", 0);
-                });
+                invitationModel.acceptInvitation(invitationCode);
             }
         } else {
             f7.alert(message);

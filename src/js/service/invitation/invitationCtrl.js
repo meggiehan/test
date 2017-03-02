@@ -13,43 +13,45 @@ function invitationInit(f7, view) {
     const $confirmBtn = $$(".modal-bg-invitation .btn.confirm");
     const $cancelBtn = $$(".modal-bg-invitation .btn.cancel");
     const $text = $$('.modal-bg-invitation .text');
-    let count = store.get("count-invitation");
+    const $headUrl = $modalBgInvitation.find('.img-user');
+    const $nickname = $modalBgInvitation.find('.div-nickname').children('inviter');
+
     const {
         cancelInvitationNumberKey,
-        waitAddPointerKey,
         inviteInfoKey
     } = config;
-
+    let count = store.get(cancelInvitationNumberKey) || 0;
 
     $cancelBtn.click(() => {
         const cancelInvitationNumber = store.get(cancelInvitationNumberKey);
         store.set(cancelInvitationNumberKey, ++count);
-        3 <= cancelInvitationNumber && $modalBgInvitation.removeClass("show");
+        2 <= cancelInvitationNumber && $modalBgInvitation.removeClass("show");
     });
     invitationModel.f7 = f7;
 
     const callback = (inviterInfo) => {
-        inviterInfo && store.set(cancelInvitationNumberKey, 0);
-        const inviteInfoCache = store.get(inviteInfoKey);
-        if ((inviterInfo && inviterInfo.inviterId) || (inviteInfoCache && inviteInfoCache.inviterId)) {
+        if(inviterInfo && inviterInfo.invitationCode){
             store.set(inviteInfoKey, inviterInfo);
+            store.set(cancelInvitationNumberKey, 0);
+        }
+
+        const {
+            invitationCode,
+            inviter,
+            headerUrl
+        } = store.get(inviteInfoKey) || {};
+        if (invitationCode) {
+            $headUrl.attr('src', headerUrl);
+            $nickname.text(inviter);
+
             if (isLogin()) {
                 $confirmBtn.text("接受邀请");
                 $cancelBtn.text("我再想想");
                 $text.text("接收邀请之后, 你和好友都将获得靠谱指数5分的奖励");
-                $confirmBtn.click(() => {
-                    invitationModel.acceptInvitation(inviterInfo.code);
-                    $modalBgInvitation.removeClass("show");
-                });
             } else {
                 $confirmBtn.text("现在去登录");
                 $cancelBtn.text("我再想想");
                 $text.text("登录之后，你和好友都将获得靠谱指数5分的奖励");
-                $confirmBtn.click(() => {
-                    store.set(waitAddPointerKey, 1);
-                    $modalBgInvitation.removeClass("show");
-                    loginViewShow();
-                })
             }
             $modalBgInvitation.addClass("show");
         }
@@ -62,4 +64,27 @@ function invitationInit(f7, view) {
     invitationModel.getInviterInfo(callback);
 }
 
-export {invitationInit}
+function invitationAction() {
+    const $confirmBtn = $$(".modal-bg-invitation .btn.confirm");
+    const $modalBgInvitation = $$(".modal-bg-invitation");
+    $confirmBtn.click(() => {
+        const {
+            waitAddPointerKey,
+            inviteInfoKey
+        } = config;
+        const inviteInfoCache = store.get(inviteInfoKey) || {};
+        const {
+            invitationCode
+        } = inviteInfoCache;
+        if (isLogin()) {
+            invitationModel.acceptInvitation(invitationCode, () => {});
+            $modalBgInvitation.removeClass("show");
+        } else {
+            store.set(waitAddPointerKey, 1);
+            $modalBgInvitation.removeClass("show");
+            loginViewShow();
+        }
+    })
+}
+
+export {invitationInit, invitationAction}

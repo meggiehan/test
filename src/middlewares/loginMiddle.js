@@ -12,7 +12,6 @@ function isLogin() {
     const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
-
         //更新用户中心登录状态
         if ('user' == mainView.activePage.name &&
             currentPage.find('.login-succ').length && !nativeEvent.getDataToNative('weixinData')) {

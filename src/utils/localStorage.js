@@ -6,42 +6,41 @@ import nativeEvent from './nativeEvent';
  * */
 module.exports = {
     get: (key) => {
-        if(window.JS_GetObjectWithKey || (window.yudada && window.JS_GetObjectWithKey)){
+        if (window.JS_GetObjectWithKey || (window.yudada && window.JS_GetObjectWithKey)) {
             return nativeEvent.getDataToNative(key);
-        }else{
+        } else {
             if (!window.localStorage.getItem(key)) {
                 return;
             }
             let value = window.localStorage.getItem(key);
-            if(value.indexOf('{"') > -1 || value.indexOf('["') > -1){
+            if (value.indexOf('{"') > -1 || value.indexOf('["') > -1) {
                 return JSON.parse(value);
-            }else{
+            } else {
                 return value
             }
         }
     },
     set: (key, val) => {
-        if(!key){
+        if (!key) {
             return;
         }
-        if(window['JS_UMengToCount'] || window['yudada']) {
+        if (window['JS_UMengToCount'] || window['yudada']) {
             nativeEvent.setDataToNative(key, val);
-        }else{
-            let value;
-            if (typeof val == 'object') {
-                value = JSON.stringify(val);
-            } else {
-                value = val;
-            }
-            window.localStorage.setItem(key, value)
         }
+
+        let value;
+        if (typeof val == 'object') {
+            value = JSON.stringify(val);
+        } else {
+            value = val;
+        }
+        window.localStorage.setItem(key, value)
     },
     remove: (key) => {
-        if(window['JS_UMengToCount'] || window['yudada']) {
+        if (window['JS_UMengToCount'] || window['yudada']) {
             nativeEvent.setDataToNative(key, '');
-        }else{
-            window.localStorage.removeItem(key)
         }
+        window.localStorage.removeItem(key)
     },
     clear: () => {
         window.localStorage.clear();

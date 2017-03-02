@@ -60,7 +60,7 @@ function updateCtrl(f7) {
                     }else{
                         nativeEvent.nativeToast(0, '下载失败！');
                     }
-                })
+                }, f7)
             }
             return;
         }
@@ -80,19 +80,19 @@ function updateCtrl(f7) {
                 }else{
                     nativeEvent.nativeToast(0, '下载失败！');
                 }
-            });
+            }, f7);
             return;
         }
     };
     UpdateVersionMode.get(updateCallback);
 }
 
-function updateClickEvent(){
+function updateClickEvent(f7){
     /**
      * 小版本更新
      * */
     $$('.small-version-update').click(() => {
-        JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {})
+        JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {}, f7)
     })
 
     /**
@@ -105,16 +105,16 @@ function updateClickEvent(){
                 f7.showIndicator();
                 JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
                     if(1 == data){
-                        JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {})
+                        JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7)
                     }else{
                         nativeEvent.nativeToast(0, '下载失败！');
                     }
-                })
+                }, f7)
             }else{
-                JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {});
+                JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7);
             }
         } else {
-            JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {})
+            JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7)
         }
     })
 }
