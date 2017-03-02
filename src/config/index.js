@@ -15,8 +15,9 @@ const configs = {
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
     shareUrl: 'http://m.test.yudada.com/demandInfo/',
-    isOpenInviteNumberKey: 'isOpenInviteNumberKey',
-    isInvitePointNumberKey: 'isInvitePointNumberKey',
+    cancelInvitationNumberKey: 'cancelInvitationNumber',
+    inviteInfoKey: 'inviteInfo',
+    waitAddPointerKey: 'waitAddPointer',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
         maxLength: 10
