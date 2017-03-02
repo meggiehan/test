@@ -39,6 +39,8 @@ import {postDriverInfoInit} from './js/postDriverInfo';
 import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
+import invitationModel from './js/service/invitation/InvitationModel';
+import {invitationAction} from './js/service/invitation/invitationCtrl';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -501,5 +503,9 @@ updateCtrl(f7);
 
 /**
  * 更新版本按钮操作事件
+ * 初始化yaoqingmodel类
+ * 邀请modal按钮操作
  * */
-updateClickEvent();
+updateClickEvent(f7);
+invitationModel.init(f7);
+invitationAction();

@@ -25,10 +25,7 @@ function userInit(f7, view, page) {
     const {
         cacheUserinfoKey,
         imgPath,
-        mWebUrl,
-        waitAddPointerKey,
-        cancelInvitationNumberKey,
-        inviteInfoKey
+        mWebUrl
     } = config;
     let userInformation = store.get(cacheUserinfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
@@ -69,23 +66,9 @@ function userInit(f7, view, page) {
         f7.hideIndicator();
         const {code, message} = data;
         if (code == 1) {
-            /**
-             * 登录成功后处理邀请邀请加分
-             * */
-            const inviteInfoCache = store.get(inviteInfoKey);
-            const isAddPoint = store.get(waitAddPointerKey);
-
-            if(inviteInfoCache && isAddPoint){
-                invitationModel.acceptInvitation(inviteInfoCache.code);
-            }
-
-            qrCodeFun(data.data);
-            userInformation = data.data;
             store.set(cacheUserinfoKey, data.data);
-            userInformation && loginSucc(userInformation, userUtils.getBussesInfoCallback);
-            nativeEvent.setUerInfoToNative({
-                inviterId: data.data.inviterId
-            });
+            userInformation = data.data;
+            loginSucc(userInformation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {

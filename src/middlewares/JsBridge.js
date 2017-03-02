@@ -2,8 +2,10 @@
  * create time 2017/03/01
  * author cash
  * */
-function JsBridge(fnName, data, callback){
+import {invitationInit} from '../js/service/invitation/invitationCtrl'
 
+
+function JsBridge(fnName, data, callback, f7) {
     const handler = (fnName, data, callback) => {
         WebViewJavascriptBridge.callHandler(
             fnName,
@@ -18,12 +20,19 @@ function JsBridge(fnName, data, callback){
         let WVJBIframe = document.createElement('iframe');
         WVJBIframe.style.display = 'none';
         WVJBIframe.src = 'https://__bridge_loaded__';
-        window.WVJBCallbacks = [];
+        // window.WVJBCallbacks = [];
         document.documentElement.appendChild(WVJBIframe);
-        setTimeout(function() {
+        setTimeout(function () {
             document.documentElement.removeChild(WVJBIframe);
-            window.WebViewJavascriptBridge && handler(fnName, data, callback);
-        }, 30)
+            if (window.WebViewJavascriptBridge) {
+                handler(fnName, data, callback);
+
+                //app后台唤醒后js做的操作
+                WebViewJavascriptBridge.registerHandler('appWillEnterForeground', () => {
+                    invitationInit(f7, mainView);
+                });
+            }
+        }, 30);
         // document.addEventListener(
         //     'WebViewJavascriptBridgeReady'
         //     , function() {
@@ -41,4 +50,16 @@ function JsBridge(fnName, data, callback){
     }
 }
 
-export {JsBridge};
+
+function registerHandler(fnName, callback) {
+    if (!bridge) {
+        console.log('bridge 未初始化！');
+        return;
+    }
+    bridge.registerHandler(fnName, callback);
+}
+
+export {
+    JsBridge,
+    registerHandler
+};

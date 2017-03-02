@@ -38,7 +38,8 @@ export default class RestTemplate {
             type: 'post',
             data: body,
             paramsType: 'application/json',
-            noCache: true
+            noCache: true,
+            isMandatory: true
         }, callback);
     };
 

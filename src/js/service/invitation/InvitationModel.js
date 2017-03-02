@@ -8,21 +8,21 @@ import config from '../../../config';
 
 class InvitationModel {
 
-    set f7(f7) {
+    init(f7) {
         this._f7 = f7;
     }
 
     acceptInvitation(code, callback) {
         RestTemplate.post("invite", {}, {}, {
-            code: code
+            code
         }, (res) => {
             if (1 == res.code) {
                 this._f7.alert("接受邀请成功");
-                this.clearInviterInfo();
                 callback(res);
             } else {
-                console.warn(res.message);
+                this._f7.alert(res.message);
             }
+            this.clearInviterInfo();
         })
     }
 
