@@ -85,7 +85,13 @@ function updateCtrl(f7) {
             return;
         }
     };
-    UpdateVersionMode.get(updateCallback);
+    if(!store.get('newVersion')){
+        setTimeout(() => {
+            UpdateVersionMode.get(updateCallback);
+        }, 2500)
+    }else{
+        UpdateVersionMode.get(updateCallback);
+    }
 }
 
 function updateClickEvent(){
