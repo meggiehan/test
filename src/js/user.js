@@ -1,11 +1,12 @@
 import store from '../utils/localStorage';
-import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
 import {getCurrentDay, alertTitleText} from '../utils/string';
 import UserModel from './model/UserModel';
+import invitationModel from './service/invitation/InvitationModel';
+
 import {
     goHome,
     goMyCenter,
@@ -21,13 +22,20 @@ function userInit(f7, view, page) {
     f7.hideIndicator();
     let loginStatus = isLogin();
     const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
-    const {cacheUserinfoKey, imgPath, mWebUrl} = config;
+    const {
+        cacheUserinfoKey,
+        imgPath,
+        mWebUrl,
+        waitAddPointerKey,
+        cancelInvitationNumberKey,
+        inviteInfoKey
+    } = config;
     let userInformation = store.get(cacheUserinfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
 
     /*
-    * 生成二维码
-    * */
+     * 生成二维码
+     * */
     const qrCodeFun = (data) => {
         const {
             scanLink,
@@ -51,7 +59,7 @@ function userInit(f7, view, page) {
 
         if (imgUrl) {
             $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8)).show();
-        }else{
+        } else {
             $$('.picker-invite-head-img').hide();
         }
         $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
@@ -61,6 +69,16 @@ function userInit(f7, view, page) {
         f7.hideIndicator();
         const {code, message} = data;
         if (code == 1) {
+            /**
+             * 登录成功后处理邀请邀请加分
+             * */
+            const inviteInfoCache = store.get(inviteInfoKey);
+            const isAddPoint = store.get(waitAddPointerKey);
+
+            if(inviteInfoCache && isAddPoint){
+                invitationModel.acceptInvitation(inviteInfoCache.code);
+            }
+
             qrCodeFun(data.data);
             userInformation = data.data;
             store.set(cacheUserinfoKey, data.data);
@@ -129,9 +147,9 @@ function userInit(f7, view, page) {
     }
 
     /*
-    * 判断登录状态
-    * 已登录：微信登录/手机号登录
-    * */
+     * 判断登录状态
+     * 已登录：微信登录/手机号登录
+     * */
     if (loginStatus) {
         if (userInformation) {
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
@@ -154,8 +172,8 @@ function userInit(f7, view, page) {
         }
 
         /*
-        * f7页面渲染的bug，部分页面未渲染出来，强制性再次渲染就ok
-        * */
+         * f7页面渲染的bug，部分页面未渲染出来，强制性再次渲染就ok
+         * */
         setTimeout(() => {
             currentPage.css({
                 borderBottom: '1px solid #efeff4'
@@ -164,8 +182,8 @@ function userInit(f7, view, page) {
     }
 
     /*
-    * 进入我的等级，新开第三方webView
-    * */
+     * 进入我的等级，新开第三方webView
+     * */
     currentPage.find('a.user-member')[0].onclick = () => {
         apiCount('btn_myCenter_myLevel');
         if (!isLogin()) {
@@ -176,15 +194,15 @@ function userInit(f7, view, page) {
     }
 
     /*
-    * 进入帮助中心，新开第三方webView
-    * */
+     * 进入帮助中心，新开第三方webView
+     * */
     currentPage.find('a.user-help-service')[0].onclick = () => {
         nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
     }
 
     /*
-    * 我的收藏列表
-    * */
+     * 我的收藏列表
+     * */
     currentPage.find('.my-collection-list')[0].onclick = () => {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
@@ -196,45 +214,45 @@ function userInit(f7, view, page) {
     }
 
     /*
-    * 进入个人资料
-    * */
+     * 进入个人资料
+     * */
     currentPage.find('.user-header')[0].onclick = goMyCenter;
 
     /*
-    * 进入实名认证页面
-    * */
+     * 进入实名认证页面
+     * */
     currentPage.find('.go-identity')[0].onclick = goIdentity;
 
     /*
-    * 进入鱼类资质证书管理页面
-    * */
+     * 进入鱼类资质证书管理页面
+     * */
     currentPage.find('.go-verification')[0].onclick = uploadCert;
 
     /*
-    * 联系客服
-    * */
+     * 联系客服
+     * */
     currentPage.find('.user-call-service')[0].onclick = contactUs;
 
     /*
-    * 进入邀请界面
-    * */
+     * 进入邀请界面
+     * */
     currentPage.find('.user-invit')[0].onclick = inviteFriends;
 
     /*
-    * 进入我的出售/求购列表/刷新信息列表
-    * */
+     * 进入我的出售/求购列表/刷新信息列表
+     * */
     currentPage.find('a.my-buy-list')[0].onclick = myListBuy;
     currentPage.find('a.my-sell-list')[0].onclick = myListSell;
     currentPage.find('.user-refresh-auth').children()[0].onclick = myListSell;
 
     /*
-    * 回到首页
-    * */
+     * 回到首页
+     * */
     currentPage.find('.href-go-home')[0].onclick = goHome;
 
     /*
-    * 绑定账号
-    * */
+     * 绑定账号
+     * */
     currentPage.find('.user-bind-account')[0].onclick = () => {
         if (!isLogin() && !nativeEvent.getDataToNative('weixinData')) {
             f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
@@ -251,8 +269,8 @@ function userInit(f7, view, page) {
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {
         apiCount('btn_tabbar_post');
-        if(!isLogin() && weixinData){
-            f7.alert('绑定手机号后，可以使用全部功能!','温馨提示', loginViewShow);
+        if (!isLogin() && weixinData) {
+            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;
         }
         view.router.load({
@@ -265,8 +283,8 @@ function userInit(f7, view, page) {
      * */
     currentPage.find('.user-fish-car-driver')[0].onclick = () => {
         apiCount('btn_myCenter_registerDriver');
-        if(!isLogin()){
-            f7.alert('手机号登录之后才可以登记，请先登录!','温馨提示', loginViewShow);
+        if (!isLogin()) {
+            f7.alert('手机号登录之后才可以登记，请先登录!', '温馨提示', loginViewShow);
             return;
         }
         view.router.load({
@@ -281,10 +299,10 @@ function userInit(f7, view, page) {
     currentPage.find('.driver-edit')[0].onclick = () => {
         const id = currentPage.find('.driver-edit').attr('data-id');
         apiCount('btn_myCenter_editDriverInfo');
-        if(!id){
+        if (!id) {
             f7.alert('您的鱼车司机账号已被冻结，请联系客服！');
             return;
-        }else{
+        } else {
             view.router.load({
                 url: `views/postDriverAuth.html?id=${id}`
             })

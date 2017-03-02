@@ -8,7 +8,7 @@ const {cacheUserinfoKey} = config;
  * 判断用户是否登录
  * */
 function isLogin() {
-    const nativeToken = store.get("accessToken");
+    const nativeToken = store.get("accessToken") || nativeEvent.getUserValue();
     const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
@@ -38,6 +38,7 @@ function logOut(f7) {
                     store.remove(cacheUserinfoKey);
                     store.remove("accessToken");
                     nativeEvent.setDataToNative('weixinData', '');
+                    nativeEvent.setNativeUserInfo();
                     nativeEvent.setUerInfoToNative({
                         inviterId: 0
                     });
@@ -62,6 +63,7 @@ function logOut(f7) {
  * */
 function activeLogout() {
     store.remove(cacheUserinfoKey);
+    store.remove("accessToken");
     nativeEvent.setNativeUserInfo();
     nativeEvent.setDataToNative('weixinData', '');
     nativeEvent.setUerInfoToNative({

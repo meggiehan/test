@@ -14,9 +14,8 @@ import {invitationInit} from '../../service/invitation/invitationCtrl'
  * value: 3  小版本更新
  * */
 function updateCtrl(f7) {
-    const {isOpenInviteNumberKey, isInvitePointNumberKey} = config;
-    store.set(isOpenInviteNumberKey, 0);
-    store.set(isInvitePointNumberKey, 0);
+    const {waitAddPointerKey} = config;
+    store.set(waitAddPointerKey, 0);
     const $updateInfoText = $$('.update-content-text');
     const $updateModalBox = $$('.update-app-modal .update-content');
     const $updateModal = $$('.update-app-modal');
@@ -89,7 +88,6 @@ function updateCtrl(f7) {
 }
 
 function updateClickEvent(){
-    const $body = $('body');
     /**
      * 小版本更新
      * */
