@@ -85,13 +85,7 @@ function updateCtrl(f7) {
             return;
         }
     };
-    if(!store.get('newVersion')){
-        setTimeout(() => {
-            UpdateVersionMode.get(updateCallback);
-        }, 2500)
-    }else{
-        UpdateVersionMode.get(updateCallback);
-    }
+    UpdateVersionMode.get(updateCallback);
 }
 
 function updateClickEvent(){
@@ -100,7 +94,6 @@ function updateClickEvent(){
      * 小版本更新
      * */
     $$('.small-version-update').click(() => {
-        store.set('newVersion', $body.attr('data-update-version'));
         JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {})
     })
 
@@ -114,18 +107,15 @@ function updateClickEvent(){
                 f7.showIndicator();
                 JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
                     if(1 == data){
-                        store.set('newVersion', $body.attr('data-update-version'));
                         JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {})
                     }else{
                         nativeEvent.nativeToast(0, '下载失败！');
                     }
                 })
             }else{
-                store.set('newVersion', $body.attr('data-update-version'));
                 JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {});
             }
         } else {
-            store.set('newVersion', $body.attr('data-update-version'));
             JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {})
         }
     })
