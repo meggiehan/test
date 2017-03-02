@@ -109,7 +109,7 @@ function updateClickEvent(f7){
                     }else{
                         nativeEvent.nativeToast(0, '下载失败！');
                     }
-                }, JsBridge)
+                }, f7)
             }else{
                 JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7);
             }
