@@ -1,5 +1,5 @@
 import nativeEvent from './nativeEvent';
-import config from '../config';
+import config from '../config/index';
 
 const {fishCacheObj} = config;
 module.exports = {

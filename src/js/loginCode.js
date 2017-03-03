@@ -123,11 +123,14 @@ function loginCodeInit(f7, view, page) {
             nativeEvent.setDataToNative("accessToken", data.token);
             store.set("accessToken", data.token);
             getKey(data.token, '', '', 0);
+            store.set('weixinUnionId', '');
             if (1 == store.get(waitAddPointerKey)) {
                 const {invitationCode} = store.get(inviteInfoKey);
                 invitationModel.f7 = f7;
                 invitationModel.acceptInvitation(invitationCode);
             }
+        }else if(101 == code){
+            window.phoneBindFaild();
         } else {
             f7.alert(message);
         }
@@ -147,7 +150,8 @@ function loginCodeInit(f7, view, page) {
             apiCategory: 'auth',
             data: {
                 phone: phone,
-                code: input.value
+                code: input.value,
+                unionId: store.get('weixinUnionId')
             },
             paramsType: 'application/json',
             type: 'post',

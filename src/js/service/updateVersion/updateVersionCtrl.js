@@ -6,7 +6,6 @@ import nativeEvent from '../../../utils/nativeEvent';
 import {JsBridge} from '../../../middlewares/JsBridge';
 import {invitationInit} from '../../service/invitation/invitationCtrl'
 
-
 /**
  * @param returnCode
  * value: 1  无更新
@@ -70,7 +69,7 @@ function updateCtrl(f7) {
             $updateInfoText.html(describe.split("\n").join("<br />"));
             $updateModalBox.css(
                 'margin-top', `-${$updateModalBox.height()*0.5 + 10}px`
-            )
+            );
             JsBridge('JS_Download', {
                 filePath,
                 name: 'webapp.zip'
@@ -93,7 +92,7 @@ function updateClickEvent(f7){
      * */
     $$('.small-version-update').click(() => {
         JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {}, f7)
-    })
+    });
 
     /**
      * 大版本更新

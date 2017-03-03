@@ -82,7 +82,7 @@ class CustomClass {
         let newData = $$.isArray(data) ? this.getData(key, data) : data;
 
         let headers = {};
-        let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}/${api ? api + '/' : ''}`;
+        let url = `${config.url}${apiCategory == 'inviteter' ? 'invite' : apiCategory}${api ? ('/' + api + '/') : ''}`;
         apiCategory == 'demandInfoAdd' && !api && (url = `${config.url}demandInfo`);
         url.indexOf('deleteDemandInfo') > -1 && (url = url.replace('demandInfo/deleteDemandInfo', 'demandInfo'));
         url.indexOf('demandInfo/refreshLog/') > -1 && (url = url.replace('demandInfo/refreshLog/', 'demandInfo/'));
@@ -103,7 +103,7 @@ class CustomClass {
 
         if (val) {
             $$.each(val, (key, value) => {
-                url += `${value}/`;
+                url += `/${value}`;
             })
         }
 

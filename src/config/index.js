@@ -2,6 +2,7 @@ import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
     debug: false,
+    version: 'V01_08_06_01',
     /*
      *release branch change the api url to http://api.yudada.com
      */
@@ -27,7 +28,7 @@ const configs = {
      */
     mWebUrl: 'http://m.test.yudada.com/',
     imgPath: (num) => {
-        return `@1e_1c_2o_0l_${num*10}h_${num*10}w_90q.src`
+        return `@1e_1c_2o_0l_${num * 10}h_${num * 10}w_90q.src`
     },
 
     identity: {
@@ -59,19 +60,19 @@ const configs = {
         'personalHome': ['userId']
     },
     fishType: {
-        'getChildrenFishTypeList': ['id','release','type','keyvalue'],
+        'getChildrenFishTypeList': ['id', 'release', 'type', 'keyvalue'],
         'tags': []
     },
     userLogin: {
-        'subUserPass': ['phone_code','key'],
+        'subUserPass': ['phone_code', 'key'],
         'login': ['loginName', 'loginPass'],
     },
     userInfo: {
         'getUserInfo': ['login_token'],
-        'getUserCertificate': ['id'],
+        // 'getUserCertificate': ['id'],
         'updateEnterpriseUserInfo': ['businessLicenseUrl'],
-        'updatePersonalUserInfo': ['positiveIdUrl','otherSideIdUrl','holdIdUrl'],
-        'updateUserInfo': ['id', 'nickname', 'imgUrl', 'address', 'provinceId', 'cityId' , 'provinceName', 'cityName'],
+        'updatePersonalUserInfo': ['positiveIdUrl', 'otherSideIdUrl', 'holdIdUrl'],
+        'updateUserInfo': ['id', 'nickname', 'imgUrl', 'address', 'provinceId', 'cityId', 'provinceName', 'cityName'],
         'getUserCertificate': ['userId'],
         'cancelPersonalAuthentication': [],
         'cancelEnterpriseAuthentication': [],
@@ -91,15 +92,15 @@ const configs = {
         demandInfo: []
     },
     /*
-    * 解绑微信号
-    * */
+     * 解绑微信号
+     * */
     thirdPlatform: {
         'weChat': []
     },
     initPage: ['key'],
     /*
-    * 获取第三方账号信息列表
-    * */
+     * 获取第三方账号信息列表
+     * */
     thirdPlatforms: {
         mine: []
     },
@@ -110,5 +111,5 @@ const configs = {
     postFishCars: [],
     fishCarDemands: ['description', 'pageSize', 'pageNo'],
     fishCarDrivers: ['driverId']
-}
+};
 export default configs;

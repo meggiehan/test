@@ -4,10 +4,13 @@
 
 import RestTemplate from '../../../middlewares/RestTemplate';
 import {getToken} from '../../../middlewares/loginMiddle';
+import config from '../../../config';
 
 class UpdateVersionModel {
     get(callback) {
-        const version = 'V01_08_06_01';
+        const {
+            version
+        } = config;
         const apiStr = `appWabUpgrade/getAppWebNowVersionNumber/${currentDevice.android ? 1 : 2}/${version}`;
         RestTemplate.get(apiStr, {"access-token": getToken()}, {}, callback, true);
     }
