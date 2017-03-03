@@ -2,14 +2,15 @@ import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import store from '../utils/localStorage';
 import nativeEvent from '../utils/nativeEvent';
-import {loginViewShow, isLogin} from '../middlewares/loginMiddle';
+import {loginViewShow, getToken} from '../middlewares/loginMiddle';
+import {weixinAction} from './service/login/loginCtrl';
 
 function bindAccountInit(f7, view, page) {
     f7.hideIndicator();
     const {cacheUserinfoKey} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const token = nativeEvent.getUserValue();
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const token = getToken();
+    const weixinData = store.get('weixinData');
     const userInfo = store.get(cacheUserinfoKey);
 
     if (!token && !weixinData) {
@@ -59,7 +60,7 @@ function bindAccountInit(f7, view, page) {
     } else {
         currentPage.find('.bind-account-phone').addClass('unbind');
         if (weixinData) {
-            editWeixin(JSON.parse(weixinData));
+            editWeixin(weixinData);
         } else {
             currentPage.find('.bind-account-weixin').addClass('unbind');
         }
@@ -96,7 +97,7 @@ function bindAccountInit(f7, view, page) {
         }
         if (currentPage.find('.bind-account-weixin').hasClass('unbind')) {
             apiCount('btn_bind_bindwechat');
-            nativeEvent.callWeixinLogin();
+            weixinAction();
         } else {
             apiCount('btn_bind_unbindwechat');
             //解绑微信

@@ -44,7 +44,16 @@ export default class RestTemplate {
     };
 
     static put(url, headers, params, body, callback) {
-
+        customAjax.ajax({
+            apiCategory: url,
+            header: ['token'],
+            val: params,
+            type: 'put',
+            data: body,
+            paramsType: 'application/json',
+            noCache: true,
+            isMandatory: true
+        }, callback);
     };
 
     static del(url, headers, params, callback) {

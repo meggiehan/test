@@ -20,7 +20,7 @@ function JsBridge(fnName, data, callback, f7) {
         let WVJBIframe = document.createElement('iframe');
         WVJBIframe.style.display = 'none';
         WVJBIframe.src = 'https://__bridge_loaded__';
-        // window.WVJBCallbacks = [];
+        window.WVJBCallbacks = [];
         document.documentElement.appendChild(WVJBIframe);
         setTimeout(function () {
             document.documentElement.removeChild(WVJBIframe);

@@ -6,6 +6,7 @@ import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {weixinAction} from './service/login/loginCtrl';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
@@ -208,7 +209,7 @@ function homeInit(f7, view, page) {
      * 调用微信登录
      * */
     if ($$('.weixin-login-btn').length) {
-        $$('.weixin-login-btn')[0].onclick = nativeEvent.callWeixinLogin;
+        $$('.weixin-login-btn')[0].onclick = weixinAction;
     }
 
     /*
