@@ -38,7 +38,7 @@ function logOut(f7) {
                 onClick: () => {
                     store.remove(cacheUserinfoKey);
                     store.remove("accessToken");
-                    store.set('weixinCode', '');
+                    store.set('weixinUnionId', '');
                     nativeEvent.setDataToNative('weixinData', '');
                     nativeEvent.setNativeUserInfo();
                     nativeEvent.setUerInfoToNative({
@@ -68,7 +68,7 @@ function activeLogout() {
     store.remove("accessToken");
     nativeEvent.setNativeUserInfo();
     nativeEvent.setDataToNative('weixinData', '');
-    store.set('weixinCode', '');
+    store.set('weixinUnionId', '');
     nativeEvent.setUerInfoToNative({
         inviterId: 0
     });

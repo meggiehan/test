@@ -15,7 +15,9 @@ function weixinAction(){
                     const {code, data, message} = res;
                     if(1 == code){
                         nativeEvent.nativeToast(1, '账号绑定成功！');
-                        mainView.refreshPage();
+                        mainView.router.load({
+                            url: 'views/user.html'
+                        });
                     }else if(102 == code){
                         window.weixinBindFaild();
                     }else{
