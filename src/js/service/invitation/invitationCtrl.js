@@ -21,12 +21,7 @@ function invitationInit(f7, view) {
         cancelInvitationNumberKey,
         inviteInfoKey
     } = config;
-    let count = store.get(cancelInvitationNumberKey) || 0;
 
-    $cancelBtn.click(() => {
-        store.set(cancelInvitationNumberKey, ++count);
-        $modalBgInvitation.removeClass("show");
-    });
     invitationModel.f7 = f7;
 
     const callback = (inviterInfo) => {
@@ -35,7 +30,7 @@ function invitationInit(f7, view) {
             store.set(cancelInvitationNumberKey, 0);
         }else{
             const cancelInvitationNumber = store.get(cancelInvitationNumberKey);
-            if(cancelInvitationNumber >=2){
+            if(Number(cancelInvitationNumber) >= 3){
                 return;
             }
         }
@@ -73,11 +68,13 @@ function invitationInit(f7, view) {
 function invitationAction() {
     const $confirmBtn = $$(".modal-bg-invitation .btn.confirm");
     const $modalBgInvitation = $$(".modal-bg-invitation");
+    const $cancelBtn = $$(".modal-bg-invitation .btn.cancel");
+    const {
+        waitAddPointerKey,
+        inviteInfoKey,
+        cancelInvitationNumberKey
+    } = config;
     $confirmBtn.click(() => {
-        const {
-            waitAddPointerKey,
-            inviteInfoKey
-        } = config;
         const inviteInfoCache = store.get(inviteInfoKey) || {};
         const {
             invitationCode
@@ -91,6 +88,12 @@ function invitationAction() {
             loginViewShow();
         }
     })
+
+    $cancelBtn.click(() => {
+        let count = store.get(cancelInvitationNumberKey) || 0;
+        store.set(cancelInvitationNumberKey, Number(count)+1);
+        $modalBgInvitation.removeClass("show");
+    });
 }
 
 export {invitationInit, invitationAction}

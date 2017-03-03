@@ -99,6 +99,7 @@ function updateClickEvent(f7){
      * 非强制更新/强制更新
      * */
     $$('.large-version-update').click(() => {
+        const {android} = window.currentDevice;
         if (android) {
             if (!$$('.update-app-modal').hasClass('force') && (5 != window.yudada.JS_GetNetWorkStates())) {
                 f7.showIndicator();
@@ -113,7 +114,7 @@ function updateClickEvent(f7){
                 JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7);
             }
         } else {
-            JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7)
+            JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7);
         }
     })
 }
