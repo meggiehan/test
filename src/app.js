@@ -41,6 +41,7 @@ import {driverDemandInfoInit} from  './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
 import invitationModel from './js/service/invitation/InvitationModel';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
+import {JsBridge} from './middlewares/JsBridge';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -150,7 +151,12 @@ let initAppConfig = {
             }
         }
     }
-}
+};
+
+/**
+ * 初始化jsBrige
+ * */
+JsBridge('JS_SaveInfomation', {jsBrigeTest: 123});
 
 /*
  * 在低端安卓机中切换页面动画效果不流畅，所以判断在4.4以下的安卓机禁止启用动画
@@ -502,7 +508,14 @@ $$('.edit-driver-address-model-delete').click(() => {
  * 初始化邀请model类
  * 邀请modal按钮操作
  * */
-updateCtrl(f7);
+const interId = setInterval(() => {
+    if(window.JS_GetObjectWithKey ||
+        (window.yudada && window.yudada.JS_GetObjectWithKey)){
+        updateCtrl(f7);
+        clearInterval(interId);
+    }
+}, 100);
 updateClickEvent(f7);
 invitationModel.init(f7);
 invitationAction();
+

@@ -25,6 +25,7 @@ function invitationInit(f7, view) {
     invitationModel.f7 = f7;
 
     const callback = (inviterInfo) => {
+        alert(inviterInfo);
         if(inviterInfo && inviterInfo.invitationCode){
             store.set(inviteInfoKey, inviterInfo);
             store.set(cancelInvitationNumberKey, 0);
@@ -92,6 +93,7 @@ function invitationAction() {
     $cancelBtn.click(() => {
         let count = store.get(cancelInvitationNumberKey) || 0;
         store.set(cancelInvitationNumberKey, Number(count)+1);
+        store.set(waitAddPointerKey, 0);
         $modalBgInvitation.removeClass("show");
     });
 }

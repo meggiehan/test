@@ -2,7 +2,6 @@ import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
     debug: false,
-    version: 'V01_08_06_01',
     /*
      *release branch change the api url to http://api.yudada.com
      */

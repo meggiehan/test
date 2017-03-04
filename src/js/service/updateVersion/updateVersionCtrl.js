@@ -31,6 +31,9 @@ function updateCtrl(f7) {
         //没有更新，进入邀请流程
         if(1 == returnCode){
             /* 初始化邀请码 */
+            (!$updateModal.hasClass('large') &&
+            !$updateModal.hasClass('small') &&
+            !$updateModal.hasClass('force')) &&
             invitationInit(f7, mainView);
             return;
         }else{
@@ -44,7 +47,7 @@ function updateCtrl(f7) {
                 'margin-top', `-${$updateModalBox.height()*0.5 + 10}px`
             );
 
-            if(force && window.device.android && (5 != window.yudada.JS_GetNetWorkStates())){
+            if(force && window.currentDevice.android && (5 != window.yudada.JS_GetNetWorkStates())){
                 $updateModal.addClass('large');
                 force && $updateModal.addClass('force');
                 $body.attr('data-update-url', filePath);
@@ -87,11 +90,15 @@ function updateCtrl(f7) {
 }
 
 function updateClickEvent(f7){
+    const $body = $$('body');
     /**
      * 小版本更新
      * */
     $$('.small-version-update').click(() => {
-        JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {}, f7)
+        JsBridge('JS_WebAppUpdate', {
+            fileName: 'yudada.zip',
+            versionNumber: $body.attr('data-update-version')
+        },() => {}, f7);
     });
 
     /**
@@ -102,20 +109,52 @@ function updateClickEvent(f7){
         const {android} = window.currentDevice;
         if (android) {
             if (!$$('.update-app-modal').hasClass('force') && (5 != window.yudada.JS_GetNetWorkStates())) {
-                f7.showIndicator();
                 JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
                     if(1 == data){
-                        JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7)
+                        JsBridge('JS_WebAppUpdate', {
+                            fileName: 'yudada.apk',
+                            versionNumber: $body.attr('data-update-version')
+                        }, (data) => {}, f7)
                     }else{
                         nativeEvent.nativeToast(0, '下载失败！');
                     }
                 }, f7)
+                $$('.update-app-modal').removeClass('large small');
             }else{
-                JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7);
+                if($$('.update-app-modal').hasClass('force')){
+                    f7.showPreloader('更新中...');
+                }else{
+                    $$('.update-app-modal').removeClass('large small');
+                }
+                JsBridge('JS_WebAppUpdate', {
+                    fileName: 'yudada.apk',
+                    versionNumber: $body.attr('data-update-version')
+                }, (data) => {}, f7);
             }
         } else {
-            JsBridge('JS_WebAppUpdate', 'yudada.apk', (data) => {}, f7);
+            if($$('.update-app-modal').hasClass('force')){
+                f7.showPreloader('更新中...');
+            }
+            $$('.update-app-modal').removeClass('large small');
+            JsBridge('JS_WebAppUpdate', {
+                fileName: 'yudada.apk',
+                versionNumber: $body.attr('data-update-version')
+            }, (data) => {}, f7);
         }
+    });
+
+    /**
+     * 点击我再想想
+     * */
+    $$('.large-version-cancel').click(() => {
+        $$('.update-app-modal').removeClass('large small');
+    })
+
+    $$('.update-app-modal').touchmove((e) => {
+        const eve = e || window.event;
+        eve.preventDefault();
+        eve.stopPropagation();
+        return;
     })
 }
 
