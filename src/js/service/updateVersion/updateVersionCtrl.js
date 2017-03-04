@@ -87,11 +87,12 @@ function updateCtrl(f7) {
 }
 
 function updateClickEvent(f7){
+    const $body = $$('body');
     /**
      * 小版本更新
      * */
     $$('.small-version-update').click(() => {
-        JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {}, f7)
+        JsBridge('JS_WebAppUpdate', 'yudada.zip',() => {}, f7);
     });
 
     /**
