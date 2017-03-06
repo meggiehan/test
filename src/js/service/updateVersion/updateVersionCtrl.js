@@ -54,7 +54,7 @@ function updateCtrl(f7) {
             }else{
                 JsBridge('JS_Download', {
                     filePath,
-                    name: 'webapp.apk'
+                    fileName: 'webapp.apk'
                 }, (data) => {
                     if(1 == data){
                         $updateModal.addClass('large');
@@ -75,7 +75,7 @@ function updateCtrl(f7) {
             );
             JsBridge('JS_Download', {
                 filePath,
-                name: 'webapp.zip'
+                fileName: 'webapp.zip'
             }, (data) => {
                 if(1 == data){
                     $updateModal.addClass('small');
@@ -111,7 +111,7 @@ function updateClickEvent(f7){
             if (!$$('.update-app-modal').hasClass('force') && (5 != window.yudada.JS_GetNetWorkStates())) {
                 JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
                     if(1 == data){
-                        JsBridge('JS_WebAppUpdate', {
+                        JsBridge('JS_AppUpdate', {
                             fileName: 'yudada.apk',
                             versionNumber: $body.attr('data-update-version')
                         }, (data) => {}, f7)
@@ -126,9 +126,8 @@ function updateClickEvent(f7){
                 }else{
                     $$('.update-app-modal').removeClass('large small');
                 }
-                JsBridge('JS_WebAppUpdate', {
-                    fileName: 'yudada.apk',
-                    versionNumber: $body.attr('data-update-version')
+                JsBridge('JS_AppUpdate', {
+                    fileName: 'yudada.apk'
                 }, (data) => {}, f7);
             }
         } else {

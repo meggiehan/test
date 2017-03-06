@@ -22,13 +22,21 @@ function JsBridge(fnName, data, callback, f7) {
             document.addEventListener(
                 'WebViewJavascriptBridgeReady',
                 function () {
-                    handler(fnName, data, callback);
                     WebViewJavascriptBridge.init(function (message, responseCallback) {
                         var data = {
                             'Javascript Responds': '测试中文!'
                         };
                         responseCallback(data);
                     });
+
+                    //app后台唤醒后js做的操作
+                    const $updateModal = $$('.update-app-modal');
+                    WebViewJavascriptBridge.registerHandler('appWillEnterForeground', (data, responseCallback) => {
+                        (!$updateModal.hasClass('large') && !$updateModal.hasClass('small') && !$updateModal.hasClass('force')) &&
+                        invitationInit(f7, mainView);
+                    });
+
+                    handler(fnName, data, callback);
                 },
                 false
             );
