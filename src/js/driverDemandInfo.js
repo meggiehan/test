@@ -51,7 +51,7 @@ function driverDemandInfoInit(f7, view, page) {
                     str += fishCar.selectAddress(index, text);
                 })
             }
-            currentPage.find('.driver-info-address').html(str);
+            // currentPage.find('.driver-info-address').html(str);
 
             /**
              * render鱼车信息
@@ -108,12 +108,12 @@ function driverDemandInfoInit(f7, view, page) {
     /**
      * 拨打电话
      * */
-    currentPage.find('.head-tell')[0].onclick = () => {
-        if(currentPage.find('.head-tell').attr('data-phone')){
-            apiCount('btn_fishcar_driverDetail_call');
-            nativeEvent.contactUs(currentPage.find('.head-tell').attr('data-phone'));
-        }
-    }
+    // currentPage.find('.head-tell')[0].onclick = () => {
+    //     if(currentPage.find('.head-tell').attr('data-phone')){
+    //         apiCount('btn_fishcar_driverDetail_call');
+    //         nativeEvent.contactUs(currentPage.find('.head-tell').attr('data-phone'));
+    //     }
+    // }
 
 }
 

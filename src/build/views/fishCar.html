@@ -4,11 +4,7 @@
             <a class="back iconfont icon-back">返回</a>
         </div>
         <div class="center sliding">叫鱼车</div>
-        <div class="right"><span style="visibility: hidden">0</span></div>
-        <div class="filter-tab">
-            <div class="filter-tab-title on">找司机</div>
-            <div class="filter-tab-title">我要拉货</div>
-        </div>
+        <div class="right border switch-btn">货主<i class="iconfont icon-right"></i></div>
     </div>
 </div>
 <div class="page swipeback page-fish-car" data-page="fishCar">
@@ -17,19 +13,10 @@
             <div class="preloader "></div>
             <div class="pull-to-refresh-arrow "></div>
         </div>
-        <div class="filter-img">
-            <p class="title">叫车难？拉货少？</p>
-            <p>快来这儿看看~</p>
-        </div>
-        <div class="filter-tab">
-            <div class="filter-tab-title on">找司机</div>
-            <div class="filter-tab-title">我要拉货</div>
-        </div>
         <div class="page-list-view">
             <div class="select-city">
-                <p class="title">为你找到“<span>全国</span>”的司机</p>
-                <p>选择其他区域</p>
-                <input type="text" readonly onclick="apiCount('btn_fishcar_regionSelect');" id="select-city-input">
+                <div class="count-driver">19位司机出行</div>
+                <div class="right" id="select-city-input">所有目的地</div>
             </div>
             <div class="list"></div>
         </div>

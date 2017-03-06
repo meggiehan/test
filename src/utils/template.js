@@ -342,20 +342,34 @@ module.exports = {
                             `${item.destinationProvinceName}内` :
                             `${item.departureProvinceName} - ${item.destinationProvinceName}`;
                 districtList += `<span>${text}</span>`;
-            })
+            });
 
             str += `<a class="driver-info" href="views/driverDemandInfo.html?id=${id}">` +
-                        '<div class="left">' +
-                            `<p class="title">${contactName}</p>` +
-                            `<p>鱼车${fishTankSize}方 | ${getFishTankName(fishTankMaterial)}鱼罐</p>` +
-                            '<div class="other-info">' +
-                                `<p>线路：${(routeList && routeList.length) ? (routeList.length + '条') : '全国'}</p>` +
-                                `${districtList ? ('<div>'+ districtList +'</div>') : ''}` +
-                            '</div>' +
-                        '</div>' +
-                        `<div class="right">${workingAge}年驾龄</div>` +
-                        '<span class="iconfont icon-right"></span>' +
-                    '</a>'
+                        `<div class="driver">` +
+                            `<div class=""><img class="avatar" src="../img/ic_avatar_default.png"/></div>` +
+                            `<div class="username">高师傅</div>` +
+                            `<div class="description"><div>查看鱼车信息</div><i class="iconfont icon-right"></i></div>` +
+                        `</div>`+
+                        `<div class="driver-demand">` +
+                            `<div class="icon time">明天(2月28日)</div>` +
+                            `<div class="icon route">四川省-山东省</div>` +
+                            `<div class="icon description">能装淡水鱼</div>` +
+                        `</div>` +
+                        `<div class="driver-contact">` +
+                            `<div>正在寻找货物</div>` +
+                            `<div class="phone"><i class="iconfont icon-call"></i><div class="text">电话联系</div></div>` +
+                        `</div>` +
+                        // '<div class="left">' +
+                        //     `<p class="title">${contactName}</p>` +
+                        //     `<p>鱼车${fishTankSize}方 | ${getFishTankName(fishTankMaterial)}鱼罐</p>` +
+                        //     '<div class="other-info">' +
+                        //         `<p>线路：${(routeList && routeList.length) ? (routeList.length + '条') : '全国'}</p>` +
+                        //         `${districtList ? ('<div>'+ districtList +'</div>') : ''}` +
+                        //     '</div>' +
+                        // '</div>' +
+                        // `<div class="right">${workingAge}年驾龄</div>` +
+                        // '<span class="iconfont icon-right"></span>' +
+                    '</a>';
             return str;
         },
         demandList: (data) => {
