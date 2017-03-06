@@ -16,6 +16,7 @@ function invitationInit(f7, view) {
     const $text = $$('.modal-bg-invitation .text');
     const $headUrl = $modalBgInvitation.find('.img-user');
     const $nickname = $modalBgInvitation.find('.div-nickname').children('.nickname');
+    const {android} = window.currentDevice;
 
     const {
         cancelInvitationNumberKey,
@@ -25,9 +26,12 @@ function invitationInit(f7, view) {
     invitationModel.f7 = f7;
 
     const callback = (inviterInfo) => {
-        alert(inviterInfo);
-        if(inviterInfo && inviterInfo.invitationCode){
-            store.set(inviteInfoKey, inviterInfo);
+        let inviterInfoData = inviterInfo;
+        if(android){
+            inviterInfoData = JSON.parse(inviterInfoData);
+        }
+        if(inviterInfoData && inviterInfoData.invitationCode){
+            store.set(inviteInfoKey, inviterInfoData);
             store.set(cancelInvitationNumberKey, 0);
         }else{
             const cancelInvitationNumber = store.get(cancelInvitationNumberKey);
