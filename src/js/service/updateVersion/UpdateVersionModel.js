@@ -9,7 +9,8 @@ import store from '../../../utils/localStorage';
 class UpdateVersionModel {
     get(callback) {
         const versionNumber = store.get('versionNumber');
-        const apiStr = `appWabUpgrade/getAppWebNowVersionNumber/${currentDevice.android ? 1 : 2}/${versionNumber}`;
+        const channel = store.get('appChannel');
+        const apiStr = `appWabUpgrade/getAppWebNowVersionNumber/${currentDevice.android ? 1 : 2}/${versionNumber}?channel=${channel}`;
         RestTemplate.get(apiStr, {"access-token": getToken()}, {}, callback, true);
     }
 

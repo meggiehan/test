@@ -268,7 +268,8 @@ class CustomClass {
         }
         const val = ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
         // 判断是否安装微信
-        if (key == 'isWXAppInstalled' || 'versionNumber' == key) {
+        const defaultArr = ['appChannel', 'isWXAppInstalled', 'versionNumber'];
+        if (defaultArr.indexOf(key) > -1) {
             return val;
         }
         return !!val ? JSON.parse(val) : val;
