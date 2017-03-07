@@ -171,8 +171,10 @@ class CustomClass {
         /*
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
+         *   status == '2':微信绑定手机号
          */
-        !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
+        (0 == status) && nativeEvent.nativeToast(1, '登录成功！');
+        (2 == status) && nativeEvent.nativeToast(1, '手机号绑定成功！');
         loginViewHide();
         f7.hideIndicator();
         if('user' == mainView.activePage.name){
@@ -189,6 +191,8 @@ class CustomClass {
                 const { cacheUserinfoKey } = config;
                 if(1 == code){
                     store.set(cacheUserinfoKey, data.data);
+                    nativeEvent.setDataToNative("accessToken", data.token);
+                    store.set("accessToken", data.token);
                     nativeEvent.setUerInfoToNative({
                         inviterId: data.data.inviterId
                     });

@@ -146,7 +146,7 @@ function userInit(f7, view, page) {
          * 如果只是微信登录
          * */
         if (weixinData) {
-            const {imgUrl, nickname} = JSON.parse(weixinData);
+            const {imgUrl, nickname} = weixinData;
             currentPage.find('.modify-text').text('绑定');
             nickname && currentPage.find('.user-name').children('span').text(nickname);
             imgUrl && currentPage.find('.user-pic').children('img').attr('src', imgUrl);

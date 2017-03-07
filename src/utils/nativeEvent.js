@@ -1,11 +1,10 @@
-import config from '../config';
 import framework7 from '../js/lib/framework7';
 
 window.currentDevice = new framework7()['device'];
 class CustomClass {
 
-    doubleClickFeedback(){
-        if(this.doubleClick){
+    doubleClickFeedback() {
+        if (this.doubleClick) {
             return true;
         }
         this.doubleClick = true;
@@ -17,10 +16,10 @@ class CustomClass {
     }
 
     /**
-    * 调用native统计事件（友盟统计）
-    * */
+     * 调用native统计事件（友盟统计）
+     * */
     apiCount(id) {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_UMengToCount'] && (!window['yudada'] || !window['yudada']['JS_UMengToCount'])) {
             return false;
         }
@@ -29,13 +28,13 @@ class CustomClass {
     }
 
     /**
-    * 调用native拨打电话
-    * */
+     * 调用native拨打电话
+     * */
     contactUs(phone) {
-        if(this.doubleClickFeedback()){
+        if (this.doubleClickFeedback()) {
             return
         }
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])) {
             return false;
         }
@@ -44,11 +43,11 @@ class CustomClass {
     }
 
     /**
-    * 调用native选择地区页面
-    * */
+     * 调用native选择地区页面
+     * */
     eventChooseAddress(type, provinceIndex, cityIndex) {
         //pageType:0:release page  1:mycenter page
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_ChooseAddress'] && (!window['yudada'] || !window['yudada']['JS_ChooseAddress'])) {
             return false;
         }
@@ -57,10 +56,10 @@ class CustomClass {
     }
 
     /**
-    * 调用native定位
-    * */
+     * 调用native定位
+     * */
     getAddress() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_LocationOfDevice'] && (!window['yudada'] || !window['yudada']['JS_LocationOfDevice'])) {
             return false;
         }
@@ -69,13 +68,13 @@ class CustomClass {
     }
 
     /**
-    * 调用native选择图片组件
-    * */
+     * 调用native选择图片组件
+     * */
     postPic(mark, id, path, functionName) {
-        if(this.doubleClickFeedback()){
+        if (this.doubleClickFeedback()) {
             return
         }
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_PictureSeletor'] && (!window['yudada'] || !window['yudada']['JS_PictureSeletor'])) {
             return false;
         }
@@ -91,13 +90,13 @@ class CustomClass {
     }
 
     /**
-    * 调用native查看图片组件
-    * */
+     * 调用native查看图片组件
+     * */
     catPic(url) {
-        if(this.doubleClickFeedback()){
+        if (this.doubleClickFeedback()) {
             return
         }
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_ShowOriginalImg'] && (!window['yudada'] || !window['yudada']['JS_ShowOriginalImg'])) {
             return false;
         }
@@ -106,13 +105,13 @@ class CustomClass {
     }
 
     /**
-    * 调用友盟分享
-    * */
+     * 调用友盟分享
+     * */
     shareInfo(title, html, url, message, imgUrl) {
-        if(this.doubleClickFeedback()){
+        if (this.doubleClickFeedback()) {
             return
         }
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])) {
             return false;
         }
@@ -122,14 +121,14 @@ class CustomClass {
 
     //release voice info.
     releaseVoiceInfo() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         ios && JS_RecordingModal();
         android && window.yudada.JS_RecordingModal();
     }
 
     //native alert style.
     nativeAlert(title, message, button1, button2) {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_ShowAlertWithTitles'] && (!window['yudada'] || !window['yudada']['JS_ShowAlertWithTitles'])) {
             return false;
         }
@@ -139,7 +138,7 @@ class CustomClass {
 
     //native login.
     nativeLogin(username, code) {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         const obj = {
             'tele': username,
             'pass': code
@@ -152,7 +151,7 @@ class CustomClass {
     }
 
     getUserValue() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_Token'] && (!window['yudada'] || !window['yudada']['JS_Token'])) {
             return false;
         }
@@ -161,7 +160,7 @@ class CustomClass {
     }
 
     logOut() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_UserExitLog'] && (!window['yudada'] || !window['yudada']['JS_UserExitLog'])) {
             return false;
         }
@@ -170,7 +169,7 @@ class CustomClass {
     }
 
     getAPi() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_BaseUrl'] && (!window['yudada'] || !window['yudada']['JS_BaseUrl'])) {
             return false;
         }
@@ -178,7 +177,7 @@ class CustomClass {
     }
 
     getDistricInfo() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_AreaInfo'] && (!window['yudada'] || !window['yudada']['JS_AreaInfo'])) {
             return false;
         }
@@ -187,7 +186,7 @@ class CustomClass {
 
     nativeToast(type, message) {
         //type: 0 faild, 1 succ;
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_ShowHUD_AutoDisappear'] && (!window['yudada'] || !window['yudada']['JS_ShowHUD_AutoDisappear'])) {
             return false;
         }
@@ -196,7 +195,7 @@ class CustomClass {
 
     setNativeUserInfo() {
         //clear user info on native.
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])) {
             return false;
         }
@@ -208,7 +207,7 @@ class CustomClass {
     }
 
     getNetworkStatus() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_GetNetWorkStates'] && (!window['yudada'] || !window['yudada']['JS_GetNetWorkStates'])) {
             return true;
         }
@@ -217,7 +216,7 @@ class CustomClass {
     }
 
     getDeviceInfomation() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_VersionInfo'] && (!window['yudada'] || !window['yudada']['JS_VersionInfo'])) {
             return false;
         }
@@ -225,7 +224,7 @@ class CustomClass {
     }
 
     setClipboardValue(val) {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_CopyResult'] && (!window['yudada'] || !window['yudada']['JS_CopyResult'])) {
             return false;
         }
@@ -233,10 +232,10 @@ class CustomClass {
     }
 
     goNewWindow(url) {
-        if(this.doubleClickFeedback()){
+        if (this.doubleClickFeedback()) {
             return
         }
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_JumpToThirdWeb'] && (!window['yudada'] || !window['yudada']['JS_JumpToThirdWeb'])) {
             return false;
         }
@@ -252,7 +251,7 @@ class CustomClass {
          *  type == 2: get search history;
          *  type == 3: clear search history.
          */
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_SearchRecord'] && (!window['yudada'] || !window['yudada']['JS_SearchRecord'])) {
             return false;
         }
@@ -263,23 +262,24 @@ class CustomClass {
      * 跟native获取h5存入的信息
      * */
     getDataToNative(key) {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])) {
             return false;
         }
         const val = ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
         // 判断是否安装微信
-        if (key =='isWXAppInstalled') {
+        const defaultArr = ['appChannel', 'isWXAppInstalled', 'versionNumber'];
+        if (defaultArr.indexOf(key) > -1) {
             return val;
         }
-        return val ? JSON.parse(val) : val;
+        return !!val ? JSON.parse(val) : val;
     }
 
     /**
      * 存入数据到nativve
      * */
     setDataToNative(key, val) {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_SaveObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_SaveObjectWithKey'])) {
             return false;
         }
@@ -292,14 +292,14 @@ class CustomClass {
      * 根据key去native获取用户中心的数据
      * */
     getUserInfo(key) {
-        const { ios } = window.currentDevice;
+        const {ios} = window.currentDevice;
         if (!window['JS_PerferenceGetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceGetShared'])) {
             return false;
         }
         let res;
-        if(ios){
+        if (ios) {
             res = JS_PerferenceGetShared(key || '');
-        }else{
+        } else {
             res = window.yudada.JS_PerferenceGetShared(key || '');
         }
         return res;
@@ -307,7 +307,7 @@ class CustomClass {
 
     //get app push data.
     getJumpDate() {
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_GetPushInfo'] && (!window['yudada'] || !window['yudada']['JS_GetPushInfo'])) {
             return false;
         }
@@ -322,10 +322,10 @@ class CustomClass {
      * 3: 分享web到朋友圈    参数2: web url  参数3 : 图片url   参数4: 描述   参数5: 标题
      */
     shareInfoToWeixin(par1, par2, par3, par4, par5) {
-        if(this.doubleClickFeedback()){
+        if (this.doubleClickFeedback()) {
             return
         }
-        const { ios, android } = window.currentDevice;
+        const {ios, android} = window.currentDevice;
         if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])) {
             return false;
         }
@@ -333,31 +333,31 @@ class CustomClass {
     }
 
     /**
-    * 调用native微信登录/绑定
-    * */
-    callWeixinLogin() {
-        if(this.doubleClickFeedback()){
-            return
-        }
-        const { ios, android } = window.currentDevice;
-        if (!window['JS_WeChatLogin'] && (!window['yudada'] || !window['yudada']['JS_WeChatLogin'])) {
-            return false;
-        }
-        ios ? JS_WeChatLogin() : window.yudada.JS_WeChatLogin();
-    }
+     * 调用native微信登录/绑定
+     * */
+    // callWeixinLogin() {
+    //     if (this.doubleClickFeedback()) {
+    //         return
+    //     }
+    //     const {ios, android} = window.currentDevice;
+    //     if (!window['JS_WeChatLogin'] && (!window['yudada'] || !window['yudada']['JS_WeChatLogin'])) {
+    //         return false;
+    //     }
+    //     ios ? JS_WeChatLogin() : window.yudada.JS_WeChatLogin();
+    // }
 
     /**
-    * 存入用户信息
-    * @data: object
-    * */
+     * 存入用户信息
+     * @data: object
+     * */
     setUerInfoToNative(data) {
-        const { ios } = window.currentDevice;
+        const {ios} = window.currentDevice;
         if (!window['JS_SetNativeUserInfo'] && (!window['yudada'] || !window['yudada']['JS_SetNativeUserInfo'])) {
             return false;
         }
-        if(ios){
+        if (ios) {
             data && JS_SetNativeUserInfo(data);
-        }else{
+        } else {
             $$.each(data, (key, val) => {
                 key && window.yudada.JS_PerferenceSetShared(key, val);
             })

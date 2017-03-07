@@ -41,6 +41,7 @@ import {driverDemandInfoInit} from  './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
 import invitationModel from './js/service/invitation/InvitationModel';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
+import {JsBridge} from './middlewares/JsBridge';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -113,7 +114,7 @@ let initAppConfig = {
                 mainView.router.load({
                     url: 'views/home.html',
                     reload: true
-                })
+                });
                 return false;
             }
             $$('.release-select-model').removeClass('on');
@@ -135,7 +136,7 @@ let initAppConfig = {
                             }
                         }
                     ]
-                })
+                });
                 return false;
             }
 
@@ -151,7 +152,12 @@ let initAppConfig = {
             }
         }
     }
-}
+};
+
+/**
+ * 初始化jsBrige
+ * */
+JsBridge('JS_SaveInfomation', {jsBrigeTest: 123});
 
 /*
  * 在低端安卓机中切换页面动画效果不流畅，所以判断在4.4以下的安卓机禁止启用动画
@@ -161,7 +167,7 @@ var f7 = new Framework7(initAppConfig);
 const mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
-})
+});
 
 /*
  * 抽离出登录视图
@@ -169,7 +175,7 @@ const mainView = f7.addView('.view-main', {
 const loginView = f7.addView('.view-login', {
     dynamicNavbar: true,
     domCache: true
-})
+});
 
 /*
  * 主视图初始化加载首页
@@ -178,7 +184,7 @@ mainView.router.load({
     url: 'views/home.html',
     animatePages: false,
     reload: true
-})
+});
 
 window.$$ = Dom7;
 window.jQuery = Dom7;
@@ -273,7 +279,7 @@ f7.onPageAfterBack('*', (page) => {
             }
         }
     }, 250)
-})
+});
 
 /*
  * 关闭微信分享model
@@ -284,8 +290,7 @@ $$('.modal-close').click((e) => {
     if (classes.indexOf('footer') > -1 || classes.indexOf('modal-close') > -1) {
         $$('.modal-close').removeClass('on');
     }
-});
-
+};
 
 /*
  * 微信分享给朋友
@@ -295,7 +300,7 @@ $$('.share-to-friends')[0].onclick = () => {
     let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
     url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
-}
+};
 
 /*
  * 微信分享到朋友圈
@@ -305,7 +310,7 @@ $$('.share-to-friends-circle')[0].onclick = () => {
     let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
     url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
     nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
-}
+};
 
 /*
  * 关闭登录视图
@@ -316,7 +321,7 @@ $$('.view-login>.navbar').click((e) => {
         $$('.view-login').removeClass('show');
     }
     return;
-})
+});
 
 /**
  * 调用native定位，获取当前定位信息
@@ -392,7 +397,7 @@ setTimeout(() => {
             }
         ]
     });
-}, 1000)
+}, 1000);
 
 /**
  * 以下是司机选择路线的操作
@@ -444,7 +449,7 @@ $$('.edit-driver-address-model-add').click(() => {
         currentPage.find('.post-driver-select').append(fishCar.addBtn());
     }
     $$('.edit-driver-address-model').removeClass('add edit');
-})
+});
 
 $$('.edit-driver-address-model-save').click(() => {
     let address;
@@ -480,7 +485,7 @@ $$('.edit-driver-address-model-save').click(() => {
     currentPage.find('.post-select-address').find('input').eq(window.addressIndex)
         .val(address).attr('placeholder', address);
     $$('.edit-driver-address-model').removeClass('add edit');
-})
+});
 
 $$('.edit-driver-address-model-delete').click(() => {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
@@ -496,18 +501,22 @@ $$('.edit-driver-address-model-delete').click(() => {
         currentPage.find('.post-driver-select').append(fishCar.addBtn());
     }
     $$('.edit-driver-address-model').removeClass('add edit');
-})
+});
 
 /**
  * 一开始执行检查版本更新操作
- * */
-updateCtrl(f7);
-
-/**
  * 更新版本按钮操作事件
- * 初始化yaoqingmodel类
+ * 初始化邀请model类
  * 邀请modal按钮操作
  * */
+const interId = setInterval(() => {
+    if(window.JS_GetObjectWithKey ||
+        (window.yudada && window.yudada.JS_GetObjectWithKey)){
+        updateCtrl(f7);
+        clearInterval(interId);
+    }
+}, 100);
 updateClickEvent(f7);
 invitationModel.init(f7);
 invitationAction();
+

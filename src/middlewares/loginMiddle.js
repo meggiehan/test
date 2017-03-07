@@ -2,6 +2,8 @@ import config from '../config/';
 import store from '../utils/localStorage';
 import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
+
+
 const {cacheUserinfoKey} = config;
 
 /*
@@ -36,6 +38,7 @@ function logOut(f7) {
                 onClick: () => {
                     store.remove(cacheUserinfoKey);
                     store.remove("accessToken");
+                    store.set('weixinUnionId', '');
                     nativeEvent.setDataToNative('weixinData', '');
                     nativeEvent.setNativeUserInfo();
                     nativeEvent.setUerInfoToNative({
@@ -65,6 +68,7 @@ function activeLogout() {
     store.remove("accessToken");
     nativeEvent.setNativeUserInfo();
     nativeEvent.setDataToNative('weixinData', '');
+    store.set('weixinUnionId', '');
     nativeEvent.setUerInfoToNative({
         inviterId: 0
     });
@@ -126,7 +130,7 @@ function loginViewShow(phone) {
 }
 
 function getToken() {
-    return store.get("accessToken");
+    return store.get("accessToken") || nativeEvent.getUserValue();
 }
 
 function setToken(accessToken) {

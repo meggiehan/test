@@ -118,16 +118,29 @@ function loginCodeInit(f7, view, page) {
     weixinData && currentPage.find('.login-code-submit').text('绑定手机号');
 
     const loginCallBack = (result) => {
+        f7.hideIndicator();
+        f7.hidePreloader();
         const {code, message, data} = result;
-        if (1 === code) {
+        if (1 == code) {
             nativeEvent.setDataToNative("accessToken", data.token);
             store.set("accessToken", data.token);
-            getKey(data.token, '', '', 0);
+            (weixinData && store.get('weixinUnionId')) ?
+                getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
+            store.set('weixinUnionId', '');
+            store.set('weixinData', '');
             if (1 == store.get(waitAddPointerKey)) {
                 const {invitationCode} = store.get(inviteInfoKey);
                 invitationModel.f7 = f7;
                 invitationModel.acceptInvitation(invitationCode);
             }
+        }else if(6 == code){
+            f7.alert(message, '温馨提示', () => {
+                $$(input).val('').focus();
+                $$(subBtn).removeClass('on');
+                isPass = false;
+            });
+        }else if(101 == code){
+            window.phoneBindFaild();
         } else {
             f7.alert(message);
         }
@@ -147,7 +160,8 @@ function loginCodeInit(f7, view, page) {
             apiCategory: 'auth',
             data: {
                 phone: phone,
-                code: input.value
+                code: input.value,
+                unionId: store.get('weixinUnionId')
             },
             paramsType: 'application/json',
             type: 'post',

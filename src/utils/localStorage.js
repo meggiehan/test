@@ -6,14 +6,16 @@ import nativeEvent from './nativeEvent';
  * */
 module.exports = {
     get: (key) => {
-        if (window.JS_GetObjectWithKey || (window.yudada && window.JS_GetObjectWithKey)) {
-            return nativeEvent.getDataToNative(key);
+        let value = nativeEvent.getDataToNative(key) || '';
+
+        if (value) {
+            return value;
         } else {
             if (!window.localStorage.getItem(key)) {
-                return;
+                return '';
             }
-            let value = window.localStorage.getItem(key);
-            if (value.indexOf('{"') > -1 || value.indexOf('["') > -1) {
+            value = window.localStorage.getItem(key);
+            if (value && (value.indexOf('{"') > -1 || value.indexOf('["') > -1)) {
                 return JSON.parse(value);
             } else {
                 return value
@@ -24,9 +26,6 @@ module.exports = {
         if (!key) {
             return;
         }
-        if (window['JS_UMengToCount'] || window['yudada']) {
-            nativeEvent.setDataToNative(key, val);
-        }
 
         let value;
         if (typeof val == 'object') {
@@ -34,6 +33,8 @@ module.exports = {
         } else {
             value = val;
         }
+
+        nativeEvent.setDataToNative(key, val);
         window.localStorage.setItem(key, value)
     },
     remove: (key) => {
