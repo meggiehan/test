@@ -76,6 +76,7 @@ let initAppConfig = {
     // force: true,
     preprocess: (content, url, next) => {
         next(content);
+        $$('.fish-car-modal').removeClass('on');
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1) {
             searchInit(f7, mainView, {query})
@@ -283,11 +284,11 @@ f7.onPageAfterBack('*', (page) => {
 /*
  * 关闭微信分享model
  * */
-$$('.share-to-weixin-model')[0].onclick = (e) => {
+$$('.modal-close').click((e) => {
     const ele = e.target || window.event.target;
     const classes = ele.className;
-    if (classes.indexOf('footer') > -1 || classes.indexOf('share-to-weixin-model') > -1) {
-        $$('.share-to-weixin-model').removeClass('on');
+    if (classes.indexOf('footer') > -1 || classes.indexOf('modal-close') > -1) {
+        $$('.modal-close').removeClass('on');
     }
 };
 

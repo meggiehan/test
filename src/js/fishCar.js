@@ -222,44 +222,44 @@ function fishCarInit(f7, view, page) {
         getList(false);
     }
 
-    currentNavbar.find('.filter-tab-title').click((e) => {
-        const ele = e.target || window.event.target;
-        if ($$(ele).text() == '找司机') {
-            driverList();
-        } else {
-            getDemandInfo();
-        }
-    })
+    // currentNavbar.find('.filter-tab-title').click((e) => {
+    //     const ele = e.target || window.event.target;
+    //     if ($$(ele).text() == '找司机') {
+    //         driverList();
+    //     } else {
+    //         getDemandInfo();
+    //     }
+    // })
 
     /**
      * 切换鱼车跟需求列表
      * */
-    currentPage.find('.filter-tab')[0].onclick = (e) => {
-        const ele = e.target || window.event.target;
-        if (!$$(ele).hasClass('filter-tab-title')) {
-            return;
-        }
-        if ($$(ele).hasClass('on')) {
-            return;
-        }
-        contentBox.html('');
-
-        pageNo = 1;
-        isInfinite = false;
-        isShowAll = false;
-        isRefresh = false;
-        emptyContent.hide();
-        downLoading.show();
-        showAllText.hide();
-
-        const text = $$(ele).text();
-        isFishCarList = '找司机' == text;
-        if (isFishCarList) {
-            driverList();
-        } else {
-            getDemandInfo();
-        }
-    }
+    // currentPage.find('.filter-tab')[0].onclick = (e) => {
+    //     const ele = e.target || window.event.target;
+    //     if (!$$(ele).hasClass('filter-tab-title')) {
+    //         return;
+    //     }
+    //     if ($$(ele).hasClass('on')) {
+    //         return;
+    //     }
+    //     contentBox.html('');
+    //
+    //     pageNo = 1;
+    //     isInfinite = false;
+    //     isShowAll = false;
+    //     isRefresh = false;
+    //     emptyContent.hide();
+    //     downLoading.show();
+    //     showAllText.hide();
+    //
+    //     const text = $$(ele).text();
+    //     isFishCarList = '找司机' == text;
+    //     if (isFishCarList) {
+    //         driverList();
+    //     } else {
+    //         getDemandInfo();
+    //     }
+    // }
 
     /**
      * 列表滚动监听
@@ -359,6 +359,10 @@ function fishCarInit(f7, view, page) {
             }
         }
     }
+
+    $$('.switch-btn').click(() => {
+        $$('.fish-car-modal').addClass('on');
+    })
 }
 
 export {

@@ -232,7 +232,12 @@ function homeInit(f7, view, page) {
     currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
         f7.alert('担保交易功能即将上线，敬请期待！');
         return;
-    }
+    };
+
+
+    currentPage.find('.callFishCar').click(() => {
+        $$('.fish-car-modal').addClass('on');
+    });
 
     // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
