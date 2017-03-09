@@ -5,6 +5,7 @@ import RestTemplate from '../../../middlewares/RestTemplate';
 import {JsBridge} from '../../../middlewares/JsBridge';
 import store from '../../../utils/localStorage';
 import config from '../../../config';
+import nativeEvent from '../../../utils/nativeEvent';
 
 class InvitationModel {
 
@@ -17,11 +18,11 @@ class InvitationModel {
             code
         }, (res) => {
             if (1 == res.code) {
-                this._f7.alert("接受邀请成功");
+                nativeEvent.nativeToast(1, "接受邀请成功");
                 callback(res);
-            } else {
-                this._f7.alert(res.message);
+                return;
             }
+            nativeEvent.nativeToast(0, res.message);
             this.clearInviterInfo();
         })
     }

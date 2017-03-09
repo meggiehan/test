@@ -169,7 +169,7 @@
                 &.my-buy-list {
                     color: @bg-color;
                 }
-                &.my-collection-list {
+                &.my-fish-car-list {
                     color: @text-collection;
                 }
                 & > div div {
@@ -232,12 +232,18 @@
                 line-height: 4.4rem;
                 color: @text-subtitle;
                 padding-left: .6rem;
-                &.user-fish-car-driver {
+                &.user-fish-car-driver, &.edit-fish-car-info {
                     .icon-fish-car:before {
                         font-size: 3rem;
                     }
                     .col-85.first {
                         border-bottom: 0;
+                    }
+                }
+                &.edit-fish-car-info {
+                    display: none;
+                    .col-85.first {
+                        border-bottom: 1px solid @border-da;
                     }
                 }
                 .iconfont {
@@ -327,7 +333,6 @@
             a {
                 .icon-info {
                     font-size: 3rem;
-                    .text-left;
                 }
                 &.user-help-danbao {
                     .col-60 {

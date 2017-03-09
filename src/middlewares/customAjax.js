@@ -3,6 +3,7 @@ import store from '../utils/localStorage';
 import {logOut, activeLogout} from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
+import invitationModel from '../js/service/invitation/InvitationModel';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -74,7 +75,19 @@ class CustomClass {
      */
     ajax(obj, callback) {
         const $$ = Dom7;
-        const {api, data, apiCategory, type, isMandatory, noCache, val, header, paramsType, onlyUseCache} = obj;
+        const {
+            api,
+            data,
+            apiCategory,
+            type,
+            isMandatory,
+            noCache,
+            val,
+            header,
+            paramsType,
+            onlyUseCache,
+            apiVersion
+        } = obj;
 
         const key = api ? config[apiCategory][api] : config[apiCategory];
         const {timeout, cacheUserinfoKey} = config;
@@ -142,7 +155,8 @@ class CustomClass {
         const deviceInfo = nativeEvent['getDeviceInfomation']();
         $$.each(deviceInfo, (key, val) => {
             headers[key] = val;
-        })
+        });
+        apiVersion && (headers['v'] = apiVersion);
 
         $$.ajax({
             method: type,
@@ -219,6 +233,7 @@ class CustomClass {
                     nativeEvent.nativeToast(0, '服务器异常，请稍后再试！');
                 } else if (4 == _data.code) {
                     f7.hideIndicator();
+                    invitationModel.clearInviterInfo();
                     f7.alert(_data.message, '提示');
                     return;
                 } else if (3 == _data.code) {
@@ -233,7 +248,7 @@ class CustomClass {
                             url: 'views/notFound.html?errInfo=' + _data.message,
                             reload: true
                         })
-                    }, 400)
+                    }, 400);
                     return;
                 }
                 if (3 !== _data.code && (-1 !== data.code)) {

@@ -121,8 +121,14 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
 
                 if(1 == driverState || 3 == driverState){
                     currentPage.find('.user-info-driver-check').addClass('edit');
-                    1 == driverState && currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
-                    3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id');
+                    currentPage.find('.user-fish-car-driver').hide();
+                    if(1 == driverState){
+                        currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
+                    }
+                    // currentPage.find('.edit-fish-car-info')
+                    //     .css({display: '-webkit-flex'})
+                    //     .attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`);
+                    3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id' );
                 }
 
                 if(2 == driverState){
@@ -137,6 +143,6 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 });
             }
         }
-    }
+    };
 
 export default userUtils;

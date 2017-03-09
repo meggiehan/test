@@ -124,6 +124,7 @@ function loginCodeInit(f7, view, page) {
         if (1 == code) {
             nativeEvent.setDataToNative("accessToken", data.token);
             store.set("accessToken", data.token);
+            store.set('cacheUserinfoKey', data.userInfoView);
             (weixinData && store.get('weixinUnionId')) ?
                 getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');
@@ -166,7 +167,8 @@ function loginCodeInit(f7, view, page) {
             paramsType: 'application/json',
             type: 'post',
             noCache: true,
-            isMandatory: true
+            isMandatory: true,
+            apiVersion: 2
         }, loginCallBack);
 
     };

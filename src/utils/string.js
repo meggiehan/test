@@ -1,5 +1,6 @@
 import nativeEvent from './nativeEvent';
 import config from '../config/index';
+import {getToken} from '../middlewares/loginMiddle';
 
 const {fishCacheObj} = config;
 module.exports = {
@@ -383,7 +384,7 @@ module.exports = {
     },
 
     alertTitleText: () => {
-        const token = nativeEvent.getUserValue();
+        const token = getToken();
         const weixinData = nativeEvent.getDataToNative('weixinData');
         let text;
         !token && !weixinData && (text = '您还没登录，请先登录!')
@@ -419,7 +420,7 @@ module.exports = {
     /**
      * 获取所以的省份名字信息
      * */
-    gerProvinceList: () => {
+    getProvinceList: () => {
         const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
         let list = [];
         $$.each(_district.root.province, (index, item) => {
@@ -555,5 +556,43 @@ module.exports = {
                 break;
         }
         return text;
+    },
+    getPickerSelectCityData: () => {
+        const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+        let res = {
+            '全国': []
+        };
+        $$.each(_district.root.province, (index, item) => {
+            let arr = [];
+            $$.each(item.city, (_index, _item) => {
+                arr.push(_item.name);
+            })
+            res[item.name] = arr;
+        })
+        return res;
+    },
+
+    /**
+     * 获取明天/后天/或者几月几号
+     * */
+    getFishCarDateStyle: (date) => {
+        if(!date){
+            return '';
+        }
+        const currentTime = new Date().getTime();
+        const itemTime = new Date(date).getTime();
+        const oneDayTime = 60*60*24*1000;
+        const dateStyle = `${date.split('-')[1]}月${date.split('-')[2]}日`;
+        let res;
+        if(Number(itemTime - currentTime) <= 0){
+            res = `今天(${dateStyle})`;
+        }else if( Number(itemTime - currentTime) > 0 && (oneDayTime) >= Number(itemTime - currentTime)){
+            res = `明天(${dateStyle})`;
+        }else if(Number(itemTime - currentTime) > (oneDayTime*1) && (oneDayTime * 2) >= Number(itemTime - currentTime)){
+            res = `后天(${dateStyle})`;
+        }else{
+            res = dateStyle;
+        }
+        return res;
     }
 }

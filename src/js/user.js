@@ -194,7 +194,7 @@ function userInit(f7, view, page) {
         mainView.router.load({
             url: 'views/myCollection.html'
         })
-    }
+    };
 
     /*
      * 进入个人资料
@@ -277,7 +277,8 @@ function userInit(f7, view, page) {
 
     /**
      * 鱼车信息提示
-     * 修改鱼车信息、查看审核未通过提示.
+     * 查看审核未通过提示.
+     * 查看鱼车行程
      * */
     currentPage.find('.driver-edit')[0].onclick = () => {
         const id = currentPage.find('.driver-edit').attr('data-id');
@@ -287,7 +288,7 @@ function userInit(f7, view, page) {
             return;
         } else {
             view.router.load({
-                url: `views/postDriverAuth.html?id=${id}`
+                url: `views/fishCarTripList.html?id=${id}`
             })
         }
     }
@@ -295,7 +296,24 @@ function userInit(f7, view, page) {
     currentPage.find('.driver-reject')[0].onclick = () => {
         apiCount('btn_myCenter_driverRefuseReason');
         const message = currentPage.find('.driver-reject').attr('data-message');
-        f7.alert(message);
+        f7.modal({
+            title: '审核未通过原因',
+            text: message,
+            buttons: [
+                {
+                    text: '重新报名',
+                    onClick: () => {
+                        view.router.load({
+                            url: 'views/postDriverAuth.html'
+                        })
+                    }
+                },
+                {
+                    text: '我知道了',
+                    onClick: () => {}
+                }
+            ]
+        });
         return;
     }
 

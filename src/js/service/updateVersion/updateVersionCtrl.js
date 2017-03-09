@@ -54,7 +54,7 @@ function updateCtrl(f7) {
             }else{
                 JsBridge('JS_Download', {
                     filePath,
-                    fileName: 'webapp.apk'
+                    fileName: 'yudada.apk'
                 }, (data) => {
                     if(1 == data){
                         $updateModal.addClass('large');
@@ -75,7 +75,7 @@ function updateCtrl(f7) {
             );
             JsBridge('JS_Download', {
                 filePath,
-                fileName: 'webapp.zip'
+                fileName: 'yudada.zip'
             }, (data) => {
                 if(1 == data){
                     $updateModal.addClass('small');

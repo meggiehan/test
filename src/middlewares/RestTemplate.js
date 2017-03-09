@@ -6,14 +6,24 @@ import customAjax from '../middlewares/customAjax';
 
 export default class RestTemplate {
 
-    static get(url, headers, params, callback, noCache) {
-        customAjax.ajax({
+    /**
+     * @url api
+     * @headers 需要添加到header的数据
+     * @params get传给后台的数据
+     * @noCache 是否需要缓存后台返回的数据
+     * @isMandatory 是否使用缓存数据
+     * */
+    static get(url, headers, params, callback, noCache, isMandatory) {
+        const obj = {
             apiCategory: url,
             header: ['token'],
             type: 'get',
             data: params,
             noCache
-        }, callback);
+        };
+        headers && headers['apiVersion'] && (obj.apiVersion = headers['apiVersion']);
+        isMandatory && (obj.isMandatory = isMandatory);
+        customAjax.ajax(obj, callback);
         // $$.ajax({
         //     method: 'get',
         //     url,
@@ -30,8 +40,15 @@ export default class RestTemplate {
         // });
     };
 
+    /**
+     * @url api
+     * @headers 需要添加到header的数据
+     * @params 拼接在url后面的数据
+     * @body post传递后台的数据
+     * @noCache 是否需要缓存后台返回的数据
+     * */
     static post(url, headers, params, body, callback) {
-        customAjax.ajax({
+        let obj = {
             apiCategory: url,
             header: ['token'],
             val: params,
@@ -40,9 +57,18 @@ export default class RestTemplate {
             paramsType: 'application/json',
             noCache: true,
             isMandatory: true
-        }, callback);
+        };
+        headers && headers['apiVersion'] && (obj.apiVersion = headers['apiVersion']);
+        customAjax.ajax(obj, callback);
     };
 
+    /**
+     * @url api
+     * @headers 需要添加到header的数据
+     * @params 拼接在url后面的数据
+     * @body post传递后台的数据
+     * @noCache 是否需要缓存后台返回的数据
+     * */
     static put(url, headers, params, body, callback) {
         customAjax.ajax({
             apiCategory: url,
