@@ -107,8 +107,9 @@ const configs = {
      * 鱼车相关
      * */
     fishCars: ['provinceId', 'pageSize', 'pageNo'],
+    fishCarDriverDemands: ['destinationProvinceId', 'pageSize', 'pageNo'],
     postFishCars: [],
-    fishCarDemands: ['description', 'pageSize', 'pageNo'],
+    fishCarDemands: ['departureProvinceId', 'pageSize', 'pageNo'],
     fishCarDrivers: ['driverId']
 };
 export default configs;

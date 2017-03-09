@@ -7,12 +7,13 @@ import nativeEvent from '../utils/nativeEvent';
 import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import {weixinAction} from './service/login/loginCtrl';
+import store from '../utils/localStorage';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
-    const {fishCacheObj} = config;
+    const {fishCacheObj, cacheUserinfoKey} = config;
     /*
      * 判断是否有数据缓存，如果有就直接显示
      * */
@@ -112,7 +113,7 @@ function homeInit(f7, view, page) {
         if(fishCacheData && fishCacheData.length){
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {
-                if(index <= 2){
+                if(index <= 5){
                     str += home.renderFishList(item, index);
                 }
             })
@@ -200,6 +201,12 @@ function homeInit(f7, view, page) {
             }
             const access_token = nativeEvent.getUserValue();
             let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
+            if(openUrl && openUrl.indexOf('http') == -1){
+                mainView.router.load({
+                    url: 'views/MVP.html'
+                })
+                return;
+            }
             isNeedLogin && (openUrl += `/${access_token}`);
             nativeEvent.goNewWindow(openUrl);
         }
@@ -234,8 +241,28 @@ function homeInit(f7, view, page) {
         return;
     };
 
-
+    /**
+     *当前登录角色通过司机审核时,之间跳转至需求列表
+     *如果有选择历史,优先选择历史的选择
+     * */
     currentPage.find('.callFishCar').click(() => {
+        const userInfo = store.get(cacheUserinfoKey);
+        const {driverState} = userInfo || {};
+        const isFishCar = store.get('isFishCar');
+
+        if(isFishCar || 0 === isFishCar){
+            mainView.router.load({
+                url: `views/fishCar.html?isFishCar=${isFishCar}`
+            })
+            return;
+        }
+
+        if(isLogin() && (1 == driverState)){
+            mainView.router.load({
+                url: 'views/fishCar.html?isFishCar=1'
+            });
+            return;
+        }
         $$('.fish-car-modal').addClass('on');
     });
 

@@ -1,5 +1,12 @@
 import {timeDifference, getDate, getDealTime} from './time';
-import {getCertInfo, imgIsUpload, getName, getInfoStatus, getCreateDriverListLabel, getFishTankName} from './string';
+import {getCertInfo,
+    imgIsUpload,
+    getName,
+    getInfoStatus,
+    getCreateDriverListLabel,
+    getFishTankName,
+    getFishCarDateStyle
+} from './string';
 import config from '../config/';
 import store from './localStorage';
 
@@ -325,79 +332,83 @@ module.exports = {
     },
 
     fishCar: {
-        list: (data) => {
+        list: (data, isMine, expired) => {
             const {
                 contactName,
-                workingAge,
-                routeList,
-                fishTankSize,
-                fishTankMaterial,
-                id
+                appointedDate,
+                fishType,
+                quality,
+                description,
+                contactPhone,
+                departureProvinceName,
+                destinationProvinceName,
+                id,
+                headImgUrl,
+                driverId
             } = data;
             let str = '';
-            let districtList = '';
+            const src = headImgUrl ? (headImgUrl + imgPath(8)) : './img/ic_avatar_default.png';
 
-            routeList && routeList.length && $$.each(routeList, (index, item) => {
-                const text = item.departureProvinceName == item.destinationProvinceName ?
-                            `${item.destinationProvinceName}内` :
-                            `${item.departureProvinceName} - ${item.destinationProvinceName}`;
-                districtList += `<span>${text}</span>`;
-            });
+            const btnStr = !isMine ?
+                `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
+                `<div class="phone delete-trip" data-id="${id}">删除</div>`;
 
-            str += `<a class="driver-info" href="views/driverDemandInfo.html?id=${id}">` +
-                        `<div class="driver">` +
-                            `<div class=""><img class="avatar" src="../img/ic_avatar_default.png"/></div>` +
-                            `<div class="username">高师傅</div>` +
+            str += `<div class="driver-info">` +
+                        `<a class="driver" onclick="apiCount('btn_fishcar_routes_goFishcarDetail')" href="views/driverDemandInfo.html?id=${driverId}">` +
+                            `<div class=""><img class="avatar" src="${src}"/></div>` +
+                            `<div class="username">${contactName}</div>` +
                             `<div class="description"><div>查看鱼车信息</div><i class="iconfont icon-right"></i></div>` +
-                        `</div>`+
+                        `</a>`+
                         `<div class="driver-demand">` +
-                            `<div class="icon time">明天(2月28日)</div>` +
-                            `<div class="icon route">四川省-山东省</div>` +
-                            `<div class="icon description">能装淡水鱼</div>` +
+                            `<div class="icon time">${getFishCarDateStyle(appointedDate)}</div>` +
+                            `<div class="icon route">${departureProvinceName}-${destinationProvinceName}</div>` +
+                            `${description ? '<div class="icon description">'+description+'</div>' : ''}` +
                         `</div>` +
                         `<div class="driver-contact">` +
-                            `<div>正在寻找货物</div>` +
-                            `<div class="phone"><i class="iconfont icon-call"></i><div class="text">电话联系</div></div>` +
+                            `<div>${expired ? '已结束' : '正在寻找货物'}</div>` +
+                            btnStr +
                         `</div>` +
-                        // '<div class="left">' +
-                        //     `<p class="title">${contactName}</p>` +
-                        //     `<p>鱼车${fishTankSize}方 | ${getFishTankName(fishTankMaterial)}鱼罐</p>` +
-                        //     '<div class="other-info">' +
-                        //         `<p>线路：${(routeList && routeList.length) ? (routeList.length + '条') : '全国'}</p>` +
-                        //         `${districtList ? ('<div>'+ districtList +'</div>') : ''}` +
-                        //     '</div>' +
-                        // '</div>' +
-                        // `<div class="right">${workingAge}年驾龄</div>` +
-                        // '<span class="iconfont icon-right"></span>' +
-                    '</a>';
+                    '</div>';
             return str;
         },
-        demandList: (data) => {
-            const {imgPath} = config;
-            const {createTime, description, userInfoView} = data;
-            const {imgUrl, level, nickname, phone} = userInfoView || {};
-            const imgStr = imgUrl ? `<img width="50" data-src="${imgUrl}${imgPath(8)}" src="img/defimg.png" class="lazy">` :
-                `<img width="50" src="img/defimg.png">`;
+        demandList: (data, isMine, expired) => {
+            const {
+                contactName,
+                appointedDate,
+                fishType,
+                quality,
+                description,
+                contactPhone,
+                departureProvinceName,
+                destinationProvinceName,
+                id,
+                userInfoView,
+                userId
+            } = data;
             let str = '';
-            str += '<div class="driver-info">' +
-                        '<div class="left list-block media-list">' +
-                            '<div class="title item-content item-link">' +
-                                '<div class="item-media">' +
-                                    imgStr +
-                                '</div>' +
-                                '<div class="item-inner">' +
-                                    '<div class="item-title-row">' +
-                                        '<p class="title">' +
-                                        `${nickname || '匿名用户'}${level ? ('<span class="iconfont icon-v' + level + '"></span>') : ''}` +
-                                        '</p>' +
-                                        `<p>${timeDifference(createTime)}</p>` +
-                                    '</div>' +
-                                '</div>' +
-                                '</div>' +
-                            `<div class="content">${description}</div>` +
-                        '</div>' +
-                        `<div class="demandinfo-right iconfont icon-call" data-phone="${phone}"></div>` +
-                    '</div>';
+            const src = userInfoView.imgUrl ? (userInfoView.imgUrl + imgPath(8)) : './img/ic_avatar_default.png';
+            const btnStr = !isMine ?
+                `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
+                `<div class="phone delete-trip" data-id="${id}">删除</div>`;
+
+            const level = !!userInfoView.level ? `<i class="iconfont icon-v${userInfoView.level}"></i>` : '';
+            str += `<div class="driver-info">` +
+                `<a class="driver" onclick="apiCount('btn_fishcar_demands_goProfile')" href="views/otherIndex.html?id=${userId}&currentUserId=${userId}">` +
+                `<div class=""><img class="avatar" src="${src}"/></div>` +
+                `<div class="username"><span>${contactName}</span>${level}</div>` +
+                `<div class="description"><div>查看个人主页</div><i class="iconfont icon-right"></i></div>` +
+                `</a>`+
+                `<div class="driver-demand">` +
+                `<div class="icon time">${getFishCarDateStyle(appointedDate)}</div>` +
+                `<div class="icon route">${departureProvinceName}-${destinationProvinceName}</div>` +
+                `${(fishType || quality) ? '<div class="icon fish-name">'+ (fishType||'') + ' ' + (quality||'') +'</div>' : ''}` +
+                `${description ? '<div class="icon description">'+description+'</div>' : ''}` +
+                `</div>` +
+                `<div class="driver-contact">` +
+                `<div class="${expired ? 'expired-text' : ''}">${expired ? '已结束' : '正在寻找鱼车'}</div>` +
+                btnStr +
+                `</div>` +
+                '</div>';
             return str;
         },
         selectAddress: (number, address) => {
@@ -416,9 +427,10 @@ module.exports = {
         addBtn: () => {
             let res = '';
             res += '<div class="item-content add-address-click-box add-item-btn" style="display: block">' +
+                '<input type="text">' +
                 '<div class="item-inner add-item-btn">' +
                 '<span class="iconfont icon-add add-item-btn"></span>' +
-                '<span class="add-item-btn">点击添加路线</span>' +
+                '<span class="add-item-btn">点击添加地区</span>' +
                 '</div>' +
                 '</div>';
             return res;

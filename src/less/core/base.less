@@ -30,6 +30,7 @@
 @bg-info-tag: #D2FFBD;
 @bg-fish-theme: #F7B643;
 @boder-color: #e2e2e2;
+@bg-f5: #f5f5f5;
 @border-cert: #ddd;
 @border-da: #eaeaea;
 @border-c5: #C5C5C5;
@@ -54,6 +55,7 @@
 @text-test: #F68E1F;
 @text-sound: #F58C1E;
 @text-mt-center: #9B9B9B;
+@text-a9: #a9a9a9;
 @text-help: #35B9AE;
 @text-black: #000;
 @text-print: #4A90E2;
@@ -75,13 +77,15 @@ html {
 body {
     font-size: 1.4rem;
     background: @bg-body;
-    .view-login{
+    .view-login, .view-release-fish{
         position: fixed;
         left: 0;
         bottom: -1000px;
-        transition: all 0.3s ease;
+        transition: all 0.5s ease;
+        opacity: 0;
         &.show{
             bottom:0;
+            opacity: 1;
         }
     }
 }
@@ -452,6 +456,41 @@ input::-webkit-input-placeholder {
         .title{
             color: @text-name;
             font-size: 1.8rem;
+        }
+    }
+}
+
+/**
+*部分头部样式修改
+*/
+div[data-page="postDriverAuth"],
+div[data-page="postDriverInfo"],
+div[data-page="recruitDriverSuccess"],
+div[data-page="driverDemandInfo"],
+div[data-page="fishCar"],
+div[data-page="releaseFishCarDemand"],
+div[data-page="releaseFishCarDemandSuccess"],
+div[data-page="releaseFishCarTrip"]{
+    .navbar {
+        background: @bg-fff;
+        .text-shadow(@text-fff);
+        .default-theme-blank {
+            .back {
+                color: @themeColor;
+            }
+            .center {
+                color: @text-name;
+            }
+        }
+    }
+}
+
+.page-mvp{
+    background: @themeColor;
+    a{
+        img{
+            display: block;
+            width: 100%;
         }
     }
 }

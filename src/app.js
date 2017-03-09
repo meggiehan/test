@@ -21,7 +21,7 @@ import {myListInit} from './js/myList';
 import {fishCertInit} from './js/fishCert';
 import {releaseSuccInit} from './js/releaseSucc';
 import nativeEvent from './utils/nativeEvent';
-import {getQuery, gerProvinceList, getCreateDriverListLabel} from './utils/string';
+import {getQuery} from './utils/string';
 import {catIdentityStatusInit} from './js/catIdentityStatus';
 import {editNameInit} from './js/editName';
 import {inviteCodeInit} from './js/inviteCode';
@@ -42,6 +42,16 @@ import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVer
 import invitationModel from './js/service/invitation/InvitationModel';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
 import {JsBridge} from './middlewares/JsBridge';
+import {releaseFishCarDemandSuccessInit} from './js/releaseFishCarDemandSuccess';
+import {releaseFishCarTripInit} from './js/releaseFishCarTrip';
+import {weixinModalEvent} from './js/modal/weixinModal';
+import {
+    fishCarDriverSelectAddressModalEvent,
+    fishCarModalJumpEvent
+} from './js/modal/fishCarDriverSelectAddressModal';
+import {fishCarTripListInit} from './js/fishCarTripList';
+import {myFishCarDemandListInit} from './js/myFishCarDemandList';
+
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -53,6 +63,11 @@ android && (animatStatus = androidChrome);
 window.isTipBack = false;
 window.shraeInfo = {};
 let isBack = false;
+
+/**
+ * 初始化jsBrige
+ * */
+JsBridge('JS_SaveInfomation', {jsBrigeTest: 123});
 
 /*
  * 初始化f7的参数
@@ -96,6 +111,7 @@ let initAppConfig = {
         }
         if (!currentPage && len >= 1) {
             const backPage = history[len - 2];
+
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
                 return false;
             }
@@ -154,11 +170,6 @@ let initAppConfig = {
     }
 };
 
-/**
- * 初始化jsBrige
- * */
-JsBridge('JS_SaveInfomation', {jsBrigeTest: 123});
-
 /*
  * 在低端安卓机中切换页面动画效果不流畅，所以判断在4.4以下的安卓机禁止启用动画
  * */
@@ -177,6 +188,14 @@ const loginView = f7.addView('.view-login', {
     domCache: true
 });
 
+/**
+ * 鱼车相关发布需求
+ * */
+const releaseView = f7.addView('.view-release-fish', {
+    dynamicNavbar: true,
+    domCache: true
+});
+
 /*
  * 主视图初始化加载首页
  * */
@@ -191,6 +210,7 @@ window.jQuery = Dom7;
 window.$ = Dom7;
 window.mainView = mainView;
 window.loginView = loginView;
+window.releaseView = releaseView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
 nativeEvent['searchHistoryActions'](2, '');
@@ -216,6 +236,11 @@ const initApp = f7.onPageInit("*", (page) => {
     } else {
         f7.hideIndicator();
     }
+
+    if(page.name == 'pageMvp'){
+        f7.hideIndicator();
+    }
+
     setTimeout(f7.hideIndicator, timeout);
     page.name === 'editName' && editNameInit(f7, mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
@@ -246,9 +271,17 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
     page.name === 'notFound' && notFoundInit(f7, mainView, page);
     page.name === 'bindAccount' && bindAccountInit(f7, mainView, page);
+
+    /**
+     * 鱼车相关
+     * */
     page.name === 'fishCar' && fishCarInit(f7, mainView, page);
     page.name === 'releaseFishCarDemand' && releaseFishCarDemandInit(f7, mainView, page);
+    page.name === 'releaseFishCarTrip' && releaseFishCarTripInit(f7, mainView);
     page.name === 'driverDemandInfo' && driverDemandInfoInit(f7, mainView, page);
+    page.name === 'releaseFishCarDemandSuccess' && releaseFishCarDemandSuccessInit(f7, mainView, page);
+    page.name === 'fishCarTripList' && fishCarTripListInit(f7, mainView, page);
+    page.name === 'myFishCarDemandList' && myFishCarDemandListInit(f7, mainView, page);
 
     /**
      * 上传司机信息页面
@@ -270,7 +303,7 @@ f7.onPageAfterBack('*', (page) => {
             if (fishCacheData && fishCacheData.length) {
                 let str = '';
                 $$.each(fishCacheData.reverse(), (index, item) => {
-                    if (index <= 2) {
+                    if (index <= 5) {
                         str += home.renderFishList(item, index);
                     }
                 })
@@ -282,38 +315,7 @@ f7.onPageAfterBack('*', (page) => {
 });
 
 /*
- * 关闭微信分享model
- * */
-$$('.modal-close').click((e) => {
-    const ele = e.target || window.event.target;
-    const classes = ele.className;
-    if (classes.indexOf('footer') > -1 || classes.indexOf('modal-close') > -1) {
-        $$('.modal-close').removeClass('on');
-    }
-};
-
-/*
- * 微信分享给朋友
- * */
-$$('.share-to-friends')[0].onclick = () => {
-    const {webUrl, imgUrl, description, title} = window.shareInfo;
-    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
-    url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
-    nativeEvent.shareInfoToWeixin(2, webUrl, url, description, title);
-};
-
-/*
- * 微信分享到朋友圈
- * */
-$$('.share-to-friends-circle')[0].onclick = () => {
-    const {webUrl, imgUrl, description, title} = window.shareInfo;
-    let url = imgUrl ? (imgUrl.split('@')[0].split('?')[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100') : '';
-    url = url ? encodeURI(url) : 'http://m.yudada.com/img/app_icon_108.png';
-    nativeEvent.shareInfoToWeixin(3, webUrl, url, description, title);
-};
-
-/*
- * 关闭登录视图
+ * 关闭登录视图/发布需求信息视图
  * */
 $$('.view-login>.navbar').click((e) => {
     const ele = e.target || window.event.target;
@@ -322,6 +324,14 @@ $$('.view-login>.navbar').click((e) => {
     }
     return;
 });
+
+$$('.view-release-fish>.navbar').click((e) => {
+    const ele = e.target || window.event.target;
+    if($$(ele).hasClass('release-view-close')){
+        $$('.view-release-fish').removeClass('show');
+    }
+    return;
+})
 
 /**
  * 调用native定位，获取当前定位信息
@@ -333,181 +343,12 @@ if (!window['addressObj']) {
 }
 
 /**
- * 省内运输跟跨省运输切换
- * */
-$$('.edit-driver-address-model .province-address-select>div').click((e) => {
-    const ele = e.target || widnow.event.target;
-    let currentItem = $$(ele);
-    if (ele.tagName == 'SPAN') {
-        currentItem = $$(ele).parent();
-    }
-    if (currentItem.hasClass('on')) {
-        return;
-    }
-
-    if (currentItem.hasClass('pull-left')) {
-        $$('.edit-driver-address-model .province-address-select>div').removeClass('on').eq(0).addClass('on');
-        $$('.edit-driver-address-model .province-select-item').removeClass('on').eq(0).addClass('on');
-    } else {
-        $$('.edit-driver-address-model .province-address-select>div').removeClass('on').eq(1).addClass('on');
-        $$('.edit-driver-address-model .province-select-item').removeClass('on').eq(1).addClass('on');
-    }
-})
-
-/**
- * picker绑定省份数据（司机添加或者修改路线）
- * 因为只执行一次，所以放在入口文件
- * */
-setTimeout(() => {
-    /*省内选择*/
-    f7.picker({
-        input: $$('.edit-driver-address-model .province-select').find('input'),
-        toolbarCloseText: '确定',
-        rotateEffect: true,
-        cols: [
-            {
-                textAlign: 'center',
-                values: gerProvinceList()
-            }
-        ]
-    });
-
-    /*跨省出发地*/
-    f7.picker({
-        input: $$('.edit-driver-address-model .provinces-select').find('input').eq(0),
-        toolbarCloseText: '确定',
-        rotateEffect: true,
-        cols: [
-            {
-                textAlign: 'center',
-                values: gerProvinceList()
-            }
-        ]
-    });
-
-    /*跨省目的地*/
-    f7.picker({
-        input: $$('.edit-driver-address-model .provinces-select').find('input').eq(1),
-        toolbarCloseText: '确定',
-        rotateEffect: true,
-        cols: [
-            {
-                textAlign: 'center',
-                values: gerProvinceList()
-            }
-        ]
-    });
-}, 1000);
-
-/**
- * 以下是司机选择路线的操作
- * 1：关闭model
- * 2：添加路线
- * 3：编辑保存路线
- * 4：删除路线
- * */
-$$('.edit-driver-address-model-cancel').click(() => {
-    $$('.edit-driver-address-model').removeClass('add edit');
-});
-
-$$('.edit-driver-address-model-add').click(() => {
-    let address;
-    if ($$('.province-address-select .pull-left').hasClass('on')) {
-        //省内运鱼
-
-        if ('请选择' == $$('.province-select').find('input').val()) {
-            f7.alert('请选择省份！');
-            return;
-        }
-        address = `${$$('.province-select').find('input')
-            .val()}内`;
-    } else {
-        //跨省运鱼
-        if ('请选择' == $$('.provinces-select').find('input').eq(0).val()) {
-            f7.alert('请选择出发省份！');
-            return;
-        }
-
-        if ('请选择' == $$('.provinces-select').find('input').eq(1).val()) {
-            f7.alert('请选择目的地省份！');
-            return;
-        }
-
-        if ($$('.provinces-select').find('input').eq(0).val() == $$('.provinces-select').find('input').eq(1).val()) {
-            f7.alert('跨省路线中出发省份不能跟目的地省份相同！');
-            return;
-        }
-        const startVal = $$('.provinces-select').find('input').eq(0).val();
-        const endVal = $$('.provinces-select').find('input').eq(1).val();
-        address = `${startVal}-${endVal}`;
-    }
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const length = currentPage.find('.post-select-address').length;
-    currentPage.find('.add-address-click-box').remove();
-    currentPage.find('.post-driver-select').append(fishCar.selectAddress(length, address));
-    if (currentPage.find('.post-select-address').length < 5) {
-        currentPage.find('.post-driver-select').append(fishCar.addBtn());
-    }
-    $$('.edit-driver-address-model').removeClass('add edit');
-});
-
-$$('.edit-driver-address-model-save').click(() => {
-    let address;
-    if ($$('.province-address-select .pull-left').hasClass('on')) {
-        //省内运鱼
-
-        if ('请选择' == $$('.province-select').find('input').val()) {
-            f7.alert('请选择省份！');
-            return;
-        }
-        address = `${$$('.province-select').find('input').val()}内`;
-    } else {
-        //跨省运鱼
-        if ('请选择' == $$('.provinces-select').find('input').eq(0).val()) {
-            f7.alert('请选择出发省份！');
-            return;
-        }
-
-        if ('请选择' == $$('.provinces-select').find('input').eq(1).val()) {
-            f7.alert('请选择目的地省份！');
-            return;
-        }
-
-        if ($$('.provinces-select').find('input').eq(0).val() == $$('.provinces-select').find('input').eq(1).val()) {
-            f7.alert('跨省路线中出发省份不能跟目的地省份相同！');
-            return;
-        }
-        const startVal = $$('.provinces-select').find('input').eq(0).val();
-        const endVal = $$('.provinces-select').find('input').eq(1).val();
-        address = `${startVal}-${endVal}`;
-    }
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    currentPage.find('.post-select-address').find('input').eq(window.addressIndex)
-        .val(address).attr('placeholder', address);
-    $$('.edit-driver-address-model').removeClass('add edit');
-});
-
-$$('.edit-driver-address-model-delete').click(() => {
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    currentPage.find('.post-select-address').eq(window.addressIndex).remove();
-    const itemLen = currentPage.find('.post-select-address').length;
-    for (let i = 0; i < itemLen; i++) {
-        if (i <= (itemLen - window.addressIndex)) {
-            currentPage.find('.post-select-address').eq(i)
-                .find('.item-title').text(`路线${getCreateDriverListLabel(i)}`).attr('data-index', i);
-        }
-    }
-    if (!currentPage.find('.add-address-click-box').length) {
-        currentPage.find('.post-driver-select').append(fishCar.addBtn());
-    }
-    $$('.edit-driver-address-model').removeClass('add edit');
-});
-
-/**
  * 一开始执行检查版本更新操作
  * 更新版本按钮操作事件
  * 初始化邀请model类
  * 邀请modal按钮操作
+ * 微信modal操作
+ * 鱼车选择地区modal操作
  * */
 const interId = setInterval(() => {
     if(window.JS_GetObjectWithKey ||
@@ -519,4 +360,6 @@ const interId = setInterval(() => {
 updateClickEvent(f7);
 invitationModel.init(f7);
 invitationAction();
-
+weixinModalEvent();
+// fishCarDriverSelectAddressModalEvent(f7);
+fishCarModalJumpEvent(f7);

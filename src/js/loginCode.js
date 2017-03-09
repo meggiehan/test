@@ -1,9 +1,10 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import {trim, html} from '../utils/string';
+import {trim, html, getCurrentDay} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/localStorage';
 import invitationModel from './service/invitation/InvitationModel';
+import {JsBridge} from '../middlewares/JsBridge';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
@@ -124,10 +125,26 @@ function loginCodeInit(f7, view, page) {
         if (1 == code) {
             nativeEvent.setDataToNative("accessToken", data.token);
             store.set("accessToken", data.token);
+            store.set('cacheUserinfoKey', data.userInfoView);
             (weixinData && store.get('weixinUnionId')) ?
                 getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');
             store.set('weixinData', '');
+            if(data.userInfoView.fishCarDriverId){
+                store.set('isFishCar', 1);
+            }
+
+            const versionNumber = store.get('versionNumber');
+            const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');
+            //设置别名
+            JsBridge('JS_SetTagsWithAlias', {
+                tags: [
+                    getCurrentDay().replace('/', '').replace('/', ''),
+                    `${versionArr[0]}.${versionArr[1]}`
+                ],
+                alias: `${data.userInfoView.id}`
+            }, () => {}, f7);
+
             if (1 == store.get(waitAddPointerKey)) {
                 const {invitationCode} = store.get(inviteInfoKey);
                 invitationModel.f7 = f7;
@@ -142,7 +159,9 @@ function loginCodeInit(f7, view, page) {
         }else if(101 == code){
             window.phoneBindFaild();
         } else {
-            f7.alert(message);
+            f7.alert(message, '提示', () => {
+                mainView.router.refreshPage();
+            });
         }
     };
 
@@ -166,7 +185,8 @@ function loginCodeInit(f7, view, page) {
             paramsType: 'application/json',
             type: 'post',
             noCache: true,
-            isMandatory: true
+            isMandatory: true,
+            apiVersion: 2
         }, loginCallBack);
 
     };

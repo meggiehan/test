@@ -2,28 +2,24 @@ import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import config from '../config';
 import store from '../utils/localStorage';
-import releaseFishCarDemandModel from './model/ReleaseFishCarDemandModel';
+import releaseFishCarTripModel from './model/ReleaseFishCarTripModel';
 import {
     getPickerSelectCityData,
     getProvinceList,
     getProvinceId
 } from '../utils/string';
 
-function releaseFishCarDemandInit(f7, view, page) {
+function releaseFishCarTripInit(f7, view, page) {
     f7.hideIndicator();
-    const {cacheUserinfoKey} = config;
     let departureProvinceList = getProvinceList();
     let destinationProvinceList = getProvinceList();
+    destinationProvinceList.unshift('全国');
 
     const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
-    const $phone = $currentPage.find('.contact-phone').children('input');
-    const $nickname = $currentPage.find('.contact-nickname').children('input');
     const $description = $currentPage.find('.release-discription').children();
     const $date = $currentPage.find('.select-date-box').children('input');
     const $departure = $currentPage.find('.release-departure').children('input');
     const $destination = $currentPage.find('.release-destination').children('input');
-    const $fishName = $currentPage.find('.demand-fish-name').children('input');
-    const $fishNumber = $currentPage.find('.demand-fish-number').children('input');
 
     if (!isLogin()) {
         // f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
@@ -31,13 +27,6 @@ function releaseFishCarDemandInit(f7, view, page) {
         //     mainView.router.back();
         // });
         // return;
-    }
-
-    const userInfo = store.get(cacheUserinfoKey);
-    if(userInfo){
-        const {loginName, nickname} = userInfo;
-        loginName && $phone.val(loginName);
-        nickname && $nickname.val(nickname);
     }
 
     /**
@@ -134,28 +123,15 @@ function releaseFishCarDemandInit(f7, view, page) {
         ]
     });
 
-    const loginName = store.get(cacheUserinfoKey) ? store.get(cacheUserinfoKey)['loginName'] : '';
-    $currentPage.find('.release-phone').text(loginName);
-
     $currentPage.find('.toolbar-inner').children('a')[0].onclick = () => {
         const description = $description.val() || '';
         const appointedTime = $date.val();
         const departureProvinceName = $departure.val();
         const destinationProvinceName = $destination.val();
-        const fishType = $fishName.val() || '';
-        const quality = $fishNumber.val() || '';
-        const contactName = $nickname.val();
-        const contactPhone = $phone.val();
 
         let error = '';
         if(description.length>50){
             error = '补充说明最多只能输入50个字符!';
-        }
-        if(!contactName){
-            error = '请填写联系姓名!';
-        }
-        if(!contactPhone || contactPhone.length !== 11){
-            error = '请填写正确的手机号!';
         }
         if(destinationProvinceName == departureProvinceName){
             error = '出发地和目的地不能相同!';
@@ -185,30 +161,26 @@ function releaseFishCarDemandInit(f7, view, page) {
             if (1 == code) {
                 nativeEvent.nativeToast('1', '发布成功！');
                 releaseView.router.load({
-                    url: 'views/releaseFishCarDemandSuccess.html'
+                    url: 'views/releaseFishCarDemandSuccess.html?isDriver=true'
                 })
             } else {
                 f7.alert(message);
             }
         }
 
-        releaseFishCarDemandModel.post({
+        releaseFishCarTripModel.post({
             appointedTime: new Date(`2017-${appointedTime.replace('月', '-').replace('日', '-')}`).getTime()*0.001,
-            contactName,
-            contactPhone,
             departureProvinceId: getProvinceId(departureProvinceName)['provinceId'],
             departureProvinceName,
             description,
             destinationProvinceId: getProvinceId(destinationProvinceName)['provinceId'],
             destinationProvinceName,
-            fishType,
-            quality
         },{
-            apiVersion: 2
+
         }, callback)
     }
 }
 
 export {
-    releaseFishCarDemandInit
+    releaseFishCarTripInit
 }

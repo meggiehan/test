@@ -20,12 +20,18 @@ function invitationInit(f7, view) {
 
     const {
         cancelInvitationNumberKey,
-        inviteInfoKey
+        inviteInfoKey,
+        cacheUserinfoKey
     } = config;
 
     invitationModel.f7 = f7;
 
     const callback = (inviterInfo) => {
+        const userInfo = store.get(cacheUserinfoKey);
+        alert(inviterInfo);
+        if(userInfo && userInfo.inviterId){
+            return;
+        }
         let inviterInfoData = inviterInfo;
         if(android){
             inviterInfoData = JSON.parse(inviterInfoData);

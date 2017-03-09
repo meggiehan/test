@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="user-info-driver-check">
-            <a class="driver-edit">修改鱼车信息</a>
+            <a class="driver-edit" onclick="apiCount('btn_myCenter_fishcarRoutes')">查看我的鱼车行程</a>
             <p class="driver-checking"><span class="iconfont icon-info"></span>鱼车信息审核中，请耐心等待</p>
             <p class="driver-reject"><span class="iconfont icon-info"></span>鱼车信息审核未通过，点击查看原因</p>
         </div>
@@ -44,10 +44,10 @@
                     <div class="num-title">我的求购</div>
                 </div>
             </a>
-            <a class="my-collection-list col-33">
-                <div onclick="apiCount('btn_mypurchase')">
-                    <span class="user-collection-num">0</span>个
-                    <div class="num-title">收藏夹</div>
+            <a class="my-fish-car-list col-33">
+                <div>
+                    <span class="user-fish-car-num">0</span>个
+                    <div class="num-title">叫鱼车需求</div>
                 </div>
             </a>
         </div>
@@ -90,6 +90,20 @@
                     <div class="col-40 iconfont icon-right">交易安全有保障</div>
                 </div>
             </a> -->
+            <a class="row edit-fish-car-info" onclick="apiCount('btn_myCenter_editDriverInfo')">
+                <div class="col-15 iconfont icon-fish-car"></div>
+                <div class="col-85 row first">
+                    <div class="col-60">修改我的鱼车信息</div>
+                    <div class="col-40 iconfont icon-right"></div>
+                </div>
+            </a>
+            <a class="row my-collection-list" onclick="apiCount('btn_mypurchase')">
+                <div class="col-15 iconfont icon-collection-active"></div>
+                <div class="col-85 row first">
+                    <div class="col-60">我的收藏</div>
+                    <div class="col-40 iconfont icon-right"><span class="user-collection-num">0</span>个</div>
+                </div>
+            </a>
             <a class="row go-verification external" onclick="apiCount('btn_certification')">
                 <div class="col-15 iconfont icon-verification"></div>
                 <div class="col-85 row first">

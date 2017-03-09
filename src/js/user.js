@@ -71,6 +71,7 @@ function userInit(f7, view, page) {
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
+            qrCodeFun(userInformation);
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
                     nickname,
@@ -118,7 +119,6 @@ function userInit(f7, view, page) {
                     return;
                 }
             }
-
         } else {
             f7.alert(message);
         }
@@ -194,7 +194,7 @@ function userInit(f7, view, page) {
         mainView.router.load({
             url: 'views/myCollection.html'
         })
-    }
+    };
 
     /*
      * 进入个人资料
@@ -259,7 +259,21 @@ function userInit(f7, view, page) {
         view.router.load({
             url: 'views/release.html'
         })
-    }
+    };
+
+    /**
+     * 前往叫鱼车需求页面
+     * */
+    currentPage.find('.my-fish-car-list').click(() => {
+        if (!isLogin() && weixinData) {
+            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
+            return;
+        }
+        apiCount('btn_myCenter_fishcarDemands');
+        view.router.load({
+            url: 'views/myFishCarDemandList.html'
+        })
+    });
 
     /**
      * 鱼车司机登记
@@ -277,7 +291,8 @@ function userInit(f7, view, page) {
 
     /**
      * 鱼车信息提示
-     * 修改鱼车信息、查看审核未通过提示.
+     * 查看审核未通过提示.
+     * 查看鱼车行程
      * */
     currentPage.find('.driver-edit')[0].onclick = () => {
         const id = currentPage.find('.driver-edit').attr('data-id');
@@ -287,7 +302,7 @@ function userInit(f7, view, page) {
             return;
         } else {
             view.router.load({
-                url: `views/postDriverAuth.html?id=${id}`
+                url: `views/fishCarTripList.html?id=${id}`
             })
         }
     }
@@ -295,9 +310,38 @@ function userInit(f7, view, page) {
     currentPage.find('.driver-reject')[0].onclick = () => {
         apiCount('btn_myCenter_driverRefuseReason');
         const message = currentPage.find('.driver-reject').attr('data-message');
-        f7.alert(message);
+        f7.modal({
+            title: '审核未通过原因',
+            text: message,
+            buttons: [
+                {
+                    text: '重新报名',
+                    onClick: () => {
+                        view.router.load({
+                            url: `views/postDriverAuth.html?id=${currentPage.find('.user-info-driver-check').attr('data-id')}`
+                        })
+                    }
+                },
+                {
+                    text: '我知道了',
+                    onClick: () => {}
+                }
+            ]
+        });
         return;
     }
+
+    /**
+     * 更改版本号
+     * */
+    const versionNumber = store.get('versionNumber');
+    const currentVersionArr = versionNumber.replace('V', '').split('_');
+    let currentVersion = '';
+    currentVersionArr && $$.each(currentVersionArr, (index, item) => {
+        currentVersion += item;
+        index < (currentVersionArr.length -1) && (currentVersion += '.');
+    });
+    currentVersion && (currentPage.find('.user-app-version').children('span').text(currentVersion));
 
 }
 

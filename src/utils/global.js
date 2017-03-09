@@ -183,7 +183,7 @@ class CustomClass {
         }else if('bindAccount' == mainView.activePage.name){
             mainView.router.load({
                 url: 'views/user.html'
-            })
+            });
             f7.hidePreloader();
         }else{
             const loginCallback = (data) => {
@@ -191,8 +191,8 @@ class CustomClass {
                 const { cacheUserinfoKey } = config;
                 if(1 == code){
                     store.set(cacheUserinfoKey, data.data);
-                    nativeEvent.setDataToNative("accessToken", data.token);
-                    store.set("accessToken", data.token);
+                    // nativeEvent.setDataToNative("accessToken", data.token);
+                    // store.set("accessToken", data.token);
                     nativeEvent.setUerInfoToNative({
                         inviterId: data.data.inviterId
                     });
@@ -295,6 +295,9 @@ class CustomClass {
     jsBack() {
         if($$('.view-login').hasClass('show')){
             const currentNavbar = $$($$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length - 1]);
+            currentNavbar.find('.iconfont').click();
+        }else if($$('.view-release-fish').hasClass('show')){
+            const currentNavbar = $$($$('.view-release-fish .navbar>.navbar-inner')[$$('.view-release-fish .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
         }else{
             if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {

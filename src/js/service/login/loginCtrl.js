@@ -3,6 +3,7 @@ import loginModel from '../../../js/service/login/LoginModel';
 import {JsBridge} from '../../../middlewares/JsBridge';
 import store from '../../../utils/localStorage';
 import nativeEvent from '../../../utils/nativeEvent';
+import {getCurrentDay} from '../../../utils/string';
 
 function weixinAction(){
     JsBridge('JS_WeChatLoginWithBridge', '',(weixinCode) => {
@@ -35,6 +36,18 @@ function weixinAction(){
                             nativeEvent.setDataToNative("accessToken", data.token);
                             store.set("accessToken", data.token);
                             getKey(data.token, '', '', 0);
+
+                            const versionNumber = store.get('versionNumber');
+                            const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');
+                            //设置别名
+                            JsBridge('JS_SetTagsWithAlias', {
+                                tags: [
+                                    getCurrentDay().replace('/', '').replace('/', ''),
+                                    `${versionArr[0]}.${versionArr[1]}`
+                                ],
+                                alias: `${data.userInfoView.id}`
+                            }, () => {}, f7);
+
                         }else{
                             data.userInfoView.unionId && store.set('weixinUnionId', data.userInfoView.unionId);
                             data.userInfoView && store.set("weixinData", data.userInfoView);
