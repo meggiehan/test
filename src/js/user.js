@@ -318,7 +318,7 @@ function userInit(f7, view, page) {
                     text: '重新报名',
                     onClick: () => {
                         view.router.load({
-                            url: 'views/postDriverAuth.html'
+                            url: `views/postDriverAuth.html?id=${currentPage.find('.user-info-driver-check').attr('data-id')}`
                         })
                     }
                 },
@@ -330,6 +330,18 @@ function userInit(f7, view, page) {
         });
         return;
     }
+
+    /**
+     * 更改版本号
+     * */
+    const versionNumber = store.get('versionNumber');
+    const currentVersionArr = versionNumber.replace('V', '').split('_');
+    let currentVersion = '';
+    currentVersionArr && $$.each(currentVersionArr, (index, item) => {
+        currentVersion += item;
+        index < (currentVersionArr.length -1) && (currentVersion += '.');
+    });
+    currentVersion && (currentPage.find('.user-app-version').children('span').text(currentVersion));
 
 }
 

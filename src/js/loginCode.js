@@ -130,6 +130,9 @@ function loginCodeInit(f7, view, page) {
                 getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');
             store.set('weixinData', '');
+            if(data.userInfoView.fishCarDriverId){
+                store.set('isFishCar', 1);
+            }
 
             const versionNumber = store.get('versionNumber');
             const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');

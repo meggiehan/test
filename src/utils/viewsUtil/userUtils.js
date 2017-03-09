@@ -118,6 +118,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             if(fishCarDriverId){
                 currentPage.find('.user-info-driver-check').removeClass('check reject edit');
                 currentPage.find('.user-fish-car-driver').hide();
+                currentPage.find('.user-info-driver-check').attr('data-id', fishCarDriverId);
                 if(0 == driverState){
                     currentPage.find('.user-info-driver-check').addClass('check');
                 }

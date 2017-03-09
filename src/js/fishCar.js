@@ -139,7 +139,7 @@ function fishCarInit(f7, view, page) {
         const {code, message, data} = res;
         if (1 == code) {
             currentNavbar.find('.count-driver').text(
-                Number(isFishCar) ? `${data.total || '0'}位货主有货要发` : `${data.total || '0'}位司机出行`
+                Number(isFishCar) ? `${data.total || '0'}位货主有货要发` : `${data.total || '0'}位司机计划出行`
             )
             if (data.records && data.records.length) {
                 emptyContent.hide();

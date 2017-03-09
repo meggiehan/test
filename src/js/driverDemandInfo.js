@@ -1,7 +1,7 @@
 import store from '../utils/localStorage';
 import config from '../config';
 import {getName, trim, getFishTankName, } from '../utils/string';
-import {centerShowTime} from '../utils/time';
+import {fishCarActiveTime} from '../utils/time';
 import {logOut} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
@@ -14,6 +14,7 @@ function driverDemandInfoInit(f7, view, page) {
         return;
     }
     const {imgPath} = config;
+    let contactPhone;
     apiCount('btn_fishcar_driverCell');
     /**
      * 获取司机详情后render出来
@@ -26,7 +27,6 @@ function driverDemandInfoInit(f7, view, page) {
                 phone,
                 workingAge,
                 hasTeam,
-                routeList,
                 fishTankMaterial,
                 fishTankSize,
                 fishTankBoxCount,
@@ -39,14 +39,15 @@ function driverDemandInfoInit(f7, view, page) {
                 roadTransportQualificationCertificate
             } = data.data;
 
+            contactPhone = phone;
             currentPage.find('.driver-name').text(contactName);
             currentPage.find('.driver-other-info').text(`${workingAge}年经验${hasTeam ? '、有车队' : ''}`);
             currentPage.find('.head-tell').attr('data-phone', phone);
-            currentPage.find('.time-desc').text(centerShowTime(lastLoginTime).replace('来过', '活跃'));
+            currentPage.find('.time-desc').text(fishCarActiveTime(lastLoginTime).replace('来过', '活跃'));
             let addressStr = '常去的地区: ';
-            $$.each(routineList, (index, item) => {
+            routineList && routineList.length && $$.each(routineList, (index, item) => {
                 addressStr += item.provinceName;
-                index !== routineList.length (addressStr += '，');
+                index < (routineList.length - 1) && (addressStr += '，');
             });
             addressStr && currentPage.find('.driver-info-address').text(addressStr);
 
@@ -60,10 +61,10 @@ function driverDemandInfoInit(f7, view, page) {
              * render路线
              * */
             let str = '';
-            if(!routeList.length){
+            if(!routineList.length){
                 str += fishCar.selectAddress(-1, '全国');
             }else{
-                $$.each(routeList, (index, item) => {
+                $$.each(routineList, (index, item) => {
                     const text = (item.departureProvinceName == item.destinationProvinceName) ?
                                     `${item.destinationProvinceName}内` :
                                     `${item.departureProvinceName}-${item.destinationProvinceName}`;
@@ -128,9 +129,9 @@ function driverDemandInfoInit(f7, view, page) {
      * 拨打电话
      * */
     currentPage.find('.release-sub-info')[0].onclick = () => {
-        if(currentPage.find('.head-tell').attr('data-phone')){
+        if(contactPhone){
             apiCount('btn_fishcar_driverDetail_call');
-            nativeEvent.contactUs(currentPage.find('.head-tell').attr('data-phone'));
+            nativeEvent.contactUs(contactPhone);
         }
     }
 }

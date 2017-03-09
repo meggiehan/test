@@ -341,7 +341,7 @@ function postDriverInfoInit(f7, view, page) {
             oxygenTankMaterial: getOxygenTankId(fishOxygenTank),
             routineList: getFishCarAddress(),
             auxiliaryList: getTagList()
-        }
+        };
         if (id) {
             customAjax.ajax({
                 apiCategory: 'fishCarDrivers',
