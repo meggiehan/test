@@ -380,7 +380,9 @@ module.exports = {
                 description,
                 contactPhone,
                 departureProvinceName,
+                departureCityName,
                 destinationProvinceName,
+                destinationCityName,
                 id,
                 userInfoView,
                 userId
@@ -400,7 +402,7 @@ module.exports = {
                 `</a>`+
                 `<div class="driver-demand">` +
                 `<div class="icon time">${getFishCarDateStyle(appointedDate)}</div>` +
-                `<div class="icon route">${departureProvinceName}-${destinationProvinceName}</div>` +
+                `<div class="icon route">${departureProvinceName + (departureCityName || '')}-${destinationProvinceName + (destinationCityName || '')}</div>` +
                 `${(fishType || quality) ? '<div class="icon fish-name">'+ (fishType||'') + ' ' + (quality||'') +'</div>' : ''}` +
                 `${description ? '<div class="icon description">'+description+'</div>' : ''}` +
                 `</div>` +

@@ -188,6 +188,8 @@ function myFishCarDemandListInit(f7, view, page) {
                         if(1 == code){
                             f7.alert('删除成功!');
                             mainView.router.refreshPage();
+                            const fishCarNum = Number($$('.user-fish-car-num').text());
+                            fishCarNum && $$('.user-fish-car-num').text(fishCarNum - 1);
                         }else{
                             f7.alert(message);
                         }

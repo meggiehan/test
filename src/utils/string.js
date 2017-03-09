@@ -579,20 +579,37 @@ module.exports = {
         if(!date){
             return '';
         }
-        const currentTime = new Date().getTime();
         const itemTime = new Date(date).getTime();
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const currentZeroTime = new Date(`${year}/${month}/${day}`).getTime();
         const oneDayTime = 60*60*24*1000;
         const dateStyle = `${date.split('-')[1]}月${date.split('-')[2]}日`;
         let res;
-        if(Number(itemTime - currentTime) <= 0 && Number(currentTime - itemTime) > itemTime){
+        if(oneDayTime > Number(itemTime - currentZeroTime) && Number(itemTime - currentZeroTime) >= 0){
             res = `今天(${dateStyle})`;
-        }else if( Number(itemTime - currentTime) > 0 && (oneDayTime) >= Number(itemTime - currentTime)){
+        }else if(oneDayTime*2 > Number(itemTime - currentZeroTime) && Number(itemTime - currentZeroTime) >= oneDayTime){
             res = `明天(${dateStyle})`;
-        }else if(Number(itemTime - currentTime) > (oneDayTime*1) && (oneDayTime * 2) >= Number(itemTime - currentTime)){
+        }else if(oneDayTime*3 > Number(itemTime - currentZeroTime) && Number(itemTime - currentZeroTime) >= oneDayTime*2){
             res = `后天(${dateStyle})`;
         }else{
             res = dateStyle;
         }
         return res;
+    },
+
+    getProvinceCityArr: () => {
+        const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+        let list = {};
+        $$.each(_district.root.province, (index, item) => {
+            const cityArr = [];
+            $$.each(item.city, (i, v) => {
+                cityArr.push(v.name);
+            })
+            list[item.name] = cityArr;
+        });
+        return list;
     }
 }

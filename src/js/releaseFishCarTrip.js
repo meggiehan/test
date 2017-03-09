@@ -8,6 +8,7 @@ import {
     getProvinceList,
     getProvinceId
 } from '../utils/string';
+import {getBeforedawnTime} from '../utils/time';
 
 function releaseFishCarTripInit(f7, view, page) {
     f7.hideIndicator();
@@ -22,11 +23,11 @@ function releaseFishCarTripInit(f7, view, page) {
     const $destination = $currentPage.find('.release-destination').children('input');
 
     if (!isLogin()) {
-        // f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
-        //     loginViewShow();
-        //     mainView.router.back();
-        // });
-        // return;
+        f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
+            loginViewShow();
+            mainView.router.back();
+        });
+        return;
     }
 
     /**
@@ -93,7 +94,7 @@ function releaseFishCarTripInit(f7, view, page) {
         rotateEffect: true,
         toolbarCloseText: '确定',
         // value: [today.getFullYear(), today.getMonth(),today.getDate()],
-        // value: [today.getMonth(),today.getDate()],
+        value: [today.getMonth() + 1,today.getDate()],
         onChange: function (picker, values, displayValues) {
             var daysInMonth = new Date(picker.value[2], picker.value[0]*1 + 1, 0).getDate();
             if (values[1] > daysInMonth) {
@@ -145,8 +146,8 @@ function releaseFishCarTripInit(f7, view, page) {
         if(!appointedTime){
             error = '请选择出发时间!';
         }else{
-            const selectTime = `2017-${appointedTime.replace('月', '-').replace('日', '-')}`;
-            if(new Date(selectTime).getTime() < new Date().getTime()){
+            const selectTime = `2017/${appointedTime.replace('月', '/').replace('日', '')}`;
+            if(new Date(selectTime).getTime() < new Date(getBeforedawnTime()).getTime()){
                 error = '请选择今日之后的日期!';
             }
         }
@@ -169,15 +170,13 @@ function releaseFishCarTripInit(f7, view, page) {
         }
 
         releaseFishCarTripModel.post({
-            appointedTime: new Date(`2017-${appointedTime.replace('月', '-').replace('日', '-')}`).getTime()*0.001,
+            appointedTime: new Date(`2017/${appointedTime.replace('月', '/').replace('日', '')}`).getTime()*0.001,
             departureProvinceId: getProvinceId(departureProvinceName)['provinceId'],
             departureProvinceName,
             description,
             destinationProvinceId: getProvinceId(destinationProvinceName)['provinceId'],
             destinationProvinceName,
-        },{
-
-        }, callback)
+        },{}, callback)
     }
 }
 

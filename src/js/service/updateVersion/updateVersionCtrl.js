@@ -58,6 +58,9 @@ function updateCtrl(f7) {
                 force && $updateModal.addClass('force');
                 $body.attr('data-update-url', filePath);
             }else{
+                if(window.currentDevice.android){
+                    $updateModal.find('.title').text('已在WIFI环境下准备好最新版本');
+                }
                 JsBridge('JS_Download', {
                     filePath,
                     fileName: 'yudada.apk'
@@ -82,7 +85,7 @@ function updateCtrl(f7) {
             );
             JsBridge('JS_Download', {
                 filePath,
-                fileName: 'yudada.zip'
+                fileName: 'webapp.zip'
             }, (data) => {
                 if(1 == data){
                     $updateModal.addClass('small');
@@ -103,7 +106,7 @@ function updateClickEvent(f7){
      * */
     $$('.small-version-update').click(() => {
         JsBridge('JS_WebAppUpdate', {
-            fileName: 'yudada.zip',
+            fileName: 'webapp.zip',
             versionNumber: $body.attr('data-update-version')
         },() => {}, f7);
     });
@@ -130,12 +133,18 @@ function updateClickEvent(f7){
             }else{
                 if($$('.update-app-modal').hasClass('force')){
                     f7.showPreloader('更新中...');
-                }else{
-                    $$('.update-app-modal').removeClass('large small');
                 }
-                JsBridge('JS_AppUpdate', {
-                    fileName: 'yudada.apk'
-                }, (data) => {}, f7);
+                $$('.update-app-modal').removeClass('large small');
+                JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
+                    if(1 == data){
+                        JsBridge('JS_AppUpdate', {
+                            fileName: 'yudada.apk',
+                            versionNumber: $body.attr('data-update-version')
+                        }, (data) => {}, f7)
+                    }else{
+                        nativeEvent.nativeToast(0, '下载失败！');
+                    }
+                }, f7)
             }
         } else {
             if($$('.update-app-modal').hasClass('force')){
