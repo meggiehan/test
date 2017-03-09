@@ -34,7 +34,6 @@ function JsBridge(fnName, data, callback, f7) {
                     WebViewJavascriptBridge.registerHandler('appWillEnterForeground', (data, responseCallback) => {
                         (!$updateModal.hasClass('large') && !$updateModal.hasClass('small') && !$updateModal.hasClass('force')) &&
                         invitationInit(f7, mainView);
-                        alert('唤醒');
                     });
 
                     handler(fnName, data, callback);
