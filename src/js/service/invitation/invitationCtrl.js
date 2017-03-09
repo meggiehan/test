@@ -28,7 +28,6 @@ function invitationInit(f7, view) {
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserinfoKey);
-        alert(inviterInfo);
         if(userInfo && userInfo.inviterId){
             return;
         }

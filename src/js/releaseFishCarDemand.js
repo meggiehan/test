@@ -4,16 +4,17 @@ import config from '../config';
 import store from '../utils/localStorage';
 import releaseFishCarDemandModel from './model/ReleaseFishCarDemandModel';
 import {
-    getPickerSelectCityData,
+    getProvinceCityArr,
     getProvinceList,
     getProvinceId
-} from '../utils/string';
+} from '../utils/string'
+import {getBeforedawnTime} from '../utils/time';
 
 function releaseFishCarDemandInit(f7, view, page) {
     f7.hideIndicator();
     const {cacheUserinfoKey} = config;
-    let departureProvinceList = getProvinceList();
     let destinationProvinceList = getProvinceList();
+    let provinceCityList = getProvinceCityArr();
 
     const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
     const $phone = $currentPage.find('.contact-phone').children('input');
@@ -26,11 +27,11 @@ function releaseFishCarDemandInit(f7, view, page) {
     const $fishNumber = $currentPage.find('.demand-fish-number').children('input');
 
     if (!isLogin()) {
-        // f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
-        //     loginViewShow();
-        //     mainView.router.back();
-        // });
-        // return;
+        f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
+            loginViewShow();
+            mainView.router.back();
+        });
+        return;
     }
 
     const userInfo = store.get(cacheUserinfoKey);
@@ -47,13 +48,27 @@ function releaseFishCarDemandInit(f7, view, page) {
         input: $currentPage.find('.release-departure').children('input'),
         rotateEffect: true,
         toolbarCloseText: '确定',
+        formatValue: function (picker, values) {
+            return values[0] + ' ' + values[1];
+        },
         cols: [
             {
                 textAlign: 'center',
-                values: departureProvinceList
+                values: destinationProvinceList,
+                onChange: (picker, country) => {
+                    if(picker.cols[1].replaceValues){
+                        picker.cols[1].replaceValues(provinceCityList[country]);
+                    }
+                }
+            },
+            {
+                values: provinceCityList[destinationProvinceList[0]],
+                width: 160,
             }
         ]
     });
+
+
 
     /**
      * 目的地选择
@@ -62,10 +77,22 @@ function releaseFishCarDemandInit(f7, view, page) {
         input: $currentPage.find('.release-destination').children('input'),
         rotateEffect: true,
         toolbarCloseText: '确定',
+        formatValue: function (picker, values) {
+            return values[0] + ' ' + values[1];
+        },
         cols: [
             {
                 textAlign: 'center',
-                values: destinationProvinceList
+                values: destinationProvinceList,
+                onChange: (picker, country) => {
+                    if(picker.cols[1].replaceValues){
+                        picker.cols[1].replaceValues(provinceCityList[country]);
+                    }
+                }
+            },
+            {
+                values: provinceCityList[destinationProvinceList[0]],
+                width: 160,
             }
         ]
     });
@@ -104,7 +131,7 @@ function releaseFishCarDemandInit(f7, view, page) {
         rotateEffect: true,
         toolbarCloseText: '确定',
         // value: [today.getFullYear(), today.getMonth(),today.getDate()],
-        // value: [today.getMonth(),today.getDate()],
+        value: [today.getMonth() + 1,today.getDate()],
         onChange: function (picker, values, displayValues) {
             var daysInMonth = new Date(picker.value[2], picker.value[0]*1 + 1, 0).getDate();
             if (values[1] > daysInMonth) {
@@ -169,8 +196,8 @@ function releaseFishCarDemandInit(f7, view, page) {
         if(!appointedTime){
             error = '请选择出发时间!';
         }else{
-            const selectTime = `2017-${appointedTime.replace('月', '-').replace('日', '-')}`;
-            if(new Date(selectTime).getTime() < new Date().getTime()){
+            const selectTime = `2017/${appointedTime.replace('月', '/').replace('日', '')}`;
+            if(new Date(selectTime).getTime() < new Date(getBeforedawnTime()).getTime()){
                 error = '请选择今日之后的日期!';
             }
         }
@@ -193,14 +220,18 @@ function releaseFishCarDemandInit(f7, view, page) {
         }
 
         releaseFishCarDemandModel.post({
-            appointedTime: new Date(`2017-${appointedTime.replace('月', '-').replace('日', '-')}`).getTime()*0.001,
+            appointedTime: new Date(`2017/${appointedTime.replace('月', '/').replace('日', '')}`).getTime()*0.001,
             contactName,
             contactPhone,
-            departureProvinceId: getProvinceId(departureProvinceName)['provinceId'],
-            departureProvinceName,
+            departureProvinceId: getProvinceId(departureProvinceName.split(' ')[0], departureProvinceName.split(' ')[1])['provinceId'],
+            departureCityId: getProvinceId(departureProvinceName.split(' ')[0], departureProvinceName.split(' ')[1])['cityId'],
+            departureProvinceName: departureProvinceName.split(' ')[0],
+            departureCityName: departureProvinceName.split(' ')[1],
             description,
-            destinationProvinceId: getProvinceId(destinationProvinceName)['provinceId'],
-            destinationProvinceName,
+            destinationProvinceId: getProvinceId(destinationProvinceName.split(' ')[0], destinationProvinceName.split(' ')[1])['provinceId'],
+            destinationCityId: getProvinceId(destinationProvinceName.split(' ')[0], destinationProvinceName.split(' ')[1])['cityId'],
+            destinationProvinceName: destinationProvinceName.split(' ')[0],
+            destinationCityName: destinationProvinceName.split(' ')[1],
             fishType,
             quality
         },{

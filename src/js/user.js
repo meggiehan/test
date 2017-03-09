@@ -30,6 +30,18 @@ function userInit(f7, view, page) {
     let userInformation = store.get(cacheUserinfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
 
+    /**
+     * 更改版本号
+     * */
+    const versionNumber = store.get('versionNumber');
+    const currentVersionArr = versionNumber.replace('V', '').split('_');
+    let currentVersion = '';
+    currentVersionArr && $$.each(currentVersionArr, (index, item) => {
+        currentVersion += item.replace('0', '');
+        index < (currentVersionArr.length -1) && (currentVersion += '.');
+    });
+    currentVersion && (currentPage.find('.user-app-version').children('span').text(currentVersion));
+
     /*
      * 生成二维码
      * */
@@ -330,19 +342,6 @@ function userInit(f7, view, page) {
         });
         return;
     }
-
-    /**
-     * 更改版本号
-     * */
-    const versionNumber = store.get('versionNumber');
-    const currentVersionArr = versionNumber.replace('V', '').split('_');
-    let currentVersion = '';
-    currentVersionArr && $$.each(currentVersionArr, (index, item) => {
-        currentVersion += item;
-        index < (currentVersionArr.length -1) && (currentVersion += '.');
-    });
-    currentVersion && (currentPage.find('.user-app-version').children('span').text(currentVersion));
-
 }
 
 export {

@@ -121,17 +121,25 @@ module.exports = {
         let res = '';
         if(currentTime - itemTime <= 60*60*1000){
             res = '刚刚活跃';
-        }else if(60*60*1000 < (currentTime - itemTime) <= 60*60*1000*24){
+        }else if(60*60*1000 < (currentTime - itemTime) && (currentTime - itemTime) <= 60*60*1000*24){
             res = '今天活跃';
-        }else if(60*60*1000*24*2 >= (currentTime - itemTime) > 60*60*1000*24){
+        }else if(60*60*1000*24*2 >= (currentTime - itemTime) && (currentTime - itemTime) > 60*60*1000*24){
             res = '昨天天活跃';
-        }else if(60*60*1000*24*7 >= (currentTime - itemTime) > 60*60*1000*24*2){
+        }else if(60*60*1000*24*7 >= (currentTime - itemTime) && (currentTime - itemTime) > 60*60*1000*24*2){
             res = `${parseInt((currentTime - itemTime)/(60*60*1000*24))}天前活跃`;
         }else if((currentTime - itemTime) > 60*60*1000*24*7){
             res ='7天前活跃';
         }
         return res;
+    },
+    getBeforedawnTime: () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        return `${year}/${month}/${day}`;
     }
+
 }
 
 
