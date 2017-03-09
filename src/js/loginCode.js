@@ -1,9 +1,10 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import {trim, html} from '../utils/string';
+import {trim, html, getCurrentDay} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/localStorage';
 import invitationModel from './service/invitation/InvitationModel';
+import {JsBridge} from '../middlewares/JsBridge';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
@@ -129,6 +130,18 @@ function loginCodeInit(f7, view, page) {
                 getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');
             store.set('weixinData', '');
+
+            const versionNumber = nativeEvent.getDataToNative('versionNumber');
+            const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');
+            //设置别名
+            JsBridge('JS_SetTagsWithAlias', {
+                tags: [
+                    getCurrentDay().replace('/', '').replace('/', ''),
+                    `${versionArr[0]}.${versionArr[1]}`
+                ],
+                alias: data.userInfoView.id
+            }, () => {}, f7);
+
             if (1 == store.get(waitAddPointerKey)) {
                 const {invitationCode} = store.get(inviteInfoKey);
                 invitationModel.f7 = f7;

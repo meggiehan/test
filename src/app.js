@@ -47,6 +47,7 @@ import {releaseFishCarTripInit} from './js/releaseFishCarTrip';
 import {weixinModalEvent} from './js/modal/weixinModal';
 import {fishCarDriverSelectAddressModalEvent} from './js/modal/fishCarDriverSelectAddressModal';
 import {fishCarTripListInit} from './js/fishCarTripList';
+import {myFishCarDemandListInit} from './js/myFishCarDemandList';
 
 
 const deviceF7 = new Framework7();
@@ -272,6 +273,7 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'driverDemandInfo' && driverDemandInfoInit(f7, mainView, page);
     page.name === 'releaseFishCarDemandSuccess' && releaseFishCarDemandSuccessInit(f7, mainView, page);
     page.name === 'fishCarTripList' && fishCarTripListInit(f7, mainView, page);
+    page.name === 'myFishCarDemandList' && myFishCarDemandListInit(f7, mainView, page);
 
     /**
      * 上传司机信息页面

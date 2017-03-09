@@ -23,12 +23,45 @@ class FishAboutModel {
     }
 
     /**
+     * 删除司机行程
+     * @id 行程id
+     * */
+    deleteMyFishTrip(id, callback) {
+        RestTemplate.del(
+            `fishCarDriverDemands/${id}`,
+            {},
+            '',
+            callback
+        );
+    }
+
+    /**
      * 获取用户发布过的需求列表
      * @expired true 表示过期的, false表示进行中的
      * @callback ajax回调
      * */
-    getMyFishCarDemandList(data, callback) {
-        RestTemplate.get('fishCarDemands/mine', {}, data, callback, false);
+    getMyFishCarDemandList(data,expired, callback) {
+        RestTemplate.get(
+            `fishCarDemands/mine?expired=${expired.expired}`,
+            {},
+            data,
+            callback,
+            false,
+            nativeEvent.getNetworkStatus()
+        );
+    }
+
+    /**
+     * 删除鱼车需求
+     * @id 需求id
+     * */
+    deleteMyFishCarDemand(id, callback) {
+        RestTemplate.del(
+            `fishCarDemands/${id}`,
+            {},
+            '',
+            callback
+        );
     }
 }
 

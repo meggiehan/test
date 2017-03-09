@@ -5,8 +5,9 @@ import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import { isLogin } from '../middlewares/loginMiddle';
 import FishAboutModel from './model/FishAboutModel';
+import {releaseFishViewShow } from './releaseView/releaseFishViews';
 
-function fishCarTripListInit(f7, view, page) {
+function myFishCarDemandListInit(f7, view, page) {
     if (!isLogin()) {
         nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
         mainView.router.load({
@@ -68,7 +69,7 @@ function fishCarTripListInit(f7, view, page) {
 
         listLength = content.children('a').length;
         $$.each(data.data, (index, item) => {
-            otehrHtml += fishCar.list(item, true, type == 1);
+            otehrHtml += fishCar.demandList(item, true, type == 1);
         });
 
         if (!pullToRefresh && data.data.length && (currentPageNo != 1)) {
@@ -107,7 +108,7 @@ function fishCarTripListInit(f7, view, page) {
         pullToRefresh = false;
         loading = false;
 
-        FishAboutModel.getMyFishTripList({
+        FishAboutModel.getMyFishCarDemandList({
             pageSize,
             pageNo
         }, {expired: type == 1}, callback)
@@ -142,7 +143,7 @@ function fishCarTripListInit(f7, view, page) {
         pullToRefresh = false;
         type == 2 ? sellPageNo++ : buyPageNo++;
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
-        FishAboutModel.getMyFishTripList({
+        FishAboutModel.getMyFishCarDemandList({
             pageSize,
             pageNo
         }, {expired: type == 1}, callback)
@@ -161,7 +162,7 @@ function fishCarTripListInit(f7, view, page) {
         pullToRefresh = true;
         emptyInfo.hide();
         isInfinite = false;
-        FishAboutModel.getMyFishTripList({
+        FishAboutModel.getMyFishCarDemandList({
             pageSize,
             pageNo
         },{expired: type == 1}, callback)
@@ -175,11 +176,11 @@ function fishCarTripListInit(f7, view, page) {
         if($$(ele).hasClass('delete-trip')){
             const infoId = $$(ele).attr('data-id');
             f7.confirm(
-                '您确定要删除该条行程吗?',
-                '删除行程',
+                '您确定要删除该条叫车需求吗?',
+                '删除叫车需求',
                 () => {
                     f7.showIndicator();
-                    FishAboutModel.deleteMyFishTrip(infoId, (res) => {
+                    FishAboutModel.deleteMyFishCarDemand(infoId, (res) => {
                         const {code, message} = res;
                         if(1 == code){
                             f7.alert('删除成功!');
@@ -196,14 +197,15 @@ function fishCarTripListInit(f7, view, page) {
     })
 
     /**
-     * 点击发布司机行程
+     * 点击发布叫鱼车需求按钮
      * */
     currentPage.find('.collection-list-empty').children('a').click(() => {
-        releaseView.router.reloadPage('views/releaseFishCarTrip.html');
+        releaseView.router.reloadPage('views/releaseFishCarDemand.html');
         releaseFishViewShow();
     })
+
 }
 
 export {
-    fishCarTripListInit
+    myFishCarDemandListInit
 }

@@ -259,7 +259,20 @@ function userInit(f7, view, page) {
         view.router.load({
             url: 'views/release.html'
         })
-    }
+    };
+
+    /**
+     * 前往叫鱼车需求页面
+     * */
+    currentPage.find('.my-fish-car-list').click(() => {
+        if (!isLogin() && weixinData) {
+            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
+            return;
+        }
+        view.router.load({
+            url: 'views/myFishCarDemandList.html'
+        })
+    });
 
     /**
      * 鱼车司机登记

@@ -370,7 +370,7 @@ module.exports = {
                     '</div>';
             return str;
         },
-        demandList: (data) => {
+        demandList: (data, isMine, expired) => {
             const {
                 contactName,
                 appointedDate,
@@ -386,9 +386,12 @@ module.exports = {
             } = data;
             let str = '';
             const src = userInfoView.imgUrl ? (userInfoView.imgUrl + imgPath(8)) : './img/ic_avatar_default.png';
+            const btnStr = !isMine ?
+                `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
+                `<div class="phone delete-trip" data-id="${id}">删除</div>`;
 
             str += `<div class="driver-info">` +
-                `<a class="driver" href="views/driverDemandInfo.html?id=${userId}">` +
+                `<a class="driver" href="views/otherIndex.html?id=${userId}&currentUserId=${userId}">` +
                 `<div class=""><img class="avatar" src="${src}"/></div>` +
                 `<div class="username">${contactName}</div>` +
                 `<div class="description"><div>查看个人主页</div><i class="iconfont icon-right"></i></div>` +
@@ -400,8 +403,8 @@ module.exports = {
                 `${description ? '<div class="icon description">'+description+'</div>' : ''}` +
                 `</div>` +
                 `<div class="driver-contact">` +
-                `<div>正在寻找鱼车</div>` +
-                `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` +
+                `<div>${expired ? '已结束' : '正在寻找鱼车'}</div>` +
+                btnStr +
                 `</div>` +
                 '</div>';
             return str;

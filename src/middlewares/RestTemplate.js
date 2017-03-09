@@ -83,7 +83,16 @@ export default class RestTemplate {
     };
 
     static del(url, headers, params, callback) {
-
+        customAjax.ajax({
+            apiCategory: url,
+            header: ['token'],
+            val: params,
+            type: 'delete',
+            data: params,
+            paramsType: 'application/json',
+            noCache: true,
+            isMandatory: true
+        }, callback);
     };
 
 }
