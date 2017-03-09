@@ -425,7 +425,7 @@ module.exports = {
         let list = [];
         $$.each(_district.root.province, (index, item) => {
             list.push(item.name);
-        })
+        });
         return list;
     },
 
@@ -584,7 +584,7 @@ module.exports = {
         const oneDayTime = 60*60*24*1000;
         const dateStyle = `${date.split('-')[1]}月${date.split('-')[2]}日`;
         let res;
-        if(Number(itemTime - currentTime) <= 0){
+        if(Number(itemTime - currentTime) <= 0 && Number(currentTime - itemTime) > itemTime){
             res = `今天(${dateStyle})`;
         }else if( Number(itemTime - currentTime) > 0 && (oneDayTime) >= Number(itemTime - currentTime)){
             res = `明天(${dateStyle})`;

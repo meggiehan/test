@@ -71,6 +71,7 @@ function userInit(f7, view, page) {
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
+            qrCodeFun(userInformation);
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
                     nickname,
@@ -269,6 +270,7 @@ function userInit(f7, view, page) {
             f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;
         }
+        apiCount('btn_myCenter_fishcarDemands');
         view.router.load({
             url: 'views/myFishCarDemandList.html'
         })

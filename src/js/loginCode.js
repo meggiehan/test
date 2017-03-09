@@ -131,7 +131,7 @@ function loginCodeInit(f7, view, page) {
             store.set('weixinUnionId', '');
             store.set('weixinData', '');
 
-            const versionNumber = nativeEvent.getDataToNative('versionNumber');
+            const versionNumber = store.get('versionNumber');
             const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');
             //设置别名
             JsBridge('JS_SetTagsWithAlias', {
@@ -139,7 +139,7 @@ function loginCodeInit(f7, view, page) {
                     getCurrentDay().replace('/', '').replace('/', ''),
                     `${versionArr[0]}.${versionArr[1]}`
                 ],
-                alias: data.userInfoView.id
+                alias: `${data.userInfoView.id}`
             }, () => {}, f7);
 
             if (1 == store.get(waitAddPointerKey)) {

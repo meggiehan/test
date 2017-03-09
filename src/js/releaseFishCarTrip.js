@@ -130,6 +130,9 @@ function releaseFishCarTripInit(f7, view, page) {
         const destinationProvinceName = $destination.val();
 
         let error = '';
+        if(description.length>50){
+            error = '补充说明最多只能输入50个字符!';
+        }
         if(destinationProvinceName == departureProvinceName){
             error = '出发地和目的地不能相同!';
         }

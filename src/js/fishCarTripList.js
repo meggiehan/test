@@ -5,6 +5,7 @@ import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import { isLogin } from '../middlewares/loginMiddle';
 import FishAboutModel from './model/FishAboutModel';
+import {releaseFishViewShow} from './releaseView/releaseFishViews';
 
 function fishCarTripListInit(f7, view, page) {
     if (!isLogin()) {
@@ -118,11 +119,13 @@ function fishCarTripListInit(f7, view, page) {
      * */
     getListInfo();
     currentPage.find('#tab1').on('show', function() {
+        apiCount('btn_myFishcarRoutes_tab1');
         type = 2;
         !sellContent.children('a').length && getListInfo();
     });
 
     currentPage.find('#tab2').on('show', function() {
+        apiCount('btn_myFishcarRoutes_tab2');
         type = 1;
         !buyContent.children('a').length && getListInfo();
     });
@@ -174,6 +177,7 @@ function fishCarTripListInit(f7, view, page) {
         const ele = e.target || window.event.target;
         if($$(ele).hasClass('delete-trip')){
             const infoId = $$(ele).attr('data-id');
+            apiCount('btn_myFishcarRoutes_delete');
             f7.confirm(
                 '您确定要删除该条行程吗?',
                 '删除行程',
@@ -199,6 +203,7 @@ function fishCarTripListInit(f7, view, page) {
      * 点击发布司机行程
      * */
     currentPage.find('.collection-list-empty').children('a').click(() => {
+        apiCount('btn_myFishcarRoutes_post');
         releaseView.router.reloadPage('views/releaseFishCarTrip.html');
         releaseFishViewShow();
     })

@@ -174,7 +174,9 @@ function fishCarDriverSelectAddressModalEvent(f7){
         }
         $$('.edit-driver-address-model').removeClass('add edit');
     });
+}
 
+function fishCarModalJumpEvent(f7){
     /**
      * 鱼车modal选项点击跳转逻辑
      * */
@@ -198,4 +200,7 @@ function fishCarDriverSelectAddressModalEvent(f7){
     });
 }
 
-export {fishCarDriverSelectAddressModalEvent}
+export {
+    fishCarDriverSelectAddressModalEvent,
+    fishCarModalJumpEvent
+}

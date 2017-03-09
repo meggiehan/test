@@ -45,7 +45,10 @@ import {JsBridge} from './middlewares/JsBridge';
 import {releaseFishCarDemandSuccessInit} from './js/releaseFishCarDemandSuccess';
 import {releaseFishCarTripInit} from './js/releaseFishCarTrip';
 import {weixinModalEvent} from './js/modal/weixinModal';
-import {fishCarDriverSelectAddressModalEvent} from './js/modal/fishCarDriverSelectAddressModal';
+import {
+    fishCarDriverSelectAddressModalEvent,
+    fishCarModalJumpEvent
+} from './js/modal/fishCarDriverSelectAddressModal';
 import {fishCarTripListInit} from './js/fishCarTripList';
 import {myFishCarDemandListInit} from './js/myFishCarDemandList';
 
@@ -340,7 +343,7 @@ if (!window['addressObj']) {
  * 初始化邀请model类
  * 邀请modal按钮操作
  * 微信modal操作
- * 鱼车modal操作
+ * 鱼车选择地区modal操作
  * */
 const interId = setInterval(() => {
     if(window.JS_GetObjectWithKey ||
@@ -353,4 +356,5 @@ updateClickEvent(f7);
 invitationModel.init(f7);
 invitationAction();
 weixinModalEvent();
-fishCarDriverSelectAddressModalEvent(f7);
+// fishCarDriverSelectAddressModalEvent(f7);
+fishCarModalJumpEvent(f7);

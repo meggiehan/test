@@ -86,12 +86,15 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 registerCount,
                 driverRefuseDescribe,
                 driverState,
-                fishCarDriverId
+                fishCarDriverId,
+                fishCarDemandCount,
+                fishCarDriverDemandCount
             } = data;
 
             buyNumber && html($$('.user-buy-num'), buyNumber, null);
             sellNumber && html($$('.user-sell-num'), sellNumber, null);
             certNumber > -1 && verificationBtn.text(certNumber);
+            fishCarDemandCount && currentPage.find('.user-fish-car-num').text(fishCarDemandCount);
 
             enterpriseAuthenticationState == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
             personalAuthenticationState == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
@@ -124,6 +127,9 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                     currentPage.find('.user-fish-car-driver').hide();
                     if(1 == driverState){
                         currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
+                        currentPage.find('.edit-fish-car-info').css({
+                            display: '-webkit-flex'
+                        }).attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
                     }
                     // currentPage.find('.edit-fish-car-info')
                     //     .css({display: '-webkit-flex'})

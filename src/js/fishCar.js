@@ -24,6 +24,7 @@ function fishCarInit(f7, view, page) {
         currentPage.find('.tabbat-text').children('p').text('有空车找不到货？发布行程让货来找你');
         currentPage.find('.tabbat-text').children('span').text('发布行程');
         currentPage.find('.filter-empty-search-result').children('p').text('货主还没来，先发布一个行程吧~');
+        currentNavbar.find('#select-city-input').children('span').text('所有出发地');
     }
 
     store.set('isFishCar', isFishCar || 0);
@@ -38,6 +39,7 @@ function fishCarInit(f7, view, page) {
         const {driverState} = userInfo || {};
 
         if (Number(isFishCar)) {
+            apiCount('btn_fishcar_demands_post');
             if (!loginStatus) {
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
@@ -65,6 +67,7 @@ function fishCarInit(f7, view, page) {
                 return;
             }
         } else {
+            apiCount('btn_fishcar_routes_post');
             if (!loginStatus) {
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
@@ -110,9 +113,10 @@ function fishCarInit(f7, view, page) {
             $$('.fish-car-province-filter .close-picker').click(() => {
                 const val = p.value[0];
                 currentNavbar.find('#select-city-input').children('span')
-                    .text(val == '全国' ? '所有目的地' : val);
+                    .text(val == '全国' ? (Number(isFishCar) ? '所有出发地' :'所有目的地') : val);
                 provinceId = getProvinceId(val, '')['provinceId'];
                 getList(true);
+                apiCount(Number(isFishCar) ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
             })
         },
         cols: [
@@ -257,6 +261,7 @@ function fishCarInit(f7, view, page) {
      * 打开切换司机/货主modal
      * */
     $$('.switch-btn').click(() => {
+        apiCount('btn_fishcar_changerole');
         $$('.fish-car-modal').addClass('on');
     })
 
@@ -266,6 +271,7 @@ function fishCarInit(f7, view, page) {
     currentPage.find('.page-list-view').children('.list').click((e) => {
         const ele = e.target || window.event.target;
         if ($$(ele).hasClass('fish-call') || $$(ele).parent().hasClass('fish-call')) {
+            apiCount('btn_fishcar_demands_call');
             const phone = $$(ele).attr('data-phone') ||
                 $$(ele).parent().attr('data-phone');
             nativeEvent.contactUs(phone);

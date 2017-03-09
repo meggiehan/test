@@ -148,6 +148,9 @@ function releaseFishCarDemandInit(f7, view, page) {
         const contactPhone = $phone.val();
 
         let error = '';
+        if(description.length>50){
+            error = '补充说明最多只能输入50个字符!';
+        }
         if(!contactName){
             error = '请填写联系姓名!';
         }

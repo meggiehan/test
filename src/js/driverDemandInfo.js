@@ -1,6 +1,7 @@
 import store from '../utils/localStorage';
 import config from '../config';
-import {getName, trim, getFishTankName} from '../utils/string';
+import {getName, trim, getFishTankName, } from '../utils/string';
+import {centerShowTime} from '../utils/time';
 import {logOut} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
@@ -30,13 +31,14 @@ function driverDemandInfoInit(f7, view, page) {
                 fishTankSize,
                 fishTankBoxCount,
                 auxiliaryList,
-                headImgUrl
+                headImgUrl,
+                lastLoginTime
             } = data.data;
 
             currentPage.find('.driver-name').text(contactName);
             currentPage.find('.driver-other-info').text(`${workingAge}年经验${hasTeam ? '、有车队' : ''}`);
             currentPage.find('.head-tell').attr('data-phone', phone);
-
+            currentPage.find('.time-desc').text(centerShowTime(lastLoginTime).replace('来过', '活跃'));
             /**
              * render路线
              * */
@@ -108,13 +110,12 @@ function driverDemandInfoInit(f7, view, page) {
     /**
      * 拨打电话
      * */
-    // currentPage.find('.head-tell')[0].onclick = () => {
-    //     if(currentPage.find('.head-tell').attr('data-phone')){
-    //         apiCount('btn_fishcar_driverDetail_call');
-    //         nativeEvent.contactUs(currentPage.find('.head-tell').attr('data-phone'));
-    //     }
-    // }
-
+    currentPage.find('.release-sub-info')[0].onclick = () => {
+        if(currentPage.find('.head-tell').attr('data-phone')){
+            apiCount('btn_fishcar_driverDetail_call');
+            nativeEvent.contactUs(currentPage.find('.head-tell').attr('data-phone'));
+        }
+    }
 }
 
 export {

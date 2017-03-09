@@ -343,7 +343,8 @@ module.exports = {
                 departureProvinceName,
                 destinationProvinceName,
                 id,
-                headImgUrl
+                headImgUrl,
+                driverId
             } = data;
             let str = '';
             const src = headImgUrl ? (headImgUrl + imgPath(8)) : './img/ic_avatar_default.png';
@@ -353,7 +354,7 @@ module.exports = {
                 `<div class="phone delete-trip" data-id="${id}">删除</div>`;
 
             str += `<div class="driver-info">` +
-                        `<a class="driver" href="views/driverDemandInfo.html?id=${id}">` +
+                        `<a class="driver" onclick="apiCount('btn_fishcar_routes_goFishcarDetail')" href="views/driverDemandInfo.html?id=${driverId}">` +
                             `<div class=""><img class="avatar" src="${src}"/></div>` +
                             `<div class="username">${contactName}</div>` +
                             `<div class="description"><div>查看鱼车信息</div><i class="iconfont icon-right"></i></div>` +
@@ -390,10 +391,11 @@ module.exports = {
                 `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
                 `<div class="phone delete-trip" data-id="${id}">删除</div>`;
 
+            const level = !!userInfoView.level ? `<i class="iconfont icon-v${userInfoView.level}"></i>` : '';
             str += `<div class="driver-info">` +
-                `<a class="driver" href="views/otherIndex.html?id=${userId}&currentUserId=${userId}">` +
+                `<a class="driver" onclick="apiCount('btn_fishcar_demands_goProfile')" href="views/otherIndex.html?id=${userId}&currentUserId=${userId}">` +
                 `<div class=""><img class="avatar" src="${src}"/></div>` +
-                `<div class="username">${contactName}</div>` +
+                `<div class="username">${contactName}${level}</div>` +
                 `<div class="description"><div>查看个人主页</div><i class="iconfont icon-right"></i></div>` +
                 `</a>`+
                 `<div class="driver-demand">` +
@@ -425,6 +427,7 @@ module.exports = {
         addBtn: () => {
             let res = '';
             res += '<div class="item-content add-address-click-box add-item-btn" style="display: block">' +
+                '<input type="text">' +
                 '<div class="item-inner add-item-btn">' +
                 '<span class="iconfont icon-add add-item-btn"></span>' +
                 '<span class="add-item-btn">点击添加路线</span>' +

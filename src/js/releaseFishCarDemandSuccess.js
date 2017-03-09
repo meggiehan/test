@@ -12,7 +12,7 @@ function releaseFishCarDemandSuccessInit(f7, view, page) {
     }
 
     $currentPage.find('.jump-btn').click(() => {
-        releaseView.router.reloadPage(`views/fishCar.html?isFishCar=${!!isDriver}`);
+        releaseView.router.reloadPage(`views/fishCar.html?isFishCar=${!isDriver}`);
         releaseFishViewHide();
     })
 }
