@@ -222,7 +222,9 @@ class CustomClass {
                         f7.hideIndicator();
                         f7.pullToRefreshDone();
                         activeLogout();
-                        // f7.alert(_data.message, '提示');
+                        f7.alert(_data.message, '提示', () => {
+                            mainView.router.refreshPage();
+                        });
                         return;
                     }
                 } else if (0 == _data.code) {

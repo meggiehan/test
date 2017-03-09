@@ -156,7 +156,9 @@ function loginCodeInit(f7, view, page) {
         }else if(101 == code){
             window.phoneBindFaild();
         } else {
-            f7.alert(message);
+            f7.alert(message, '提示', () => {
+                mainView.router.refreshPage();
+            });
         }
     };
 

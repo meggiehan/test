@@ -236,6 +236,11 @@ const initApp = f7.onPageInit("*", (page) => {
     } else {
         f7.hideIndicator();
     }
+
+    if(page.name == 'pageMvp'){
+        f7.hideIndicator();
+    }
+
     setTimeout(f7.hideIndicator, timeout);
     page.name === 'editName' && editNameInit(f7, mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);

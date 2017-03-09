@@ -201,6 +201,12 @@ function homeInit(f7, view, page) {
             }
             const access_token = nativeEvent.getUserValue();
             let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
+            if(openUrl && openUrl.indexOf('http') == -1){
+                mainView.router.load({
+                    url: 'views/MVP.html'
+                })
+                return;
+            }
             isNeedLogin && (openUrl += `/${access_token}`);
             nativeEvent.goNewWindow(openUrl);
         }

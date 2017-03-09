@@ -183,7 +183,7 @@ class CustomClass {
         }else if('bindAccount' == mainView.activePage.name){
             mainView.router.load({
                 url: 'views/user.html'
-            })
+            });
             f7.hidePreloader();
         }else{
             const loginCallback = (data) => {

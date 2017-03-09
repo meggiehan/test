@@ -119,7 +119,6 @@ function userInit(f7, view, page) {
                     return;
                 }
             }
-
         } else {
             f7.alert(message);
         }

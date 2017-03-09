@@ -395,7 +395,7 @@ module.exports = {
             str += `<div class="driver-info">` +
                 `<a class="driver" onclick="apiCount('btn_fishcar_demands_goProfile')" href="views/otherIndex.html?id=${userId}&currentUserId=${userId}">` +
                 `<div class=""><img class="avatar" src="${src}"/></div>` +
-                `<div class="username">${contactName}${level}</div>` +
+                `<div class="username"><span>${contactName}</span>${level}</div>` +
                 `<div class="description"><div>查看个人主页</div><i class="iconfont icon-right"></i></div>` +
                 `</a>`+
                 `<div class="driver-demand">` +
@@ -405,7 +405,7 @@ module.exports = {
                 `${description ? '<div class="icon description">'+description+'</div>' : ''}` +
                 `</div>` +
                 `<div class="driver-contact">` +
-                `<div>${expired ? '已结束' : '正在寻找鱼车'}</div>` +
+                `<div class="${expired ? 'expired-text' : ''}">${expired ? '已结束' : '正在寻找鱼车'}</div>` +
                 btnStr +
                 `</div>` +
                 '</div>';
@@ -430,7 +430,7 @@ module.exports = {
                 '<input type="text">' +
                 '<div class="item-inner add-item-btn">' +
                 '<span class="iconfont icon-add add-item-btn"></span>' +
-                '<span class="add-item-btn">点击添加路线</span>' +
+                '<span class="add-item-btn">点击添加地区</span>' +
                 '</div>' +
                 '</div>';
             return res;

@@ -32,13 +32,30 @@ function driverDemandInfoInit(f7, view, page) {
                 fishTankBoxCount,
                 auxiliaryList,
                 headImgUrl,
-                lastLoginTime
+                lastLoginTime,
+                routineList,
+                drivingLicence,
+                roadTransportCertificate,
+                roadTransportQualificationCertificate
             } = data.data;
 
             currentPage.find('.driver-name').text(contactName);
             currentPage.find('.driver-other-info').text(`${workingAge}年经验${hasTeam ? '、有车队' : ''}`);
             currentPage.find('.head-tell').attr('data-phone', phone);
             currentPage.find('.time-desc').text(centerShowTime(lastLoginTime).replace('来过', '活跃'));
+            let addressStr = '常去的地区: ';
+            $$.each(routineList, (index, item) => {
+                addressStr += item.provinceName;
+                index !== routineList.length (addressStr += '，');
+            });
+            addressStr && currentPage.find('.driver-info-address').text(addressStr);
+
+            let authCertStr = '';
+            drivingLicence && (authCertStr += '驾驶证');
+            roadTransportQualificationCertificate && (authCertStr += '、道路运输从业资格证');
+            roadTransportCertificate && (authCertStr += '、道路运输证');
+            currentPage.find('.driver-info-tip').children('b').text(authCertStr);
+
             /**
              * render路线
              * */

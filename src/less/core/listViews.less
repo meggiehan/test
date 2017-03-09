@@ -390,19 +390,26 @@ a.buy-list-info {
         .avatar {
             height: 3.6rem;
             border-radius: 0.4rem;
+            display: block;
         }
         .username {
             color: @text-name;
             max-width: 45%;
             min-width: 30%;
             margin-left: 1.2rem;
-            .text-hidden;
+            padding-top: 1rem;
+            span{
+                max-width: 80%;
+                .text-hidden;
+                min-width: 30%;
+                display: inline-block;
+            }
             i{
                 color: @themeColor;
                 font-size: 2.2rem;
                 margin-left: 0.3rem;
                 .ps-r;
-                top: -0.2rem;
+                top: -0.6rem;
             }
         }
         .description {
@@ -449,6 +456,9 @@ a.buy-list-info {
         color: @text-test;
         justify-content: space-between;
         align-items: center;
+        .expired-text{
+            color: @text-category;
+        }
         .phone {
             padding: 0 1rem;
             border: 1px solid @text-test;

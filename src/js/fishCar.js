@@ -207,7 +207,7 @@ function fishCarInit(f7, view, page) {
     function getFishCarDemandList(bool) {
         const obj = {
             apiCategory: 'fishCarDemands',
-            data: ['', pageSize, pageNo],
+            data: [provinceId, pageSize, pageNo],
             type: 'get',
             isMandatory: bool,
         }
