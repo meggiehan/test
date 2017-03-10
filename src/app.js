@@ -343,7 +343,6 @@ let interTime = 0;
 if (!window['addressObj'] || !store.get('versionNumber')) {
     const intervalId = setInterval(() => {
         interTime += 200;
-        !window['addressObj'] && nativeEvent.getAddress();
 
         const versionNumber = store.get('versionNumber');
         if(versionNumber == 'V01_09_01_01' &&
@@ -381,6 +380,7 @@ const interId = setInterval(() => {
     if(window.JS_GetObjectWithKey ||
         (window.yudada && window.yudada.JS_GetObjectWithKey)){
         updateCtrl(f7);
+        nativeEvent.getAddress();
         clearInterval(interId);
     }
 }, 100);
