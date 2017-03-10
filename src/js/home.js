@@ -213,13 +213,6 @@ function homeInit(f7, view, page) {
     }
 
     /*
-     * 调用微信登录
-     * */
-    if ($$('.weixin-login-btn').length) {
-        $$('.weixin-login-btn')[0].onclick = weixinAction;
-    }
-
-    /*
      * 前往发布信息页面
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {

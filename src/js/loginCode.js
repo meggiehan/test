@@ -147,7 +147,6 @@ function loginCodeInit(f7, view, page) {
 
             if (1 == store.get(waitAddPointerKey)) {
                 const {invitationCode} = store.get(inviteInfoKey);
-                invitationModel.f7 = f7;
                 invitationModel.acceptInvitation(invitationCode);
             }
         }else if(6 == code){

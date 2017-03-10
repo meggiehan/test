@@ -98,7 +98,7 @@ function bindAccountInit(f7, view, page) {
         }
         if (currentPage.find('.bind-account-weixin').hasClass('unbind')) {
             apiCount('btn_bind_bindwechat');
-            weixinAction();
+            weixinAction(f7);
         } else {
             apiCount('btn_bind_unbindwechat');
             //解绑微信

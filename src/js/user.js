@@ -34,13 +34,19 @@ function userInit(f7, view, page) {
      * 更改版本号
      * */
     const versionNumber = store.get('versionNumber');
-    const currentVersionArr = versionNumber.replace('V', '').split('_');
-    let currentVersion = '';
-    currentVersionArr && $$.each(currentVersionArr, (index, item) => {
-        currentVersion += item.replace('0', '');
-        index < (currentVersionArr.length -1) && (currentVersion += '.');
-    });
-    currentVersion && (currentPage.find('.user-app-version').children('span').text(currentVersion));
+    if(versionNumber){
+        const currentVersionArr = versionNumber.replace('V', '').split('_');
+        let currentVersion = '';
+        currentVersionArr && $$.each(currentVersionArr, (index, item) => {
+            currentVersion += item.replace('0', '');
+            index < (currentVersionArr.length -1) && (currentVersion += '.');
+        });
+        currentVersion && (currentPage.find('.user-app-version')
+            .children('span').show().text(currentVersion));
+    }else{
+        currentPage.find('.user-app-version').hide();
+    }
+
 
     /*
      * 生成二维码

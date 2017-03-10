@@ -135,16 +135,10 @@ function updateClickEvent(f7){
                     f7.showPreloader('更新中...');
                 }
                 $$('.update-app-modal').removeClass('large small');
-                JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
-                    if(1 == data){
-                        JsBridge('JS_AppUpdate', {
-                            fileName: 'yudada.apk',
-                            versionNumber: $body.attr('data-update-version')
-                        }, (data) => {}, f7)
-                    }else{
-                        nativeEvent.nativeToast(0, '下载失败！');
-                    }
-                }, f7)
+                JsBridge('JS_AppUpdate', {
+                    fileName: 'yudada.apk',
+                    versionNumber: $body.attr('data-update-version')
+                }, (data) => {}, f7)
             }
         } else {
             if($$('.update-app-modal').hasClass('force')){

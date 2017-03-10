@@ -15,7 +15,8 @@ class InvitationModel {
         }, (res) => {
             if (1 == res.code) {
                 nativeEvent.nativeToast(1, "接受邀请成功");
-                callback(res);
+                this.clearInviterInfo();
+                callback && callback(res);
                 return;
             }
             nativeEvent.nativeToast(0, res.message);
