@@ -42,7 +42,7 @@ function userInit(f7, view, page) {
             index < (currentVersionArr.length -1) && (currentVersion += '.');
         });
         currentVersion && (currentPage.find('.user-app-version')
-            .children('span').show().text(currentVersion));
+            .children('span').css({display: 'inline'}).text(currentVersion));
     }else{
         currentPage.find('.user-app-version').hide();
     }
