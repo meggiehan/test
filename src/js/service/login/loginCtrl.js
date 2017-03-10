@@ -4,8 +4,10 @@ import {JsBridge} from '../../../middlewares/JsBridge';
 import store from '../../../utils/localStorage';
 import nativeEvent from '../../../utils/nativeEvent';
 import {getCurrentDay} from '../../../utils/string';
+import config from '../../../config';
+import invitationModel from '../../service/invitation/InvitationModel';
 
-function weixinAction(){
+function weixinAction(f7){
     JsBridge('JS_WeChatLoginWithBridge', '',(weixinCode) => {
         if(weixinCode){
             if(isLogin()){
@@ -48,6 +50,11 @@ function weixinAction(){
                                 alias: `${data.userInfoView.id}`
                             }, () => {}, f7);
 
+                            const {waitAddPointerKey, inviteInfoKey} = config;
+                            if (1 == store.get(waitAddPointerKey)) {
+                                const {invitationCode} = store.get(inviteInfoKey);
+                                invitationModel.acceptInvitation(invitationCode);
+                            }
                         }else{
                             data.userInfoView.unionId && store.set('weixinUnionId', data.userInfoView.unionId);
                             data.userInfoView && store.set("weixinData", data.userInfoView);
