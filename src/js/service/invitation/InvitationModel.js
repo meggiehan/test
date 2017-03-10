@@ -9,10 +9,6 @@ import nativeEvent from '../../../utils/nativeEvent';
 
 class InvitationModel {
 
-    init(f7) {
-        this._f7 = f7;
-    }
-
     acceptInvitation(code, callback) {
         RestTemplate.post("invite", {}, {}, {
             code
@@ -27,10 +23,10 @@ class InvitationModel {
         })
     }
 
-    getInviterInfo(callback) {
+    getInviterInfo(callback, f7) {
         JsBridge('JS_GetInvitationInfo', '', (data) => {
             callback(data || '');
-        })
+        }, f7)
     }
 
     /**
