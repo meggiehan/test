@@ -387,8 +387,10 @@ a.buy-list-info {
         display: flex;
         align-items: center;
         font-size: 1.6rem;
+        .head-img{
+            width: 6.6rem;
+        }
         .avatar {
-            height: 3.6rem;
             border-radius: 0.4rem;
             display: block;
         }
@@ -397,20 +399,20 @@ a.buy-list-info {
             max-width: 60%;
             min-width: 30%;
             margin-left: 1rem;
-            padding-top: 0.3rem;
+            height: 3.6rem;
+            line-height: 3.6rem;
             .text-hidden;
             span{
                 max-width: 70%;
                 .text-hidden;
                 min-width: 30%;
                 display: inline-block;
+                vertical-align: middle;
             }
             i{
                 color: @themeColor;
                 font-size: 2.2rem;
                 margin-left: 0.3rem;
-                .ps-r;
-                top: -0.3rem;
             }
         }
         .description {

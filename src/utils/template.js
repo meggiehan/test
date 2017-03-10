@@ -355,7 +355,7 @@ module.exports = {
 
             str += `<div class="driver-info">` +
                         `<a class="driver" onclick="apiCount('btn_fishcar_routes_goFishcarDetail')" href="views/driverDemandInfo.html?id=${driverId}">` +
-                            `<div class=""><img class="avatar" src="${src}"/></div>` +
+                            `<div class="head-img"><img width="36" class="avatar" src="${src}"/></div>` +
                             `<div class="username">${contactName}</div>` +
                             `<div class="description"><div>查看鱼车信息</div><i class="iconfont icon-right"></i></div>` +
                         `</a>`+
@@ -396,7 +396,7 @@ module.exports = {
             const level = !!userInfoView.level ? `<i class="iconfont icon-v${userInfoView.level}"></i>` : '';
             str += `<div class="driver-info">` +
                 `<a class="driver" onclick="apiCount('btn_fishcar_demands_goProfile')" href="views/otherIndex.html?id=${userId}&currentUserId=${userId}">` +
-                `<div class=""><img class="avatar" src="${src}"/></div>` +
+                `<div class="head-img"><img  width="36" class="avatar" src="${src}"/></div>` +
                 `<div class="username"><span>${contactName}</span>${level}</div>` +
                 `<div class="description"><div>查看个人主页</div><i class="iconfont icon-right"></i></div>` +
                 `</a>`+

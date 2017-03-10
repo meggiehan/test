@@ -45,7 +45,7 @@ function updateCtrl(f7) {
             $updateModal.find('.title').text('快升级到最新版本');
             let strHtml = describe.split("\n").join("<br />");
             if(window.currentDevice.android && (5 != window.yudada.JS_GetNetWorkStates())){
-                strHtml = '现在处于非WIFI环境下，需要使用移动流量更新，更新内容：\n' + strHtml;
+                strHtml = '现在处于非WIFI环境下，需要使用移动流量更新，更新内容：<br />' + strHtml;
             }
 
             $updateInfoText.html(strHtml);

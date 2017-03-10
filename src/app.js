@@ -64,11 +64,6 @@ window.isTipBack = false;
 window.shraeInfo = {};
 let isBack = false;
 
-/**
- * 初始化jsBrige
- * */
-JsBridge('JS_SaveInfomation', {jsBrigeTest: 123});
-
 /*
  * 初始化f7的参数
  * */
@@ -179,6 +174,11 @@ const mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
 });
+
+/**
+ * 初始化jsBrige
+ * */
+JsBridge('JS_SaveInfomation', {jsBrigeTest: 123}, f7);
 
 /*
  * 抽离出登录视图
@@ -358,7 +358,6 @@ const interId = setInterval(() => {
     }
 }, 100);
 updateClickEvent(f7);
-invitationModel.init(f7);
 invitationAction();
 weixinModalEvent();
 // fishCarDriverSelectAddressModalEvent(f7);

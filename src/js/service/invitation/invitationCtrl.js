@@ -21,10 +21,9 @@ function invitationInit(f7, view) {
     const {
         cancelInvitationNumberKey,
         inviteInfoKey,
-        cacheUserinfoKey
+        cacheUserinfoKey,
+        imgPath
     } = config;
-
-    invitationModel.f7 = f7;
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserinfoKey);
@@ -52,7 +51,7 @@ function invitationInit(f7, view) {
         } = store.get(inviteInfoKey) || {};
         const weixinData = nativeEvent.getDataToNative('weixinData');
         if (invitationCode) {
-            $headUrl.attr('src', headerUrl);
+            $headUrl.attr('src', `${headerUrl}${imgPath(8)}`);
             $nickname.text(inviter);
 
             if (isLogin()) {
@@ -72,7 +71,7 @@ function invitationInit(f7, view) {
     /**
      * 获取魔窗传递的邀请信息
      * */
-    invitationModel.getInviterInfo(callback);
+    invitationModel.getInviterInfo(callback, f7);
 }
 
 function invitationAction() {

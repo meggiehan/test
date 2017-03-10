@@ -264,8 +264,8 @@ function userInit(f7, view, page) {
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {
         apiCount('btn_tabbar_post');
-        if (!isLogin() && weixinData) {
-            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
+        if (!isLogin() && store.get('weixinData')) {
+            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow)
             return;
         }
         view.router.load({
@@ -277,8 +277,8 @@ function userInit(f7, view, page) {
      * 前往叫鱼车需求页面
      * */
     currentPage.find('.my-fish-car-list').click(() => {
-        if (!isLogin() && weixinData) {
-            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
+        if (!isLogin()) {
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow);
             return;
         }
         apiCount('btn_myCenter_fishcarDemands');
