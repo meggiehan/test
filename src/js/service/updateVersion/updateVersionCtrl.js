@@ -118,17 +118,24 @@ function updateClickEvent(f7){
     $$('.large-version-update').click(() => {
         const {android} = window.currentDevice;
         if (android) {
-            if (!$$('.update-app-modal').hasClass('force') && (5 != window.yudada.JS_GetNetWorkStates())) {
-                JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
-                    if(1 == data){
-                        JsBridge('JS_AppUpdate', {
-                            fileName: 'yudada.apk',
-                            versionNumber: $body.attr('data-update-version')
-                        }, (data) => {}, f7)
-                    }else{
-                        nativeEvent.nativeToast(0, '下载失败！');
-                    }
-                }, f7)
+            if (!$$('.update-app-modal').hasClass('force')) {
+                if(5 != window.yudada.JS_GetNetWorkStates()){
+                    JsBridge('JS_Download', $('body').attr('data-update-url'), (data) => {
+                        if(1 == data){
+                            JsBridge('JS_AppUpdate', {
+                                fileName: 'yudada.apk',
+                                versionNumber: $body.attr('data-update-version')
+                            }, (data) => {}, f7)
+                        }else{
+                            nativeEvent.nativeToast(0, '下载失败！');
+                        }
+                    }, f7)
+                }else{
+                    JsBridge('JS_AppUpdate', {
+                        fileName: 'yudada.apk',
+                        versionNumber: $body.attr('data-update-version')
+                    }, (data) => {}, f7)
+                }
                 $$('.update-app-modal').removeClass('large small');
             }else{
                 if($$('.update-app-modal').hasClass('force')){
