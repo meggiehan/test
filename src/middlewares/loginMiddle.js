@@ -130,9 +130,6 @@ function loginViewShow(phone) {
 }
 
 function getToken() {
-    if(store.get("accessToken")){
-        store.remove(cacheUserinfoKey);
-    }
     return store.get("accessToken") || nativeEvent.getUserValue();
 }
 

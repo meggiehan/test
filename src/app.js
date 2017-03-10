@@ -51,6 +51,8 @@ import {
 } from './js/modal/fishCarDriverSelectAddressModal';
 import {fishCarTripListInit} from './js/fishCarTripList';
 import {myFishCarDemandListInit} from './js/myFishCarDemandList';
+import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
+import store from './utils/localStorage';
 
 
 const deviceF7 = new Framework7();
@@ -335,11 +337,36 @@ $$('.view-release-fish>.navbar').click((e) => {
 
 /**
  * 调用native定位，获取当前定位信息
+ * 1.8升级1.9 登录token兼容刷新
  * */
-if (!window['addressObj']) {
-    setTimeout(() => {
-        nativeEvent.getAddress();
-    }, 500);
+let interTime = 0;
+if (!window['addressObj'] || !store.get('versionNumber')) {
+    const intervalId = setInterval(() => {
+        interTime += 200;
+        !window['addressObj'] && nativeEvent.getAddress();
+
+        const versionNumber = store.get('versionNumber');
+        if(versionNumber == 'V01_09_01_01' &&
+            !store.get('isUpdateLarge') &&
+            nativeEvent.getUserValue()){
+            RefreshOldTokenModel.post((res) => {
+                const {code, data, message} = res;
+                if(1 == code){
+                    nativeEvent.setNativeUserInfo();
+                    store.set('accessToken', data);
+                    store.set('isUpdateLarge', 1)
+                }else{
+                    console.log(message);
+                }
+            });
+            clearInterval(intervalId);
+        }
+
+        if(interTime >= 30000){
+            clearInterval(intervalId);
+        }
+
+    }, 200);
 }
 
 /**
