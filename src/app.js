@@ -217,6 +217,10 @@ globalEvent.init(f7);
 window.currentDevice = f7.device;
 nativeEvent['searchHistoryActions'](2, '');
 
+if(android && !androidChrome){
+    $$('html').addClass('android-4-min');
+}
+
 /*
  * Trigger lazy load img.
  */
@@ -340,7 +344,7 @@ $$('.view-release-fish>.navbar').click((e) => {
  * 1.8升级1.9 登录token兼容刷新
  * */
 let interTime = 0;
-if (!window['addressObj'] || !store.get('versionNumber')) {
+if (!store.get('versionNumber')) {
     const intervalId = setInterval(() => {
         interTime += 200;
 
