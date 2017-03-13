@@ -36,35 +36,59 @@ function fishCarInit(f7, view, page) {
     currentPage.find('.tabbat-text').children('span').click(() => {
         const loginStatus = isLogin();
         const userInfo = store.get(cacheUserinfoKey);
-        const {driverState} = userInfo || {};
+        const {driverState, driverRefuseDescribe} = userInfo || {};
 
         if (Number(isFishCar)) {
             apiCount('btn_fishcar_demands_post');
             if (!loginStatus) {
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
-            }
-            if (loginStatus && (1 !== driverState)) {
-                f7.modal({
-                    title: '无法发布行程？',
-                    text: '只有登记司机信息后,才可以发布行程找货源哟~',
-                    buttons: [
-                        {
-                            text: '我再想想',
-                            onClick: () => {
+            }else{
+                if (!driverState && 0 != driverState) {
+                    f7.modal({
+                        title: '无法发布行程？',
+                        text: '只有登记司机信息后,才可以发布行程找货源哟~',
+                        buttons: [
+                            {
+                                text: '我再想想',
+                                onClick: () => {
+                                }
+                            },
+                            {
+                                text: '现在去登记',
+                                onClick: () => {
+                                    mainView.router.load({
+                                        url: 'views/postDriverAuth.html'
+                                    })
+                                }
                             }
-                        },
-                        {
-                            text: '现在去登记',
-                            onClick: () => {
-                                mainView.router.load({
-                                    url: 'views/postDriverAuth.html'
-                                })
+                        ]
+                    });
+                } else {
+                    let driverMessage = '';
+                    if (0 == driverState) {
+                        driverMessage = '请耐心等待审核结果，审核通过后就可以发布行程了';
+                    } else if (2 == driverState) {
+                        driverMessage = driverRefuseDescribe;
+                    } else if (3 == driverState) {
+                        driverMessage = '您的司机身份已被冻结，请联系客服！';
+                    }
+                    1 !== driverState && f7.modal({
+                        title: '无法发布行程',
+                        text: driverMessage,
+                        buttons: [
+                            {
+                                text: '我知道了',
+                                onClick: () => {
+                                }
                             }
-                        }
-                    ]
-                });
-                return;
+                        ]
+                    });
+                }
+
+                if(1 !== driverState){
+                    return;
+                }
             }
         } else {
             apiCount('btn_fishcar_routes_post');
@@ -113,7 +137,7 @@ function fishCarInit(f7, view, page) {
             $$('.fish-car-province-filter .close-picker').click(() => {
                 const val = p.value[0];
                 currentNavbar.find('#select-city-input').children('span')
-                    .text(val == '全国' ? (Number(isFishCar) ? '所有出发地' :'所有目的地') : val);
+                    .text(val == '全国' ? (Number(isFishCar) ? '所有出发地' : '所有目的地') : val);
                 provinceId = getProvinceId(val, '')['provinceId'];
                 getList(true);
                 apiCount(Number(isFishCar) ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');

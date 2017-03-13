@@ -59,7 +59,7 @@ const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
 const {timeout, fishCacheObj} = config;
-console.log(`current app update time: ${version.date}!`);
+console.log(`current app update time: ${version.date}!V01_09_01_01`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;
@@ -217,6 +217,10 @@ globalEvent.init(f7);
 window.currentDevice = f7.device;
 nativeEvent['searchHistoryActions'](2, '');
 
+if(android && !androidChrome){
+    $$('html').addClass('android-4-min');
+}
+
 /*
  * Trigger lazy load img.
  */
@@ -340,10 +344,9 @@ $$('.view-release-fish>.navbar').click((e) => {
  * 1.8升级1.9 登录token兼容刷新
  * */
 let interTime = 0;
-if (!window['addressObj'] || !store.get('versionNumber')) {
+if (!store.get('versionNumber')) {
     const intervalId = setInterval(() => {
         interTime += 200;
-        !window['addressObj'] && nativeEvent.getAddress();
 
         const versionNumber = store.get('versionNumber');
         if(versionNumber == 'V01_09_01_01' &&
@@ -381,6 +384,7 @@ const interId = setInterval(() => {
     if(window.JS_GetObjectWithKey ||
         (window.yudada && window.yudada.JS_GetObjectWithKey)){
         updateCtrl(f7);
+        nativeEvent.getAddress();
         clearInterval(interId);
     }
 }, 100);

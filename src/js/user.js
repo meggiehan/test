@@ -323,7 +323,7 @@ function userInit(f7, view, page) {
                 url: `views/fishCarTripList.html?id=${id}`
             })
         }
-    }
+    };
 
     currentPage.find('.driver-reject')[0].onclick = () => {
         apiCount('btn_myCenter_driverRefuseReason');
