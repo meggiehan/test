@@ -59,7 +59,7 @@ const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
 const {timeout, fishCacheObj} = config;
-console.log(`current app update time: ${version.date}!`);
+console.log(`current app update time: ${version.date}!V01_09_01_01`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;

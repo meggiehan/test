@@ -2,7 +2,6 @@ import nativeEvent from '../utils/nativeEvent';
 
 const configs = {
     debug: false,
-    version: 'V01_08_06_01',
     /*
      *release branch change the api url to http://api.yudada.com
      */
@@ -108,8 +107,9 @@ const configs = {
      * 鱼车相关
      * */
     fishCars: ['provinceId', 'pageSize', 'pageNo'],
+    fishCarDriverDemands: ['destinationProvinceId', 'pageSize', 'pageNo'],
     postFishCars: [],
-    fishCarDemands: ['description', 'pageSize', 'pageNo'],
+    fishCarDemands: ['departureProvinceId', 'pageSize', 'pageNo'],
     fishCarDrivers: ['driverId']
 };
 export default configs;
