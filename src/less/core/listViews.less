@@ -13,7 +13,7 @@
         height: 9rem;
         overflow: hidden;
         -webkit-box-align: start;
-        -webkit-align-items: start;
+        -webkit-align-items: flex-start;
         .sell-list-imgs {
             display: inline-block;
             .ps-a;
@@ -384,8 +384,8 @@ a.buy-list-info {
     .driver {
         border-bottom: 1px solid #E7E7E7;
         padding: 1rem 1rem 1rem 1.5rem;
-        display: flex;
-        align-items: center;
+        display: -webkit-flex;
+        -webkit-align-items: center;
         font-size: 1.6rem;
         .head-img{
             width: 6.6rem;
@@ -417,16 +417,16 @@ a.buy-list-info {
         }
         .description {
             color: @text-subtitle;
-            display: flex;
-            justify-content: flex-end;
+            display: -webkit-flex;
+            -webkit-justify-content: flex-end;
             width: 100%;
         }
     }
     .driver-demand {
         border-bottom: 1px solid #E7E7E7;
         padding: 1rem 1rem 1rem 1.5rem;
-        display: flex;
-        flex-direction: column;
+        display: -webkit-flex;
+        -webkit-flex-direction: column;
         font-size: 1.6rem;
         color: @text-category;
         line-height: 2.5rem;
@@ -454,10 +454,10 @@ a.buy-list-info {
     }
     .driver-contact {
         padding: 1rem 1rem 1rem 1.5rem;
-        display: flex;
+        display: -webkit-flex;
         font-size: 1.6rem;
         color: @text-test;
-        justify-content: space-between;
+        -webkit-justify-content: space-between;
         align-items: center;
         .expired-text{
             color: @text-category;
@@ -467,8 +467,8 @@ a.buy-list-info {
             border: 1px solid @text-test;
             border-radius: 0.3rem;
             line-height: 3.6rem;
-            display: flex;
-            align-items: center;
+            display: -webkit-flex;
+            -webkit-align-items: center;
             &.delete-trip{
                 border-color: @text-price;
                 color: @text-price;

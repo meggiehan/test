@@ -78,7 +78,7 @@ function userInit(f7, view, page) {
             $$('.picker-invite-head-img').hide();
         }
         $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
-    }
+    };
 
     const loginCallback = (data) => {
         f7.hideIndicator();

@@ -161,7 +161,7 @@ let initAppConfig = {
                 isBack = true;
                 setTimeout(() => {
                     isBack = false;
-                }, 300);
+                }, 400);
             }
         }
     }
@@ -365,11 +365,11 @@ if (!store.get('versionNumber')) {
             clearInterval(intervalId);
         }
 
-        if(interTime >= 30000){
+        if(interTime >= 20000){
             clearInterval(intervalId);
         }
 
-    }, 200);
+    }, 500);
 }
 
 /**

@@ -417,7 +417,7 @@ module.exports = {
             let res = '';
             res += '<div class="item-content post-select-address">' +
                 '<div class="item-inner">' +
-                `<div class="item-title" data-index="${number}">路线${getCreateDriverListLabel(number)}</div>` +
+                `<div class="item-title" data-index="${number}">地区${getCreateDriverListLabel(number)}</div>` +
                 '<div class="item-input">' +
                 `<input type="text" class="post-driver-name" value="${address}" readonly placeholder="${address}">` +
                 '<span class="iconfont icon-right"></span>' +

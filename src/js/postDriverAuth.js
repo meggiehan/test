@@ -10,6 +10,7 @@ function postDriverAuthInit(f7, view, page) {
     const {identity} = config;
     let defaultAge = '';
     let defaultTeam = '';
+    const {androidChrome} = currentDevice;
 
     /**
      * 如果存在id，则是修改，反则是新增申请
@@ -61,10 +62,12 @@ function postDriverAuthInit(f7, view, page) {
     /**
      * 工龄选择框绑定
      * */
+
     f7.picker({
         input: currentPage.find('.post-driver-age'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [defaultAge || ''],
         cols: [
             {
@@ -81,7 +84,8 @@ function postDriverAuthInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-team'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [defaultTeam || ''],
         cols: [
             {
