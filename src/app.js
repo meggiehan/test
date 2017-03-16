@@ -177,11 +177,6 @@ const mainView = f7.addView('.view-main', {
     domCache: true
 });
 
-/**
- * 初始化jsBrige
- * */
-JsBridge('JS_SaveInfomation', {jsBrigeTest: 123}, f7);
-
 /*
  * 抽离出登录视图
  * */
@@ -219,6 +214,11 @@ nativeEvent['searchHistoryActions'](2, '');
 
 if(android && !androidChrome){
     $$('html').addClass('android-4-min');
+}else{
+    /**
+     * 初始化jsBrige
+     * */
+    JsBridge('JS_SaveInfomation', {jsBrigeTest: 123}, f7);
 }
 
 /*
@@ -365,7 +365,7 @@ if (!store.get('versionNumber')) {
             clearInterval(intervalId);
         }
 
-        if(interTime >= 20000){
+        if(interTime >= 20000 || !!versionNumber){
             clearInterval(intervalId);
         }
 
