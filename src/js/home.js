@@ -260,7 +260,7 @@ function homeInit(f7, view, page) {
         $$('.fish-car-modal').addClass('on');
     });
 
-    // //存储数据
+    // // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = {
     //         sk:123,
