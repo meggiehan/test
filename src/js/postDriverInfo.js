@@ -25,6 +25,7 @@ function postDriverInfoInit(f7, view, page) {
     let selectFishTankNumber = '';
     let selectedFishTankMaterial = '';
     let selectOxygenTankMaterial = '';
+    const {androidChrome} = currentDevice;
 
     /**
      * 路线范围选择
@@ -56,7 +57,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.add-address-click-box').children('input'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         cssClass: 'post-fish-car-driver',
         onOpen: (p) => {
             $$('.post-fish-car-driver .close-picker').click(() => {
@@ -127,7 +129,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-size'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectedFishTankSize || ''],
         cols: [
             {
@@ -145,7 +148,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-number'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectFishTankNumber || ''],
         cols: [
             {
@@ -176,7 +180,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectedFishTankMaterial || ''],
         cols: [
             {
@@ -192,7 +197,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-oxygen-tank'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectOxygenTankMaterial || ''],
         cols: [
             {

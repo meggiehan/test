@@ -124,7 +124,7 @@ module.exports = {
         }else if(60*60*1000 < (currentTime - itemTime) && (currentTime - itemTime) <= 60*60*1000*24){
             res = '今天活跃';
         }else if(60*60*1000*24*2 >= (currentTime - itemTime) && (currentTime - itemTime) > 60*60*1000*24){
-            res = '昨天天活跃';
+            res = '昨天活跃';
         }else if(60*60*1000*24*7 >= (currentTime - itemTime) && (currentTime - itemTime) > 60*60*1000*24*2){
             res = `${parseInt((currentTime - itemTime)/(60*60*1000*24))}天前活跃`;
         }else if((currentTime - itemTime) > 60*60*1000*24*7){

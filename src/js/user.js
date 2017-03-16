@@ -38,7 +38,11 @@ function userInit(f7, view, page) {
         const currentVersionArr = versionNumber.replace('V', '').split('_');
         let currentVersion = '';
         currentVersionArr && $$.each(currentVersionArr, (index, item) => {
-            currentVersion += item.replace('0', '');
+            if(Number(item) < 10){
+                currentVersion += item.replace('0', '');
+            }else{
+                currentVersion += item;
+            }
             index < (currentVersionArr.length -1) && (currentVersion += '.');
         });
         currentVersion && (currentPage.find('.user-app-version')
@@ -58,7 +62,7 @@ function userInit(f7, view, page) {
             invitationCode
         } = data || {scanLink: 'http://baidu.com'};
         if (!$$('.picker-invite-code-content>img').length) {
-            window.qrcodeObj = new QRCode($('.picker-invite-code-content')[0], {
+            window.qrcodeObj = new QRCode($$('.picker-invite-code-content')[0], {
                 text: scanLink,
                 height: 180,
                 width: 180,
@@ -69,7 +73,6 @@ function userInit(f7, view, page) {
         } else {
             window.qrcodeObj.clear(); // clear the code.
             window.qrcodeObj.makeCode(scanLink); // make another code.
-
         }
 
         if (imgUrl) {
@@ -78,7 +81,7 @@ function userInit(f7, view, page) {
             $$('.picker-invite-head-img').hide();
         }
         $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
-    }
+    };
 
     const loginCallback = (data) => {
         f7.hideIndicator();
