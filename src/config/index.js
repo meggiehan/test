@@ -5,7 +5,7 @@ const configs = {
     /*
      *release branch change the api url to http://api.yudada.com
      */
-    url: nativeEvent['getAPi']() || 'https://api.yudada.com/',
+    url: nativeEvent['getAPi']() || 'https://api.test.yudada.com/',
     // url: 'https://10.228.17.28:8080/',
     backgroundImgUrl: './img/app_icon_108.png',
     timeout: 15000, //api timeout, unit: ms
@@ -14,7 +14,7 @@ const configs = {
     voiceCodeWaitTime: 60, //unit: m
     cacheUserinfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
-    shareUrl: 'http://m.yudada.com/demandInfo/',
+    shareUrl: 'http://m.test.yudada.com/demandInfo/',
     cancelInvitationNumberKey: 'cancelInvitationNumber',
     inviteInfoKey: 'inviteInfo',
     waitAddPointerKey: 'waitAddPointer',
@@ -25,7 +25,7 @@ const configs = {
     /*
      *release branch change the url to http://m.yudada.com
      */
-    mWebUrl: 'http://m.yudada.com/',
+    mWebUrl: 'http://m.test.yudada.com/',
     imgPath: (num) => {
         return `@1e_1c_2o_0l_${num * 10}h_${num * 10}w_90q.src`
     },

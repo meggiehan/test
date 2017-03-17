@@ -83,14 +83,14 @@ function postDriverInfoInit(f7, view, page) {
     const sortList = () => {
         const len = currentPage.find('.post-select-address').length;
         len && $$.each(currentPage.find('.post-select-address'), (index, item) => {
-            $$(item).find('.item-title').text(`路线${getCreateDriverListLabel(index)}`);
+            $$(item).find('.item-title').text(`地区${getCreateDriverListLabel(index)}`);
         })
     }
 
     currentPage.find('.address-list').click((e) => {
         const ele = e.target || window.event.target;
         if ($$(ele).hasClass('post-driver-name')) {
-            f7.confirm('您确定要删除这条路线吗?', '删除路线', () => {
+            f7.confirm('您确定要删除这条地区吗?', '删除地区', () => {
                 const len = currentPage.find('.post-select-address').length;
                 if (5 == len) {
                     currentPage.find('.add-address-click-box').css({
@@ -315,7 +315,7 @@ function postDriverInfoInit(f7, view, page) {
         }
 
         if (!currentPage.find('.post-select-address').length) {
-            errors = '请您添加路线！';
+            errors = '请您添加地区！';
         }
 
         // if (!selectAddress) {

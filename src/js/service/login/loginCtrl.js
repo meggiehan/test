@@ -53,7 +53,7 @@ function weixinAction(f7){
                                 invitationModel.acceptInvitation(invitationCode);
                             }
 
-                            if(data.fishCarDriverId){
+                            if(data.userInfoView.fishCarDriverId || data.fishCarDriverId){
                                 store.set('isFishCar', 1);
                             }
                         }else{

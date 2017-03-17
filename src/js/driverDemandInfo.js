@@ -49,7 +49,8 @@ function driverDemandInfoInit(f7, view, page) {
                 addressStr += item.provinceName;
                 index < (routineList.length - 1) && (addressStr += '，');
             });
-            addressStr && currentPage.find('.driver-info-address').text(addressStr);
+            (addressStr !== '常去的地区: ') ? currentPage.find('.driver-info-address').text(addressStr).show() :
+                currentPage.find('.driver-info-address').hide();
 
             let authCertStr = '';
             drivingLicence && (authCertStr += '驾驶证');
@@ -60,17 +61,17 @@ function driverDemandInfoInit(f7, view, page) {
             /**
              * render路线
              * */
-            let str = '';
-            if(!routineList.length){
-                str += fishCar.selectAddress(-1, '全国');
-            }else{
-                $$.each(routineList, (index, item) => {
-                    const text = (item.departureProvinceName == item.destinationProvinceName) ?
-                                    `${item.destinationProvinceName}内` :
-                                    `${item.departureProvinceName}-${item.destinationProvinceName}`;
-                    str += fishCar.selectAddress(index, text);
-                })
-            }
+            // let str = '';
+            // if(!routineList.length){
+            //     str += fishCar.selectAddress(-1, '全国');
+            // }else{
+            //     $$.each(routineList, (index, item) => {
+            //         const text = (item.departureProvinceName == item.destinationProvinceName) ?
+            //                         `${item.destinationProvinceName}内` :
+            //                         `${item.departureProvinceName}-${item.destinationProvinceName}`;
+            //         str += fishCar.selectAddress(index, text);
+            //     })
+            // }
             // currentPage.find('.driver-info-address').html(str);
 
             /**

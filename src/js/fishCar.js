@@ -267,7 +267,7 @@ function fishCarInit(f7, view, page) {
         pageNo++;
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         getList(isMandatory);
-    })
+    });
 
     /**
      * 下拉刷新
