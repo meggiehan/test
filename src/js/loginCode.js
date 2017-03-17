@@ -1,6 +1,6 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import {trim, html, getCurrentDay} from '../utils/string';
+import {trim, html, getCurrentDay, getVersionSetTag} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/localStorage';
 import invitationModel from './service/invitation/InvitationModel';
@@ -123,7 +123,6 @@ function loginCodeInit(f7, view, page) {
         f7.hidePreloader();
         const {code, message, data} = result;
         if (1 == code) {
-            nativeEvent.setDataToNative("accessToken", data.token);
             store.set("accessToken", data.token);
             store.set('cacheUserinfoKey', data.userInfoView);
             (weixinData && store.get('weixinUnionId')) ?
@@ -134,13 +133,11 @@ function loginCodeInit(f7, view, page) {
                 store.set('isFishCar', 1);
             }
 
-            const versionNumber = store.get('versionNumber');
-            const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');
             //设置别名
             JsBridge('JS_SetTagsWithAlias', {
                 tags: [
                     getCurrentDay().replace('/', '').replace('/', ''),
-                    `${versionArr[0]}.${versionArr[1]}`
+                    getVersionSetTag()
                 ],
                 alias: `${data.userInfoView.id}`
             }, () => {}, f7);

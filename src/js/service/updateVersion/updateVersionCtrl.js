@@ -50,7 +50,7 @@ function updateCtrl(f7) {
 
             $updateInfoText.html(strHtml);
             $updateModalBox.css(
-                'margin-top', `-${$updateModalBox.height()*0.5 + 10}px`
+                'margin-top', `-${$updateModalBox.height()*0.5 + 40}px`
             );
 
             if(force && window.currentDevice.android && (5 != window.yudada.JS_GetNetWorkStates())){
@@ -81,7 +81,7 @@ function updateCtrl(f7) {
             $updateModal.find('.title').text('已为您更新到最新版本');
             $updateInfoText.html(describe.split("\n").join("<br />"));
             $updateModalBox.css(
-                'margin-top', `-${$updateModalBox.height()*0.5 + 10}px`
+                'margin-top', `-${$updateModalBox.height()*0.5 + 40}px`
             );
             JsBridge('JS_Download', {
                 filePath,
