@@ -3,7 +3,7 @@ import loginModel from '../../../js/service/login/LoginModel';
 import {JsBridge} from '../../../middlewares/JsBridge';
 import store from '../../../utils/localStorage';
 import nativeEvent from '../../../utils/nativeEvent';
-import {getCurrentDay} from '../../../utils/string';
+import {getCurrentDay, getVersionSetTag} from '../../../utils/string';
 import config from '../../../config';
 import invitationModel from '../../service/invitation/InvitationModel';
 
@@ -35,17 +35,14 @@ function weixinAction(f7){
                     const {code, data, message} = res;
                     if(1 == code){
                         if(data.token){
-                            nativeEvent.setDataToNative("accessToken", data.token);
                             store.set("accessToken", data.token);
                             getKey(data.token, '', '', 0);
 
-                            const versionNumber = store.get('versionNumber');
-                            const versionArr = versionNumber.replace('0', '').replace('0', '').replace('V', '').split('_');
                             //设置别名
                             JsBridge('JS_SetTagsWithAlias', {
                                 tags: [
                                     getCurrentDay().replace('/', '').replace('/', ''),
-                                    `${versionArr[0]}.${versionArr[1]}`
+                                    getVersionSetTag()
                                 ],
                                 alias: `${data.userInfoView.id}`
                             }, () => {}, f7);
@@ -54,6 +51,10 @@ function weixinAction(f7){
                             if (1 == store.get(waitAddPointerKey)) {
                                 const {invitationCode} = store.get(inviteInfoKey);
                                 invitationModel.acceptInvitation(invitationCode);
+                            }
+
+                            if(data.userInfoView.fishCarDriverId || data.fishCarDriverId){
+                                store.set('isFishCar', 1);
                             }
                         }else{
                             data.userInfoView.unionId && store.set('weixinUnionId', data.userInfoView.unionId);

@@ -25,6 +25,7 @@ function postDriverInfoInit(f7, view, page) {
     let selectFishTankNumber = '';
     let selectedFishTankMaterial = '';
     let selectOxygenTankMaterial = '';
+    const {androidChrome} = currentDevice;
 
     /**
      * 路线范围选择
@@ -56,7 +57,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.add-address-click-box').children('input'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         cssClass: 'post-fish-car-driver',
         onOpen: (p) => {
             $$('.post-fish-car-driver .close-picker').click(() => {
@@ -81,14 +83,14 @@ function postDriverInfoInit(f7, view, page) {
     const sortList = () => {
         const len = currentPage.find('.post-select-address').length;
         len && $$.each(currentPage.find('.post-select-address'), (index, item) => {
-            $$(item).find('.item-title').text(`路线${getCreateDriverListLabel(index)}`);
+            $$(item).find('.item-title').text(`地区${getCreateDriverListLabel(index)}`);
         })
     }
 
     currentPage.find('.address-list').click((e) => {
         const ele = e.target || window.event.target;
         if ($$(ele).hasClass('post-driver-name')) {
-            f7.confirm('您确定要删除这条路线吗?', '删除路线', () => {
+            f7.confirm('您确定要删除这条地区吗?', '删除地区', () => {
                 const len = currentPage.find('.post-select-address').length;
                 if (5 == len) {
                     currentPage.find('.add-address-click-box').css({
@@ -127,7 +129,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-size'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectedFishTankSize || ''],
         cols: [
             {
@@ -145,7 +148,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-number'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectFishTankNumber || ''],
         cols: [
             {
@@ -176,7 +180,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectedFishTankMaterial || ''],
         cols: [
             {
@@ -192,7 +197,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-oxygen-tank'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectOxygenTankMaterial || ''],
         cols: [
             {
@@ -309,7 +315,7 @@ function postDriverInfoInit(f7, view, page) {
         }
 
         if (!currentPage.find('.post-select-address').length) {
-            errors = '请您添加路线！';
+            errors = '请您添加地区！';
         }
 
         // if (!selectAddress) {
