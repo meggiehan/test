@@ -611,5 +611,15 @@ module.exports = {
             list[item.name] = cityArr;
         });
         return list;
+    },
+    /**
+     * 获取两位数的版本号给native
+     * */
+    getVersionSetTag: () => {
+        const versionNumber = store.get('versionNumber');
+        const versionArr = versionNumber.replace('V', '').split('_');
+        const fistStr = versionArr[0] < 10 ? versionArr[0].replace('0', '') : versionArr[0];
+        const scendStr = versionArr[1] < 10 ? versionArr[1].replace('0', '') : versionArr[1];
+        return `${fistStr}.${scendStr}`
     }
 }

@@ -6,7 +6,8 @@ import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
-import {weixinAction} from './service/login/loginCtrl';
+// import {weixinAction} from './service/login/loginCtrl';
+// import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
 
 function homeInit(f7, view, page) {
@@ -259,7 +260,7 @@ function homeInit(f7, view, page) {
         $$('.fish-car-modal').addClass('on');
     });
 
-    // //存储数据
+    // // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = {
     //         sk:123,
@@ -269,32 +270,84 @@ function homeInit(f7, view, page) {
     //     // nativeEvent.setDataToNative('sk', a);
     //     nativeEvent.setUerInfoToNative(a);
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(1)[0].onclick = () => {
     //     console.log(nativeEvent.getDataToNative('sk'));
     // }
-
+    //
     // //分享
     // $$('#shareToWeixin').children().eq(2)[0].onclick = () => {
-    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(0, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(3)[0].onclick = () => {
-    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(1, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(4)[0].onclick = () => {
     //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(2, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(5)[0].onclick = () => {
     //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(3, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
-    // }
-
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(6)[0].onclick = () => {
+    //     JsBridge('JS_GetUUid', '', (data) => {
+    //         alert(`设备号：${data}`)
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(7)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 0,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(8)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 1,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(9)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 2,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(10)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 3,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
     // $$('#wei-xin-login')[0].onclick = () => {
     //     nativeEvent.callWeixinLogin();
     // }

@@ -51,13 +51,15 @@ import {
 } from './js/modal/fishCarDriverSelectAddressModal';
 import {fishCarTripListInit} from './js/fishCarTripList';
 import {myFishCarDemandListInit} from './js/myFishCarDemandList';
+import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
+import store from './utils/localStorage';
 
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
 const {timeout, fishCacheObj} = config;
-console.log(`current app update time: ${version.date}!`);
+console.log(`current app update time: ${version.date}!V01_09_01_01`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;
@@ -159,7 +161,7 @@ let initAppConfig = {
                 isBack = true;
                 setTimeout(() => {
                     isBack = false;
-                }, 300);
+                }, 400);
             }
         }
     }
@@ -174,11 +176,6 @@ const mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
 });
-
-/**
- * 初始化jsBrige
- * */
-JsBridge('JS_SaveInfomation', {jsBrigeTest: 123}, f7);
 
 /*
  * 抽离出登录视图
@@ -214,6 +211,15 @@ window.releaseView = releaseView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
 nativeEvent['searchHistoryActions'](2, '');
+
+if(android && !androidChrome){
+    $$('html').addClass('android-4-min');
+}else{
+    /**
+     * 初始化jsBrige
+     * */
+    JsBridge('JS_SaveInfomation', {jsBrigeTest: 123}, f7);
+}
 
 /*
  * Trigger lazy load img.
@@ -335,10 +341,34 @@ $$('.view-release-fish>.navbar').click((e) => {
 
 /**
  * 调用native定位，获取当前定位信息
+ * 1.8升级1.9 登录token兼容刷新
  * */
-if (!window['addressObj']) {
-    setTimeout(() => {
-        nativeEvent.getAddress();
+let interTime = 0;
+if (!store.get('versionNumber')) {
+    const intervalId = setInterval(() => {
+        interTime += 200;
+
+        const versionNumber = store.get('versionNumber');
+        if(versionNumber == 'V01_09_01_01' &&
+            !store.get('isUpdateLarge') &&
+            nativeEvent.getUserValue()){
+            RefreshOldTokenModel.post((res) => {
+                const {code, data, message} = res;
+                if(1 == code){
+                    nativeEvent.setNativeUserInfo();
+                    store.set('accessToken', data);
+                    store.set('isUpdateLarge', 1)
+                }else{
+                    console.log(message);
+                }
+            });
+            clearInterval(intervalId);
+        }
+
+        if(interTime >= 20000 || !!versionNumber){
+            clearInterval(intervalId);
+        }
+
     }, 500);
 }
 
@@ -354,6 +384,7 @@ const interId = setInterval(() => {
     if(window.JS_GetObjectWithKey ||
         (window.yudada && window.yudada.JS_GetObjectWithKey)){
         updateCtrl(f7);
+        nativeEvent.getAddress();
         clearInterval(interId);
     }
 }, 100);

@@ -128,9 +128,7 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                     currentPage.find('.user-fish-car-driver').hide();
                     if(1 == driverState){
                         currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
-                        currentPage.find('.edit-fish-car-info').css({
-                            display: '-webkit-flex'
-                        }).attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
+                        currentPage.find('.edit-fish-car-info').removeClass('hide').attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
                     }
                     // currentPage.find('.edit-fish-car-info')
                     //     .css({display: '-webkit-flex'})

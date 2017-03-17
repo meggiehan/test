@@ -12,7 +12,7 @@ class LoginModel {
     //微信登录
     post(data,callback){
         const apiStr = `auth?scope=weChat`;
-        RestTemplate.post(apiStr, {}, {}, data, callback, true);
+        RestTemplate.post(apiStr, {apiVersion: 2}, {}, data, callback, true);
     }
 
     //微信绑定

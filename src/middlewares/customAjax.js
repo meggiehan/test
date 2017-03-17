@@ -1,6 +1,6 @@
 import config from '../config/';
 import store from '../utils/localStorage';
-import {logOut, activeLogout} from '../middlewares/loginMiddle';
+import {logOut, activeLogout, getToken} from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
 import invitationModel from '../js/service/invitation/InvitationModel';
@@ -121,8 +121,7 @@ class CustomClass {
         }
 
         if (header) {
-            header.indexOf('token') > -1 && (headers['access-token'] = store.get("accessToken") || '');
-            // header.indexOf('token') > -1 && (headers['access-token'] = 'af75c855d3974d0cb76bb4f891cb1713');
+            header.indexOf('token') > -1 && (headers['access-token'] = getToken());
         }
 
         if (!noCache) {
