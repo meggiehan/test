@@ -1,11 +1,13 @@
 import customAjax from '../middlewares/customAjax';
 import {home} from '../utils/template';
-import {html} from '../utils/string';
+import {html, getName} from '../utils/string';
 import config from '../config';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {getDealTime} from '../utils/time';
+import Vue from 'vue';
 // import {weixinAction} from './service/login/loginCtrl';
 // import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
@@ -15,6 +17,23 @@ function homeInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
     const {fishCacheObj, cacheUserinfoKey} = config;
+
+    /**
+     * vue的数据模型
+     * */
+    const vueHome = new Vue({
+        el: currentPage.find('.home-vue-box')[0],
+        data: {
+            homeData: {
+                trades: '',
+                banners: [],
+                fishTags: ''
+            },
+            getName,
+            getDealTime
+        }
+    });
+
     /*
      * 判断是否有数据缓存，如果有就直接显示
      * */
@@ -23,82 +42,69 @@ function homeInit(f7, view, page) {
         currentPage.find('.home-loading').hide();
     }
 
-    /*
-     * 成交列表 render
-     * 鱼种标签 render
-     * 成交记录 render
+    /**
+     * 初始化slider
      * */
-    const renderDealList = (data) => {
-        let dealHtml = '';
-        $$.each(data, (index, item) => {
-            dealHtml += home.dealInfo(item);
-        })
-        html(currentPage.find('.home-deal-info-list'), dealHtml);
-    }
-    const renderBanners = (data) => {
-        let bannerHtml = '';
-        $$.each(data, (index, item) => {
-            bannerHtml += home.banner(item);
-        })
-        bannerHtml && html(currentPage.find('.swiper-wrapper'), bannerHtml, f7);
-        bannerHtml && currentPage.find('.home-slider').show();
+    const initSlider = () => {
         /*
          * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
          * */
-        if(window.yudadaSwiper){
+        if (window.yudadaSwiper) {
             window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
         }
-        if (data.length > 1) {
-            window.yudadaSwiper = f7.swiper('.swiper-slow', {
-                pagination: currentPage.find('.swiper-pagination'),
-                lazyLoading: true,
-                paginationClickable: true,
-                initialSlide: 0,
-                speed: 400,
-                autoplay: 4000,
-                centeredSlides: true,
-                loop: true,
-                autoplayDisableOnInteraction: true,
-                onTouchStart: (swiper, e) => {
-                    if($$.isArray(window.yudadaSwiper)){
-                        window.yudadaSwiper[window.yudadaSwiper.length - 1].stopAutoplay();
-                    }else{
-                        window.yudadaSwiper.stopAutoplay();
-                    }
-                },
-                onTouchEnd: (swiper, e) => {
-                    /*
-                     * 为了解决手动滑动后，焦点选择错误以及自动滚动关闭的bug
-                     * */
-                    setTimeout(() => {
-                        const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
-                        currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
-                        currentPage.find('.swiper-pagination').children('span').removeClass('hide');
-                        if($$.isArray(window.yudadaSwiper)){
-                            window.yudadaSwiper[window.yudadaSwiper.length - 1].startAutoplay();
-                        }else{
-                            window.yudadaSwiper.startAutoplay();
-                        }
-                    }, 80)
+        window.yudadaSwiper = f7.swiper('.swiper-slow', {
+            pagination: currentPage.find('.swiper-pagination'),
+            lazyLoading: true,
+            paginationClickable: true,
+            initialSlide: 0,
+            speed: 400,
+            autoplay: 4000,
+            centeredSlides: true,
+            loop: true,
+            autoplayDisableOnInteraction: true,
+            onTouchStart: (swiper, e) => {
+                if ($$.isArray(window.yudadaSwiper)) {
+                    window.yudadaSwiper[window.yudadaSwiper.length - 1].stopAutoplay();
+                } else {
+                    window.yudadaSwiper.stopAutoplay();
                 }
-            })
-        }else{
-            currentPage.find('.swiper-pagination').children('span').addClass('hide');
-        }
-    }
+            },
+            onTouchEnd: (swiper, e) => {
+                /*
+                 * 为了解决手动滑动后，焦点选择错误以及自动滚动关闭的bug
+                 * */
+                setTimeout(() => {
+                    const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
+                    currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
+                    if ($$.isArray(window.yudadaSwiper)) {
+                        window.yudadaSwiper[window.yudadaSwiper.length - 1].startAutoplay();
+                    } else {
+                        window.yudadaSwiper.startAutoplay();
+                    }
+                }, 80)
+            }
+        })
+    };
 
     const renderFishTags = (tagList) => {
         console.log('render tag list!')
-    }
+    };
+
+    /**
+     * 绑定部分vue的数据源
+     * slider列表数据、成交记录列表、鱼种分类列表
+     * */
     const initDataCallback = (data) => {
         const {banners, trades, fishTags} = data.data;
         if (1 == data.code) {
-            banners && banners.length && renderBanners(banners);
-            trades && trades.length && renderDealList(trades);
-            fishTags && fishTags.length && renderFishTags(fishTags);
+            vueHome.homeData = data.data;
+            banners && banners.length && setTimeout(initSlider, 100);
             return;
+        } else {
+            console.log(data.message);
         }
-    }
+    };
+
     customAjax.ajax({
         apiCategory: 'initPage',
         data: ['2'],
@@ -111,13 +117,13 @@ function homeInit(f7, view, page) {
      * */
     setTimeout(() => {
         const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-        if(fishCacheData && fishCacheData.length){
+        if (fishCacheData && fishCacheData.length) {
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {
-                if(index <= 5){
+                if (index <= 5) {
                     str += home.renderFishList(item, index);
                 }
-            })
+            });
             currentPage.find('.fish-cache-list').html(str);
             str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
         }
@@ -132,7 +138,7 @@ function homeInit(f7, view, page) {
             let catListHtml = '';
             $$.each(saleDemands, (index, item) => {
                 catListHtml += home.cat(item);
-            })
+            });
             html(currentPage.find('.cat-list-foreach'), catListHtml, f7);
         }
 
@@ -140,7 +146,7 @@ function homeInit(f7, view, page) {
             let buyListHtml = '';
             $$.each(buyDemands, (index, item) => {
                 buyListHtml += home.buy(item);
-            })
+            });
             html(currentPage.find('.buy-list-foreach'), buyListHtml, f7);
         }
         currentPage.find('.ajax-content').show(200);
@@ -149,7 +155,7 @@ function homeInit(f7, view, page) {
         //pull to refresh done.
         f7.pullToRefreshDone();
         currentPage.find('img.lazy').trigger('lazy');
-    }
+    };
     /*
      * 获取首页信息
      * */
@@ -166,6 +172,7 @@ function homeInit(f7, view, page) {
             onlyUseCache
         }, callback);
     }
+
     getHomeListInfo(false, true);
 
     /*
@@ -187,7 +194,7 @@ function homeInit(f7, view, page) {
         view.router.load({
             url: 'views/search.html'
         })
-    })
+    });
 
     /*
      * 点击活动banner，打开第三方webview.
@@ -202,16 +209,16 @@ function homeInit(f7, view, page) {
             }
             const access_token = nativeEvent.getUserValue();
             let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            if(openUrl && openUrl.indexOf('http') == -1){
+            if (openUrl && openUrl.indexOf('http') == -1) {
                 mainView.router.load({
                     url: 'views/MVP.html'
-                })
+                });
                 return;
             }
             isNeedLogin && (openUrl += `/${access_token}`);
             nativeEvent.goNewWindow(openUrl);
         }
-    }
+    };
 
     /*
      * 前往发布信息页面
@@ -225,7 +232,7 @@ function homeInit(f7, view, page) {
         view.router.load({
             url: 'views/release.html'
         })
-    }
+    };
 
     /**
      * 担保交易提示
@@ -244,14 +251,14 @@ function homeInit(f7, view, page) {
         const {driverState} = userInfo || {};
         const isFishCar = store.get('isFishCar');
 
-        if(isFishCar || 0 === isFishCar){
+        if (isFishCar || 0 === isFishCar) {
             mainView.router.load({
                 url: `views/fishCar.html?isFishCar=${isFishCar}`
-            })
+            });
             return;
         }
 
-        if(isLogin() && (1 == driverState)){
+        if (isLogin() && (1 == driverState)) {
             mainView.router.load({
                 url: 'views/fishCar.html?isFishCar=1'
             });
