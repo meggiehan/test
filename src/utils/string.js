@@ -1,6 +1,7 @@
 import nativeEvent from './nativeEvent';
 import config from '../config/index';
 import {getToken} from '../middlewares/loginMiddle';
+import store from '../utils/localStorage';
 
 const {fishCacheObj} = config;
 module.exports = {
@@ -607,7 +608,7 @@ module.exports = {
             const cityArr = [];
             $$.each(item.city, (i, v) => {
                 cityArr.push(v.name);
-            })
+            });
             list[item.name] = cityArr;
         });
         return list;
@@ -619,7 +620,7 @@ module.exports = {
         const versionNumber = store.get('versionNumber');
         const versionArr = versionNumber.replace('V', '').split('_');
         const fistStr = versionArr[0] < 10 ? versionArr[0].replace('0', '') : versionArr[0];
-        const scendStr = versionArr[1] < 10 ? versionArr[1].replace('0', '') : versionArr[1];
-        return `${fistStr}.${scendStr}`
+        const secondStr = versionArr[1] < 10 ? versionArr[1].replace('0', '') : versionArr[1];
+        return `${fistStr}.${secondStr}`;
     }
 }

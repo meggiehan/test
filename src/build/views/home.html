@@ -19,7 +19,8 @@
             <div class="preloader"></div>
             <div class="pull-to-refresh-arrow"></div>
         </div>
-        <!--<div class="row" id="shareToWeixin">-->
+        <div class="home-vue-box">
+            <!--<div class="row" id="shareToWeixin">-->
             <!--<input type="button" value="存入">-->
             <!--<input type="button" value="取出">-->
             <!--<input type="button" value="分享图片到微信好友">-->
@@ -32,150 +33,160 @@
             <!--<input type="button" value="分享网页到QQ好友">-->
             <!--<input type="button" value="分享网页到QQ空间">-->
             <!--<button id="wei-xin-login">微信登录</button>-->
-        <!--</div>-->
+            <!--</div>-->
 
-        <!--banner components-->
-        <div class="swiper-container swiper-slow home-slider">
-            <div class="swiper-pagination"></div>
-            <div class="swiper-wrapper"></div>
-        </div>
-
-        <!-- carefully chosen Fingerling -->
-        <!--<div class="chosen-fingerling">-->
-        <!--&lt;!&ndash; <div class="home-content-title iconfont icon-edit">精选鱼种</div> &ndash;&gt;-->
-        <!--<div class="chosen-fingerling-list">-->
-        <!--<div class="list-block media-list row">-->
-        <!--<a href="views/filter.html?fishTagId=18&fishTagName=苗种" class="home-categorys item-content col-33" onclick="apiCount('ic_category6');">-->
-        <!--<div class="item-media ps-r">-->
-        <!--<span class="home-category-hot">热门</span>-->
-        <!--<img src="./img/ic_category_babyfish.png" width="32" alt="">-->
-        <!--</div>-->
-        <!--<div class="item-inner">-->
-        <!--<div class="item-title">苗种</div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--<a href="views/filter.html?fishTagId=19&fishTagName=淡水鱼" class="home-categorys item-content col-33" onclick="apiCount('ic_category2');">-->
-        <!--<div class="item-media">-->
-        <!--<img src="img/ic_category_goodfish.png" width="32" alt="">-->
-        <!--</div>-->
-        <!--<div class="item-inner">-->
-        <!--<div class="item-title">淡水鱼</div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--<a href="views/filter.html?fishTagId=22&fishTagName=虾蟹贝" class="home-categorys item-content col-33" onclick="apiCount('ic_category3');">-->
-        <!--<div class="item-media">-->
-        <!--<img src="./img/ic_category_crabshrimp.png" width="32" alt="">-->
-        <!--</div>-->
-        <!--<div class="item-inner">-->
-        <!--<div class="item-title">虾蟹贝</div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--</div>-->
-        <!--<div class="list-block media-list row">-->
-        <!--<a href="views/filter.html?fishTagId=21&fishTagName=蛙龟鳖" class="home-categorys item-content col-33" onclick="apiCount('ic_category4');">-->
-        <!--<div class="item-media">-->
-        <!--<img src="./img/ic_category_turtle.png" width="32" alt="">-->
-        <!--</div>-->
-        <!--<div class="item-inner">-->
-        <!--<div class="item-title">蛙龟鳖</div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--<a href="views/filter.html?fishTagId=20&fishTagName=海水鱼" class="home-categorys item-content col-33" onclick="apiCount('ic_category5');">-->
-        <!--<div class="item-media">-->
-        <!--<img src="./img/ic_category_seafish.png" width="32" alt="">-->
-        <!--</div>-->
-        <!--<div class="item-inner">-->
-        <!--<div class="item-title">海水鱼</div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--<a href="views/filter.html?fishTagId=23&fishTagName=其他" class="home-categorys item-content col-33" onclick="apiCount('ic_category1');">-->
-        <!--<div class="item-media">-->
-        <!--<img data-src="img/ic_category_commonfish.png" src="img/app_icon_108.png" class="lazy" width="32" alt="">-->
-        <!--</div>-->
-        <!--<div class="item-inner">-->
-        <!--<div class="item-title">其他</div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <div class="home-nav-list row">
-            <a href="views/filter.html?type=2&member=true" onclick="apiCount('btn_home_member')" class="col-33">
-                <img src="img/ic_kaopu.png" alt="">
-                <p>靠谱专区</p>
-            </a>
-            <a href="views/assurance.html?type=2&assurance=true" onclick="apiCount('btn_home_assurance')"
-               class="col-33">
-                <img src="img/ic_danbao.png" alt="">
-                <p>担保交易</p>
-            </a>
-            <a class="col-33 callFishCar">
-                <img src="img/ic_yuche.png" alt="">
-                <p>叫鱼车</p>
-            </a>
-        </div>
-
-        <div class="home-deal-list list-block media-list" onclick="apiCount('btn_home_trade');">
-            <a href="views/dealList.html" class="item-content item-link">
-                <div class="item-media"><img src="img/deal-logo.png"></div>
-                <div class="item-inner">
-                    <div class="item-title-row">
-                        <div class="item-title home-deal-info-list"></div>
+            <!--banner components-->
+            <div class="swiper-container swiper-slow home-slider" v-show="!!homeData.banners.length">
+                <div class="swiper-pagination"></div>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="item in homeData.banners" :data-login="item.loginRequired" :data-href="item.link">
+                        <img :src="item.imgUrl" alt="">
                     </div>
                 </div>
-            </a>
-        </div>
+            </div>
 
-        <div class="row home-select-list">
-            <div class="col-50">
-                <a class="list-block media-list" href="views/filter.html?type=2" onclick="apiCount('btn_buy');">
-                    <div class="home-chushou item-content">
-                        <div class="item-inner">
-                            <div class="item-title-row text-hidden home-chushou">出售大厅</div>
-                            <div class="item-subtitle text-hidden">看看别人在卖什么</div>
-                        </div>
-                        <div class="item-media">
-                            <img src="./img/icon_sell.png" alt="出售大厅" width="35px">
+            <!-- carefully chosen Fingerling -->
+            <!--<div class="chosen-fingerling">-->
+            <!--&lt;!&ndash; <div class="home-content-title iconfont icon-edit">精选鱼种</div> &ndash;&gt;-->
+            <!--<div class="chosen-fingerling-list">-->
+            <!--<div class="list-block media-list row">-->
+            <!--<a href="views/filter.html?fishTagId=18&fishTagName=苗种" class="home-categorys item-content col-33" onclick="apiCount('ic_category6');">-->
+            <!--<div class="item-media ps-r">-->
+            <!--<span class="home-category-hot">热门</span>-->
+            <!--<img src="./img/ic_category_babyfish.png" width="32" alt="">-->
+            <!--</div>-->
+            <!--<div class="item-inner">-->
+            <!--<div class="item-title">苗种</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--<a href="views/filter.html?fishTagId=19&fishTagName=淡水鱼" class="home-categorys item-content col-33" onclick="apiCount('ic_category2');">-->
+            <!--<div class="item-media">-->
+            <!--<img src="img/ic_category_goodfish.png" width="32" alt="">-->
+            <!--</div>-->
+            <!--<div class="item-inner">-->
+            <!--<div class="item-title">淡水鱼</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--<a href="views/filter.html?fishTagId=22&fishTagName=虾蟹贝" class="home-categorys item-content col-33" onclick="apiCount('ic_category3');">-->
+            <!--<div class="item-media">-->
+            <!--<img src="./img/ic_category_crabshrimp.png" width="32" alt="">-->
+            <!--</div>-->
+            <!--<div class="item-inner">-->
+            <!--<div class="item-title">虾蟹贝</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--</div>-->
+            <!--<div class="list-block media-list row">-->
+            <!--<a href="views/filter.html?fishTagId=21&fishTagName=蛙龟鳖" class="home-categorys item-content col-33" onclick="apiCount('ic_category4');">-->
+            <!--<div class="item-media">-->
+            <!--<img src="./img/ic_category_turtle.png" width="32" alt="">-->
+            <!--</div>-->
+            <!--<div class="item-inner">-->
+            <!--<div class="item-title">蛙龟鳖</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--<a href="views/filter.html?fishTagId=20&fishTagName=海水鱼" class="home-categorys item-content col-33" onclick="apiCount('ic_category5');">-->
+            <!--<div class="item-media">-->
+            <!--<img src="./img/ic_category_seafish.png" width="32" alt="">-->
+            <!--</div>-->
+            <!--<div class="item-inner">-->
+            <!--<div class="item-title">海水鱼</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--<a href="views/filter.html?fishTagId=23&fishTagName=其他" class="home-categorys item-content col-33" onclick="apiCount('ic_category1');">-->
+            <!--<div class="item-media">-->
+            <!--<img data-src="img/ic_category_commonfish.png" src="img/app_icon_108.png" class="lazy" width="32" alt="">-->
+            <!--</div>-->
+            <!--<div class="item-inner">-->
+            <!--<div class="item-title">其他</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="home-nav-list row">
+                <a href="views/filter.html?type=2&member=true" onclick="apiCount('btn_home_member')" class="col-33">
+                    <img src="img/ic_kaopu.png" alt="">
+                    <p>靠谱专区</p>
+                </a>
+                <a href="views/assurance.html?type=2&assurance=true" onclick="apiCount('btn_home_assurance')"
+                   class="col-33">
+                    <img src="img/ic_danbao.png" alt="">
+                    <p>担保交易</p>
+                </a>
+                <a class="col-33 callFishCar">
+                    <img src="img/ic_yuche.png" alt="">
+                    <p>叫鱼车</p>
+                </a>
+            </div>
+
+            <div class="home-deal-list list-block media-list" onclick="apiCount('btn_home_trade');">
+                <a href="views/dealList.html" class="item-content item-link">
+                    <div class="item-media"><img src="img/deal-logo.png"></div>
+                    <div class="item-inner">
+                        <div class="item-title-row">
+                            <div class="item-title home-deal-info-list">
+                                <div class="home-deal-info" v-for="item in homeData.trades">[{{item.provinceName}}]
+                                    <span class="deal-list-name">{{getName(item.userName)}}</span>成交
+                                    <span class="deal-list-category">{{item.fishTypeName}} {{item.quantity}}</span>, {{getDealTime(item.tradeDate)}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-50">
-                <a class="list-block media-list" href="views/filter.html?type=1" onclick="apiCount('btn_wanttobuy');">
-                    <div class="item-content home-qiugou">
-                        <div class="item-inner">
-                            <div class="item-title-row text-hidden home-qiugou">求购大厅</div>
-                            <div class="item-subtitle text-hidden">看别人想买什么</div>
-                        </div>
-                        <div class="item-media">
-                            <img src="./img/icon_buy.png" alt="求购大厅" width="40px">
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
 
-        <!--最近使用的鱼种-->
-        <div class="home-fish-cache-list">
-            <div class="home-content-title"><i class="title-label-border"></i>关心的鱼种</div>
-            <div class="fish-cache-list" onclick="apiCount('btn_home_fishtype_recentUsed');"></div>
-        </div>
-
-        <!-- use ajax get date. -->
-        <div class="ajax-content">
-            <!-- home cat list -->
-            <div class="home-cat-list">
-                <div class="home-content-title"><i class="title-label-border"></i>大家都在卖</div>
-                <div class="cat-list-foreach list-block media-list" onclick="apiCount('cell_selllist');"></div>
-                <div class="home-go-more"><a href="./views/filter.html?type=2" class="iconfont icon-go"
-                                             onclick="apiCount('btn_more_selllist');">更多出售信息</a></div>
+            <div class="row home-select-list">
+                <div class="col-50">
+                    <a class="list-block media-list" href="views/filter.html?type=2" onclick="apiCount('btn_buy');">
+                        <div class="home-chushou item-content">
+                            <div class="item-inner">
+                                <div class="item-title-row text-hidden home-chushou">出售大厅</div>
+                                <div class="item-subtitle text-hidden">看看别人在卖什么</div>
+                            </div>
+                            <div class="item-media">
+                                <img src="./img/icon_sell.png" alt="出售大厅" width="35px">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-50">
+                    <a class="list-block media-list" href="views/filter.html?type=1" onclick="apiCount('btn_wanttobuy');">
+                        <div class="item-content home-qiugou">
+                            <div class="item-inner">
+                                <div class="item-title-row text-hidden home-qiugou">求购大厅</div>
+                                <div class="item-subtitle text-hidden">看别人想买什么</div>
+                            </div>
+                            <div class="item-media">
+                                <img src="./img/icon_buy.png" alt="求购大厅" width="40px">
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="home-buy-list">
-                <div class="home-content-title"><i class="title-label-border"></i>大家都想买</div>
-                <div class="buy-list-foreach" onclick="apiCount('cell_purchaselist');"></div>
-                <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go"
-                                             onclick="apiCount('btn_more_purchaselist');">更多求购信息</a></div>
+
+            <!--最近使用的鱼种-->
+            <div class="home-fish-cache-list">
+                <div class="home-content-title"><i class="title-label-border"></i>关心的鱼种</div>
+                <div class="fish-cache-list" onclick="apiCount('btn_home_fishtype_recentUsed');"></div>
+            </div>
+
+            <!-- use ajax get date. -->
+            <div class="ajax-content">
+                <!-- home cat list -->
+                <div class="home-cat-list">
+                    <div class="home-content-title"><i class="title-label-border"></i>大家都在卖</div>
+                    <div class="cat-list-foreach list-block media-list" onclick="apiCount('cell_selllist');"></div>
+                    <div class="home-go-more"><a href="./views/filter.html?type=2" class="iconfont icon-go"
+                                                 onclick="apiCount('btn_more_selllist');">更多出售信息</a></div>
+                </div>
+                <div class="home-buy-list">
+                    <div class="home-content-title"><i class="title-label-border"></i>大家都想买</div>
+                    <div class="buy-list-foreach" onclick="apiCount('cell_purchaselist');"></div>
+                    <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go"
+                                                 onclick="apiCount('btn_more_purchaselist');">更多求购信息</a></div>
+                </div>
             </div>
         </div>
         <div class="home-loading"><span class="preloader"></span></div>

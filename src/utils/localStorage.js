@@ -35,13 +35,13 @@ module.exports = {
         }
 
         nativeEvent.setDataToNative(key, val);
-        window.localStorage.setItem(key, value)
+        window.localStorage.setItem(key, value);
     },
     remove: (key) => {
         if (window['JS_UMengToCount'] || window['yudada']) {
             nativeEvent.setDataToNative(key, '');
         }
-        window.localStorage.removeItem(key)
+        window.localStorage.removeItem(key);
     },
     clear: () => {
         window.localStorage.clear();
@@ -49,4 +49,4 @@ module.exports = {
     getAll: () => {
         return window.localStorage;
     }
-}
+};

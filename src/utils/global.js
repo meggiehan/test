@@ -336,7 +336,7 @@ class CustomClass {
                         url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
                     })
                 }
-            }
+            };
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfo',

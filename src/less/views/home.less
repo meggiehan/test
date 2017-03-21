@@ -1,7 +1,6 @@
 /*
-  index style!
+*index style!
 */
-
 .index-search {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -154,7 +153,7 @@
                 }
             }
         }
-        & > .row {
+        & > .home-vue-box > .row {
             border-bottom: 1px solid @border-da;
             background: @bg-fff;
             .text-shadow(@text-fff);
@@ -382,13 +381,9 @@
 }
 
 .home-slider{
-    display: none;
     background: @bg-fff;
     .swiper-pagination span{
         background: @themeColor;
-        &.hide{
-            display: none;
-        }
     }
     .swiper-slide {
         background: @bg-fff;
@@ -409,14 +404,14 @@
     }
 }
 @media screen and (min-width: 360px) and (max-width: 400px) {
-    .page-home .page-content>.row.home-select-list .col-50 a{
+    .page-home .page-content .row.home-select-list .col-50 a{
         padding: 0.3rem 10%;
         width: 80%;
     }
 }
 
 @media screen and (min-width: 401px) and (max-width: 500px) {
-    .page-home .page-content>.row.home-select-list .col-50 a{
+    .page-home .page-content .row.home-select-list .col-50 a{
         padding: 0.5rem 12%;
         width: 76%;
     }
