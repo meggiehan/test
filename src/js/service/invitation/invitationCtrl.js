@@ -27,6 +27,29 @@ function invitationInit(f7, view) {
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserinfoKey);
+
+        /**
+         * 页面跳转
+         * */
+        if(window.currentDevice.android && ('string' == typeof inviterInfo)){
+            const jsJumpInfo = JSON.parse(inviterInfo);
+            if(jsJumpInfo.jsJump || store.get('jsJumpData')){
+                jsJumpInfo.jsJump && store.set('jsJumpData', jsJumpInfo.jsJump);
+                if(jsJumpInfo.jsJump){
+                    jsJumpFromPush(jsJumpInfo.jsJump);
+                }else{
+                    jsJumpFromPush(store.get('jsJumpData'));
+                }
+                setTimeout(() => {
+                    store.set('jsJumpData', '');
+                }, 4000);
+                return;
+            }
+        }
+
+        /**
+         * 邀请
+         * */
         if(userInfo && userInfo.inviterId){
             return;
         }
@@ -66,10 +89,10 @@ function invitationInit(f7, view) {
             $modalBgInvitation.addClass("show");
         }
         return;
-    }
+    };
 
     /**
-     * 获取魔窗传递的邀请信息
+     * 获取魔窗传递的邀请信息/页面跳转信息
      * */
     invitationModel.getInviterInfo(callback, f7);
 }
