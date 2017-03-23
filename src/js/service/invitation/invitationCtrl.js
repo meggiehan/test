@@ -119,7 +119,7 @@ function invitationAction() {
             $modalBgInvitation.removeClass("show");
             loginViewShow();
         }
-    })
+    });
 
     $cancelBtn.click(() => {
         let count = store.get(cancelInvitationNumberKey) || 0;

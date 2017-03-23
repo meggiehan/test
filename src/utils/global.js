@@ -191,8 +191,6 @@ class CustomClass {
                 const { cacheUserinfoKey } = config;
                 if(1 == code){
                     store.set(cacheUserinfoKey, data.data);
-                    // nativeEvent.setDataToNative("accessToken", data.token);
-                    // store.set("accessToken", data.token);
                     nativeEvent.setUerInfoToNative({
                         inviterId: data.data.inviterId
                     });
