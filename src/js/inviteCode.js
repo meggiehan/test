@@ -16,8 +16,8 @@ function inviteCodeInit(f7, view, page) {
     const subBtn = currentPage.find('a.button');
     let isPass = false;
     
-    const { cacheUserinfoKey } = config;
-    const userInfo = store.get(cacheUserinfoKey);
+    const { cacheUserInfoKey } = config;
+    const userInfo = store.get(cacheUserInfoKey);
     const {
         inviterId,
         inviterNickname,

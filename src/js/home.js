@@ -16,7 +16,7 @@ function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
-    const {fishCacheObj, cacheUserinfoKey} = config;
+    const {fishCacheObj, cacheUserInfoKey} = config;
 
     /**
      * vue的数据模型
@@ -28,9 +28,11 @@ function homeInit(f7, view, page) {
                 trades: '',
                 banners: [],
                 fishTags: ''
-            },
-            getName,
-            getDealTime
+            }
+        },
+        methods: {
+            getName: getName,
+            getDealTime: getDealTime
         }
     });
 
@@ -247,7 +249,7 @@ function homeInit(f7, view, page) {
      *如果有选择历史,优先选择历史的选择
      * */
     currentPage.find('.callFishCar').click(() => {
-        const userInfo = store.get(cacheUserinfoKey);
+        const userInfo = store.get(cacheUserInfoKey);
         const {driverState} = userInfo || {};
         const isFishCar = store.get('isFishCar');
 

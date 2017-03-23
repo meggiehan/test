@@ -21,12 +21,12 @@ function invitationInit(f7, view) {
     const {
         cancelInvitationNumberKey,
         inviteInfoKey,
-        cacheUserinfoKey,
+        cacheUserInfoKey,
         imgPath
     } = config;
 
     const callback = (inviterInfo) => {
-        const userInfo = store.get(cacheUserinfoKey);
+        const userInfo = store.get(cacheUserInfoKey);
 
         /**
          * 页面跳转

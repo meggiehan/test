@@ -12,9 +12,9 @@ function inviteFriendsListInit(f7, view, page) {
     }
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const { cacheUserinfoKey, pageSize } = config;
+    const { cacheUserInfoKey, pageSize } = config;
     let pageNo = 1;
-    const userInfo = store.get(cacheUserinfoKey);
+    const userInfo = store.get(cacheUserInfoKey);
     const {id} = userInfo;
     let pullToRefresh = false;
     let isInfinite = false;

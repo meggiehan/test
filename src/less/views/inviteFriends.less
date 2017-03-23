@@ -2,191 +2,124 @@
     .page-content {
         background: @bg-fff;
     	overflow: hidden;
-        .invite-friends-logo {
-            .ps-r;
-            img {
-                width: 100%;
-                margin: 0 auto;
-                display: block;
-            }
-            div{
-                .ps-a;
-                width: 60%;
-                left: 20%;
-                bottom: 0;
-                background: @bg-fff;
-                .text-shadow(@bg-fff);
-            }
+        padding: 7rem 3rem 2rem;
+        .invite-user{
+            padding-bottom: 7rem;
         }
-        .invite-friends-code {
+        .invite-user-header{
+            .text-hidden;
             .text-center;
-            p {
-                color: @text-subtitle;
-                font-size: 1.4rem;
-                margin-bottom: 0;
-                margin-top: 0.5rem;
+            padding: 3.5rem 0 1.5rem;
+            background-image: linear-gradient(0deg, @bg-invite-start 0%, @bg-invite-end 100%);
+            box-shadow: 0px 0px 10px 0px @bg-black-4;
+            color: @text-fff;
+            .user-head-img{
+                width: 24%;
+                .auto;
+                display: inline-block;
+                img{
+                    display: block;
+                    width: 100%;
+                    border-radius: 50%;
+                    border: 2px solid @bg-white-4;
+                    .box-size();
+                }
             }
-            span {
-                color: @text-invite-code;
-                font-weight: bold;
-                font-size: 3rem;
+            .user-level,.user-release-num{
+                width: 38%;
+                font-size: 1.6rem;
+                padding-top: 0.8rem;
+                span{
+                    font-size: 2.2rem;
+                    &.iconfont{
+                        font-size: 3rem;
+                        top: -0.5rem;
+                        .ps-r;
+                    }
+                }
+                p{
+                    margin: 0.3rem 0;
+                    &.level{
+                        .ps-r;
+                        top: -1rem;
+                    }
+                }
+            }
+            .invite-user-nickname{
+                padding: 1.2rem 0 1.5rem;
+                font-size: 1.8rem;
+                .text-hidden;
+                width: 100%;
+            }
+            .invite-user-auth-state{
+                padding-bottom: 3rem;
+                span{
+                    display: inline-block;
+                    padding: 0.5rem 1rem;
+                    border: 1px solid @text-fff;
+                    border-radius: 0.3rem;
+                }
             }
         }
-        .invite-friends-actions {
-            padding: 1.5rem 7% 1rem;
+        .invite-user-code{
+            margin-top: 4rem;
+            font-size: 1.4rem;
+            color: @text-name;
             .ps-r;
-            box-shadow: 0 -0.3rem 0.5rem -0.1rem @text-subtitle;
-            a {
-                display: block;
-                margin-bottom: 1rem;
-                &.button {
-                	padding-left: 4rem;
-                	.ps-r;
-                    color: @text-fff;
-                    height: 4rem;
-                    line-height: 4rem;
-                    border: 0;
-                    font-size: 1.6rem;
-                    color: @text-fff;
-                    background: @themeColor;
-                    .text-shadow(@themeColor);
-                    &.invite-friends-share{
-                        background: @text-water;
-                        .text-shadow(@text-water);
-                    }
-                    i{
-                    	display: block;
-                    	padding-left: 1rem;
-                    	width: 4rem;
-                    	.text-center;
-                    	height: 4rem;
-                    	line-height: 4rem;
-                    	.ps-a;
-                    	left: 0;
-                    	top: 0;
-                    	font-size:2.4rem;
-                    	vertical-align: top;
-                    	&.icon-qr-code{
-                    		font-size: 3rem;
-                            margin-top: -0.2rem;
-                    	}
-                    }
-                }
-                &.link {
-                    color: @text-subtitle;
-                    font-size: 1.4rem;
-                    box-sizing: border-box;
-                    .box-size();
-                    .text-center;
-                    display: block;
-                    .ps-r;
-                    height: 13rem;
-                    width: 13rem;
-                    line-height: 13rem;
-                    border-radius: 6.5rem;
-                    border:2xp solid @border-tehemColor;
-                    padding: 0;
-                    margin:0rem auto 3rem;
-                    p{
-                        font-size: 1.2rem;
-                        .ps-a;
-                        width: 100%;
-                        left: 0;
-                        line-height: 1;
-                        height: 1.2rem;
-                        margin: 0;
-                        vertical-align: middle;
-                        &.top{
-                            top: 1.2rem;
-                        }
-                        &.bottom{
-                            bottom: 1.8rem;
-                            &:after{
-                                font-size: 1.2rem;
-                                margin-left: 0.3rem;
-                            }
-                        }
-                    }
-                    .invite-friends-number{
-                        font-size: 3rem;
-                        .fw-b;
-                        color: @themeColor;
-                    }
+            padding: 1rem 0 1rem 6.5rem;
+            p{
+                margin: 0;
+                line-height: 1.6;
+                span{
+                    color: @text-chushou;
                 }
             }
-            .invite-friends-actions-info{
-                .text-center;
-                font-size: 1.6rem;
-                padding-top: 0.5rem;
-                color: @text-name;
-                p{
-                    margin: 0.5rem 0 0;
-                    line-height: 1.2;
-                    span{
-                        color: @text-price;
-                    }
+            img{
+                display: block;
+                .ps-a;
+                left: 0;
+                top: 0;
+                width: 6rem;
+            }
+        }
+        .invite-share{
+            .text-center;
+            &>p{
+                color: @text-invite-tip;
+                .ps-r;
+                span{
+                    .ps-r;
+                    display: inline-block;
+                    background: @text-fff;
+                    padding: 0 1rem;
+                }
+                &:before{
+                    content: ' ';
+                    width: 100%;
+                    .ps-a;
+                    left: 0;
+                    top: 0.9rem;
+                    height: 0;
+                    border-bottom:1px solid @text-a9;
                 }
             }
         }
     }
 }
 @media screen and (min-width: 350px) and (max-width: 400px) {
-    .page-invite-friends .page-content .invite-friends-logo div{
-        padding: 0.5rem;
-        p{
-            font-size: 1.6rem;
-        }
-    }
-    .page-invite-friends .page-content .invite-friends-actions a.link{
-        width: 15rem;
-        height: 15rem;
-        line-height: 15rem;
-        border-radius: 7.5rem;
-        margin-bottom: 4rem;
-        margin-top: 1rem;
-        p{
-            font-size: 1.4rem;
-            &.top{
-                top: 1.5rem;
-            }
-            &.bottom{
-                bottom: 2.2rem;
-            }
-        }
-        .invite-friends-number{
-            font-size: 3.2rem;
-        }
+    .page-invite-friends .page-content .invite-user-header .user-level,
+    .page-invite-friends .page-content .invite-user-header .user-release-num{
+        padding-top: 1.2rem;
     }
 }
 
 @media screen and (min-width: 401px) and (max-width: 500px) {
-    .page-invite-friends .page-content .invite-friends-logo div{
-        padding: 0.5rem;
-        p{
-            font-size: 1.8rem;
-        }
-        span{
-            font-size: 3.6rem;
-        }
+    .page-invite-friends .page-content .invite-user-header .user-level,
+    .page-invite-friends .page-content .invite-user-header .user-release-num{
+        padding-top: 1.4rem;
     }
-    .page-invite-friends .page-content .invite-friends-actions a.link{
-        width: 17rem;
-        height: 17rem;
-        line-height: 17rem;
-        border-radius: 8.5rem;
-        margin-bottom: 5.5rem;
-        margin-top: 2rem;
-        p{
-            font-size: 1.6rem;
-            &.top{
-                top: 1.8rem;
-            }
-            &.bottom{
-                bottom: 2.6rem;
-            }
-        }
-        .invite-friends-number{
-            font-size: 4rem;
-        }
+    .page-invite-friends .page-content .invite-user-header .user-level p,
+    .page-invite-friends .page-content .invite-user-header .user-release-num p{
+        margin: 0.9rem 0;
     }
 }

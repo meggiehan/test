@@ -16,7 +16,7 @@ const newF7 = new framework7({
 
 function releaseSuccInit(f7, view, page) {
     const { type, id, fishName, phone } = page.query;
-    const { pageSize, cacheUserinfoKey, shareUrl } = config;
+    const { pageSize, cacheUserInfoKey, shareUrl } = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     currentPage.find('span.release-succ-name').text(fishName);
 
@@ -49,7 +49,7 @@ function releaseSuccInit(f7, view, page) {
             state
         } = window['releaseInfo'];
 
-        const userInfo = store.get(cacheUserinfoKey);
+        const userInfo = store.get(cacheUserInfoKey);
 
         1 == state && currentPage.find('.release-succ-head').find('span').text('所有人都可以看到你的信息啦');
         1 == state && currentPage.find('.release-succ-head>p').eq(0).hide();

@@ -22,8 +22,8 @@ function myFishCarDemandListInit(f7, view, page) {
     let type = 2;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
-    const { pageSize, cacheUserinfoKey } = config;
-    const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
+    const { pageSize, cacheUserInfoKey } = config;
+    const { id, level } = store.get(cacheUserInfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
     const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
     const showSellAllInfo = currentPage.find('.sell-collection-empty-info');

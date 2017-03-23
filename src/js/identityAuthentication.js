@@ -20,11 +20,11 @@ function identityAuthenticationInit(f7, view, page) {
     const certBox = currentPage.find('.identity-infomation');
     const authenticationDemo = currentPage.find('.identity-pic-demo');
     const subBtn = currentPage.find('.identity-submit-btn');
-    const { cacheUserinfoKey } = config;
+    const { cacheUserInfoKey } = config;
     const {
         enterpriseAuthenticationState,
         personalAuthenticationState
-    } = store.get(cacheUserinfoKey);
+    } = store.get(cacheUserInfoKey);
     let individualType = 0;
     identityAuthenticationUtils.init(f7);
 

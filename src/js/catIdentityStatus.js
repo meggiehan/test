@@ -5,8 +5,8 @@ import config from '../config';
 import customAjax from '../middlewares/customAjax';
 
 function catIdentityStatusInit(f7, view, page) {
-    const { cacheUserinfoKey } = config;
-    const userInfo = store.get(cacheUserinfoKey);
+    const { cacheUserInfoKey } = config;
+    const userInfo = store.get(cacheUserInfoKey);
     f7.hideIndicator();
     userUtils.getBussesInfoCallback(userInfo)
     //cancle authentication.

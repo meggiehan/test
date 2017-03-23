@@ -47,11 +47,11 @@ class CustomClass {
     }
 
     checkMaxLenAndDelete() {
-        const {cacheMaxLen, cacheUserinfoKey, cacheHistoryKey} = config;
+        const {cacheMaxLen, cacheUserInfoKey, cacheHistoryKey} = config;
         const len = store.getAll().length;
         let i = 1;
         let isDel = false;
-        const disableDeleteArr = [cacheUserinfoKey, cacheHistoryKey];
+        const disableDeleteArr = [cacheUserInfoKey, cacheHistoryKey];
         if (len >= cacheMaxLen) {
             Dom7.each(store.getAll(), (key, value) => {
                 if (i === len - 1 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
@@ -90,8 +90,8 @@ class CustomClass {
         } = obj;
 
         const key = api ? config[apiCategory][api] : config[apiCategory];
-        const {timeout, cacheUserinfoKey} = config;
-        const saveKey = api in ['login', 'getUserInfo'] ? cacheUserinfoKey : this.getKey(apiCategory, api, key, data);
+        const {timeout, cacheUserInfoKey} = config;
+        const saveKey = api in ['login', 'getUserInfo'] ? cacheUserInfoKey : this.getKey(apiCategory, api, key, data);
         let newData = $$.isArray(data) ? this.getData(key, data) : data;
 
         let headers = {};

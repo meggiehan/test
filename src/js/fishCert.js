@@ -9,8 +9,8 @@ import {fishCertAction} from '../utils/domListenEvent';
 
 
 function fishCertInit(f7, view, page) {
-    const { cacheUserinfoKey } = config;
-    const userInfo = store.get(cacheUserinfoKey);
+    const { cacheUserInfoKey } = config;
+    const userInfo = store.get(cacheUserInfoKey);
     let dataIndex;
     if (!userInfo) {
         activeLogout();

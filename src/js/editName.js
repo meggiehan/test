@@ -8,7 +8,7 @@ import customAjax from '../middlewares/customAjax';
 function editNameInit(f7, view, page) {
     f7.hideIndicator();
     const nameInput = $$('.center-edit-name-input');
-    const userInfo = store.get(config['cacheUserinfoKey']);
+    const userInfo = store.get(config['cacheUserInfoKey']);
     const editUserNameSubBtn = $$('.center-submit-name');
     const {
         nickname,
@@ -51,7 +51,7 @@ function editNameInit(f7, view, page) {
                 const val = trim(nameInput.val());
                 let userInfoChange = userInfo;
                 userInfoChange['nickname'] = val;
-                store.set(config['cacheUserinfoKey'], userInfoChange);
+                store.set(config['cacheUserInfoKey'], userInfoChange);
                 $$('.page-my-center').find('.center-name').children('span').text(val);
                 $$('.page-user').find('.user-name').children('span').text(val);
                 view.router.back();
