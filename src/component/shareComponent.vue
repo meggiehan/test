@@ -1,12 +1,12 @@
 <template>
     <div class="invite-share-tab">
-        <div @click="shareToWeixinFriedns" class="invite-share-items weixin-friends">
+        <div @click="weixinShareFriend" class="invite-share-items weixin-friends">
             <img src="../build/img/icon_weixin.png" alt="微信好友">
             <p>微信好友</p>
         </div>
-        <div class="invite-share-items weixin-friends-circle">
+        <div @click="weixinShareCircle" class="invite-share-items weixin-friends-circle">
             <img src="../build/img/circleFriends.png" alt="微信朋友圈">
-            <p>微信好友</p>
+            <p>朋友圈</p>
         </div>
         <div class="invite-share-items qq-friends">
             <span class="iconfont icon-qq"></span>
@@ -21,6 +21,7 @@
 <style>
     .invite-share-tab{
         overflow: hidden;
+        min-height: 8rem;
     }
     .invite-share-items{
         width: 25%;
@@ -47,46 +48,21 @@
         color: #22DE7E;
     }
     .qq-zone p, .qq-friends p{
-        margin-top: 0.7rem;
+        margin-top: 0.3rem;
     }
 </style>
 
 <script>
-    import {
-        get,
-        set
-    } from '../utils/localStorage';
-    import nativeEvent from '../utils/nativeEvent';
-    import config from '../config';
-    const {cacheUserInfoKey} = config;
-    const userInfo = get(cacheUserInfoKey);
-
-    const {
-        invitationCode,
-        inviterNickname,
-        inviterPhone,
-        invitationLink,
-        scanLink,
-        imgUrl,
-        registerCount,
-        nickname
-    } = userInfo || {};
-
-    nativeEvent.apiCount('btn_inviteFriends_share');
-    const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;
-    const str = `养得好不如卖的好，鱼大大实名认证水产交易平台`;
-    const messageTile = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！赶紧看看吧:${invitationLink}`;
-
-    nativeEvent.shareInfo(title, str, invitationLink, messageTile, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
-
     export default{
         data: function () {
-            return {name: '雨歇微凉', age: 2000};
+            return {};
         },
         methods: {
-            shareToWeixinFriedns: () => {
-
-                console.log(userInfo)
+            weixinShareCircle (){
+                this.$emit('weixin_share_circle')
+            },
+            weixinShareFriend (){
+                this.$emit('weixin_share_friend')
             }
         }
     };

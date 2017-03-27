@@ -51,36 +51,6 @@ function userInit(f7, view, page) {
         currentPage.find('.user-app-version').hide();
     }
 
-
-    /*
-     * 生成二维码
-     * */
-    const qrCodeFun = (data) => {
-        const {
-            scanLink,
-            imgUrl,
-            invitationCode
-        } = data;
-
-        if(!scanLink){
-            return;
-        }
-
-        // if (!$$('.picker-invite-code-content>img').length) {
-        //     window.qrcodeObj = new QRCode($$('.picker-invite-code-content')[0], {
-        //         text: scanLink,
-        //         height: 180,
-        //         width: 180,
-        //         colorDark: "#000000",
-        //         colorLight: "#ffffff",
-        //         correctLevel: QRCode.CorrectLevel.H
-        //     })
-        // } else {
-        //     window.qrcodeObj.clear(); // clear the code.
-        //     window.qrcodeObj.makeCode(scanLink); // make another code.
-        // }
-    };
-
     const loginCallback = (data) => {
         f7.hideIndicator();
         const {code, message} = data;
@@ -90,7 +60,6 @@ function userInit(f7, view, page) {
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
-            qrCodeFun(userInformation);
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
                     nickname,
@@ -155,9 +124,6 @@ function userInit(f7, view, page) {
     if (loginStatus) {
         if (userInformation) {
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
-            setTimeout(() => {
-                qrCodeFun(userInformation);
-            }, 0)
         }
         UserModel.get(loginCallback);
     } else {

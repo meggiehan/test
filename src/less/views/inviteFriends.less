@@ -1,10 +1,9 @@
 .page-invite-friends {
     .page-content {
         background: @bg-fff;
-    	overflow: hidden;
         padding: 7rem 3rem 2rem;
         .invite-user{
-            padding-bottom: 7rem;
+            padding-bottom: 6rem;
         }
         .invite-user-header{
             .text-hidden;
@@ -53,6 +52,7 @@
             }
             .invite-user-auth-state{
                 padding-bottom: 3rem;
+                height: 3rem;
                 span{
                     display: inline-block;
                     padding: 0.5rem 1rem;
@@ -104,12 +104,18 @@
                 }
             }
         }
+        .bg-card-pic, .head-img, canvas{
+            display: none;
+        }
     }
 }
 @media screen and (min-width: 350px) and (max-width: 400px) {
     .page-invite-friends .page-content .invite-user-header .user-level,
     .page-invite-friends .page-content .invite-user-header .user-release-num{
         padding-top: 1.2rem;
+    }
+    .page-invite-friends .page-content .invite-user-code{
+        padding-left: 7rem;
     }
 }
 
@@ -121,5 +127,8 @@
     .page-invite-friends .page-content .invite-user-header .user-level p,
     .page-invite-friends .page-content .invite-user-header .user-release-num p{
         margin: 0.9rem 0;
+    }
+    .page-invite-friends .page-content .invite-user-code{
+        padding-left: 7.5rem;
     }
 }

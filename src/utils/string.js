@@ -622,5 +622,27 @@ module.exports = {
         const fistStr = versionArr[0] < 10 ? versionArr[0].replace('0', '') : versionArr[0];
         const secondStr = versionArr[1] < 10 ? versionArr[1].replace('0', '') : versionArr[1];
         return `${fistStr}.${secondStr}`;
+    },
+    /**
+     * 根据当前用户信息，判断是否需要重绘上传个人名片
+     * */
+    getBusinessCardStr: (userInfo) => {
+        const {
+            buyNumber,
+            sellNumber,
+            level,
+            personalAuthenticationState,
+            enterpriseAuthenticationState,
+            nickname
+        } = userInfo;
+
+        let str = '';
+        str += `releaseNum=${buyNumber + sellNumber}`;
+        str += `level=${level}`;
+        str += `personalAuth=${personalAuthenticationState}`;
+        str += `enterpriseAuth=${enterpriseAuthenticationState}`;
+        str += `nickname=${nickname}`;
+
+        return str;
     }
-}
+};
