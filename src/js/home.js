@@ -223,7 +223,7 @@ function homeInit(f7, view, page) {
             if (2 == openType) {
                 f7.showIndicator();
                 mainView.router.load({
-                    url: `${openUrl}`
+                    url: openUrl
                 });
             }
         }

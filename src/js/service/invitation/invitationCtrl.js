@@ -27,7 +27,6 @@ function invitationInit(f7, view) {
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserinfoKey);
-
         /**
          * 页面跳转
          * */
