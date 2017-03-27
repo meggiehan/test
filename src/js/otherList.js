@@ -9,14 +9,14 @@ import customAjax from '../middlewares/customAjax';
 function otherListInit(f7, view, page) {
     const load = $$('.page-other-list .infinite-scroll-preloader');
     const { type, id } = page.query;
-    const { pageSize, cacheUserinfoKey } = config;
+    const { pageSize, cacheUserInfoKey } = config;
     const showAllInfo = $$('.page-other-list .filter-search-empty-info');
     let pageNo = 1;
     let isShowAll = false;
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
-    let level = store.get(cacheUserinfoKey);
+    let level = store.get(cacheUserInfoKey);
     $$('.other-list-title').text(2 == type ? '正在出售' : '正在求购');
     load.hide();
 

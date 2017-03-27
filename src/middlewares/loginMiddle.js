@@ -4,7 +4,7 @@ import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
 
 
-const {cacheUserinfoKey} = config;
+const {cacheUserInfoKey} = config;
 
 /*
  * 判断用户是否登录
@@ -13,7 +13,7 @@ function isLogin() {
     const nativeToken = store.get("accessToken") || nativeEvent.getUserValue();
     const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
-        store.remove(cacheUserinfoKey);
+        store.remove(cacheUserInfoKey);
         //更新用户中心登录状态
         if ('user' == mainView.activePage.name &&
             currentPage.find('.login-succ').length && !nativeEvent.getDataToNative('weixinData')) {
@@ -36,7 +36,7 @@ function logOut(f7) {
             {
                 text: '确认',
                 onClick: () => {
-                    store.remove(cacheUserinfoKey);
+                    store.remove(cacheUserInfoKey);
                     store.remove("accessToken");
                     store.set('weixinUnionId', '');
                     nativeEvent.setDataToNative('weixinData', '');
@@ -64,7 +64,7 @@ function logOut(f7) {
  * 主动登出，清除h5用户信息并且通知native清除用户信息
  * */
 function activeLogout() {
-    store.remove(cacheUserinfoKey);
+    store.remove(cacheUserInfoKey);
     store.remove("accessToken");
     nativeEvent.setNativeUserInfo();
     nativeEvent.setDataToNative('weixinData', '');

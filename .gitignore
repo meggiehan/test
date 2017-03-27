@@ -10,10 +10,8 @@ zip/
 
 #file
 src/build/js
+!src/build/js/lib
 src/build/css/*.css
 src/config/
 !src/config/index.js.bak
-
-webpack.config.babel.js
-
 

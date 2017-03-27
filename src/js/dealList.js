@@ -7,7 +7,7 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function dealListInit(f7, view, page) {
-    const { pageSize, cacheUserinfoKey } = config;
+    const { pageSize, cacheUserInfoKey } = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const load = currentPage.find('.infinite-scroll-preloader');
     const showAllInfo = currentPage.find('.deal-show-all');

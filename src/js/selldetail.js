@@ -15,7 +15,7 @@ function selldetailInit(f7, view, page) {
     const certList = currentPage.find('.selldetail-cert-list');
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const shareBtn = currentPage.find('.icon-share')[0];
-    const {shareUrl, cacheUserinfoKey} = config;
+    const {shareUrl, cacheUserInfoKey} = config;
     const weixinData = nativeEvent.getDataToNative('weixinData');
     let demandInfo_;
     let currentUserId;
@@ -36,7 +36,7 @@ function selldetailInit(f7, view, page) {
                 user_ishCertificate_list,
                 favorite
             } = data.data;
-            const locaUserId = store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['id'];
+            const locaUserId = store.get(cacheUserInfoKey) && store.get(cacheUserInfoKey)['id'];
             const {
                 specifications,
                 stock,

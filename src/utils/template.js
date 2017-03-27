@@ -11,7 +11,7 @@ import config from '../config/';
 import store from './localStorage';
 
 
-const {cacheUserinfoKey, imgPath, backgroundImgUrl, identity} = config;
+const {cacheUserInfoKey, imgPath, backgroundImgUrl, identity} = config;
 module.exports = {
     home: {
         cat: (data, userLevel, nameAuthentication, isMyList) => {

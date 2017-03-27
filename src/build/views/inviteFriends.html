@@ -9,29 +9,42 @@
 </div>
 <div class="page swipeback page-invite-friends" data-page="inviteFriends">
     <div class="page-content">
-    	<div class="invite-friends-logo">
-    		<img src="img/invite_logo.jpg" alt="">
-			<div class="invite-friends-code">
-				<p>你的专属邀请码</p>
-				<span class="invite-friends-code-val">123456</span>
+		<div class="invite-user">
+			<div class="invite-user-header">
+				<div class="user-level pull-left">
+					<span class="iconfont" :class="'icon-v' + (inviteData.level || 0)"></span>
+					<p class="level">等级</p>
+				</div>
+				<div class="user-head-img"><img src="./img/defimg.png" alt=""></div>
+				<div class="user-release-num pull-right">
+					<span>{{(inviteData.buyNumber + inviteData.sellNumber) || 0}}</span>
+					<p>发布信息</p>
+				</div>
+				<div class="invite-user-nickname">{{inviteData.nickname || '匿名用户'}}</div>
+				<div class="invite-user-auth-state">
+					<span class="btn" v-if="!!authText">
+						{{'已完成' + authText}}
+					</span>
+				</div>
+				<div class="invite-user-number" @click="goToInviteList">
+					已经成功邀请<span>{{inviteData.registerCount || 0}}</span>人
+					<i class="iconfont icon-right"></i>
+				</div>
 			</div>
-    	</div>
-		<div class="invite-friends-actions">
-			<a class="link go-invite-friends-list">
-				<p class="top">已邀请人数</p>
-				<p class="bottom iconfont icon-right">点击查看详情</p>
-				<span class="invite-friends-number">0</span>人
-			</a>
-			<a class="invite-friends-share button">
-				<i class="iconfont icon-qr-code"></i>面对面分享
-			</a>
-			<a class="invite-friends-share-weixin button">
-				<i class="iconfont icon-share"></i>分享到微信、QQ、短信
-			</a>
-			<div class="invite-friends-actions-info">
-				<p>好友接受你的邀请后</p>
-				<p><span>你和好友</span>将获得靠谱指数<span>5分</span>的奖励</p>
+			<div class="invite-user-code">
+				<p>好友扫描二维码接受邀请后</p>
+				<p> <span>你和好友</span>将获得靠谱指数 <span>5分</span>的奖励</p>
 			</div>
 		</div>
+		<div class="invite-share">
+			<p><span>将我的邀请卡片转发</span></p>
+			<share-component
+					@weixin_share_friend="weixinShareFriend"
+					@weixin_share_circle="weixinShareCircle">
+			</share-component>
+		</div>
+		<img src="./img/bg_card.png" crossOrigin="*" class="bg-card-pic" alt="">
+		<img crossOrigin="*" :src="'./img/icon-level' + inviteData.level + '.png'" class="bg-card-level" alt="">
+		<img crossOrigin="*" :src="inviteData.imgUrl + '@50-1ci.png'" class="head-img" alt="">
     </div>
 </div>

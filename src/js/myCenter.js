@@ -17,7 +17,7 @@ function myCenterInit(f7, view, page) {
     }
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { imgPath } = config;
-    const userInfo = store.get(config['cacheUserinfoKey']);
+    const userInfo = store.get(config['cacheUserInfoKey']);
     const {
         name,
         imgUrl,

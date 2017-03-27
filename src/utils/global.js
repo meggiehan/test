@@ -21,10 +21,10 @@ class CustomClass {
     * native返回认证上传的信息，h5更新用户关联信息
     * */
     getPhoneSrc(srcimg, src, index) {
-        const { identity, cacheUserinfoKey, imgPath } = config;
+        const { identity, cacheUserInfoKey, imgPath } = config;
         const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         let individualCert = true;
-        const id = store.get(cacheUserinfoKey) ? store.get(cacheUserinfoKey)['id'] : '';
+        const id = store.get(cacheUserInfoKey) ? store.get(cacheUserInfoKey)['id'] : '';
         const _index = Number(index);
         const callback = (data) => {
             const { code, message } = data;
@@ -32,9 +32,9 @@ class CustomClass {
                 $$('.my-center-head img').attr('src', src + imgPath(8));
                 $$('.user-pic>img').attr('src', src + imgPath(8));
                 $$('img.picker-invite-head-img').attr('src', src + imgPath(8));
-                let userInfoChange = store.get(cacheUserinfoKey);
+                let userInfoChange = store.get(cacheUserInfoKey);
                 userInfoChange['imgUrl'] = src;
-                store.set(cacheUserinfoKey, userInfoChange);
+                store.set(cacheUserInfoKey, userInfoChange);
             }
         }
         if (_index == 4) {
@@ -95,9 +95,9 @@ class CustomClass {
     * 更新用户信息
     * */
     saveInforAddress(userId, provinceId, cityId, province, city, address) {
-        const { identity, cacheUserinfoKey } = config;
+        const { identity, cacheUserInfoKey } = config;
         const { ios, android } = window.currentDevice;
-        const { provinceName, cityName, id } = store.get(cacheUserinfoKey);
+        const { provinceName, cityName, id } = store.get(cacheUserInfoKey);
         if (province == provinceName && city == cityName) {
             nativeEvent['nativeToast'](0, '请改变您所在的地区！');
             return;
@@ -107,10 +107,10 @@ class CustomClass {
             const { code, message } = data;
             if (1 == code) {
                 nativeEvent['nativeToast'](1, message);
-                let userInfoChange = store.get(cacheUserinfoKey);
+                let userInfoChange = store.get(cacheUserInfoKey);
                 userInfoChange['provinceName'] = province;
                 userInfoChange['cityName'] = city;
-                store.set(cacheUserinfoKey, userInfoChange);
+                store.set(cacheUserInfoKey, userInfoChange);
                 $$('.my-center-address').find('span').text(`${province}${city}`);
             }
         }
@@ -143,8 +143,8 @@ class CustomClass {
     * native给h5鱼类资质证书的资源信息，h5更新
     * */
     subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
-        const { identity, cacheUserinfoKey } = config;
-        const userInfo = store.get(cacheUserinfoKey);
+        const { identity, cacheUserInfoKey } = config;
+        const userInfo = store.get(cacheUserInfoKey);
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code) {
@@ -188,11 +188,9 @@ class CustomClass {
         }else{
             const loginCallback = (data) => {
                 const {code, message} = data;
-                const { cacheUserinfoKey } = config;
+                const { cacheUserInfoKey } = config;
                 if(1 == code){
-                    store.set(cacheUserinfoKey, data.data);
-                    // nativeEvent.setDataToNative("accessToken", data.token);
-                    // store.set("accessToken", data.token);
+                    store.set(cacheUserInfoKey, data.data);
                     nativeEvent.setUerInfoToNative({
                         inviterId: data.data.inviterId
                     });
@@ -263,8 +261,8 @@ class CustomClass {
     }
 
     logout() {
-        const { cacheUserinfoKey } = config;
-        store.remove(cacheUserinfoKey);
+        const { cacheUserInfoKey } = config;
+        store.remove(cacheUserInfoKey);
         nativeEvent.setNativeUserInfo();
         window.mainView.router.load({
             url: `views/user.html`,
@@ -274,10 +272,10 @@ class CustomClass {
     }
 
     initLogout() {
-        const { cacheUserinfoKey } = config;
+        const { cacheUserInfoKey } = config;
         let refreshId = setInterval(() => {
             if (mainView['url'].indexOf('user.html') > -1) {
-                store.remove(cacheUserinfoKey);
+                store.remove(cacheUserInfoKey);
                 setTimeout(() => {
                     mainView.router.load({
                         url: 'views/user.html',
@@ -326,7 +324,7 @@ class CustomClass {
      * 信息, 等级, 认证
      */
     jsJumpFromPush(obj) {
-        const { cacheUserinfoKey, mWebUrl } = config;
+        const { cacheUserInfoKey, mWebUrl } = config;
         const { type, id } = getQuery(obj);
         if ('demandInfo' == type) {
             const callback = (data) => {
@@ -354,7 +352,7 @@ class CustomClass {
                 return;
             }
             if ('level' == type) {
-                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserinfoKey).id}`);
+                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
             } else if ('auth' == type) {
                 customAjax.ajax({
                     apiCategory: 'auth',
@@ -363,7 +361,7 @@ class CustomClass {
                     noCache: true
                 }, (data) => {
                     if (data.code == 1) {
-                        store.set(cacheUserinfoKey, data.data);
+                        store.set(cacheUserInfoKey, data.data);
                         if(window.location.hash.indexOf("catIdentityStatus.html") > -1){
                             mainView.router.refreshPage();
                             return;

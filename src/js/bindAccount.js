@@ -7,11 +7,11 @@ import {weixinAction} from './service/login/loginCtrl';
 
 function bindAccountInit(f7, view, page) {
     f7.hideIndicator();
-    const {cacheUserinfoKey} = config;
+    const {cacheUserInfoKey} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const token = getToken();
     const weixinData = store.get('weixinData');
-    const userInfo = store.get(cacheUserinfoKey);
+    const userInfo = store.get(cacheUserInfoKey);
 
     if (!token && !weixinData) {
         mainView.router.load({

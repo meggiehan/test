@@ -10,7 +10,7 @@ function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
     const {phone} = page.query;
     const {
-        cacheUserinfoKey,
+        cacheUserInfoKey,
         waitAddPointerKey,
         voiceCodeWaitTime,
         inviteInfoKey
@@ -124,7 +124,7 @@ function loginCodeInit(f7, view, page) {
         const {code, message, data} = result;
         if (1 == code) {
             store.set("accessToken", data.token);
-            store.set('cacheUserinfoKey', data.userInfoView);
+            store.set(cacheUserInfoKey, data.userInfoView);
             (weixinData && store.get('weixinUnionId')) ?
                 getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');

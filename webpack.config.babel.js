@@ -7,11 +7,11 @@ import autoprefixer from 'autoprefixer';
 
 const PROD = process.env.npm_lifecycle_event;
 
-const staticBase = 'js';
+const staticBase = 'js/';
 const contentBase = './src/build';
 let initConfig = {
     resolve: {
-        extensions: ['', '.js'],
+        extensions: ['', '.js', '.vue'],
         alias: {
             'vue$': 'vue/dist/vue.common.js'
         }
@@ -34,6 +34,13 @@ let initConfig = {
             test: /\.json$/,
             exclude: [/node_modules/],
             loaders: ['json-loader']
+        }, {
+            test: /\.vue$/,
+            exclude: [/node_modules/],
+            loaders: ['vue-loader']
+        },{
+            test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+            loader: 'file?limit=8192&name=imgHash/[hash:10].[name].[ext]'
         }]
     },
     plugins: [
