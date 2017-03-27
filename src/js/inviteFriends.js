@@ -30,42 +30,12 @@ function inviteFriendsInit(f7, view, page) {
         personalAuthenticationTime
     } = userInfo || {};
 
-    /**
-     * vue的数据模型
-     * */
-    Vue.component('share-component', shareComponent);
-    const vueInvite = new Vue({
-        el: currentPage.find('.page-content')[0],
-        data: {
-            inviteData: userInfo,
-            authText: userUtils.getAuthenticationText(
-                enterpriseAuthenticationState,
-                enterpriseAuthenticationTime,
-                personalAuthenticationState,
-                personalAuthenticationTime
-            ).myCenterText
-        },
-        methods: {
-            //跳转至用户已经邀请成功的列表
-            imgPath: imgPath,
-            goToInviteList: () => {
-                apiCount('btn_inviteFriends_userlist');
-                if (!registerCount) {
-                    nativeEvent.nativeToast(0, '你还没有邀请过好友！');
-                    return;
-                }
-                view.router.load({
-                    url: 'views/inviteFriendsList.html'
-                })
-            },
-            weixinShareFriend() {
-                console.log(123)
-            },
-            weixinShareCircle() {
-                console.log(234)
-            }
-        }
-    });
+    const authText = userUtils.getAuthenticationText(
+        enterpriseAuthenticationState,
+        enterpriseAuthenticationTime,
+        personalAuthenticationState,
+        personalAuthenticationTime
+    ).myCenterText;
 
     // nativeEvent.apiCount('btn_inviteFriends_share');
     // const title = `好友${nickname ? '"' + nickname + '"' : ''}给您的神奇卖鱼工具！`;
@@ -90,15 +60,57 @@ function inviteFriendsInit(f7, view, page) {
         const $qrCodeBg = currentPage.find('.bg-card-pic');
         const $qrCodeLevel = currentPage.find('.bg-card-level');
         const $headImg = currentPage.find('.head-img');
-
-        shareBusinessCardCtrl(
-            userInfo,
-            $qrCodePic,
-            $qrCodeBg,
-            $qrCodeLevel,
-            $headImg,
-            currentPage
-        );
+        /**
+         * vue的数据模型
+         * */
+        Vue.component('share-component', shareComponent);
+        const vueInvite = new Vue({
+            el: currentPage.find('.page-content')[0],
+            data: {
+                inviteData: userInfo,
+                authText: authText
+            },
+            methods: {
+                //跳转至用户已经邀请成功的列表
+                imgPath: imgPath,
+                goToInviteList: () => {
+                    apiCount('btn_inviteFriends_userlist');
+                    if (!registerCount) {
+                        nativeEvent.nativeToast(0, '你还没有邀请过好友！');
+                        return;
+                    }
+                    view.router.load({
+                        url: 'views/inviteFriendsList.html'
+                    })
+                },
+                weixinShareFriend() {
+                    f7.showIndicator();
+                    shareBusinessCardCtrl(
+                        userInfo,
+                        $qrCodePic,
+                        $qrCodeBg,
+                        $qrCodeLevel,
+                        $headImg,
+                        currentPage,
+                        authText
+                    );
+                    console.log(123)
+                },
+                weixinShareCircle() {
+                    f7.showIndicator();
+                    shareBusinessCardCtrl(
+                        userInfo,
+                        $qrCodePic,
+                        $qrCodeBg,
+                        $qrCodeLevel,
+                        $headImg,
+                        currentPage,
+                        authText
+                    );
+                    console.log(234)
+                }
+            }
+        });
     }
 
     /**
