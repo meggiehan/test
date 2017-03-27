@@ -11,7 +11,10 @@ const staticBase = 'js';
 const contentBase = './src/build';
 let initConfig = {
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['', '.js'],
+        alias: {
+            'vue$': 'vue/dist/vue.common.js'
+        }
     },
     entry: './src/app.js',
     output: {
@@ -39,7 +42,11 @@ let initConfig = {
                 warnings: false
             }
         }),
-        new webpack.optimize.DedupePlugin()
+        new webpack.optimize.DedupePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        })
     ],
     postcss: function () {
         return [
@@ -55,7 +62,7 @@ var writeObj = {
     date: new Date(Date.now() + 8 * 60 * 60 * 1000)
 }
 
-if(PROD === 'build'){
+if (PROD === 'build') {
     fs.writeFile('./src/config/version.json', JSON.stringify(writeObj), (err) => {
         if (err) throw err;
         console.log('It\'s saved!');

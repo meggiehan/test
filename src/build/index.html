@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -15,6 +15,18 @@
     <link rel="stylesheet" href="css/lib/framework7.ios.colors.min.css">
     <link rel="stylesheet" href="css/main.css">
     <title>鱼大大-Demo</title>
+    <!--<script>-->
+        <!--function handler(eventError) {-->
+            <!--console.log(eventError);-->
+            <!--return true;-->
+        <!--}-->
+        <!--if (window.addEventListener) {-->
+            <!--window.addEventListener("error", handler, true);-->
+        <!--} else if (window.attachEvent) {-->
+            <!--//ie在这里表示无压力-->
+            <!--window.attachEvent("onerror", handler);-->
+        <!--}-->
+    <!--</script>-->
 </head>
 
 <body>
@@ -31,6 +43,13 @@
     </div>
     <!-- another page -->
     <div class="view view-login">
+        <div class="navbar"></div>
+        <div class="pages">
+            <div class="page"></div>
+        </div>
+    </div>
+
+    <div class="view view-release-fish">
         <div class="navbar"></div>
         <div class="pages">
             <div class="page"></div>
@@ -67,7 +86,7 @@
     <div class="footer"></div>
 </div>
 
-<div class="share-to-weixin-model">
+<div class="share-to-weixin-model modal-close">
     <div class="content row">
         <a class="row external share-to-friends">
             <span class="col-40 first-child"><img src="./img/icon_weixin.png" alt="微信好友"></span>
@@ -97,59 +116,123 @@
 </div>
 
 <!--司机路线修改-->
-<div class="edit-driver-address-model">
-    <div class="content-box">
-        <div class="header">
-            <span class="edit">修改路线</span>
-            <span class="add">添加路线</span>
-        </div>
+<!--<div class="edit-driver-address-model">-->
+    <!--<div class="content-box">-->
+        <!--<div class="header">-->
+            <!--<span class="edit">修改路线</span>-->
+            <!--<span class="add">添加路线</span>-->
+        <!--</div>-->
+        <!--<div class="content">-->
+            <!--<p>线路类型</p>-->
+            <!--<div class="province-address-select">-->
+                <!--<div class="pull-left on">-->
+                    <!--<span class="iconfont icon-auto-end"></span>-->
+                    <!--<span class="radio"></span>-->
+                    <!--省内-->
+                <!--</div>-->
+                <!--<div class="pull-right">-->
+                    <!--<span class="iconfont icon-auto-end"></span>-->
+                    <!--<span class="radio"></span>-->
+                    <!--跨省-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="province-select on province-select-item">-->
+                <!--<p>省</p>-->
+                <!--<div>-->
+                    <!--<input type="text" readonly value="请选择">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="provinces-select province-select-item">-->
+                <!--<p>-->
+                    <!--<span class="pull-left">出发地</span>-->
+                    <!--<span class="pull-right">目的地</span>-->
+                <!--</p>-->
+                <!--<div>-->
+                    <!--<input type="text" class="pull-left" value="请选择" readonly>-->
+                    <!--<input type="text" class="pull-right" value="请选择" readonly>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="footer">-->
+            <!--<div class="edit">-->
+                <!--<span class="edit-driver-address-model-cancel">取消</span>-->
+                <!--<span class="edit-driver-address-model-save">保存信息</span>-->
+                <!--<span class="edit-driver-address-model-delete">删除信息</span>-->
+            <!--</div>-->
+            <!--<div class="add">-->
+                <!--<span class="edit-driver-address-model-cancel">取消</span>-->
+                <!--<span class="edit-driver-address-model-add">确认添加</span>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--邀请弹框-->
+<div class="modal-bg-invitation">
+    <div class="modal-invitation">
+        <img class="img-top" src="./img/modal_invitation_top.png" />
+
         <div class="content">
-            <p>线路类型</p>
-            <div class="province-address-select">
-                <div class="pull-left on">
-                    <span class="iconfont icon-auto-end"></span>
-                    <span class="radio"></span>
-                    省内
-                </div>
-                <div class="pull-right">
-                    <span class="iconfont icon-auto-end"></span>
-                    <span class="radio"></span>
-                    跨省
+            <div class="user">
+                <img class="img-user" src="./img/ic_avatar_default.png"/>
+                <div class="div-nickname">
+                    <div class="nickname">
+                        蔡小雨
+                    </div>
+                    <div class="inviter">
+                        邀请人
+                    </div>
                 </div>
             </div>
-            <div class="province-select on province-select-item">
-                <p>省</p>
-                <div>
-                    <input type="text" readonly value="请选择">
-                </div>
+            <div class="text">
+
             </div>
-            <div class="provinces-select province-select-item">
-                <p>
-                    <span class="pull-left">出发地</span>
-                    <span class="pull-right">目的地</span>
-                </p>
-                <div>
-                    <input type="text" class="pull-left" value="请选择" readonly>
-                    <input type="text" class="pull-right" value="请选择" readonly>
-                </div>
-            </div>
+            <div class="btn confirm"></div>
+            <div class="btn cancel"></div>
         </div>
-        <div class="footer">
-            <div class="edit">
-                <span class="edit-driver-address-model-cancel">取消</span>
-                <span class="edit-driver-address-model-save">保存信息</span>
-                <span class="edit-driver-address-model-delete">删除信息</span>
+    </div>
+</div>
+
+<!--版本更新model-->
+<div class="update-app-modal">
+    <div class="update-content">
+        <div class="update-content-top">
+            <img src="./img/modal_bg_top.png" alt="">
+        </div>
+        <p class="title">快升级到最新版本</p>
+        <div class="update-content-text">
+
+        </div>
+        <div class="update-btn-box">
+            <div class="large-version">
+                <span class="update-btn large-version-update">立即升级</span>
+                <span class="update-btn default-btn large-version-cancel">我再想想</span>
             </div>
-            <div class="add">
-                <span class="edit-driver-address-model-cancel">取消</span>
-                <span class="edit-driver-address-model-add">确认添加</span>
+            <div class="small-version">
+                <span class="update-btn small-version-update">马上体验新版本</span>
             </div>
         </div>
     </div>
 </div>
-<!-- <script src="http://192.168.20.136:1234/target/target-script-min.js#anonymous"></script> -->
-<script src="js/common.min.js"></script>
-<script src="js/lib/qrcode.js"></script>
-</body>
 
+<!-- 鱼车modal -->
+<div class="fish-car-modal modal-close">
+    <div class="content row">
+        <a class="row">
+            <span class="col-40 first-child"><img src="./img/ic_truck.png" alt="我是司机"></span>
+            <span class="col-60 row">我是司机</span>
+        </a>
+        <a class="row">
+            <span class="col-40 first-child"><img style="width:4rem;margin-top:-2rem" src="./img/ic_fisherman.png"
+                                                  alt="我是货主"></span>
+            <span class="col-60 row">我是货主</span>
+        </a>
+    </div>
+    <div class="footer"></div>
+</div>
+
+<!--<script src="http://10.228.17.26:1234/target/target-script-min.js#anonymous"></script>-->
+<script src="./js/common.min.js" crossorigin="anonymous"></script>
+<script src="./js/lib/qrcode.js"></script>
+</body>
 </html>

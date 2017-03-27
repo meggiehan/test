@@ -1,6 +1,6 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import nativeEvent from '../utils/nativeEvent';
 import { trim, html } from '../utils/string';
 import { logOut, activeLogout } from '../middlewares/loginMiddle';
@@ -48,6 +48,6 @@ function fishCertInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     fishCertInit,
 }

@@ -1,4 +1,4 @@
-import store from '../../utils/locaStorage';
+import store from '../localStorage';
 import objectUtil from '../clone';
 import { getBusinessLicenseNumber, getName, html } from '../string';
 
@@ -86,12 +86,15 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 registerCount,
                 driverRefuseDescribe,
                 driverState,
-                fishCarDriverId
+                fishCarDriverId,
+                fishCarDemandCount,
+                fishCarDriverDemandCount
             } = data;
 
             buyNumber && html($$('.user-buy-num'), buyNumber, null);
             sellNumber && html($$('.user-sell-num'), sellNumber, null);
             certNumber > -1 && verificationBtn.text(certNumber);
+            fishCarDemandCount && currentPage.find('.user-fish-car-num').text(fishCarDemandCount);
 
             enterpriseAuthenticationState == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
             personalAuthenticationState == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
@@ -115,14 +118,22 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
             if(fishCarDriverId){
                 currentPage.find('.user-info-driver-check').removeClass('check reject edit');
                 currentPage.find('.user-fish-car-driver').hide();
+                currentPage.find('.user-info-driver-check').attr('data-id', fishCarDriverId);
                 if(0 == driverState){
                     currentPage.find('.user-info-driver-check').addClass('check');
                 }
 
                 if(1 == driverState || 3 == driverState){
                     currentPage.find('.user-info-driver-check').addClass('edit');
-                    1 == driverState && currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
-                    3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id');
+                    currentPage.find('.user-fish-car-driver').hide();
+                    if(1 == driverState){
+                        currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
+                        currentPage.find('.edit-fish-car-info').removeClass('hide').attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
+                    }
+                    // currentPage.find('.edit-fish-car-info')
+                    //     .css({display: '-webkit-flex'})
+                    //     .attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`);
+                    3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id' );
                 }
 
                 if(2 == driverState){
@@ -137,6 +148,6 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
                 });
             }
         }
-    }
+    };
 
 export default userUtils;

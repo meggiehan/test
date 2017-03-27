@@ -46,6 +46,7 @@ function otherIndexInit(f7, view, page) {
             currentPage.find('.other-index-empty-info').show();
             currentPage.find('.other-index-list').removeClass('show-buy-list');
             currentPage.find('.other-index-list').removeClass('show-sell-list');
+            f7.pullToRefreshDone();
             return;
         }
 
@@ -154,6 +155,6 @@ function otherIndexInit(f7, view, page) {
     $$('.navbar-inner.other-index .icon-more').off('click', otherIndexClickTip).on('click', otherIndexClickTip);
 }
 
-module.exports = {
+export {
     otherIndexInit
 }

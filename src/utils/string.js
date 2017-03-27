@@ -1,5 +1,7 @@
 import nativeEvent from './nativeEvent';
-import config from '../config';
+import config from '../config/index';
+import {getToken} from '../middlewares/loginMiddle';
+import store from '../utils/localStorage';
 
 const {fishCacheObj} = config;
 module.exports = {
@@ -383,7 +385,7 @@ module.exports = {
     },
 
     alertTitleText: () => {
-        const token = nativeEvent.getUserValue();
+        const token = getToken();
         const weixinData = nativeEvent.getDataToNative('weixinData');
         let text;
         !token && !weixinData && (text = '您还没登录，请先登录!')
@@ -419,12 +421,12 @@ module.exports = {
     /**
      * 获取所以的省份名字信息
      * */
-    gerProvinceList: () => {
+    getProvinceList: () => {
         const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
         let list = [];
         $$.each(_district.root.province, (index, item) => {
             list.push(item.name);
-        })
+        });
         return list;
     },
 
@@ -555,5 +557,70 @@ module.exports = {
                 break;
         }
         return text;
+    },
+    getPickerSelectCityData: () => {
+        const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+        let res = {
+            '全国': []
+        };
+        $$.each(_district.root.province, (index, item) => {
+            let arr = [];
+            $$.each(item.city, (_index, _item) => {
+                arr.push(_item.name);
+            })
+            res[item.name] = arr;
+        })
+        return res;
+    },
+
+    /**
+     * 获取明天/后天/或者几月几号
+     * */
+    getFishCarDateStyle: (date) => {
+        if(!date){
+            return '';
+        }
+        const itemTime = new Date(date).getTime();
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const currentZeroTime = new Date(`${year}/${month}/${day}`).getTime();
+        const oneDayTime = 60*60*24*1000;
+        const dateStyle = `${date.split('-')[1]}月${date.split('-')[2]}日`;
+        let res;
+        if(oneDayTime > Number(itemTime - currentZeroTime) && Number(itemTime - currentZeroTime) >= 0){
+            res = `今天(${dateStyle})`;
+        }else if(oneDayTime*2 > Number(itemTime - currentZeroTime) && Number(itemTime - currentZeroTime) >= oneDayTime){
+            res = `明天(${dateStyle})`;
+        }else if(oneDayTime*3 > Number(itemTime - currentZeroTime) && Number(itemTime - currentZeroTime) >= oneDayTime*2){
+            res = `后天(${dateStyle})`;
+        }else{
+            res = dateStyle;
+        }
+        return res;
+    },
+
+    getProvinceCityArr: () => {
+        const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
+        let list = {};
+        $$.each(_district.root.province, (index, item) => {
+            const cityArr = [];
+            $$.each(item.city, (i, v) => {
+                cityArr.push(v.name);
+            });
+            list[item.name] = cityArr;
+        });
+        return list;
+    },
+    /**
+     * 获取两位数的版本号给native
+     * */
+    getVersionSetTag: () => {
+        const versionNumber = store.get('versionNumber');
+        const versionArr = versionNumber.replace('V', '').split('_');
+        const fistStr = versionArr[0] < 10 ? versionArr[0].replace('0', '') : versionArr[0];
+        const secondStr = versionArr[1] < 10 ? versionArr[1].replace('0', '') : versionArr[1];
+        return `${fistStr}.${secondStr}`;
     }
 }

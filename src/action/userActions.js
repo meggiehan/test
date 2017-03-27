@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import customAjax from '../middlewares/customAjax';
 
 const endpoint = 'user';

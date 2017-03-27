@@ -1,6 +1,8 @@
 @import './core/mixins.less';
 @import './core/base.less';
 @import './core/icon.less';
+@import "core/listViews";
+@import "core/animate";
 
 @import './views/search.less';
 @import './views/home.less';
@@ -34,10 +36,23 @@
 @import './views/fishCar.less';
 @import './views/releaseFishCarDemand.less';
 @import "./views/driverDemandInfo.less";
+@import "./views/releaseFishCarDemandSuccess.less";
+
+@import "./views/fishCarTripList";
 
 /**
 *postDriverAuth跟postDriverInfo页面公用一个less
 */
 @import './views/postDriverAuth.less';
-
 @import "./views/recruitDriverSuccess.less";
+
+/**
+* model样式
+*/
+@import "modal/updateVersion.less";
+@import "./modal/invitation.less";
+@import "modal/fishCarAddressModal";
+
+
+/*兼容低版本安卓就的样式**/
+@import "./core/android-4";

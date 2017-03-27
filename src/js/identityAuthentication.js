@@ -1,6 +1,6 @@
 import nativeEvent from '../utils/nativeEvent';
 import identityAuthenticationUtils from '../utils/viewsUtil/identityAuthentication';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { logOut, isLogin } from '../middlewares/loginMiddle';
 
@@ -90,6 +90,6 @@ function identityAuthenticationInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     identityAuthenticationInit
 }

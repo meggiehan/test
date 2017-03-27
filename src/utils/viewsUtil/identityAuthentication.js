@@ -1,6 +1,6 @@
 import config from '../../config/';
 import customAjax from '../../middlewares/customAjax';
-import store from '../../utils/locaStorage';
+import store from '../localStorage';
 import framework7 from '../../js/lib/framework7';
 
 const f7 = new framework7({
@@ -38,7 +38,7 @@ class CustomClass {
                 apiCategory: 'userInfo',
                 api: 'updateEnterpriseUserInfo',
                 header: ['token'],
-                // parameType: 'application/json',
+                // paramsType: 'application/json',
                 data: [companyUrl],
                 type: 'post',
                 noCache: true,
@@ -60,7 +60,7 @@ class CustomClass {
                 apiCategory: 'userInfo',
                 api: 'updatePersonalUserInfo',
                 header: ['token'],
-                // parameType: 'application/json',
+                // paramsType: 'application/json',
                 data: individualSrcArr,
                 type: 'post',
                 noCache: true,

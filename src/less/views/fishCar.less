@@ -1,252 +1,183 @@
 .navbar {
     .fish-car-header {
-        &.navbar-on-center{
-            .filter-tab{
-                z-index: 100;
-                height: 4rem;
-                border-bottom: 1px solid @border-da;
+        height: 5.4rem;
+        .ps-r;
+        border-bottom: 1px solid #E7E7E7;
+        .border {
+            position: relative;
+            background: #FFFFFF;
+            border: 1px solid #DEDEDE;
+            border-radius: 1.5rem;
+            color: #747474;
+            height: 3rem;
+            line-height: 3rem;
+            padding: 0 3rem 0 1.5rem;
+            font-size: 1.4rem;
+            margin-right: 0.8rem;
+            i {
+                .ps-a;
+                right: 1.5rem;
+                transform: rotate(90deg);
             }
         }
-        .filter-tab {
-            z-index: -999;
-            height: 0;
-            overflow: hidden;
-            line-height: 4rem;
-            width: 100%;
+        .select-city {
+            padding: 1rem 1.5rem;
             .ps-a;
             left: 0;
+            width: 100%;
+            height: 4.4rem;
+            top:5.4rem;
+            display: none;
+            border-bottom: 1px solid #E7E7E7;
+            color: @text-category;
             background: @bg-fff;
             .text-shadow(@text-fff);
-            top: 5.4rem;
-            display: none;
-            .filter-tab-title {
-                line-height: 4rem;
-                width: 40%;
-                margin: 0 5%;
-                display: block;
+            font-size: 1.6rem;
+            .box-size();
+            overflow: hidden;
+            .count-driver {
+                width: 50%;
                 float: left;
                 color: @text-category;
-                font-size: 1.6rem;
-                &.on {
-                    width: 40%;
-                    color: @text-test;
-                    border-bottom: 2px solid @text-test;
-                    .box-size();
+                line-height: 2.4rem;
+                .text-left;
+            }
+            #select-city-input {
+                float: right;
+                max-width: 50%;
+                min-width: 10%;
+                color: @text-category;
+                line-height: 2.4rem;
+                .text-right;
+                i{
+                    display: inline-block;
+                    width: 0;
+                    height: 0;
+                    border-left: 4px solid transparent;
+                    border-right: 4px solid transparent;
+                    border-top: 6px solid @text-category;
+                    .ps-r;
+                    top: -0.1rem;
                 }
             }
         }
     }
 }
 
-.pages > .page-fish-car {
-    background: @bg-fff;
-    .text-shadow(@bg-fff);
-    .filter-img {
-        background: @bg-fish-theme;
-        .text-shadow(@bg-fish-theme);
-        .text-center;
-        padding: 2rem 0;
-        color: @text-fff;
-        p {
-            margin: 0;
-            line-height: 2rem;
-            &.title {
-                font-size: 2.2rem;
-                line-height: 4rem;
+div[data-page="fishCar"]{
+    .navbar{
+        .fish-car-header{
+            .select-city{
+                display: block;
             }
         }
     }
+}
+
+.pages > .page-fish-car {
+    background-color: @bg-f5;
+    .text-shadow(@bg-f5);
     .page-content {
+        padding-top: 9.8rem;
         position: static;
         &.over-hide {
             overflow: hidden;
         }
         width: 100%;
         overflow-x: hidden;
-        & > .filter-tab {
-            height: 4rem;
-            line-height: 4rem;
-            overflow: hidden;
-            .filter-tab-title {
-                width: 40%;
-                margin: 0 5%;
-                display: block;
-                float: left;
-                font-size: 1.6rem;
-                &.on {
-                    width: 40%;
-                    color: @text-test;
-                    border-bottom: 2px solid @text-test;
-                    .box-size();
-                }
-            }
-        }
     }
 
     .page-list-view {
-        .select-city {
-            padding: 1.5rem 0 1rem;
-            .text-center;
-            .ps-r;
-            #select-city-input {
-                .ps-a;
-                width: 100%;
-                height: 80%;
-                left: 0;
-                top: 1rem;
-                opacity: 0;
-                z-index: 1;
-            }
-            p {
-                margin: 0;
-                line-height: 2rem;
-                color: @text-category;
-                text-decoration: underline;
-                &.title {
-                    font-size: 1.8rem;
-                    line-height: 3rem;
-                    color: @text-test;
-                    text-decoration: none;
-                }
-            }
-        }
-        .driver-info {
-            padding: 1.5rem 7rem 1.5rem 2rem;
-            overflow: hidden;
-            border-bottom: 1px solid @border-da;
-            display: block;
-            .box-size();
-            .ps-r;
-            .left {
-                & > p {
-                    margin: 0;
-                    color: @text-category;
-                    .text-hidden;
-                    line-height: 2rem;
-                    &.title {
-                        color: @text-name;
-                        font-size: 1.8rem;
-                        line-height: 2.5rem;
-                        span {
-                            font-size: 1.4rem;
-                        }
-                    }
-                }
-                .other-info {
-                    padding-top: 1rem;
-                    p {
-                        font-size: 1.6rem;
-                        color: @text-test;
-                        margin: 0;
-                        margin-bottom: 0.7rem;
-                    }
-                    span {
-                        display: inline-block;
-                        padding: 0 0.7rem;
-                        line-height: 2.2rem;
-                        background: @text-test;
-                        .text-shadow(@text-test);
-                        color: @text-fff;
-                        margin-right: 0.5rem;
-                        margin-bottom: 0.5rem;
-                        border-radius: 0.3rem;
-                    }
-                }
-                .item-content {
-                    padding-left: 0;
-                    .item-media {
-                        padding: 0;
-                        border-radius: 0.3rem;
-                        overflow: hidden;
-                    }
-                    .item-inner {
-                        padding: 0;
-                        margin-left: 0.8rem;
-                        &:after {
-                            display: none;
-                        }
-                        .item-title-row {
-                            background: none;
-                            display: block;
-                            p {
-                                display: block;
-                                width: 100%;
-                                margin: 0;
-                                .text-hidden;
-                                color: @text-subtitle;
-                                line-height: 2.5rem;
-                                font-size: 1.4rem;
-                                &.title {
-                                    color: @text-name;
-                                    font-size: 1.6rem;
-                                    vertical-align: middle;
-                                    span {
-                                        color: @themeColor;
-                                        font-size: 2.2rem;
-                                        margin-left: 0.5rem;
-                                        .ps-r;
-                                        top: -0.2rem;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .content {
-                    margin-top: 1rem;
-                    font-size: 1.6rem;
-                    color: @text-category;
-                    width: 100%;
-                    word-break: break-all;
-                }
-            }
-            .right {
-                .ps-a;
-                right: 2.5rem;
-                top: 1.7rem;
-                color: @text-name;
-            }
-            .demandinfo-right {
-                .ps-a;
-                top: 3rem;
-                right: 2rem;
-                width: 5rem;
-                height: 5rem;
-                border-radius: 2.5rem;
-                background: @text-test;
-                .text-shadow(@text-test);
-                color: @text-fff;
-                font-size: 3.4rem;
-                .text-center;
-                line-height: 5rem;
-                vertical-align: middle;
-                float: right;
-            }
-            span.icon-right {
-                display: block;
-                right: 1rem;
-                .ps-a;
-                top: 50%;
-                margin-top: -1rem;
-                font-size: 1.6rem;
-                color: @border-c5
-            }
+        .list {
+            padding: 1rem 2%;
         }
     }
     .toolbar {
         a {
-            width: 60%;
+            width: 100%;
             margin: 0 auto;
             height: 3.5rem;
             line-height: 3.5rem;
-            color: @text-fff;
-            border-radius: .3rem;
-            background: @text-test;
-            .text-shadow(@text-test);
             div {
-                font-size: 1.6rem;
+                font-size: 1.4rem;
+                .ps-r;
+                padding-right: 7.5rem;
+                p{
+                    margin: 0;
+                    width: 100%;
+                    .text-left;
+                    color: @text-category;
+                }
+                span{
+                    color: @text-fff;
+                    border-radius: .3rem;
+                    background: @text-test;
+                    .text-shadow(@text-test);
+                    font-size: 1.6rem;
+                    width: 7.5rem;
+                    .ps-a;
+                    right: 0;
+                    top: 0;
+                }
             }
         }
+    }
+}
+
+/*
+*鱼车司机填写信息头部公用style
+*/
+.post-driver-header{
+    background-color: #EFEFF1;
+    padding: 2rem 15%;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    &:after{
+        display: block;
+        width: 45%;
+        height: 0rem;
+        overflow: hidden;
+        border-bottom:1px solid #979797;
+        color: #979797;
+        left: 27.5%;
+        position: absolute;
+        top: 3.4rem;
+        content: '.';
+    }
+    div {
+        span{
+            display: inline-block;
+            width: 2.8rem;
+            height: 2.8rem;
+            line-height: 2.8rem;
+            border-radius: 1.4rem;
+            color: #fff;
+            font-size: 1.8rem;
+            background: @text-a9;
+            position: relative;
+            z-index: 10;
+        }
+        p{
+            margin:0;
+            margin-top: 0.5rem;
+            font-size: 1.6rem;
+            color: @text-a9;
+        }
+        &.on{
+            p{
+                color: @bg-v;
+            }
+            span{
+                background: @bg-v;
+            }
+        }
+    }
+    .left{
+        float: left;
+    }
+    .right{
+        float: right;
     }
 }
 

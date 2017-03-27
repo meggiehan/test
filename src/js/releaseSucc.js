@@ -2,7 +2,7 @@ import customAjax from '../middlewares/customAjax';
 import { trim, html } from '../utils/string';
 import { selldetail, home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import framework7 from './lib/framework7';
@@ -113,6 +113,6 @@ function releaseSuccInit(f7, view, page) {
 
 }
 
-module.exports = {
-    releaseSuccInit,
+export {
+    releaseSuccInit
 }

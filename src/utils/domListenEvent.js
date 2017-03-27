@@ -2,7 +2,7 @@ import framework7 from '../js/lib/framework7';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from './nativeEvent';
 import config from '../config';
-import store from './locaStorage';
+import store from './localStorage';
 import customAjax from '../middlewares/customAjax';
 import {alertTitleText} from '../utils/string'
 
@@ -149,7 +149,7 @@ module.exports = {
                 apiCategory: 'userInfo',
                 api: 'cancelPersonalAuthentication',
                 header: ['token'],
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: [],
                 type: 'post',
                 noCache: true,
@@ -171,7 +171,7 @@ module.exports = {
                 apiCategory: 'userInfo',
                 api: 'cancelEnterpriseAuthentication',
                 header: ['token'],
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: [],
                 type: 'post',
                 noCache: true,
@@ -210,7 +210,7 @@ module.exports = {
                 customAjax.ajax({
                     apiCategory: 'userInfo',
                     header: ['token'],
-                    // parameType: 'application/json',
+                    // paramsType: 'application/json',
                     api: 'deleteUserFishCertificate',
                     data: [id],
                     val: {id},

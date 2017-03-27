@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { selldetail, home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
@@ -115,6 +115,6 @@ function otherListInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     otherListInit,
 }

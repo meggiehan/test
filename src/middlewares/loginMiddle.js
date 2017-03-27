@@ -1,23 +1,22 @@
 import config from '../config/';
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import {trim, html} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
+
 
 const {cacheUserinfoKey} = config;
 
 /*
  * 判断用户是否登录
  * */
-function isLogin(uuid) {
-    const nativeToken = nativeEvent.getUserValue() || uuid;
+function isLogin() {
+    const nativeToken = store.get("accessToken") || nativeEvent.getUserValue();
     const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
     if (!nativeToken) {
         store.remove(cacheUserinfoKey);
-
         //更新用户中心登录状态
-        if('user' == mainView.activePage.name &&
-            currentPage.find('.login-succ').length &&
-            !nativeEvent.getDataToNative('weixinData')){
+        if ('user' == mainView.activePage.name &&
+            currentPage.find('.login-succ').length && !nativeEvent.getDataToNative('weixinData')) {
             mainView.router.refreshPage();
         }
         return false;
@@ -29,16 +28,36 @@ function isLogin(uuid) {
 /*
  * native通知h5登出，清除h5用户信息
  * */
-function logOut() {
-    store.remove(cacheUserinfoKey);
-    nativeEvent.setDataToNative('weixinData', '');
-    nativeEvent.setUerInfoToNative({
-        inviterId: 0
+function logOut(f7) {
+    f7.modal({
+        title: '退出登录',
+        text: '确认退出登录?',
+        buttons: [
+            {
+                text: '确认',
+                onClick: () => {
+                    store.remove(cacheUserinfoKey);
+                    store.remove("accessToken");
+                    store.set('weixinUnionId', '');
+                    nativeEvent.setDataToNative('weixinData', '');
+                    nativeEvent.setNativeUserInfo();
+                    nativeEvent.setUerInfoToNative({
+                        inviterId: 0
+                    });
+                    nativeEvent.setUerInfoToNative({
+                        unionId: ''
+                    });
+                    mainView.router.load({
+                        url: "views/user.html"
+                    });
+                }
+            },
+            {
+                text: '取消',
+                onClick: () => {}
+            }
+        ]
     });
-    nativeEvent.setUerInfoToNative({
-        unionId: ''
-    });
-    nativeEvent.logOut();
 }
 
 /**
@@ -46,8 +65,10 @@ function logOut() {
  * */
 function activeLogout() {
     store.remove(cacheUserinfoKey);
+    store.remove("accessToken");
     nativeEvent.setNativeUserInfo();
     nativeEvent.setDataToNative('weixinData', '');
+    store.set('weixinUnionId', '');
     nativeEvent.setUerInfoToNative({
         inviterId: 0
     });
@@ -104,8 +125,16 @@ function loginViewShow(phone) {
     loginView.router.load({
         url,
         reload: true
-    })
+    });
     $$('.view-login').addClass('show');
+}
+
+function getToken() {
+    return store.get("accessToken") || nativeEvent.getUserValue();
+}
+
+function setToken(accessToken) {
+    store.set("accessToken", accessToken);
 }
 
 /**
@@ -115,11 +144,13 @@ function loginViewHide() {
     $$('.view-login').removeClass('show');
 }
 
-module.exports = {
+export {
     isLogin,
     logOut,
     loginSucc,
     activeLogout,
     loginViewShow,
-    loginViewHide
-}
+    loginViewHide,
+    getToken,
+    setToken
+};

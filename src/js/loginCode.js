@@ -1,12 +1,20 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
-import { trim, html } from '../utils/string';
+import {trim, html, getCurrentDay, getVersionSetTag} from '../utils/string';
 import nativeEvent from '../utils/nativeEvent';
+import store from '../utils/localStorage';
+import invitationModel from './service/invitation/InvitationModel';
+import {JsBridge} from '../middlewares/JsBridge';
 
 function loginCodeInit(f7, view, page) {
     f7.hideIndicator();
-    const { phone } = page.query;
-    const {  voiceCodeWaitTime } = config;
+    const {phone} = page.query;
+    const {
+        cacheUserinfoKey,
+        waitAddPointerKey,
+        voiceCodeWaitTime,
+        inviteInfoKey
+    } = config;
     const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
     const input = currentPage.find('.login-code-write').children('input')[0];
     const vioceBtn = currentPage.find('.login-code-voice')[0];
@@ -26,7 +34,7 @@ function loginCodeInit(f7, view, page) {
             setTimeout(() => {
                 input.focus();
             }, 500)
-        }else{
+        } else {
             isActiveClick = true;
             vioceBtn.click();
         }
@@ -63,11 +71,11 @@ function loginCodeInit(f7, view, page) {
         const text = `接收语音验证码大概需要${_voiceCodeWaitTime}秒`;
         html(vioceBtn, text, f7);
         _voiceCodeWaitTime--;
-    }
+    };
 
     const callback = (data) => {
         isSend = false;
-        const { code } = data;
+        const {code} = data;
         if (1 == code) {
             nativeEvent.nativeToast(1, isActiveClick ? '当前使用短信服务的人过多，已为你发送语音验证码!' : '语音验证码已拨出，请注意接听！');
             const setIntervalId = setInterval(() => {
@@ -106,9 +114,52 @@ function loginCodeInit(f7, view, page) {
             noCache: true,
             isMandatory: true
         }, callback);
-    }
+    };
 
     weixinData && currentPage.find('.login-code-submit').text('绑定手机号');
+
+    const loginCallBack = (result) => {
+        f7.hideIndicator();
+        f7.hidePreloader();
+        const {code, message, data} = result;
+        if (1 == code) {
+            store.set("accessToken", data.token);
+            store.set('cacheUserinfoKey', data.userInfoView);
+            (weixinData && store.get('weixinUnionId')) ?
+                getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
+            store.set('weixinUnionId', '');
+            store.set('weixinData', '');
+            if(data.userInfoView.fishCarDriverId){
+                store.set('isFishCar', 1);
+            }
+
+            //设置别名
+            JsBridge('JS_SetTagsWithAlias', {
+                tags: [
+                    getCurrentDay().replace('/', '').replace('/', ''),
+                    getVersionSetTag()
+                ],
+                alias: `${data.userInfoView.id}`
+            }, () => {}, f7);
+
+            if (1 == store.get(waitAddPointerKey)) {
+                const {invitationCode} = store.get(inviteInfoKey);
+                invitationModel.acceptInvitation(invitationCode);
+            }
+        }else if(6 == code){
+            f7.alert(message, '温馨提示', () => {
+                $$(input).val('').focus();
+                $$(subBtn).removeClass('on');
+                isPass = false;
+            });
+        }else if(101 == code){
+            window.phoneBindFaild();
+        } else {
+            f7.alert(message, '提示', () => {
+                mainView.router.refreshPage();
+            });
+        }
+    };
 
     /**
      * 调用native登录接口
@@ -118,11 +169,26 @@ function loginCodeInit(f7, view, page) {
             return;
         }
         f7.showPreloader(weixinData ? '绑定手机号中...' : '登录中...');
-        nativeEvent.nativeLogin(phone, input.value);
-    }
+        // nativeEvent.nativeLogin(phone, input.value);
+        // 登录
+        customAjax.ajax({
+            apiCategory: 'auth',
+            data: {
+                phone: phone,
+                code: input.value,
+                unionId: store.get('weixinUnionId')
+            },
+            paramsType: 'application/json',
+            type: 'post',
+            noCache: true,
+            isMandatory: true,
+            apiVersion: 2
+        }, loginCallBack);
+
+    };
     subBtn.onclick = userLogin;
 }
 
-module.exports = {
+export {
     loginCodeInit
-}
+};

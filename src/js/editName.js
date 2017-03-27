@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { getName, trim } from '../utils/string';
 import { logOut } from '../middlewares/loginMiddle';
@@ -84,6 +84,6 @@ function editNameInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     editNameInit
 }

@@ -1,7 +1,17 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
-import {html, trim, getFishTankId, getOxygenTankId, getProvinceId, getFishTankName, getOxygenTankName} from '../utils/string';
+import {
+    html,
+    trim,
+    getFishTankId,
+    getOxygenTankId,
+    getProvinceId,
+    getFishTankName,
+    getOxygenTankName,
+    getProvinceList,
+    getCreateDriverListLabel
+} from '../utils/string';
 import {fishCar} from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 
@@ -15,48 +25,103 @@ function postDriverInfoInit(f7, view, page) {
     let selectFishTankNumber = '';
     let selectedFishTankMaterial = '';
     let selectOxygenTankMaterial = '';
+    const {androidChrome} = currentDevice;
 
     /**
      * 路线范围选择
      * */
-    f7.picker({
-        input: currentPage.find('.post-driver-select-address'),
-        toolbarCloseText: '确定',
-        rotateEffect: true,
-        // value: [selectedAddress || ''],
-        cols: [
-            {
-                textAlign: 'center',
-                values: ['全国', '多条路线']
-            }
-        ],
-        onChange: (a,b) => {
-            if('全国' != b[0]){
-                currentPage.find('.add-address-click-box').show();
-            }else{
-                currentPage.find('.add-address-click-box').hide();
-            }
-        }
-    });
+    // f7.picker({
+    //     input: currentPage.find('.post-driver-select-address'),
+    //     toolbarCloseText: '确定',
+    //     rotateEffect: true,
+    //     // value: [selectedAddress || ''],
+    //     cols: [
+    //         {
+    //             textAlign: 'center',
+    //             values: ['全国', '多条路线']
+    //         }
+    //     ],
+    //     onChange: (a,b) => {
+    //         if('全国' != b[0]){
+    //             currentPage.find('.add-address-click-box').show();
+    //         }else{
+    //             currentPage.find('.add-address-click-box').hide();
+    //         }
+    //     }
+    // });
 
     /**
      * 添加路线
      * 编辑路线，存入点击的index
      * */
-    currentPage.find('.post-driver-select')[0].onclick = (e) => {
+    f7.picker({
+        input: currentPage.find('.add-address-click-box').children('input'),
+        toolbarCloseText: '确定',
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
+        cssClass: 'post-fish-car-driver',
+        onOpen: (p) => {
+            $$('.post-fish-car-driver .close-picker').click(() => {
+                const val = p.value[0];
+                const length = currentPage.find('.post-select-address').length;
+                if (currentPage.find('.post-select-address').length < 5) {
+                    currentPage.find('.address-list').append(fishCar.selectAddress(length, val));
+                    currentPage.find('.add-address-click-box').css({display: '-webkit-flex'});
+                }
+                5 == currentPage.find('.post-select-address').length &&
+                currentPage.find('.add-address-click-box').hide();
+            })
+        },
+        cols: [
+            {
+                textAlign: 'center',
+                values: getProvinceList()
+            }
+        ]
+    });
+
+    const sortList = () => {
+        const len = currentPage.find('.post-select-address').length;
+        len && $$.each(currentPage.find('.post-select-address'), (index, item) => {
+            $$(item).find('.item-title').text(`地区${getCreateDriverListLabel(index)}`);
+        })
+    }
+
+    currentPage.find('.address-list').click((e) => {
         const ele = e.target || window.event.target;
-        //添加路线，弹出model
-        if($$(ele).hasClass('add-item-btn')){
-            $$('.edit-driver-address-model').addClass('add');
-            return;
+        if ($$(ele).hasClass('post-driver-name')) {
+            f7.confirm('您确定要删除这条地区吗?', '删除地区', () => {
+                const len = currentPage.find('.post-select-address').length;
+                if (5 == len) {
+                    currentPage.find('.add-address-click-box').css({
+                        display: '-webkit-flex'
+                    })
+                }
+                $$(ele).parents('.post-select-address').remove();
+                sortList();
+            }, () => {
+            })
         }
 
-        if((!(ele.tagName == 'INPUT' && !$$(ele).hasClass('post-driver-select-address')))){
-            return;
-        }
-        window.addressIndex = Number($$(ele).parent().prev().attr('data-index'));
-        $$('.edit-driver-address-model').addClass('edit');
-    }
+    });
+
+
+    // currentPage.find('.post-driver-select')[0].onclick = (e) => {
+    //     const ele = e.target || window.event.target;
+    //     //添加路线，弹出model
+    //     if($$(ele).hasClass('add-item-btn')){
+    //         $$('.edit-driver-address-model').addClass('add');
+    //
+    //
+    //         return;
+    //     }
+    //
+    //     if((!(ele.tagName == 'INPUT' && !$$(ele).hasClass('post-driver-select-address')))){
+    //         return;
+    //     }
+    //     window.addressIndex = Number($$(ele).parent().prev().attr('data-index'));
+    //     $$('.edit-driver-address-model').addClass('edit');
+    // };
 
     /**
      * 鱼罐方数选择
@@ -64,7 +129,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-size'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectedFishTankSize || ''],
         cols: [
             {
@@ -82,7 +148,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box-number'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectFishTankNumber || ''],
         cols: [
             {
@@ -113,7 +180,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-box'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectedFishTankMaterial || ''],
         cols: [
             {
@@ -129,7 +197,8 @@ function postDriverInfoInit(f7, view, page) {
     f7.picker({
         input: currentPage.find('.post-driver-fish-oxygen-tank'),
         toolbarCloseText: '确定',
-        rotateEffect: true,
+        rotateEffect: !androidChrome,
+        textAlign: 'center',
         // value: [selectOxygenTankMaterial || ''],
         cols: [
             {
@@ -146,7 +215,7 @@ function postDriverInfoInit(f7, view, page) {
     currentPage.find('.post-driver-device-list').html(fishCar.tagList());
     currentPage.find('.post-driver-device-list')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        if(ele.tagName != 'SPAN'){
+        if (ele.tagName != 'SPAN') {
             return;
         }
         $$(ele).toggleClass('on');
@@ -155,18 +224,24 @@ function postDriverInfoInit(f7, view, page) {
     /**
      * 获取鱼车配送路线
      * */
-    function getFishCarAddress(){
+    function getFishCarAddress() {
         let res = [];
         $$.each(currentPage.find('.post-select-address'), (index, item) => {
-            const valArr = $$(item).find('input').val().split('-');
-            const onlyStart = 1 == valArr.length ? valArr[0].substring(0,valArr[0].length-1) : '';
-            const startId = onlyStart ? getProvinceId(onlyStart)['provinceId'] : '';
+            const val = $$(item).find('input').val();
+            // const valArr = $$(item).find('input').val().split('-');
+            // const onlyStart = 1 == valArr.length ? valArr[0].substring(0, valArr[0].length - 1) : '';
+            // const startId = onlyStart ? getProvinceId(onlyStart)['provinceId'] : '';
+            // res.push({
+            //     departureProvinceId: startId || getProvinceId(valArr[0])['provinceId'],
+            //     departureProvinceName: onlyStart || valArr[0],
+            //     destinationProvinceId: startId || getProvinceId(valArr[1])['provinceId'],
+            //     destinationProvinceName: onlyStart || valArr[1],
+            // })
             res.push({
-                departureProvinceId: startId || getProvinceId(valArr[0])['provinceId'],
-                departureProvinceName: onlyStart || valArr[0],
-                destinationProvinceId: startId || getProvinceId(valArr[1])['provinceId'],
-                destinationProvinceName: onlyStart || valArr[1],
+                provinceId: getProvinceId(val)['provinceId'],
+                provinceName: val
             })
+
         })
         return res;
     }
@@ -174,10 +249,10 @@ function postDriverInfoInit(f7, view, page) {
     /**
      * 获取标签列表
      * */
-    function getTagList(){
+    function getTagList() {
         let res = [];
         $$.each(currentPage.find('.post-driver-device-list').children('span'), (index, item) => {
-            if($$(item).hasClass('on')){
+            if ($$(item).hasClass('on')) {
                 res.push({
                     id: $$(item).attr('data-id'),
                     tagName: $$(item).text()
@@ -190,10 +265,10 @@ function postDriverInfoInit(f7, view, page) {
     /**
      * 点击提交申请
      * */
-    function callback(data){
+    function callback(data) {
         const {code, message} = data;
-        if(1 == code){
-            if(id){
+        if (1 == code) {
+            if (id) {
                 nativeEvent.nativeToast('1', '修改成功！');
                 view.router.load({
                     url: 'views/user.html'
@@ -203,10 +278,10 @@ function postDriverInfoInit(f7, view, page) {
             view.router.load({
                 url: 'views/recruitDriverSuccess.html'
             })
-        }else if(8 == code || 4 == code){
+        } else if (8 == code || 4 == code) {
             f7.alert(message);
-        }else{
-            console.log(message);
+        } else {
+            f7.alert(message);
         }
         f7.hideIndicator();
     }
@@ -216,38 +291,38 @@ function postDriverInfoInit(f7, view, page) {
      * 提交信息验证
      * */
     currentPage.find('.submit-btn')[0].onclick = () => {
-        const selectAddress = trim(currentPage.find('.post-driver-select-address').val());
+        // const selectAddress = trim(currentPage.find('.post-driver-select-address').val());
         const fishTank = trim(currentPage.find('.post-driver-fish-box').val());
         const fishTankSize = trim(currentPage.find('.post-driver-fish-box-size').val());
         const fishBoxNumber = trim(currentPage.find('.post-driver-fish-box-number').val());
         const fishOxygenTank = trim(currentPage.find('.post-driver-fish-oxygen-tank').val());
         let errors = '';
 
-        if(!fishOxygenTank){
+        if (!fishOxygenTank) {
             errors = '请选择氧气罐材质！';
         }
 
-        if(!fishBoxNumber){
+        if (!fishBoxNumber) {
             errors = '请填写分箱数！';
         }
 
-        if(!fishTankSize){
+        if (!fishTankSize) {
             errors = '请填写鱼罐方数！';
         }
 
-        if(!fishTank){
+        if (!fishTank) {
             errors = '请选择鱼罐材质！';
         }
 
-        if('多条路线' == selectAddress && !currentPage.find('.post-select-address').length){
-            errors = '请您添加路线！';
+        if (!currentPage.find('.post-select-address').length) {
+            errors = '请您添加地区！';
         }
 
-        if(!selectAddress){
-            errors = '请选择路线范围！';
-        }
+        // if (!selectAddress) {
+        //     errors = '请选择路线范围！';
+        // }
 
-        if(errors){
+        if (errors) {
             f7.alert(errors);
             return;
         }
@@ -270,26 +345,26 @@ function postDriverInfoInit(f7, view, page) {
             fishTankSize: Number(fishTankSize.replace('方', '')),
             fishTankBoxCount: Number(fishBoxNumber.replace('个', '')),
             oxygenTankMaterial: getOxygenTankId(fishOxygenTank),
-            routeList: getFishCarAddress(),
+            routineList: getFishCarAddress(),
             auxiliaryList: getTagList()
-        }
-        if(id){
+        };
+        if (id) {
             customAjax.ajax({
                 apiCategory: 'fishCarDrivers',
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: data,
                 header: ['token'],
                 type: 'put',
-                val:{
+                val: {
                     id
                 },
                 isMandatory: true,
                 noCache: true
             }, callback);
-        }else{
+        } else {
             customAjax.ajax({
                 apiCategory: 'postFishCars',
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: data,
                 type: 'post',
                 isMandatory: true,
@@ -302,9 +377,9 @@ function postDriverInfoInit(f7, view, page) {
      * 如果存在id，则是修改，反则是新增申请
      * 填满返回的信息
      * */
-    if(!id){
+    if (!id) {
         f7.hideIndicator();
-    }else{
+    } else {
         currentPage.find('.submit-btn').children().text('提交修改');
         const {
             routeList,
@@ -314,28 +389,35 @@ function postDriverInfoInit(f7, view, page) {
             fishTankBoxCount,
             oxygenTankMaterial,
             fishTankSize,
-            auxiliaryList
+            auxiliaryList,
+            routineList
         } = window.driverData;
         //render路线
-        if(routeList && routeList.length){
-            selectedAddress = '多条路线';
-            currentPage.find('.post-driver-select-address').val('多条路线');
-            currentPage.find('.add-address-click-box').remove();
+        // if (routeList && routeList.length) {
+            // selectedAddress = '多条路线';
+            // currentPage.find('.post-driver-select-address').val('多条路线');
+            // currentPage.find('.add-address-click-box').remove();
 
-            $$.each(routeList, (index, item) => {
-                const {departureProvinceName, destinationProvinceName} = item;
-                const address = departureProvinceName == destinationProvinceName ?
-                    `${destinationProvinceName}内` : `${departureProvinceName}-${destinationProvinceName}`;
-                currentPage.find('.post-driver-select').append(fishCar.selectAddress(index, address));
-            })
+            // $$.each(routineList, (index, item) => {
+            //     const {departureProvinceName, destinationProvinceName} = item;
+            //     const address = departureProvinceName == destinationProvinceName ?
+            //         `${destinationProvinceName}内` : `${departureProvinceName}-${destinationProvinceName}`;
+            //     currentPage.find('.post-driver-select').append(fishCar.selectAddress(index, address));
+            // })
 
-            if(currentPage.find('.post-select-address').length < 5){
-                currentPage.find('.post-driver-select').append(fishCar.addBtn());
+            $$.each(routineList, (index, item) => {
+                const {provinceName} = item;
+                currentPage.find('.address-list').append(fishCar.selectAddress(index, provinceName));
+            });
+
+            if (currentPage.find('.post-select-address').length == 5) {
+                currentPage.find('.add-address-click-box').hide();
             }
-        }else{
-            selectedAddress = '全国';
-            currentPage.find('.post-driver-select-address').val('全国');
-        }
+        // }
+        // } else {
+        //     selectedAddress = '全国';
+        //     currentPage.find('.post-driver-select-address').val('全国');
+        // }
 
         //填写鱼罐材质
         currentPage.find('.post-driver-fish-box').val(getFishTankName(fishTankMaterial));
@@ -354,20 +436,18 @@ function postDriverInfoInit(f7, view, page) {
         selectOxygenTankMaterial = getOxygenTankName(oxygenTankMaterial);
 
         //填选辅助设备
-        if(auxiliaryList && auxiliaryList.length){
+        if (auxiliaryList && auxiliaryList.length) {
             $$.each(auxiliaryList, (index, item) => {
                 currentPage.find('.post-driver-device-list').children(`span[data-id="${item.id}"]`).addClass('on');
             })
         }
 
         //填写证件
-        roadTransportQualificationCertificate && currentPage.find('.post-box').children('.left').children('div').
-        html(`<img src="${roadTransportQualificationCertificate}${identity['individual']}" />`);
-        roadTransportCertificate && currentPage.find('.post-box').children('.right').children('div').
-        html(`<img src="${roadTransportCertificate}${identity['individual']}" />`);
+        roadTransportQualificationCertificate && currentPage.find('.post-box').children('.left').children('div').html(`<img src="${roadTransportQualificationCertificate}${identity['individual']}" />`);
+        roadTransportCertificate && currentPage.find('.post-box').children('.right').children('div').html(`<img src="${roadTransportCertificate}${identity['individual']}" />`);
     }
 }
 
-module.exports = {
+export {
     postDriverInfoInit
 }

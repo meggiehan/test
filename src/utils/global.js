@@ -1,6 +1,6 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
-import store from '../utils/locaStorage';
+import store from './localStorage';
 import framework7 from '../js/lib/framework7';
 import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
@@ -157,7 +157,7 @@ class CustomClass {
             apiCategory: 'userInfo',
             api: 'addUserFishCertificate',
             header: ['token'],
-            // parameType: 'application/json',
+            // paramsType: 'application/json',
             data: [path, uploadFilename, fileSize],
             type: 'post',
             noCache: true,
@@ -171,8 +171,10 @@ class CustomClass {
         /*
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
+         *   status == '2':微信绑定手机号
          */
-        !Number(status) && nativeEvent.nativeToast(1, '登录成功！');
+        (0 == status) && nativeEvent.nativeToast(1, '登录成功！');
+        (2 == status) && nativeEvent.nativeToast(1, '手机号绑定成功！');
         loginViewHide();
         f7.hideIndicator();
         if('user' == mainView.activePage.name){
@@ -181,7 +183,7 @@ class CustomClass {
         }else if('bindAccount' == mainView.activePage.name){
             mainView.router.load({
                 url: 'views/user.html'
-            })
+            });
             f7.hidePreloader();
         }else{
             const loginCallback = (data) => {
@@ -292,6 +294,9 @@ class CustomClass {
         if($$('.view-login').hasClass('show')){
             const currentNavbar = $$($$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
+        }else if($$('.view-release-fish').hasClass('show')){
+            const currentNavbar = $$($$('.view-release-fish .navbar>.navbar-inner')[$$('.view-release-fish .navbar>.navbar-inner').length - 1]);
+            currentNavbar.find('.iconfont').click();
         }else{
             if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
                 const { ios, android } = window.currentDevice;
@@ -329,7 +334,7 @@ class CustomClass {
                         url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
                     })
                 }
-            }
+            };
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getDemandInfo',

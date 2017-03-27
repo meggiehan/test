@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { deal } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
@@ -101,6 +101,6 @@ function dealListInit(f7, view, page) {
     })
 }
 
-module.exports = {
+export {
     dealListInit
 }

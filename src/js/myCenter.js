@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { getName, getAddressIndex } from '../utils/string';
 import { logOut, isLogin } from '../middlewares/loginMiddle';
@@ -12,7 +12,7 @@ function myCenterInit(f7, view, page) {
         mainView.router.load({
             url: 'views/login.html',
             reload: true
-        })
+        });
         return;
     }
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
@@ -50,12 +50,14 @@ function myCenterInit(f7, view, page) {
             cityIndex
         } = getAddressIndex(provinceName, cityName);
         nativeEvent.eventChooseAddress(1, provinceIndex, cityIndex);
-    }
+    };
 
     /**
      * 退出登录
      * */
-    currentPage.find('.my-center-logout')[0].onclick = logOut;
+    currentPage.find('.my-center-logout')[0].onclick = () => {
+        logOut(f7);
+    };
 
     /**
      * 跳转至修改昵称页面
@@ -67,6 +69,6 @@ function myCenterInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     myCenterInit
 }

@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
@@ -46,7 +46,7 @@ function myListInit(f7, view, page) {
         if(ele.className.indexOf('my-list-guide-model') > -1 || ele.className.indexOf('footer') > -1){
             $$('.my-list-guide-model').removeClass('on');
         }
-    }
+    };
 
     const sellEmpty = currentPage.find('.sell-collection-list-empty');
     const buyEmpty = currentPage.find('.buy-collection-list-empty');
@@ -227,7 +227,7 @@ function myListInit(f7, view, page) {
                 apiCategory: 'demandInfo',
                 api: 'refreshLog',
                 header: ['token'],
-                parameType: 'application/json',
+                paramsType: 'application/json',
                 data: [clickInfoId, 'refresh'],
                 val:{
                     id:clickInfoId,
@@ -281,12 +281,12 @@ function myListInit(f7, view, page) {
                 webUrl: `${shareUrl}${listItem.id}`,
                 imgUrl: shareImg,
                 description
-            }
+            };
             $$('.share-to-weixin-model').addClass('on')
         }
     }
 }
 
-module.exports = {
+export {
     myListInit
 }

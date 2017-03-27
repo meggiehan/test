@@ -1,17 +1,39 @@
 import customAjax from '../middlewares/customAjax';
 import {home} from '../utils/template';
-import {html} from '../utils/string';
+import {html, getName} from '../utils/string';
 import config from '../config';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll, get} from '../utils/locaStorage';
+import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {getDealTime} from '../utils/time';
+import Vue from 'vue';
+// import {weixinAction} from './service/login/loginCtrl';
+// import {JsBridge} from '../middlewares/JsBridge';
+import store from '../utils/localStorage';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
-    const {fishCacheObj} = config;
+    const {fishCacheObj, cacheUserinfoKey} = config;
+
+    /**
+     * vue的数据模型
+     * */
+    const vueHome = new Vue({
+        el: currentPage.find('.home-vue-box')[0],
+        data: {
+            homeData: {
+                trades: '',
+                banners: [],
+                fishTags: ''
+            },
+            getName,
+            getDealTime
+        }
+    });
+
     /*
      * 判断是否有数据缓存，如果有就直接显示
      * */
@@ -20,82 +42,69 @@ function homeInit(f7, view, page) {
         currentPage.find('.home-loading').hide();
     }
 
-    /*
-     * 成交列表 render
-     * 鱼种标签 render
-     * 成交记录 render
+    /**
+     * 初始化slider
      * */
-    const renderDealList = (data) => {
-        let dealHtml = '';
-        $$.each(data, (index, item) => {
-            dealHtml += home.dealInfo(item);
-        })
-        html(currentPage.find('.home-deal-info-list'), dealHtml);
-    }
-    const renderBanners = (data) => {
-        let bannerHtml = '';
-        $$.each(data, (index, item) => {
-            bannerHtml += home.banner(item);
-        })
-        bannerHtml && html(currentPage.find('.swiper-wrapper'), bannerHtml, f7);
-        bannerHtml && currentPage.find('.home-slider').show();
+    const initSlider = () => {
         /*
          * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
          * */
-        if(window.yudadaSwiper){
+        if (window.yudadaSwiper) {
             window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
         }
-        if (data.length > 1) {
-            window.yudadaSwiper = f7.swiper('.swiper-slow', {
-                pagination: currentPage.find('.swiper-pagination'),
-                lazyLoading: true,
-                paginationClickable: true,
-                initialSlide: 0,
-                speed: 400,
-                autoplay: 4000,
-                centeredSlides: true,
-                loop: true,
-                autoplayDisableOnInteraction: true,
-                onTouchStart: (swiper, e) => {
-                    if($$.isArray(window.yudadaSwiper)){
-                        window.yudadaSwiper[window.yudadaSwiper.length - 1].stopAutoplay();
-                    }else{
-                        window.yudadaSwiper.stopAutoplay();
-                    }
-                },
-                onTouchEnd: (swiper, e) => {
-                    /*
-                     * 为了解决手动滑动后，焦点选择错误以及自动滚动关闭的bug
-                     * */
-                    setTimeout(() => {
-                        const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
-                        currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
-                        currentPage.find('.swiper-pagination').children('span').removeClass('hide');
-                        if($$.isArray(window.yudadaSwiper)){
-                            window.yudadaSwiper[window.yudadaSwiper.length - 1].startAutoplay();
-                        }else{
-                            window.yudadaSwiper.startAutoplay();
-                        }
-                    }, 80)
+        window.yudadaSwiper = f7.swiper('.swiper-slow', {
+            pagination: currentPage.find('.swiper-pagination'),
+            lazyLoading: true,
+            paginationClickable: true,
+            initialSlide: 0,
+            speed: 400,
+            autoplay: 4000,
+            centeredSlides: true,
+            loop: true,
+            autoplayDisableOnInteraction: true,
+            onTouchStart: (swiper, e) => {
+                if ($$.isArray(window.yudadaSwiper)) {
+                    window.yudadaSwiper[window.yudadaSwiper.length - 1].stopAutoplay();
+                } else {
+                    window.yudadaSwiper.stopAutoplay();
                 }
-            })
-        }else{
-            currentPage.find('.swiper-pagination').children('span').addClass('hide');
-        }
-    }
+            },
+            onTouchEnd: (swiper, e) => {
+                /*
+                 * 为了解决手动滑动后，焦点选择错误以及自动滚动关闭的bug
+                 * */
+                setTimeout(() => {
+                    const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
+                    currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
+                    if ($$.isArray(window.yudadaSwiper)) {
+                        window.yudadaSwiper[window.yudadaSwiper.length - 1].startAutoplay();
+                    } else {
+                        window.yudadaSwiper.startAutoplay();
+                    }
+                }, 80)
+            }
+        })
+    };
 
     const renderFishTags = (tagList) => {
         console.log('render tag list!')
-    }
+    };
+
+    /**
+     * 绑定部分vue的数据源
+     * slider列表数据、成交记录列表、鱼种分类列表
+     * */
     const initDataCallback = (data) => {
         const {banners, trades, fishTags} = data.data;
         if (1 == data.code) {
-            banners && banners.length && renderBanners(banners);
-            trades && trades.length && renderDealList(trades);
-            fishTags && fishTags.length && renderFishTags(fishTags);
+            vueHome.homeData = data.data;
+            banners && banners.length && setTimeout(initSlider, 100);
             return;
+        } else {
+            console.log(data.message);
         }
-    }
+    };
+
     customAjax.ajax({
         apiCategory: 'initPage',
         data: ['2'],
@@ -108,13 +117,13 @@ function homeInit(f7, view, page) {
      * */
     setTimeout(() => {
         const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-        if(fishCacheData && fishCacheData.length){
+        if (fishCacheData && fishCacheData.length) {
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {
-                if(index <= 2){
+                if (index <= 5) {
                     str += home.renderFishList(item, index);
                 }
-            })
+            });
             currentPage.find('.fish-cache-list').html(str);
             str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
         }
@@ -129,7 +138,7 @@ function homeInit(f7, view, page) {
             let catListHtml = '';
             $$.each(saleDemands, (index, item) => {
                 catListHtml += home.cat(item);
-            })
+            });
             html(currentPage.find('.cat-list-foreach'), catListHtml, f7);
         }
 
@@ -137,7 +146,7 @@ function homeInit(f7, view, page) {
             let buyListHtml = '';
             $$.each(buyDemands, (index, item) => {
                 buyListHtml += home.buy(item);
-            })
+            });
             html(currentPage.find('.buy-list-foreach'), buyListHtml, f7);
         }
         currentPage.find('.ajax-content').show(200);
@@ -146,7 +155,7 @@ function homeInit(f7, view, page) {
         //pull to refresh done.
         f7.pullToRefreshDone();
         currentPage.find('img.lazy').trigger('lazy');
-    }
+    };
     /*
      * 获取首页信息
      * */
@@ -163,6 +172,7 @@ function homeInit(f7, view, page) {
             onlyUseCache
         }, callback);
     }
+
     getHomeListInfo(false, true);
 
     /*
@@ -184,7 +194,7 @@ function homeInit(f7, view, page) {
         view.router.load({
             url: 'views/search.html'
         })
-    })
+    });
 
     /*
      * 点击活动banner，打开第三方webview.
@@ -194,22 +204,30 @@ function homeInit(f7, view, page) {
         if ($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG') {
             const isNeedLogin = $$(ele).attr('data-login') || $(ele).parent().attr('data-login');
             if (!!Number(isNeedLogin) && !isLogin()) {
-                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow)
+                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
                 return;
             }
-            const access_token = nativeEvent.getUserValue();
+            const access_token = store.get('accessToken');
             let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            isNeedLogin && (openUrl += `/${access_token}`);
-            nativeEvent.goNewWindow(openUrl);
-        }
-    }
+            const openType = $(ele).attr('data-type') || $(ele).parent().attr('data-type');
+            if (0 == openType) {
+                isNeedLogin && (openUrl += `/${access_token}`);
+                nativeEvent.goNewWindow(openUrl);
+            }
 
-    /*
-     * 调用微信登录
-     * */
-    if ($$('.weixin-login-btn').length) {
-        $$('.weixin-login-btn')[0].onclick = nativeEvent.callWeixinLogin;
-    }
+            if (1 == openType) {
+                mainView.router.load({
+                    url: openUrl
+                });
+            }
+            if (2 == openType) {
+                f7.showIndicator();
+                mainView.router.load({
+                    url: openUrl
+                });
+            }
+        }
+    };
 
     /*
      * 前往发布信息页面
@@ -223,7 +241,7 @@ function homeInit(f7, view, page) {
         view.router.load({
             url: 'views/release.html'
         })
-    }
+    };
 
     /**
      * 担保交易提示
@@ -231,9 +249,34 @@ function homeInit(f7, view, page) {
     currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
         f7.alert('担保交易功能即将上线，敬请期待！');
         return;
-    }
+    };
 
-    // //存储数据
+    /**
+     *当前登录角色通过司机审核时,之间跳转至需求列表
+     *如果有选择历史,优先选择历史的选择
+     * */
+    currentPage.find('.callFishCar').click(() => {
+        const userInfo = store.get(cacheUserinfoKey);
+        const {driverState} = userInfo || {};
+        const isFishCar = store.get('isFishCar');
+
+        if (isFishCar || 0 === isFishCar) {
+            mainView.router.load({
+                url: `views/fishCar.html?isFishCar=${isFishCar}`
+            });
+            return;
+        }
+
+        if (isLogin() && (1 == driverState)) {
+            mainView.router.load({
+                url: 'views/fishCar.html?isFishCar=1'
+            });
+            return;
+        }
+        $$('.fish-car-modal').addClass('on');
+    });
+
+    // // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = {
     //         sk:123,
@@ -243,37 +286,89 @@ function homeInit(f7, view, page) {
     //     // nativeEvent.setDataToNative('sk', a);
     //     nativeEvent.setUerInfoToNative(a);
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(1)[0].onclick = () => {
     //     console.log(nativeEvent.getDataToNative('sk'));
     // }
-
+    //
     // //分享
     // $$('#shareToWeixin').children().eq(2)[0].onclick = () => {
-    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(0, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(3)[0].onclick = () => {
-    //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(1, 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png');
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(4)[0].onclick = () => {
     //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(2, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
     // }
-
+    //
     // $$('#shareToWeixin').children().eq(5)[0].onclick = () => {
     //     // '//www.baidu.com/img/baidu_jgylogo3.gif'
     //     nativeEvent.shareInfoToWeixin(3, 'http://baidu.com', 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png', '测试', '我是分享测试');
-    // }
-
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(6)[0].onclick = () => {
+    //     JsBridge('JS_GetUUid', '', (data) => {
+    //         alert(`设备号：${data}`)
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(7)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 0,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(8)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 1,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(9)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 2,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
+    // $$('#shareToWeixin').children().eq(10)[0].onclick = () => {
+    //     JsBridge('JS_QQSceneShare', {
+    //         type: 3,
+    //         imageUrl: 'http://img.yudada.com/fileUpload/img/demand_img/20161128/1480322100_9070.png',
+    //         title: '鱼大大',
+    //         describe: "鱼大大老好了",
+    //         webUrl: 'http://www.baidu.com'
+    //     }, (data) => {
+    //         console.log(data + '----' + '我好了')
+    //     });
+    // };
+    //
     // $$('#wei-xin-login')[0].onclick = () => {
     //     nativeEvent.callWeixinLogin();
     // }
 }
 
-module.exports = {
+export {
     homeInit
 }

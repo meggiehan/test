@@ -36,6 +36,11 @@
                 }
             }
         }
+        .time-desc {
+            position: absolute;
+            top: 2.7rem;
+            right: 2rem;
+        }
         .head-tell {
             display: block;
             .ps-a;
@@ -57,9 +62,13 @@
         }
     }
     .driver-info-address {
+        border-bottom: 0.1rem solid #F2F2F2;
+        color: @text-name;
+        font-size: 1.5rem;
+        line-height: 1.6;
+        padding: 1rem;
         background: @bg-fff;
         .text-shadow(@bg-fff);
-        padding-left: 1rem;
         .item-content {
             padding: 0;
             font-size: 1.4rem;
@@ -168,5 +177,13 @@
             }
         }
 
+    }
+    .toolbar .toolbar-inner .release-sub-info{
+        width: 60%;
+        margin:0 auto;
+        background: @bg-v;
+        .text-shadow(@bg-v);
+        color: @text-fff;
+        border-radius: 0.3rem;
     }
 }

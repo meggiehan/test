@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { getName, trim } from '../utils/string';
 import { getDate } from '../utils/time';
@@ -67,6 +67,6 @@ function inviteFriendsInit(f7, view, page) {
     }
 }
 
-module.exports = {
+export {
     inviteFriendsInit
 }

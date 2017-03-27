@@ -1,4 +1,4 @@
-import store from '../utils/locaStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import { getName, trim } from '../utils/string';
 import { getDate, timeDifference } from '../utils/time';
@@ -69,7 +69,7 @@ function inviteCodeInit(f7, view, page) {
             apiCategory: 'inviteter',
             data: [trim(codeInput.val())],
             header: ['token'],
-            parameType: 'application/json',
+            paramsType: 'application/json',
             type: 'post',
             noCache: true,
         }, callback);
@@ -77,6 +77,6 @@ function inviteCodeInit(f7, view, page) {
 
 }
 
-module.exports = {
+export {
     inviteCodeInit
 }
