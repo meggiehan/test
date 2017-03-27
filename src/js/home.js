@@ -204,19 +204,28 @@ function homeInit(f7, view, page) {
         if ($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG') {
             const isNeedLogin = $$(ele).attr('data-login') || $(ele).parent().attr('data-login');
             if (!!Number(isNeedLogin) && !isLogin()) {
-                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow)
+                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
                 return;
             }
-            const access_token = nativeEvent.getUserValue();
+            const access_token = store.get('accessToken');
             let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            if (openUrl && openUrl.indexOf('http') == -1) {
-                mainView.router.load({
-                    url: 'views/MVP.html'
-                });
-                return;
+            const openType = $(ele).attr('data-type') || $(ele).parent().attr('data-type');
+            if (0 == openType) {
+                isNeedLogin && (openUrl += `/${access_token}`);
+                nativeEvent.goNewWindow(openUrl);
             }
-            isNeedLogin && (openUrl += `/${access_token}`);
-            nativeEvent.goNewWindow(openUrl);
+
+            if (1 == openType) {
+                mainView.router.load({
+                    url: openUrl
+                });
+            }
+            if (2 == openType) {
+                f7.showIndicator();
+                mainView.router.load({
+                    url: `${openUrl}`
+                });
+            }
         }
     };
 
