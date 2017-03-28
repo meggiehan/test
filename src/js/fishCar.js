@@ -8,7 +8,7 @@ import store from '../utils/localStorage';
 import {releaseFishViewHide, releaseFishViewShow} from './releaseView/releaseFishViews';
 
 function fishCarInit(f7, view, page) {
-    const {pageSize, cacheUserinfoKey} = config;
+    const {pageSize, cacheUserInfoKey} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const contentBox = currentPage.find('.page-list-view').children('.list');
@@ -35,7 +35,7 @@ function fishCarInit(f7, view, page) {
      * */
     currentPage.find('.tabbat-text').children('span').click(() => {
         const loginStatus = isLogin();
-        const userInfo = store.get(cacheUserinfoKey);
+        const userInfo = store.get(cacheUserInfoKey);
         const {driverState, driverRefuseDescribe} = userInfo || {};
 
         if (Number(isFishCar)) {

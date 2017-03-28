@@ -23,11 +23,11 @@ function userInit(f7, view, page) {
     let loginStatus = isLogin();
     const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
     const {
-        cacheUserinfoKey,
+        cacheUserInfoKey,
         imgPath,
         mWebUrl
     } = config;
-    let userInformation = store.get(cacheUserinfoKey);
+    let userInformation = store.get(cacheUserInfoKey);
     const weixinData = nativeEvent.getDataToNative('weixinData');
 
     /**
@@ -51,48 +51,15 @@ function userInit(f7, view, page) {
         currentPage.find('.user-app-version').hide();
     }
 
-
-    /*
-     * 生成二维码
-     * */
-    const qrCodeFun = (data) => {
-        const {
-            scanLink,
-            imgUrl,
-            invitationCode
-        } = data || {scanLink: 'http://baidu.com'};
-        if (!$$('.picker-invite-code-content>img').length) {
-            window.qrcodeObj = new QRCode($$('.picker-invite-code-content')[0], {
-                text: scanLink,
-                height: 180,
-                width: 180,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            })
-        } else {
-            window.qrcodeObj.clear(); // clear the code.
-            window.qrcodeObj.makeCode(scanLink); // make another code.
-        }
-
-        if (imgUrl) {
-            $$('.picker-invite-head-img').attr('src', imgUrl + imgPath(8)).show();
-        } else {
-            $$('.picker-invite-head-img').hide();
-        }
-        $$('.picker-invite-code-header').children('p').eq(1).text(invitationCode);
-    };
-
     const loginCallback = (data) => {
         f7.hideIndicator();
         const {code, message} = data;
         if (code == 1) {
-            store.set(cacheUserinfoKey, data.data);
+            store.set(cacheUserInfoKey, data.data);
             userInformation = data.data;
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
             const oldDate = nativeEvent.getDataToNative('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
-            qrCodeFun(userInformation);
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
                     nickname,
@@ -157,9 +124,6 @@ function userInit(f7, view, page) {
     if (loginStatus) {
         if (userInformation) {
             loginSucc(userInformation, userUtils.getBussesInfoCallback);
-            setTimeout(() => {
-                qrCodeFun(userInformation);
-            }, 0)
         }
         UserModel.get(loginCallback);
     } else {
@@ -320,7 +284,6 @@ function userInit(f7, view, page) {
         apiCount('btn_myCenter_editDriverInfo');
         if (!id) {
             f7.alert('您的鱼车司机账号已被冻结，请联系客服！');
-            return;
         } else {
             view.router.load({
                 url: `views/fishCarTripList.html?id=${id}`
@@ -349,7 +312,6 @@ function userInit(f7, view, page) {
                 }
             ]
         });
-        return;
     }
 }
 

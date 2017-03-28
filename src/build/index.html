@@ -15,18 +15,6 @@
     <link rel="stylesheet" href="css/lib/framework7.ios.colors.min.css">
     <link rel="stylesheet" href="css/main.css">
     <title>鱼大大-Demo</title>
-    <!--<script>-->
-        <!--function handler(eventError) {-->
-            <!--console.log(eventError);-->
-            <!--return true;-->
-        <!--}-->
-        <!--if (window.addEventListener) {-->
-            <!--window.addEventListener("error", handler, true);-->
-        <!--} else if (window.attachEvent) {-->
-            <!--//ie在这里表示无压力-->
-            <!--window.attachEvent("onerror", handler);-->
-        <!--}-->
-    <!--</script>-->
 </head>
 
 <body>
@@ -58,20 +46,6 @@
 </div>
 <!-- all popup -->
 <!-- Picker -->
-<div class="picker-modal picker-invite-code">
-    <div class="picker-modal-inner">
-        <div class="content-block picker-invite-code-img">
-            <div class="picker-invite-code-header text-center">
-                <p>你的专属邀请码</p>
-                <p class="code"></p>
-            </div>
-            <div class="picker-invite-code-content"></div>
-            <img src="" alt="" class="picker-invite-head-img">
-            <p>请好友扫二维码</p>
-        </div>
-        <div class="close-picker-invite-code">取消</div>
-    </div>
-</div>
 <div class="release-select-model">
     <div class="content row">
         <a href="views/filter.html?type=2&release=true" class="row">
@@ -234,5 +208,36 @@
 <!--<script src="http://10.228.17.26:1234/target/target-script-min.js#anonymous"></script>-->
 <script src="./js/common.min.js" crossorigin="anonymous"></script>
 <script src="./js/lib/qrcode.js"></script>
+<script>
+//    window.onload = function(){
+//        function handler(eventError) {
+//            console.log(eventError);
+//            $.ajax({
+//                method: 'POST',
+//                url: 'http://www.baidu.com',
+//                data: {
+//                    type: eventError.type,
+//                    filename: eventError.filename,
+//                    message: eventError.message,
+//                    lineno: eventError.lineno
+//                },
+//                contentType: 'application/json',
+//                timeout: 60,
+//                error: (data) => {
+//                    console.log('错误发送失败！')
+//                },
+//                success: (data) => {
+//                    console.log('错误发送成功！')
+//                }
+//            });
+//            return true;
+//        }
+//        if (window.addEventListener) {
+//            window.addEventListener("error", handler, true);
+//        } else if (window.attachEvent) {
+//            window.attachEvent("onerror", handler);
+//        }
+//    };
+</script>
 </body>
 </html>

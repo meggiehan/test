@@ -12,7 +12,7 @@ import {getBeforedawnTime} from '../utils/time';
 
 function releaseFishCarDemandInit(f7, view, page) {
     f7.hideIndicator();
-    const {cacheUserinfoKey} = config;
+    const {cacheUserInfoKey} = config;
     let destinationProvinceList = getProvinceList();
     let provinceCityList = getProvinceCityArr();
 
@@ -34,7 +34,7 @@ function releaseFishCarDemandInit(f7, view, page) {
         return;
     }
 
-    const userInfo = store.get(cacheUserinfoKey);
+    const userInfo = store.get(cacheUserInfoKey);
     if(userInfo){
         const {loginName, nickname} = userInfo;
         loginName && $phone.val(loginName);
@@ -161,7 +161,7 @@ function releaseFishCarDemandInit(f7, view, page) {
         ]
     });
 
-    const loginName = store.get(cacheUserinfoKey) ? store.get(cacheUserinfoKey)['loginName'] : '';
+    const loginName = store.get(cacheUserInfoKey) ? store.get(cacheUserInfoKey)['loginName'] : '';
     $currentPage.find('.release-phone').text(loginName);
 
     $currentPage.find('.toolbar-inner').children('a')[0].onclick = () => {

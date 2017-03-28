@@ -16,7 +16,7 @@ function buydetailInit(f7, view, page) {
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     let demandInfo_;
-    const { shareUrl, cacheUserinfoKey } = config;
+    const { shareUrl, cacheUserInfoKey } = config;
     let currentUserId;
     let errorInfo;
 
@@ -34,7 +34,7 @@ function buydetailInit(f7, view, page) {
                 demandInfo,
                 favorite
             } = data.data;
-            const locaUserId = store.get(cacheUserinfoKey) && store.get(cacheUserinfoKey)['id'];
+            const locaUserId = store.get(cacheUserInfoKey) && store.get(cacheUserInfoKey)['id'];
             const {
                 specifications,
                 stock,

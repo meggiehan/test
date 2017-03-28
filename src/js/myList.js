@@ -16,11 +16,11 @@ function myListInit(f7, view, page) {
         return;
     }
     let type = page.query['type'] || 2;
-    const { pageSize, cacheUserinfoKey, shareUrl} = config;
+    const { pageSize, cacheUserInfoKey, shareUrl} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
 
-    const { id, level } = store.get(cacheUserinfoKey) || { id: 1 };
+    const { id, level } = store.get(cacheUserInfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
     const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
     const showSellAllInfo = currentPage.find('.sell-collection-empty-info');

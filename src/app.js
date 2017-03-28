@@ -70,13 +70,8 @@ let isBack = false;
  * 初始化f7的参数
  * */
 let initAppConfig = {
-    // swipeBackPage: false,
-    // uniqueHistoryIgnoreGetParameters: true,
-    // uniqueHistory: true,
-    // preloadPreviousPage: true,
     activeState: false,
     imagesLazyLoadThreshold: 50,
-    // pushStatePreventOnLoad: true,
     pushState: true,
     animateNavBackIcon: true,
     animatePages: animatStatus,
@@ -85,7 +80,6 @@ let initAppConfig = {
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示',
-    // force: true,
     preprocess: (content, url, next) => {
         next(content);
         $$('.fish-car-modal').removeClass('on');
@@ -111,10 +105,6 @@ let initAppConfig = {
 
             if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
                 return false;
-            }
-
-            if (_currentPage.indexOf('inviteFriends.html') > -1) {
-                $$('.modal-overlay-invite-code').length > 0 && $$('.modal-overlay-invite-code').trigger('click');
             }
 
             if ($$('.modal-overlay-visible').length) {
@@ -172,7 +162,7 @@ let initAppConfig = {
  * */
 android && !androidChrome && (initAppConfig['swipeBackPage'] = false);
 var f7 = new Framework7(initAppConfig);
-const mainView = f7.addView('.view-main', {
+window.mainView = f7.addView('.view-main', {
     dynamicNavbar: true,
     domCache: true
 });
@@ -180,7 +170,7 @@ const mainView = f7.addView('.view-main', {
 /*
  * 抽离出登录视图
  * */
-const loginView = f7.addView('.view-login', {
+window.loginView = f7.addView('.view-login', {
     dynamicNavbar: true,
     domCache: true
 });
@@ -188,7 +178,7 @@ const loginView = f7.addView('.view-login', {
 /**
  * 鱼车相关发布需求
  * */
-const releaseView = f7.addView('.view-release-fish', {
+window.releaseView = f7.addView('.view-release-fish', {
     dynamicNavbar: true,
     domCache: true
 });
@@ -205,9 +195,6 @@ mainView.router.load({
 window.$$ = Dom7;
 window.jQuery = Dom7;
 window.$ = Dom7;
-window.mainView = mainView;
-window.loginView = loginView;
-window.releaseView = releaseView;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
 nativeEvent['searchHistoryActions'](2, '');

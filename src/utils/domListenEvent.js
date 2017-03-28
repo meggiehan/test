@@ -107,9 +107,9 @@ module.exports = {
     },
 
     goIdentity: () => {
-        const {cacheUserinfoKey, servicePhoneNumber} = config;
+        const {cacheUserInfoKey, servicePhoneNumber} = config;
         let personalAuthenticationState, enterpriseAuthenticationState;
-        let userInfomation = store.get(cacheUserinfoKey);
+        let userInfomation = store.get(cacheUserInfoKey);
         if (userInfomation) {
             personalAuthenticationState = userInfomation['personalAuthenticationState'];
             enterpriseAuthenticationState = userInfomation['enterpriseAuthenticationState'];
@@ -131,8 +131,8 @@ module.exports = {
     },
 
     cancleIndividual: () => {
-        const {cacheUserinfoKey, servicePhoneNumber} = config;
-        let userInfomation = store.get(cacheUserinfoKey);
+        const {cacheUserInfoKey, servicePhoneNumber} = config;
+        let userInfomation = store.get(cacheUserInfoKey);
         const cancleIndividualCallback = (data) => {
             const {code, message} = data;
             // f7.alert(message, '提示', () => {
@@ -184,8 +184,8 @@ module.exports = {
         const ele = event.target;
         let classes = ele.className;
         const id = $$(ele).attr('data-id');
-        const {cacheUserinfoKey} = config;
-        const userInfo = store.get(cacheUserinfoKey);
+        const {cacheUserInfoKey} = config;
+        const userInfo = store.get(cacheUserInfoKey);
         let dataIndex = ele.getAttribute('data-index');
 
         const deleteCallback = (data) => {

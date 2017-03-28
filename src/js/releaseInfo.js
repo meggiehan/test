@@ -19,8 +19,8 @@ function releaseInfoInit(f7, view, page) {
     const stockInput = currentPage.find('.release-write-stock').children('input');
     const contactInput = currentPage.find('.release-write-contact').children('input');
     const subBtn = currentPage.find('.release-sub-info')[0];
-    const { cacheUserinfoKey, debug } = config;
-    const userInfo = store.get(cacheUserinfoKey);
+    const { cacheUserInfoKey, debug } = config;
+    const userInfo = store.get(cacheUserInfoKey);
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
     const descriptInput = currentPage.find('textarea')[0];

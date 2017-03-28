@@ -12,7 +12,7 @@ const configs = {
     pageSize: 20,
     cacheMaxLen: 80,
     voiceCodeWaitTime: 60, //unit: m
-    cacheUserinfoKey: 'userInfo',
+    cacheUserInfoKey: 'userInfo',
     cacheHistoryKey: 'serachHistory',
     shareUrl: 'http://m.test.yudada.com/demandInfo/',
     cancelInvitationNumberKey: 'cancelInvitationNumber',
