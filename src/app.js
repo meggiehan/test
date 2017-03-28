@@ -59,7 +59,7 @@ const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
 const {timeout, fishCacheObj} = config;
-console.log(`current app update time: ${version.date}!V01_09_01_01`);
+console.log(`current app update time: ${version.date}!${store.get('versionNumber')}`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;
@@ -257,8 +257,9 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'home' && homeInit(f7, mainView, page);
     page.name === 'user' && userInit(f7, mainView, page);
     page.name === 'inviteCode' && inviteCodeInit(f7, mainView, page);
-    page.name === 'inviteFriends' && inviteFriendsInit(f7, mainView, page);
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
+    (page.name === 'inviteFriends' || page.name === 'myShop') && inviteFriendsInit(f7, mainView, page);
+
     page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
     page.name === 'dealList' && dealListInit(f7, mainView, page);
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);

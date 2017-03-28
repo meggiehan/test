@@ -7,7 +7,7 @@ import RestTemplate from '../../../middlewares/RestTemplate';
 class ShareBusinessCardModel {
     //上传base64
     post(data,callback){
-        const apiStr = `auth?scope=weChat`;
+        const apiStr = `shareImages`;
         RestTemplate.post(apiStr, {}, {}, data, callback, true);
     }
 }
