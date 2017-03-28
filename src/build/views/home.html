@@ -39,7 +39,10 @@
             <div class="swiper-container swiper-slow home-slider" v-show="!!homeData.banners.length">
                 <div class="swiper-pagination"></div>
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" v-for="item in homeData.banners" :data-login="item.loginRequired" :data-href="item.link">
+                    <div class="swiper-slide" v-for="item in homeData.banners"
+                         :data-login="item.loginRequired"
+                         :data-href="item.link"
+                         :data-type="item.type">
                         <img :src="item.imgUrl" alt="">
                     </div>
                 </div>
