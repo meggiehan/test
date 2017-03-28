@@ -10,16 +10,16 @@ function shareBusinessCardCtrl(userInfo,
                                levelPic,
                                headImg,
                                currentPage,
-                               authText) {
-    const businessCardStrCacheSaveKey = 'businessCardStrCache';
-    const businessCardUrlCacheSaveKey = 'businessCardUrlCache';
-    const BG_WIDTH = 500;
-    const BG_HEIGHT = 764;
+                               authText,
+                               callback) {
 
-    const businessCardStr = getBusinessCardStr(userInfo);
-    const businessCardStrCache = store.get(businessCardStrCacheSaveKey);
-    let bgLoad = false;
-    let imgHeadLoad = false;
+    const businessCardStrCacheSaveKey = 'businessCardStrCache'; //作为名片信息更新对比的key
+    const businessCardUrlCacheSaveKey = 'businessCardUrlCache'; //上传之后返回的名片url
+    const BG_WIDTH = 600;
+    const BG_HEIGHT = 917;
+
+    const businessCardStr = getBusinessCardStr(userInfo); //获取当前名片对比的key
+    const businessCardStrCache = store.get(businessCardStrCacheSaveKey); //获取上次上传图片返回的url
 
     const {
         buyNumber,
@@ -29,41 +29,38 @@ function shareBusinessCardCtrl(userInfo,
 
     /**
      * 分享个人卡片
+     * 画布的操作
      * */
-
     const drawImageBase64 = (ctx, canvasBox) => {
         ctx.drawImage(qrCodeBg[0], 0, 0, BG_WIDTH, BG_HEIGHT);
-        ctx.drawImage(levelPic[0], 100, 120, 50, 50);
-        ctx.drawImage(qrCode[0], 195, 385, 110, 110);
+        ctx.drawImage(levelPic[0], 120, 150, 50, 50);
+        ctx.drawImage(qrCode[0], 234, 462, 132, 132);
 
         ctx.beginPath();
         ctx.fillStyle = "rgba(255,255,255,0.4)";
-        ctx.arc(250, 165, 53, 0, 2 * Math.PI);
+        ctx.arc(290, 200, 64, 0, 2 * Math.PI);
         ctx.fill();
-        ctx.drawImage(headImg[0], 200, 115, 100, 100);
+        ctx.drawImage(headImg[0], 230, 140, 120, 120);
         ctx.font = "30px Arial";
         ctx.fillStyle = "#fff";
-        ctx.fillText((buyNumber + sellNumber), 348, 160);
+        ctx.fillText((buyNumber + sellNumber), 418, 190);
 
         if (authText) {
             ctx.beginPath();
             ctx.fillStyle = "#FFBE44";
-            ctx.fillRect(188, 200, 124, 27);
+            ctx.fillRect(220, 245, 140, 30);
             ctx.font = "16px Arial";
             ctx.fillStyle = "#fff";
-            ctx.fillText(`已完成${authText}`, 194, 220);
+            ctx.fillText(`已完成${authText}`, 232, 265);
         }
 
         ctx.font = "22px Arial";
         ctx.fillStyle = "#fff";
-        ctx.fillText((nickname || '匿名用户'), 215, 275);
-
+        ctx.fillText((nickname || '匿名用户'), 260, 328);
 
         ctx.save();
-        console.log(bgLoad, imgHeadLoad);
         const img = new Image();
         img.src = canvasBox.toDataURL("image/png");
-
         return canvasBox.toDataURL("image/png");
     };
     const getBase64Code = () => {
@@ -77,34 +74,32 @@ function shareBusinessCardCtrl(userInfo,
         canvasBox.width = BG_WIDTH;
         canvasBox.height = BG_HEIGHT;
 
-        if(imgHeadLoad && bgLoad){
-            drawImageBase64(ctx, canvasBox);
-        }else{
-            qrCodeBg[0].onload = () => {
-                bgLoad = true;
-                if (!imgHeadLoad) {
-                    return;
-                }
-                drawImageBase64(ctx, canvasBox);
-            };
-            headImg[0].onload = () => {
-                imgHeadLoad = true;
-                if (!bgLoad) {
-                    return;
-                }
-                drawImageBase64(ctx, canvasBox);
-            }
-        }
+        return drawImageBase64(ctx, canvasBox);
     };
 
-    if (businessCardStr !== businessCardStrCache) {
-        const sharePicBaseCode = getBase64Code();
-
+    //如果当前用户信息没有变化且还有之前服务器返回的名片url，则不生成图片上传。
+    if (businessCardStr == businessCardStrCache && store.get(businessCardUrlCacheSaveKey)) {
+        callback({
+            code: 1,
+            data: store.get(businessCardUrlCacheSaveKey)
+        });
     }else{
-        console.log(123)
+        if(currentPage.find('#canvasBox').length){
+            currentPage.find('#canvasBox').remove();
+        }
+        const sharePicBaseCode = getBase64Code();
+        ShareBusinessCardModel.post({data: sharePicBaseCode}, (res) => {
+            const {
+                code,
+                data
+            } = res;
+            if(1 == code){
+                store.set(businessCardStrCacheSaveKey, businessCardStr);
+                store.set(businessCardUrlCacheSaveKey, data);
+            }
+            callback(res);
+        })
     }
-
-
 }
 
 export {

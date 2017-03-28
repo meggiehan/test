@@ -1,4 +1,4 @@
-.page-invite-friends {
+.page-invite-friends, .page-my-shop {
     .page-content {
         background: @bg-fff;
         padding: 7rem 3rem 2rem;
@@ -62,7 +62,7 @@
             }
         }
         .invite-user-code{
-            margin-top: 4rem;
+            margin-top: 3rem;
             font-size: 1.4rem;
             color: @text-name;
             .ps-r;
@@ -84,6 +84,12 @@
         }
         .invite-share{
             .text-center;
+            position: fixed;;
+            bottom: 0;
+            left: 0;
+            padding:1rem 3rem;
+            width: 100%;
+            .box-size();
             &>p{
                 color: @text-invite-tip;
                 .ps-r;
@@ -104,8 +110,35 @@
                 }
             }
         }
-        .bg-card-pic, .head-img, canvas, .bg-card-level{
+        .bg-card-pic, canvas, .bg-card-level{
             display: none;
+        }
+    }
+}
+.page-my-shop{
+    .page-content{
+        .invite-user{
+            padding-bottom: 4rem;
+        }
+        .invite-user-header{
+            .invite-user-auth-state{
+                padding-bottom:0;
+            }
+        }
+        .invite-user-code{
+            padding-top: 8rem;
+            padding-left: 0;
+            margin-top: 2rem;
+            img{
+                width: 7rem;
+                display: block;
+                top: 0;
+                left: 50%;
+                margin-left: -3.5rem;
+            }
+            p{
+                .text-center;
+            }
         }
     }
 }
@@ -116,6 +149,19 @@
     }
     .page-invite-friends .page-content .invite-user-code{
         padding-left: 7rem;
+    }
+}
+
+@media screen and (min-width: 350px) and (max-width: 370px) {
+    .page-invite-friends .page-content .invite-user-code,
+    .page-my-shop .page-content .invite-user-code{
+        margin-top: 2.5rem;
+    }
+}
+@media screen and (min-width: 370px) and (max-width: 400px) {
+    .page-invite-friends .page-content .invite-user-code,
+    .page-my-shop .page-content .invite-user-code{
+        margin-top: 6.2rem;
     }
 }
 
@@ -130,5 +176,9 @@
     }
     .page-invite-friends .page-content .invite-user-code{
         padding-left: 7.5rem;
+    }
+    .page-invite-friends .page-content .invite-user-code,
+    .page-my-shop .page-content .invite-user-code{
+        margin-top: 7.2rem;
     }
 }
