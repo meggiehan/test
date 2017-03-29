@@ -225,10 +225,10 @@
                     lineno: eventError.lineno
                 },
                 contentType: 'application/json',
-                error: (data) => {
+                error: function(data) {
                     console.log('错误发送失败！')
                 },
-                success: (data) => {
+                success: function(data) {
                     console.log('错误发送成功！')
                 }
             });

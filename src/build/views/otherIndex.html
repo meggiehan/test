@@ -4,7 +4,7 @@
         <div class="left sliding">
             <a class="iconfont icon-back back">返回</a>
         </div>
-        <div class="center sliding">个人主页</div>
+        <div class="center sliding">店铺</div>
         <div class="right sliding" onclick="apiCount('btn_profile_nav_more')">
             <a class="iconfont icon-more other-report"></a>
         </div>
@@ -16,59 +16,75 @@
             <div class="preloader"></div>
             <div class="pull-to-refresh-arrow"></div>
         </div>
-        <div class="user-header list-block media-list">
-            <div class="item-link item-content">
-                <div class="user-pic item-media">
-                    <img src="img/defimg.png" width="60" class="lazy" />
-                </div>
-                <div class="item-inner">
-                    <div class="row" onclick="apiCount('cell_profile_profile')">
-                        <div class="other-user-info col-90">
-                            <p class="other-user-name">
-                                <span class="name">匿名用户</span>
-                                <i></i>
-                            </p>
-                            <p class="user-lately-time"></p>
-                            <div class="other-index-cert-info">
-                                <span class="iconfont icon-auto-end individual">个人认证</span>
-                                <span class="iconfont icon-auto-end company">企业认证</span>
-                            </div>
-                        </div>
-                        <a class="iconfont icon-right">更多资料</a>
-                    </div>
-                </div>
+        <div class="user-header row">
+            <div class="other-level col-33">
+                <span class="iconfont" :class="'icon-v' + userInfo.level"></span>
+                <p>等级</p>
+            </div>
+            <div class="user-pic col-33">
+                <img :src="userInfo.imgUrl ? (userInfo.imgUrl + imgPath(8)) : 'img/defimg.png'" width="60" class="lazy"/>
+                <p>{{userInfo.nickname || '匿名用户'}}</p>
+            </div>
+            <div class="col-33 other-cat">
+                <span>{{recentScanTimes}}</span>
+                <p>近期浏览</p>
             </div>
         </div>
         <div class="other-index-cert">
-            <div class="cert-title">相关证书</div>
-            <div class="cert-list" onclick="apiCount('cell_profile_certificate')"></div>
+            <div class="cert-list" onclick="apiCount('cell_profile_certificate')">
+                <a v-if="1 == userInfo.personalAuthenticationState">
+                    <span class="cert-label water">个</span>已通过个人实名认证
+                </a>
+                <a v-if="1 == userInfo.enterpriseAuthenticationState"
+                   class="iconfont icon-right open-cert-button"
+                   data-url="http://img.yudada.com/img/fish_qualification_authentication/20161206/1481038031490_3451.jpeg@1o"
+                   @click="veiwCert">
+                    <span class="cert-label identity">企</span>企业认证：{{userInfo.enterpriseName}}
+                </a>
+
+                <a v-for="item in fishCertificateList"
+                   class="iconfont icon-right open-cert-button"
+                   :data-url="(item.path || item.url) + '@1o'"
+                   @click="veiwCert">
+                    <span class="cert-label"
+                          :class="getCertInfo(item.type).classes">
+                        {{getCertInfo(item.type).label}}
+                    </span>{{`具备“${getCertInfo(item.type).certName}”-${item.fish_type_name || item.fishTypeName}`}}
+                </a>
+
+            </div>
         </div>
-        <div class="other-index-list">
-            <div class="other-sell-list">
+        <div class="other-index-list"
+             v-show="saleDemandsCount || buyDemandsCount">
+            <div class="other-sell-list" v-show="saleDemandsCount">
                 <div class="title row">
-                    <div class="col-50">正在出售</div>
+                    <div class="col-50">正在出售({{saleDemandsCount}})</div>
                 </div>
                 <div class="list  list-block media-list" onclick="apiCount('cell_profile_sellMore')"></div>
                 <div class="other-all-buy-info other-sell-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
-                    <span class="btn iconfont icon-go">更多出售的信息</span>
+                    <a class="btn iconfont icon-go" :href="`views/otherList.html?id=${currentUserId}&type=2`">更多出售的信息</a>
                 </div>
             </div>
-            <div class="other-buy-list">
+            <div class="other-buy-list" v-show="buyDemandsCount">
                 <div class="title row">
-                    <div class="col-50">正在求购</div>
+                    <div class="col-50">正在求购({{buyDemandsCount}})</div>
                 </div>
                 <div class="list" onclick="apiCount('cell_profile_purchaseItem')"></div>
                 <div class="other-all-buy-info other-buy-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
-                    <span class="btn iconfont icon-go">更多求购的信息</span>
+                    <a class="btn iconfont icon-go" :href="`views/otherList.html?id=${currentUserId}&type=1`">更多求购的信息</a>
                 </div>
             </div>
         </div>
-        <p class="other-index-empty-info">他还没有发布过信息哦~</p>
+        <p class="other-index-empty-info"
+           v-show="!saleDemandsCount && !buyDemandsCount">{{isMyShop ? '快去发布一个信息吧~' : '暂时没有发过信息~'}}</p>
     </div>
     <div class="toolbar tabbar">
-        <div class="toolbar-inner other-footer-call">
-            <!-- Toolbar links -->
+        <div v-if="!isMyShop" class="toolbar-inner other-footer-call" @click="callPhone(phone)">
             <a class="iconfont icon-call">电话联系</a>
+        </div>
+
+        <div v-if="isMyShop" class="toolbar-inner other-footer-call" @click="goMyShop">
+            <a class="iconfont icon-share">分享我的店铺 增加曝光</a>
         </div>
     </div>
 </div>
