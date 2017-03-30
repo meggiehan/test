@@ -17,7 +17,7 @@
         color: @text-category;
         font-size: 1.6rem;
     }
-    .jump-btn{
+    .jump-btn, .share-trip{
         width: 40%;
         margin: 2rem auto 0;
         background: @bg-v;
@@ -29,5 +29,15 @@
         height: 3.5rem;
         line-height: 3.5rem;
         border-radius: 0.3rem;
+    }
+    .share-trip{
+        background: @bg-fff;
+        margin: 1rem auto;
+        border: 1px solid @bg-v;
+        color: @bg-v;
+        .text-shadow(@bg-fff);
+    }
+    .trip-show{
+        display: none;
     }
 }

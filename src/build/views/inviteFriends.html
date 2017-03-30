@@ -19,7 +19,7 @@
 					<img class="head-img" crossOrigin="*" :src="inviteData.imgUrl ? (inviteData.imgUrl + '@40-1ci.png') : './img/defimg.png'" alt="">
 				</div>
 				<div class="user-release-num pull-right">
-					<span>{{(inviteData.buyNumber + inviteData.sellNumber) || 0}}</span>
+					<span>{{(inviteData.publishedDemandsCount) || 0}}</span>
 					<p>发布信息</p>
 				</div>
 				<div class="invite-user-nickname">{{inviteData.nickname || '匿名用户'}}</div>

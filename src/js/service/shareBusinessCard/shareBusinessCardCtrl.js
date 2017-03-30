@@ -24,7 +24,8 @@ function shareBusinessCardCtrl(userInfo,
     const {
         buyNumber,
         sellNumber,
-        nickname
+        nickname,
+        publishedDemandsCount
     } = userInfo;
 
     /**
@@ -32,36 +33,37 @@ function shareBusinessCardCtrl(userInfo,
      * 画布的操作
      * */
     const drawImageBase64 = (ctx, canvasBox) => {
-        ctx.drawImage(qrCodeBg[0], 0, 0, BG_WIDTH, BG_HEIGHT);
-        ctx.drawImage(levelPic[0], 120, 150, 50, 50);
-        ctx.drawImage(qrCode[0], 234, 462, 132, 132);
+        try {
+            ctx.drawImage(qrCodeBg[0], 2, 2, BG_WIDTH, BG_HEIGHT);
+            ctx.drawImage(levelPic[0], 122, 152, 50, 50);
+            ctx.drawImage(qrCode[0], 236, 464, 132, 132);
 
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(255,255,255,0.4)";
-        ctx.arc(290, 200, 64, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.drawImage(headImg[0], 230, 140, 120, 120);
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "#fff";
-        ctx.fillText((buyNumber + sellNumber), 418, 190);
-
-        if (authText) {
             ctx.beginPath();
-            ctx.fillStyle = "#FFBE44";
-            ctx.fillRect(220, 245, 140, 30);
-            ctx.font = "16px Arial";
+            ctx.fillStyle = "rgba(255,255,255,0.4)";
+            ctx.arc(292, 202, 64, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.drawImage(headImg[0], 232, 142, 120, 120);
+            ctx.font = "30px Arial";
             ctx.fillStyle = "#fff";
-            ctx.fillText(`已完成${authText}`, 232, 265);
+            ctx.fillText((publishedDemandsCount), 420, 192);
+
+            if (authText) {
+                ctx.beginPath();
+                ctx.fillStyle = "#FFBE44";
+                ctx.fillRect(222, 247, 140, 30);
+                ctx.font = "16px Arial";
+                ctx.fillStyle = "#fff";
+                ctx.fillText(`已完成${authText}`, 234, 267);
+            }
+
+            ctx.font = "22px Arial";
+            ctx.fillStyle = "#fff";
+            ctx.fillText((nickname || '匿名用户'), 262, 330);
+            ctx.save();
+            return canvasBox.toDataURL("image/png");
+        } catch (err) {
+            return 'error'
         }
-
-        ctx.font = "22px Arial";
-        ctx.fillStyle = "#fff";
-        ctx.fillText((nickname || '匿名用户'), 260, 328);
-
-        ctx.save();
-        const img = new Image();
-        img.src = canvasBox.toDataURL("image/png");
-        return canvasBox.toDataURL("image/png");
     };
     const getBase64Code = () => {
         const canvas = document.createElement('canvas');
@@ -71,8 +73,8 @@ function shareBusinessCardCtrl(userInfo,
 
         const canvasBox = currentPage.find('#canvasBox')[0];
         const ctx = canvasBox.getContext("2d");
-        canvasBox.width = BG_WIDTH;
-        canvasBox.height = BG_HEIGHT;
+        canvasBox.width = BG_WIDTH + 4;
+        canvasBox.height = BG_HEIGHT + 4;
 
         return drawImageBase64(ctx, canvasBox);
     };
@@ -83,17 +85,21 @@ function shareBusinessCardCtrl(userInfo,
             code: 1,
             data: store.get(businessCardUrlCacheSaveKey)
         });
-    }else{
-        if(currentPage.find('#canvasBox').length){
+    } else {
+        if (currentPage.find('#canvasBox').length) {
             currentPage.find('#canvasBox').remove();
         }
         const sharePicBaseCode = getBase64Code();
+        if('error' == getBase64Code()){
+            callback('error');
+            return;
+        }
         ShareBusinessCardModel.post({data: sharePicBaseCode}, (res) => {
             const {
                 code,
                 data
             } = res;
-            if(1 == code){
+            if (1 == code) {
                 store.set(businessCardStrCacheSaveKey, businessCardStr);
                 store.set(businessCardUrlCacheSaveKey, data);
             }

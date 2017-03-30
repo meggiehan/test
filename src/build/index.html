@@ -211,19 +211,20 @@
 <script>
     window.onload = function(){
         function handler(eventError) {
+            var data = {
+                type: eventError.type,
+                filename: eventError.filename,
+                message: eventError.message,
+                lineno: eventError.lineno
+            };
             $$.ajax({
                 timeout: 30,
                 cache: false,
-                processData: true,
+                headers: {},
                 crossDomain: true,
                 method: 'POST',
                 url: 'http://api.test.yudada.com/jsErrors',
-                data: {
-                    type: eventError.type,
-                    filename: eventError.filename,
-                    message: eventError.message,
-                    lineno: eventError.lineno
-                },
+                data: JSON.stringify(data),
                 contentType: 'application/json',
                 error: function(data) {
                     console.log('错误发送失败！')

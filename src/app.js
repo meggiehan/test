@@ -39,20 +39,19 @@ import {postDriverInfoInit} from './js/postDriverInfo';
 import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
-import invitationModel from './js/service/invitation/InvitationModel';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
 import {JsBridge} from './middlewares/JsBridge';
 import {releaseFishCarDemandSuccessInit} from './js/releaseFishCarDemandSuccess';
 import {releaseFishCarTripInit} from './js/releaseFishCarTrip';
 import {weixinModalEvent} from './js/modal/weixinModal';
 import {
-    fishCarDriverSelectAddressModalEvent,
     fishCarModalJumpEvent
 } from './js/modal/fishCarDriverSelectAddressModal';
 import {fishCarTripListInit} from './js/fishCarTripList';
 import {myFishCarDemandListInit} from './js/myFishCarDemandList';
 import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
 import store from './utils/localStorage';
+import {shareMyTripInit} from './js/shareMyTrip';
 
 
 const deviceF7 = new Framework7();
@@ -276,6 +275,7 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'releaseFishCarDemandSuccess' && releaseFishCarDemandSuccessInit(f7, mainView, page);
     page.name === 'fishCarTripList' && fishCarTripListInit(f7, mainView, page);
     page.name === 'myFishCarDemandList' && myFishCarDemandListInit(f7, mainView, page);
+    page.name === 'shareMyTrip' && shareMyTripInit(f7, mainView, page);
 
     /**
      * 上传司机信息页面
@@ -300,7 +300,7 @@ f7.onPageAfterBack('*', (page) => {
                     if (index <= 5) {
                         str += home.renderFishList(item, index);
                     }
-                })
+                });
                 currentPage.find('.fish-cache-list').html(str);
                 str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
             }

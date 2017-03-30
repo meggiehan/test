@@ -8,7 +8,7 @@ import userUtils from '../utils/viewsUtil/userUtils';
 import {shareBusinessCardCtrl} from './service/shareBusinessCard/shareBusinessCardCtrl';
 import {JsBridge} from '../middlewares/JsBridge';
 
-function inviteFriendsInit(f7, view, page) {
+function shareMyTripInit(f7, view, page) {
     if (!isLogin()) {
         activeLogout();
     }
@@ -19,18 +19,13 @@ function inviteFriendsInit(f7, view, page) {
     let isHeadImgLoad = false;
 
     const {
-        invitationCode,
-        inviterNickname,
-        inviterPhone,
-        invitationLink,
         scanLink,
         imgUrl,
         registerCount,
-        nickname,
         enterpriseAuthenticationState,
         enterpriseAuthenticationTime,
         personalAuthenticationState,
-        personalAuthenticationTime,
+        personalAuthenticationTime
     } = userInfo || {};
 
     const authText = userUtils.getAuthenticationText(
@@ -44,7 +39,7 @@ function inviteFriendsInit(f7, view, page) {
      * 生成二维码
      * */
     if (scanLink) {
-        new QRCode(currentPage.find('.invite-user-code')[0], {
+        new QRCode(currentPage.find('.share-trip-user-code')[0], {
             text: scanLink,
             height: 180,
             width: 180,
@@ -58,7 +53,7 @@ function inviteFriendsInit(f7, view, page) {
     const shareBaseAction = (callback) => {
         f7.showIndicator();
         const $qrCodeLevel = currentPage.find('.bg-card-level');
-        const $qrCodePic = currentPage.find('.invite-user-code').children('img');
+        const $qrCodePic = currentPage.find('.share-trip-user-code').children('img');
 
         const shareAction = () => {
             const $headImg = currentPage.find('.head-img');
@@ -112,8 +107,9 @@ function inviteFriendsInit(f7, view, page) {
         const inviteVue = new Vue({
             el: currentPage.find('.page-content')[0],
             data: {
-                inviteData: userInfo,
-                authText: authText
+                imgUrl: imgUrl,
+                query: page.query,
+                level: userInfo.level
             },
             methods: {
                 //跳转至用户已经邀请成功的列表
@@ -129,80 +125,59 @@ function inviteFriendsInit(f7, view, page) {
                 },
                 weixinShareFriend() {
                     apiCount('btn_inviteFriends_share');
-                    const friendAction = () => {
-                        shareBaseAction((res) => {
-                            f7.hideIndicator();
-                            if ('error' == res) {
-                                friendAction();
-                                return;
-                            }
-                            const {
-                                code,
-                                data
-                            } = res;
-                            if (1 == code) {
-                                nativeEvent.shareInfoToWeixin(0, data);
-                            } else {
-                                f7.alert('服务器繁忙，请稍后再试！');
-                                console.log(code);
-                            }
-                        })
-                    };
-                    friendAction();
+                    shareBaseAction((res) => {
+                        f7.hideIndicator();
+                        const {
+                            code,
+                            data
+                        } = res;
+                        if (1 == code) {
+                            nativeEvent.shareInfoToWeixin(0, data);
+                        } else {
+                            f7.alert('服务器繁忙，请稍后再试！');
+                            console.log(code);
+                        }
+                    })
                 },
                 weixinShareCircle() {
                     apiCount('btn_inviteFriends_share');
-                    const circlrAction = () => {
-                        shareBaseAction((res) => {
-                            f7.hideIndicator();
-                            if ('error' == res) {
-                                circlrAction();
-                                return;
-                            }
-                            const {
-                                code,
-                                data
-                            } = res;
-                            if (1 == code) {
-                                nativeEvent.shareInfoToWeixin(1, data);
-                            } else {
-                                f7.alert('服务器繁忙，请稍后再试！');
-                                console.log(code);
-                            }
-                        })
-                    };
-                    circlrAction();
+                    shareBaseAction((res) => {
+                        f7.hideIndicator();
+                        const {
+                            code,
+                            data
+                        } = res;
+                        if (1 == code) {
+                            nativeEvent.shareInfoToWeixin(1, data);
+                        } else {
+                            f7.alert('服务器繁忙，请稍后再试！');
+                            console.log(code);
+                        }
+                    })
                 },
                 qqShareFriend() {
                     apiCount('btn_inviteFriends_share');
-                    const qqShareAction = () => {
-                        shareBaseAction((res) => {
-                            f7.hideIndicator();
-                            if ('error' == res) {
-                                qqShareAction();
-                                return;
-                            }
-                            const {
-                                code,
-                                data
-                            } = res;
-                            if (1 == code) {
-                                JsBridge('JS_QQSceneShare', {
-                                    type: '0',
-                                    imageUrl: data,
-                                    title: '鱼大大',
-                                    describe: "",
-                                    webUrl: ''
-                                }, () => {
-                                    console.log('分享成功！')
-                                });
-                            } else {
-                                f7.alert('服务器繁忙，请稍后再试！');
-                                console.log(code);
-                            }
-                        })
-                    };
-                    qqShareAction();
+                    shareBaseAction((res) => {
+                        f7.hideIndicator();
+                        const {
+                            code,
+                            data
+                        } = res;
+                        if (1 == code) {
+                            JsBridge('JS_QQSceneShare', {
+                                type: '0',
+                                imageUrl: data,
+                                title: '鱼大大',
+                                describe: "",
+                                webUrl: ''
+                            }, () => {
+                                console.log('分享成功！')
+                            });
+                        } else {
+                            f7.alert('服务器繁忙，请稍后再试！');
+                            console.log(code);
+                        }
+                    })
                 }
             }
         });
@@ -210,7 +185,7 @@ function inviteFriendsInit(f7, view, page) {
         $headImg[0].onload = () => {
             isHeadImgLoad = true;
         };
-    }, 30);
+    }, 0);
 
     /**
      * 调用友盟分享
@@ -227,5 +202,5 @@ function inviteFriendsInit(f7, view, page) {
 }
 
 export {
-    inviteFriendsInit
+    shareMyTripInit
 }
