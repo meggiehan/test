@@ -11,13 +11,15 @@ import Vue from 'vue';
 // import {weixinAction} from './service/login/loginCtrl';
 // import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
+import FishAboutModel from './model/FishAboutModel';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = nativeEvent.getDataToNative('weixinData');
     const {fishCacheObj, cacheUserInfoKey} = config;
-
+    const userInfo = store.get(cacheUserInfoKey);
+    const fishCarDriverId = userInfo ? userInfo.fishCarDriverId : '';
     /**
      * vue的数据模型
      * */
@@ -27,22 +29,18 @@ function homeInit(f7, view, page) {
             homeData: {
                 trades: '',
                 banners: [],
-                fishTags: ''
-            }
+                fishTags: '',
+                isHasCache: getAll().length
+            },
+            fishCarTripInfo: '',
+            fishCarDriverId: fishCarDriverId,
+            userInfo: userInfo
         },
         methods: {
             getName: getName,
             getDealTime: getDealTime
         }
     });
-
-    /*
-     * 判断是否有数据缓存，如果有就直接显示
-     * */
-    if (getAll().length) {
-        currentPage.find('.ajax-content').show();
-        currentPage.find('.home-loading').hide();
-    }
 
     /**
      * 初始化slider
@@ -87,6 +85,27 @@ function homeInit(f7, view, page) {
             }
         })
     };
+
+    /**
+     * 获取司机最新的一条信息
+     * */
+    if(fishCarDriverId){
+        FishAboutModel.getMyFishTripList({
+            pageSize: 1,
+            pageNo: 1
+        },{expired: true}, (res) => {
+            const {code, message, data} = res;
+            if(1 == code && data.length){
+                vueHome.fishCarTripInfo = data[0];
+            }else{
+                if(!data.length){
+                    console.log('该司机暂时未发布行程');
+                }else{
+                    console.log(message);
+                }
+            }
+        })
+    }
 
     const renderFishTags = (tagList) => {
         console.log('render tag list!')
@@ -248,10 +267,10 @@ function homeInit(f7, view, page) {
     /**
      * 担保交易提示
      * */
-    currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
-        f7.alert('担保交易功能即将上线，敬请期待！');
-        return;
-    };
+    // currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
+    //     f7.alert('担保交易功能即将上线，敬请期待！');
+    //     return;
+    // };
 
     /**
      *当前登录角色通过司机审核时,之间跳转至需求列表

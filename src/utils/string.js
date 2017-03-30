@@ -628,8 +628,7 @@ module.exports = {
      * */
     getBusinessCardStr: (userInfo) => {
         const {
-            buyNumber,
-            sellNumber,
+            publishedDemandsCount,
             level,
             personalAuthenticationState,
             enterpriseAuthenticationState,
@@ -637,7 +636,7 @@ module.exports = {
         } = userInfo;
 
         let str = '';
-        str += `releaseNum=${buyNumber + sellNumber}`;
+        str += `releaseNum=${publishedDemandsCount}`;
         str += `level=${level}`;
         str += `personalAuth=${personalAuthenticationState}`;
         str += `enterpriseAuth=${enterpriseAuthenticationState}`;

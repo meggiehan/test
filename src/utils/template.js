@@ -351,7 +351,7 @@ module.exports = {
 
             const btnStr = !isMine ?
                 `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
-                `<div class="phone delete-trip" data-id="${id}">删除</div>`;
+                `<a class="fish-trip-share-btn phone" href="views/shareMyTrip.html?contactName=${contactName}&date=${appointedDate}&departureProvinceName=${departureProvinceName}&destinationProvinceName=${destinationProvinceName}">分享</a><div class="phone delete-trip" data-id="${id}">删除</div>`;
 
             str += `<div class="driver-info">` +
                         `<a class="driver" onclick="apiCount('btn_fishcar_routes_goFishcarDetail')" href="views/driverDemandInfo.html?id=${driverId}">` +
