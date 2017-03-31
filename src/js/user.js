@@ -21,7 +21,6 @@ import {
 
 function userInit(f7, view, page) {
     f7.hideIndicator();
-    let loginStatus = isLogin();
     const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
     const {
         cacheUserInfoKey,
@@ -65,7 +64,7 @@ function userInit(f7, view, page) {
             contactUs: contactUs,
             myListBuy: myListBuy,
             myListSell: myListSell,
-            isLogin: loginStatus,
+            isLogin: isLogin(),
             uploadCert: uploadCert,
             inviteFriends: inviteFriends,
             goIdentity: goIdentity,//前往实名认证
@@ -215,6 +214,12 @@ function userInit(f7, view, page) {
             authCheckInfo(){
                 f7.alert('正在审核中，请耐心等待');
             },
+            goMyShop(){
+                apiCount('btn_identity');
+                mainView.router.load({
+                    url: 'views/myShop.html'
+                })
+            },
             //查看企业审核不通过理由
             showAuthRejectInfo(msg, type){
                 f7.modal({
@@ -339,7 +344,7 @@ function userInit(f7, view, page) {
      * 判断登录状态
      * 已登录：微信登录/手机号登录
      * */
-    if (loginStatus) {
+    if (isLogin()) {
         if (userInformation) {
             userVue.userInfo = userInformation;
             userVue.recentSaleDemand = userInformation.recentSaleDemand;
@@ -347,6 +352,7 @@ function userInit(f7, view, page) {
         }
         UserModel.get(loginCallback);
     }
+    userVue.isLogin = isLogin();
     setTimeout(() => {
         currentPage.css({
             borderBottom: '1px solid #efeff4'
