@@ -6,17 +6,18 @@ import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {releaseFishViewShow} from '../js/releaseView/releaseFishViews';
 import {getDealTime} from '../utils/time';
 import Vue from 'vue';
 // import {weixinAction} from './service/login/loginCtrl';
 // import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
-import FishAboutModel from './model/FishAboutModel';
+import HomeModel from './model/HomeModel';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     const {fishCacheObj, cacheUserInfoKey} = config;
     const userInfo = store.get(cacheUserInfoKey);
     const fishCarDriverId = userInfo ? userInfo.fishCarDriverId : '';
@@ -38,7 +39,42 @@ function homeInit(f7, view, page) {
         },
         methods: {
             getName: getName,
-            getDealTime: getDealTime
+            getDealTime: getDealTime,
+            shareTrip(){
+                if(vueHome.fishCarTripInfo){
+                    apiCount('btn_myCenter_fishcarRoutes');
+                    mainView.router.load({
+                        url: 'views/shareMyTrip.html',
+                        query: {
+                            contactName: vueHome.fishCarTripInfo.contactName,
+                            date: vueHome.fishCarTripInfo.appointedDate,
+                            departureProvinceName: vueHome.fishCarTripInfo.departureProvinceName,
+                            destinationProvinceName: vueHome.fishCarTripInfo.destinationProvinceName,
+                        }
+                    })
+                }else{
+                    releaseView.router.load({
+                        url: 'views/releaseFishCarTrip.html',
+                        reload: true
+                    });
+                    releaseFishViewShow();
+                }
+            }
+        },
+        computed: {
+            tripDate(){
+                if(!this || !this.fishCarTripInfo){
+                    return '';
+                }
+                let res = '';
+                const arr = this.fishCarTripInfo.appointedDate.split('-');
+
+                res += Number(arr[1]) >= 10 ? arr[1] : arr[1].replace('0', '');
+                res += '月';
+                res += Number(arr[2]) >= 10 ? arr[2] : arr[2].replace('0', '');
+                res += '日';
+                return res;
+            }
         }
     });
 
@@ -89,20 +125,13 @@ function homeInit(f7, view, page) {
     /**
      * 获取司机最新的一条信息
      * */
-    if(fishCarDriverId){
-        FishAboutModel.getMyFishTripList({
-            pageSize: 1,
-            pageNo: 1
-        },{expired: true}, (res) => {
+    if (fishCarDriverId) {
+        HomeModel.getMyFishRecentTrip((res) => {
             const {code, message, data} = res;
-            if(1 == code && data.length){
-                vueHome.fishCarTripInfo = data[0];
-            }else{
-                if(!data.length){
-                    console.log('该司机暂时未发布行程');
-                }else{
-                    console.log(message);
-                }
+            if (1 == code) {
+                vueHome.fishCarTripInfo = data || '';
+            } else {
+                console.log(message);
             }
         })
     }
@@ -137,7 +166,7 @@ function homeInit(f7, view, page) {
      * render 最近使用鱼种
      * */
     setTimeout(() => {
-        const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+        const fishCacheData = store.get(fishCacheObj.fishCacheKey);
         if (fishCacheData && fishCacheData.length) {
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {

@@ -16,7 +16,7 @@ function isLogin() {
         store.remove(cacheUserInfoKey);
         //更新用户中心登录状态
         if ('user' == mainView.activePage.name &&
-            currentPage.find('.login-succ').length && !nativeEvent.getDataToNative('weixinData')) {
+            currentPage.find('.login-succ').length && !store.get('weixinData')) {
             mainView.router.refreshPage();
         }
         return false;
@@ -38,15 +38,11 @@ function logOut(f7) {
                 onClick: () => {
                     store.remove(cacheUserInfoKey);
                     store.remove("accessToken");
-                    store.set('weixinUnionId', '');
-                    nativeEvent.setDataToNative('weixinData', '');
+                    store.remove('weixinUnionId');
+                    store.remove('weixinData');
                     nativeEvent.setNativeUserInfo();
-                    nativeEvent.setUerInfoToNative({
-                        inviterId: 0
-                    });
-                    nativeEvent.setUerInfoToNative({
-                        unionId: ''
-                    });
+                    store.remove('inviterId');
+                    store.remove('unionId');
                     mainView.router.load({
                         url: "views/user.html"
                     });
@@ -67,42 +63,13 @@ function activeLogout() {
     store.remove(cacheUserInfoKey);
     store.remove("accessToken");
     nativeEvent.setNativeUserInfo();
-    nativeEvent.setDataToNative('weixinData', '');
-    store.set('weixinUnionId', '');
-    nativeEvent.setUerInfoToNative({
-        inviterId: 0
-    });
-    nativeEvent.setUerInfoToNative({
-        unionId: ''
-    });
+    store.remove('weixinData');
+    store.remove('weixinUnionId');
+    store.remove('inviterId');
+    store.remove('unionId');
     mainView.router.load({
         url: 'views/user.html'
     })
-}
-
-/**
- * 登录成功之后对user页面的信息刷新
- * */
-function loginSucc(data, callback) {
-    const {imgPath} = config;
-    const {
-        imgUrl,
-        nickname,
-        name,
-        loginName,
-        point,
-        level,
-        favoriteCount
-    } = data;
-    $$('.user-header').addClass('login-succ');
-    $$('.user-tell-number').text(`手机号：${loginName || ''}`);
-    imgUrl && ($$('.user-pic img').attr('src', `${imgUrl}${imgPath(8)}`));
-    imgUrl && $$('.user-pic img').addClass('active');
-    favoriteCount && $$('.user-collection-num').text(favoriteCount);
-    nickname && $$('.page-user .user-name>span').text(nickname);
-    point && $$('.user-member-number').text(point);
-    $$('.user-name>i').addClass(`iconfont icon-v${level || 0}`);
-    callback(data);
 }
 
 /**
@@ -112,8 +79,8 @@ function loginSucc(data, callback) {
  * 3: 在发布成功页面登录，带来手机号自动填入
  * */
 function loginViewShow(phone) {
-    const token = nativeEvent.getUserValue();
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const token = store.get('accessToken');
+    const weixinData = store.get('weixinData');
     let url;
     if (!token && !weixinData) {
         url = Number(phone) ? ('views/login.html?phone=' + phone) : 'views/login.html';
@@ -147,7 +114,6 @@ function loginViewHide() {
 export {
     isLogin,
     logOut,
-    loginSucc,
     activeLogout,
     loginViewShow,
     loginViewHide,

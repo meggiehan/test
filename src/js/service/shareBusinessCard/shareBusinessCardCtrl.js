@@ -12,7 +12,6 @@ function shareBusinessCardCtrl(userInfo,
                                currentPage,
                                authText,
                                callback) {
-
     const businessCardStrCacheSaveKey = 'businessCardStrCache'; //作为名片信息更新对比的key
     const businessCardUrlCacheSaveKey = 'businessCardUrlCache'; //上传之后返回的名片url
     const BG_WIDTH = 600;

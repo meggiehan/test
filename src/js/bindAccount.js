@@ -79,20 +79,20 @@ function bindAccountInit(f7, view, page) {
     const unbindCallback = (data) => {
         const {code, message} = data;
         if (1 == code) {
-            nativeEvent.setDataToNative('weixinData', '');
-            nativeEvent.setUerInfoToNative({unionId: ''});
-            store.set('weixinUnionId', '');
+            store.remove('weixinData');
+            store.remove('unionId');
+            store.remove('weixinUnionId');
             mainView.router.load({
                 url: 'views/user.html',
                 reload: true
-            })
+            });
             return;
         }
         f7.alert('温馨提示', message);
     }
 
     currentPage.find('.col-50.weixin')[0].onclick = () => {
-        if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+        if (!store.get('isWXAppInstalled')) {
             f7.alert("绑定失败");
             return;
         }

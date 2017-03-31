@@ -5,171 +5,199 @@
 </div>
 <div class="page swipeback page-user no-swipeback no-animation" data-reload="true" data-page="user">
     <div class="page-content">
-        <div class="user-header list-block media-list">
-            <div class="item-link item-content">
-                <div class="user-pic item-media">
-                    <img src="img/defimg.png" width="65" class="lazy">
+        <div class="vue-model">
+            <div
+                    class="user-header list-block media-list"
+                    :class="(userInfo.id || weixinData.imgUrl) ? 'login-succ' : ''"
+                    @click="goMyCenter">
+                <div class="item-link item-content">
+                    <div class="user-pic item-media">
+                        <img
+                                :src="(userInfo.imgUrl || weixinData.imgUrl) ? (userInfo.imgUrl ? `${userInfo.imgUrl}${imgPath(8)}` : weixinData.imgUrl) : 'img/defimg.png'"
+                                :class="userInfo.imgUrl ? 'active' : ''"
+                                width="65"
+                                class="lazy"/>
+                    </div>
+                    <div class="row item-inner">
+                        <div class="col-65">
+                            <span class="login">点击登录</span>
+                            <div class="user-info">
+                                <p class="user-name">
+                                    <span>{{userInfo.nickname || weixinData.nickname || '匿名用户'}}</span>
+                                    <i class="iconfont" :class="`icon-v${userInfo.level || 0}`"></i>
+                                </p>
+                                <p class="user-tell-number">
+                                    {{weixinData.imgUrl && '绑定手机号，可使用更多功能' || `手机号：${userInfo.loginName}`}}
+                                </p>
+                            </div>
+                        </div>
+                        <a class="col-35 iconfont icon-right" onclick="apiCount('btn_editInfo')">
+                            <span class="modify-text">{{weixinData.imgUrl ? '绑定' : '修改资料'}}</span>
+                        </a>
+                    </div>
                 </div>
-                <div class="row item-inner">
-                    <div class="col-65">
-                        <span class="login">点击登录</span>
-                        <div class="user-info">
-                            <p class="user-name"><span>匿名用户</span><i></i></p>
-                            <p class="user-tell-number">
-                                手机号： <span></span>
+            </div>
+            <div class="user-info-driver-check">
+                <p class="driver-checking"
+                   v-if="0 === userInfo.driverState"
+                    @click="fishCarCheckIng"><span class="iconfont icon-info"></span>鱼车信息审核中，请耐心等待</p>
+                <p class="driver-reject"
+                   v-if="2 == userInfo.driverState"
+                   @click="catRejectInfo(userInfo.driverRefuseDescribe)">
+                    <span class="iconfont icon-info"></span>
+                    鱼车信息审核未通过，点击查看原因
+                </p>
+                <p
+                   class="driver-frozen"
+                   v-if="3 == userInfo.driverState"
+                   @click="frozenMsg">
+                    <span class="iconfont icon-info"></span>
+                    鱼车司机身份已被冻结，如有疑问联系客服
+                </p>
+
+                <p class="enter-auth-check"
+                   v-if="0 == userInfo.enterpriseAuthenticationState"
+                   @click="authCheckInfo">
+                    <span class="iconfont icon-info"></span>
+                    企业认证审核中
+                </p>
+                <p class="enter-auth-reject"
+                   v-if="2 == userInfo.enterpriseAuthenticationState"
+                   @click="showAuthRejectInfo(userInfo.enterpriseAuthenticationDescribe, 1)">
+                    <span class="iconfont icon-info"></span>
+                    企业认证审核未通过，点击查看原因
+                </p>
+
+                <p class="personal-auth-check"
+                   v-if="0 == userInfo.personalAuthenticationState"
+                   @click="authCheckInfo">
+                    <span class="iconfont icon-info"></span>
+                    个人认证审核中
+                </p>
+                <p class="personal-auth-reject"
+                   v-if="2 == userInfo.personalAuthenticationState"
+                   @click="showAuthRejectInfo(userInfo.personalAuthenticationDescribe, 0)">
+                    <span class="iconfont icon-info"></span>
+                    个人认证审核未通过，点击查看原因
+                </p>
+
+            </div>
+            <div class="user-info-list row">
+                <a class="my-sell-list col-33" @click="isLogin ? myListBuy() : login()">
+                    <div>
+                        <span class="user-sell-num">{{userInfo.sellNumber || 0}}</span>个
+                        <div class="num-title">我的出售</div>
+                    </div>
+                </a>
+                <a class="my-buy-list col-33" @click="isLogin ? myListSell() : login()">
+                    <div>
+                        <span class="user-buy-num">{{userInfo.buyNumber || 0}}</span>个
+                        <div class="num-title">我的求购</div>
+                    </div>
+                </a>
+                <a class="my-fish-car-list col-33" @click="isLogin ? goFishDemand() : login()">
+                    <div>
+                        <span class="user-fish-car-num">{{userInfo.fishCarDemandCount || 0}}</span>个
+                        <div class="num-title">叫鱼车需求</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="recent-release-info">
+                <div class="title">
+                    最近发布
+                    <span class="iconfont icon-right" @click="shareMyShop">去分享我的店铺</span>
+                </div>
+                <div class="content">
+                    <a class="sale-info" :href="`views/selldetail.html?id=${recentSaleDemand.id}`" v-if="!!recentSaleDemand">
+                        <span>出售</span>
+                        <div>
+                            <p class="info-name">
+                                {{recentSaleDemand.fishTypeName}}
+                                <span>{{timeDifference(recentSaleDemand.sort)}}</span>
+                            </p>
+                            <p>{{`${recentSaleDemand.provinceName}${recentSaleDemand.cityName}`}}
+                                <span v-if="recentSaleDemand.quantityTagList.length">|</span>{{recentSaleDemand.quantityTagList[0].tagName}}
                             </p>
                         </div>
-                    </div>
-                    <a class="col-35 iconfont icon-right" onclick="apiCount('btn_editInfo')">
-                        <span class="modify-text">修改资料</span>
                     </a>
+                    <a class="buy-info" :href="`views/buydetail.html?id=${recentBuyDemand.id}`" v-if="!!recentBuyDemand">
+                        <span>求购</span>
+                        <div>
+                            <p class="info-name">
+                                {{recentBuyDemand.fishTypeName}}
+                                <span>{{timeDifference(recentBuyDemand.sort)}}</span>
+                            </p>
+                            <p>{{`${recentBuyDemand.provinceName}${recentBuyDemand.cityName}`}}
+                                <span v-if="recentBuyDemand.quantityTagList && recentBuyDemand.quantityTagList.length">|</span>{{recentBuyDemand.quantityTagList ? recentBuyDemand.quantityTagList[0].tagName : ''}}</p>
+                        </div>
+                    </a>
+                    <div class="none-release-info" v-if="!recentBuyDemand && !recentSaleDemand">想要赚钱，就不能懒噢~</div>
+                </div>
+                <div class="footer">
+                    <span class="btn" @click="releaseOrRefresh()">{{(!recentBuyDemand && !recentSaleDemand) ? '发布信息' : '刷新信息'}}</span>
                 </div>
             </div>
-        </div>
-        <div class="user-info-driver-check">
-            <a class="driver-edit" onclick="apiCount('btn_myCenter_fishcarRoutes')">查看我的鱼车行程</a>
-            <p class="driver-checking"><span class="iconfont icon-info"></span>鱼车信息审核中，请耐心等待</p>
-            <p class="driver-reject"><span class="iconfont icon-info"></span>鱼车信息审核未通过，点击查看原因</p>
-        </div>
-        <div class="user-info-list row">
-            <a class="my-sell-list col-33">
-                <div onclick="apiCount('btn_mysell')">
-                    <span class="user-sell-num">0</span>个
-                    <div class="num-title">我的出售</div>
-                </div>
-            </a>
-            <a class="my-buy-list col-33">
-                <div onclick="apiCount('btn_mypurchase')">
-                    <span class="user-buy-num">0</span>个
-                    <div class="num-title">我的求购</div>
-                </div>
-            </a>
-            <a class="my-fish-car-list col-33">
-                <div>
-                    <span class="user-fish-car-num">0</span>个
-                    <div class="num-title">叫鱼车需求</div>
-                </div>
-            </a>
-        </div>
-        <!--<div class="user-cert-identity">-->
-            <!--&lt;!&ndash;<div class="user-cert-title">我要认证</div>&ndash;&gt;-->
-            <!--<div class="row user-cert-type">-->
-                <!--<div class="col-50 go-identity" onclick="apiCount('btn_identity')">-->
-                    <!--<div class="iconfont icon-identity"></div>-->
-                    <!--<p class="title">实名认证</p>-->
-                    <!--<p class="user-identity-text">点击认证</p>-->
-                <!--</div>-->
-                <!--<div class="col-50 go-verification" onclick="apiCount('btn_certification')">-->
-                    <!--<div class="iconfont icon-verification"></div>-->
-                    <!--<p class="title">鱼类资质</p>-->
-                    <!--<p><span class="user-verification-num">0</span>项</p>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <div class="user-refresh-auth list-block media-list row">
-            <div class="item-content col-50">
-                <div class="item-media"><img height="35" src="./img/icon_refreshInfo.png" alt=""></div>
-                <div class="item-inner">
-                    <p>刷新信息</p>
-                    <p>每天一次 惊喜不断</p>
-                </div>
-            </div>
-            <div class="item-content col-50 go-identity" onclick="apiCount('btn_identity')">
-                <div class="item-media"><img height="35" src="./img/icon_auth.png" alt=""></div>
-                <div class="item-inner">
-                    <p>实名认证</p>
-                    <p class="user-identity-text">现在去认证</p>
-                </div>
-            </div>
-        </div>
-        <div class="user-help-list">
-            <!-- <a class="row user-help-danbao">
-                <div class="col-15 iconfont icon-danbao"></div>
-                <div class="col-85 row first">
-                    <div class="col-60">官方担保</div>
-                    <div class="col-40 iconfont icon-right">交易安全有保障</div>
-                </div>
-            </a> -->
-            <a class="row edit-fish-car-info hide" onclick="apiCount('btn_myCenter_editDriverInfo')">
-                <div class="col-15 iconfont icon-fish-car"></div>
-                <div class="col-85 row first">
-                    <div class="col-60">修改我的鱼车信息</div>
-                    <div class="col-40 iconfont icon-right"></div>
-                </div>
-            </a>
-            <a class="row my-collection-list" onclick="apiCount('btn_favoriteList')">
-                <div class="col-15 iconfont icon-collection-active"></div>
-                <div class="col-85 row first">
-                    <div class="col-60">我的收藏</div>
-                    <div class="col-40 iconfont icon-right"><span class="user-collection-num">0</span>个</div>
-                </div>
-            </a>
-            <a class="row go-verification external" onclick="apiCount('btn_certification')">
-                <div class="col-15 iconfont icon-verification"></div>
-                <div class="col-85 row first">
-                    <div class="col-60">鱼类资质证书</div>
-                    <div class="col-40 iconfont icon-right"><span class="user-verification-num">0</span>项</div>
-                </div>
-            </a>
-            <a class="row user-member external" onclick="apiCount('btn_myCenter_myLevel')">
-                <div class="col-15 iconfont icon-member"></div>
-                <div class="col-85 row first inviter-btn">
-                    <div class="col-60">我的等级</div>
-                    <div class="col-40 iconfont icon-right">靠谱指数：<span class="user-member-number">0</span></div>
-                </div>
-            </a>
-            <a class="row user-invit" onclick="apiCount('btn_myCenter_inviteFriends')">
-                <div class="col-15 iconfont icon-invite"></div>
-                <div class="col-85 row first">
-                    <div class="col-60">邀请好友拿奖励</div>
-                    <div class="col-40 iconfont icon-right"><span class="user-invite-num">已邀请0人</span><span class="user-new-activity">可提升靠谱指数</span></div>
-                </div>
-            </a>
 
-            <a class="row user-fish-car-driver">
-                <div class="col-15 iconfont icon-fish-car"></div>
-                <div class="col-85 row first">
-                    <div class="col-60">鱼车司机登记</div>
-                    <div class="col-40 iconfont icon-right"><span>接单赚钱更方便</span></div>
-                </div>
-            </a>
-            <p></p>
-
-            <a class="row user-bind-account">
-                <div class="col-15 iconfont icon-lock"></div>
-                <div class="col-85 row first" onclick="apiCount('btn_contact')">
-                    <div class="col-60">绑定账号</div>
-                    <div class="col-40 iconfont icon-right"></div>
-                </div>
-            </a>
-
-            <a class="row user-call-service">
-                <div class="col-15 iconfont icon-call"></div>
-                <div class="col-85 row first" onclick="apiCount('btn_contact')">
-                    <div class="col-60">联系客服</div>
-                    <div class="col-40 iconfont icon-right">18115381185</div>
-                </div>
-            </a>
-            <a class="row external user-help-service">
-                <div class="col-15 iconfont icon-info"></div>
-                <div class="col-85 row" onclick="apiCount('btn_help')">
-                    <div class="col-60">帮助中心</div>
-                    <div class="col-40 iconfont icon-right"></div>
-                </div>
-            </a>
-            <!-- <a class="row">
-                <div class="col-15 iconfont icon-me-qiugou"></div>
-                <div class="col-85 row">
-                    <div class="col-60">检查更新</div>
-                    <div class="col-40 iconfont icon-right">
-                        当前版本：<span class="user-app-version"></span>
+            <div class="user-refresh-auth list-block media-list row">
+                <div class="item-content col-50" @click="isLogin ? goMyMember() : login()">
+                    <div class="item-media">
+                        <span class="iconfont" :class="`icon-v${userInfo.level || 0}`"></span>
+                    </div>
+                    <div class="item-inner my-level">
+                        <p class="title">我的等级</p>
+                        <p>靠谱指数：{{0}}</p>
                     </div>
                 </div>
-            </a> -->
+                <div class="item-content col-50 go-identity" @click="isLogin ? goMyShop() : login()">
+                    <div class="item-media"><img height="35" src="./img/ic_shop.png" alt=""></div>
+                    <div class="item-inner">
+                        <p class="title">我的店铺</p>
+                        <p class="user-identity-text">进入浏览{{0}}次</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-nav-items row">
+                <div class="col-25" @click="isLogin ? goMyCollection() : login()">
+                    <span class="iconfont icon-collection-active"></span>
+                    <p>我的收藏</p>
+                </div>
+                <div class="col-25" @click="goIdentity">
+                    <b v-if="isShowGoAuth">去认证</b>
+                    <span class="iconfont icon-member"></span>
+                    <p>{{authText}}</p>
+                </div>
+                <div class="col-25" @click="isLogin ? uploadCert() : login()">
+                    <span class="iconfont icon-verification"></span>
+                    <p>资质证书</p>
+                </div>
+                <div class="col-25" @click="isLogin ? driverBtnClick() : login()">
+                    <span class="iconfont icon-fish-car"></span>
+                    <p>{{driverBtnText}}</p>
+                </div>
+
+                <div class="col-25" @click="bindAccount">
+                    <span class="iconfont icon-lock"></span>
+                    <p>绑定账号</p>
+                </div>
+                <div class="col-25" @click="isLogin ? inviteFriends() : login()">
+                    <span class="iconfont icon-invite"></span>
+                    <p>邀请好友</p>
+                </div>
+                <div class="col-25" @click="helpCenter">
+                    <span class="iconfont  icon-info"></span>
+                    <p>帮助中心</p>
+                </div>
+                <div class="col-25" @click="contactUs">
+                    <span class="iconfont icon-call"></span>
+                    <p>联系客服</p>
+                </div>
+            </div>
+            <!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
+            <!--</p>-->
+            <p class="user-app-version">当前版本：<span>1.8.2.3</span></p>
         </div>
-        <!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
-        <!--</p>-->
-        <p class="user-app-version">当前版本：<span>1.8.2.3</span></p>
     </div>
     <div class="toolbar tabbar">
         <div class="toolbar-inner">

@@ -386,7 +386,7 @@ module.exports = {
 
     alertTitleText: () => {
         const token = getToken();
-        const weixinData = nativeEvent.getDataToNative('weixinData');
+        const weixinData = store.get('weixinData');
         let text;
         !token && !weixinData && (text = '您还没登录，请先登录!')
         !token && weixinData && (text = '绑定手机号后，可以使用全部功能!')
@@ -643,5 +643,16 @@ module.exports = {
         str += `nickname=${nickname}`;
 
         return str;
+    },
+    /**
+     * 获取企业认证或者个人认证
+     * @e 企业认证状态
+     * @p 个人认证状态
+     * */
+    getAuthText: (e, p) => {
+        let res = '实名认证';
+        1 == p && (res = '已个人认证');
+        1 == e && (res = '已企业认证');
+        return res;
     }
 };

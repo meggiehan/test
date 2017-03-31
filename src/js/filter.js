@@ -3,6 +3,7 @@ import {home, filter} from '../utils/template';
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
+import store from '../utils/localStorage';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 function filterInit(f7, view, page) {
@@ -30,7 +31,7 @@ function filterInit(f7, view, page) {
     let pullToRefresh = false;
     let releaseFishName;
     let parentFishInfo = {};
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
 
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     window.contentScrollTop = 0;
@@ -154,7 +155,7 @@ function filterInit(f7, view, page) {
      * */
     const fishTypeRootCallback = (data) => {
         let typeHtml = '';
-        const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+        const cacheFish = store.get(fishCacheObj.fishCacheKey);
         cacheFish && cacheFish.length && (typeHtml += `<span data-id="-1">最近使用鱼种</span>`);
         if (!release) {
             typeHtml += `<span data-id="0" class="${fishTagId ? '' : 'active-ele'}">全部鱼种</span>`;
@@ -279,7 +280,7 @@ function filterInit(f7, view, page) {
             categoryFish = allFishTypeChild;
             typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && !fishTagId && 'active-ele'}">${ele.innerText}</span>`;
         } else if (-1 == rootId) {
-            const cacheFish = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+            const cacheFish = store.get(fishCacheObj.fishCacheKey);
             if (cacheFish) {
                 $$.each(cacheFish.reverse(), (index, item) => {
                     categoryFish.push(item);

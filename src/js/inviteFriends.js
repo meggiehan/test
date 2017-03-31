@@ -17,6 +17,7 @@ function inviteFriendsInit(f7, view, page) {
     const {cacheUserInfoKey, timeout} = config;
     const userInfo = store.get(cacheUserInfoKey);
     let isHeadImgLoad = false;
+    let isErrNum = 0;
 
     const {
         invitationCode,
@@ -54,12 +55,37 @@ function inviteFriendsInit(f7, view, page) {
         });
     }
 
+    /**
+     * 点击分享的最终操作
+     * */
     const $qrCodeBg = currentPage.find('.bg-card-pic');
-    const shareBaseAction = (callback) => {
+    const shareBaseAction = (cb, callThis) => {
         f7.showIndicator();
         const $qrCodeLevel = currentPage.find('.bg-card-level');
         const $qrCodePic = currentPage.find('.invite-user-code').children('img');
-
+        const callback = (res) => {
+            f7.hideIndicator();
+            if ('error' == res) {
+                isErrNum ++;
+                if(10 <=isErrNum){
+                    callThis('error');
+                }else{
+                    f7.alert('分享失败，请稍后再试！');
+                }
+                return;
+            }
+            isErrNum = 0;
+            const {
+                code,
+                data
+            } = res;
+            if (1 == code) {
+                cb(data);
+            } else {
+                f7.alert('服务器繁忙，请稍后再试！');
+                console.log(code);
+            }
+        };
         const shareAction = () => {
             const $headImg = currentPage.find('.head-img');
             shareBusinessCardCtrl(
@@ -127,80 +153,41 @@ function inviteFriendsInit(f7, view, page) {
                         url: 'views/inviteFriendsList.html'
                     })
                 },
-                weixinShareFriend() {
-                    apiCount('btn_inviteFriends_share');
+                weixinShareFriend(isError) {
+                    'error' !== isError && apiCount('btn_inviteFriends_share');
+
                     const friendAction = () => {
-                        shareBaseAction((res) => {
-                            f7.hideIndicator();
-                            if ('error' == res) {
-                                friendAction();
-                                return;
-                            }
-                            const {
-                                code,
-                                data
-                            } = res;
-                            if (1 == code) {
-                                nativeEvent.shareInfoToWeixin(0, data);
-                            } else {
-                                f7.alert('服务器繁忙，请稍后再试！');
-                                console.log(code);
-                            }
-                        })
+                        shareBaseAction((url) => {
+                            nativeEvent.shareInfoToWeixin(0, url);
+                        }, inviteVue.weixinShareFriend);
                     };
                     friendAction();
                 },
-                weixinShareCircle() {
-                    apiCount('btn_inviteFriends_share');
+                weixinShareCircle(isError) {
+                    'error' !== isError && apiCount('btn_inviteFriends_share');
+
                     const circlrAction = () => {
-                        shareBaseAction((res) => {
-                            f7.hideIndicator();
-                            if ('error' == res) {
-                                circlrAction();
-                                return;
-                            }
-                            const {
-                                code,
-                                data
-                            } = res;
-                            if (1 == code) {
-                                nativeEvent.shareInfoToWeixin(1, data);
-                            } else {
-                                f7.alert('服务器繁忙，请稍后再试！');
-                                console.log(code);
-                            }
-                        })
+                        shareBaseAction((url) => {
+                            nativeEvent.shareInfoToWeixin(0, url);
+                        }, inviteVue.weixinShareCircle);
                     };
                     circlrAction();
                 },
                 qqShareFriend() {
                     apiCount('btn_inviteFriends_share');
+
                     const qqShareAction = () => {
-                        shareBaseAction((res) => {
-                            f7.hideIndicator();
-                            if ('error' == res) {
-                                qqShareAction();
-                                return;
-                            }
-                            const {
-                                code,
-                                data
-                            } = res;
-                            if (1 == code) {
-                                JsBridge('JS_QQSceneShare', {
-                                    type: '0',
-                                    imageUrl: data,
-                                    title: '鱼大大',
-                                    describe: "",
-                                    webUrl: ''
-                                }, () => {
-                                    console.log('分享成功！')
-                                });
-                            } else {
-                                f7.alert('服务器繁忙，请稍后再试！');
-                                console.log(code);
-                            }
-                        })
+                        shareBaseAction((url) => {
+                            JsBridge('JS_QQSceneShare', {
+                                type: '0',
+                                imageUrl: url,
+                                title: '鱼大大',
+                                describe: "",
+                                webUrl: ''
+                            }, () => {
+                                console.log('分享成功！')
+                            });
+                        }, inviteVue.weixinShareCircle);
                     };
                     qqShareAction();
                 }

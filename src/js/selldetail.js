@@ -16,7 +16,7 @@ function selldetailInit(f7, view, page) {
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const shareBtn = currentPage.find('.icon-share')[0];
     const {shareUrl, cacheUserInfoKey} = config;
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     let demandInfo_;
     let currentUserId;
     let errorInfo;
@@ -356,7 +356,7 @@ function selldetailInit(f7, view, page) {
     * 分享信息
     * */
     shareBtn.onclick = () => {
-        if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+        if (!store.get('isWXAppInstalled')) {
             f7.alert("分享失败");
             return;
         }
