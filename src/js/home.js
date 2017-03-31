@@ -17,7 +17,7 @@ import HomeModel from './model/HomeModel';
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     const {fishCacheObj, cacheUserInfoKey} = config;
     const userInfo = store.get(cacheUserInfoKey);
     const fishCarDriverId = userInfo ? userInfo.fishCarDriverId : '';
@@ -166,7 +166,7 @@ function homeInit(f7, view, page) {
      * render 最近使用鱼种
      * */
     setTimeout(() => {
-        const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+        const fishCacheData = store.get(fishCacheObj.fishCacheKey);
         if (fishCacheData && fishCacheData.length) {
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {

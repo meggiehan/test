@@ -23,7 +23,7 @@ function loginCodeInit(f7, view, page) {
     let isSend = false;
     let isCountDown = false;
     let _voiceCodeWaitTime = voiceCodeWaitTime;
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     currentPage.find('.login-code-phone').text(phone);
     let isActiveClick = false;
 

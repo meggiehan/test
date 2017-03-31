@@ -2,6 +2,7 @@ import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
 import { loginViewHide } from '../middlewares/loginMiddle';
 import {weixinAction} from './service/login/loginCtrl';
+import store from '../utils/localStorage';
 
 function loginInit(f7, view, page) {
     const {phone, notBindPhone} = page.query;
@@ -97,7 +98,7 @@ function loginInit(f7, view, page) {
     /**
      * 没有微信 隐藏微信按钮
      */
-    if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+    if (!store.get('isWXAppInstalled') || store.get('weixinData')) {
         currentPage.find(".break-up-line").hide();
         currentPage.find(".weixin-login-btn").hide();
     }

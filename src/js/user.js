@@ -1,6 +1,6 @@
 import store from '../utils/localStorage';
 import config from '../config';
-import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
 import {getCurrentDay, alertTitleText, getAuthText} from '../utils/string';
@@ -91,7 +91,7 @@ function userInit(f7, view, page) {
             releaseInfo(){
                 apiCount('btn_tabbar_post');
                 if (!isLogin() && store.get('weixinData')) {
-                    f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow)
+                    this.login()
                     return;
                 }
                 view.router.load({
@@ -109,7 +109,7 @@ function userInit(f7, view, page) {
             //绑定账号
             bindAccount(){
                 if (!isLogin() && !store.get('weixinData')) {
-                    f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
+                    f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow);
                     return;
                 }
                 apiCount('btn_bindAccounts');
@@ -166,7 +166,7 @@ function userInit(f7, view, page) {
             //分享我的店铺
             shareMyShop(){
                 if (!isLogin() && !store.get('weixinData')) {
-                    f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
+                    this.login();
                     return;
                 }
                 mainView.router.load({
@@ -201,8 +201,8 @@ function userInit(f7, view, page) {
                         })
                     }
                 }else{
-                    if (!isLogin()) {
-                        f7.alert('手机号登录之后才可以登记，请先登录!', '温馨提示', loginViewShow);
+                    if (!isLogin() && !store.get('weixinData')) {
+                        this.login();
                         return;
                     }
                     apiCount('btn_myCenter_registerDriver');
@@ -282,13 +282,13 @@ function userInit(f7, view, page) {
             userVue.isLogin = true;
 
             const oldDate = store.get('oldDate');
-            !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
+            !oldDate && store.set('oldDate', getCurrentDay());
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
                     nickname,
                     personalAuthenticationState
                 } = userInformation;
-                nativeEvent.setDataToNative('oldDate', getCurrentDay());
+                store.set('oldDate', getCurrentDay());
                 if (!nickname) {
                     f7.modal({
                         title: '提示',

@@ -10,7 +10,7 @@ import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
@@ -320,7 +320,7 @@ function buydetailInit(f7, view, page) {
      * 分享信息
      * */
     shareBtn.onclick = () => {
-        if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+        if (!store.get('isWXAppInstalled')) {
             f7.alert("分享失败");
             return;
         }

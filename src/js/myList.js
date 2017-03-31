@@ -28,13 +28,13 @@ function myListInit(f7, view, page) {
 
     const sellContent = currentPage.find('.sell-collection-list-info');
     const buyContent = currentPage.find('.buy-collection-list-info');
-    const openGuide = nativeEvent.getDataToNative('refreshGuide');
+    const openGuide = store.get('refreshGuide');
 
     let sellDate = [];
     let buyDate = [];
 
     if(!openGuide){
-        nativeEvent.setDataToNative('refreshGuide', 'true');
+        store.set('refreshGuide', 'true');
         $$('.my-list-guide-model').addClass('on');
     }
 

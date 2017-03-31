@@ -386,7 +386,7 @@ module.exports = {
 
     alertTitleText: () => {
         const token = getToken();
-        const weixinData = nativeEvent.getDataToNative('weixinData');
+        const weixinData = store.get('weixinData');
         let text;
         !token && !weixinData && (text = '您还没登录，请先登录!')
         !token && weixinData && (text = '绑定手机号后，可以使用全部功能!')
