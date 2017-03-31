@@ -131,9 +131,6 @@ userUtils.getBussesInfoCallback = (data) => {
                     currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
                     currentPage.find('.edit-fish-car-info').removeClass('hide').attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
                 }
-                // currentPage.find('.edit-fish-car-info')
-                //     .css({display: '-webkit-flex'})
-                //     .attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`);
                 3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id');
             }
 

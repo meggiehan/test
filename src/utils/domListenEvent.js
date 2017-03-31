@@ -80,6 +80,7 @@ module.exports = {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
+            apiCount('btn_mysell');
             mainView.router.load({
                 url: 'views/myList.html?type=1'
             })
@@ -90,6 +91,7 @@ module.exports = {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
+            apiCount('btn_mypurchase');
             mainView.router.load({
                 url: 'views/myList.html?type=2'
             })
@@ -100,6 +102,7 @@ module.exports = {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
+            apiCount('btn_certification');
             mainView.router.load({
                 url: 'views/fishCert.html'
             })
@@ -117,6 +120,7 @@ module.exports = {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
+            apiCount('btn_identity');
             const url = (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState) ?
                 'views/identityAuthentication.html' : 'views/catIdentityStatus.html';
             mainView.router.load({
@@ -127,6 +131,7 @@ module.exports = {
     },
 
     contactUs: () => {
+        apiCount('btn_contact');
         nativeEvent.contactUs(servicePhoneNumber);
     },
 
@@ -247,6 +252,7 @@ module.exports = {
         if (!isLogin()) {
             f7.alert(alertTitleText(), '温馨提示', loginViewShow)
         } else {
+            apiCount('btn_myCenter_inviteFriends');
             mainView.router.load({
                 url: 'views/inviteFriends.html'
             })

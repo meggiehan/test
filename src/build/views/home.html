@@ -149,38 +149,28 @@
             </div>
 
             <!--我的鱼车行程-->
-            <div class="fish-car-trip" v-show="fishCarTripInfo">
+            <div class="fish-car-trip" v-show="fishCarDriverId">
                 <div class="fish-car-trip-title">
                     最新的鱼车行程
                     <a class="iconfont icon-right" :href="`views/fishCarTripList.html?id=${fishCarDriverId}`">查看我的鱼车行程</a>
                 </div>
                 <div class="fish-car-trip-content row">
-                    <div class="col-33">
-                        <div class="title">
-                            {{fishCarTripInfo ?
-                            (Number(fishCarTripInfo.appointedDate.split('-')[1]) >= 10 ?
-                            fishCarTripInfo.appointedDate.split('-')[1] :
-                            fishCarTripInfo.appointedDate.split('-')[1].replace('0', '')) : ''
-                            }}月{{fishCarTripInfo ?
-                            (Number(fishCarTripInfo.appointedDate.split('-')[2]) >= 10 ?
-                            fishCarTripInfo.appointedDate.split('-')[2] :
-                            fishCarTripInfo.appointedDate.split('-')[2].replace('0', '')) : ''
-                            }}日
-                        </div>
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{tripDate}}</div>
                         <p>日期</p>
                     </div>
-                    <div class="col-33">
+                    <div class="col-33" v-show="fishCarTripInfo">
                         <div class="title">{{fishCarTripInfo.departureProvinceName}}</div>
                         <p>出发地</p>
                     </div>
-                    <div class="col-33">
+                    <div class="col-33" v-show="fishCarTripInfo">
                         <div class="title">{{fishCarTripInfo.destinationProvinceName}}</div>
                         <p>目的地</p>
                     </div>
+                    <div class="none-fish-trip col-100" v-show="!fishCarTripInfo">快去发布一个今天的行程吧~</div>
                 </div>
                 <div class="fish-car-trip-footer row">
-                    <a :href="`views/shareMyTrip.html?contactName=${fishCarTripInfo.contactName}&date=${fishCarTripInfo.appointedDate}&departureProvinceName=${fishCarTripInfo.departureProvinceName}&destinationProvinceName=${fishCarTripInfo.destinationProvinceName}`"
-                       class="col-50">分享我的行程</a>
+                    <a @click="shareTrip" class="col-50">{{ fishCarTripInfo ? '分享我的行程' :  '发布行程'}}</a>
                     <a href="views/fishCar.html?isFishCar=1" class="col-50">去找货</a>
                 </div>
             </div>

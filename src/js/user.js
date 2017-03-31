@@ -3,9 +3,10 @@ import config from '../config';
 import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import userUtils from '../utils/viewsUtil/userUtils';
-import {getCurrentDay, alertTitleText} from '../utils/string';
+import {getCurrentDay, alertTitleText, getAuthText} from '../utils/string';
 import UserModel from './model/UserModel';
-import invitationModel from './service/invitation/InvitationModel';
+import Vue from 'vue';
+import {timeDifference} from '../utils/time';
 
 import {
     goHome,
@@ -28,7 +29,6 @@ function userInit(f7, view, page) {
         mWebUrl
     } = config;
     let userInformation = store.get(cacheUserInfoKey);
-    const weixinData = nativeEvent.getDataToNative('weixinData');
 
     /**
      * 更改版本号
@@ -51,14 +51,232 @@ function userInit(f7, view, page) {
         currentPage.find('.user-app-version').hide();
     }
 
+    const userVue = new Vue({
+        el: currentPage.find('.vue-model')[0],
+        data: {
+            userInfo: {},
+            recentBuyDemand: '',
+            recentSaleDemand: ''
+        },
+        methods: {
+            contactUs: contactUs,
+            timeDifference: timeDifference,
+            imgPath: imgPath,
+            contactUs: contactUs,
+            myListBuy: myListBuy,
+            myListSell: myListSell,
+            isLogin: loginStatus,
+            uploadCert: uploadCert,
+            inviteFriends: inviteFriends,
+            goIdentity: goIdentity,//前往实名认证
+            goMyCenter: goMyCenter,
+            login(){
+                f7.alert(alertTitleText(), '温馨提示', loginViewShow);
+            },
+            //打开帮助中心
+            helpCenter(){
+                apiCount('btn_help');
+                nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
+            },
+            goMyMember(){
+                apiCount('btn_myCenter_myLevel');
+                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInformation['id']}`);
+            },
+            goMyCollection(){
+                apiCount('btn_favoriteList');
+                mainView.router.load({
+                    url: 'views/myCollection.html'
+                })
+            },
+            //发布信息
+            releaseInfo(){
+                apiCount('btn_tabbar_post');
+                if (!isLogin() && store.get('weixinData')) {
+                    f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow)
+                    return;
+                }
+                view.router.load({
+                    url: 'views/release.html'
+                })
+            },
+            //刷新或者发布信息
+            releaseOrRefresh(){
+                if(!userVue.recentBuyDemand && !userVue.recentSaleDemand){
+                    userVue.releaseInfo();
+                }else{
+                    userVue.myListSell();
+                }
+            },
+            //绑定账号
+            bindAccount(){
+                if (!isLogin() && !store.get('weixinData')) {
+                    f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
+                    return;
+                }
+                apiCount('btn_bindAccounts');
+                mainView.router.load({
+                    url: 'views/bindAccount.html'
+                })
+            },
+            //前往鱼车需求
+            goFishDemand(){
+                apiCount('btn_myCenter_fishcarDemands');
+                view.router.load({
+                    url: 'views/myFishCarDemandList.html'
+                })
+            },
+            //查看拒绝原因
+            catRejectInfo(msg){
+                f7.modal({
+                    title: '抱歉',
+                    text: `您的个人认证未通过，原因是：${msg}`,
+                    buttons: [
+                        {
+                            text: '重新报名',
+                            onClick: () => {
+                                view.router.load({
+                                    url: `views/postDriverAuth.html?id=${userVue.userInfo.fishCarDriverId}`
+                                })
+                            }
+                        },
+                        {
+                            text: '我知道了',
+                            onClick: () => {}
+                        }
+                    ]
+                });
+            },
+            //冻结提示
+            frozenMsg(){
+                apiCount('btn_myCenter_editDriverInfo');
+                f7.modal({
+                    title: '抱歉',
+                    text: '您的鱼车司机账号已被冻结，请联系客服！',
+                    buttons: [
+                        {
+                            text: '联系客服',
+                            onClick: contactUs
+                        },
+                        {
+                            text: '我知道了',
+                            onClick: () => {}
+                        }
+                    ]
+                });
+            },
+            //分享我的店铺
+            shareMyShop(){
+                if (!isLogin() && !store.get('weixinData')) {
+                    f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
+                    return;
+                }
+                mainView.router.load({
+                    url: 'views/myShop.html'
+                })
+            },
+            fishCarCheckIng(){
+                f7.modal({
+                    title: '司机审核中',
+                    text: '请耐心等待审核结果，审核通过后就可以发布行程了',
+                    buttons: [
+                        {
+                            text: '我知道了',
+                            onClick: () => {}
+                        }
+                    ]
+                });
+            },
+            driverBtnClick(){
+                if(this && this.userInfo && this.userInfo.driverState > -2){
+                    if(1 !== this.userInfo.driverState){
+                        if (0 == this.userInfo.driverState) {
+                            this.fishCarCheckIng();
+                        } else if (2 == this.userInfo.driverState) {
+                            this.catRejectInfo(this.userInfo.driverRefuseDescribe);
+                        } else if (3 == this.userInfo.driverState) {
+                            this.frozenMsg();
+                        }
+                    }else{
+                        mainView.router.load({
+                            url: `views/postDriverAuth.html?id=${this.userInfo.fishCarDriverId}`
+                        })
+                    }
+                }else{
+                    if (!isLogin()) {
+                        f7.alert('手机号登录之后才可以登记，请先登录!', '温馨提示', loginViewShow);
+                        return;
+                    }
+                    apiCount('btn_myCenter_registerDriver');
+                    view.router.load({
+                        url: 'views/postDriverAuth.html'
+                    })
+                }
+            },
+            authCheckInfo(){
+                f7.alert('正在审核中，请耐心等待');
+            },
+            //查看企业审核不通过理由
+            showAuthRejectInfo(msg, type){
+                f7.modal({
+                    title: '抱歉',
+                    text: `您的${type ? '企业' : '个人'}认证未通过，原因是：${msg}`,
+                    buttons: [
+                        {
+                            text: '我知道了',
+                            onClick: () => {}
+                        },
+                        {
+                            text: '重新提交',
+                            onClick: () => {
+                                view.router.load({
+                                    url: 'views/identityAuthentication.html'
+                                })
+                            }
+                        },
+
+                    ]
+                });
+            }
+        },
+        computed: {
+            //获取司机入口文案
+            driverBtnText(){
+                let res = '司机登记';
+                if(this && this.userInfo && this.userInfo.driverState > -2){
+                    0 === this.userInfo.driverState && (res = '审核中');
+                    1 === this.userInfo.driverState && (res = '修改司机信息');
+                    2 === this.userInfo.driverState && (res = '审核不通过');
+                    3 === this.userInfo.driverState && (res = '司机被冻结');
+                }
+                return res;
+            },
+            isShowGoAuth(){
+                return (1 !== this.userInfo.enterpriseAuthenticationState && 1 !== this.userInfo.personalAuthenticationState);
+            },
+            authText(){
+                return getAuthText(this.userInfo.enterpriseAuthenticationState,this.userInfo.personalAuthenticationState);
+            },
+            weixinData(){
+                if(isLogin()){
+                    return {};
+                }
+                console.log('weixin')
+                return store.get('weixinData');
+            }
+        }
+    });
+
     const loginCallback = (data) => {
         f7.hideIndicator();
         const {code, message} = data;
         if (code == 1) {
             store.set(cacheUserInfoKey, data.data);
-            userInformation = data.data;
-            loginSucc(userInformation, userUtils.getBussesInfoCallback);
-            const oldDate = nativeEvent.getDataToNative('oldDate');
+            userVue.userInfo = data.data;
+            userVue.recentSaleDemand = data.data.recentSaleDemand;
+            userVue.recentBuyDemand = data.data.recentBuyDemand;
+            userVue.isLogin = true;
+
+            const oldDate = store.get('oldDate');
             !oldDate && nativeEvent.setDataToNative('oldDate', getCurrentDay());
             if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
                 const {
@@ -115,7 +333,7 @@ function userInit(f7, view, page) {
                 borderBottom: '1px solid #efeff4'
             })
         }, 1000)
-    }
+    };
 
     /*
      * 判断登录状态
@@ -123,95 +341,17 @@ function userInit(f7, view, page) {
      * */
     if (loginStatus) {
         if (userInformation) {
-            loginSucc(userInformation, userUtils.getBussesInfoCallback);
+            userVue.userInfo = userInformation;
+            userVue.recentSaleDemand = userInformation.recentSaleDemand;
+            userVue.recentBuyDemand = userInformation.recentBuyDemand;
         }
         UserModel.get(loginCallback);
-    } else {
-        /*
-         * 如果只是微信登录
-         * */
-        if (weixinData) {
-            const {imgUrl, nickname} = weixinData;
-            currentPage.find('.modify-text').text('绑定');
-            nickname && currentPage.find('.user-name').children('span').text(nickname);
-            imgUrl && currentPage.find('.user-pic').children('img').attr('src', imgUrl);
-            currentPage.find('.user-tell-number').text('绑定手机号，可使用更多功能');
-            currentPage.find('.user-header').addClass('login-succ');
-        }
-
-        /*
-         * f7页面渲染的bug，部分页面未渲染出来，强制性再次渲染就ok
-         * */
-        setTimeout(() => {
-            currentPage.css({
-                borderBottom: '1px solid #efeff4'
-            })
-        }, 1000)
     }
-
-    /*
-     * 进入我的等级，新开第三方webView
-     * */
-    currentPage.find('a.user-member')[0].onclick = () => {
-        apiCount('btn_myCenter_myLevel');
-        if (!isLogin()) {
-            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
-            return;
-        }
-        nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInformation['id']}`);
-    }
-
-    /*
-     * 进入帮助中心，新开第三方webView
-     * */
-    currentPage.find('a.user-help-service')[0].onclick = () => {
-        nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
-    }
-
-    /*
-     * 我的收藏列表
-     * */
-    currentPage.find('.my-collection-list')[0].onclick = () => {
-        if (!isLogin()) {
-            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
-            return;
-        }
-        mainView.router.load({
-            url: 'views/myCollection.html'
+    setTimeout(() => {
+        currentPage.css({
+            borderBottom: '1px solid #efeff4'
         })
-    };
-
-    /*
-     * 进入个人资料
-     * */
-    currentPage.find('.user-header')[0].onclick = goMyCenter;
-
-    /*
-     * 进入实名认证页面
-     * */
-    currentPage.find('.go-identity')[0].onclick = goIdentity;
-
-    /*
-     * 进入鱼类资质证书管理页面
-     * */
-    currentPage.find('.go-verification')[0].onclick = uploadCert;
-
-    /*
-     * 联系客服
-     * */
-    currentPage.find('.user-call-service')[0].onclick = contactUs;
-
-    /*
-     * 进入邀请界面
-     * */
-    currentPage.find('.user-invit')[0].onclick = inviteFriends;
-
-    /*
-     * 进入我的出售/求购列表/刷新信息列表
-     * */
-    currentPage.find('a.my-buy-list')[0].onclick = myListBuy;
-    currentPage.find('a.my-sell-list')[0].onclick = myListSell;
-    currentPage.find('.user-refresh-auth').children()[0].onclick = myListSell;
+    }, 1000);
 
     /*
      * 回到首页
@@ -219,100 +359,9 @@ function userInit(f7, view, page) {
     currentPage.find('.href-go-home')[0].onclick = goHome;
 
     /*
-     * 绑定账号
-     * */
-    currentPage.find('.user-bind-account')[0].onclick = () => {
-        if (!isLogin() && !nativeEvent.getDataToNative('weixinData')) {
-            f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow)
-            return;
-        }
-        apiCount('btn_bindAccounts');
-        mainView.router.load({
-            url: 'views/bindAccount.html'
-        })
-    }
-
-    /*
      * 前往发布信息页面
      * */
-    currentPage.find('.to-release-page')[0].onclick = () => {
-        apiCount('btn_tabbar_post');
-        if (!isLogin() && store.get('weixinData')) {
-            f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow)
-            return;
-        }
-        view.router.load({
-            url: 'views/release.html'
-        })
-    };
-
-    /**
-     * 前往叫鱼车需求页面
-     * */
-    currentPage.find('.my-fish-car-list').click(() => {
-        if (!isLogin()) {
-            f7.alert(alertTitleText(), '温馨提示', loginViewShow);
-            return;
-        }
-        apiCount('btn_myCenter_fishcarDemands');
-        view.router.load({
-            url: 'views/myFishCarDemandList.html'
-        })
-    });
-
-    /**
-     * 鱼车司机登记
-     * */
-    currentPage.find('.user-fish-car-driver')[0].onclick = () => {
-        apiCount('btn_myCenter_registerDriver');
-        if (!isLogin()) {
-            f7.alert('手机号登录之后才可以登记，请先登录!', '温馨提示', loginViewShow);
-            return;
-        }
-        view.router.load({
-            url: 'views/postDriverAuth.html'
-        })
-    }
-
-    /**
-     * 鱼车信息提示
-     * 查看审核未通过提示.
-     * 查看鱼车行程
-     * */
-    currentPage.find('.driver-edit')[0].onclick = () => {
-        const id = currentPage.find('.driver-edit').attr('data-id');
-        apiCount('btn_myCenter_editDriverInfo');
-        if (!id) {
-            f7.alert('您的鱼车司机账号已被冻结，请联系客服！');
-        } else {
-            view.router.load({
-                url: `views/fishCarTripList.html?id=${id}`
-            })
-        }
-    };
-
-    currentPage.find('.driver-reject')[0].onclick = () => {
-        apiCount('btn_myCenter_driverRefuseReason');
-        const message = currentPage.find('.driver-reject').attr('data-message');
-        f7.modal({
-            title: '审核未通过原因',
-            text: message,
-            buttons: [
-                {
-                    text: '重新报名',
-                    onClick: () => {
-                        view.router.load({
-                            url: `views/postDriverAuth.html?id=${currentPage.find('.user-info-driver-check').attr('data-id')}`
-                        })
-                    }
-                },
-                {
-                    text: '我知道了',
-                    onClick: () => {}
-                }
-            ]
-        });
-    }
+    currentPage.find('.to-release-page')[0].onclick = userVue.releaseInfo;
 }
 
 export {

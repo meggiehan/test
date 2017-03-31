@@ -1,6 +1,6 @@
 
 if (!typeof window) {
-    window.global = global;
+    window.global = window;
 }else{
-    global.window = window;
+    global.window = global;
 };

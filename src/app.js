@@ -300,7 +300,7 @@ f7.onPageAfterBack('*', (page) => {
                     if (index <= 5) {
                         str += home.renderFishList(item, index);
                     }
-                });
+                })
                 currentPage.find('.fish-cache-list').html(str);
                 str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
             }
