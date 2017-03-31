@@ -13,7 +13,7 @@
                 <div class="item-link item-content">
                     <div class="user-pic item-media">
                         <img
-                                :src="(userInfo.imgUrl || weixinData.imgUrl) ? `${userInfo.imgUrl || weixinData.imgUrl}${imgPath(8)}` : 'img/defimg.png'"
+                                :src="(userInfo.imgUrl || weixinData.imgUrl) ? (userInfo.imgUrl ? `${userInfo.imgUrl}${imgPath(8)}` : weixinData.imgUrl) : 'img/defimg.png'"
                                 :class="userInfo.imgUrl ? 'active' : ''"
                                 width="65"
                                 class="lazy"/>
