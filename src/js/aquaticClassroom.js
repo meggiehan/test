@@ -46,13 +46,15 @@ function aquaticClassroomInit(f7, view, page) {
                 vueData.infoList.push(item);
             });
             vueData.newList =  data;
+            if(data.length >= pageSize){
+                loading = false;
+            }
         }else{
             console.log(message);
         }
         f7.hideIndicator();
         f7.pullToRefreshDone();
         currentPage.find('img.lazy').trigger('lazy');
-        loading = false;
     };
 
     const getList = () => {
@@ -72,6 +74,7 @@ function aquaticClassroomInit(f7, view, page) {
         vueData.infoList = [];
         vueData.newList =  [];
         pageNo = 1;
+        loading = false;
         getList();
     });
 
