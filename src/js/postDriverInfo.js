@@ -371,7 +371,7 @@ function postDriverInfoInit(f7, view, page) {
                 noCache: true
             }, callback);
         }
-    }
+    };
 
     /**
      * 如果存在id，则是修改，反则是新增申请

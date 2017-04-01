@@ -83,13 +83,13 @@
 
             </div>
             <div class="user-info-list row">
-                <a class="my-sell-list col-33" @click="isLogin ? myListBuy() : login()">
+                <a class="my-sell-list col-33" @click="isLogin ? myListSell() : login()">
                     <div>
                         <span class="user-sell-num">{{userInfo.sellNumber || 0}}</span>个
                         <div class="num-title">我的出售</div>
                     </div>
                 </a>
-                <a class="my-buy-list col-33" @click="isLogin ? myListSell() : login()">
+                <a class="my-buy-list col-33" @click="isLogin ? myListBuy() : login()">
                     <div>
                         <span class="user-buy-num">{{userInfo.buyNumber || 0}}</span>个
                         <div class="num-title">我的求购</div>
@@ -103,7 +103,7 @@
                 </a>
             </div>
 
-            <div class="recent-release-info">
+            <div class="recent-release-info" vi-if="!isLogin && weixinData">
                 <div class="title">
                     最近发布
                     <span class="iconfont icon-right" @click="shareMyShop">去分享我的店铺</span>
@@ -134,10 +134,10 @@
                                 {{recentBuyDemand.quantityTagList.length ? recentBuyDemand.quantityTagList[0].tagName : ''}}</p>
                         </div>
                     </a>
-                    <div class="none-release-info" v-if="!recentBuyDemand && !recentSaleDemand">想要赚钱，就不能懒噢~</div>
+                    <div class="none-release-info" v-if="!recentBuyDemand.quantityTagList.length && !recentSaleDemand.quantityTagList.length">想要赚钱，就不能懒噢~</div>
                 </div>
                 <div class="footer">
-                    <span class="btn" @click="releaseOrRefresh()">{{(!recentBuyDemand && !recentSaleDemand) ? '发布信息' : '刷新信息'}}</span>
+                    <span class="btn" @click="releaseOrRefresh">{{(recentBuyDemand || recentSaleDemand) ? '发布信息' : '刷新信息'}}</span>
                 </div>
             </div>
 

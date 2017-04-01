@@ -229,7 +229,7 @@ const initApp = f7.onPageInit("*", (page) => {
         f7.hideIndicator();
     }
 
-    if(page.name == 'pageMvp'){
+    if(page.name == 'pageMvp' || page.name == 'myMember'){
         f7.hideIndicator();
     }
 
