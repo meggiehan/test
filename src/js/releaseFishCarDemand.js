@@ -181,6 +181,9 @@ function releaseFishCarDemandInit(f7, view, page) {
         if(!contactName){
             error = '请填写联系姓名!';
         }
+        if(contactName && contactName.length > 8){
+            error = '联系人姓名最大长度为8位字符!';
+        }
         if(!contactPhone || contactPhone.length !== 11){
             error = '请填写正确的手机号!';
         }

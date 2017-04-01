@@ -68,7 +68,7 @@ function userInit(f7, view, page) {
             //发布信息
             releaseInfo(){
                 apiCount('btn_tabbar_post');
-                if (!this.isLogin && store.get('weixinData')) {
+                if (store.get('weixinData') && !this.isLogin) {
                     this.login();
                     return;
                 }
@@ -78,11 +78,15 @@ function userInit(f7, view, page) {
             },
             //刷新或者发布信息
             releaseOrRefresh(){
-                if(!userVue.recentBuyDemand.quantityTagList.length &&
-                    !userVue.recentSaleDemand.quantityTagList.length){
-                    userVue.releaseInfo();
+                if(!this.isLogin){
+                    this.releaseInfo();
                 }else{
-                    userVue.myListSell();
+                    if(!this.recentBuyDemand.quantityTagList.length &&
+                        !this.recentSaleDemand.quantityTagList.length){
+                        this.releaseInfo();
+                        return;
+                    }
+                    this.myListSell();
                 }
             },
             //绑定账号
@@ -339,7 +343,7 @@ function userInit(f7, view, page) {
      * 已登录：微信登录/手机号登录
      * */
     if (isLogin()) {
-        userVue.isLogin = isLogin();
+        userVue.isLogin = true;
         if (userInformation) {
             userVue.userInfo = userInformation;
             userVue.recentSaleDemand = userInformation.recentSaleDemand || {quantityTagList: []};
