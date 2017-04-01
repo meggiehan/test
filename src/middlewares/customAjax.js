@@ -155,6 +155,7 @@ class CustomClass {
         $$.each(deviceInfo, (key, val) => {
             headers[key] = val;
         });
+        headers['device-id'] = window.uuid;
         apiVersion && (headers['v'] = apiVersion);
 
         $$.ajax({
