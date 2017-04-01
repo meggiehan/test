@@ -344,6 +344,8 @@ function userInit(f7, view, page) {
             userVue.userInfo = userInformation;
             userVue.recentSaleDemand = userInformation.recentSaleDemand || {quantityTagList: []};
             userVue.recentBuyDemand = userInformation.recentBuyDemand || {quantityTagList: []};
+        }else{
+            f7.showIndicator();
         }
         UserModel.get(loginCallback);
     }

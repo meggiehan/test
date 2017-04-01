@@ -41,7 +41,6 @@ function weixinAction(f7){
                         } = config;
                         if(data.token){
                             store.set("accessToken", data.token);
-                            store.set(cacheUserInfoKey, data.userInfoView);
                             getKey(data.token, '', '', 0);
 
                             //设置别名

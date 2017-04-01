@@ -154,7 +154,9 @@
             <div class="fish-car-trip" v-show="fishCarDriverId">
                 <div class="fish-car-trip-title">
                     最新的鱼车行程
-                    <a class="iconfont icon-right" :href="`views/fishCarTripList.html?id=${fishCarDriverId}`">查看我的鱼车行程</a>
+                    <a class="iconfont icon-right"
+                       :href="`views/fishCarTripList.html?id=${fishCarDriverId}`"
+                       onclick="apiCount('btn_myCenter_fishcarRoutes')">查看我的鱼车行程</a>
                 </div>
                 <div class="fish-car-trip-content row">
                     <div class="col-33" v-show="fishCarTripInfo">
