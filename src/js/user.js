@@ -28,27 +28,6 @@ function userInit(f7, view, page) {
     } = config;
     let userInformation = store.get(cacheUserInfoKey);
 
-    /**
-     * 更改版本号
-     * */
-    const versionNumber = store.get('versionNumber');
-    if(versionNumber){
-        const currentVersionArr = versionNumber.replace('V', '').split('_');
-        let currentVersion = '';
-        currentVersionArr && $$.each(currentVersionArr, (index, item) => {
-            if(Number(item) < 10){
-                currentVersion += item.replace('0', '');
-            }else{
-                currentVersion += item;
-            }
-            index < (currentVersionArr.length -1) && (currentVersion += '.');
-        });
-        currentVersion && (currentPage.find('.user-app-version')
-            .children('span').css({display: 'inline'}).text(currentVersion));
-    }else{
-        currentPage.find('.user-app-version').hide();
-    }
-
     const userVue = new Vue({
         el: currentPage.find('.vue-model')[0],
         data: {
@@ -266,6 +245,22 @@ function userInit(f7, view, page) {
                     return {};
                 }
                 return store.get('weixinData');
+            },
+            versionNumber(){
+                const versionNumber = store.get('versionNumber');
+                let currentVersion = '';
+                if(versionNumber){
+                    const currentVersionArr = versionNumber.replace('V', '').split('_');
+                    currentVersionArr && $$.each(currentVersionArr, (index, item) => {
+                        if(Number(item) < 10){
+                            currentVersion += item.replace('0', '');
+                        }else{
+                            currentVersion += item;
+                        }
+                        index < (currentVersionArr.length -1) && (currentVersion += '.');
+                    });
+                }
+                return currentVersion;
             }
         }
     });

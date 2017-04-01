@@ -198,7 +198,7 @@
             </div>
             <!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
             <!--</p>-->
-            <p class="user-app-version">当前版本：<span>1.8.2.3</span></p>
+            <p class="user-app-version" v-if="versionNumber">当前版本：<span>{{versionNumber}}</span></p>
         </div>
     </div>
     <div class="toolbar tabbar">
