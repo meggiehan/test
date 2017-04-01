@@ -55,7 +55,8 @@ function userInit(f7, view, page) {
         data: {
             userInfo: {},
             recentBuyDemand: '',
-            recentSaleDemand: ''
+            recentSaleDemand: '',
+            isLogin: false
         },
         methods: {
             contactUs: contactUs,
@@ -64,7 +65,6 @@ function userInit(f7, view, page) {
             contactUs: contactUs,
             myListBuy: myListBuy,
             myListSell: myListSell,
-            isLogin: isLogin(),
             uploadCert: uploadCert,
             inviteFriends: inviteFriends,
             goIdentity: goIdentity,//前往实名认证
@@ -90,8 +90,8 @@ function userInit(f7, view, page) {
             //发布信息
             releaseInfo(){
                 apiCount('btn_tabbar_post');
-                if (!isLogin() && store.get('weixinData')) {
-                    this.login()
+                if (!this.isLogin && store.get('weixinData')) {
+                    this.login();
                     return;
                 }
                 view.router.load({
@@ -108,7 +108,7 @@ function userInit(f7, view, page) {
             },
             //绑定账号
             bindAccount(){
-                if (!isLogin() && !store.get('weixinData')) {
+                if (!this.isLogin && !store.get('weixinData')) {
                     f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow);
                     return;
                 }
@@ -165,7 +165,7 @@ function userInit(f7, view, page) {
             },
             //分享我的店铺
             shareMyShop(){
-                if (!isLogin() && !store.get('weixinData')) {
+                if (!this.isLogin && !store.get('weixinData')) {
                     this.login();
                     return;
                 }
@@ -201,7 +201,7 @@ function userInit(f7, view, page) {
                         })
                     }
                 }else{
-                    if (!isLogin() && !store.get('weixinData')) {
+                    if (!this.isLogin && !store.get('weixinData')) {
                         this.login();
                         return;
                     }
@@ -262,7 +262,7 @@ function userInit(f7, view, page) {
                 return getAuthText(this.userInfo.enterpriseAuthenticationState,this.userInfo.personalAuthenticationState);
             },
             weixinData(){
-                if(isLogin()){
+                if(this.isLogin){
                     return {};
                 }
                 console.log('weixin')
@@ -308,7 +308,7 @@ function userInit(f7, view, page) {
                                 }
                             }
                         ]
-                    })
+                    });
                     return;
                 }
                 if (1 != personalAuthenticationState) {
@@ -326,7 +326,7 @@ function userInit(f7, view, page) {
                                 }
                             }
                         ]
-                    })
+                    });
                     return;
                 }
             }
@@ -345,6 +345,7 @@ function userInit(f7, view, page) {
      * 已登录：微信登录/手机号登录
      * */
     if (isLogin()) {
+        userVue.isLogin = isLogin();
         if (userInformation) {
             userVue.userInfo = userInformation;
             userVue.recentSaleDemand = userInformation.recentSaleDemand;
@@ -352,7 +353,6 @@ function userInit(f7, view, page) {
         }
         UserModel.get(loginCallback);
     }
-    userVue.isLogin = isLogin();
     setTimeout(() => {
         currentPage.css({
             borderBottom: '1px solid #efeff4'

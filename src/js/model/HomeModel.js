@@ -18,6 +18,19 @@ class HomeModel {
             true
         );
     }
+
+    /**
+     * 首页banner统计
+     * */
+    postBannerCount(data, callback){
+        RestTemplate.post(
+            'bannerScanLogs',
+            {},
+            {},
+            data,
+            callback
+        );
+    }
 }
 
 const homeModel = new HomeModel();

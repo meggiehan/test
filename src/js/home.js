@@ -10,7 +10,7 @@ import {releaseFishViewShow} from '../js/releaseView/releaseFishViews';
 import {getDealTime} from '../utils/time';
 import Vue from 'vue';
 // import {weixinAction} from './service/login/loginCtrl';
-// import {JsBridge} from '../middlewares/JsBridge';
+import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
 import HomeModel from './model/HomeModel';
 
@@ -41,7 +41,7 @@ function homeInit(f7, view, page) {
             getName: getName,
             getDealTime: getDealTime,
             shareTrip(){
-                if(vueHome.fishCarTripInfo){
+                if (vueHome.fishCarTripInfo) {
                     apiCount('btn_myCenter_fishcarRoutes');
                     mainView.router.load({
                         url: 'views/shareMyTrip.html',
@@ -52,18 +52,54 @@ function homeInit(f7, view, page) {
                             destinationProvinceName: vueHome.fishCarTripInfo.destinationProvinceName,
                         }
                     })
-                }else{
+                } else {
                     releaseView.router.load({
                         url: 'views/releaseFishCarTrip.html',
                         reload: true
                     });
                     releaseFishViewShow();
                 }
+            },
+            goThreeWindow(item){
+                const {
+                    loginRequired,
+                    link,
+                    type,
+                    id
+                } = item;
+                if (!!Number(loginRequired) && !isLogin()) {
+                    f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
+                    return;
+                }
+                const access_token = store.get('accessToken');
+                let openUrl = link;
+                if (0 == type) {
+                    loginRequired && (openUrl += `/${access_token}`);
+                    nativeEvent.goNewWindow(openUrl);
+                }
+
+                if (1 == type) {
+                    mainView.router.load({
+                        url: openUrl
+                    });
+                }
+                if (2 == type) {
+                    f7.showIndicator();
+                    mainView.router.load({
+                        url: openUrl
+                    });
+                }
+                //banner统计
+                HomeModel.postBannerCount({
+                    bannerId: id
+                }, (data) => {
+                    console.log(data);
+                })
             }
         },
         computed: {
             tripDate(){
-                if(!this || !this.fishCarTripInfo){
+                if (!this || !this.fishCarTripInfo) {
                     return '';
                 }
                 let res = '';
@@ -157,7 +193,7 @@ function homeInit(f7, view, page) {
 
     customAjax.ajax({
         apiCategory: 'initPage',
-        data: ['2'],
+        data: ['3'],
         type: 'get'
     }, initDataCallback);
 
@@ -247,39 +283,6 @@ function homeInit(f7, view, page) {
     });
 
     /*
-     * 点击活动banner，打开第三方webview.
-     * */
-    currentPage.find('.home-slider')[0].onclick = (e) => {
-        const ele = e.target || window.event.target;
-        if ($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG') {
-            const isNeedLogin = $$(ele).attr('data-login') || $(ele).parent().attr('data-login');
-            if (!!Number(isNeedLogin) && !isLogin()) {
-                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
-                return;
-            }
-            const access_token = store.get('accessToken');
-            let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            const openType = $(ele).attr('data-type') || $(ele).parent().attr('data-type');
-            if (0 == openType) {
-                isNeedLogin && (openUrl += `/${access_token}`);
-                nativeEvent.goNewWindow(openUrl);
-            }
-
-            if (1 == openType) {
-                mainView.router.load({
-                    url: openUrl
-                });
-            }
-            if (2 == openType) {
-                f7.showIndicator();
-                mainView.router.load({
-                    url: openUrl
-                });
-            }
-        }
-    };
-
-    /*
      * 前往发布信息页面
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {
@@ -324,6 +327,10 @@ function homeInit(f7, view, page) {
             return;
         }
         $$('.fish-car-modal').addClass('on');
+    });
+
+    JsBridge('JS_GetUUid', {}, (data) => {
+        window.uuid = data;
     });
 
     // // //存储数据
