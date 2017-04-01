@@ -109,7 +109,7 @@
                     <span class="iconfont icon-right" @click="shareMyShop">去分享我的店铺</span>
                 </div>
                 <div class="content">
-                    <a class="sale-info" :href="`views/selldetail.html?id=${recentSaleDemand.id}`" v-if="!!recentSaleDemand">
+                    <a class="sale-info" :href="`views/selldetail.html?id=${recentSaleDemand.id}`" v-if="!!recentSaleDemand.quantityTagList.length">
                         <span>出售</span>
                         <div>
                             <p class="info-name">
@@ -117,11 +117,12 @@
                                 <span>{{timeDifference(recentSaleDemand.sort)}}</span>
                             </p>
                             <p>{{`${recentSaleDemand.provinceName}${recentSaleDemand.cityName}`}}
-                                <span v-if="recentSaleDemand.quantityTagList.length">|</span>{{recentSaleDemand.quantityTagList[0].tagName}}
+                                <span v-if="recentSaleDemand.quantityTagList.length">|</span>
+                                {{recentSaleDemand.quantityTagList.length && recentSaleDemand.quantityTagList[0].tagName}}
                             </p>
                         </div>
                     </a>
-                    <a class="buy-info" :href="`views/buydetail.html?id=${recentBuyDemand.id}`" v-if="!!recentBuyDemand">
+                    <a class="buy-info" :href="`views/buydetail.html?id=${recentBuyDemand.id}`" v-if="!!recentBuyDemand.quantityTagList.length">
                         <span>求购</span>
                         <div>
                             <p class="info-name">
@@ -129,7 +130,8 @@
                                 <span>{{timeDifference(recentBuyDemand.sort)}}</span>
                             </p>
                             <p>{{`${recentBuyDemand.provinceName}${recentBuyDemand.cityName}`}}
-                                <span v-if="recentBuyDemand.quantityTagList && recentBuyDemand.quantityTagList.length">|</span>{{recentBuyDemand.quantityTagList ? recentBuyDemand.quantityTagList[0].tagName : ''}}</p>
+                                <span v-if="recentBuyDemand.quantityTagList && recentBuyDemand.quantityTagList.length">|</span>
+                                {{recentBuyDemand.quantityTagList.length ? recentBuyDemand.quantityTagList[0].tagName : ''}}</p>
                         </div>
                     </a>
                     <div class="none-release-info" v-if="!recentBuyDemand && !recentSaleDemand">想要赚钱，就不能懒噢~</div>
@@ -196,7 +198,7 @@
             </div>
             <!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
             <!--</p>-->
-            <p class="user-app-version">当前版本：<span>1.8.2.3</span></p>
+            <p class="user-app-version" v-if="versionNumber">当前版本：<span>{{versionNumber}}</span></p>
         </div>
     </div>
     <div class="toolbar tabbar">
