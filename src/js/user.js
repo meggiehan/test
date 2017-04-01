@@ -2,7 +2,6 @@ import store from '../utils/localStorage';
 import config from '../config';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
-import userUtils from '../utils/viewsUtil/userUtils';
 import {getCurrentDay, alertTitleText, getAuthText} from '../utils/string';
 import UserModel from './model/UserModel';
 import Vue from 'vue';
@@ -54,8 +53,8 @@ function userInit(f7, view, page) {
         el: currentPage.find('.vue-model')[0],
         data: {
             userInfo: {},
-            recentBuyDemand: '',
-            recentSaleDemand: '',
+            recentBuyDemand: {quantityTagList: []},
+            recentSaleDemand: {quantityTagList: []},
             isLogin: false
         },
         methods: {
@@ -100,7 +99,8 @@ function userInit(f7, view, page) {
             },
             //刷新或者发布信息
             releaseOrRefresh(){
-                if(!userVue.recentBuyDemand && !userVue.recentSaleDemand){
+                if(!userVue.recentBuyDemand.quantityTagList.length &&
+                    !userVue.recentSaleDemand.quantityTagList.length){
                     userVue.releaseInfo();
                 }else{
                     userVue.myListSell();
@@ -265,7 +265,6 @@ function userInit(f7, view, page) {
                 if(this.isLogin){
                     return {};
                 }
-                console.log('weixin')
                 return store.get('weixinData');
             }
         }
@@ -277,8 +276,8 @@ function userInit(f7, view, page) {
         if (code == 1) {
             store.set(cacheUserInfoKey, data.data);
             userVue.userInfo = data.data;
-            userVue.recentSaleDemand = data.data.recentSaleDemand;
-            userVue.recentBuyDemand = data.data.recentBuyDemand;
+            userVue.recentSaleDemand = data.data.recentSaleDemand || {quantityTagList: []};
+            userVue.recentBuyDemand = data.data.recentBuyDemand || {quantityTagList: []};
             userVue.isLogin = true;
 
             const oldDate = store.get('oldDate');
@@ -348,8 +347,8 @@ function userInit(f7, view, page) {
         userVue.isLogin = isLogin();
         if (userInformation) {
             userVue.userInfo = userInformation;
-            userVue.recentSaleDemand = userInformation.recentSaleDemand;
-            userVue.recentBuyDemand = userInformation.recentBuyDemand;
+            userVue.recentSaleDemand = userInformation.recentSaleDemand || {quantityTagList: []};
+            userVue.recentBuyDemand = userInformation.recentBuyDemand || {quantityTagList: []};
         }
         UserModel.get(loginCallback);
     }

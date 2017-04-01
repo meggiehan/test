@@ -4,6 +4,7 @@ import {logOut, activeLogout, getToken} from '../middlewares/loginMiddle';
 import framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
 import invitationModel from '../js/service/invitation/InvitationModel';
+import {getAddressIndex} from '../utils/string';
 
 const f7 = new framework7({
     modalButtonOk: '确定',
@@ -152,10 +153,14 @@ class CustomClass {
          * 在headr中添加设备信息
          * */
         const deviceInfo = nativeEvent['getDeviceInfomation']();
+        const {initProvinceName, initCityName} = window.addressObj || {};
+        const {lng, lat} = getAddressIndex(initProvinceName, initCityName);
         $$.each(deviceInfo, (key, val) => {
             headers[key] = val;
         });
         headers['device-id'] = window.uuid;
+        headers.longitude = lng;
+        headers.latitude = lat;
         apiVersion && (headers['v'] = apiVersion);
 
         $$.ajax({
@@ -184,7 +189,6 @@ class CustomClass {
                 if (url.indexOf('favorite/demandInfo/') > -1) {
                     callback(null, err);
                 }
-                // callback(null, err);
             },
 
             /**
@@ -208,7 +212,7 @@ class CustomClass {
                             } else {
                                 f7.alert(message, '提示');
                             }
-                        }
+                        };
                         _this.ajax({
                             apiCategory: 'demandInfoAdd',
                             header: ['token'],

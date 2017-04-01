@@ -34,8 +34,14 @@ function weixinAction(f7){
                 }, (res) => {
                     const {code, data, message} = res;
                     if(1 == code){
+                        const {
+                            waitAddPointerKey,
+                            inviteInfoKey,
+                            cacheUserInfoKey
+                        } = config;
                         if(data.token){
                             store.set("accessToken", data.token);
+                            store.set(cacheUserInfoKey, data.userInfoView);
                             getKey(data.token, '', '', 0);
 
                             //设置别名
@@ -47,7 +53,6 @@ function weixinAction(f7){
                                 alias: `${data.userInfoView.id}`
                             }, () => {}, f7);
 
-                            const {waitAddPointerKey, inviteInfoKey} = config;
                             if (1 == store.get(waitAddPointerKey)) {
                                 const {invitationCode} = store.get(inviteInfoKey);
                                 invitationModel.acceptInvitation(invitationCode);
