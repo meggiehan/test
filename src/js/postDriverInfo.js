@@ -381,6 +381,8 @@ function postDriverInfoInit(f7, view, page) {
         f7.hideIndicator();
     } else {
         currentPage.find('.submit-btn').children().text('提交修改');
+        currentPage.find('.post-driver-content').children('.post-title').hide();
+        currentPage.find('.post-driver-content').children('.post-driver-select').hide();
         const {
             routeList,
             roadTransportQualificationCertificate,

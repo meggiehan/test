@@ -109,6 +109,7 @@ function updateClickEvent(f7){
             fileName: 'webapp.zip',
             versionNumber: $body.attr('data-update-version')
         },() => {}, f7);
+        apiCount('app_btn_h5Update_android');
     });
 
     /**
@@ -117,6 +118,7 @@ function updateClickEvent(f7){
      * */
     $$('.large-version-update').click(() => {
         const {android} = window.currentDevice;
+        apiCount('app_btn_appUpdate_yes');
         if (android) {
             if (!$$('.update-app-modal').hasClass('force')) {
                 if(5 != window.yudada.JS_GetNetWorkStates()){
@@ -163,8 +165,14 @@ function updateClickEvent(f7){
      * 点击我再想想
      * */
     $$('.large-version-cancel').click(() => {
+        const {android} = window.currentDevice.android;
         $$('.update-app-modal').removeClass('large small');
-    })
+        if(android){
+            apiCount('app_btn_appUpdate_no');
+        }else{
+            apiCount('app_btn_h5Update_ios');
+        }
+    });
 
     $$('.update-app-modal').touchmove((e) => {
         const eve = e || window.event;

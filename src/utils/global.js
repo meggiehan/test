@@ -345,6 +345,10 @@ class CustomClass {
                 },
                 type: 'get'
             }, callback);
+        } else if('userInfo' == type){
+            mainView.router.load({
+                url: `views/yShop.html?id=${id}`
+            })
         } else {
             if (!isLogin()) {
                 nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');

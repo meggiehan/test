@@ -32,7 +32,7 @@ function releaseInfoInit(f7, view, page) {
         id: fishId,
         parant_id: parentFishId,
         parant_name: parentFishName
-    })
+    });
 
     const specBox = currentPage.find('.release-spec-list-box');
     const descriptBox = currentPage.find('.release-discription-list-box');
@@ -49,7 +49,7 @@ function releaseInfoInit(f7, view, page) {
     currentPage.find('.release-back-select-fish').children('.back')[0].onclick = () => {
         window.isTipBack = true;
         mainView.router.back();
-    }
+    };
 
     if (window['selectedAddress'] && window['selectedAddress']['provinceName']) {
         addressInput[0] && (addressInput.val(window['selectedAddress']['provinceName'] + window['selectedAddress']['cityName']));
@@ -387,6 +387,8 @@ function releaseInfoInit(f7, view, page) {
             error = '数量最大长度为20位字符！'
         } else if (description && description.length > 50) {
             error = '补充说明最大长度为50位字符！'
+        } else if(name && name.length > 8){
+            error = '联系人姓名最大长度为8位字符！'
         }
 
         const {lng, lat} = getAddressIndex(provinceName, cityName);
@@ -442,7 +444,7 @@ function releaseInfoInit(f7, view, page) {
             return;
         }
         isSendInfo = true;
-        setTimeout(() => { isSendInfo = false }, 500)
+        setTimeout(() => { isSendInfo = false }, 500);
         f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'demandInfoAdd',
