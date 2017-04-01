@@ -52,6 +52,7 @@ import {myFishCarDemandListInit} from './js/myFishCarDemandList';
 import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
 import store from './utils/localStorage';
 import {shareMyTripInit} from './js/shareMyTrip';
+import {aquaticClassroomInit} from './js/aquaticClassroom';
 
 
 const deviceF7 = new Framework7();
@@ -229,7 +230,8 @@ const initApp = f7.onPageInit("*", (page) => {
         f7.hideIndicator();
     }
 
-    if(page.name == 'pageMvp' || page.name == 'myMember'){
+    const hideLoadArr = ['recruitDriverSuccess', 'myMember', 'pageMvp'];
+    if(hideLoadArr.indexOf(page.name) > -1){
         f7.hideIndicator();
     }
 
@@ -282,7 +284,8 @@ const initApp = f7.onPageInit("*", (page) => {
      * */
     page.name === 'postDriverAuth' && postDriverAuthInit(f7, mainView, page);
     page.name === 'postDriverInfo' && postDriverInfoInit(f7, mainView, page);
-    page.name === 'recruitDriverSuccess' && f7.hideIndicator();
+
+    page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, mainView, page);
 });
 
 /**

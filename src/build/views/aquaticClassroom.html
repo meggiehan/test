@@ -1,0 +1,32 @@
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left sliding">
+            <a class="home-tabbar-logo back filter-tabbar iconfont icon-back link-back">返回</a>
+        </div>
+        <div class="center sliding">我的出售</div>
+        <div class="right sliding"></div>
+    </div>
+</div>
+<div class="page swipeback page-aquatic-classroom" data-page="aquaticClassroom">
+    <div class="page-content list-block media-list infinite-scroll pull-to-refresh-content">
+        <div class="pull-to-refresh-layer ">
+            <div class="preloader "></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="vue-box">
+            <a @click="openNewWindow(item.link)" class="item-content" v-for="item in infoList">
+                <div class="item-media">
+                    <img :src="item.img" height="80"  width="100" alt="" class="lazy">
+                </div>
+                <div class="item-inner">
+                    <p class="title">{{item.title}}</p>
+                    <p>{{item.tags}}</p>
+                </div>
+            </a>
+            <p class="load-all" v-if="!isLoading">已显示全部</p>
+            <div v-if="isLoading" class="infinite-scroll-preloader buy-infinite-scroll-preloader">
+                <div class="preloader "></div>
+            </div>
+        </div>
+    </div>
+</div>
