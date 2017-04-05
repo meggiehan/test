@@ -187,7 +187,7 @@ function myFishCarDemandListInit(f7, view, page) {
                         const {code, message} = res;
                         if(1 == code){
                             f7.alert('删除成功!');
-                            mainView.router.refreshPage();
+                            $$(ele).parent().parent('.driver-info').remove();
                             const fishCarNum = Number($$('.user-fish-car-num').text());
                             fishCarNum && $$('.user-fish-car-num').text(fishCarNum - 1);
                         }else{

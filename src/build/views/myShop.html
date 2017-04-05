@@ -16,7 +16,7 @@
                     <p class="level">等级</p>
                 </div>
                 <div class="user-head-img">
-                    <img class="head-img" crossOrigin="*" :src="inviteData.imgUrl ? (inviteData.imgUrl + '@40-1ci.png') : './img/defimg.png'" alt="">
+                    <img class="head-img" :src="inviteData.imgUrl ? (inviteData.imgUrl + '?x-oss-process=image/resize,m_fill,h_100,w_100/circle,r_100/format,png') : './img/defimg.png'" alt="">
                 </div>
                 <div class="user-release-num pull-right">
                     <span>{{(inviteData.buyNumber + inviteData.sellNumber) || 0}}</span>

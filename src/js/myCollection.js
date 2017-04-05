@@ -9,10 +9,8 @@ import customAjax from '../middlewares/customAjax';
 function myCollectionInit(f7, view, page) {
     if (!isLogin()) {
         nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
-        })
+        f7.hideIndicator();
+        mainView.router.back();
         return;
     }
     let type = 2; //default: 2

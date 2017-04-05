@@ -299,7 +299,8 @@ function selldetailInit(f7, view, page) {
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
                 const sellNum = parseInt($$('.user-sell-num').text()) - 1;
-                $$('.other-list-info>a[href="./views/selldetail.html?id=' + id + '"]').remove();
+                $$('.page-my-list a[href="./views/selldetail.html?id=' + id + '"]').next('div.list-check-status').remove();
+                $$('.page-my-list a[href="./views/selldetail.html?id=' + id + '"]').remove();
                 $$('.user-sell-num').text(sellNum);
                 view.router.back();
                 view.router.refreshPage();

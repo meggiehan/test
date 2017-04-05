@@ -103,41 +103,32 @@
                 </a>
             </div>
 
-            <div class="recent-release-info" vi-if="!isLogin && weixinData">
+            <div class="recent-release-info" v-if="!(!isLogin && weixinData)">
                 <div class="title">
                     最近发布
                     <span class="iconfont icon-right" @click="shareMyShop">去分享我的店铺</span>
                 </div>
                 <div class="content">
-                    <a class="sale-info" :href="`views/selldetail.html?id=${recentSaleDemand.id}`" v-if="!!recentSaleDemand.quantityTagList.length">
-                        <span>出售</span>
+                    <a :class="item.type == 2 ? 'sale-info' : 'buy-info'"
+                    v-for="item in recentDemands"
+                    :href="`views/${item.type == 2 ? 'selldetail' : 'buydetail'}.html?id=${item.id}`"
+                    v-if="item.quantityTagList && item.quantityTagList.length">
+                        <span>{{item.type == 2 ? '出售' : '求购'}}</span>
                         <div>
                             <p class="info-name">
-                                {{recentSaleDemand.fishTypeName}}
-                                <span>{{timeDifference(recentSaleDemand.sort)}}</span>
+                                {{item.fishTypeName}}
+                                <span>{{timeDifference(item.sort)}}</span>
                             </p>
-                            <p>{{`${recentSaleDemand.provinceName}${recentSaleDemand.cityName}`}}
-                                <span v-if="recentSaleDemand.quantityTagList.length">|</span>
-                                {{recentSaleDemand.quantityTagList.length && recentSaleDemand.quantityTagList[0].tagName}}
+                            <p>{{`${item.provinceName}${item.cityName}`}}
+                                <span v-if="item.quantityTagList && item.quantityTagList.length">|</span>
+                                {{item.quantityTagList && item.quantityTagList && item.quantityTagList[0].tagName}}
                             </p>
                         </div>
                     </a>
-                    <a class="buy-info" :href="`views/buydetail.html?id=${recentBuyDemand.id}`" v-if="!!recentBuyDemand.quantityTagList.length">
-                        <span>求购</span>
-                        <div>
-                            <p class="info-name">
-                                {{recentBuyDemand.fishTypeName}}
-                                <span>{{timeDifference(recentBuyDemand.sort)}}</span>
-                            </p>
-                            <p>{{`${recentBuyDemand.provinceName}${recentBuyDemand.cityName}`}}
-                                <span v-if="recentBuyDemand.quantityTagList && recentBuyDemand.quantityTagList.length">|</span>
-                                {{recentBuyDemand.quantityTagList.length ? recentBuyDemand.quantityTagList[0].tagName : ''}}</p>
-                        </div>
-                    </a>
-                    <div class="none-release-info" v-if="!recentBuyDemand.quantityTagList.length && !recentSaleDemand.quantityTagList.length">想要赚钱，就不能懒噢~</div>
+                    <div class="none-release-info" v-if="!recentDemands.length">多发布点信息，生意才能更好~</div>
                 </div>
                 <div class="footer">
-                    <span class="btn" @click="releaseOrRefresh">{{(recentBuyDemand || recentSaleDemand) ? '发布信息' : '刷新信息'}}</span>
+                    <span class="btn" @click="releaseOrRefresh">{{!recentDemands.length ? '去发布信息' : '刷新信息'}}</span>
                 </div>
             </div>
 
@@ -148,14 +139,14 @@
                     </div>
                     <div class="item-inner my-level">
                         <p class="title">我的等级</p>
-                        <p>靠谱指数：{{0}}</p>
+                        <p>靠谱指数：{{userInfo.point}}</p>
                     </div>
                 </div>
                 <div class="item-content col-50 go-identity" @click="isLogin ? goMyShop() : login()">
                     <div class="item-media"><img height="35" src="./img/ic_shop.png" alt=""></div>
                     <div class="item-inner">
                         <p class="title">我的店铺</p>
-                        <p class="user-identity-text">进入浏览{{0}}次</p>
+                        <p class="user-identity-text">今日浏览{{userInfo.publishedDemandsCount}}次</p>
                     </div>
                 </div>
             </div>

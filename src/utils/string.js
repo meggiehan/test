@@ -667,15 +667,13 @@ module.exports = {
 
       let appointedDay = date.split('-');
       appointedDay = `${Number(appointedDay[1]) < 10 ? Number(appointedDay[1]) : appointedDay[1]}月${Number(appointedDay[2]) < 10 ? Number(appointedDay[2]) : appointedDay[2]}日`;
-      const departureArea = departureProvinceName.length >= 5 ? (departureProvinceName.substr(0, 4) + '...') : departureProvinceName;
-      const destinationArea = destinationProvinceName.length >= 5 ? (destinationProvinceName.substr(0, 4) + '...') : destinationProvinceName;
 
       const {url} = config;
       let str = `${url}shareImages/route`;
       str += `?appointedDay=${appointedDay}`;
       str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
-      str += `&departureArea=${departureArea}`;
-      str += `&destinationArea=${destinationArea}`;
+      str += `&departureArea=${departureProvinceName}`;
+      str += `&destinationArea=${destinationProvinceName}`;
       str += `&nickName=${nickname}`;
       str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
       return str;

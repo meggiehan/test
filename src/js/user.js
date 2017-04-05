@@ -32,8 +32,7 @@ function userInit(f7, view, page) {
         el: currentPage.find('.vue-model')[0],
         data: {
             userInfo: {},
-            recentBuyDemand: {quantityTagList: []},
-            recentSaleDemand: {quantityTagList: []},
+            recentDemands: [],
             isLogin: false
         },
         methods: {
@@ -68,7 +67,7 @@ function userInit(f7, view, page) {
             //发布信息
             releaseInfo(){
                 apiCount('btn_tabbar_post');
-                if (store.get('weixinData') && !this.isLogin) {
+                if (this.weixinData && !this.isLogin) {
                     this.login();
                     return;
                 }
@@ -81,8 +80,7 @@ function userInit(f7, view, page) {
                 if(!this.isLogin){
                     this.releaseInfo();
                 }else{
-                    if(!this.recentBuyDemand.quantityTagList.length &&
-                        !this.recentSaleDemand.quantityTagList.length){
+                    if(!this.recentDemands.length){
                         this.releaseInfo();
                         return;
                     }
@@ -91,7 +89,7 @@ function userInit(f7, view, page) {
             },
             //绑定账号
             bindAccount(){
-                if (!this.isLogin && !store.get('weixinData')) {
+                if (!this.isLogin && !this.weixinData) {
                     f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow);
                     return;
                 }
@@ -148,7 +146,7 @@ function userInit(f7, view, page) {
             },
             //分享我的店铺
             shareMyShop(){
-                if (!this.isLogin && !store.get('weixinData')) {
+                if (!this.isLogin && !this.weixinData) {
                     this.login();
                     return;
                 }
@@ -184,7 +182,7 @@ function userInit(f7, view, page) {
                         })
                     }
                 }else{
-                    if (!this.isLogin && !store.get('weixinData')) {
+                    if (!this.isLogin && !this.weixinData) {
                         this.login();
                         return;
                     }
@@ -244,7 +242,7 @@ function userInit(f7, view, page) {
             },
             weixinData(){
                 if(this.isLogin){
-                    return {};
+                    return '';
                 }
                 return store.get('weixinData');
             },
@@ -273,8 +271,7 @@ function userInit(f7, view, page) {
         if (code == 1) {
             store.set(cacheUserInfoKey, data.data);
             userVue.userInfo = data.data;
-            userVue.recentSaleDemand = data.data.recentSaleDemand || {quantityTagList: []};
-            userVue.recentBuyDemand = data.data.recentBuyDemand || {quantityTagList: []};
+            userVue.recentDemands = data.data.recentDemands;
             userVue.isLogin = true;
 
             const oldDate = store.get('oldDate');
@@ -344,8 +341,7 @@ function userInit(f7, view, page) {
         userVue.isLogin = true;
         if (userInformation) {
             userVue.userInfo = userInformation;
-            userVue.recentSaleDemand = userInformation.recentSaleDemand || {quantityTagList: []};
-            userVue.recentBuyDemand = userInformation.recentBuyDemand || {quantityTagList: []};
+            userVue.recentDemands = userInformation.recentDemands;
         }else{
             f7.showIndicator();
         }
