@@ -114,10 +114,11 @@ function otherIndexInit(f7, view, page) {
         shopFooterVue.phone = userInfo.phone;
         if(userCache && userCache.id){
             if(currentUserId == userCache.id){
+                const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
                 shopFooterVue.isMyShop = true;
                 shopVue.isMyShop = true;
-                $$('.navbar>div').eq($$('.navbar>div').length - 1).find('.center').text('我的店铺');
-                $$('.navbar>div').eq($$('.navbar>div').length - 1).find('.right').children().hide();
+                lastHeader.find('.center').text('我的店铺');
+                lastHeader.find('.right').children().hide();
             }
         }
         renderList(buyDemands, saleDemands);
