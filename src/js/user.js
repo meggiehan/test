@@ -153,7 +153,7 @@ function userInit(f7, view, page) {
                     return;
                 }
                 mainView.router.load({
-                    url: 'views/myShop.html'
+                    url: `views/otherIndex.html?currentUserId=${userInformation.id}`
                 })
             },
             fishCarCheckIng(){
@@ -199,9 +199,7 @@ function userInit(f7, view, page) {
             },
             goMyShop(){
                 apiCount('btn_identity');
-                mainView.router.load({
-                    url: 'views/myShop.html'
-                })
+                this.shareMyShop();
             },
             //查看企业审核不通过理由
             showAuthRejectInfo(msg, type){

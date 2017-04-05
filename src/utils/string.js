@@ -624,25 +624,61 @@ module.exports = {
         return `${fistStr}.${secondStr}`;
     },
     /**
-     * 根据当前用户信息，判断是否需要重绘上传个人名片
+     * 根据当前用户信息，获取分享店铺的url
      * */
-    getBusinessCardStr: (userInfo) => {
+    getShareImgUrl: (userInfo) => {
         const {
             publishedDemandsCount,
             level,
             personalAuthenticationState,
             enterpriseAuthenticationState,
-            nickname
+            nickname,
+            scanLink,
+            imgUrl
         } = userInfo;
 
-        let str = '';
-        str += `releaseNum=${publishedDemandsCount}`;
-        str += `level=${level}`;
-        str += `personalAuth=${personalAuthenticationState}`;
-        str += `enterpriseAuth=${enterpriseAuthenticationState}`;
-        str += `nickname=${nickname}`;
-
+        const {url} = config;
+        let str = `${url}shareImages/person`;
+        str += `?level=${level}`;
+        str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
+        str += `&enterpriseAuthenticated=${!!enterpriseAuthenticationState}`;
+        str += `&personAuthenticated=${!!personalAuthenticationState}`;
+        str += `&nickName=${nickname}`;
+        str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
+        str += `&publishedDemandsCount=${publishedDemandsCount}`;
         return str;
+    },
+    /**
+     * [getShareTripImgUrl 获取行程分享的图片在线地址]
+     * @param  {[object]} userInfo [用户信息]
+     */
+    getShareTripImgUrl: (userInfo, query) => {
+      const {
+          nickname,
+          scanLink,
+          imgUrl
+      } = userInfo;
+
+      const {
+        date,
+        departureProvinceName,
+        destinationProvinceName
+      } = query;
+
+      let appointedDay = date.split('-');
+      appointedDay = `${Number(appointedDay[1]) < 10 ? Number(appointedDay[1]) : appointedDay[1]}月${Number(appointedDay[2]) < 10 ? Number(appointedDay[2]) : appointedDay[2]}日`;
+      const departureArea = departureProvinceName.length >= 5 ? (departureProvinceName.substr(0, 4) + '...') : departureProvinceName;
+      const destinationArea = destinationProvinceName.length >= 5 ? (destinationProvinceName.substr(0, 4) + '...') : destinationProvinceName;
+
+      const {url} = config;
+      let str = `${url}shareImages/route`;
+      str += `?appointedDay=${appointedDay}`;
+      str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
+      str += `&departureArea=${departureArea}`;
+      str += `&destinationArea=${destinationArea}`;
+      str += `&nickName=${nickname}`;
+      str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
+      return str;
     },
     /**
      * 获取企业认证或者个人认证

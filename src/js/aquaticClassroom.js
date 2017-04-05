@@ -2,7 +2,12 @@ import GetInfoListModel from './model/GetInfoListModel';
 import nativeEvent from '../utils/nativeEvent';
 import Vue from 'vue';
 import config from '../config';
-
+/**
+ * [aquaticClassroomInit 咨询模块ctrl]
+ * @param  {[object]} f7   [description]
+ * @param  {[object]} view [description]
+ * @param  {[object]} page [description]
+ */
 function aquaticClassroomInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const $ptrContent = currentPage.find('.pull-to-refresh-content');
@@ -21,7 +26,7 @@ function aquaticClassroomInit(f7, view, page) {
         },
         methods: {
             openNewWindow(url){
-                nativeEvent.openNewWindow(url);
+                nativeEvent.goNewWindow(url);
             }
         },
         computed: {
@@ -57,6 +62,9 @@ function aquaticClassroomInit(f7, view, page) {
         currentPage.find('img.lazy').trigger('lazy');
     };
 
+    /*
+     * [getList 获取咨询列表数据]
+     */
     const getList = () => {
         GetInfoListModel.getInfoList(
             !!nativeEvent.getNetworkStatus(),
