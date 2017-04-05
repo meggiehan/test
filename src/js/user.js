@@ -56,7 +56,9 @@ function userInit(f7, view, page) {
             },
             goMyMember(){
                 apiCount('btn_myCenter_myLevel');
-                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${userInformation['id']}`);
+                mainView.router.load({
+                  url: `${mWebUrl}user/member/${this.userInfo.id}`
+                })
             },
             goMyCollection(){
                 apiCount('btn_favoriteList');
