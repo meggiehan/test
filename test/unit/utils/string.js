@@ -24,13 +24,15 @@ var suiteTeardown = Mocha.suiteTeardown;
 
 
 describe('大模块测试1', function() {
-    it('模块1', function() {
-        expect(getBeforedawnTime()).to.be.equal('2017/3/22');
+    it('模块1', function(done) {
+        expect(getBeforedawnTime()).to.be.equal('2017/4/5');
+        done();
     });
 });
 
 describe('大模块测试2', function() {
-    it('模块1', function() {
-        expect(getBeforedawnTime()).to.be.equal('2017/3、22');
+    it('模块1', function(done) {
+        expect(getBeforedawnTime()).to.be.equal('2017/4/5');
+        done();
     });
 });

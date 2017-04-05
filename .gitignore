@@ -1,8 +1,9 @@
 
-#dir 
+#dir
 node_modules/
 .idea/
 .DS_Store
+./coverage
 zip/
 *.log
 
@@ -14,4 +15,3 @@ src/build/js
 src/build/css/*.css
 src/config/
 !src/config/index.js.bak
-

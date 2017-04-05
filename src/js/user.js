@@ -341,7 +341,7 @@ function userInit(f7, view, page) {
      * */
     if (isLogin()) {
         userVue.isLogin = true;
-        if (userInformation) {
+        if (userInformation && userInformation.recentDemands) {
             userVue.userInfo = userInformation;
             userVue.recentDemands = userInformation.recentDemands;
         }else{
@@ -349,6 +349,7 @@ function userInit(f7, view, page) {
         }
         UserModel.get(loginCallback);
     }
+    window.userVue = userVue;
     setTimeout(() => {
         currentPage.css({
             borderBottom: '1px solid #efeff4'
