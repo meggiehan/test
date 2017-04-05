@@ -101,10 +101,10 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.goods-create-time').text(timeDifference(sort));
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}` || '面议');
-            
+
             let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName'] || '') : '';
             specText && specifications && (specText = `${specText}，${specifications}`);
-            (!specText && specifications) && (specText += specifications);    
+            (!specText && specifications) && (specText += specifications);
             specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
             currentPage.find('.budetail-fish-name').text(fishTypeName);
@@ -249,7 +249,8 @@ function buydetailInit(f7, view, page) {
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
                 const buyNum = parseInt($$('.user-buy-num').text()) - 1;
-                $$('.other-list-info>a[href="./views/buydetail.html?id=' + id + '"]').remove();
+                $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').next('div.list-check-status').remove();
+                $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').remove();
                 $$('.user-buy-num').text(buyNum);
                 view.router.back();
                 view.router.refreshPage();
