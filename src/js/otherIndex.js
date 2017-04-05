@@ -120,7 +120,6 @@ function otherIndexInit(f7, view, page) {
                 $$('.navbar>div').eq($$('.navbar>div').length - 1).find('.right').children().hide();
             }
         }
-
         renderList(buyDemands, saleDemands);
     };
 
