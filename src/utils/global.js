@@ -346,7 +346,7 @@ class CustomClass {
             }, callback);
         } else if('myShop' == type){
             mainView.router.load({
-                url: `views/myShop.html?currentUserId=${id}`
+                url: `views/otherIndex.html?currentUserId=${id}`
             })
         } else if('fishCarRoute' == type){
             mainView.router.load({

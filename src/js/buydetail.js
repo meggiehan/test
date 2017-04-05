@@ -16,7 +16,7 @@ function buydetailInit(f7, view, page) {
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     let demandInfo_;
-    const { shareUrl, cacheUserInfoKey } = config;
+    const { shareUrl, cacheUserInfoKey, mWebUrl } = config;
     let currentUserId;
     let errorInfo;
 
@@ -360,6 +360,20 @@ function buydetailInit(f7, view, page) {
      * 点击右上角nav，选择分享或者举报
      * */
     lastHeader.find('.detail-more')[0].onclick = detailClickTip;
+
+    /**
+     * 提升靠谱指数
+     */
+    currentPage.find('.info-detail-go-member').find('span').click(() => {
+      if(!isLogin()){
+        f7.alert(alertTitleText(), loginViewShow);
+        return;
+      }
+      const userInfo = store.get(cacheUserInfoKey);
+      mainView.router.load({
+        url: `${mWebUrl}user/member/${userInfo.id}`
+      })
+    })
 }
 
 export {

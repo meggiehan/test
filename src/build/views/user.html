@@ -139,14 +139,14 @@
                     </div>
                     <div class="item-inner my-level">
                         <p class="title">我的等级</p>
-                        <p>靠谱指数：{{userInfo.point}}</p>
+                        <p>靠谱指数：{{userInfo.point || 0}}</p>
                     </div>
                 </div>
                 <div class="item-content col-50 go-identity" @click="isLogin ? goMyShop() : login()">
                     <div class="item-media"><img height="35" src="./img/ic_shop.png" alt=""></div>
                     <div class="item-inner">
                         <p class="title">我的店铺</p>
-                        <p class="user-identity-text">今日浏览{{userInfo.publishedDemandsCount}}次</p>
+                        <p class="user-identity-text">今日浏览{{userInfo.publishedDemandsCount || 0}}次</p>
                     </div>
                 </div>
             </div>

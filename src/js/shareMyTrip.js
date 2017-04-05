@@ -28,76 +28,52 @@ function shareMyTripInit(f7, view, page) {
         personalAuthenticationTime
     } = userInfo || {};
 
-    const authText = userUtils.getAuthenticationText(
-        enterpriseAuthenticationState,
-        enterpriseAuthenticationTime,
-        personalAuthenticationState,
-        personalAuthenticationTime
-    ).myCenterText;
-
-    /**
-     * 生成二维码
-     * */
-    if (scanLink) {
-        new QRCode(currentPage.find('.share-trip-user-code')[0], {
-            text: scanLink,
-            height: 180,
-            width: 180,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
-    }
+    const authText = userUtils.getAuthenticationText(enterpriseAuthenticationState, enterpriseAuthenticationTime, personalAuthenticationState, personalAuthenticationTime).myCenterText;
 
     /**
      * vue的数据模型
      * */
     Vue.component('share-component', shareComponent);
-    setTimeout(() => {
-        const inviteVue = new Vue({
-            el: currentPage.find('.page-content')[0],
-            data: {
-                imgUrl: imgUrl,
-                query: page.query,
-                level: userInfo.level
-            },
-            methods: {
-                //跳转至用户已经邀请成功的列表
-                goToInviteList() {
-                    apiCount('btn_inviteFriends_userlist');
-                    if (!registerCount) {
-                        nativeEvent.nativeToast(0, '你还没有邀请过好友！');
-                        return;
-                    }
-                    view.router.load({
-                        url: 'views/inviteFriendsList.html'
-                    })
-                },
-                weixinShareFriend() {
-                    apiCount('btn_inviteFriends_share');
-                    nativeEvent.shareInfoToWeixin(0, shareImgUrl);
-                },
-                weixinShareCircle() {
-                    apiCount('btn_inviteFriends_share');
-                    nativeEvent.shareInfoToWeixin(1, shareImgUrl);
-                },
-                qqShareFriend() {
-                    apiCount('btn_inviteFriends_share');
-                    JsBridge('JS_QQSceneShare', {
-                        type: '0',
-                        imageUrl: shareImgUrl,
-                        title: '鱼大大',
-                        describe: "",
-                        webUrl: ''
-                    }, () => {
-                        console.log('分享成功！')
-                    });
+
+    const inviteVue = new Vue({
+        el: currentPage.find('.page-content')[0],
+        data: {
+            imgUrl: imgUrl,
+            query: page.query,
+            level: userInfo.level
+        },
+        methods: {
+            //跳转至用户已经邀请成功的列表
+            goToInviteList() {
+                apiCount('btn_inviteFriends_userlist');
+                if (!registerCount) {
+                    nativeEvent.nativeToast(0, '你还没有邀请过好友！');
+                    return;
                 }
+                view.router.load({url: 'views/inviteFriendsList.html'})
+            },
+            weixinShareFriend() {
+                apiCount('btn_inviteFriends_share');
+                nativeEvent.shareInfoToWeixin(0, shareImgUrl);
+            },
+            weixinShareCircle() {
+                apiCount('btn_inviteFriends_share');
+                nativeEvent.shareInfoToWeixin(1, shareImgUrl);
+            },
+            qqShareFriend() {
+                apiCount('btn_inviteFriends_share');
+                JsBridge('JS_QQSceneShare', {
+                    type: '0',
+                    imageUrl: shareImgUrl,
+                    title: '鱼大大',
+                    describe: "",
+                    webUrl: ''
+                }, () => {
+                    console.log('分享成功！')
+                });
             }
-        });
-    }, 0);
+        }
+    });
 }
 
-export {
-    shareMyTripInit
-}
+export {shareMyTripInit}
