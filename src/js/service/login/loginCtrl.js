@@ -42,6 +42,7 @@ function weixinAction(f7){
                         if(data.token){
                             store.set("accessToken", data.token);
                             getKey(data.token, '', '', 0);
+                            store.set(cacheUserInfoKey, data.userInfoView);
 
                             //设置别名
                             JsBridge('JS_SetTagsWithAlias', {
