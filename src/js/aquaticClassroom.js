@@ -21,7 +21,7 @@ function aquaticClassroomInit(f7, view, page) {
         },
         methods: {
             openNewWindow(url){
-                console.log(url)
+                nativeEvent.openNewWindow(url);
             }
         },
         computed: {
