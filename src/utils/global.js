@@ -316,7 +316,6 @@ class CustomClass {
         const len = currentPage.find('.release-info-pic-list').children('span').length;
         currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
         len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
-
     }
 
     /*
@@ -345,11 +344,15 @@ class CustomClass {
                 },
                 type: 'get'
             }, callback);
-        } else if('userInfo' == type){
+        } else if('myShop' == type){
             mainView.router.load({
-                url: `views/yShop.html?id=${id}`
+                url: `views/myShop.html?currentUserId=${id}`
             })
-        } else {
+        } else if('fishCarRoute' == type){
+            mainView.router.load({
+                url: 'views/fishCar.html?isFishCar=0'
+            })
+        }else {
             if (!isLogin()) {
                 nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
                 loginViewShow();
