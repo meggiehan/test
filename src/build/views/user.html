@@ -111,8 +111,7 @@
                 <div class="content">
                     <a :class="item.type == 2 ? 'sale-info' : 'buy-info'"
                     v-for="item in recentDemands"
-                    :href="`views/${item.type == 2 ? 'selldetail' : 'buydetail'}.html?id=${item.id}`"
-                    v-if="item.quantityTagList && item.quantityTagList.length">
+                    :href="`views/${item.type == 2 ? 'selldetail' : 'buydetail'}.html?id=${item.id}`">
                         <span>{{item.type == 2 ? '出售' : '求购'}}</span>
                         <div>
                             <p class="info-name">
@@ -120,8 +119,8 @@
                                 <span>{{timeDifference(item.sort)}}</span>
                             </p>
                             <p>{{`${item.provinceName}${item.cityName}`}}
-                                <span v-if="item.quantityTagList && item.quantityTagList.length">|</span>
-                                {{item.quantityTagList && item.quantityTagList && item.quantityTagList[0].tagName}}
+                                <span v-if="item.quantityTagList.length">|</span>
+                                {{item.quantityTagList.length ? item.quantityTagList[0].tagName : ''}}
                             </p>
                         </div>
                     </a>
