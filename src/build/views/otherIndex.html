@@ -24,12 +24,12 @@
               </div>
               <div class="user-pic col-33">
                   <img :src="userInfo.imgUrl ? (userInfo.imgUrl + imgPath(8)) : 'img/defimg.png'" width="60" class="lazy"/>
-                  <p>{{userInfo.nickname || '匿名用户'}}</p>
               </div>
               <div class="col-33 other-cat">
                   <span>{{recentScanTimes}}</span>
                   <p>近期浏览</p>
               </div>
+              <p class="col-100 text-hidden">{{userInfo.nickname || '匿名用户'}}</p>
           </div>
           <div class="other-index-cert">
               <div class="cert-list" onclick="apiCount('cell_profile_certificate')">
@@ -50,7 +50,7 @@
                       <span class="cert-label"
                             :class="getCertInfo(item.type).classes">
                           {{getCertInfo(item.type).label}}
-                      </span>{{`具备“${getCertInfo(item.type).certName}”-${item.fish_type_name || item.fishTypeName}`}}
+                      </span>{{'具备“' + getCertInfo(item.type).certName + '”-' + (item.fish_type_name || item.fishTypeName)}}
                   </a>
 
               </div>
@@ -63,7 +63,7 @@
                   </div>
                   <div class="list  list-block media-list" onclick="apiCount('cell_profile_sellMore')"></div>
                   <div class="other-all-buy-info other-sell-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
-                      <a class="btn iconfont icon-go" :href="`views/otherList.html?id=${currentUserId}&type=2`">更多出售的信息</a>
+                      <a class="btn iconfont icon-go" :href="'views/otherList.html?id=' + currentUserId + '&type=2'">更多出售的信息</a>
                   </div>
               </div>
               <div class="other-buy-list" v-show="buyDemandsCount">
@@ -72,7 +72,7 @@
                   </div>
                   <div class="list" onclick="apiCount('cell_profile_purchaseItem')"></div>
                   <div class="other-all-buy-info other-buy-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
-                      <a class="btn iconfont icon-go" :href="`views/otherList.html?id=${currentUserId}&type=1`">更多求购的信息</a>
+                      <a class="btn iconfont icon-go" :href="'views/otherList.html?id=' + currentUserId + '&type=1'">更多求购的信息</a>
                   </div>
               </div>
           </div>
