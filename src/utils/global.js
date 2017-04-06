@@ -320,7 +320,7 @@ class CustomClass {
 
     /*
      * type: demandInfo, level, auth
-     * 信息, 等级, 认证
+     * 信息, 等级, 认证, 我的店铺分享, 行程分享
      */
     jsJumpFromPush(obj) {
         const { cacheUserInfoKey, mWebUrl } = config;
@@ -359,7 +359,10 @@ class CustomClass {
                 return;
             }
             if ('level' == type) {
-                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
+                // nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
+                mainView.router.load({
+                  url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}`
+                })
             } else if ('auth' == type) {
                 customAjax.ajax({
                     apiCategory: 'auth',

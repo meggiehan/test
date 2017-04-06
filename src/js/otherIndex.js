@@ -22,7 +22,7 @@ function otherIndexInit(f7, view, page) {
      * 由于头部有f7的事件绑定，跟vue有冲突，所以不能交给vue管理。
      * */
     const shopVue = new Vue({
-        el: currentPage.find('.page-content')[0],
+        el: currentPage.find('.vue-box')[0],
         data: {
             userInfo: {},
             saleDemands: {},
@@ -63,6 +63,7 @@ function otherIndexInit(f7, view, page) {
 
     function renderList(buyList, sellList){
         f7.hideIndicator();
+        f7.pullToRefreshDone();
         if(!buyList.length && !sellList.length){
             currentPage.find('.other-index-empty-info').show();
             currentPage.find('.other-index-list').removeClass('show-buy-list');
@@ -90,7 +91,6 @@ function otherIndexInit(f7, view, page) {
         }
 
         $$('img.lazy').trigger('lazy');
-        f7.pullToRefreshDone();
     }
 
     const callback = (data) => {
