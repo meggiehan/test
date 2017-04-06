@@ -112,7 +112,7 @@ userUtils.getBussesInfoCallback = (data) => {
         registerCount && $$('.user-invit>.first').addClass('invit-numbers');
         $$('.user-invite-num').text(`已邀请${registerCount}人`);
         // $$('.user-go-invite-page').addClass('show');
-        text && authenticationBtn.text(text);
+        // text && authenticationBtn.text(text);
         /**
          * 判断是司机用户
          */

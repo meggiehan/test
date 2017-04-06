@@ -187,7 +187,8 @@ function fishCarTripListInit(f7, view, page) {
                         const {code, message} = res;
                         if(1 == code){
                             f7.alert('删除成功!');
-                            mainView.router.refreshPage();
+                            $$(ele).parent().parent('.driver-info').remove();
+                            // mainView.router.refreshPage();
                         }else{
                             f7.alert(message);
                         }

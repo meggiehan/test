@@ -50,6 +50,22 @@
     .qq-zone p, .qq-friends p{
         margin-top: 0.3rem;
     }
+    @media screen and (max-width: 330px) {
+        .invite-share-items{
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        .invite-share > p{
+            margin: 0.5rem 0 0;
+        }
+        .invite-share{
+            padding: 0.5rem 3rem;
+        }
+        .invite-share-items>p,
+        .share-trip-share>p{
+            margin-bottom: 0;
+        }
+    }
 </style>
 
 <script>

@@ -111,7 +111,7 @@ function userInit(f7, view, page) {
             catRejectInfo(msg){
                 f7.modal({
                     title: '抱歉',
-                    text: `您的个人认证未通过，原因是：${msg}`,
+                    text: `您的鱼车信息审核未通过，原因是：${msg}`,
                     buttons: [
                         {
                             text: '重新报名',

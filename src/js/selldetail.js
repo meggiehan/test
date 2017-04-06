@@ -298,10 +298,10 @@ function selldetailInit(f7, view, page) {
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
-                const sellNum = parseInt($$('.user-sell-num').text()) - 1;
+                const sellNum = parseInt($$('.user-sell-num').eq($$('.user-sell-num').length - 1).text()) - 1;
                 $$('.page-my-list a[href="./views/selldetail.html?id=' + id + '"]').next('div.list-check-status').remove();
                 $$('.page-my-list a[href="./views/selldetail.html?id=' + id + '"]').remove();
-                $$('.user-sell-num').text(sellNum);
+                $$('.user-sell-num').text(sellNum <= 0 ? 0 : sellNum);
                 view.router.back();
                 view.router.refreshPage();
             }
