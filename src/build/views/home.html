@@ -36,7 +36,7 @@
             <!--</div>-->
 
             <!--banner components-->
-            <div class="swiper-container swiper-slow home-slider" v-show="!!homeData.banners.length">
+            <div class="swiper-container swiper-slow home-slider" v-show="homeData.banners && homeData.banners.length">
                 <div class="swiper-pagination"></div>
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in homeData.banners"
@@ -115,11 +115,7 @@
                     <img src="img/ic_kaopu.png" alt="">
                     <p>靠谱专区</p>
                 </a>
-                <!--<a href="views/assurance.html?type=2&assurance=true" onclick="apiCount('btn_home_assurance')"-->
-                   <!--class="col-33">-->
-                    <!--<img src="img/ic_danbao.png" alt="">-->
-                    <!--<p>担保交易</p>-->
-                <!--</a>-->
+
                 <a class="col-33 callFishCar">
                     <img src="img/ic_yuche.png" alt="">
                     <p>叫鱼车</p>
@@ -155,7 +151,7 @@
                 <div class="fish-car-trip-title">
                     最新的鱼车行程
                     <a class="iconfont icon-right"
-                       :href="`views/fishCarTripList.html?id=${fishCarDriverId}`"
+                       :href="'views/fishCarTripList.html?id=' + fishCarDriverId"
                        onclick="apiCount('btn_myCenter_fishcarRoutes')">查看我的鱼车行程</a>
                 </div>
                 <div class="fish-car-trip-content row">

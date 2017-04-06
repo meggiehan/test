@@ -45,7 +45,7 @@ module.exports = {
                 imgStr = img.complete ? '<img src="' + `${imgList[0] + imgPath(11)}` + '"/></div>' :
                 '<img data-src="' + `${(imgList[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
             }else{
-                imgStr = '<img data-src="backgroundImgUrl" /></div>';
+                imgStr = `<img data-src="${backgroundImgUrl}" /></div>`;
             }
 
             const authText = nameAuthenticated ? '实名' : false;

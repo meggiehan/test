@@ -54,11 +54,11 @@ function shareMyTripInit(f7, view, page) {
             },
             weixinShareFriend() {
                 apiCount('btn_inviteFriends_share');
-                nativeEvent.shareInfoToWeixin('0', shareImgUrl);
+                nativeEvent.shareInfoToWeixin(0, shareImgUrl);
             },
             weixinShareCircle() {
                 apiCount('btn_inviteFriends_share');
-                nativeEvent.shareInfoToWeixin('1', shareImgUrl);
+                nativeEvent.shareInfoToWeixin(1, shareImgUrl);
             },
             qqShareFriend() {
                 apiCount('btn_inviteFriends_share');
