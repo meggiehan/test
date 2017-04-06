@@ -151,7 +151,7 @@
             </div>
 
             <!--我的鱼车行程-->
-            <div class="fish-car-trip" v-show="fishCarDriverId">
+            <div class="fish-car-trip" v-if="fishCarDriverId && (1 == userInfo.driverState)">
                 <div class="fish-car-trip-title">
                     最新的鱼车行程
                     <a class="iconfont icon-right"
@@ -232,7 +232,7 @@
                 </div>
             </div>
         </div>
-        <div class="home-loading" v-show="!homeData.isHasCache"><span class="preloader"></span></div>
+        <div class="home-loading" v-if="!homeData.isHasCache"><span class="preloader"></span></div>
     </div>
 
     <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png "

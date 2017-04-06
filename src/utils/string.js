@@ -643,7 +643,7 @@ module.exports = {
         str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
         str += `&enterpriseAuthenticated=${!!enterpriseAuthenticationState}`;
         str += `&personAuthenticated=${!!personalAuthenticationState}`;
-        str += `&nickName=${nickname}`;
+        str += `&nickName=${encodeURI(nickname)}`;
         str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
         str += `&publishedDemandsCount=${publishedDemandsCount}`;
         return str;
@@ -674,7 +674,7 @@ module.exports = {
       str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
       str += `&departureArea=${departureProvinceName}`;
       str += `&destinationArea=${destinationProvinceName}`;
-      str += `&nickName=${nickname}`;
+      str += `&nickName=${encodeURI(nickname)}`;
       str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
       return str;
     },

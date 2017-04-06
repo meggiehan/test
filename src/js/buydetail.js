@@ -248,10 +248,10 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
-                const buyNum = parseInt($$('.user-buy-num').text()) - 1;
+                const buyNum = parseInt($$('.user-buy-num').eq($$('.user-buy-num').length - 1).text()) - 1;
                 $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').next('div.list-check-status').remove();
                 $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').remove();
-                $$('.user-buy-num').text(buyNum);
+                $$('.user-buy-num').text(buyNum <= 0 ? 0 : buyNum);
                 view.router.back();
                 view.router.refreshPage();
             }

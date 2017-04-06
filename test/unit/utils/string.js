@@ -1,3 +1,4 @@
+"use strict";
 import 'babel-polyfill';
 import mocha from 'mocha';
 import {
