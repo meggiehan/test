@@ -640,10 +640,10 @@ module.exports = {
         const {url} = config;
         let str = `${url}shareImages/person`;
         str += `?level=${level}`;
-        str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
+        str += `&headImgUrl=${encodeURIComponent(imgUrl) || ''}`;
         str += `&enterpriseAuthenticated=${!!enterpriseAuthenticationState}`;
         str += `&personAuthenticated=${!!personalAuthenticationState}`;
-        str += `&nickName=${encodeURI(nickname)}`;
+        str += `&nickName=${encodeURI(nickname) || ''}`;
         str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
         str += `&publishedDemandsCount=${publishedDemandsCount}`;
         return str;
@@ -670,11 +670,11 @@ module.exports = {
 
       const {url} = config;
       let str = `${url}shareImages/route`;
-      str += `?appointedDay=${appointedDay}`;
-      str += `&headImgUrl=${encodeURIComponent(imgUrl)}`;
-      str += `&departureArea=${departureProvinceName}`;
-      str += `&destinationArea=${destinationProvinceName}`;
-      str += `&nickName=${encodeURI(nickname)}`;
+      str += `?appointedDay=${encodeURI(appointedDay)}`;
+      str += `&headImgUrl=${encodeURIComponent(imgUrl) || ''}`;
+      str += `&departureArea=${encodeURI(departureProvinceName)}`;
+      str += `&destinationArea=${encodeURI(destinationProvinceName)}`;
+      str += `&nickName=${encodeURI(nickname) || ''}`;
       str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
       return str;
     },
