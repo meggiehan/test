@@ -41,15 +41,16 @@ function homeInit(f7, view, page) {
             getName: getName,
             getDealTime: getDealTime,
             shareTrip(){
-                if (vueHome.fishCarTripInfo) {
+                if (this.fishCarTripInfo) {
                     apiCount('btn_myCenter_fishcarRoutes');
                     mainView.router.load({
                         url: 'views/shareMyTrip.html',
                         query: {
-                            contactName: vueHome.fishCarTripInfo.contactName,
-                            date: vueHome.fishCarTripInfo.appointedDate,
-                            departureProvinceName: vueHome.fishCarTripInfo.departureProvinceName,
-                            destinationProvinceName: vueHome.fishCarTripInfo.destinationProvinceName,
+                            contactName: this.fishCarTripInfo.contactName,
+                            date: this.fishCarTripInfo.appointedDate,
+                            departureProvinceName: this.fishCarTripInfo.departureProvinceName,
+                            destinationProvinceName: this.fishCarTripInfo.destinationProvinceName,
+                            id: this.fishCarTripInfo.id
                         }
                     })
                 } else {

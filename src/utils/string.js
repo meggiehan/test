@@ -3,7 +3,7 @@ import config from '../config/index';
 import {getToken} from '../middlewares/loginMiddle';
 import store from '../utils/localStorage';
 
-const {fishCacheObj} = config;
+const {fishCacheObj, mWebUrl} = config;
 module.exports = {
     trim: (str) => {
         if (!str) {
@@ -662,9 +662,10 @@ module.exports = {
       const {
         date,
         departureProvinceName,
-        destinationProvinceName
+        destinationProvinceName,
+        id
       } = query;
-
+      const qrCodeLink = `${mWebUrl}fishcar/route/${id}`;
       let appointedDay = date.split('-');
       appointedDay = `${Number(appointedDay[1]) < 10 ? Number(appointedDay[1]) : appointedDay[1]}月${Number(appointedDay[2]) < 10 ? Number(appointedDay[2]) : appointedDay[2]}日`;
 
@@ -675,7 +676,7 @@ module.exports = {
       str += `&departureArea=${departureProvinceName ? encodeURI(departureProvinceName) : ''}`;
       str += `&destinationArea=${destinationProvinceName ? encodeURI(destinationProvinceName) : ''}`;
       str += `&nickName=${nickname ? encodeURI(nickname) : ''}`;
-      str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
+      str += `&qrCodeLink=${encodeURIComponent(qrCodeLink)}`;
       return str;
     },
     /**
