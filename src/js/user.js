@@ -27,6 +27,8 @@ function userInit(f7, view, page) {
         mWebUrl
     } = config;
     let userInformation = store.get(cacheUserInfoKey);
+    // view.hideNavbar();
+    $$('.view-main>.navbar').hide();
 
     const userVue = new Vue({
         el: currentPage.find('.vue-model')[0],
