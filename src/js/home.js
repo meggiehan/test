@@ -19,8 +19,8 @@ function homeInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = store.get('weixinData');
     const {fishCacheObj, cacheUserInfoKey} = config;
-    const userInfo = store.get(cacheUserInfoKey) || {};
-    const fishCarDriverId = userInfo ? userInfo.fishCarDriverId : '';
+    const userInfo = isLogin() ? (store.get(cacheUserInfoKey) || {}) : {};
+    const fishCarDriverId = userInfo.fishCarDriverId || '';
     /**
      * vue的数据模型
      * */
@@ -162,7 +162,7 @@ function homeInit(f7, view, page) {
     /**
      * 获取司机最新的一条信息
      * */
-    if (fishCarDriverId) {
+    if (fishCarDriverId && isLogin()) {
         HomeModel.getMyFishRecentTrip((res) => {
             const {code, message, data} = res;
             if (1 == code) {
