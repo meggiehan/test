@@ -113,7 +113,7 @@ let initAppConfig = {
         if (!currentPage && len >= 1) {
             const backPage = history[len - 2];
 
-            if(backPage.indexOf('user.html') > -1){
+            if(backPage && backPage.indexOf('user.html') > -1){
                 $$('.view-main>.navbar').hide();
             }
 
