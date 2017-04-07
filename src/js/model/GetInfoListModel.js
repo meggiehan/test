@@ -18,6 +18,20 @@ class getInfoListModel {
             isMandatory
         );
     }
+
+    /**
+     * [GetInfoListModel ]
+     * @type {getInfoListModel}
+     */
+    putInfoViews(id, callback){
+      RestTemplate.put(
+          `infos/${id}/views`,
+          {},
+          {},
+          {},
+          callback
+      );
+    }
 }
 
 const GetInfoListModel = new getInfoListModel();

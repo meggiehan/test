@@ -25,8 +25,17 @@ function aquaticClassroomInit(f7, view, page) {
             newList: []
         },
         methods: {
-            openNewWindow(url){
+            openNewWindow(url, id){
                 nativeEvent.goNewWindow(url);
+                GetInfoListModel.putInfoViews(
+                  id,
+                  (res) => {
+                    const {code, message} = res;
+                    if(1 !== code){
+                      console.log(message)
+                    }
+                  }
+              )
             }
         },
         computed: {
