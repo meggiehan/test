@@ -8,7 +8,8 @@ function releaseFishCarDemandSuccessInit(f7, view, page) {
         contactName,
         departureProvinceName,
         destinationProvinceName,
-        date
+        date,
+        id
     } = page.query;
     const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
     const pageName = mainView.activePage.name;
@@ -37,7 +38,8 @@ function releaseFishCarDemandSuccessInit(f7, view, page) {
                 contactName,
                 departureProvinceName,
                 destinationProvinceName,
-                date
+                date,
+                id
             }
         })
         releaseFishViewHide();

@@ -165,7 +165,8 @@ function releaseFishCarTripInit(f7, view, page) {
                     appointedDate,
                     contactName,
                     departureProvinceName,
-                    destinationProvinceName
+                    destinationProvinceName,
+                    id
                 } = data;
                 releaseView.router.load({
                     url: 'views/releaseFishCarDemandSuccess.html',
@@ -174,7 +175,8 @@ function releaseFishCarTripInit(f7, view, page) {
                         date: appointedDate,
                         contactName,
                         departureProvinceName,
-                        destinationProvinceName
+                        destinationProvinceName,
+                        id
                     }
                 })
             } else {
