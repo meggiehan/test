@@ -54,7 +54,6 @@ import store from './utils/localStorage';
 import {shareMyTripInit} from './js/shareMyTrip';
 import {aquaticClassroomInit} from './js/aquaticClassroom';
 
-
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
@@ -87,10 +86,6 @@ let initAppConfig = {
         if (url.indexOf('search.html') > -1) {
             searchInit(f7, mainView, {query})
         }
-        if(url.indexOf('user.html') > -1){
-            // mainView.hideNavbar();
-            $$('.view-main>.navbar').hide();
-        }
     },
     /*
      * 返回上个页面的一些路由拦截操作
@@ -100,21 +95,13 @@ let initAppConfig = {
         const currentPage = options && options['url'];
         const len = history.length;
         const _currentPage = history[len - 1];
-        var btns = document.getElementsByClassName('modal-button');
+        const btns = document.getElementsByClassName('modal-button');
         if (!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf("放弃发布") > -1) {
             return false;
         }
 
-        if(_currentPage.indexOf('user.html') > -1){
-            $$('.view-main>.navbar').show();
-        }
-
         if (!currentPage && len >= 1) {
             const backPage = history[len - 2];
-
-            if(backPage && backPage.indexOf('user.html') > -1){
-                $$('.view-main>.navbar').hide();
-            }
 
             if (_currentPage.indexOf('home.html') > -1 ||
              _currentPage.indexOf('user.html') > -1 ||
@@ -166,11 +153,6 @@ let initAppConfig = {
                 isBack = true;
                 setTimeout(() => {
                     isBack = false;
-                    if(backPage && backPage.indexOf('user.html') > -1){
-                        $$('.view-main>.navbar').hide();
-                    }else{
-                        $$('.view-main>.navbar').show();
-                    }
                 }, 400);
             }
         }

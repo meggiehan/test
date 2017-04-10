@@ -8,11 +8,8 @@ import {isLogin} from '../middlewares/loginMiddle';
 
 function myListInit(f7, view, page) {
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
-        })
+        view.router.back();
+        f7.hideIndicator();
         return;
     }
     let type = page.query['type'] || 2;
