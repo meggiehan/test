@@ -115,9 +115,7 @@ function myListInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
         loading = false;
-        setTimeout(() => {
-            $$('img.lazy').trigger('lazy');
-        }, 400)
+        currentPage.find('img.lazy').trigger('lazy');
     }
 
     const getListInfo = () => {

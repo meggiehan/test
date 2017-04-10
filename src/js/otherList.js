@@ -8,6 +8,7 @@ import customAjax from '../middlewares/customAjax';
 
 function otherListInit(f7, view, page) {
     const load = $$('.page-other-list .infinite-scroll-preloader');
+    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { type, id } = page.query;
     const { pageSize, cacheUserInfoKey } = config;
     const showAllInfo = $$('.page-other-list .filter-search-empty-info');
@@ -43,9 +44,7 @@ function otherListInit(f7, view, page) {
             html($$('.other-list-info'), otehrHtml, f7);
         }
 
-        setTimeout(() => {
-            $$('img.lazy').trigger('lazy');
-        }, 400)
+        currentPage.find('img.lazy').trigger('lazy');
         f7.hideIndicator();
         f7.pullToRefreshDone();
 
