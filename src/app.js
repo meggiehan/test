@@ -96,7 +96,6 @@ let initAppConfig = {
      * 返回上个页面的一些路由拦截操作
      * */
     preroute: (view, options) => {
-
         const {history} = view;
         const currentPage = options && options['url'];
         const len = history.length;
@@ -167,6 +166,11 @@ let initAppConfig = {
                 isBack = true;
                 setTimeout(() => {
                     isBack = false;
+                    if(backPage && backPage.indexOf('user.html') > -1){
+                        $$('.view-main>.navbar').hide();
+                    }else{
+                        $$('.view-main>.navbar').show();
+                    }
                 }, 400);
             }
         }
