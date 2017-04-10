@@ -10,10 +10,8 @@ import {releaseFishViewShow} from './releaseView/releaseFishViews';
 function fishCarTripListInit(f7, view, page) {
     if (!isLogin()) {
         nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
-        });
+        mainView.router.back();
+        f7.hideIndicator();
         return;
     }
     /**

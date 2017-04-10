@@ -8,11 +8,8 @@ import customAjax from '../middlewares/customAjax';
 function myCenterInit(f7, view, page) {
     f7.hideIndicator();
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
-        });
+        view.router.back();
+        f7.hideIndicator();
         return;
     }
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
