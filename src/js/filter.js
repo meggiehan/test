@@ -126,7 +126,7 @@ function filterInit(f7, view, page) {
         }
 
         f7.pullToRefreshDone();
-        $$('img.lazy').trigger('lazy');
+        currentPage.find('img.lazy').trigger('lazy');
         currentPage.find('.tabbar').show();
         const listLength = currentPage.find('.filter-list').children('a').length;
         if (!listHtml) {

@@ -90,7 +90,7 @@ function otherIndexInit(f7, view, page) {
             currentPage.find('.other-index-list').addClass('show-sell-list');
         }
 
-        $$('img.lazy').trigger('lazy');
+        currentPage.find('img.lazy').trigger('lazy');
     }
 
     const callback = (data) => {
