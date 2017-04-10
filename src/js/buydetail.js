@@ -369,6 +369,7 @@ function buydetailInit(f7, view, page) {
         f7.alert(alertTitleText(), loginViewShow);
         return;
       }
+      apiCount('btn_infoDetail_myMember');
       const userInfo = store.get(cacheUserInfoKey);
       mainView.router.load({
         url: `${mWebUrl}user/member/${userInfo.id}`

@@ -3,13 +3,15 @@ import config from '../config';
 import { fishCar } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { isLogin } from '../middlewares/loginMiddle';
+import { isLogin, activeLogout } from '../middlewares/loginMiddle';
 import FishAboutModel from './model/FishAboutModel';
 import {releaseFishViewShow } from './releaseView/releaseFishViews';
 
 function myFishCarDemandListInit(f7, view, page) {
     if (!isLogin()) {
-        view.router.back();
+        view.router.load({
+          url: 'views/user.html'
+        })
         f7.hideIndicator();
         return;
     }

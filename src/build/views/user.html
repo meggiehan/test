@@ -111,7 +111,8 @@
                 <div class="content">
                     <a :class="item.type == 2 ? 'sale-info' : 'buy-info'"
                     v-for="item in recentDemands"
-                    :href="'views/' + (item.type == 2 ? 'selldetail' : 'buydetail') + '.html?id=' + item.id">
+                    :href="'views/' + (item.type == 2 ? 'selldetail' : 'buydetail') + '.html?id=' + item.id"
+                    @click="apiCount('btn_myCenter_recentInfo')">
                         <span>{{item.type == 2 ? '出售' : '求购'}}</span>
                         <div>
                             <p class="info-name">

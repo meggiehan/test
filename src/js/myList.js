@@ -4,11 +4,13 @@ import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
-import {isLogin} from '../middlewares/loginMiddle';
+import {isLogin, activeLogout} from '../middlewares/loginMiddle';
 
 function myListInit(f7, view, page) {
     if (!isLogin()) {
-        view.router.back();
+        view.router.load({
+          url: 'views/user.html'
+        })
         f7.hideIndicator();
         return;
     }

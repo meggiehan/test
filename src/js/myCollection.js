@@ -3,14 +3,15 @@ import config from '../config';
 import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { isLogin } from '../middlewares/loginMiddle';
+import { isLogin, activeLogout } from '../middlewares/loginMiddle';
 import customAjax from '../middlewares/customAjax';
 
 function myCollectionInit(f7, view, page) {
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
+        view.router.load({
+          url: 'views/user.html'
+        })
         f7.hideIndicator();
-        mainView.router.back();
         return;
     }
     let type = 2; //default: 2

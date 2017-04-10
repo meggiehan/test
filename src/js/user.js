@@ -27,7 +27,7 @@ function userInit(f7, view, page) {
         mWebUrl
     } = config;
     let userInformation = store.get(cacheUserInfoKey);
-    
+
     const userVue = new Vue({
         el: currentPage.find('.vue-model')[0],
         data: {
@@ -152,6 +152,7 @@ function userInit(f7, view, page) {
                     this.login();
                     return;
                 }
+                apiCount('btn_myCenter_shareMyShop');
                 mainView.router.load({
                     url: `views/otherIndex.html?currentUserId=${userInformation.id}`
                 })
@@ -198,7 +199,7 @@ function userInit(f7, view, page) {
                 f7.alert('正在审核中，请耐心等待');
             },
             goMyShop(){
-                apiCount('btn_identity');
+                apiCount('btn_myCenter_myShop');
                 this.shareMyShop();
             },
             //查看企业审核不通过理由

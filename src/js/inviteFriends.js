@@ -14,6 +14,7 @@ function inviteFriendsInit(f7, view, page) {
     }
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const isMyShop = currentPage.hasClass('page-my-shop');
     const {cacheUserInfoKey, timeout, url} = config;
     const userInfo = store.get(cacheUserInfoKey);
     const shareImgUrl = getShareImgUrl(userInfo);
@@ -74,15 +75,15 @@ function inviteFriendsInit(f7, view, page) {
                 view.router.load({url: 'views/inviteFriendsList.html'})
             },
             weixinShareFriend() {
-                apiCount('btn_inviteFriends_share');
+                apiCount(isMyShop ? 'btn_shareMyShop_wechat' : 'btn_inviteFriends_wechat');
                 nativeEvent.shareInfoToWeixin(0, shareImgUrl);
             },
-            weixinShareCircle(isError) {
-                apiCount('btn_inviteFriends_share');
+            weixinShareCircle() {
+                apiCount(isMyShop ? 'btn_shareMyShop_circle' : 'btn_inviteFriends_circle');
                 nativeEvent.shareInfoToWeixin(1, shareImgUrl);
             },
             qqShareFriend() {
-                apiCount('btn_inviteFriends_share');
+                apiCount(isMyShop ? 'btn_shareMyShop_qq' : 'btn_inviteFriends_qq');
                 JsBridge('JS_QQSceneShare', {
                     type: '0',
                     imageUrl: shareImgUrl,
