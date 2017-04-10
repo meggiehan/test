@@ -41,8 +41,8 @@ function homeInit(f7, view, page) {
             getName: getName,
             getDealTime: getDealTime,
             shareTrip(){
+                apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
                 if (this.fishCarTripInfo) {
-                    apiCount('btn_myCenter_fishcarRoutes');
                     mainView.router.load({
                         url: 'views/shareMyTrip.html',
                         query: {

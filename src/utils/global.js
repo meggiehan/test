@@ -352,7 +352,7 @@ class CustomClass {
             mainView.router.load({
                 url: 'views/fishCar.html?isFishCar=0'
             })
-        }else {
+        }else if('level' == type || 'auth' == type){
             if (!isLogin()) {
                 nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
                 loginViewShow();

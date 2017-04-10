@@ -27,6 +27,7 @@ function aquaticClassroomInit(f7, view, page) {
         methods: {
             openNewWindow(url, id){
                 nativeEvent.goNewWindow(url);
+                apiCount('cell_tutor_list');
                 GetInfoListModel.putInfoViews(
                   id,
                   (res) => {

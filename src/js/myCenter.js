@@ -1,14 +1,16 @@
 import store from '../utils/localStorage';
 import config from '../config';
 import { getName, getAddressIndex } from '../utils/string';
-import { logOut, isLogin } from '../middlewares/loginMiddle';
+import { logOut, isLogin, activeLogout } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 
 function myCenterInit(f7, view, page) {
     f7.hideIndicator();
     if (!isLogin()) {
-        view.router.back();
+        view.router.load({
+          url: 'views/user.html'
+        })
         f7.hideIndicator();
         return;
     }
