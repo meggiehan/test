@@ -654,7 +654,6 @@ module.exports = {
      */
     getShareTripImgUrl: (userInfo, query) => {
       const {
-          nickname,
           scanLink,
           imgUrl
       } = userInfo;
@@ -663,7 +662,8 @@ module.exports = {
         date,
         departureProvinceName,
         destinationProvinceName,
-        id
+        id,
+        contactName
       } = query;
       const qrCodeLink = `${mWebUrl}fishcar/route/${id}`;
       let appointedDay = date.split('-');
@@ -675,7 +675,7 @@ module.exports = {
       str += `&headImgUrl=${imgUrl ? encodeURIComponent(imgUrl) : ''}`;
       str += `&departureArea=${departureProvinceName ? encodeURI(departureProvinceName) : ''}`;
       str += `&destinationArea=${destinationProvinceName ? encodeURI(destinationProvinceName) : ''}`;
-      str += `&nickName=${nickname ? encodeURI(nickname) : ''}`;
+      str += `&nickName=${contactName ? encodeURI(contactName) : ''}`;
       str += `&qrCodeLink=${encodeURIComponent(qrCodeLink)}`;
       return str;
     },
