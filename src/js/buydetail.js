@@ -10,13 +10,13 @@ import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
 function buydetailInit(f7, view, page) {
     const $$ = Dom7;
     const { id } = page.query;
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
     const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     let demandInfo_;
-    const { shareUrl, cacheUserInfoKey } = config;
+    const { shareUrl, cacheUserInfoKey, mWebUrl } = config;
     let currentUserId;
     let errorInfo;
 
@@ -101,10 +101,10 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.goods-create-time').text(timeDifference(sort));
             currentPage.find('.selldetail-price').children('b').text(stock && `${stock}` || '大量');
             currentPage.find('.buy-detail-price').text(price && `${price}` || '面议');
-            
+
             let specText = quantityTags ? (JSON.parse(quantityTags).length && JSON.parse(quantityTags)[0]['tagName'] || '') : '';
             specText && specifications && (specText = `${specText}，${specifications}`);
-            (!specText && specifications) && (specText += specifications);    
+            (!specText && specifications) && (specText += specifications);
             specText ? currentPage.find('.selldetail-spec').text(specText).parent().css(showStyle) : currentPage.find('.selldetail-spec').parent().hide();
             currentPage.find('.user-name').children('span').text(contactName || '匿名用户');
             currentPage.find('.budetail-fish-name').text(fishTypeName);
@@ -248,9 +248,10 @@ function buydetailInit(f7, view, page) {
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
             if (1 == code) {
-                const buyNum = parseInt($$('.user-buy-num').text()) - 1;
-                $$('.other-list-info>a[href="./views/buydetail.html?id=' + id + '"]').remove();
-                $$('.user-buy-num').text(buyNum);
+                const buyNum = parseInt($$('.user-buy-num').eq($$('.user-buy-num').length - 1).text()) - 1;
+                $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').next('div.list-check-status').remove();
+                $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').remove();
+                $$('.user-buy-num').text(buyNum <= 0 ? 0 : buyNum);
                 view.router.back();
                 view.router.refreshPage();
             }
@@ -320,7 +321,7 @@ function buydetailInit(f7, view, page) {
      * 分享信息
      * */
     shareBtn.onclick = () => {
-        if (!nativeEvent.getDataToNative('isWXAppInstalled')) {
+        if (!store.get('isWXAppInstalled')) {
             f7.alert("分享失败");
             return;
         }
@@ -359,6 +360,21 @@ function buydetailInit(f7, view, page) {
      * 点击右上角nav，选择分享或者举报
      * */
     lastHeader.find('.detail-more')[0].onclick = detailClickTip;
+
+    /**
+     * 提升靠谱指数
+     */
+    currentPage.find('.info-detail-go-member').find('span').click(() => {
+      if(!isLogin()){
+        f7.alert(alertTitleText(), loginViewShow);
+        return;
+      }
+      apiCount('btn_infoDetail_myMember');
+      const userInfo = store.get(cacheUserInfoKey);
+      mainView.router.load({
+        url: `${mWebUrl}user/member/${userInfo.id}`
+      })
+    })
 }
 
 export {

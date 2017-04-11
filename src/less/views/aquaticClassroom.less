@@ -1,0 +1,39 @@
+.page-aquatic-classroom{
+    background: @bg-fff;
+    .text-shadow(@bg-fff);
+    .list-block.media-list{
+      padding-left: 1.2rem;
+      padding-right: 1.2rem;
+        a{
+            padding: 1.2rem 0;
+            border-bottom:1px solid @border-da;
+            .box-size();
+            p{
+                font-size: 1.4rem;
+                color: @text-category;
+                margin: 0;
+                &.title{
+                    font-size: 1.6rem;
+                    color: @text-name;
+                    line-height: 1.6;
+                    margin-bottom: 1.5rem;
+                    height: 4.5rem;
+                    overflow: hidden;
+                }
+            }
+            .item-inner, .item-media{
+                padding: 0;
+            }
+            .item-inner{
+                margin-left: 1rem;
+                &:after{
+                    display: none;
+                }
+            }
+        }
+        .load-all{
+            font-size: 1.4rem;
+            .text-center;
+        }
+    }
+}

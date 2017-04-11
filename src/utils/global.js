@@ -316,12 +316,11 @@ class CustomClass {
         const len = currentPage.find('.release-info-pic-list').children('span').length;
         currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
         len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
-
     }
 
     /*
      * type: demandInfo, level, auth
-     * 信息, 等级, 认证
+     * 信息, 等级, 认证, 我的店铺分享, 行程分享
      */
     jsJumpFromPush(obj) {
         const { cacheUserInfoKey, mWebUrl } = config;
@@ -345,14 +344,25 @@ class CustomClass {
                 },
                 type: 'get'
             }, callback);
-        } else {
+        } else if('myShop' == type){
+            mainView.router.load({
+                url: `views/otherIndex.html?currentUserId=${id}`
+            })
+        } else if('fishCarRoute' == type){
+            mainView.router.load({
+                url: 'views/fishCar.html?isFishCar=0'
+            })
+        }else if('level' == type || 'auth' == type){
             if (!isLogin()) {
                 nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
                 loginViewShow();
                 return;
             }
             if ('level' == type) {
-                nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
+                // nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
+                mainView.router.load({
+                  url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}`
+                })
             } else if ('auth' == type) {
                 customAjax.ajax({
                     apiCategory: 'auth',

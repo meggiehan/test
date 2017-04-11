@@ -6,63 +6,41 @@ import Vue from 'vue';
 import shareComponent from '../component/shareComponent';
 import userUtils from '../utils/viewsUtil/userUtils';
 import {JsBridge} from '../middlewares/JsBridge';
-import {getShareImgUrl} from '../utils/string';
+import {getShareTripImgUrl} from '../utils/string';
 
-function inviteFriendsInit(f7, view, page) {
+function shareMyTripInit(f7, view, page) {
+    f7.hideIndicator();
     if (!isLogin()) {
         activeLogout();
     }
-    f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const isMyShop = currentPage.hasClass('page-my-shop');
-    const {cacheUserInfoKey, timeout, url} = config;
+    const {cacheUserInfoKey, timeout} = config;
     const userInfo = store.get(cacheUserInfoKey);
-    const shareImgUrl = getShareImgUrl(userInfo);
+    const shareImgUrl = getShareTripImgUrl(userInfo, page.query);
 
     const {
-        invitationCode,
-        inviterNickname,
-        inviterPhone,
-        invitationLink,
         scanLink,
         imgUrl,
         registerCount,
-        nickname,
         enterpriseAuthenticationState,
         enterpriseAuthenticationTime,
         personalAuthenticationState,
-        personalAuthenticationTime,
-        level,
-        publishedDemandsCount
+        personalAuthenticationTime
     } = userInfo || {};
 
     const authText = userUtils.getAuthenticationText(enterpriseAuthenticationState, enterpriseAuthenticationTime, personalAuthenticationState, personalAuthenticationTime).myCenterText;
 
     /**
-     * 生成二维码
-     * */
-    if (scanLink) {
-        setTimeout(() => {
-            new QRCode(currentPage.find('.invite-user-code')[0], {
-                text: scanLink,
-                height: 180,
-                width: 180,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        }, 30);
-    }
-
-    /**
      * vue的数据模型
      * */
     Vue.component('share-component', shareComponent);
+
     const inviteVue = new Vue({
         el: currentPage.find('.page-content')[0],
         data: {
-            inviteData: userInfo,
-            authText: authText
+            imgUrl: imgUrl,
+            query: page.query,
+            level: userInfo.level
         },
         methods: {
             //跳转至用户已经邀请成功的列表
@@ -75,15 +53,15 @@ function inviteFriendsInit(f7, view, page) {
                 view.router.load({url: 'views/inviteFriendsList.html'})
             },
             weixinShareFriend() {
-                apiCount(isMyShop ? 'btn_shareMyShop_wechat' : 'btn_inviteFriends_wechat');
+                apiCount('btn_inviteFriends_share');
                 nativeEvent.shareInfoToWeixin(0, shareImgUrl);
             },
             weixinShareCircle() {
-                apiCount(isMyShop ? 'btn_shareMyShop_circle' : 'btn_inviteFriends_circle');
+                apiCount('btn_inviteFriends_share');
                 nativeEvent.shareInfoToWeixin(1, shareImgUrl);
             },
             qqShareFriend() {
-                apiCount(isMyShop ? 'btn_shareMyShop_qq' : 'btn_inviteFriends_qq');
+                apiCount('btn_inviteFriends_share');
                 JsBridge('JS_QQSceneShare', {
                     type: '0',
                     imageUrl: shareImgUrl,
@@ -98,4 +76,4 @@ function inviteFriendsInit(f7, view, page) {
     });
 }
 
-export {inviteFriendsInit}
+export {shareMyTripInit}

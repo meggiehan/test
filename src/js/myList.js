@@ -4,15 +4,14 @@ import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
-import {isLogin} from '../middlewares/loginMiddle';
+import {isLogin, activeLogout} from '../middlewares/loginMiddle';
 
 function myListInit(f7, view, page) {
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
+        view.router.load({
+          url: 'views/user.html'
         })
+        f7.hideIndicator();
         return;
     }
     let type = page.query['type'] || 2;
@@ -28,13 +27,13 @@ function myListInit(f7, view, page) {
 
     const sellContent = currentPage.find('.sell-collection-list-info');
     const buyContent = currentPage.find('.buy-collection-list-info');
-    const openGuide = nativeEvent.getDataToNative('refreshGuide');
+    const openGuide = store.get('refreshGuide');
 
     let sellDate = [];
     let buyDate = [];
 
     if(!openGuide){
-        nativeEvent.setDataToNative('refreshGuide', 'true');
+        store.set('refreshGuide', 'true');
         $$('.my-list-guide-model').addClass('on');
     }
 
@@ -115,9 +114,7 @@ function myListInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
         loading = false;
-        setTimeout(() => {
-            $$('img.lazy').trigger('lazy');
-        }, 400)
+        currentPage.find('img.lazy').trigger('lazy');
     }
 
     const getListInfo = () => {

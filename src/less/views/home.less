@@ -163,6 +163,7 @@
                 .col-50{
                     width: 50%;
                     padding-right: 0.25rem;
+                    background: @bg-body;
                     &:last-child{
                         padding-right: 0;
                         padding-left: 0.25rem;
@@ -320,7 +321,7 @@
             display: none;
             .home-cat-list {
                 background: @bg-fff;
-                margin-bottom: 1rem;
+                margin-top: 1rem;
                 .icon-category:before {
                     border-radius: 50%;
                     font-size: 2.2rem;
@@ -363,12 +364,61 @@
                 width: 33%;
                 img{
                     display: block;
-                    width: 5rem;
+                    width: 3.5rem;
                     margin: 0 auto 0.9rem;
                 }
                 p{
                     margin: 0;
                     color: @text-name;
+                }
+            }
+        }
+        .fish-car-trip{
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            margin-top: 0.5rem;
+            .fish-car-trip-title{
+                padding: 1rem 2%;
+                color: @text-name;
+                a{
+                    color: @text-category;
+                    display: inline-block;
+                    float: right;
+                    &:after{
+                        margin-left: 0.3rem;
+                    }
+                }
+            }
+            .fish-car-trip-content{
+                border-top:1px solid @border-da;
+                border-bottom:1px solid @border-da;
+                color: @themeColor;
+                padding: 1.3rem 0;
+                .text-center;
+                .col-33{
+                    div{
+                        font-size: 2rem;
+                        .text-hidden;
+                        width: 100%;
+                    }
+                    p{
+                        color: @text-category;
+                        font-size: 1.6rem;
+                        margin-bottom: 0;
+                        margin-top: 0.5rem;
+                    }
+                }
+                .none-fish-trip{
+                    color: @text-category;
+                }
+            }
+            .fish-car-trip-footer{
+                line-height: 4rem;
+                .text-center;
+                overflow: hidden;
+                a{
+                    color: @themeColor;
+                    display: block;
                 }
             }
         }

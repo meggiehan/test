@@ -43,9 +43,7 @@ function dealListInit(f7, view, page) {
             showAllInfo.show();
         }
 
-        setTimeout(() => {
-            $$('img.lazy').trigger('lazy');
-        }, 400)
+        currentPage.find('img.lazy').trigger('lazy');
         f7.hideIndicator();
         f7.pullToRefreshDone();
         pullToRefresh = false;

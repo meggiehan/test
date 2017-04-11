@@ -8,14 +8,14 @@
             <img src="../build/img/circleFriends.png" alt="微信朋友圈">
             <p>朋友圈</p>
         </div>
-        <div class="invite-share-items qq-friends">
+        <div @click="qqShareFriend" class="invite-share-items qq-friends">
             <span class="iconfont icon-qq"></span>
             <p>QQ</p>
         </div>
-        <div class="invite-share-items qq-zone">
-            <span class="iconfont icon-msg"></span>
-            <p>短信</p>
-        </div>
+        <!--<div class="invite-share-items qq-zone">-->
+            <!--<span class="iconfont icon-msg"></span>-->
+            <!--<p>短信</p>-->
+        <!--</div>-->
     </div>
 </template>
 <style>
@@ -24,7 +24,7 @@
         min-height: 8rem;
     }
     .invite-share-items{
-        width: 25%;
+        width: 33.33%;
         float: left;
     }
     .invite-share-items img{
@@ -50,6 +50,22 @@
     .qq-zone p, .qq-friends p{
         margin-top: 0.3rem;
     }
+    @media screen and (max-width: 330px) {
+        .invite-share-items{
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        .invite-share > p{
+            margin: 0.5rem 0 0;
+        }
+        .invite-share{
+            padding: 0.5rem 3rem;
+        }
+        .invite-share-items>p,
+        .share-trip-share>p{
+            margin-bottom: 0;
+        }
+    }
 </style>
 
 <script>
@@ -63,6 +79,9 @@
             },
             weixinShareFriend (){
                 this.$emit('weixin_share_friend')
+            },
+            qqShareFriend (){
+                this.$emit('qq_share_friend')
             }
         }
     };

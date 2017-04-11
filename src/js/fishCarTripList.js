@@ -3,17 +3,16 @@ import config from '../config';
 import { fishCar } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { isLogin } from '../middlewares/loginMiddle';
+import { isLogin, activeLogout } from '../middlewares/loginMiddle';
 import FishAboutModel from './model/FishAboutModel';
 import {releaseFishViewShow} from './releaseView/releaseFishViews';
 
 function fishCarTripListInit(f7, view, page) {
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
-        });
+        view.router.load({
+          url: 'views/user.html'
+        })
+        f7.hideIndicator();
         return;
     }
     /**
@@ -95,9 +94,7 @@ function fishCarTripListInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
         loading = false;
-        setTimeout(() => {
-            $$('img.lazy').trigger('lazy');
-        }, 400)
+        currentPage.find('img.lazy').trigger('lazy');
     };
 
     const getListInfo = () => {
@@ -187,7 +184,8 @@ function fishCarTripListInit(f7, view, page) {
                         const {code, message} = res;
                         if(1 == code){
                             f7.alert('删除成功!');
-                            mainView.router.refreshPage();
+                            $$(ele).parent().parent('.driver-info').remove();
+                            // mainView.router.refreshPage();
                         }else{
                             f7.alert(message);
                         }

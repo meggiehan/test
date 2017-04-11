@@ -1,4 +1,4 @@
-.page-invite-friends {
+.page-invite-friends, .page-my-shop, .page-share-my-trip {
     .page-content {
         background: @bg-fff;
         padding: 7rem 3rem 2rem;
@@ -10,10 +10,11 @@
             .text-center;
             padding: 3.5rem 0 1.5rem;
             background-image: linear-gradient(0deg, @bg-invite-start 0%, @bg-invite-end 100%);
+            background-image: -webkit-linear-gradient(top, @bg-invite-start 0%,@bg-invite-end 100%);
             box-shadow: 0px 0px 10px 0px @bg-black-4;
             color: @text-fff;
             .user-head-img{
-                width: 24%;
+                width: 22.5%;
                 .auto;
                 display: inline-block;
                 img{
@@ -62,7 +63,7 @@
             }
         }
         .invite-user-code{
-            margin-top: 4rem;
+            margin-top: 3rem;
             font-size: 1.4rem;
             color: @text-name;
             .ps-r;
@@ -84,6 +85,12 @@
         }
         .invite-share{
             .text-center;
+            position: fixed;;
+            bottom: 0;
+            left: 0;
+            padding:1rem 3rem;
+            width: 100%;
+            .box-size();
             &>p{
                 color: @text-invite-tip;
                 .ps-r;
@@ -104,9 +111,41 @@
                 }
             }
         }
-        .bg-card-pic, .head-img, canvas{
+        .bg-card-pic, canvas, .bg-card-level{
             display: none;
         }
+    }
+}
+.page-my-shop{
+    .page-content{
+        .invite-user{
+            padding-bottom: 4rem;
+        }
+        .invite-user-header{
+            .invite-user-auth-state{
+                padding-bottom:0;
+            }
+        }
+        .invite-user-code{
+            padding-top: 8rem;
+            padding-left: 0;
+            margin-top: 2rem;
+            img{
+                width: 7rem;
+                display: block;
+                top: 0;
+                left: 50%;
+                margin-left: -3.5rem;
+            }
+            p{
+                .text-center;
+            }
+        }
+    }
+}
+@media screen and (max-width: 330px){
+    .page-invite-friends .page-content .invite-user-code{
+      margin-top: 2rem;
     }
 }
 @media screen and (min-width: 350px) and (max-width: 400px) {
@@ -116,6 +155,19 @@
     }
     .page-invite-friends .page-content .invite-user-code{
         padding-left: 7rem;
+    }
+}
+
+@media screen and (min-width: 350px) and (max-width: 370px) {
+    .page-invite-friends .page-content .invite-user-code,
+    .page-my-shop .page-content .invite-user-code{
+        margin-top: 2.5rem;
+    }
+}
+@media screen and (min-width: 370px) and (max-width: 400px) {
+    .page-invite-friends .page-content .invite-user-code,
+    .page-my-shop .page-content .invite-user-code{
+        margin-top: 6.2rem;
     }
 }
 
@@ -130,5 +182,9 @@
     }
     .page-invite-friends .page-content .invite-user-code{
         padding-left: 7.5rem;
+    }
+    .page-invite-friends .page-content .invite-user-code,
+    .page-my-shop .page-content .invite-user-code{
+        margin-top: 7.2rem;
     }
 }

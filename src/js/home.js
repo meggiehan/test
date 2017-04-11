@@ -6,18 +6,21 @@ import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
 import {getAll, get} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {releaseFishViewShow} from '../js/releaseView/releaseFishViews';
 import {getDealTime} from '../utils/time';
 import Vue from 'vue';
 // import {weixinAction} from './service/login/loginCtrl';
-// import {JsBridge} from '../middlewares/JsBridge';
+import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
+import HomeModel from './model/HomeModel';
 
 function homeInit(f7, view, page) {
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const weixinData = nativeEvent.getDataToNative('weixinData');
+    const weixinData = store.get('weixinData');
     const {fishCacheObj, cacheUserInfoKey} = config;
-
+    const userInfo = isLogin() ? (store.get(cacheUserInfoKey) || {}) : {};
+    const fishCarDriverId = userInfo.fishCarDriverId || '';
     /**
      * vue的数据模型
      * */
@@ -27,22 +30,90 @@ function homeInit(f7, view, page) {
             homeData: {
                 trades: '',
                 banners: [],
-                fishTags: ''
-            }
+                fishTags: '',
+                isHasCache: getAll().length
+            },
+            fishCarTripInfo: '',
+            fishCarDriverId: fishCarDriverId,
+            userInfo: userInfo
         },
         methods: {
             getName: getName,
-            getDealTime: getDealTime
+            getDealTime: getDealTime,
+            shareTrip(){
+                apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
+                if (this.fishCarTripInfo) {
+                    mainView.router.load({
+                        url: 'views/shareMyTrip.html',
+                        query: {
+                            contactName: this.fishCarTripInfo.contactName,
+                            date: this.fishCarTripInfo.appointedDate,
+                            departureProvinceName: this.fishCarTripInfo.departureProvinceName,
+                            destinationProvinceName: this.fishCarTripInfo.destinationProvinceName,
+                            id: this.fishCarTripInfo.id
+                        }
+                    })
+                } else {
+                    releaseView.router.load({
+                        url: 'views/releaseFishCarTrip.html',
+                        reload: true
+                    });
+                    releaseFishViewShow();
+                }
+            },
+            goThreeWindow(item){
+                const {
+                    loginRequired,
+                    link,
+                    type,
+                    id
+                } = item;
+                if (!!Number(loginRequired) && !isLogin()) {
+                    f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
+                    return;
+                }
+                const access_token = store.get('accessToken');
+                let openUrl = link;
+                if (0 == type) {
+                    loginRequired && (openUrl += `/${access_token}`);
+                    nativeEvent.goNewWindow(openUrl);
+                }
+
+                if (1 == type) {
+                    mainView.router.load({
+                        url: openUrl
+                    });
+                }
+                if (2 == type) {
+                    f7.showIndicator();
+                    mainView.router.load({
+                        url: openUrl
+                    });
+                }
+                //banner统计
+                HomeModel.postBannerCount({
+                    bannerId: id
+                }, (data) => {
+                    console.log(data);
+                })
+            }
+        },
+        computed: {
+            tripDate(){
+                if (!this || !this.fishCarTripInfo) {
+                    return '';
+                }
+                let res = '';
+                const arr = this.fishCarTripInfo.appointedDate.split('-');
+
+                res += Number(arr[1]) >= 10 ? arr[1] : arr[1].replace('0', '');
+                res += '月';
+                res += Number(arr[2]) >= 10 ? arr[2] : arr[2].replace('0', '');
+                res += '日';
+                return res;
+            }
         }
     });
-
-    /*
-     * 判断是否有数据缓存，如果有就直接显示
-     * */
-    if (getAll().length) {
-        currentPage.find('.ajax-content').show();
-        currentPage.find('.home-loading').hide();
-    }
 
     /**
      * 初始化slider
@@ -88,6 +159,20 @@ function homeInit(f7, view, page) {
         })
     };
 
+    /**
+     * 获取司机最新的一条信息
+     * */
+    if (fishCarDriverId && isLogin()) {
+        HomeModel.getMyFishRecentTrip((res) => {
+            const {code, message, data} = res;
+            if (1 == code) {
+                vueHome.fishCarTripInfo = data || '';
+            } else {
+                console.log(message);
+            }
+        })
+    }
+
     const renderFishTags = (tagList) => {
         console.log('render tag list!')
     };
@@ -109,7 +194,7 @@ function homeInit(f7, view, page) {
 
     customAjax.ajax({
         apiCategory: 'initPage',
-        data: ['2'],
+        data: ['3'],
         type: 'get'
     }, initDataCallback);
 
@@ -118,7 +203,7 @@ function homeInit(f7, view, page) {
      * render 最近使用鱼种
      * */
     setTimeout(() => {
-        const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
+        const fishCacheData = store.get(fishCacheObj.fishCacheKey);
         if (fishCacheData && fishCacheData.length) {
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {
@@ -199,39 +284,6 @@ function homeInit(f7, view, page) {
     });
 
     /*
-     * 点击活动banner，打开第三方webview.
-     * */
-    currentPage.find('.home-slider')[0].onclick = (e) => {
-        const ele = e.target || window.event.target;
-        if ($$(ele).hasClass('swiper-slide-active') || ele.tagName == 'IMG') {
-            const isNeedLogin = $$(ele).attr('data-login') || $(ele).parent().attr('data-login');
-            if (!!Number(isNeedLogin) && !isLogin()) {
-                f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
-                return;
-            }
-            const access_token = store.get('accessToken');
-            let openUrl = $(ele).attr('data-href') || $(ele).parent().attr('data-href');
-            const openType = $(ele).attr('data-type') || $(ele).parent().attr('data-type');
-            if (0 == openType) {
-                isNeedLogin && (openUrl += `/${access_token}`);
-                nativeEvent.goNewWindow(openUrl);
-            }
-
-            if (1 == openType) {
-                mainView.router.load({
-                    url: openUrl
-                });
-            }
-            if (2 == openType) {
-                f7.showIndicator();
-                mainView.router.load({
-                    url: openUrl
-                });
-            }
-        }
-    };
-
-    /*
      * 前往发布信息页面
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {
@@ -248,10 +300,10 @@ function homeInit(f7, view, page) {
     /**
      * 担保交易提示
      * */
-    currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
-        f7.alert('担保交易功能即将上线，敬请期待！');
-        return;
-    };
+    // currentPage.find('.home-nav-list').children('a')[1].onclick = () => {
+    //     f7.alert('担保交易功能即将上线，敬请期待！');
+    //     return;
+    // };
 
     /**
      *当前登录角色通过司机审核时,之间跳转至需求列表
@@ -276,6 +328,10 @@ function homeInit(f7, view, page) {
             return;
         }
         $$('.fish-car-modal').addClass('on');
+    });
+
+    JsBridge('JS_GetUUid', {}, (data) => {
+        window.uuid = data;
     });
 
     // // //存储数据

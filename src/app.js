@@ -39,27 +39,26 @@ import {postDriverInfoInit} from './js/postDriverInfo';
 import {fishCar, home} from './utils/template';
 import {driverDemandInfoInit} from  './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
-import invitationModel from './js/service/invitation/InvitationModel';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
 import {JsBridge} from './middlewares/JsBridge';
 import {releaseFishCarDemandSuccessInit} from './js/releaseFishCarDemandSuccess';
 import {releaseFishCarTripInit} from './js/releaseFishCarTrip';
 import {weixinModalEvent} from './js/modal/weixinModal';
 import {
-    fishCarDriverSelectAddressModalEvent,
     fishCarModalJumpEvent
 } from './js/modal/fishCarDriverSelectAddressModal';
 import {fishCarTripListInit} from './js/fishCarTripList';
 import {myFishCarDemandListInit} from './js/myFishCarDemandList';
 import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
 import store from './utils/localStorage';
-
+import {shareMyTripInit} from './js/shareMyTrip';
+import {aquaticClassroomInit} from './js/aquaticClassroom';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
 const {timeout, fishCacheObj} = config;
-console.log(`current app update time: ${version.date}!V01_09_01_01`);
+console.log(`current app update time: ${version.date}!${store.get('versionNumber')}`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
 window.isTipBack = false;
@@ -96,14 +95,17 @@ let initAppConfig = {
         const currentPage = options && options['url'];
         const len = history.length;
         const _currentPage = history[len - 1];
-        var btns = document.getElementsByClassName('modal-button');
+        const btns = document.getElementsByClassName('modal-button');
         if (!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf("放弃发布") > -1) {
             return false;
         }
+
         if (!currentPage && len >= 1) {
             const backPage = history[len - 2];
 
-            if (_currentPage.indexOf('home.html') > -1 || _currentPage.indexOf('user.html') > -1 || _currentPage.indexOf('releaseSucc.html') > -1) {
+            if (_currentPage.indexOf('home.html') > -1 ||
+             _currentPage.indexOf('user.html') > -1 ||
+              _currentPage.indexOf('releaseSucc.html') > -1) {
                 return false;
             }
 
@@ -230,7 +232,8 @@ const initApp = f7.onPageInit("*", (page) => {
         f7.hideIndicator();
     }
 
-    if(page.name == 'pageMvp'){
+    const hideLoadArr = ['recruitDriverSuccess', 'myMember', 'pageMvp'];
+    if(hideLoadArr.indexOf(page.name) > -1){
         f7.hideIndicator();
     }
 
@@ -257,8 +260,9 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'home' && homeInit(f7, mainView, page);
     page.name === 'user' && userInit(f7, mainView, page);
     page.name === 'inviteCode' && inviteCodeInit(f7, mainView, page);
-    page.name === 'inviteFriends' && inviteFriendsInit(f7, mainView, page);
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
+    (page.name === 'inviteFriends' || page.name === 'myShop') && inviteFriendsInit(f7, mainView, page);
+
     page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
     page.name === 'dealList' && dealListInit(f7, mainView, page);
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
@@ -275,13 +279,15 @@ const initApp = f7.onPageInit("*", (page) => {
     page.name === 'releaseFishCarDemandSuccess' && releaseFishCarDemandSuccessInit(f7, mainView, page);
     page.name === 'fishCarTripList' && fishCarTripListInit(f7, mainView, page);
     page.name === 'myFishCarDemandList' && myFishCarDemandListInit(f7, mainView, page);
+    page.name === 'shareMyTrip' && shareMyTripInit(f7, mainView, page);
 
     /**
      * 上传司机信息页面
      * */
     page.name === 'postDriverAuth' && postDriverAuthInit(f7, mainView, page);
     page.name === 'postDriverInfo' && postDriverInfoInit(f7, mainView, page);
-    page.name === 'recruitDriverSuccess' && f7.hideIndicator();
+
+    page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, mainView, page);
 });
 
 /**

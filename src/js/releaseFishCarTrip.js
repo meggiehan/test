@@ -157,12 +157,27 @@ function releaseFishCarTripInit(f7, view, page) {
             return;
         }
 
-        function callback(data) {
-            const {code, message} = data;
+        function callback(res) {
+            const {code, message, data} = res;
             if (1 == code) {
                 nativeEvent.nativeToast('1', '发布成功！');
+                const {
+                    appointedDate,
+                    contactName,
+                    departureProvinceName,
+                    destinationProvinceName,
+                    id
+                } = data;
                 releaseView.router.load({
-                    url: 'views/releaseFishCarDemandSuccess.html?isDriver=true'
+                    url: 'views/releaseFishCarDemandSuccess.html',
+                    query: {
+                        isDriver: true,
+                        date: appointedDate,
+                        contactName,
+                        departureProvinceName,
+                        destinationProvinceName,
+                        id
+                    }
                 })
             } else {
                 f7.alert(message);

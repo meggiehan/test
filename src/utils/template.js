@@ -45,7 +45,7 @@ module.exports = {
                 imgStr = img.complete ? '<img src="' + `${imgList[0] + imgPath(11)}` + '"/></div>' :
                 '<img data-src="' + `${(imgList[0] + imgPath(11)) || backgroundImgUrl}` + '" src="' + backgroundImgUrl + '" class="lazy"/></div>';
             }else{
-                imgStr = '<img data-src="backgroundImgUrl" /></div>';
+                imgStr = `<img data-src="${backgroundImgUrl}" /></div>`;
             }
 
             const authText = nameAuthenticated ? '实名' : false;
@@ -348,10 +348,12 @@ module.exports = {
             } = data;
             let str = '';
             const src = headImgUrl ? (headImgUrl + imgPath(8)) : './img/ic_avatar_default.png';
+            const shareBtn = !expired ?
+                `<a class="fish-trip-share-btn phone" href="views/shareMyTrip.html?id=${id}&contactName=${contactName}&date=${appointedDate}&departureProvinceName=${departureProvinceName}&destinationProvinceName=${destinationProvinceName}">分享</a>` : '';
 
             const btnStr = !isMine ?
                 `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
-                `<div class="phone delete-trip" data-id="${id}">删除</div>`;
+                `${shareBtn}<div class="phone delete-trip" data-id="${id}">删除</div>`;
 
             str += `<div class="driver-info">` +
                         `<a class="driver" onclick="apiCount('btn_fishcar_routes_goFishcarDetail')" href="views/driverDemandInfo.html?id=${driverId}">` +

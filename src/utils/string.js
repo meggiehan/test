@@ -3,7 +3,7 @@ import config from '../config/index';
 import {getToken} from '../middlewares/loginMiddle';
 import store from '../utils/localStorage';
 
-const {fishCacheObj} = config;
+const {fishCacheObj, mWebUrl} = config;
 module.exports = {
     trim: (str) => {
         if (!str) {
@@ -386,7 +386,7 @@ module.exports = {
 
     alertTitleText: () => {
         const token = getToken();
-        const weixinData = nativeEvent.getDataToNative('weixinData');
+        const weixinData = store.get('weixinData');
         let text;
         !token && !weixinData && (text = '您还没登录，请先登录!')
         !token && weixinData && (text = '绑定手机号后，可以使用全部功能!')
@@ -624,25 +624,70 @@ module.exports = {
         return `${fistStr}.${secondStr}`;
     },
     /**
-     * 根据当前用户信息，判断是否需要重绘上传个人名片
+     * 根据当前用户信息，获取分享店铺的url
      * */
-    getBusinessCardStr: (userInfo) => {
+    getShareImgUrl: (userInfo) => {
         const {
-            buyNumber,
-            sellNumber,
+            publishedDemandsCount,
             level,
             personalAuthenticationState,
             enterpriseAuthenticationState,
-            nickname
+            nickname,
+            scanLink,
+            imgUrl
         } = userInfo;
 
-        let str = '';
-        str += `releaseNum=${buyNumber + sellNumber}`;
-        str += `level=${level}`;
-        str += `personalAuth=${personalAuthenticationState}`;
-        str += `enterpriseAuth=${enterpriseAuthenticationState}`;
-        str += `nickname=${nickname}`;
-
+        const {url} = config;
+        let str = `${url}shareImages/person`;
+        str += `?level=${level}`;
+        str += `&headImgUrl=${imgUrl ? encodeURIComponent(imgUrl) : ''}`;
+        str += `&enterpriseAuthenticated=${1 == enterpriseAuthenticationState}`;
+        str += `&personAuthenticated=${1 == personalAuthenticationState}`;
+        str += `&nickName=${nickname ? encodeURI(nickname) : ''}`;
+        str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
+        str += `&publishedDemandsCount=${publishedDemandsCount}`;
         return str;
+    },
+    /**
+     * [getShareTripImgUrl 获取行程分享的图片在线地址]
+     * @param  {[object]} userInfo [用户信息]
+     */
+    getShareTripImgUrl: (userInfo, query) => {
+      const {
+          scanLink,
+          imgUrl
+      } = userInfo;
+
+      const {
+        date,
+        departureProvinceName,
+        destinationProvinceName,
+        id,
+        contactName
+      } = query;
+      const qrCodeLink = `${mWebUrl}fishcar/route/${id}`;
+      let appointedDay = date.split('-');
+      appointedDay = `${Number(appointedDay[1]) < 10 ? Number(appointedDay[1]) : appointedDay[1]}月${Number(appointedDay[2]) < 10 ? Number(appointedDay[2]) : appointedDay[2]}日`;
+
+      const {url} = config;
+      let str = `${url}shareImages/route`;
+      str += `?appointedDay=${encodeURI(appointedDay)}`;
+      str += `&headImgUrl=${imgUrl ? encodeURIComponent(imgUrl) : ''}`;
+      str += `&departureArea=${departureProvinceName ? encodeURI(departureProvinceName) : ''}`;
+      str += `&destinationArea=${destinationProvinceName ? encodeURI(destinationProvinceName) : ''}`;
+      str += `&nickName=${contactName ? encodeURI(contactName) : ''}`;
+      str += `&qrCodeLink=${encodeURIComponent(qrCodeLink)}`;
+      return str;
+    },
+    /**
+     * 获取企业认证或者个人认证
+     * @e 企业认证状态
+     * @p 个人认证状态
+     * */
+    getAuthText: (e, p) => {
+        let res = '实名认证';
+        1 == p && (res = '已个人认证');
+        1 == e && (res = '已企业认证');
+        return res;
     }
 };

@@ -1,112 +1,46 @@
 .page-other-index {
     .user-header {
         margin: 0;
-        padding: 0.5rem 0.7rem;
-        border-bottom: 1px solid @border-da;
-        background: @bg-fff;
-        .text-shadow(@text-fff);
+        padding: 1.5rem 8%;
+        background: @themeColor;
+        .text-shadow(@themeColor);
+        .box-size();
+        color: @text-fff;
+        .text-center;
+        font-size: 1.6rem;
         .user-pic {
             img {
                 display: block;
+                .auto;
                 border-radius: 50%;
                 height: 6rem;
+                margin-bottom: 1rem;
             }
         }
-        .item-content {
-            padding-left: 0;
-            &>div {
-                padding: 0;
-            }
-            .item-inner {
-                padding-right: 0;
-                margin-left: 1rem;
-                color: @text-name;
-                display: -webkit-box;
-                -webkit-box-align: center;
-                -webkit-box-pack: center;
-                &:after {
-                    display: none;
-                }
-                p {
-                    margin: 0;
-                    .text-hidden;
-                    &.user-lately-time {
-                        color: @text-category;
-                        font-size: 1.4rem;
-                    }
-                    &.other-user-name {
-                        .name{
-                            width: 55%;
-                        }
-                        i {
-                            display: none;
-                            vertical-align: bottom;
-                            &.iconfont {
-                                color: @text-level;
-                                font-size: 2.2rem;
-                                vertical-align: bottom;
-                                display: inline-block;
-                            }
-                        }
-                    }
-                }
-                &>div {
-                    .ps-r;
-                    // height: 6.5rem;
-                    width: 100%;
-                    display: -webkit-box;
-                    -webkit-box-align: center;
-                    -webkit-box-pack: center;
-                    .col-90 {
-                        width: 90%;
-                        .text-hidden;
-                        .other-index-cert-info {
-                            display: none;
-                            .iconfont {
-                                display: none;
-                                color: @text-level;
-                                font-size: 1.2rem;
-                                padding-right: 0.5rem;
-                                display: none;
-                                &:before {
-                                    font-size: 1.6rem;
-                                    padding-right: 0.3rem;
-                                    .ps-r;
-                                    top: -0.2rem;
-                                }
-                            }
-                            &.individual-identity {
-                                display: block;
-                                span.individual {
-                                    display: inline-block;
-                                }
-                            }
-                            &.company-identity {
-                                display: block;
-                                span.company {
-                                    display: inline-block;
-                                }
-                            }
-                        }
-                    }
-                    .col-30 {
-                        width: 35%;
-                        .text-hidden;
-                    }
-                    &>.icon-right {
-                        .text-right;
-                        color: @text-category;
-                        position: absolute;
-                        height: 100%;
-                        line-height: 100%;
-                        right: 0;
-                        top: 0;
-                        display: -webkit-box;
-                        -webkit-box-align: center;
-                        -webkit-box-pack: center;
-                    }
+        .other-level, .other-cat {
+            span {
+                font-size: 2rem;
+                display: block;
+                &.iconfont {
+                    font-size: 2.8rem;
                 }
             }
+        }
+        .other-level {
+            padding-top: 0.3rem;
+            p {
+                .ps-r;
+                top: -0.1rem;
+            }
+        }
+        .other-cat {
+            padding-top: 1rem;
+            span {
+                padding-bottom: 0.3rem;
+            }
+        }
+        p {
+            margin: 0;
         }
     }
     .other-index-empty-info {
@@ -118,17 +52,6 @@
     .other-index-cert {
         background: @bg-fff;
         .text-shadow(@text-fff);
-        margin-top: 1rem;
-        display: none;
-        &.show {
-            display: block;
-        }
-        .cert-title {
-            padding: 2%;
-            line-height: 1.4;
-            color: @text-subtitle;
-            font-size: 1.6rem;
-        }
         .cert-list {
             a {
                 display: block;
@@ -210,9 +133,9 @@
             .text-shadow(@text-fff);
         }
         .other-all-buy-info {
-            padding:0.5rem 0;
+            padding: 0.5rem 0;
             .text-center;
-            span {
+            a {
                 .text-center;
                 height: 3rem;
                 line-height: 3rem;
@@ -242,6 +165,7 @@
             a {
                 color: @text-fff;
                 margin: 0 auto;
+                font-size: 1.6rem;
                 &:before {
                     font-size: 2rem;
                     margin-right: 0.3rem;

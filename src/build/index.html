@@ -209,35 +209,38 @@
 <script src="./js/common.min.js" crossorigin="anonymous"></script>
 <script src="./js/lib/qrcode.js"></script>
 <script>
-//    window.onload = function(){
-//        function handler(eventError) {
-//            console.log(eventError);
-//            $.ajax({
-//                method: 'POST',
-//                url: 'http://www.baidu.com',
-//                data: {
-//                    type: eventError.type,
-//                    filename: eventError.filename,
-//                    message: eventError.message,
-//                    lineno: eventError.lineno
-//                },
-//                contentType: 'application/json',
-//                timeout: 60,
-//                error: (data) => {
-//                    console.log('错误发送失败！')
-//                },
-//                success: (data) => {
-//                    console.log('错误发送成功！')
-//                }
-//            });
-//            return true;
-//        }
-//        if (window.addEventListener) {
-//            window.addEventListener("error", handler, true);
-//        } else if (window.attachEvent) {
-//            window.attachEvent("onerror", handler);
-//        }
-//    };
+    window.onload = function(){
+        function handler(eventError) {
+            var data = {
+                type: eventError.type,
+                filename: eventError.filename,
+                message: eventError.message,
+                lineno: eventError.lineno
+            };
+            $$.ajax({
+                timeout: 3000,
+                cache: false,
+                headers: {},
+                crossDomain: true,
+                method: 'POST',
+                url: 'https://api.test.yudada.com/jsErrors',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                error: function(data) {
+                    console.log('错误发送失败！')
+                },
+                success: function(data) {
+                    console.log('错误发送成功！')
+                }
+            });
+            return true;
+        }
+        if (window.addEventListener) {
+            window.addEventListener("error", handler, true);
+        } else if (window.attachEvent) {
+            window.attachEvent("onerror", handler);
+        }
+    };
 </script>
 </body>
 </html>

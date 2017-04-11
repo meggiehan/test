@@ -15,9 +15,11 @@
 					<span class="iconfont" :class="'icon-v' + (inviteData.level || 0)"></span>
 					<p class="level">等级</p>
 				</div>
-				<div class="user-head-img"><img src="./img/defimg.png" alt=""></div>
+				<div class="user-head-img">
+					<img class="head-img" :src="inviteData.imgUrl ? (inviteData.imgUrl + '?x-oss-process=image/resize,m_fill,h_100,w_100/circle,r_100/format,png') : './img/defimg.png'" alt="">
+				</div>
 				<div class="user-release-num pull-right">
-					<span>{{(inviteData.buyNumber + inviteData.sellNumber) || 0}}</span>
+					<span>{{(inviteData.publishedDemandsCount) || 0}}</span>
 					<p>发布信息</p>
 				</div>
 				<div class="invite-user-nickname">{{inviteData.nickname || '匿名用户'}}</div>
@@ -40,11 +42,9 @@
 			<p><span>将我的邀请卡片转发</span></p>
 			<share-component
 					@weixin_share_friend="weixinShareFriend"
-					@weixin_share_circle="weixinShareCircle">
+					@weixin_share_circle="weixinShareCircle"
+					@qq_share_friend="qqShareFriend">
 			</share-component>
 		</div>
-		<img src="./img/bg_card.png" crossOrigin="*" class="bg-card-pic" alt="">
-		<img crossOrigin="*" :src="'./img/icon-level' + inviteData.level + '.png'" class="bg-card-level" alt="">
-		<img crossOrigin="*" :src="inviteData.imgUrl + '@50-1ci.png'" class="head-img" alt="">
     </div>
 </div>

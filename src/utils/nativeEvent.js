@@ -332,7 +332,8 @@ window.currentDevice = new framework7()['device'];
             if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])) {
                 return false;
             }
-            ios ? JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '') : window.yudada.JS_WXSceneShare(par1 || '', par2 || '', par3 || '', par4 || '', par5 || '');
+            ios ? JS_WXSceneShare(par1, par2, par3 || '', par4 || '', par5 || '') :
+             window.yudada.JS_WXSceneShare(par1, par2, par3 || '', par4 || '', par5 || '');
         }
 
         /**

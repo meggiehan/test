@@ -2,13 +2,17 @@ import store from '../utils/localStorage';
 import config from '../config';
 import { html } from '../utils/string';
 import { invite } from '../utils/template';
-import { logOut, isLogin } from '../middlewares/loginMiddle';
+import { logOut, isLogin, activeLogout } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 
 function inviteFriendsListInit(f7, view, page) {
     if (!isLogin()) {
-        logOut();
+        view.router.load({
+          url: 'views/user.html'
+        })
+        f7.hideIndicator();
+        return;
     }
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);

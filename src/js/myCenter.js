@@ -1,18 +1,17 @@
 import store from '../utils/localStorage';
 import config from '../config';
 import { getName, getAddressIndex } from '../utils/string';
-import { logOut, isLogin } from '../middlewares/loginMiddle';
+import { logOut, isLogin, activeLogout } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 
 function myCenterInit(f7, view, page) {
     f7.hideIndicator();
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
-        });
+        view.router.load({
+          url: 'views/user.html'
+        })
+        f7.hideIndicator();
         return;
     }
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);

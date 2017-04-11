@@ -36,13 +36,15 @@
             <!--</div>-->
 
             <!--banner components-->
-            <div class="swiper-container swiper-slow home-slider" v-show="!!homeData.banners.length">
+            <div class="swiper-container swiper-slow home-slider" v-show="homeData.banners && homeData.banners.length">
                 <div class="swiper-pagination"></div>
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in homeData.banners"
                          :data-login="item.loginRequired"
                          :data-href="item.link"
-                         :data-type="item.type">
+                         :data-type="item.type"
+                         :data-id="item.id"
+                         @click="goThreeWindow(item)">
                         <img :src="item.imgUrl" alt="">
                     </div>
                 </div>
@@ -113,14 +115,18 @@
                     <img src="img/ic_kaopu.png" alt="">
                     <p>靠谱专区</p>
                 </a>
-                <a href="views/assurance.html?type=2&assurance=true" onclick="apiCount('btn_home_assurance')"
-                   class="col-33">
-                    <img src="img/ic_danbao.png" alt="">
-                    <p>担保交易</p>
-                </a>
-                <a class="col-33 callFishCar">
+
+                <a class="col-33 callFishCar"
+                   onclick="apiCount('btn_home_fishcar')">
                     <img src="img/ic_yuche.png" alt="">
                     <p>叫鱼车</p>
+                </a>
+
+                <a class="col-33 aquatic_classroom"
+                   href="views/aquaticClassroom.html"
+                   onclick="apiCount('btn_home_tutor')">
+                    <img src="img/ic_tutor.png" alt="">
+                    <p>水产课堂</p>
                 </a>
             </div>
 
@@ -130,7 +136,10 @@
                     <div class="item-inner">
                         <div class="item-title-row">
                             <div class="item-title home-deal-info-list">
-                                <div class="home-deal-info" v-for="item in homeData.trades">[{{item.provinceName}}]
+                                <div
+                                     class="home-deal-info"
+                                     v-for="item in homeData.trades">
+                                    [{{item.provinceName}}]
                                     <span class="deal-list-name">{{getName(item.userName)}}</span>成交
                                     <span class="deal-list-category">{{item.fishTypeName}} {{item.quantity}}</span>, {{getDealTime(item.tradeDate)}}
                                 </div>
@@ -138,6 +147,35 @@
                         </div>
                     </div>
                 </a>
+            </div>
+
+            <!--我的鱼车行程-->
+            <div class="fish-car-trip" v-if="fishCarDriverId && (1 == userInfo.driverState)">
+                <div class="fish-car-trip-title">
+                    最新的鱼车行程
+                    <a class="iconfont icon-right"
+                       :href="'views/fishCarTripList.html?id=' + fishCarDriverId"
+                       onclick="apiCount('btn_myCenter_fishcarRoutes')">查看我的鱼车行程</a>
+                </div>
+                <div class="fish-car-trip-content row">
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{tripDate}}</div>
+                        <p>日期</p>
+                    </div>
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{fishCarTripInfo.departureProvinceName}}</div>
+                        <p>出发地</p>
+                    </div>
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{fishCarTripInfo.destinationProvinceName}}</div>
+                        <p>目的地</p>
+                    </div>
+                    <div class="none-fish-trip col-100" v-show="!fishCarTripInfo">快去发布一个今天的行程吧~</div>
+                </div>
+                <div class="fish-car-trip-footer row">
+                    <a @click="shareTrip" class="col-50">{{ fishCarTripInfo ? '分享我的行程' :  '发布行程'}}</a>
+                    <a href="views/fishCar.html?isFishCar=1" @click="apiCount('btn_home_driver_findMore')" class="col-50">去找货</a>
+                </div>
             </div>
 
             <div class="row home-select-list">
@@ -176,7 +214,14 @@
             </div>
 
             <!-- use ajax get date. -->
-            <div class="ajax-content">
+            <div class="ajax-content" v-show="homeData.isHasCache">
+                <div class="home-buy-list">
+                    <div class="home-content-title"><i class="title-label-border"></i>大家都想买</div>
+                    <div class="buy-list-foreach" onclick="apiCount('cell_purchaselist');"></div>
+                    <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go"
+                                                 onclick="apiCount('btn_more_purchaselist');">更多求购信息</a></div>
+                </div>
+
                 <!-- home cat list -->
                 <div class="home-cat-list">
                     <div class="home-content-title"><i class="title-label-border"></i>大家都在卖</div>
@@ -184,15 +229,9 @@
                     <div class="home-go-more"><a href="./views/filter.html?type=2" class="iconfont icon-go"
                                                  onclick="apiCount('btn_more_selllist');">更多出售信息</a></div>
                 </div>
-                <div class="home-buy-list">
-                    <div class="home-content-title"><i class="title-label-border"></i>大家都想买</div>
-                    <div class="buy-list-foreach" onclick="apiCount('cell_purchaselist');"></div>
-                    <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go"
-                                                 onclick="apiCount('btn_more_purchaselist');">更多求购信息</a></div>
-                </div>
             </div>
         </div>
-        <div class="home-loading"><span class="preloader"></span></div>
+        <div class="home-loading" v-if="!homeData.isHasCache"><span class="preloader"></span></div>
     </div>
 
     <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png "

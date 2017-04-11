@@ -112,7 +112,7 @@ userUtils.getBussesInfoCallback = (data) => {
         registerCount && $$('.user-invit>.first').addClass('invit-numbers');
         $$('.user-invite-num').text(`已邀请${registerCount}人`);
         // $$('.user-go-invite-page').addClass('show');
-        text && authenticationBtn.text(text);
+        // text && authenticationBtn.text(text);
         /**
          * 判断是司机用户
          */
@@ -131,9 +131,6 @@ userUtils.getBussesInfoCallback = (data) => {
                     currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
                     currentPage.find('.edit-fish-car-info').removeClass('hide').attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
                 }
-                // currentPage.find('.edit-fish-car-info')
-                //     .css({display: '-webkit-flex'})
-                //     .attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`);
                 3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id');
             }
 

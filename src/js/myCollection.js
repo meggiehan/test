@@ -3,16 +3,15 @@ import config from '../config';
 import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { isLogin } from '../middlewares/loginMiddle';
+import { isLogin, activeLogout } from '../middlewares/loginMiddle';
 import customAjax from '../middlewares/customAjax';
 
 function myCollectionInit(f7, view, page) {
     if (!isLogin()) {
-        nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
-            url: 'views/login.html',
-            reload: true
+        view.router.load({
+          url: 'views/user.html'
         })
+        f7.hideIndicator();
         return;
     }
     let type = 2; //default: 2
@@ -94,9 +93,7 @@ function myCollectionInit(f7, view, page) {
         pullToRefresh = false;
         isInfinite = false;
         loading = false;
-        setTimeout(() => {
-                $$('img.lazy').trigger('lazy');
-        }, 400)
+        currentPage.find('img.lazy').trigger('lazy');
     }
 
     const getListInfo = () => {
@@ -122,11 +119,13 @@ function myCollectionInit(f7, view, page) {
     getListInfo();
     currentPage.find('#tab1').on('show', function() {
         type = 2;
+        apiCount('btn_myFavoriteList_sale');
         !sellContent.children('a').length && getListInfo();
     });
 
     currentPage.find('#tab2').on('show', function() {
         type = 1;
+        apiCount('btn_myFavoriteList_purchase');
         !buyContent.children('a').length && getListInfo();
     });
 

@@ -295,7 +295,7 @@ function fishCarInit(f7, view, page) {
     currentPage.find('.page-list-view').children('.list').click((e) => {
         const ele = e.target || window.event.target;
         if ($$(ele).hasClass('fish-call') || $$(ele).parent().hasClass('fish-call')) {
-            apiCount('btn_fishcar_demands_call');
+            apiCount(isFishCar ? 'btn_fishcar_routes_call' : 'btn_fishcar_demands_call');
             const phone = $$(ele).attr('data-phone') ||
                 $$(ele).parent().attr('data-phone');
             nativeEvent.contactUs(phone);

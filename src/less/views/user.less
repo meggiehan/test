@@ -1,9 +1,15 @@
+div.view-main[data-page="user"]{
+    .navbar{
+      display: none;
+    }
+}
 .page-user {
     .page-content {
+        padding-top: 0;
         .user-header {
             background: @themeColor;
             .text-shadow(@themeColor);
-            padding: 1rem 0.7rem;
+            padding: 2rem 1rem;
             margin: 0;
             font-size: 1.4rem;
             color: @text-fff;
@@ -96,6 +102,7 @@
                             display: inline-block;
                             max-width: 79%;
                             .text-hidden;
+                            vertical-align: middle;
                         }
                     }
                     p {
@@ -109,9 +116,14 @@
             .text-shadow(@bg-fff);
             p, a {
                 margin: 0;
-                display: none;
             }
-            &.check, &.reject {
+            .driver-checking,
+            .driver-reject,
+            .driver-frozen,
+            .enter-auth-reject,
+            .enter-auth-check,
+            .personal-auth-reject,
+            .personal-auth-check{
                 line-height: 4rem;
                 padding-left: 1rem;
                 height: 4rem;
@@ -125,32 +137,19 @@
                 }
                 border-bottom: 1px solid @boder-color;
             }
-            &.check {
-                .driver-checking {
-                    display: block;
-                }
-            }
-            &.reject {
-                .driver-reject {
-                    display: block;
-                }
-            }
-            &.edit {
-                padding-top: 1.2rem;
-                .driver-edit {
-                    width: 75%;
-                    margin-left: 12.5%;
-                    height: 3rem;
-                    line-height: 3rem;
-                    display: block;
-                    background: @bg-edit-btn;
-                    .text-shadow(@bg-edit-btn);
-                    .text-center;
-                    color: @themeColor;
-                    font-size: 1.6rem;
-                    border: 1px solid @themeColor;
-                    border-radius: 0.3rem;
-                }
+            .driver-edit {
+                width: 75%;
+                margin-left: 12.5%;
+                height: 3rem;
+                line-height: 3rem;
+                display: block;
+                background: @bg-edit-btn;
+                .text-shadow(@bg-edit-btn);
+                .text-center;
+                color: @themeColor;
+                font-size: 1.6rem;
+                border: 1px solid @themeColor;
+                border-radius: 0.3rem;
             }
         }
         .user-info-list {
@@ -178,6 +177,161 @@
                 }
             }
         }
+        .recent-release-info {
+            background: @bg-fff;
+            .text-shadow(@bg-fff);
+            margin-top: 1rem;
+            .title {
+                padding: 1rem;
+                line-height: 2rem;
+                border-bottom: 1px solid @border-da;
+                color: @text-name;
+                overflow: hidden;
+                span {
+                    float: right;
+                    color: @text-category;
+                }
+            }
+            .content {
+                & > a {
+                    padding: 1rem 1rem 1rem 5.5rem;
+                    border-bottom: 1px solid @border-da;
+                    .box-size();
+                    .ps-r;
+                    display: block;
+                    width: 100%;
+                    line-height: 1.8rem;
+                    p {
+                        margin: 0;
+                        color: @text-a9;
+                        &.info-name {
+                            color: @text-name;
+                            overflow: hidden;
+                            span {
+                                float: right;
+                                color: @text-a9;
+                            }
+                        }
+                        span {
+                            margin: 0 0.5rem;
+                        }
+                    }
+                    & > span {
+                        .ps-a;
+                        display: block;
+                        width: 3.6rem;
+                        height: 3.6rem;
+                        left: 1rem;
+                        top: 1rem;
+                        border-radius: 1.8rem;
+                        .text-center;
+                        line-height: 3.6rem;
+                        color: @text-fff;
+                        background: @text-chushou;
+                        .text-shadow(@text-chushou);
+                    }
+                    &.buy-info > span {
+                        background: @themeColor;
+                        .text-shadow(@themeColor);
+                    }
+                }
+                .none-release-info {
+                    padding: 1rem 0;
+                    .text-center;
+                    border: 0;
+                    color: @text-category;
+                }
+            }
+            .footer {
+                padding: 1rem;
+                .text-center;
+                span {
+                    display: inline-block;
+                    width: 50%;
+                    line-height: 3rem;
+                    border-radius: 0.3rem;
+                    border: 1px solid @themeColor;
+                    color: @themeColor;
+                }
+            }
+        }
+        .user-nav-items {
+            margin-top: 1rem;
+            .text-center;
+            background: @bg-fff;
+            .text-shadow(@text-fff);
+            overflow: hidden;
+            width: 100%;
+            .col-25 {
+                padding: 4rem 0 1.2rem;
+                width: 25%;
+                float: left;
+                display: block;
+                border-bottom: 1px solid @border-da;
+                .ps-r;
+                b {
+                    display: inline-block;
+                    padding: 0 0.3rem;
+                    height: 1.6rem;
+                    line-height: 1.6rem;
+                    color: @text-fff;
+                    .text-shadow(@text-chushou);
+                    background: @text-chushou;
+                    border-radius: 0.8rem;
+                    .ps-a;
+                    top: 0.5rem;
+                    left: 50%;
+                    margin-left: -0.2rem;
+                    font-size: 1rem;
+                    z-index: 99;
+                }
+                .iconfont {
+                    font-size: 3rem;
+                    left: 0;
+                    .ps-a;
+                    top: 1rem;
+                    width: 100%;
+                    .text-center;
+                    &.icon-info, &.icon-call, &.icon-invite, &.icon-lock {
+                        color: @themeColor;
+                    }
+                    &.icon-invite {
+                        font-size: 2.8rem;
+                    }
+                    &.icon-call {
+                        font-size: 2.4rem;
+                        top: 1.5rem;
+                    }
+                    &.icon-info {
+                        font-size: 3.6rem;
+                        top: 0.5rem;
+                    }
+                    &.icon-collection-active {
+                        font-size: 2.4rem;
+                        top: 1.3rem;
+                        color: @text-collection-icon;
+                    }
+                    &.icon-member {
+                        font-size: 2.8rem;
+                        color: @text-collection-icon;
+                    }
+                    &.icon-fish-car {
+                        color: @text-fish-car-icon;
+                        font-size: 3.8rem;
+                        top: 0.6rem;
+                    }
+                    &.icon-verification {
+                        color: @text-fish-car-icon;
+                        font-size: 2.4rem;
+                        top: 1.4rem;
+                    }
+                }
+                p {
+                    margin-bottom: 0;
+                    margin-top: 0.8rem;
+                }
+            }
+        }
         .user-refresh-auth {
             margin-top: 1rem;
             padding: 0;
@@ -189,6 +343,16 @@
                 padding-left: 1%;
                 &:last-child {
                     padding-left: 3%;
+                }
+                .iconfont {
+                    font-size: 4rem;
+                    color: @text-test;
+                    height: 4rem;
+                    line-height: 4rem;
+                    overflow: hidden;
+                    &:before {
+                        vertical-align: text-top;
+                    }
                 }
                 p {
                     margin: 0;
@@ -207,6 +371,9 @@
                 .item-inner {
                     padding: 0;
                     margin-left: 1rem;
+                    &.my-level {
+                        margin-left: 0.5rem;
+                    }
                     &:after {
                         display: none;
                     }
@@ -214,81 +381,6 @@
                 .item-media {
                     padding: 0;
                     margin-left: 4%;
-                }
-            }
-        }
-        .user-help-list {
-            background: @bg-fff;
-            .text-shadow(@text-fff);
-            & > p {
-                height: 1rem;
-                background: @bg-body;
-                width: 100%;
-                display: block;
-                margin: 0;
-                border-top: 1px solid @border-da;
-            }
-            a {
-                line-height: 4.4rem;
-                color: @text-subtitle;
-                padding-left: .6rem;
-                &.user-fish-car-driver, &.edit-fish-car-info {
-                    .icon-fish-car:before {
-                        font-size: 3rem;
-                    }
-                    .col-85.first {
-                        border-bottom: 0;
-                    }
-                }
-                &.edit-fish-car-info {
-                    &.hide{
-                        display: none;
-                    }
-                    .col-85.first {
-                        border-bottom: 1px solid @border-da;
-                    }
-                }
-                .iconfont {
-                    font-size: 2.4rem;
-                    color: @text-user-icon;
-                    text-align: center;
-                    &.icon-collection-active{
-                        font-size: 2.2rem;
-                    }
-                }
-                .col-15 {
-                    width: 10%;
-                    &.icon-verification, &.icon-call {
-                        font-size: 2rem;
-                    }
-                }
-                .col-85 {
-                    width: 90%;
-                    padding-right: 0.7rem;
-                    & > div {
-                        .text-hidden;
-                    }
-                    &.first {
-                        border-bottom: 1px solid @border-da;
-                        &.border-none{
-                            border-bottom: 0;
-                        }
-                        .col-60 {
-                            width: 45%;
-                        }
-                        .col-40 {
-                            width: 55%;
-                        }
-                    }
-                    .col-60 {
-                        color: @text-black;
-                        font-size: 1.6rem;
-                    }
-                    .col-40 {
-                        font-size: 1.6rem;
-                        .text-right;
-                        color: @text-mt-center;
-                    }
                 }
             }
         }
@@ -333,47 +425,6 @@
                 }
             }
         }
-        .user-help-list {
-            margin-top: 1rem;
-            a {
-                .icon-info {
-                    font-size: 3rem;
-                }
-                &.user-help-danbao {
-                    .col-60 {
-                        width: 40%;
-                    }
-                    .col-40 {
-                        width: 60%;
-                    }
-                }
-                &.user-invit {
-                    .col-85.first {
-                        .col-60 {
-                            width: 50%;
-                        }
-                        .col-40 {
-                            width: 50%;
-                        }
-                        span {
-                            //font-size: 1.4rem;
-                            display: none;
-                            &.user-new-activity {
-                                display: inline-block;
-                            }
-                        }
-                        &.invit-numbers {
-                            span.user-invite-num {
-                                display: inline;
-                            }
-                            span.user-new-activity {
-                                display: none;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         .user-go-invite-page {
             .text-center;
             display: none;
@@ -387,17 +438,30 @@
                 display: block;
             }
         }
-        .user-app-version{
+        .user-app-version {
             margin: 0;
             padding: 1.5rem 0;
             font-size: 1.6rem;
             color: @text-mt-center;
             .text-center;
-            border-top:1px solid @border-da;
+            border-top: 1px solid @border-da;
         }
     }
 }
-
+@media screen and (max-width: 330px) {
+  .page-user .page-content .user-info-driver-check .driver-checking,
+  .page-user .page-content .user-info-driver-check .driver-frozen,
+  .page-user .page-content .user-info-driver-check .driver-reject,
+  .page-user .page-content .user-info-driver-check .enter-auth-check,
+  .page-user .page-content .user-info-driver-check .enter-auth-reject,
+  .page-user .page-content .user-info-driver-check .personal-auth-check,
+  .page-user .page-content .user-info-driver-check .personal-auth-reject{
+    font-size: 1.2rem;
+  }
+  .page-user .page-content .user-nav-items .col-25 p{
+    font-size: 1.2rem;
+  }
+}
 @media screen and (min-width: 340px) and (max-width: 400px) {
     .page-user .page-content .user-refresh-auth .col-50 {
         padding-left: 4%;
