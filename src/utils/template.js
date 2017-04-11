@@ -349,7 +349,7 @@ module.exports = {
             let str = '';
             const src = headImgUrl ? (headImgUrl + imgPath(8)) : './img/ic_avatar_default.png';
             const shareBtn = !expired ?
-                `<a class="fish-trip-share-btn phone" href="views/shareMyTrip.html?contactName=${contactName}&date=${appointedDate}&departureProvinceName=${departureProvinceName}&destinationProvinceName=${destinationProvinceName}">分享</a>` : '';
+                `<a class="fish-trip-share-btn phone" href="views/shareMyTrip.html?id=${id}&contactName=${contactName}&date=${appointedDate}&departureProvinceName=${departureProvinceName}&destinationProvinceName=${destinationProvinceName}">分享</a>` : '';
 
             const btnStr = !isMine ?
                 `<div data-phone="${contactPhone}" class="phone fish-call"><i class="iconfont icon-call fish-call"></i><div fish-call class="text">电话联系</div></div>` :
