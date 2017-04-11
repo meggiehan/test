@@ -139,10 +139,4 @@ module.exports = {
         const day = today.getDate();
         return `${year}/${month}/${day}`;
     }
-
 }
-
-
-
-
-

@@ -641,8 +641,8 @@ module.exports = {
         let str = `${url}shareImages/person`;
         str += `?level=${level}`;
         str += `&headImgUrl=${imgUrl ? encodeURIComponent(imgUrl) : ''}`;
-        str += `&enterpriseAuthenticated=${!!enterpriseAuthenticationState}`;
-        str += `&personAuthenticated=${!!personalAuthenticationState}`;
+        str += `&enterpriseAuthenticated=${1 == enterpriseAuthenticationState}`;
+        str += `&personAuthenticated=${1 == personalAuthenticationState}`;
         str += `&nickName=${nickname ? encodeURI(nickname) : ''}`;
         str += `&qrCodeLink=${encodeURIComponent(scanLink)}`;
         str += `&publishedDemandsCount=${publishedDemandsCount}`;
