@@ -8,5 +8,5 @@ How to run project?
 5. 完成以上步骤后
     * 开发环境下在项目根目录下执行:npm run dev
     * 生产环境下载到项目目录下执行: npm run build
-    * 单元测试: npm run test
-
+    * 单元测试: npm run unit-test
+    * 代码覆盖率测试: npm run cover-test
