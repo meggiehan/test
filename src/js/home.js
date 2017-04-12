@@ -30,12 +30,12 @@ function homeInit(f7, view, page) {
             homeData: {
                 trades: '',
                 banners: [],
-                fishTags: '',
-                isHasCache: getAll().length
+                fishTags: ''
             },
             fishCarTripInfo: '',
             fishCarDriverId: fishCarDriverId,
-            userInfo: userInfo
+            userInfo: userInfo,
+            isHasCache: getAll().length
         },
         methods: {
             getName: getName,
@@ -236,9 +236,7 @@ function homeInit(f7, view, page) {
             });
             html(currentPage.find('.buy-list-foreach'), buyListHtml, f7);
         }
-        currentPage.find('.ajax-content').show(200);
-        currentPage.find('.home-loading').hide(100);
-
+        vueHome.isHasCache = true;
         //pull to refresh done.
         f7.pullToRefreshDone();
         currentPage.find('img.lazy').trigger('lazy');
