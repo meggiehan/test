@@ -38,13 +38,12 @@
             <!--banner components-->
             <div class="swiper-container swiper-slow home-slider" v-show="homeData.banners && homeData.banners.length">
                 <div class="swiper-pagination"></div>
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper" @click="goThreeWindow()">
                     <div class="swiper-slide" v-for="item in homeData.banners"
                          :data-login="item.loginRequired"
                          :data-href="item.link"
                          :data-type="item.type"
-                         :data-id="item.id"
-                         @click="goThreeWindow(item)">
+                         :data-id="item.id">
                         <img :src="item.imgUrl" alt="">
                     </div>
                 </div>
