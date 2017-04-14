@@ -329,9 +329,11 @@ function homeInit(f7, view, page) {
     });
 
     if(!window.uuid){
-      JsBridge('JS_GetUUid', {}, (data) => {
-          window.uuid = data;
-      });
+      setTimeout(() => {
+        JsBridge('JS_GetUUid', {}, (data) => {
+            window.uuid = data;
+        });
+      }, 4000)
     }
 
     // // //存储数据

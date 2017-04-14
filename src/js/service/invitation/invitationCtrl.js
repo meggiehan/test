@@ -50,7 +50,7 @@ function invitationInit(f7, view) {
         /**
          * 邀请
          * */
-        if(userInfo && (userInfo.inviterId || userInfo.invitationCode == inviterInfoData.invitationCode)){
+        if(userInfo && (userInfo.inviterId || (userInfo.invitationCode == inviterInfoData.invitationCode))){
             return;
         }
         let inviterInfoData = inviterInfo;
