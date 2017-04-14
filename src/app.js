@@ -386,3 +386,13 @@ invitationAction();
 weixinModalEvent();
 // fishCarDriverSelectAddressModalEvent(f7);
 fishCarModalJumpEvent(f7);
+
+
+/**
+ * 获取设备号
+ */
+ setTimeout(() => {
+   JsBridge('JS_GetUUid', {}, (data) => {
+       window.uuid = data;
+   });
+ }, 1500)

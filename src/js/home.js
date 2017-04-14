@@ -61,13 +61,14 @@ function homeInit(f7, view, page) {
                     releaseFishViewShow();
                 }
             },
-            goThreeWindow(item){
-                const {
-                    loginRequired,
-                    link,
-                    type,
-                    id
-                } = item;
+            goThreeWindow(e){
+                const ele = e || window.event;
+                const $ele = ele.target.tagName == 'DIV' ? $$(ele.target) : $$(ele.target).parent();
+                const loginRequired = $ele.attr('data-login');
+                const link = $ele.attr('data-href');
+                const type = $ele.attr('data-type');
+                const id = $ele.attr('data-id');
+
                 if (!!Number(loginRequired) && !isLogin()) {
                     f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
                     return;
@@ -328,9 +329,13 @@ function homeInit(f7, view, page) {
         $$('.fish-car-modal').addClass('on');
     });
 
-    JsBridge('JS_GetUUid', {}, (data) => {
-        window.uuid = data;
-    });
+    if(!window.uuid){
+      setTimeout(() => {
+        JsBridge('JS_GetUUid', {}, (data) => {
+            window.uuid = data;
+        });
+      }, 4000)
+    }
 
     // // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {

@@ -361,7 +361,7 @@ class CustomClass {
             if ('level' == type) {
                 // nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
                 mainView.router.load({
-                  url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}`
+                  url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}?time=${new Date().getTime()}`
                 })
             } else if ('auth' == type) {
                 customAjax.ajax({

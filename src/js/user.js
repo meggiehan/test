@@ -6,6 +6,7 @@ import {getCurrentDay, alertTitleText, getAuthText} from '../utils/string';
 import UserModel from './model/UserModel';
 import Vue from 'vue';
 import {timeDifference} from '../utils/time';
+import {JsBridge} from '../middlewares/JsBridge';
 
 import {
     goHome,
@@ -57,7 +58,7 @@ function userInit(f7, view, page) {
             goMyMember(){
                 apiCount('btn_myCenter_myLevel');
                 mainView.router.load({
-                  url: `${mWebUrl}user/member/${this.userInfo.id}`
+                  url: `${mWebUrl}user/member/${this.userInfo.id}?time=${new Date().getTime()}`
                 })
             },
             goMyCollection(){
@@ -366,6 +367,12 @@ function userInit(f7, view, page) {
      * 前往发布信息页面
      * */
     currentPage.find('.to-release-page')[0].onclick = userVue.releaseInfo;
+
+    if(!window.uuid){
+      JsBridge('JS_GetUUid', {}, (data) => {
+          window.uuid = data;
+      });
+    }
 }
 
 export {
