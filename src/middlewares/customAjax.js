@@ -158,7 +158,7 @@ class CustomClass {
         $$.each(deviceInfo, (key, val) => {
             headers[key] = val;
         });
-        headers['device-id'] = window.uuid;
+        window.uuid && (headers['device-id'] = window.uuid);
         headers.longitude = lng;
         headers.latitude = lat;
         apiVersion && (headers['v'] = apiVersion);
