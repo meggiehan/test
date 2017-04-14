@@ -50,12 +50,12 @@ function invitationInit(f7, view) {
         /**
          * 邀请
          * */
-        if(userInfo && (userInfo.inviterId || (userInfo.invitationCode == inviterInfoData.invitationCode))){
-            return;
-        }
         let inviterInfoData = inviterInfo;
         if(android){
             inviterInfoData = JSON.parse(inviterInfoData);
+        }
+        if(userInfo && (userInfo.inviterId || (inviterInfoData && (userInfo.invitationCode == inviterInfoData.invitationCode)))){
+            return;
         }
         if(inviterInfoData && inviterInfoData.invitationCode){
             store.set(inviteInfoKey, inviterInfoData);
