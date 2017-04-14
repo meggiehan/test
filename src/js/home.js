@@ -328,6 +328,12 @@ function homeInit(f7, view, page) {
         $$('.fish-car-modal').addClass('on');
     });
 
+    if(!window.uuid){
+      JsBridge('JS_GetUUid', {}, (data) => {
+          window.uuid = data;
+      });
+    }
+
     // // //存储数据
     // $$('#shareToWeixin').children().eq(0)[0].onclick = () => {
     //     const a = {
