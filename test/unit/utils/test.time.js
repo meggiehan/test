@@ -63,7 +63,7 @@ describe('时间工具模块测试', function() {
      * @return {[string]}        [刚刚活跃/今天活跃/昨天活跃/几天活跃/7天前活跃]
      */
     it('获取多久之前活跃的文案方法测试:刚刚活跃/今天活跃/昨天活跃/几天活跃/7天前活跃', function(done) {
-        expect(fishCarActiveTime(new Date('2017-04-11').getTime() / 1000)).to.be.equal('昨天活跃');
+        expect(fishCarActiveTime(new Date('2017-04-11').getTime() / 1000)).to.be.equal('3天前活跃');
         done();
     });
 
@@ -73,7 +73,7 @@ describe('时间工具模块测试', function() {
      * @return {[string]}        [2017/1/6]
      */
     it('获取当前时间的日期格式方法测试: 2017/1/6', function(done) {
-        expect(getBeforedawnTime()).to.be.equal('2017/4/12');
+        expect(getBeforedawnTime()).to.be.equal('2017/4/14');
         done();
     });
 
