@@ -16,6 +16,7 @@
                     <p class="level">等级</p>
                 </div>
                 <div class="user-head-img">
+                    <p></p>
                     <img class="head-img" :src="inviteData.imgUrl ? (inviteData.imgUrl + '?x-oss-process=image/resize,m_fill,h_100,w_100/circle,r_100/format,png') : './img/defimg.png'" alt="">
                 </div>
                 <div class="user-release-num pull-right">
@@ -29,9 +30,11 @@
 					</span>
                 </div>
             </div>
-            <div class="invite-user-code">
-                <p>点击下方按钮多分享我的店铺</p>
-                <p>吸引客流 增加成交~</p>
+            <div class="invite-user-code">          
+                <div class="invite-code">
+                  <p>点击下方按钮多分享我的店铺</p>
+                  <p>吸引客流 增加成交~</p>
+                </div>
             </div>
         </div>
         <div class="invite-share">
