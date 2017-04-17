@@ -376,7 +376,7 @@ if (!store.get('versionNumber')) {
 const interId = setInterval(() => {
     if(window.JS_GetObjectWithKey ||
         (window.yudada && window.yudada.JS_GetObjectWithKey)){
-        // updateCtrl(f7);
+        updateCtrl(f7);
         nativeEvent.getAddress();
         clearInterval(interId);
     }
