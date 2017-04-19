@@ -1,11 +1,10 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import store from '../utils/localStorage';
-import nativeEvent from '../utils/nativeEvent';
 import {loginViewShow, getToken} from '../middlewares/loginMiddle';
 import {weixinAction} from './service/login/loginCtrl';
 
-function bindAccountInit(f7, view, page) {
+function bindAccountInit (f7, view, page){
     f7.hideIndicator();
     const {cacheUserInfoKey} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
@@ -13,33 +12,33 @@ function bindAccountInit(f7, view, page) {
     const weixinData = store.get('weixinData');
     const userInfo = store.get(cacheUserInfoKey);
 
-    if (!token && !weixinData) {
+    if (!token && !weixinData){
         mainView.router.load({
             url: 'views/user.html',
             reload: true
-        })
+        });
     }
 
     currentPage.find('.bind-account-phone').removeClass('bind unbind');
     currentPage.find('.bind-account-weixin').removeClass('bind unbind');
 
-    function editWeixin(data) {
+    function editWeixin (data){
         const {nickname} = data;
         nickname && currentPage.find('.bind-account-weixin').addClass('bind');
         nickname && currentPage.find('.text').children('i').text(nickname);
     }
 
     const bindListCallback = (data) => {
-        if (1 == data.code) {
-            if (data.data.length) {
+        if (1 == data.code){
+            if (data.data.length){
                 editWeixin(data.data[0]);
             } else {
                 currentPage.find('.bind-account-weixin').addClass('unbind');
             }
         }
-    }
+    };
 
-    function getThirdPlatformsList() {
+    function getThirdPlatformsList (){
         customAjax.ajax({
             apiCategory: 'thirdPlatforms',
             api: 'mine',
@@ -49,17 +48,17 @@ function bindAccountInit(f7, view, page) {
         }, bindListCallback);
     }
 
-    if (token) {
+    if (token){
         currentPage.find('.bind-account-phone').addClass('bind');
-        if (userInfo) {
+        if (userInfo){
             const {loginName} = userInfo;
             const phoneText = loginName.substring(0, 3) + '*****' + loginName.substring(7, 11);
-            currentPage.find('.bind-account-phone').children('.text').text(phoneText)
+            currentPage.find('.bind-account-phone').children('.text').text(phoneText);
         }
         getThirdPlatformsList();
     } else {
         currentPage.find('.bind-account-phone').addClass('unbind');
-        if (weixinData) {
+        if (weixinData){
             editWeixin(weixinData);
         } else {
             currentPage.find('.bind-account-weixin').addClass('unbind');
@@ -67,7 +66,7 @@ function bindAccountInit(f7, view, page) {
     }
 
     currentPage.find('.col-50.phone')[0].onclick = () => {
-        if (currentPage.find('.bind-account-phone').hasClass('unbind')) {
+        if (currentPage.find('.bind-account-phone').hasClass('unbind')){
             loginViewShow();
             apiCount('btn_bind_phone');
         }
@@ -78,7 +77,7 @@ function bindAccountInit(f7, view, page) {
      * */
     const unbindCallback = (data) => {
         const {code, message} = data;
-        if (1 == code) {
+        if (1 == code){
             store.remove('weixinData');
             store.remove('unionId');
             store.remove('weixinUnionId');
@@ -89,21 +88,21 @@ function bindAccountInit(f7, view, page) {
             return;
         }
         f7.alert('温馨提示', message);
-    }
+    };
 
     currentPage.find('.col-50.weixin')[0].onclick = () => {
-        if (!store.get('isWXAppInstalled')) {
-            f7.alert("绑定失败");
+        if (!store.get('isWXAppInstalled')){
+            f7.alert('绑定失败');
             return;
         }
-        if (currentPage.find('.bind-account-weixin').hasClass('unbind')) {
+        if (currentPage.find('.bind-account-weixin').hasClass('unbind')){
             apiCount('btn_bind_bindwechat');
             weixinAction(f7);
         } else {
             apiCount('btn_bind_unbindwechat');
-            //解绑微信
-            if (currentPage.find('.bind-account-phone').hasClass('unbind')) {
-                //未绑定手机号时解绑微信
+            // 解绑微信
+            if (currentPage.find('.bind-account-phone').hasClass('unbind')){
+                // 未绑定手机号时解绑微信
                 f7.modal({
                     title: '解绑账号',
                     text: '该账号是你登录鱼大大的唯一方式，绑定手机号之后可以解绑该账号！',
@@ -127,9 +126,9 @@ function bindAccountInit(f7, view, page) {
                             }
                         }
                     ]
-                })
+                });
             } else {
-                //已经绑定手机号时解绑微信
+                // 已经绑定手机号时解绑微信
                 f7.modal({
                     title: '解绑账号',
                     text: '解绑了之后就无法使用微信登录本账号了，是否仍要解绑？',
@@ -153,7 +152,7 @@ function bindAccountInit(f7, view, page) {
                             }
                         }
                     ]
-                })
+                });
             }
         }
     };
@@ -161,4 +160,4 @@ function bindAccountInit(f7, view, page) {
 
 export {
     bindAccountInit
-}
+};

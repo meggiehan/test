@@ -1,6 +1,6 @@
 import config from '../config/';
 import store from '../utils/localStorage';
-import {logOut, activeLogout, getToken} from '../middlewares/loginMiddle';
+import {activeLogout, getToken} from '../middlewares/loginMiddle';
 import Framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
 import invitationModel from '../js/service/invitation/InvitationModel';
