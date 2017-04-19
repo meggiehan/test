@@ -4,7 +4,7 @@ import customAjax from '../middlewares/customAjax';
  * Created by domicc on 24/02/2017.
  */
 
-export default class RestTemplate {
+export default class RestTemplate{
 
     /**
      * @url api
@@ -13,7 +13,7 @@ export default class RestTemplate {
      * @noCache 是否需要缓存后台返回的数据
      * @isMandatory 是否使用缓存数据
      * */
-    static get(url, headers, params, callback, noCache, isMandatory) {
+    static get (url, headers, params, callback, noCache, isMandatory){
         const obj = {
             apiCategory: url,
             header: ['token'],
@@ -47,7 +47,7 @@ export default class RestTemplate {
      * @body post传递后台的数据
      * @noCache 是否需要缓存后台返回的数据
      * */
-    static post(url, headers, params, body, callback) {
+    static post (url, headers, params, body, callback){
         let obj = {
             apiCategory: url,
             header: ['token'],
@@ -69,7 +69,7 @@ export default class RestTemplate {
      * @body post传递后台的数据
      * @noCache 是否需要缓存后台返回的数据
      * */
-    static put(url, headers, params, body, callback) {
+    static put (url, headers, params, body, callback){
         customAjax.ajax({
             apiCategory: url,
             header: ['token'],
@@ -82,7 +82,7 @@ export default class RestTemplate {
         }, callback);
     };
 
-    static del(url, headers, params, callback) {
+    static del (url, headers, params, callback){
         customAjax.ajax({
             apiCategory: url,
             header: ['token'],

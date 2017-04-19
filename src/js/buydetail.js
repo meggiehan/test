@@ -6,6 +6,7 @@ import { html, saveSelectFishCache, getRange, getAddressIndex, alertTitleText } 
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert } from '../utils/domListenEvent';
 import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
+import CountModel from './model/count';
 
 function buydetailInit (f7, view, page){
     const $$ = Dom7;
@@ -140,7 +141,9 @@ function buydetailInit (f7, view, page){
             saveSelectFishCache({
                 name: fishTypeName,
                 id: fishTypeId,
+                // eslint-disable-next-line
                 parant_id: fishParentTypeId,
+                // eslint-disable-next-line
                 parant_name: fishParentTypeName
             });
         }
@@ -304,7 +307,18 @@ function buydetailInit (f7, view, page){
         // }
         const {requirementPhone} = demandInfo_;
         apiCount('btn_call');
-        requirementPhone && nativeEvent.contactUs(requirementPhone);
+        if(requirementPhone){
+            nativeEvent.contactUs(requirementPhone);
+            CountModel.phoneCount({
+                entry: 1,
+                phone: requirementPhone
+            }, (res) => {
+                const {code} = res;
+                if(1 !== code){
+                    console.log('发送统计失败！');
+                }
+            });
+        }
     };
 
     /*

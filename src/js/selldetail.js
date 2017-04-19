@@ -7,6 +7,7 @@ import {html, saveSelectFishCache, getRange, getAddressIndex, alertTitleText} fr
 import nativeEvent from '../utils/nativeEvent';
 import {detailClickTip, veiwCert} from '../utils/domListenEvent';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import CountModel from './model/count';
 
 function selldetailInit (f7, view, page){
     const {id} = page.query;
@@ -238,7 +239,18 @@ function selldetailInit (f7, view, page){
         // }
         const {requirementPhone} = demandInfo_;
         apiCount('btn_call');
-        requirementPhone && nativeEvent.contactUs(requirementPhone);
+        if(requirementPhone){
+            nativeEvent.contactUs(requirementPhone);
+            CountModel.phoneCount({
+                entry: 1,
+                phone: requirementPhone
+            }, (res) => {
+                const {code} = res;
+                if(1 !== code){
+                    console.log('发送统计失败！');
+                }
+            });
+        }
     };
 
     /*
