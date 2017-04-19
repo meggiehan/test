@@ -54,7 +54,6 @@ module.exports = {
         var temp = '';
 
         if (unixDefi < 60 * 60){ // 1小时内
-            min = parseInt(unixDefi / 60, 10);
             temp = '刚刚来过';
         } else if (unixDefi >= 60 * 60 && unixDefi < 60 * 60 * 24){ // 几小时之前
             temp = parseInt(unixDefi / (60 * 60), 10) + '小时前来过';
