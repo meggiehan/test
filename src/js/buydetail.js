@@ -176,7 +176,7 @@ function buydetailInit (f7, view, page){
                 id
             },
             type: 'get',
-            isMandatory: nativeEvent.getNetworkStatus()
+            isMandatory: false
         }, callback);
     };
     ptrContent.on('refresh', initData);

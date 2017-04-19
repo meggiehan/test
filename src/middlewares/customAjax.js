@@ -127,7 +127,18 @@ class CustomClass{
 
         if (!noCache){
             const cacheData = store.get(saveKey);
-            cacheData && !isMandatory && callback(cacheData);
+            if(cacheData && !isMandatory){
+                callback(cacheData);
+                const {time} = cacheData;
+                const apiArr = ['getDemandInfo'];
+                const apiCategoryArr = ['auth'];
+                const isGet = 'get' == type;
+                if(isGet &&
+                  (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
+                  (new Date().getTime() - time) <= 3 * 1000){
+                    return;
+                }
+            }
         }
         const _this = this;
 
@@ -258,11 +269,13 @@ class CustomClass{
                     return;
                 }
                 if (3 !== _data.code && (-1 !== data.code)){
+                    let dataObj = JSON.parse(data);
                     if (!noCache && saveKey){
+                        dataObj.time = new Date().getTime();
                         _this.checkMaxLenAndDelete();
-                        store.set(saveKey, JSON.parse(data));
+                        store.set(saveKey, dataObj);
                     }
-                    callback(JSON.parse(data), null, true);
+                    callback(dataObj, null, true);
                 }
             }
         });
