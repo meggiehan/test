@@ -7,15 +7,15 @@ import {getCurrentDay, getVersionSetTag} from '../../../utils/string';
 import config from '../../../config';
 import invitationModel from '../../service/invitation/InvitationModel';
 
-function weixinAction(f7){
-    JsBridge('JS_WeChatLoginWithBridge', '',(weixinCode) => {
+function weixinAction (f7){
+    JsBridge('JS_WeChatLoginWithBridge', '', (weixinCode) => {
         if(weixinCode){
             if(isLogin()){
-                //绑定微信号
+                // 绑定微信号
                 loginModel.put({
                     code: weixinCode
                 }, (res) => {
-                    const {code, data, message} = res;
+                    const {code, message} = res;
                     if(1 == code){
                         nativeEvent.nativeToast(1, '账号绑定成功！');
                         mainView.router.load({
@@ -26,9 +26,9 @@ function weixinAction(f7){
                     }else{
                         alert(message);
                     }
-                })
+                });
             }else{
-                //微信登录
+                // 微信登录
                 loginModel.post({
                     code: weixinCode
                 }, (res) => {
@@ -40,11 +40,11 @@ function weixinAction(f7){
                             cacheUserInfoKey
                         } = config;
                         if(data.token){
-                            store.set("accessToken", data.token);
+                            store.set('accessToken', data.token);
                             getKey(data.token, '', '', 0);
                             store.set(cacheUserInfoKey, data.userInfoView);
 
-                            //设置别名
+                            // 设置别名
                             JsBridge('JS_SetTagsWithAlias', {
                                 tags: [
                                     getCurrentDay().replace('/', '').replace('/', ''),
@@ -53,7 +53,7 @@ function weixinAction(f7){
                                 alias: `${data.userInfoView.id}`
                             }, () => {}, f7);
 
-                            if (1 == store.get(waitAddPointerKey)) {
+                            if (1 == store.get(waitAddPointerKey)){
                                 const {invitationCode} = store.get(inviteInfoKey);
                                 invitationModel.acceptInvitation(invitationCode);
                             }
@@ -63,20 +63,19 @@ function weixinAction(f7){
                             }
                         }else{
                             data.userInfoView.unionId && store.set('weixinUnionId', data.userInfoView.unionId);
-                            data.userInfoView && store.set("weixinData", data.userInfoView);
+                            data.userInfoView && store.set('weixinData', data.userInfoView);
                             nativeEvent.nativeToast(1, '微信登录成功！');
                             getWeixinDataFromNative(data.userInfoView);
                         }
                     }else{
-                        nativeEvent.nativeToast(0, message)
+                        nativeEvent.nativeToast(0, message);
                     }
-                })
+                });
             }
         }
     }, '');
 }
 
-
 export {
     weixinAction
-}
+};
