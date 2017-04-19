@@ -303,7 +303,7 @@ function fishCarInit (f7, view, page){
                 $$(ele).parent().attr('data-phone');
             nativeEvent.contactUs(phone);
             CountModel.phoneCount({
-                entry: isFishCar ? 1 : 2,
+                entry: isFishCar ? 2 : 3,
                 phone: phone
             }, (res) => {
                 const {code} = res;
