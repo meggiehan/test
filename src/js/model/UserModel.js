@@ -6,7 +6,7 @@ import RestTemplate from '../../middlewares/RestTemplate';
 
 class UserModel{
     get (callback){
-        RestTemplate.get('auth', '', {}, callback, false);
+        RestTemplate.get('auth', '', {}, callback, true);
     }
 
 }

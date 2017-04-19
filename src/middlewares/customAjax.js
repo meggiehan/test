@@ -131,7 +131,7 @@ class CustomClass{
                 callback(cacheData);
                 const {time} = cacheData;
                 const apiArr = ['getDemandInfo'];
-                const apiCategoryArr = ['auth'];
+                const apiCategoryArr = ['userInformation'];
                 const isGet = 'get' == type;
                 if(isGet &&
                   (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
