@@ -17,9 +17,9 @@ function fishCarInit (f7, view, page){
     const downLoading = currentPage.find('.infinite-scroll-preloader');
     const emptyContent = currentPage.find('.filter-empty-search-result');
     f7.hideIndicator();
-    const {isFishCar} = page.query;
+    const isFishCar = !!Number(page.query.isFishCar);
 
-    if (Number(isFishCar)){
+    if (isFishCar){
         const btnHtml = currentNavbar.find('.switch-btn').html().replace('货主', '司机');
         currentNavbar.find('.switch-btn').html(btnHtml);
         currentPage.find('.tabbat-text').children('p').text('有空车找不到货？发布行程让货来找你');
@@ -39,7 +39,7 @@ function fishCarInit (f7, view, page){
         const userInfo = store.get(cacheUserInfoKey);
         const {driverState, driverRefuseDescribe} = userInfo || {};
 
-        if (Number(isFishCar)){
+        if (isFishCar){
             apiCount('btn_fishcar_demands_post');
             if (!loginStatus){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
@@ -98,7 +98,7 @@ function fishCarInit (f7, view, page){
                 return;
             }
         }
-        const url = Number(isFishCar) ? 'views/releaseFishCarTrip.html' : 'views/releaseFishCarDemand.html';
+        const url = isFishCar ? 'views/releaseFishCarTrip.html' : 'views/releaseFishCarDemand.html';
         releaseView.router.load({
             url,
             reload: true
@@ -138,10 +138,10 @@ function fishCarInit (f7, view, page){
             $$('.fish-car-province-filter .close-picker').click(() => {
                 const val = p.value[0];
                 currentNavbar.find('#select-city-input').children('span')
-                    .text(val == '全国' ? (Number(isFishCar) ? '所有出发地' : '所有目的地') : val);
+                    .text(val == '全国' ? (isFishCar ? '所有出发地' : '所有目的地') : val);
                 provinceId = getProvinceId(val, '')['provinceId'];
                 getList(true);
-                apiCount(Number(isFishCar) ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
+                apiCount(isFishCar ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
             });
         },
         cols: [
@@ -164,7 +164,7 @@ function fishCarInit (f7, view, page){
         const {code, message, data} = res;
         if (1 == code){
             currentNavbar.find('.count-driver').text(
-                Number(isFishCar) ? `${data.total || '0'}位货主有货要发` : `${data.total || '0'}位司机计划出行`
+                isFishCar ? `${data.total || '0'}位货主有货要发` : `${data.total || '0'}位司机计划出行`
             );
             if (data.records && data.records.length){
                 emptyContent.hide();
@@ -238,7 +238,7 @@ function fishCarInit (f7, view, page){
             type: 'get',
             isMandatory: bool
         };
-        Number(isFishCar) && (obj.apiVersion = 2);
+        isFishCar && (obj.apiVersion = 2);
         customAjax.ajax(obj, (data) => {
             callback(data, 'demandInfo');
         });
@@ -248,7 +248,7 @@ function fishCarInit (f7, view, page){
      * 数据最终请求
      * */
     function getList (bool){
-        if (!Number(isFishCar)){
+        if (!isFishCar){
             getFishCarList(bool);
         } else {
             getFishCarDemandList(bool);
