@@ -60,7 +60,7 @@ function aquaticClassroomInit(f7, view, page) {
             $$.each(data, (index, item) => {
                 vueData.infoList.push(item);
             });
-            vueData.newList =  data;
+            vueData.newList = data;
             if(data.length >= pageSize){
                 loading = false;
             }
@@ -90,7 +90,7 @@ function aquaticClassroomInit(f7, view, page) {
     //下拉刷新
     $ptrContent.on('refresh', () => {
         vueData.infoList = [];
-        vueData.newList =  [];
+        vueData.newList = [];
         pageNo = 1;
         loading = false;
         getList();

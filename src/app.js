@@ -57,7 +57,7 @@ import {aquaticClassroomInit} from './js/aquaticClassroom';
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
-const {timeout, fishCacheObj} = config;
+const {timeout, fishCacheObj, url} = config;
 console.log(`current app update time: ${version.date}!${store.get('versionNumber')}`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -396,3 +396,36 @@ fishCarModalJumpEvent(f7);
        window.uuid = data;
    });
  }, 1500)
+
+ window.onload = function(){
+     function handler(eventError) {
+         var data = {
+             type: eventError.type,
+             filename: eventError.filename,
+             message: eventError.message,
+             lineno: eventError.lineno
+         };
+         $$.ajax({
+             timeout: 3000,
+             cache: false,
+             headers: {},
+             crossDomain: true,
+             method: 'POST',
+             url: `${url}jsErrors`,
+             data: JSON.stringify(data),
+             contentType: 'application/json',
+             error: function(data) {
+                 console.log('错误发送失败！')
+             },
+             success: function(data) {
+                 console.log('错误发送成功！')
+             }
+         });
+         return true;
+     }
+     if (window.addEventListener) {
+         window.addEventListener("error", handler, true);
+     } else if (window.attachEvent) {
+         window.attachEvent("onerror", handler);
+     }
+ };
