@@ -6,16 +6,15 @@ import nativeEvent from '../utils/nativeEvent';
 import { search } from '../utils/template';
 import { setHistory } from '../utils/viewsUtil/searchUtils';
 
-function searchInit(f7, view, page) {
+function searchInit (f7, view, page){
     f7.hideIndicator();
     const { type, keyvalue } = page.query;
-    const release = page.query['release'] !== 'true' ? false : true;
+    const release = page.query['release'] === 'true';
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input')[$$('.search-page-input').length - 1];
     const clear = $$('b.searchbar-clear');
     const hideVal = $$('.search-val');
     const searchButton = $$('span.search-button');
-    let searchIndex = 0;
     const list = $$('.search-return-list');
     // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
@@ -24,37 +23,37 @@ function searchInit(f7, view, page) {
     let searchHistoryMetadata = store.get(cacheHistoryKey);
     !release && trim(input.value) && searchButton.addClass('on');
     const renderHistory = () => {
-        //search list render;
+        // search list render;
         searchHistoryMetadata = store.get(cacheHistoryKey);
-        if (searchHistoryMetadata && searchHistoryMetadata.length) {
+        if (searchHistoryMetadata && searchHistoryMetadata.length){
             let listStr = '';
             $$.each(searchHistoryMetadata, (index, item) => {
-                if (!item) {
+                if (!item){
                     return;
                 }
                 listStr += search.historyLink(item);
-            })
+            });
             html($$('.search-history-list'), listStr, f7);
             !release && listStr && !input.value ? $$('.serch-history').show() : $$('.serch-history').hide();
             !release && input.value && searchContent.addClass('on');
             input.value && hideVal.find('span').text(`“${trim(input.value)}”`);
         }
-    }
+    };
     renderHistory();
     const callback = (data) => {
         let listHtml = '';
         release && input.value && (!data.data.length ? emptyInfo.show() : emptyInfo.hide());
-        if (!data.data.length) {
+        if (!data.data.length){
             html(list, listHtml, f7);
             return;
         }
 
         $$.each(data.data, (index, item) => {
             listHtml += search.link(item, release, type);
-        })
+        });
         html(list, listHtml, f7);
 
-    }
+    };
 
     clear.on('click', () => {
         input.value = '';
@@ -64,9 +63,9 @@ function searchInit(f7, view, page) {
         html(list, '', f7);
         emptyInfo.hide();
         searchHistoryMetadata && searchHistoryMetadata.length && !release && $$('.serch-history').show();
-    })
+    });
 
-    setTimeout(function() {
+    setTimeout(function (){
         input.focus();
     }, 500);
 
@@ -74,7 +73,7 @@ function searchInit(f7, view, page) {
         const val = trim(input.value);
         renderHistory();
         searchHistoryMetadata = store.get(cacheHistoryKey);
-        if (!val) {
+        if (!val){
             clear.trigger('click');
             !release && searchHistoryMetadata && searchHistoryMetadata.length && $$('.serch-history').show();
             html(list, '', f7);
@@ -86,7 +85,7 @@ function searchInit(f7, view, page) {
             emptyInfo.hide();
         }
 
-        if (trim(searchVal) !== trim(val) && trim(val) !== '') {
+        if (trim(searchVal) !== trim(val) && trim(val) !== ''){
             searchVal = val;
 
             customAjax.ajax({
@@ -95,9 +94,9 @@ function searchInit(f7, view, page) {
                 data: [val],
                 type: 'get',
                 noCache: true
-            }, callback)
+            }, callback);
         }
-    }
+    };
     if(!release && keyvalue && keyvalue !== 'undefined'){
         input.value = keyvalue;
         inputChenge();
@@ -105,18 +104,18 @@ function searchInit(f7, view, page) {
 
     input.oninput = inputChenge;
 
-    //clear history cache;
+    // clear history cache;
     $$('.search-clear-history').on('click', () => {
         store.remove(cacheHistoryKey);
-        nativeEvent['searchHistoryActions'](3, '')
+        nativeEvent['searchHistoryActions'](3, '');
         renderHistory();
         $$('.search-history-list').text('');
         $$('.serch-history').hide();
-    })
+    });
 
     let isClick = false;
     let hrefFilterPage = () => {
-        if (isClick || !trim(input.value)) {
+        if (isClick || !trim(input.value)){
             return;
         }
         isClick = true;
@@ -127,13 +126,15 @@ function searchInit(f7, view, page) {
         view.router.load({
             url: 'views/filter.html' + query,
             reload: true
-        })
+        });
         setHistory(val);
-        setTimeout(() => { isClick = false }, 100)
+        setTimeout(() => {
+            isClick = false;
+        }, 100);
 
-    }
+    };
 
-    //load filter; 
+    // load filter;
     hideVal.click(hrefFilterPage);
 
     searchButton.click(hrefFilterPage);
@@ -142,20 +143,20 @@ function searchInit(f7, view, page) {
         const event = e || window.event;
         const val = trim(input.value);
         const code = event.keyCode || event.which || event.charCode;
-        if (code == 13) {
-            if (!val && release) {
+        if (code == 13){
+            if (!val && release){
                 emptyInfo.show();
                 return;
             }
             event.preventDefault();
-            if (release || !val) {
+            if (release || !val){
                 return;
             }
             input.blur();
             searchButton.trigger('click');
             return;
         }
-    }
+    };
 
     $$('.search-return-list')[0].onclick = (e) => {
         const ele = e.target || event.target;
@@ -164,18 +165,22 @@ function searchInit(f7, view, page) {
         }
         const name = $$(ele).attr('data-name');
         const id = $$(ele).attr('data-id');
+        // eslint-disable-next-line
         const parant_id = $$(ele).attr('data-parent-id');
+        // eslint-disable-next-line
         const parant_name = $$(ele).attr('data-parent-name');
         saveSelectFishCache({
             name,
             id,
+            // eslint-disable-next-line
             parant_id,
+            // eslint-disable-next-line
             parant_name
-        })
-    }
+        });
+    };
 
-    //From the release page to jump over the processing;
-    if (release) {
+    // From the release page to jump over the processing;
+    if (release){
         $$('.search-header').addClass('release-select');
     }
 
@@ -183,4 +188,4 @@ function searchInit(f7, view, page) {
 
 export {
     searchInit
-}
+};

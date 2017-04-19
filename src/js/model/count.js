@@ -3,7 +3,6 @@
  */
 
 import RestTemplate from '../../middlewares/RestTemplate';
-import nativeEvent from '../../utils/nativeEvent';
 
 /**
  * [Count 所有后台统return计api的action]

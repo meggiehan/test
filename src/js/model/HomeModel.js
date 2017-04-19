@@ -4,11 +4,11 @@
 
 import RestTemplate from '../../middlewares/RestTemplate';
 
-class HomeModel {
+class HomeModel{
     /**
      * 获取司机发布的最近的一条计划中的行程
      * */
-    getMyFishRecentTrip(callback) {
+    getMyFishRecentTrip (callback){
         RestTemplate.get(
             'fishCarDriverDemands/recent',
             {},
@@ -22,7 +22,7 @@ class HomeModel {
     /**
      * 首页banner统计
      * */
-    postBannerCount(data, callback){
+    postBannerCount (data, callback){
         RestTemplate.post(
             'bannerScanLogs',
             {},

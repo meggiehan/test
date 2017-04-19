@@ -1,13 +1,11 @@
-import store from '../utils/localStorage';
 import config from '../config';
-import {getName, trim, getFishTankName, } from '../utils/string';
+import {getFishTankName } from '../utils/string';
 import {fishCarActiveTime} from '../utils/time';
-import {logOut} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
-import {fishCar, driverDemeandInfo} from '../utils/template';
+import {driverDemeandInfo} from '../utils/template';
 
-function driverDemandInfoInit(f7, view, page) {
+function driverDemandInfoInit (f7, view, page){
     const {id} = page.query;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     if(!id){
@@ -19,7 +17,7 @@ function driverDemandInfoInit(f7, view, page) {
     /**
      * 获取司机详情后render出来
      * */
-    function callback(data){
+    function callback (data){
         const {code, message} = data;
         if(1 == code){
             const {
@@ -49,8 +47,8 @@ function driverDemandInfoInit(f7, view, page) {
                 addressStr += item.provinceName;
                 index < (routineList.length - 1) && (addressStr += '，');
             });
-            (addressStr !== '常去的地区: ') ? currentPage.find('.driver-info-address').text(addressStr).show() :
-                currentPage.find('.driver-info-address').hide();
+            (addressStr !== '常去的地区: ') ? currentPage.find('.driver-info-address').text(addressStr).show()
+                : currentPage.find('.driver-info-address').hide();
 
             let authCertStr = '';
             drivingLicence && (authCertStr += '驾驶证');
@@ -105,11 +103,11 @@ function driverDemandInfoInit(f7, view, page) {
         f7.pullToRefreshDone();
     }
 
-    function getDriverInfo(isMandatory){
+    function getDriverInfo (isMandatory){
         customAjax.ajax({
             apiCategory: 'fishCarDrivers',
             data: [id],
-            val:{
+            val: {
                 id
             },
             type: 'get',
@@ -134,9 +132,9 @@ function driverDemandInfoInit(f7, view, page) {
             apiCount('btn_fishcar_driverDetail_call');
             nativeEvent.contactUs(contactPhone);
         }
-    }
+    };
 }
 
 export {
     driverDemandInfoInit
-}
+};

@@ -4,11 +4,11 @@
 
 import RestTemplate from '../../middlewares/RestTemplate';
 
-class getInfoListModel {
+class getInfoListModel{
     /**
      * 获取资讯列表
      * */
-    getInfoList(isMandatory, data, callback) {
+    getInfoList (isMandatory, data, callback){
         RestTemplate.get(
             'infos',
             {},
@@ -23,8 +23,8 @@ class getInfoListModel {
      * [GetInfoListModel ]
      * @type {getInfoListModel}
      */
-    putInfoViews(id, callback){
-      RestTemplate.put(
+    putInfoViews (id, callback){
+        RestTemplate.put(
           `infos/${id}/views`,
           {},
           {},
@@ -34,5 +34,6 @@ class getInfoListModel {
     }
 }
 
+// eslint-disable-next-line
 const GetInfoListModel = new getInfoListModel();
 export default GetInfoListModel;

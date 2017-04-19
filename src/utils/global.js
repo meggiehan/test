@@ -1,26 +1,26 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from './localStorage';
-import framework7 from '../js/lib/framework7';
+import Framework7 from '../js/lib/framework7';
 import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { goIdentity } from './domListenEvent';
 import { isLogin, loginViewHide, loginViewShow } from '../middlewares/loginMiddle';
 import { getQuery } from './string';
 
-const f7 = new framework7({
+const f7 = new Framework7({
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
     modalTitle: '温馨提示'
 });
 
-class CustomClass {
+class CustomClass{
 
     /*
     * native返回认证上传的信息，h5更新用户关联信息
     * */
-    getPhoneSrc(srcimg, src, index) {
+    getPhoneSrc (srcimg, src, index){
         const { identity, cacheUserInfoKey, imgPath } = config;
         const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         let individualCert = true;
@@ -28,24 +28,26 @@ class CustomClass {
         const _index = Number(index);
         const callback = (data) => {
             const { code, message } = data;
-            if (1 == code) {
+            if (1 == code){
                 $$('.my-center-head img').attr('src', src + imgPath(8));
                 $$('.user-pic>img').attr('src', src + imgPath(8));
                 $$('img.picker-invite-head-img').attr('src', src + imgPath(8));
                 let userInfoChange = store.get(cacheUserInfoKey);
                 userInfoChange['imgUrl'] = src;
                 store.set(cacheUserInfoKey, userInfoChange);
+            }else{
+                console.log(message);
             }
-        }
-        if (_index == 4) {
+        };
+        if (_index == 4){
             customAjax.ajax({
                 apiCategory: 'userInfo',
                 api: 'updateUserInfo',
                 data: [id, '', src],
                 type: 'post',
-                noCache: true,
+                noCache: true
             }, callback);
-        } else if (_index > -1 && _index <= 2) {
+        } else if (_index > -1 && _index <= 2){
             /**
              * 上传司机身份证
              * */
@@ -61,9 +63,9 @@ class CustomClass {
             $$('.identity-individual-pic>div').eq(_index).find('img').attr('src', src + identity['individual']);
             $$.each($$('.identity-individual-pic>div'), (_index, item) => {
                 !$$('.identity-individual-pic>div').eq(_index).find('img').attr('src') && (individualCert = false);
-            })
+            });
             individualCert && ($$('.identity-submit>.identity-submit-btn').addClass('pass individual-pass'));
-        } else if (3 == _index) {
+        } else if (3 == _index){
             $$('.identity-company-pic>div').addClass('on');
             $$('.identity-company-pic>div').find('img').attr('src', src + identity['company']);
             $$('.identity-submit>.identity-submit-btn').addClass('pass company-pass');
@@ -73,11 +75,11 @@ class CustomClass {
     /*
     * native返回h5发布信息是选择地区信息
     * */
-    getProandCity(province, city, provinceId, cityId) {
-        if (!window['addressObj']) {
+    getProandCity (province, city, provinceId, cityId){
+        if (!window['addressObj']){
             window['addressObj'] = {};
         }
-        if (!window['selectedAddress']) {
+        if (!window['selectedAddress']){
             window['selectedAddress'] = {};
         }
         const releaseAddressBtn = $$('.release-write-address>input');
@@ -94,18 +96,17 @@ class CustomClass {
     /*
     * 更新用户信息
     * */
-    saveInforAddress(userId, provinceId, cityId, province, city, address) {
-        const { identity, cacheUserInfoKey } = config;
-        const { ios, android } = window.currentDevice;
+    saveInforAddress (userId, provinceId, cityId, province, city, address){
+        const { cacheUserInfoKey } = config;
         const { provinceName, cityName, id } = store.get(cacheUserInfoKey);
-        if (province == provinceName && city == cityName) {
+        if (province == provinceName && city == cityName){
             nativeEvent['nativeToast'](0, '请改变您所在的地区！');
             return;
         }
         const callback = (data) => {
 
             const { code, message } = data;
-            if (1 == code) {
+            if (1 == code){
                 nativeEvent['nativeToast'](1, message);
                 let userInfoChange = store.get(cacheUserInfoKey);
                 userInfoChange['provinceName'] = province;
@@ -113,17 +114,17 @@ class CustomClass {
                 store.set(cacheUserInfoKey, userInfoChange);
                 $$('.my-center-address').find('span').text(`${province}${city}`);
             }
-        }
+        };
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'updateUserInfo',
             data: [id, '', '', address, provinceId, cityId, province, city],
             type: 'post',
-            noCache: true,
+            noCache: true
         }, callback);
     }
 
-    appJump(id) {
+    appJump (id){
         const url = id == 0 ? 'views/home.html' : 'views/release.html';
         mainView.router.load({ url });
     }
@@ -131,7 +132,7 @@ class CustomClass {
     /*
     * native传给h5定位信息
     * */
-    getAdreesSys(province, city, longitude, latitude) {
+    getAdreesSys (province, city, longitude, latitude){
         window['addressObj'] = {};
         window['addressObj']['initProvinceName'] = province;
         window['addressObj']['initCityName'] = city;
@@ -142,17 +143,15 @@ class CustomClass {
     /*
     * native给h5鱼类资质证书的资源信息，h5更新
     * */
-    subAndShowFishAu(TOKEN, path, uploadFilename, fileSize, srcimg, id) {
-        const { identity, cacheUserInfoKey } = config;
-        const userInfo = store.get(cacheUserInfoKey);
+    subAndShowFishAu (TOKEN, path, uploadFilename, fileSize, srcimg, id){
         const callback = (data) => {
             const { code, message } = data;
-            if (1 == code) {
+            if (1 == code){
                 mainView.router.refreshPage();
             } else {
-                f7.alert(message, '提示')
+                f7.alert(message, '提示');
             }
-        }
+        };
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'addUserFishCertificate',
@@ -160,14 +159,14 @@ class CustomClass {
             // paramsType: 'application/json',
             data: [path, uploadFilename, fileSize],
             type: 'post',
-            noCache: true,
+            noCache: true
         }, callback);
     }
 
     /*
     * native登录后跳转h5页面
     * */
-    getKey(token, userId, state, status) {
+    getKey (token, userId, state, status){
         /*
          *   status == '0': user fisrt login.
          *   status == '1': user many login.
@@ -198,13 +197,13 @@ class CustomClass {
                     console.log(message);
                 }
                 f7.hidePreloader();
-            }
+            };
 
             customAjax.ajax({
                 apiCategory: 'auth',
                 header: ['token'],
                 type: 'get',
-                noCache: true,
+                noCache: true
             }, loginCallback);
         }
     }
@@ -212,18 +211,18 @@ class CustomClass {
     /*
     * 退出app
     * */
-    exitApp() {
+    exitApp (){
         const { ios, android } = window.currentDevice;
-        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)){
             ios && JS_ExitProcess();
             android && window.yudada.JS_ExitProcess();
         }
     }
 
-    andriodBack() {
-        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
+    andriodBack (){
+        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
             const { ios, android } = window.currentDevice;
-            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)){
                 ios && JS_ExitProcess();
                 android && window.yudada.JS_ExitProcess();
             }
@@ -235,16 +234,16 @@ class CustomClass {
     /*
     * 调用native统计
     * */
-    apiCount(name) {
+    apiCount (name){
         nativeEvent.apiCount(name);
     }
 
-    writeHistory(history) {
+    writeHistory (history){
         const arr = history.split(' ') || [];
         let resArr = [];
         arr.length && $$.each(arr, (index, str) => {
             resArr.push(str.replace('“', '').replace('”', ''));
-        })
+        });
         const { cacheHistoryKey } = config;
         store.set(cacheHistoryKey, resArr);
     }
@@ -252,7 +251,7 @@ class CustomClass {
     /*
     * 登录失败时，native通知h5
     * */
-    loginFail() {
+    loginFail (){
         const currentPage = $$($$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
         f7.hidePreloader();
         currentPage.find('.login-code-write').children('input').val('');
@@ -260,28 +259,28 @@ class CustomClass {
         currentPage.find('input[type="tel"]').focus();
     }
 
-    logout() {
+    logout (){
         const { cacheUserInfoKey } = config;
         store.remove(cacheUserInfoKey);
         nativeEvent.setNativeUserInfo();
         window.mainView.router.load({
-            url: `views/user.html`,
+            url: 'views/user.html',
             animatePages: false,
             reload: true
-        })
+        });
     }
 
-    initLogout() {
+    initLogout (){
         const { cacheUserInfoKey } = config;
         let refreshId = setInterval(() => {
-            if (mainView['url'].indexOf('user.html') > -1) {
+            if (mainView['url'].indexOf('user.html') > -1){
                 store.remove(cacheUserInfoKey);
                 setTimeout(() => {
                     mainView.router.load({
                         url: 'views/user.html',
                         reload: true
-                    })
-                }, 600)
+                    });
+                }, 600);
                 clearInterval(refreshId);
             }
         }, 500);
@@ -290,7 +289,7 @@ class CustomClass {
     /*
     * 安卓手机物理键返回callback
     * */
-    jsBack() {
+    jsBack (){
         if($$('.view-login').hasClass('show')){
             const currentNavbar = $$($$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
@@ -298,9 +297,9 @@ class CustomClass {
             const currentNavbar = $$($$('.view-release-fish .navbar>.navbar-inner')[$$('.view-release-fish .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
         }else{
-            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)) {
+            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
                 const { ios, android } = window.currentDevice;
-                if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)) {
+                if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)){
                     ios && JS_ExitProcess();
                     android && window.yudada.JS_ExitProcess();
                 }
@@ -310,7 +309,7 @@ class CustomClass {
         }
     }
 
-    postReleasePicCallback(index, url, name) {
+    postReleasePicCallback (index, url, name){
         const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         currentPage.find('.release-info-pic-add').remove();
         const len = currentPage.find('.release-info-pic-list').children('span').length;
@@ -322,16 +321,16 @@ class CustomClass {
      * type: demandInfo, level, auth
      * 信息, 等级, 认证, 我的店铺分享, 行程分享
      */
-    jsJumpFromPush(obj) {
+    jsJumpFromPush (obj){
         const { cacheUserInfoKey, mWebUrl } = config;
         const { type, id } = getQuery(obj);
-        if ('demandInfo' == type) {
+        if ('demandInfo' == type){
             const callback = (data) => {
-                if (data.data) {
+                if (data.data){
                     const type = data.data.demandInfo.type;
                     mainView.router.load({
                         url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
-                    })
+                    });
                 }
             };
             customAjax.ajax({
@@ -347,38 +346,38 @@ class CustomClass {
         } else if('myShop' == type){
             mainView.router.load({
                 url: `views/otherIndex.html?currentUserId=${id}`
-            })
+            });
         } else if('fishCarRoute' == type){
             mainView.router.load({
                 url: 'views/fishCar.html?isFishCar=0'
-            })
+            });
         }else if('level' == type || 'auth' == type){
-            if (!isLogin()) {
+            if (!isLogin()){
                 nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
                 loginViewShow();
                 return;
             }
-            if ('level' == type) {
+            if ('level' == type){
                 // nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
                 mainView.router.load({
-                  url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}?time=${new Date().getTime()}`
-                })
-            } else if ('auth' == type) {
+                    url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}?time=${new Date().getTime()}`
+                });
+            } else if ('auth' == type){
                 customAjax.ajax({
                     apiCategory: 'auth',
                     header: ['token'],
                     type: 'get',
                     noCache: true
                 }, (data) => {
-                    if (data.code == 1) {
+                    if (data.code == 1){
                         store.set(cacheUserInfoKey, data.data);
-                        if(window.location.hash.indexOf("catIdentityStatus.html") > -1){
+                        if(window.location.hash.indexOf('catIdentityStatus.html') > -1){
                             mainView.router.refreshPage();
                             return;
                         }
                         goIdentity();
                     } else {
-                        console.log('获取用户信息失败！')
+                        console.log('获取用户信息失败！');
                     }
                 });
             }
@@ -388,25 +387,25 @@ class CustomClass {
     /*
     * native调用h5登录页面
     * */
-    jumpToLogin(){
+    jumpToLogin (){
         loginViewShow();
     }
 
     /*
     * 从native获取微信的用户信息
     * */
-    getWeixinDataFromNative(data){
+    getWeixinDataFromNative (data){
         nativeEvent.setDataToNative('weixinData', data);
         if(nativeEvent.getUserValue()){
             mainView.router.load({
                 url: 'views/user.html',
                 reload: true
-            })
+            });
             loginViewHide();
         }else{
             loginView.router.load({
                 url: 'views/bindPhone.html?notBindPhone=true'
-            })
+            });
             mainView.router.refreshPage();
         }
         if(mainView.url && mainView.url.indexOf('bindAccount') > -1){
@@ -417,7 +416,7 @@ class CustomClass {
     /*
     * 绑定手机号失败，native调用提示
     * */
-    phoneBindFaild(){
+    phoneBindFaild (){
         const { servicePhoneNumber } = config;
         f7.hidePreloader();
         f7.modal({
@@ -442,13 +441,13 @@ class CustomClass {
                     onClick: () => {}
                 }
             ]
-        })
+        });
     }
 
     /*
      * 绑定微信号失败，native调用提示
      * */
-    weixinBindFaild(){
+    weixinBindFaild (){
         const { servicePhoneNumber } = config;
         f7.hidePreloader();
         f7.modal({
@@ -468,13 +467,13 @@ class CustomClass {
                     }
                 }
             ]
-        })
+        });
     }
 
     /**
      * 上传司机驾照回调函数
      * */
-    postDriverFileCallback(index, url, name){
+    postDriverFileCallback (index, url, name){
         const { identity } = config;
         const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
@@ -483,7 +482,7 @@ class CustomClass {
     /**
      * 上传司机道路运输从业资格证回调函数
      * */
-    postDriverRoadTransportFileCallback(index, url, name){
+    postDriverRoadTransportFileCallback (index, url, name){
         const { identity } = config;
         const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         currentPage.find('.post-box').children('.left').children('div').html(`<img src="${url}${identity['individual']}" />`);
@@ -492,13 +491,13 @@ class CustomClass {
     /**
      * 上传司机道路运输证回调函数
      * */
-    postDriverTransportCertificateFileCallback(index, url, name){
+    postDriverTransportCertificateFileCallback (index, url, name){
         const { identity } = config;
         const currentPage = $$('.view-main .pages>.page').eq($$('.view-main .pages>.page').length - 1);
         currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
     }
 
-    init(f) {
+    init (f){
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
         window['getProandCity'] = this.getProandCity;
