@@ -4,9 +4,9 @@
 
 import RestTemplate from '../../middlewares/RestTemplate';
 
-class ReleaseFishCarDemandModel {
-    post(data, headers, callback) {
-        RestTemplate.post(`fishCarDriverDemands`, headers, '', data, callback);
+class ReleaseFishCarDemandModel{
+    post (data, headers, callback){
+        RestTemplate.post('fishCarDriverDemands', headers, '', data, callback);
     }
 }
 

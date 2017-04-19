@@ -8,27 +8,27 @@ module.exports = {
     get: (key) => {
         let value = nativeEvent.getDataToNative(key) || '';
 
-        if (value) {
+        if (value){
             return value;
         } else {
-            if (!window.localStorage.getItem(key)) {
+            if (!window.localStorage.getItem(key)){
                 return '';
             }
             value = window.localStorage.getItem(key);
-            if (value && (value.indexOf('{"') > -1 || value.indexOf('["') > -1)) {
+            if (value && (value.indexOf('{"') > -1 || value.indexOf('["') > -1)){
                 return JSON.parse(value);
             } else {
-                return value
+                return value;
             }
         }
     },
     set: (key, val) => {
-        if (!key) {
+        if (!key){
             return;
         }
 
         let value;
-        if (typeof val == 'object') {
+        if (typeof val == 'object'){
             value = JSON.stringify(val);
         } else {
             value = val;
@@ -38,7 +38,7 @@ module.exports = {
         window.localStorage.setItem(key, value);
     },
     remove: (key) => {
-        if (window['JS_UMengToCount'] || window['yudada']) {
+        if (window['JS_UMengToCount'] || window['yudada']){
             nativeEvent.setDataToNative(key, '');
         }
         window.localStorage.removeItem(key);

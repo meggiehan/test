@@ -1,8 +1,6 @@
-import store from '../localStorage';
-import objectUtil from '../clone';
 import {getBusinessLicenseNumber, getName, html} from '../string';
 
-const CustomClass = function () {
+const CustomClass = function (){
 };
 let userUtils = new CustomClass();
 
@@ -12,30 +10,29 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
     let myCenterText = '';
     0 == personal && (text = '个人认证中');
     1 == personal && (text = '已完成个人认证');
-    if (-1 == enterprise) {
+    if (-1 == enterprise){
         -1 == personal && (text = '点击认证');
         2 == personal && (text = '个人认证失败');
-    } else if (2 == enterprise) {
+    } else if (2 == enterprise){
         -1 == personal && (text = '企业认证失败');
-        if (personalTime && enterpriseTime) {
-            2 == personal && (text = personalTime > enterpriseTime ? '个人认证失败' : '企业认证失败')
+        if (personalTime && enterpriseTime){
+            2 == personal && (text = personalTime > enterpriseTime ? '个人认证失败' : '企业认证失败');
         }
     }
     0 == enterprise && (text = '企业认证中');
     1 == enterprise && (text = '已完成企业认证');
     1 == enterprise && (authenticationBtn.addClass('succ'));
 
-
     1 == enterprise && (myCenterText = '企业认证');
     1 !== enterprise && 1 == personal && (myCenterText = '个人认证');
     1 !== enterprise && 1 !== personal && (myCenterText = false);
 
-    //edit individual authentication and company authentication popup page.
+    // edit individual authentication and company authentication popup page.
     const individualStatus = $$('.individual-authentication-status-text>.text');
     const companyStatus = $$('.company-authentication-status-text>.text');
     individualStatus.text((personal == 1 && '审核通过') || (personal == 2 && '审核未通过') || '审核中');
     companyStatus.text((enterprise == 1 && '审核通过') || (enterprise == 2 && '审核未通过') || '审核中');
-    if (userUtils.data) {
+    if (userUtils.data){
         const {
             name,
             identificationCard,
@@ -66,15 +63,16 @@ userUtils.getAuthenticationText = (enterprise, enterpriseTime, personal, persona
     return {
         text,
         myCenterText
-    }
-}
+    };
+};
 
 userUtils.getBussesInfoCallback = (data) => {
     const authenticationBtn = $$('p.user-identity-text');
     const verificationBtn = $$('span.user-verification-num');
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    // eslint-disable-next-line
     let text = '';
-    if (data) {
+    if (data){
         userUtils.data = data;
         let {
             buyNumber,
@@ -88,8 +86,7 @@ userUtils.getBussesInfoCallback = (data) => {
             driverRefuseDescribe,
             driverState,
             fishCarDriverId,
-            fishCarDemandCount,
-            fishCarDriverDemandCount
+            fishCarDemandCount
         } = data;
 
         buyNumber && html($$('.user-buy-num'), buyNumber, null);
@@ -100,7 +97,7 @@ userUtils.getBussesInfoCallback = (data) => {
         enterpriseAuthenticationState == -1 ? $$('.individual-succ-button').show() : $$('.individual-succ-button').hide();
         personalAuthenticationState == -1 ? $$('.company-succ-button').show() : $$('.company-succ-button').hide();
         1 == personalAuthenticationState && (authenticationBtn.addClass('succ'));
-        if (2 == personalAuthenticationState) {
+        if (2 == personalAuthenticationState){
             2 == personalAuthenticationState &&
             (text = personalAuthenticationTime > enterpriseAuthenticationTime ? '个人认证失败' : '企业认证失败');
         }
@@ -116,25 +113,25 @@ userUtils.getBussesInfoCallback = (data) => {
         /**
          * 判断是司机用户
          */
-        if (fishCarDriverId) {
+        if (fishCarDriverId){
             currentPage.find('.user-info-driver-check').removeClass('check reject edit');
             currentPage.find('.user-fish-car-driver').hide();
             currentPage.find('.user-info-driver-check').attr('data-id', fishCarDriverId);
-            if (0 == driverState) {
+            if (0 == driverState){
                 currentPage.find('.user-info-driver-check').addClass('check');
             }
 
-            if (1 == driverState || 3 == driverState) {
+            if (1 == driverState || 3 == driverState){
                 currentPage.find('.user-info-driver-check').addClass('edit');
                 currentPage.find('.user-fish-car-driver').hide();
-                if (1 == driverState) {
+                if (1 == driverState){
                     currentPage.find('.driver-edit').attr('data-id', fishCarDriverId);
-                    currentPage.find('.edit-fish-car-info').removeClass('hide').attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`)
+                    currentPage.find('.edit-fish-car-info').removeClass('hide').attr('href', `views/postDriverAuth.html?id=${fishCarDriverId}`);
                 }
                 3 == driverState && currentPage.find('.driver-edit').removeAttr('data-id');
             }
 
-            if (2 == driverState) {
+            if (2 == driverState){
                 currentPage.find('.user-info-driver-check').addClass('reject');
                 currentPage.find('.driver-reject').attr('data-message', driverRefuseDescribe);
             }
