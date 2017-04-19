@@ -1,13 +1,11 @@
-import store from '../utils/localStorage';
 import config from '../config';
 import { deal } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
-function dealListInit(f7, view, page) {
-    const { pageSize, cacheUserInfoKey } = config;
+function dealListInit (f7, view, page){
+    const { pageSize, servicePhoneNumber } = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const load = currentPage.find('.infinite-scroll-preloader');
     const showAllInfo = currentPage.find('.deal-show-all');
@@ -15,13 +13,15 @@ function dealListInit(f7, view, page) {
 
     let pageNo = 1;
     let isShowAll = false;
-    let isInfinite = false;
-    let pullToRefresh = false;
     let isSend = false;
+    // eslint-disable-next-line
+    let isInfinite = false;
+    // eslint-disable-next-line
+    let pullToRefresh = false;
 
     const callback = (data) => {
         const { code, message } = data;
-        if (code !== 1) {
+        if (code !== 1){
             f7.alert(message, '提示');
             f7.pullToRefreshDone();
             return;
@@ -30,7 +30,7 @@ function dealListInit(f7, view, page) {
         let dealStr = '';
         $$.each(data.data, (index, item) => {
             dealStr += deal.list(item);
-        })
+        });
         if(1 == pageNo){
             html(listBox, dealStr, f7);
         }else{
@@ -50,7 +50,7 @@ function dealListInit(f7, view, page) {
         isInfinite = false;
         isSend = false;
 
-    }
+    };
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -59,8 +59,8 @@ function dealListInit(f7, view, page) {
         type: 'get'
     }, callback);
 
-    $$('.page-deal-list .infinite-scroll').on('infinite', function() {
-        if (isShowAll || isSend) {
+    $$('.page-deal-list .infinite-scroll').on('infinite', function (){
+        if (isShowAll || isSend){
             return;
         }
         isSend = true;
@@ -80,7 +80,7 @@ function dealListInit(f7, view, page) {
 
     // pull to refresh.
     const ptrContent = $$('.page-deal-list .pull-to-refresh-content');
-    ptrContent.on('refresh', function(e) {
+    ptrContent.on('refresh', function (e){
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         pageNo = 1;
         pullToRefresh = true;
@@ -96,9 +96,15 @@ function dealListInit(f7, view, page) {
             type: 'get',
             isMandatory
         }, callback);
-    })
+    });
+
+    // 点击上报成交记录调用拨打客服电话
+    currentPage.find('.deal-up-call').click(() => {
+        nativeEvent.contactUs(servicePhoneNumber);
+        apiCount('btn_trade_post');
+    });
 }
 
 export {
     dealListInit
-}
+};

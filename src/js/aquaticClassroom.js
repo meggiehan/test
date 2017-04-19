@@ -8,7 +8,7 @@ import config from '../config';
  * @param  {[object]} view [description]
  * @param  {[object]} page [description]
  */
-function aquaticClassroomInit(f7, view, page) {
+function aquaticClassroomInit (f7, view, page){
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const $ptrContent = currentPage.find('.pull-to-refresh-content');
     const $infinite = currentPage.find('.infinite-scroll');
@@ -25,24 +25,24 @@ function aquaticClassroomInit(f7, view, page) {
             newList: []
         },
         methods: {
-            openNewWindow(url, id){
+            openNewWindow (url, id){
                 nativeEvent.goNewWindow(url);
                 apiCount('cell_tutor_list');
                 GetInfoListModel.putInfoViews(
                   id,
                   (res) => {
-                    const {code, message} = res;
-                    if(1 !== code){
-                      console.log(message)
-                    }
+                      const {code, message} = res;
+                      if(1 !== code){
+                          console.log(message);
+                      }
                   }
-              )
+              );
             }
         },
         computed: {
-            isLoading(){
+            isLoading (){
                 if(this.infoList.length && this.newList.length >= pageSize){
-                    return true
+                    return true;
                 }else{
                     return false;
                 }
@@ -60,7 +60,7 @@ function aquaticClassroomInit(f7, view, page) {
             $$.each(data, (index, item) => {
                 vueData.infoList.push(item);
             });
-            vueData.newList =  data;
+            vueData.newList = data;
             if(data.length >= pageSize){
                 loading = false;
             }
@@ -83,30 +83,30 @@ function aquaticClassroomInit(f7, view, page) {
                 pageNo
             },
             callback
-        )
+        );
     };
     getList();
 
-    //下拉刷新
+    // 下拉刷新
     $ptrContent.on('refresh', () => {
         vueData.infoList = [];
-        vueData.newList =  [];
+        vueData.newList = [];
         pageNo = 1;
         loading = false;
         getList();
     });
 
-    //上拉加载
-    $infinite.on('infinite', function() {
+    // 上拉加载
+    $infinite.on('infinite', function (){
         if(!vueData.isLoading || loading){
             return;
         }
         loading = true;
         pageNo++;
         getList();
-    })
+    });
 }
 
 export {
     aquaticClassroomInit
-}
+};

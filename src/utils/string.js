@@ -7,7 +7,7 @@ const {fishCacheObj, mWebUrl} = config;
 module.exports = {
     trim: (str) => {
         if (!str) {
-            return;
+            return '';
         }
         return str.replace(/(^\s*)|(\s*$)/g, "");
     },
