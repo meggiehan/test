@@ -34,7 +34,9 @@ function updateCtrl (f7){
             (!$updateModal.hasClass('large') &&
             !$updateModal.hasClass('small') &&
             !$updateModal.hasClass('force')) &&
-            invitationInit(f7, mainView);
+            setTimeout(() => {
+                invitationInit(f7, mainView);
+            }, 800);
             return;
         }else{
             $body.attr('data-update-version', versionNumber);
