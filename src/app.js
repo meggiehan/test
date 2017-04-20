@@ -428,3 +428,13 @@ window.onload = function (){
         window.attachEvent('onerror', handler);
     }
 };
+
+$$('body').touchmove((e) => {
+    const ele = e.target || window.event.target;
+    if(($$(ele).hasClass('picker-modal-inner') && $$(ele).hasClass('picker-items')) ||
+    ($$(ele).hasClass('toolbar-inner') && $$(ele).parent().hasClass('toolbar'))){
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
+});

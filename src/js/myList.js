@@ -4,13 +4,13 @@ import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
-import {isLogin, activeLogout} from '../middlewares/loginMiddle';
+import {isLogin} from '../middlewares/loginMiddle';
 
-function myListInit(f7, view, page) {
-    if (!isLogin()) {
+function myListInit (f7, view, page){
+    if (!isLogin()){
         view.router.load({
-          url: 'views/user.html'
-        })
+            url: 'views/user.html'
+        });
         f7.hideIndicator();
         return;
     }
@@ -19,6 +19,7 @@ function myListInit(f7, view, page) {
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentHeader = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
 
+    // eslint-disable-next-line
     const { id, level } = store.get(cacheUserInfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
     const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
@@ -54,6 +55,7 @@ function myListInit(f7, view, page) {
     let sellPageNo = 1;
     let buyPageNo = 1;
 
+    // eslint-disable-next-line
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
@@ -63,14 +65,14 @@ function myListInit(f7, view, page) {
         let currentPageNo;
         f7.hideIndicator();
         f7.pullToRefreshDone();
-        if (code !== 1) {
+        if (code !== 1){
             console.log('获取我的发信息列表失败！error=' + (message || ''));
             return;
         }
 
         let otehrHtml = '';
         let content, listLength, load;
-        if (2 == type) {
+        if (2 == type){
             content = sellContent;
             load = sellLoad;
             currentPageNo = sellPageNo;
@@ -82,22 +84,22 @@ function myListInit(f7, view, page) {
         listLength = content.children('a').length;
 
         $$.each(data.data.records, (index, item) => {
-            if (2 == type) {
+            if (2 == type){
                 sellDate.push(item);
-                otehrHtml += home.cat(item, level,'', true);
+                otehrHtml += home.cat(item, level, '', true);
             } else {
                 buyDate.push(item);
                 otehrHtml += home.buy(item, level, '', true);
             }
-        })
+        });
 
-        if (!pullToRefresh && data.data.records.length && (currentPageNo != 1)) {
+        if (!pullToRefresh && data.data.records.length && (currentPageNo != 1)){
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);
         }
 
-        if (data.data.records.length < pageSize || !data.data.records.length) {
+        if (data.data.records.length < pageSize || !data.data.records.length){
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -105,7 +107,7 @@ function myListInit(f7, view, page) {
             load.show();
         }
 
-        if (!listLength && !data.data.records.length) {
+        if (!listLength && !data.data.records.length){
             2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
             emptyInfo.show();
         } else {
@@ -115,7 +117,7 @@ function myListInit(f7, view, page) {
         isInfinite = false;
         loading = false;
         currentPage.find('img.lazy').trigger('lazy');
-    }
+    };
 
     const getListInfo = () => {
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
@@ -133,17 +135,17 @@ function myListInit(f7, view, page) {
             type: 'get',
             isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
-    }
+    };
 
-    //get list for service;
+    // get list for service;
     getListInfo();
-    currentPage.find('#tab1').on('show', function() {
+    currentPage.find('#tab1').on('show', function (){
         type = 2;
         currentHeader.find('.center').text('我的出售');
         !sellContent.children('a').length && getListInfo();
     });
 
-    currentPage.find('#tab2').on('show', function() {
+    currentPage.find('#tab2').on('show', function (){
         type = 1;
         currentHeader.find('.center').text('我的求购');
         !buyContent.children('a').length && getListInfo();
@@ -153,9 +155,9 @@ function myListInit(f7, view, page) {
     const tabIndex = 2 == type ? 0 : 1;
     currentHeader.find('.tab-link').removeClass('active').eq(tabIndex).addClass('active');
 
-    currentPage.find('.infinite-scroll').on('infinite', function() {
-        if (2 == type ? showSellAllInfo.css('display') == 'block' :
-            showBuyAllInfo.css('display') == 'block') {
+    currentPage.find('.infinite-scroll').on('infinite', function (){
+        if (2 == type ? showSellAllInfo.css('display') == 'block'
+            : showBuyAllInfo.css('display') == 'block'){
             return;
         }
         const isMandatory = !!nativeEvent['getNetworkStatus']();
@@ -180,7 +182,7 @@ function myListInit(f7, view, page) {
 
     // pull to refresh.
     const ptrContent = currentPage.find('.pull-to-refresh-content');
-    ptrContent.on('refresh', function(e) {
+    ptrContent.on('refresh', function (e){
         type == 2 ? (sellPageNo = 1) : (buyPageNo = 1);
         type == 2 ? (sellDate = []) : (buyDate = []);
         const isMandatory = !!nativeEvent['getNetworkStatus']();
@@ -198,24 +200,24 @@ function myListInit(f7, view, page) {
             type: 'get',
             isMandatory
         }, callback);
-    })
+    });
 
     let activeInfoId = null;
-    //refresh and share info.
+    // refresh and share info.
     const refreshCallback = (data) => {
         const {code, message} = data;
         if(1 == code){
-            $$('span.refresh-btn[data-id="'+ activeInfoId +'"]').addClass('disabled').text('今日已刷新');
+            $$('span.refresh-btn[data-id="' + activeInfoId + '"]').addClass('disabled').text('今日已刷新');
             nativeEvent.nativeToast(1, `今天刷新信息次数还剩${data.data}次!`);
         }else{
             nativeEvent.nativeToast(0, message);
         }
-    }
+    };
 
     // const {device} = f7;
     currentPage.find('.tabs.swiper-wrapper')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        //refresh info
+        // refresh info
         if(ele.className.indexOf('refresh-btn') > -1 && $(ele).attr('data-id') && ele.className.indexOf('disabled') == -1){
             const clickInfoId = $(ele).attr('data-id');
             apiCount('btn_refreshInfo');
@@ -226,22 +228,22 @@ function myListInit(f7, view, page) {
                 header: ['token'],
                 paramsType: 'application/json',
                 data: [clickInfoId, 'refresh'],
-                val:{
-                    id:clickInfoId,
+                val: {
+                    id: clickInfoId,
                     action: 'refreshLog'
                 },
                 type: 'POST',
                 isMandatory: true
             }, refreshCallback);
         }
-        //share info
+        // share info
         if(ele.className.indexOf('sell-list-share') > -1 && $(ele).attr('data-id')){
             const infoType = $(ele).attr('data-type');
             const itemId = $(ele).attr('data-id');
             let listItem = null;
-            $$.each(2 == infoType ? sellDate : buyDate, (index,item) => {
+            $$.each(2 == infoType ? sellDate : buyDate, (index, item) => {
                 item.id == itemId && (listItem = item);
-            })
+            });
 
             let title = '';
             let description = '';
@@ -263,7 +265,7 @@ function myListInit(f7, view, page) {
             }else{
                 imgs && JSON.parse(imgs).length ? (shareImg = JSON.parse(imgs)[0]) : (shareImg = imgePath);
             }
-            title += `【${2 == infoType ? '出售' : '求购'}】${fishTypeName}, ${provinceName||''}${cityName||''}`;
+            title += `【${2 == infoType ? '出售' : '求购'}】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
             if(!listItem.title){
                 description += stock ? `${(2 == infoType ? '出售' : '求购') + '数量：' + stock}，` : '';
                 description += price ? `${'价格：' + price}，` : '';
@@ -279,11 +281,11 @@ function myListInit(f7, view, page) {
                 imgUrl: shareImg,
                 description
             };
-            $$('.share-to-weixin-model').addClass('on')
+            $$('.share-to-weixin-model').addClass('on');
         }
-    }
+    };
 }
 
 export {
     myListInit
-}
+};

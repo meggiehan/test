@@ -6,7 +6,7 @@ import store from '../utils/localStorage';
 import invitationModel from './service/invitation/InvitationModel';
 import {JsBridge} from '../middlewares/JsBridge';
 
-function loginCodeInit(f7, view, page) {
+function loginCodeInit (f7, view, page){
     f7.hideIndicator();
     const {phone} = page.query;
     const {
@@ -29,18 +29,18 @@ function loginCodeInit(f7, view, page) {
 
     const getCodeCallback = (data) => {
         isActiveClick = false;
-        if (data.code == 1) {
+        if (data.code == 1){
             nativeEvent.nativeToast(1, '短信验证码发送成功,请您注意查收!');
             setTimeout(() => {
                 input.focus();
-            }, 500)
+            }, 500);
         } else {
             isActiveClick = true;
             vioceBtn.click();
         }
     };
 
-    //get code message.
+    // get code message.
     customAjax.ajax({
         apiCategory: 'phoneCode',
         data: [phone, 1],
@@ -52,19 +52,19 @@ function loginCodeInit(f7, view, page) {
     input.oninput = () => {
         const val = trim(input.value);
         let classes = subBtn.className;
-        if (/^\d{4}$/.test(val) && val.length == 4) {
+        if (/^\d{4}$/.test(val) && val.length == 4){
             classes += ' on';
             subBtn.className = classes;
             input.blur();
             isPass = true;
             userLogin();
-        } else if (val && val.length >= 4) {
+        } else if (val && val.length >= 4){
             input.value = val.substr(0, 4);
         } else {
             subBtn.className = classes.replace(' on', '');
             isPass = false;
         }
-    }
+    };
 
     const voiceCountDown = () => {
         isCountDown = true;
@@ -76,10 +76,10 @@ function loginCodeInit(f7, view, page) {
     const callback = (data) => {
         isSend = false;
         const {code} = data;
-        if (1 == code) {
+        if (1 == code){
             nativeEvent.nativeToast(1, isActiveClick ? '当前使用短信服务的人过多，已为你发送语音验证码!' : '语音验证码已拨出，请注意接听！');
             const setIntervalId = setInterval(() => {
-                if (_voiceCodeWaitTime < 0) {
+                if (_voiceCodeWaitTime < 0){
                     clearInterval(setIntervalId);
                     isCountDown = false;
                     _voiceCodeWaitTime = voiceCodeWaitTime;
@@ -87,22 +87,22 @@ function loginCodeInit(f7, view, page) {
                     return;
                 }
                 voiceCountDown();
-            }, 1000)
+            }, 1000);
             setTimeout(() => {
                 input.focus();
-            }, 500)
+            }, 500);
         } else {
             nativeEvent.nativeToast(0, '当前使用人数过多，请稍后再试!');
             view.router.back();
         }
         f7.hideIndicator();
-    }
+    };
 
     /**
      * 获取语音验证码
      * */
     vioceBtn.onclick = () => {
-        if (isCountDown) {
+        if (isCountDown){
             return;
         }
         isSend = true;
@@ -122,18 +122,18 @@ function loginCodeInit(f7, view, page) {
         f7.hideIndicator();
         f7.hidePreloader();
         const {code, message, data} = result;
-        if (1 == code) {
-            store.set("accessToken", data.token);
+        if (1 == code){
+            store.set('accessToken', data.token);
             store.set(cacheUserInfoKey, data.userInfoView);
-            (weixinData && store.get('weixinUnionId')) ?
-                getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
+            (weixinData && store.get('weixinUnionId'))
+                ? getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');
             store.set('weixinData', '');
             if(data.userInfoView.fishCarDriverId){
                 store.set('isFishCar', 1);
             }
 
-            //设置别名
+            // 设置别名
             JsBridge('JS_SetTagsWithAlias', {
                 tags: [
                     getCurrentDay().replace('/', '').replace('/', ''),
@@ -142,7 +142,7 @@ function loginCodeInit(f7, view, page) {
                 alias: `${data.userInfoView.id}`
             }, () => {}, f7);
 
-            if (1 == store.get(waitAddPointerKey)) {
+            if (1 == store.get(waitAddPointerKey)){
                 const {invitationCode} = store.get(inviteInfoKey);
                 invitationModel.acceptInvitation(invitationCode);
             }
@@ -165,7 +165,7 @@ function loginCodeInit(f7, view, page) {
      * 调用native登录接口
      * */
     let userLogin = () => {
-        if (!isPass || isSend) {
+        if (!isPass || isSend){
             return;
         }
         f7.showPreloader(weixinData ? '绑定手机号中...' : '登录中...');

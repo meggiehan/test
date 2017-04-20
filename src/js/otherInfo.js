@@ -4,7 +4,7 @@ import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 import { getName, getBusinessLicenseNumber } from '../utils/string';
 
-function otherInfoInit(f7, view, page) {
+function otherInfoInit (f7, view, page){
     const { id, goodsId } = page.query;
     const userCache = store.get(`getDemandInfo_id_${goodsId}`);
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
@@ -33,27 +33,27 @@ function otherInfoInit(f7, view, page) {
         phone && $$('.other-info-phone').text(phone);
         address ? $$('.other-info-address').text(address) : $$('.other-info-address-parent').hide();
 
-        if (enterpriseAuthenticationState == 1) {
+        if (enterpriseAuthenticationState == 1){
             $$('.other-authentication-info').addClass('company');
             $$('.other-cert-text>span').text('企业认证');
             enterpriseName && $$('.other-campany-name').text(enterpriseName);
             businessLicenseNo && $$('.other-company-number').text(getBusinessLicenseNumber(businessLicenseNo));
             $$('.other-cat-company-info').on('click', () => {
                 nativeEvent.catPic(businessLicenseUrl);
-            })
-        } else if (personalAuthenticationState == 1) {
+            });
+        } else if (personalAuthenticationState == 1){
             $$('.other-authentication-info').addClass('individual');
             name && $$('.other-info-name').text(getName(name));
             identificationCard && $$('.other-info-number').text(getBusinessLicenseNumber(identificationCard));
         }
         f7.hideIndicator();
-    }
+    };
 
     currentPage.find('.go-member-info')[0].onclick = () => {
         apiCount('btn_profile_memberIntro');
         nativeEvent['goNewWindow'](`${mWebUrl}user/memberIntro`);
-    }
-    if (!userCache) {
+    };
+    if (!userCache){
         customAjax.ajax({
             apiCategory: 'userInfo',
             api: 'getUserCertificate',
@@ -69,4 +69,4 @@ function otherInfoInit(f7, view, page) {
 
 export {
     otherInfoInit
-}
+};

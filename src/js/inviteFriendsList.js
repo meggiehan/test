@@ -2,15 +2,15 @@ import store from '../utils/localStorage';
 import config from '../config';
 import { html } from '../utils/string';
 import { invite } from '../utils/template';
-import { logOut, isLogin, activeLogout } from '../middlewares/loginMiddle';
+import { isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
 import customAjax from '../middlewares/customAjax';
 
-function inviteFriendsListInit(f7, view, page) {
-    if (!isLogin()) {
+function inviteFriendsListInit (f7, view, page){
+    if (!isLogin()){
         view.router.load({
-          url: 'views/user.html'
-        })
+            url: 'views/user.html'
+        });
         f7.hideIndicator();
         return;
     }
@@ -27,12 +27,12 @@ function inviteFriendsListInit(f7, view, page) {
     const loadBox = currentPage.find('.infinite-scroll-preloader');
 
     const callback = (data) => {
-    	const {code, message} = data;
+        const {code, message} = data;
         if(1 == code){
-        	let str = '';
-        	$$.each(data.data.records, (index, item) => {
-        		str += invite.inviteList(item, data.data.records.length-1 === index);
-        	})
+            let str = '';
+            $$.each(data.data.records, (index, item) => {
+                str += invite.inviteList(item, data.data.records.length - 1 === index);
+            });
 
             if(pullToRefresh){
                 html(currentPage.find('.invite-friends-list'), '', f7);
@@ -40,7 +40,7 @@ function inviteFriendsListInit(f7, view, page) {
             currentPage.find('.invite-friends-total').text(data.data.total);
             currentPage.find('.invite-friends-list').append(str);
         }else{
-        	f7.alert(message, '温馨提示');
+            f7.alert(message, '温馨提示');
         }
 
         if(!data.data.records.length || data.data.records.length < pageSize){
@@ -61,7 +61,7 @@ function inviteFriendsListInit(f7, view, page) {
     /**
      * 获取列表信息
      * */
-    function getList(isDisableCache, onlyUseCache){
+    function getList (isDisableCache, onlyUseCache){
         customAjax.ajax({
             apiCategory: 'invite',
             api: 'users',
@@ -94,8 +94,8 @@ function inviteFriendsListInit(f7, view, page) {
     /**
      * 上啦加载更多
      * */
-    currentPage.find('.infinite-scroll').on('infinite', function() {
-        if (isShowAll || isInfinite) {
+    currentPage.find('.infinite-scroll').on('infinite', function (){
+        if (isShowAll || isInfinite){
             return;
         }
         isInfinite = true;
@@ -107,4 +107,4 @@ function inviteFriendsListInit(f7, view, page) {
 
 export {
     inviteFriendsListInit
-}
+};
