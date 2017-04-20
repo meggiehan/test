@@ -2,7 +2,7 @@
 // import Nightmare from 'nightmare';
 // const nightmare = Nightmare({ show: true });
 
-if (!typeof window) {
+if (!typeof window){
     window.global = window;
 }else{
     global.window = global;

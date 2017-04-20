@@ -1,16 +1,15 @@
 import store from '../utils/localStorage';
 import config from '../config';
 import { getName, getAddressIndex } from '../utils/string';
-import { logOut, isLogin, activeLogout } from '../middlewares/loginMiddle';
+import { logOut, isLogin } from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
-import customAjax from '../middlewares/customAjax';
 
-function myCenterInit(f7, view, page) {
+function myCenterInit (f7, view, page){
     f7.hideIndicator();
-    if (!isLogin()) {
+    if (!isLogin()){
         view.router.load({
-          url: 'views/user.html'
-        })
+            url: 'views/user.html'
+        });
         f7.hideIndicator();
         return;
     }
@@ -23,10 +22,10 @@ function myCenterInit(f7, view, page) {
         phone,
         nickname,
         provinceName,
-        cityName,
+        cityName
     } = userInfo;
     currentPage.find('.my-center-phone span').text(phone);
-    if (userInfo) {
+    if (userInfo){
         imgUrl && ($$('.my-center-head img').attr('src', imgUrl + imgPath(8)));
         provinceName && cityName && $$('.my-center-address span').text(`${provinceName} ${cityName}`);
         name && $$('.center-name span').text(getName(name));
@@ -64,10 +63,10 @@ function myCenterInit(f7, view, page) {
     currentPage.find('.my-center-nickname')[0].onclick = () => {
         view.router.load({
             url: 'views/editName.html'
-        })
-    }
+        });
+    };
 }
 
 export {
     myCenterInit
-}
+};

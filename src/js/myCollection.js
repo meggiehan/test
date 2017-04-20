@@ -3,22 +3,22 @@ import config from '../config';
 import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { isLogin, activeLogout } from '../middlewares/loginMiddle';
+import { isLogin } from '../middlewares/loginMiddle';
 import customAjax from '../middlewares/customAjax';
 
-function myCollectionInit(f7, view, page) {
-    if (!isLogin()) {
+function myCollectionInit (f7, view, page){
+    if (!isLogin()){
         view.router.load({
-          url: 'views/user.html'
-        })
+            url: 'views/user.html'
+        });
         f7.hideIndicator();
         return;
     }
-    let type = 2; //default: 2
+    let type = 2; // default: 2
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
     const { pageSize, cacheUserInfoKey } = config;
-    const { id, level } = store.get(cacheUserInfoKey) || { id: 1 };
+    const { level } = store.get(cacheUserInfoKey) || { id: 1 };
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
     const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
     const showSellAllInfo = currentPage.find('.sell-collection-empty-info');
@@ -27,7 +27,6 @@ function myCollectionInit(f7, view, page) {
     const sellContent = currentPage.find('.sell-collection-list-info');
     const buyContent = currentPage.find('.buy-collection-list-info');
 
-
     const sellEmpty = currentPage.find('.sell-collection-list-empty');
     const buyEmpty = currentPage.find('.buy-collection-list-empty');
     let emptyInfo = sellEmpty;
@@ -35,6 +34,7 @@ function myCollectionInit(f7, view, page) {
     let sellPageNo = 1;
     let buyPageNo = 1;
 
+    // eslint-disable-next-line
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
@@ -44,14 +44,14 @@ function myCollectionInit(f7, view, page) {
         let currentPageNo;
         f7.hideIndicator();
         f7.pullToRefreshDone();
-        if (code !== 1) {
+        if (code !== 1){
             // f7.alert('请求过于频繁，请稍后再试！', '提示');
             return;
         }
 
         let otehrHtml = '';
         let content, listLength, load;
-        if (2 == type) {
+        if (2 == type){
             content = sellContent;
             load = sellLoad;
             currentPageNo = sellPageNo;
@@ -63,20 +63,20 @@ function myCollectionInit(f7, view, page) {
         listLength = content.children('a').length;
 
         $$.each(data.data, (index, item) => {
-            if (2 == type) {
+            if (2 == type){
                 otehrHtml += home.cat(item, level);
             } else {
                 otehrHtml += home.buy(item, level);
             }
-        })
+        });
 
-        if (!pullToRefresh && data.data.length && (currentPageNo != 1)) {
+        if (!pullToRefresh && data.data.length && (currentPageNo != 1)){
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);
         }
 
-        if (data.data.length < pageSize || !data.data.length) {
+        if (data.data.length < pageSize || !data.data.length){
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -84,7 +84,7 @@ function myCollectionInit(f7, view, page) {
             load.show();
         }
 
-        if (!listLength && !data.data.length) {
+        if (!listLength && !data.data.length){
             2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
             emptyInfo.show();
         } else {
@@ -94,7 +94,7 @@ function myCollectionInit(f7, view, page) {
         isInfinite = false;
         loading = false;
         currentPage.find('img.lazy').trigger('lazy');
-    }
+    };
 
     const getListInfo = () => {
         const pageNo = type == 2 ? sellPageNo : buyPageNo;
@@ -113,25 +113,25 @@ function myCollectionInit(f7, view, page) {
             type: 'get',
             isMandatory
         }, callback);
-    }
+    };
 
-    //get list for service;
+    // get list for service;
     getListInfo();
-    currentPage.find('#tab1').on('show', function() {
+    currentPage.find('#tab1').on('show', function (){
         type = 2;
         apiCount('btn_myFavoriteList_sale');
         !sellContent.children('a').length && getListInfo();
     });
 
-    currentPage.find('#tab2').on('show', function() {
+    currentPage.find('#tab2').on('show', function (){
         type = 1;
         apiCount('btn_myFavoriteList_purchase');
         !buyContent.children('a').length && getListInfo();
     });
 
-    currentPage.find('.infinite-scroll').on('infinite', function() {
-        if (2 == type ? showSellAllInfo.css('display') == 'block' :
-             showBuyAllInfo.css('display') == 'block') {
+    currentPage.find('.infinite-scroll').on('infinite', function (){
+        if (2 == type ? showSellAllInfo.css('display') == 'block'
+             : showBuyAllInfo.css('display') == 'block'){
             return;
         }
         const isMandatory = !!nativeEvent['getNetworkStatus']();
@@ -156,10 +156,9 @@ function myCollectionInit(f7, view, page) {
 
     // pull to refresh.
     const ptrContent = currentPage.find('.pull-to-refresh-content');
-    ptrContent.on('refresh', function(e) {
+    ptrContent.on('refresh', function (e){
         sellPageNo = 1;
         buyPageNo = 1;
-        const load = type == 2 ? sellLoad : buyLoad;
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
         emptyInfo = type == 2 ? sellEmpty : buyEmpty;
@@ -175,9 +174,9 @@ function myCollectionInit(f7, view, page) {
             type: 'get',
             isMandatory
         }, callback);
-    })
+    });
 }
 
 export {
-    myCollectionInit,
-}
+    myCollectionInit
+};

@@ -1,17 +1,15 @@
-import store from '../utils/localStorage';
 import config from '../config';
 import { fishCar } from '../utils/template';
-import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { isLogin, activeLogout } from '../middlewares/loginMiddle';
+import { isLogin } from '../middlewares/loginMiddle';
 import FishAboutModel from './model/FishAboutModel';
 import {releaseFishViewShow } from './releaseView/releaseFishViews';
 
-function myFishCarDemandListInit(f7, view, page) {
-    if (!isLogin()) {
+function myFishCarDemandListInit (f7, view, page){
+    if (!isLogin()){
         view.router.load({
-          url: 'views/user.html'
-        })
+            url: 'views/user.html'
+        });
         f7.hideIndicator();
         return;
     }
@@ -21,8 +19,7 @@ function myFishCarDemandListInit(f7, view, page) {
     let type = 2;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 
-    const { pageSize, cacheUserInfoKey } = config;
-    const { id, level } = store.get(cacheUserInfoKey) || { id: 1 };
+    const { pageSize } = config;
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');
     const buyLoad = currentPage.find('.buy-infinite-scroll-preloader');
     const showSellAllInfo = currentPage.find('.sell-collection-empty-info');
@@ -30,7 +27,6 @@ function myFishCarDemandListInit(f7, view, page) {
 
     const sellContent = currentPage.find('.sell-collection-list-info');
     const buyContent = currentPage.find('.buy-collection-list-info');
-
 
     const sellEmpty = currentPage.find('.sell-collection-list-empty');
     const buyEmpty = currentPage.find('.buy-collection-list-empty');
@@ -40,6 +36,7 @@ function myFishCarDemandListInit(f7, view, page) {
     let buyPageNo = 1;
     let pageNo = 1;
 
+    // eslint-disable-next-line
     let isInfinite = false;
     let loading = false;
     let pullToRefresh = false;
@@ -49,14 +46,14 @@ function myFishCarDemandListInit(f7, view, page) {
         let currentPageNo;
         f7.hideIndicator();
         f7.pullToRefreshDone();
-        if (code !== 1) {
+        if (code !== 1){
             data.message && f7.alert(data.message);
             return;
         }
 
         let otehrHtml = '';
         let content, listLength, load;
-        if (2 == type) {
+        if (2 == type){
             content = sellContent;
             load = sellLoad;
             currentPageNo = sellPageNo;
@@ -71,13 +68,13 @@ function myFishCarDemandListInit(f7, view, page) {
             otehrHtml += fishCar.demandList(item, true, type == 1);
         });
 
-        if (!pullToRefresh && data.data.length && (currentPageNo != 1)) {
+        if (!pullToRefresh && data.data.length && (currentPageNo != 1)){
             content.append(otehrHtml);
         } else {
             html(content, otehrHtml, f7);
         }
 
-        if (data.data.length < pageSize || !data.data.length) {
+        if (data.data.length < pageSize || !data.data.length){
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -85,7 +82,7 @@ function myFishCarDemandListInit(f7, view, page) {
             load.show();
         }
 
-        if (!listLength && !data.data.length) {
+        if (!listLength && !data.data.length){
             2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
             emptyInfo.show();
         } else {
@@ -96,7 +93,7 @@ function myFishCarDemandListInit(f7, view, page) {
         loading = false;
         setTimeout(() => {
             $$('img.lazy').trigger('lazy');
-        }, 400)
+        }, 400);
     };
 
     const getListInfo = () => {
@@ -110,20 +107,20 @@ function myFishCarDemandListInit(f7, view, page) {
         FishAboutModel.getMyFishCarDemandList({
             pageSize,
             pageNo
-        }, {expired: type == 1}, callback)
+        }, {expired: type == 1}, callback);
     };
 
     /**
      * 获取数据
      * */
     getListInfo();
-    currentPage.find('#tab1').on('show', function() {
+    currentPage.find('#tab1').on('show', function (){
         apiCount('btn_myFishcarDemands_tab1');
         type = 2;
         !sellContent.children('a').length && getListInfo();
     });
 
-    currentPage.find('#tab2').on('show', function() {
+    currentPage.find('#tab2').on('show', function (){
         apiCount('btn_myFishcarDemands_tab2');
         type = 1;
         !buyContent.children('a').length && getListInfo();
@@ -132,9 +129,9 @@ function myFishCarDemandListInit(f7, view, page) {
     /**
      * 下拉加载
      * */
-    currentPage.find('.infinite-scroll').on('infinite', function() {
-        if (2 == type ? showSellAllInfo.css('display') == 'block' :
-            showBuyAllInfo.css('display') == 'block') {
+    currentPage.find('.infinite-scroll').on('infinite', function (){
+        if (2 == type ? showSellAllInfo.css('display') == 'block'
+            : showBuyAllInfo.css('display') == 'block'){
             return;
         }
         isInfinite = true;
@@ -147,14 +144,14 @@ function myFishCarDemandListInit(f7, view, page) {
         FishAboutModel.getMyFishCarDemandList({
             pageSize,
             pageNo
-        }, {expired: type == 1}, callback)
+        }, {expired: type == 1}, callback);
     });
 
     /**
      * 下拉刷新
      * */
     const ptrContent = currentPage.find('.pull-to-refresh-content');
-    ptrContent.on('refresh', function(e) {
+    ptrContent.on('refresh', function (e){
         sellPageNo = 1;
         buyPageNo = 1;
         2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
@@ -166,7 +163,7 @@ function myFishCarDemandListInit(f7, view, page) {
         FishAboutModel.getMyFishCarDemandList({
             pageSize,
             pageNo
-        },{expired: type == 1}, callback)
+        }, {expired: type == 1}, callback);
     });
 
     /**
@@ -193,12 +190,12 @@ function myFishCarDemandListInit(f7, view, page) {
                             f7.alert(message);
                         }
                         f7.hideIndicator();
-                    })
+                    });
                 }
-            )
+            );
         }
         return;
-    })
+    });
 
     /**
      * 点击发布叫鱼车需求按钮
@@ -207,10 +204,10 @@ function myFishCarDemandListInit(f7, view, page) {
         apiCount('btn_myFishcarDemands_post');
         releaseView.router.reloadPage('views/releaseFishCarDemand.html');
         releaseFishViewShow();
-    })
+    });
 
 }
 
 export {
     myFishCarDemandListInit
-}
+};
