@@ -27,7 +27,7 @@ function invitationInit (f7, view){
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserInfoKey);
-        if(android && !inviterInfo){
+        if(!android && !inviterInfo){
             if(window.getInvitationNum > 10){
                 window.getInvitationNum = 1;
                 return;
