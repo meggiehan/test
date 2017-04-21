@@ -27,15 +27,15 @@ function invitationInit (f7, view){
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserInfoKey);
-        if(!android && !inviterInfo){
-            if(window.getInvitationNum > 10){
+        if(!android && !inviterInfo && !store.get(inviteInfoKey)){
+            if(window.getInvitationNum > 14){
                 window.getInvitationNum = 1;
                 return;
             }
             window.getInvitationNum++;
             setTimeout(() => {
-                invitationInit(f7, view);
-            }, 1500);
+                invitationModel.getInviterInfo(callback, f7);
+            }, 2000);
             return;
         };
 
