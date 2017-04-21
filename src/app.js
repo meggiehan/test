@@ -396,6 +396,7 @@ setTimeout(() => {
     });
 }, 1500);
 
+// 统计js报错
 window.onload = function (){
     function handler (eventError){
         const data = {
@@ -429,6 +430,7 @@ window.onload = function (){
     }
 };
 
+// 处理picker组件空白处滑动触发页面滚动
 $$('body').touchmove((e) => {
     const ele = e.target || window.event.target;
     if(($$(ele).hasClass('picker-modal-inner') && $$(ele).hasClass('picker-items')) ||
@@ -438,3 +440,6 @@ $$('body').touchmove((e) => {
         return;
     }
 });
+
+// 获取邀请数据次数计数
+window.getInvitationNum = 1;

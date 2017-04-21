@@ -27,11 +27,22 @@ function invitationInit (f7, view){
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserInfoKey);
+        if(!android && !inviterInfo){
+            if(window.getInvitationNum > 10){
+                window.getInvitationNum = 1;
+                return;
+            }
+            window.getInvitationNum++;
+            setTimeout(() => {
+                invitationInit(f7, view);
+            }, 1500);
+            return;
+        };
 
         /**
          * 页面跳转
          * */
-        if(window.currentDevice.android && ('string' == typeof inviterInfo)){
+        if(android && ('string' == typeof inviterInfo)){
             const jsJumpInfo = JSON.parse(inviterInfo);
             if(jsJumpInfo.jsJump || store.get('jsJumpData')){
                 jsJumpInfo.jsJump && store.set('jsJumpData', jsJumpInfo.jsJump);
