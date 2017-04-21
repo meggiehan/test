@@ -8,6 +8,7 @@ import store from '../../../utils/localStorage';
 import invitationModel from './InvitationModel';
 import config from '../../../config';
 import nativeEvent from '../../../utils/nativeEvent';
+import {JsBridge} from '../../../middlewares/JsBridge';
 
 function invitationInit (f7, view){
     const $modalBgInvitation = $$('.modal-bg-invitation');
@@ -38,6 +39,12 @@ function invitationInit (f7, view){
             }, 2000);
             return;
         };
+
+        if(!android && inviterInfo){
+            JsBridge('JS_SaveInfomation', {'MW_InviterInfo': ''}, (data) => {
+                console.log('清除邀请信息成功!');
+            }, f7);
+        }
 
         /**
          * 页面跳转

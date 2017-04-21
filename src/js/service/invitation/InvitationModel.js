@@ -2,10 +2,10 @@
  * Created by domicc on 28/02/2017.
  */
 import RestTemplate from '../../../middlewares/RestTemplate';
-import {JsBridge} from '../../../middlewares/JsBridge';
 import store from '../../../utils/localStorage';
 import config from '../../../config';
 import nativeEvent from '../../../utils/nativeEvent';
+import {JsBridge} from '../../../middlewares/JsBridge';
 
 class InvitationModel{
 
@@ -25,9 +25,16 @@ class InvitationModel{
     }
 
     getInviterInfo (callback, f7){
-        JsBridge('JS_GetInvitationInfo', '', (data) => {
-            callback(data || '');
-        }, f7);
+        const {ios} = window.currentDevice;
+        if(ios){
+            JsBridge('JS_GetInformationWithKey', 'MW_InviterInfo', (data) => {
+                callback(data || '');
+            }, f7);
+        }else{
+            JsBridge('JS_GetInvitationInfo', '', (data) => {
+                callback(data || '');
+            }, f7);
+        }
     }
 
     /**
