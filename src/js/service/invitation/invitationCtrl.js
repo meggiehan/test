@@ -8,7 +8,6 @@ import store from '../../../utils/localStorage';
 import invitationModel from './InvitationModel';
 import config from '../../../config';
 import nativeEvent from '../../../utils/nativeEvent';
-import {JsBridge} from '../../../middlewares/JsBridge';
 
 function invitationInit (f7, view){
     const $modalBgInvitation = $$('.modal-bg-invitation');
@@ -28,23 +27,6 @@ function invitationInit (f7, view){
 
     const callback = (inviterInfo) => {
         const userInfo = store.get(cacheUserInfoKey);
-        if(!android && !inviterInfo && !store.get(inviteInfoKey)){
-            if(window.getInvitationNum > 14){
-                window.getInvitationNum = 1;
-                return;
-            }
-            window.getInvitationNum++;
-            setTimeout(() => {
-                invitationModel.getInviterInfo(callback, f7);
-            }, 2000);
-            return;
-        };
-
-        if(!android && inviterInfo){
-            JsBridge('JS_SaveInfomation', {'MW_InviterInfo': ''}, (data) => {
-                console.log('清除邀请信息成功!');
-            }, f7);
-        }
 
         /**
          * 页面跳转
@@ -72,7 +54,10 @@ function invitationInit (f7, view){
         if(android){
             inviterInfoData = JSON.parse(inviterInfoData);
         }
-        if(userInfo && (userInfo.inviterId || (inviterInfoData && (userInfo.invitationCode == inviterInfoData.invitationCode)))){
+        if(userInfo &&
+          (userInfo.inviterId ||
+          (inviterInfoData && (userInfo.invitationCode == inviterInfoData.invitationCode)) ||
+          (store.get(inviteInfoKey) && (store.get(inviteInfoKey).invitationCode == inviterInfoData.invitationCode)))){
             return;
         }
         if(inviterInfoData && inviterInfoData.invitationCode){
