@@ -13,7 +13,7 @@
             <div class="share-trip-user-header">
                 <div class="user-head-img">
                   <p></p>
-                    <img class="head-img"  :src="imgUrl ? (imgUrl + '@40-1ci.png') : './img/defimg.png'" alt="">
+                    <img class="head-img"  :src="imgUrl ? (imgUrl + '?x-oss-process=image/resize,m_fill,h_100,w_100/circle,r_100/format,png') : './img/defimg.png'" alt="">
                 </div>
 
                 <div class="share-trip-user-nickname">{{query.contactName || '匿名用户'}}</div>
@@ -50,6 +50,6 @@
                     @weixin_share_circle="weixinShareCircle"
                     @qq_share_friend="qqShareFriend">
             </share-component>
-        </div>      
+        </div>
     </div>
 </div>

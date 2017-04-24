@@ -440,6 +440,3 @@ $$('body').touchmove((e) => {
         return;
     }
 });
-
-// 获取邀请数据次数计数
-window.getInvitationNum = 1;
