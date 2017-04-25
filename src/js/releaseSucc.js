@@ -1,8 +1,8 @@
 import customAjax from '../middlewares/customAjax';
 import { html } from '../utils/string';
 import { home } from '../utils/template';
-import nativeEvent from '../utils/nativeEvent';
-import store from '../utils/localStorage';
+// import nativeEvent from '../utils/nativeEvent';
+// import store from '../utils/localStorage';
 import config from '../config';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import Framework7 from './lib/framework7';
@@ -16,7 +16,7 @@ const newF7 = new Framework7({
 
 function releaseSuccInit (f7, view, page){
     const { type, id, fishName, phone } = page.query;
-    const { pageSize, cacheUserInfoKey, shareUrl } = config;
+    const { pageSize, shareUrl } = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     currentPage.find('span.release-succ-name').text(fishName);
 
@@ -46,11 +46,11 @@ function releaseSuccInit (f7, view, page){
             fishTypeName,
             price,
             id,
-            state
-        } = window['releaseInfo'];
+            state,
+            imgePath
+        } = window.releaseInfo;
 
-        const userInfo = store.get(cacheUserInfoKey);
-
+        // const userInfo = store.get(cacheUserInfoKey);
         1 == state && currentPage.find('.release-succ-head').find('span').text('所有人都可以看到你的信息啦');
         1 == state && currentPage.find('.release-succ-head>p').eq(0).hide();
 
@@ -61,26 +61,30 @@ function releaseSuccInit (f7, view, page){
         /**
          * 未实名认证的不引导分享
          * */
-        1 == state && releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
-            apiCount('btn_text_guideShare_yes');
-            let title = '';
-            let messageTile = '';
-            let html = '';
-            const url_ = `${shareUrl}?id=${id}`;
-            const releaseTypeText = 1 == type ? '求购' : '出售';
-            title += `【${releaseTypeText}】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
-            messageTile += `我在鱼大大看到${releaseTypeText}信息${fishTypeName || ''}，`;
-            messageTile += stock ? `${'库存 ' + stock}，` : '';
-            messageTile += price ? `${'价格' + price}，` : '';
-            messageTile += specifications ? `${'规格' + specifications}，` : '';
-            messageTile += `，对你很有用，赶紧看看吧: ${url_}`;
-            html += `${releaseTypeText}${fishTypeName},`;
-            html += stock ? `${'库存 ' + stock}，` : '';
-            html += price ? `${'价格' + price}，` : '';
-            html += specifications ? `${'规格' + specifications}，` : '';
-            html += '点击查看更多信息~';
-            nativeEvent.shareInfo(title, html, url_, messageTile, userInfo.imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
-        });
+        if(1 == state){
+            releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
+                apiCount('btn_text_guideShare_yes');
+                let title = '';
+                let description = '';
+
+                title += `【求购】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
+                if(!window.releaseInfo.title){
+                    description += stock ? `${'求购数量： ' + stock}，` : '';
+                    description += price ? `${'价格：' + price}，` : '';
+                    description += specifications ? `${'规格：' + specifications}，` : '';
+                    description += '点击查看更多信息~';
+                }else{
+                    description += window.releaseInfo.title;
+                }
+                window.shareInfo = {
+                    title,
+                    webUrl: `${shareUrl}${id}`,
+                    imgUrl: imgePath,
+                    description
+                };
+                $$('.share-to-weixin-model').addClass('on');
+            });
+        }
     }
 
     /**

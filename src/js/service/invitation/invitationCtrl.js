@@ -42,7 +42,7 @@ function invitationInit (f7, view){
                 }
                 setTimeout(() => {
                     store.set('jsJumpData', '');
-                }, 4000);
+                }, 2000);
                 return;
             }
         }

@@ -7,6 +7,7 @@ import customAjax from '../middlewares/customAjax';
 import { otherIndexClickTip, veiwCert } from '../utils/domListenEvent';
 import Vue from 'vue';
 import store from '../utils/localStorage';
+import CountModel from './model/count';
 
 function otherIndexInit (f7, view, page){
     const { currentUserId } = page.query;
@@ -53,6 +54,15 @@ function otherIndexInit (f7, view, page){
             callPhone (phone){
                 apiCount('btn_profile_call');
                 nativeEvent.contactUs(phone);
+                CountModel.phoneCount({
+                    entry: 1,
+                    phone
+                }, (res) => {
+                    const {code} = res;
+                    if(1 !== code){
+                        console.log('发送统计失败！');
+                    }
+                });
             },
             goMyShop (){
                 mainView.router.loadPage('views/myShop.html');

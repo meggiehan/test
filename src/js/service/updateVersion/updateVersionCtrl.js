@@ -7,7 +7,6 @@ import {JsBridge} from '../../../middlewares/JsBridge';
 import {invitationInit} from '../../service/invitation/invitationCtrl';
 
 /**
- * @param returnCode
  * value: 1  无更新
  * value: 2  大版本更新
  * value: 3  小版本更新
