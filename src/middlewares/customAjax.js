@@ -1,72 +1,72 @@
 import config from '../config/';
 import store from '../utils/localStorage';
-import {logOut, activeLogout, getToken} from '../middlewares/loginMiddle';
-import framework7 from '../js/lib/framework7';
+import {activeLogout, getToken} from '../middlewares/loginMiddle';
+import Framework7 from '../js/lib/framework7';
 import nativeEvent from '../utils/nativeEvent';
 import invitationModel from '../js/service/invitation/InvitationModel';
 import {getAddressIndex} from '../utils/string';
 
-const f7 = new framework7({
+const f7 = new Framework7({
     modalButtonOk: '确定',
     modalButtonCancel: '取消',
     fastClicks: true,
-    modalTitle: '温馨提示',
+    modalTitle: '温馨提示'
 });
-class CustomClass {
+class CustomClass{
     /**
      * 旧的方法api跟参数分开配置，参数为array
      * 新的方法就直接是object传进来
      * */
-    getKey(apiCategory, api, key, val) {
+    getKey (apiCategory, api, key, val){
         let res = `${apiCategory ? (apiCategory + '_') : ''}${api || ''}`;
-        if ($$.isArray(key)) {
+        if ($$.isArray(key)){
             Dom7.each(key, (index, k) => {
                 let value = '';
-                if (val && (val[index] || (val[index] == 0))) {
+                if (val && (val[index] || (val[index] == 0))){
                     value = val[index];
                 }
                 res += `_${k}_${value}`;
-            })
+            });
         } else {
             Dom7.each(key, (k, v) => {
                 let value = '';
-                if (v || (v == 0)) {
+                if (v || (v == 0)){
                     value = v;
                 }
                 res += `_${k}_${value}`;
-            })
+            });
         }
         return res;
     }
 
-    getData(key, val) {
+    getData (key, val){
         let obj = {};
         Dom7.each(key, (index, k) => {
             obj[k] = val[index] || '';
-        })
+        });
         return obj;
     }
 
-    checkMaxLenAndDelete() {
+    checkMaxLenAndDelete (){
         const {cacheMaxLen, cacheUserInfoKey, cacheHistoryKey} = config;
         const len = store.getAll().length;
         let i = 1;
         let isDel = false;
         const disableDeleteArr = [cacheUserInfoKey, cacheHistoryKey];
-        if (len >= cacheMaxLen) {
+        if (len >= cacheMaxLen){
             Dom7.each(store.getAll(), (key, value) => {
-                if (i === len - 1 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
+                if (i === len - 1 && !isDel && (disableDeleteArr.indexOf(key) == -1)){
                     store.remove(key);
                     isDel = true;
-                } else if (i === len - 2 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
+                } else if (i === len - 2 && !isDel && (disableDeleteArr.indexOf(key) == -1)){
                     store.remove(key);
                     isDel = true;
-                } else if (i === len - 3 && !isDel && (disableDeleteArr.indexOf(key) == -1)) {
+                } else if (i === len - 3 && !isDel && (disableDeleteArr.indexOf(key) == -1)){
                     store.remove(key);
                     isDel = true;
                 }
                 i++;
-            })
+            });
         }
     }
 
@@ -74,7 +74,7 @@ class CustomClass {
      *   isMandatory: Whether it is mandatory to refresh ，default:false
      *   noCache: Local storage is not required, default: false
      */
-    ajax(obj, callback) {
+    ajax (obj, callback){
         const $$ = Dom7;
         const {
             api,
@@ -108,33 +108,44 @@ class CustomClass {
          * 不同type的API参数处理
          * 例如：post跟get的参数不同
          * */
-        if ('fishCarDemands' == apiCategory && 'post' == type) {
+        if ('fishCarDemands' == apiCategory && 'post' == type){
             delete newData.pageNo;
             delete newData.pageSize;
         }
 
         paramsType && (newData = JSON.stringify(newData));
 
-        if (val) {
+        if (val){
             $$.each(val, (key, value) => {
                 url += `/${value}`;
-            })
+            });
         }
 
-        if (header) {
+        if (header){
             header.indexOf('token') > -1 && (headers['access-token'] = getToken());
         }
 
-        if (!noCache) {
+        if (!noCache){
             const cacheData = store.get(saveKey);
-            cacheData && !isMandatory && callback(cacheData);
+            if(cacheData && !isMandatory){
+                callback(cacheData);
+                const {time} = cacheData;
+                const apiArr = ['getDemandInfo'];
+                const apiCategoryArr = ['userInformation'];
+                const isGet = 'get' == type;
+                if(isGet &&
+                  (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
+                  (new Date().getTime() - time) <= 3 * 1000){
+                    return;
+                }
+            }
         }
         const _this = this;
 
         /**
          * 没有网络的时候提示用户，且不向服务器发送请求
          * */
-        if (!nativeEvent['getNetworkStatus']()) {
+        if (!nativeEvent['getNetworkStatus']()){
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
@@ -145,7 +156,7 @@ class CustomClass {
          * 仅仅只使用缓存
          * 首页：先显示缓存，在触发下拉刷新逻辑
          * */
-        if (onlyUseCache) {
+        if (onlyUseCache){
             return;
         }
 
@@ -177,8 +188,8 @@ class CustomClass {
             /**
              * 服务的回来的ajax，根据status处理失败请求
              * */
-            error: function (err, status) {
-                if (parseInt(status) >= 500) {
+            error: function (err, status){
+                if (parseInt(status, 10) >= 500){
                     nativeEvent.nativeToast(0, '服务器繁忙，请稍后再试！');
                 } else {
                     nativeEvent.nativeToast(0, '请检查您的网络！');
@@ -186,7 +197,7 @@ class CustomClass {
                 f7.pullToRefreshDone();
                 f7.hideIndicator();
 
-                if (url.indexOf('favorite/demandInfo/') > -1) {
+                if (url.indexOf('favorite/demandInfo/') > -1){
                     callback(null, err);
                 }
             },
@@ -194,21 +205,21 @@ class CustomClass {
             /**
              * 服务器回来的ajax根据不同的code进行处理。
              * */
-            success: function (data, status) {
+            success: function (data, status){
                 const _data = JSON.parse(data);
 
-                if (_data.code == 2 && _data.message) {
-                    if (url.indexOf('userAddDemandInfo') > -1) {
+                if (_data.code == 2 && _data.message){
+                    if (url.indexOf('userAddDemandInfo') > -1){
                         const {type, fishTypeId, fishTypeName, requirementPhone} = newData;
                         const callback = (data) => {
                             f7.hideIndicator();
                             const {code, message} = data;
-                            if (1 == code) {
+                            if (1 == code){
                                 $$('.release-sub-info').removeClass('pass');
                                 window['releaseInfo'] = data['data'];
                                 mainView.router.load({
-                                    url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`,
-                                })
+                                    url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`
+                                });
                             } else {
                                 f7.alert(message, '提示');
                             }
@@ -231,19 +242,19 @@ class CustomClass {
                         });
                         return;
                     }
-                } else if (0 == _data.code) {
+                } else if (0 == _data.code){
                     f7.hideIndicator();
                     f7.alert(_data.message, '提示');
-                } else if (-1 == _data.code) {
+                } else if (-1 == _data.code){
                     f7.hideIndicator();
                     nativeEvent.nativeToast(0, '服务器异常，请稍后再试！');
-                } else if (4 == _data.code) {
+                } else if (4 == _data.code){
                     f7.hideIndicator();
                     invitationModel.clearInviterInfo();
                     f7.alert(_data.message, '提示');
                     return;
-                } else if (3 == _data.code) {
-                    if (url.indexOf('/auth') > -1) {
+                } else if (3 == _data.code){
+                    if (url.indexOf('/auth') > -1){
                         f7.alert(_data.message);
                         activeLogout();
                         return;
@@ -253,19 +264,21 @@ class CustomClass {
                         mainView.router.load({
                             url: 'views/notFound.html?errInfo=' + _data.message,
                             reload: true
-                        })
+                        });
                     }, 400);
                     return;
                 }
-                if (3 !== _data.code && (-1 !== data.code)) {
-                    if (!noCache && saveKey) {
+                if (3 !== _data.code && (-1 !== data.code)){
+                    let dataObj = JSON.parse(data);
+                    if (!noCache && saveKey){
+                        dataObj.time = new Date().getTime();
                         _this.checkMaxLenAndDelete();
-                        store.set(saveKey, JSON.parse(data));
+                        store.set(saveKey, dataObj);
                     }
-                    callback(JSON.parse(data), null, true);
+                    callback(dataObj, null, true);
                 }
             }
-        })
+        });
     }
 }
 

@@ -6,11 +6,11 @@ import { html, saveSelectFishCache, getRange, getAddressIndex, alertTitleText } 
 import nativeEvent from '../utils/nativeEvent';
 import { detailClickTip, veiwCert } from '../utils/domListenEvent';
 import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
+import CountModel from './model/count';
 
-function buydetailInit(f7, view, page) {
+function buydetailInit (f7, view, page){
     const $$ = Dom7;
     const { id } = page.query;
-    const weixinData = store.get('weixinData');
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const shareBtn = currentPage.find('.icon-share')[0];
@@ -28,7 +28,7 @@ function buydetailInit(f7, view, page) {
      * 拿到数据，编辑页面
      * */
     const callback = (data) => {
-        if (data.data) {
+        if (data.data){
             const {
                 userInfo,
                 demandInfo,
@@ -68,7 +68,7 @@ function buydetailInit(f7, view, page) {
             currentPage.find('.selldetail-footer').removeClass('delete');
             lastHeader.find('a.detail-more').show();
 
-            if (state == 0 || state == 2) {
+            if (state == 0 || state == 2){
                 state == 0 && currentPage.find('.selldetail-footer').addClass('review');
                 state == 2 && currentPage.find('.selldetail-footer').addClass('verify');
                 lastHeader.find('a.detail-more').hide();
@@ -76,23 +76,21 @@ function buydetailInit(f7, view, page) {
             }
             const showStyle = {
                 display: '-webkit-box'
-            }
+            };
 
-            const {lat,lng} = getAddressIndex(provinceName, cityName);
+            const {lat, lng} = getAddressIndex(provinceName, cityName);
             const rangeText = getRange(lat, lng);
             if(rangeText > -1){
-                rangeText > 200 ?
-                    currentPage.find('.city-distance').addClass('show').html(`| 距离你<i>${rangeText}</i>公里`) :
-                    currentPage.find('.city-distance').addClass('show').text('| 离你很近');
+                rangeText > 200 ? currentPage.find('.city-distance').addClass('show').html(`| 距离你<i>${rangeText}</i>公里`) : currentPage.find('.city-distance').addClass('show').text('| 离你很近');
             }
 
             let tagHtml = '';
             descriptionTags && JSON.parse(descriptionTags).length && $$.each(JSON.parse(descriptionTags), (index, item) => {
                 tagHtml += `<span class="iconfont icon-auto-end">${item.tagName}</span>`;
-            })
+            });
             tagHtml ? html(currentPage.find('.info-tages-list'), tagHtml, f7) : currentPage.find('.info-tages-list').hide();
 
-            userId == locaUserId && currentPage.find('.selldetail-footer').addClass('delete')
+            userId == locaUserId && currentPage.find('.selldetail-footer').addClass('delete');
             errorInfo = refuseDescribe;
             let addClassName = (1 == state && 'active') || (0 == state && 'review') || (2 == state && 'faild') || null;
             addClassName && currentPage.addClass(addClassName);
@@ -129,8 +127,8 @@ function buydetailInit(f7, view, page) {
             }
             imgUrl && currentPage.find('.selldetail-user-pic').children('img').attr('src', imgUrl + config['imgPath'](8));
 
-            if (isLogin()) {
-                if (favorite) {
+            if (isLogin()){
+                if (favorite){
                     $$(collectionBtn).removeClass('icon-collection').addClass('icon-collection-active');
                 } else {
                     $$(collectionBtn).addClass('icon-collection').removeClass('icon-collection-active');
@@ -143,13 +141,15 @@ function buydetailInit(f7, view, page) {
             saveSelectFishCache({
                 name: fishTypeName,
                 id: fishTypeId,
+                // eslint-disable-next-line
                 parant_id: fishParentTypeId,
+                // eslint-disable-next-line
                 parant_name: fishParentTypeName
-            })
+            });
         }
         f7.hideIndicator(300);
         f7.pullToRefreshDone();
-    }
+    };
 
     /*
      * 查看审核不通过message
@@ -157,7 +157,7 @@ function buydetailInit(f7, view, page) {
     currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
         apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
-    }
+    };
 
     /*
      * 样式兼容
@@ -179,25 +179,24 @@ function buydetailInit(f7, view, page) {
                 id
             },
             type: 'get',
-            isMandatory: nativeEvent.getNetworkStatus()
+            isMandatory: false
         }, callback);
-    }
-    ptrContent.on('refresh', initData)
+    };
+    ptrContent.on('refresh', initData);
     initData();
-
 
     const collectionCallback = (data) => {
         const { code } = data;
-        if (8 == code) {
+        if (8 == code){
             nativeEvent['nativeToast'](0, '您已收藏过该资源!');
-        } else if (1 !== code) {
+        } else if (1 !== code){
             const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
             nativeEvent['nativeToast'](0, info);
             $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
         } else {
             let info;
             let collectionNum = Number($$('.user-collection-num').text());
-            if ($$(collectionBtn).hasClass('icon-collection-active')) {
+            if ($$(collectionBtn).hasClass('icon-collection-active')){
                 info = '添加收藏成功！';
                 $$('.user-collection-num').text(++collectionNum);
             } else {
@@ -208,21 +207,21 @@ function buydetailInit(f7, view, page) {
             nativeEvent['nativeToast'](1, info);
         }
         f7.hideIndicator();
-    }
+    };
 
     /*
      * 点击收藏信息
      * */
     collectionBtn.onclick = () => {
         apiCount('btn_favorite');
-        if (!nativeEvent['getNetworkStatus']()) {
+        if (!nativeEvent['getNetworkStatus']()){
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
             return;
         }
-        if (!isLogin()) {
-            f7.alert(alertTitleText(), '温馨提示', loginViewShow)
+        if (!isLogin()){
+            f7.alert(alertTitleText(), '温馨提示', loginViewShow);
             return;
         }
         const httpType = $$(collectionBtn).hasClass('icon-collection-active') ? 'DELETE' : 'POST';
@@ -238,7 +237,7 @@ function buydetailInit(f7, view, page) {
             noCache: true,
             type: httpType
         }, collectionCallback);
-    }
+    };
 
     /*
      * 删除自己发布的信息
@@ -247,16 +246,16 @@ function buydetailInit(f7, view, page) {
         const { code, message } = data;
         f7.hideIndicator();
         f7.alert(message || '删除成功', '提示', () => {
-            if (1 == code) {
-                const buyNum = parseInt($$('.user-buy-num').eq($$('.user-buy-num').length - 1).text()) - 1;
+            if (1 == code){
+                const buyNum = parseInt($$('.user-buy-num').eq($$('.user-buy-num').length - 1).text(), 10) - 1;
                 $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').next('div.list-check-status').remove();
                 $$('.page-my-list a[href="./views/buydetail.html?id=' + id + '"]').remove();
                 $$('.user-buy-num').text(buyNum <= 0 ? 0 : buyNum);
                 view.router.back();
                 view.router.refreshPage();
             }
-        })
-    }
+        });
+    };
     currentPage.find('.buydetail-delete-info')[0].onclick = () => {
         apiCount('btn_delete');
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
@@ -272,18 +271,17 @@ function buydetailInit(f7, view, page) {
                 },
                 noCache: true
             }, deleteCallback);
-        })
-
-    }
+        });
+    };
 
     /*
      * 跳转至个人主页
      * */
     currentPage.find('.selldetail-userinfo')[0].onclick = () => {
         view.router.load({
-            url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`,
-        })
-    }
+            url: 'views/otherIndex.html?id=' + `${id}&currentUserId=${currentUserId}`
+        });
+    };
 
     /*
      * 点击打电话，判断是否登录状态
@@ -309,8 +307,19 @@ function buydetailInit(f7, view, page) {
         // }
         const {requirementPhone} = demandInfo_;
         apiCount('btn_call');
-        requirementPhone && nativeEvent.contactUs(requirementPhone);
-    }
+        if(requirementPhone){
+            nativeEvent.contactUs(requirementPhone);
+            CountModel.phoneCount({
+                entry: 1,
+                phone: requirementPhone
+            }, (res) => {
+                const {code} = res;
+                if(1 !== code){
+                    console.log('发送统计失败！');
+                }
+            });
+        }
+    };
 
     /*
     * 查看证书，调用native查看图片组件
@@ -321,8 +330,8 @@ function buydetailInit(f7, view, page) {
      * 分享信息
      * */
     shareBtn.onclick = () => {
-        if (!store.get('isWXAppInstalled')) {
-            f7.alert("分享失败");
+        if (!store.get('isWXAppInstalled')){
+            f7.alert('分享失败');
             return;
         }
         let title = '';
@@ -337,7 +346,7 @@ function buydetailInit(f7, view, page) {
             imgePath
         } = demandInfo_;
 
-        title += `【求购】${fishTypeName}, ${provinceName||''}${cityName||''}`;
+        title += `【求购】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
         if(!demandInfo_.title){
             description += stock ? `${'求购数量： ' + stock}，` : '';
             description += price ? `${'价格：' + price}，` : '';
@@ -352,9 +361,9 @@ function buydetailInit(f7, view, page) {
             webUrl: `${shareUrl}${id}`,
             imgUrl: imgePath,
             description
-        }
+        };
         $$('.share-to-weixin-model').addClass('on');
-    }
+    };
 
     /*
      * 点击右上角nav，选择分享或者举报
@@ -365,18 +374,18 @@ function buydetailInit(f7, view, page) {
      * 提升靠谱指数
      */
     currentPage.find('.info-detail-go-member').find('span').click(() => {
-      if(!isLogin()){
-        f7.alert(alertTitleText(), loginViewShow);
-        return;
-      }
-      apiCount('btn_infoDetail_myMember');
-      const userInfo = store.get(cacheUserInfoKey);
-      mainView.router.load({
-        url: `${mWebUrl}user/member/${userInfo.id}?time=${new Date().getTime()}`
-      })
-    })
+        if(!isLogin()){
+            f7.alert(alertTitleText(), loginViewShow);
+            return;
+        }
+        apiCount('btn_infoDetail_myMember');
+        const userInfo = store.get(cacheUserInfoKey);
+        mainView.router.load({
+            url: `${mWebUrl}user/member/${userInfo.id}?time=${new Date().getTime()}`
+        });
+    });
 }
 
 export {
-    buydetailInit,
-}
+    buydetailInit
+};

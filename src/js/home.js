@@ -4,7 +4,7 @@ import {html, getName} from '../utils/string';
 import config from '../config';
 import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll, get} from '../utils/localStorage';
+import {getAll} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import {releaseFishViewShow} from '../js/releaseView/releaseFishViews';
 import {getDealTime} from '../utils/time';
@@ -14,7 +14,7 @@ import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
 import HomeModel from './model/HomeModel';
 
-function homeInit(f7, view, page) {
+function homeInit (f7, view, page){
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const weixinData = store.get('weixinData');
@@ -40,9 +40,9 @@ function homeInit(f7, view, page) {
         methods: {
             getName: getName,
             getDealTime: getDealTime,
-            shareTrip(){
+            shareTrip (){
                 apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
-                if (this.fishCarTripInfo) {
+                if (this.fishCarTripInfo){
                     mainView.router.load({
                         url: 'views/shareMyTrip.html',
                         query: {
@@ -52,7 +52,7 @@ function homeInit(f7, view, page) {
                             destinationProvinceName: this.fishCarTripInfo.destinationProvinceName,
                             id: this.fishCarTripInfo.id
                         }
-                    })
+                    });
                 } else {
                     releaseView.router.load({
                         url: 'views/releaseFishCarTrip.html',
@@ -61,7 +61,7 @@ function homeInit(f7, view, page) {
                     releaseFishViewShow();
                 }
             },
-            goThreeWindow(e){
+            goThreeWindow (e){
                 const ele = e || window.event;
                 const $ele = ele.target.tagName == 'DIV' ? $$(ele.target) : $$(ele.target).parent();
                 const loginRequired = $ele.attr('data-login');
@@ -69,39 +69,39 @@ function homeInit(f7, view, page) {
                 const type = $ele.attr('data-type');
                 const id = $ele.attr('data-id');
 
-                if (!!Number(loginRequired) && !isLogin()) {
+                if (!!Number(loginRequired) && !isLogin()){
                     f7.alert('此活动需要登录才能参加，请您先去登录！', '提示', loginViewShow);
                     return;
                 }
-                const access_token = store.get('accessToken');
+                const accessToken = store.get('accessToken');
                 let openUrl = link;
-                if (0 == type) {
-                    loginRequired && (openUrl += `/${access_token}`);
+                if (0 == type){
+                    loginRequired && (openUrl += `/${accessToken}`);
                     nativeEvent.goNewWindow(openUrl);
                 }
 
-                if (1 == type) {
+                if (1 == type){
                     mainView.router.load({
                         url: openUrl
                     });
                 }
-                if (2 == type) {
+                if (2 == type){
                     f7.showIndicator();
                     mainView.router.load({
                         url: openUrl
                     });
                 }
-                //banner统计
+                // banner统计
                 HomeModel.postBannerCount({
                     bannerId: id
                 }, (data) => {
                     console.log(data);
-                })
+                });
             }
         },
         computed: {
-            tripDate(){
-                if (!this || !this.fishCarTripInfo) {
+            tripDate (){
+                if (!this || !this.fishCarTripInfo){
                     return '';
                 }
                 let res = '';
@@ -123,7 +123,7 @@ function homeInit(f7, view, page) {
         /*
          * 开始注销掉swiper实例（场景： 在用户中心跟首页切换的时候不注销可能产生多个实例互相影响）
          * */
-        if (window.yudadaSwiper) {
+        if (window.yudadaSwiper){
             window.yudadaSwiper.destroy && window.yudadaSwiper.destroy(false, false);
         }
         window.yudadaSwiper = f7.swiper('.swiper-slow', {
@@ -137,7 +137,7 @@ function homeInit(f7, view, page) {
             loop: true,
             autoplayDisableOnInteraction: true,
             onTouchStart: (swiper, e) => {
-                if ($$.isArray(window.yudadaSwiper)) {
+                if ($$.isArray(window.yudadaSwiper)){
                     window.yudadaSwiper[window.yudadaSwiper.length - 1].stopAutoplay();
                 } else {
                     window.yudadaSwiper.stopAutoplay();
@@ -150,41 +150,42 @@ function homeInit(f7, view, page) {
                 setTimeout(() => {
                     const index = currentPage.find('.swiper-slide-active').attr('data-swiper-slide-index');
                     currentPage.find('.swiper-pagination').children('span').removeClass('swiper-pagination-bullet-active').eq(index).addClass('swiper-pagination-bullet-active');
-                    if ($$.isArray(window.yudadaSwiper)) {
+                    if ($$.isArray(window.yudadaSwiper)){
                         window.yudadaSwiper[window.yudadaSwiper.length - 1].startAutoplay();
                     } else {
                         window.yudadaSwiper.startAutoplay();
                     }
-                }, 80)
+                }, 80);
             }
-        })
+        });
     };
 
     /**
      * 获取司机最新的一条信息
      * */
-    if (fishCarDriverId && isLogin()) {
+    if (fishCarDriverId && isLogin()){
         HomeModel.getMyFishRecentTrip((res) => {
             const {code, message, data} = res;
-            if (1 == code) {
+            if (1 == code){
                 vueHome.fishCarTripInfo = data || '';
             } else {
                 console.log(message);
             }
-        })
+        });
     }
 
-    const renderFishTags = (tagList) => {
-        console.log('render tag list!')
-    };
+    // const renderFishTags = (tagList) => {
+    //     console.log('render tag list!');
+    // };
 
     /**
      * 绑定部分vue的数据源
      * slider列表数据、成交记录列表、鱼种分类列表
      * */
     const initDataCallback = (data) => {
-        const {banners, trades, fishTags} = data.data;
-        if (1 == data.code) {
+        // const {banners, trades, fishTags} = data.data;
+        const {banners} = data.data;
+        if (1 == data.code){
             vueHome.homeData = data.data;
             banners && banners.length && setTimeout(initSlider, 100);
             return;
@@ -199,16 +200,15 @@ function homeInit(f7, view, page) {
         type: 'get'
     }, initDataCallback);
 
-
     /**
      * render 最近使用鱼种
      * */
     setTimeout(() => {
         const fishCacheData = store.get(fishCacheObj.fishCacheKey);
-        if (fishCacheData && fishCacheData.length) {
+        if (fishCacheData && fishCacheData.length){
             let str = '';
             $$.each(fishCacheData.reverse(), (index, item) => {
-                if (index <= 5) {
+                if (index <= 5){
                     str += home.renderFishList(item, index);
                 }
             });
@@ -222,7 +222,7 @@ function homeInit(f7, view, page) {
      * */
     const callback = (data, err, type) => {
         const {buyDemands, saleDemands} = data.data;
-        if (saleDemands.length) {
+        if (saleDemands.length){
             let catListHtml = '';
             $$.each(saleDemands, (index, item) => {
                 catListHtml += home.cat(item);
@@ -230,7 +230,7 @@ function homeInit(f7, view, page) {
             html(currentPage.find('.cat-list-foreach'), catListHtml, f7);
         }
 
-        if (buyDemands.length) {
+        if (buyDemands.length){
             let buyListHtml = '';
             $$.each(buyDemands, (index, item) => {
                 buyListHtml += home.buy(item);
@@ -238,14 +238,14 @@ function homeInit(f7, view, page) {
             html(currentPage.find('.buy-list-foreach'), buyListHtml, f7);
         }
         vueHome.isHasCache = true;
-        //pull to refresh done.
+        // pull to refresh done.
         f7.pullToRefreshDone();
         currentPage.find('img.lazy').trigger('lazy');
     };
     /*
      * 获取首页信息
      * */
-    function getHomeListInfo(bool, onlyUseCache) {
+    function getHomeListInfo (bool, onlyUseCache){
         customAjax.ajax({
             apiCategory: 'demandInfo',
             api: 'list',
@@ -279,7 +279,7 @@ function homeInit(f7, view, page) {
     $$('.home-search-mask').on('click', () => {
         view.router.load({
             url: 'views/search.html'
-        })
+        });
     });
 
     /*
@@ -287,13 +287,13 @@ function homeInit(f7, view, page) {
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {
         apiCount('btn_tabbar_post');
-        if (!isLogin() && weixinData) {
+        if (!isLogin() && weixinData){
             f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;
         }
         view.router.load({
             url: 'views/release.html'
-        })
+        });
     };
 
     /**
@@ -313,14 +313,14 @@ function homeInit(f7, view, page) {
         const {driverState} = userInfo || {};
         const isFishCar = store.get('isFishCar');
 
-        if (isFishCar || 0 === isFishCar) {
+        if (isFishCar || 0 === isFishCar){
             mainView.router.load({
                 url: `views/fishCar.html?isFishCar=${isFishCar}`
             });
             return;
         }
 
-        if (isLogin() && (1 == driverState)) {
+        if (isLogin() && (1 == driverState)){
             mainView.router.load({
                 url: 'views/fishCar.html?isFishCar=1'
             });
@@ -330,11 +330,11 @@ function homeInit(f7, view, page) {
     });
 
     if(!window.uuid){
-      setTimeout(() => {
-        JsBridge('JS_GetUUid', {}, (data) => {
-            window.uuid = data;
-        });
-      }, 4000)
+        setTimeout(() => {
+            JsBridge('JS_GetUUid', {}, (data) => {
+                window.uuid = data;
+            });
+        }, 4000);
     }
 
     // // //存储数据
@@ -432,4 +432,4 @@ function homeInit(f7, view, page) {
 
 export {
     homeInit
-}
+};

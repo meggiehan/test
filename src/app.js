@@ -33,11 +33,11 @@ import {releaseSelectTagInit} from './js/releaseSelectTag';
 import {notFoundInit} from './js/notFound';
 import {bindAccountInit} from './js/bindAccount';
 import {fishCarInit} from './js/fishCar';
-import {releaseFishCarDemandInit} from './js/releaseFishCarDemand'
+import {releaseFishCarDemandInit} from './js/releaseFishCarDemand';
 import {postDriverAuthInit} from './js/postDriverAuth';
 import {postDriverInfoInit} from './js/postDriverInfo';
-import {fishCar, home} from './utils/template';
-import {driverDemandInfoInit} from  './js/driverDemandInfo';
+import {home} from './utils/template';
+import {driverDemandInfoInit} from './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
 import {JsBridge} from './middlewares/JsBridge';
@@ -57,7 +57,7 @@ import {aquaticClassroomInit} from './js/aquaticClassroom';
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
-const {timeout, fishCacheObj} = config;
+const {timeout, fishCacheObj, url} = config;
 console.log(`current app update time: ${version.date}!${store.get('versionNumber')}`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -83,8 +83,8 @@ let initAppConfig = {
         next(content);
         $$('.fish-car-modal').removeClass('on');
         const query = getQuery(url);
-        if (url.indexOf('search.html') > -1) {
-            searchInit(f7, mainView, {query})
+        if (url.indexOf('search.html') > -1){
+            searchInit(f7, mainView, {query});
         }
     },
     /*
@@ -96,26 +96,26 @@ let initAppConfig = {
         const len = history.length;
         const _currentPage = history[len - 1];
         const btns = document.getElementsByClassName('modal-button');
-        if (!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf("放弃发布") > -1) {
+        if (!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf('放弃发布') > -1){
             return false;
         }
 
-        if (!currentPage && len >= 1) {
+        if (!currentPage && len >= 1){
             const backPage = history[len - 2];
 
             if (_currentPage.indexOf('home.html') > -1 ||
              _currentPage.indexOf('user.html') > -1 ||
-              _currentPage.indexOf('releaseSucc.html') > -1) {
+              _currentPage.indexOf('releaseSucc.html') > -1){
                 return false;
             }
 
-            if ($$('.modal-overlay-visible').length) {
+            if ($$('.modal-overlay-visible').length){
                 $$('.modal-overlay-visible').trigger('click');
                 $$('.modal-button').length && $$('.modal-button')[0].click();
             }
             $$('div.footer').length && $$('div.footer').click();
 
-            if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1) {
+            if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1){
                 mainView.router.load({
                     url: 'views/home.html',
                     reload: true
@@ -123,7 +123,7 @@ let initAppConfig = {
                 return false;
             }
             $$('.release-select-model').removeClass('on');
-            if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7) {
+            if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7){
                 f7.modal({
                     title: '确定放弃这次发布吗？',
                     text: '亲，您已经填写了信息，还没发布呢，确定直接离开？发布一条信息，就有更大几率完成交易噢~',
@@ -145,9 +145,9 @@ let initAppConfig = {
                 return false;
             }
 
-            /***避免低版本的安卓手机返回触发两次***/
-            if (android && !androidChrome) {
-                if (isBack) {
+            // 避免低版本的安卓手机返回触发两次
+            if (android && !androidChrome){
+                if (isBack){
                     return false;
                 }
                 isBack = true;
@@ -225,8 +225,8 @@ $$('img.lazy').trigger('lazy');
 /*
  * 页面加载完成后根据name执行相应的controller
  * */
-const initApp = f7.onPageInit("*", (page) => {
-    if (page.name !== 'home' && page.name) {
+f7.onPageInit('*', (page) => {
+    if (page.name !== 'home' && page.name){
         f7.showIndicator();
     } else {
         f7.hideIndicator();
@@ -297,20 +297,20 @@ f7.onPageAfterBack('*', (page) => {
     const {name} = mainView.activePage;
     setTimeout(() => {
         const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-        if ('home' == name) {
+        if ('home' == name){
             const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-            if (fishCacheData && fishCacheData.length) {
+            if (fishCacheData && fishCacheData.length){
                 let str = '';
                 $$.each(fishCacheData.reverse(), (index, item) => {
-                    if (index <= 5) {
+                    if (index <= 5){
                         str += home.renderFishList(item, index);
                     }
-                })
+                });
                 currentPage.find('.fish-cache-list').html(str);
                 str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
             }
         }
-    }, 250)
+    }, 250);
 });
 
 /*
@@ -318,7 +318,7 @@ f7.onPageAfterBack('*', (page) => {
  * */
 $$('.view-login>.navbar').click((e) => {
     const ele = e.target || window.event.target;
-    if ($$(ele).hasClass('login-view-close')) {
+    if ($$(ele).hasClass('login-view-close')){
         $$('.view-login').removeClass('show');
     }
     return;
@@ -330,14 +330,14 @@ $$('.view-release-fish>.navbar').click((e) => {
         $$('.view-release-fish').removeClass('show');
     }
     return;
-})
+});
 
 /**
  * 调用native定位，获取当前定位信息
  * 1.8升级1.9 登录token兼容刷新
  * */
 let interTime = 0;
-if (!store.get('versionNumber')) {
+if (!store.get('versionNumber')){
     const intervalId = setInterval(() => {
         interTime += 200;
 
@@ -350,7 +350,7 @@ if (!store.get('versionNumber')) {
                 if(1 == code){
                     nativeEvent.setNativeUserInfo();
                     store.set('accessToken', data);
-                    store.set('isUpdateLarge', 1)
+                    store.set('isUpdateLarge', 1);
                 }else{
                     console.log(message);
                 }
@@ -387,12 +387,56 @@ weixinModalEvent();
 // fishCarDriverSelectAddressModalEvent(f7);
 fishCarModalJumpEvent(f7);
 
-
 /**
  * 获取设备号
  */
- setTimeout(() => {
-   JsBridge('JS_GetUUid', {}, (data) => {
-       window.uuid = data;
-   });
- }, 1500)
+setTimeout(() => {
+    JsBridge('JS_GetUUid', {}, (data) => {
+        window.uuid = data;
+    });
+}, 1500);
+
+// 统计js报错
+window.onload = function (){
+    function handler (eventError){
+        const data = {
+            type: eventError.type,
+            filename: eventError.filename,
+            message: eventError.message,
+            lineno: eventError.lineno
+        };
+        $$.ajax({
+            timeout: 3000,
+            cache: false,
+            headers: {},
+            crossDomain: true,
+            method: 'POST',
+            url: `${url}jsErrors`,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            error: function (data){
+                console.log('错误发送失败！');
+            },
+            success: function (data){
+                console.log('错误发送成功！');
+            }
+        });
+        return true;
+    }
+    if (window.addEventListener){
+        window.addEventListener('error', handler, true);
+    } else if (window.attachEvent){
+        window.attachEvent('onerror', handler);
+    }
+};
+
+// 处理picker组件空白处滑动触发页面滚动
+$$('body').touchmove((e) => {
+    const ele = e.target || window.event.target;
+    if(($$(ele).hasClass('picker-modal-inner') && $$(ele).hasClass('picker-items')) ||
+    ($$(ele).hasClass('toolbar-inner') && $$(ele).parent().hasClass('toolbar'))){
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
+});

@@ -1,13 +1,14 @@
 import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
-import {html, getProvinceId, alertTitleText, getProvinceList} from '../utils/string';
-import {fishCar, filter} from '../utils/template';
+import {getProvinceId, alertTitleText, getProvinceList} from '../utils/string';
+import {fishCar} from '../utils/template';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import store from '../utils/localStorage';
-import {releaseFishViewHide, releaseFishViewShow} from './releaseView/releaseFishViews';
+import {releaseFishViewShow} from './releaseView/releaseFishViews';
+import CountModel from './model/count';
 
-function fishCarInit(f7, view, page) {
+function fishCarInit (f7, view, page){
     const {pageSize, cacheUserInfoKey} = config;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
@@ -16,9 +17,9 @@ function fishCarInit(f7, view, page) {
     const downLoading = currentPage.find('.infinite-scroll-preloader');
     const emptyContent = currentPage.find('.filter-empty-search-result');
     f7.hideIndicator();
-    const {isFishCar} = page.query;
+    const isFishCar = !!Number(page.query.isFishCar);
 
-    if (Number(isFishCar)) {
+    if (isFishCar){
         const btnHtml = currentNavbar.find('.switch-btn').html().replace('货主', '司机');
         currentNavbar.find('.switch-btn').html(btnHtml);
         currentPage.find('.tabbat-text').children('p').text('有空车找不到货？发布行程让货来找你');
@@ -38,13 +39,13 @@ function fishCarInit(f7, view, page) {
         const userInfo = store.get(cacheUserInfoKey);
         const {driverState, driverRefuseDescribe} = userInfo || {};
 
-        if (Number(isFishCar)) {
+        if (isFishCar){
             apiCount('btn_fishcar_demands_post');
-            if (!loginStatus) {
+            if (!loginStatus){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
             }else{
-                if (!driverState && 0 != driverState) {
+                if (!driverState && 0 != driverState){
                     f7.modal({
                         title: '无法发布行程？',
                         text: '只有登记司机信息后,才可以发布行程找货源哟~',
@@ -59,18 +60,18 @@ function fishCarInit(f7, view, page) {
                                 onClick: () => {
                                     mainView.router.load({
                                         url: 'views/postDriverAuth.html'
-                                    })
+                                    });
                                 }
                             }
                         ]
                     });
                 } else {
                     let driverMessage = '';
-                    if (0 == driverState) {
+                    if (0 == driverState){
                         driverMessage = '请耐心等待审核结果，审核通过后就可以发布行程了';
-                    } else if (2 == driverState) {
+                    } else if (2 == driverState){
                         driverMessage = driverRefuseDescribe;
-                    } else if (3 == driverState) {
+                    } else if (3 == driverState){
                         driverMessage = '您的司机身份已被冻结，请联系客服！';
                     }
                     1 !== driverState && f7.modal({
@@ -92,12 +93,12 @@ function fishCarInit(f7, view, page) {
             }
         } else {
             apiCount('btn_fishcar_routes_post');
-            if (!loginStatus) {
+            if (!loginStatus){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
             }
         }
-        const url = Number(isFishCar) ? 'views/releaseFishCarTrip.html' : 'views/releaseFishCarDemand.html'
+        const url = isFishCar ? 'views/releaseFishCarTrip.html' : 'views/releaseFishCarDemand.html';
         releaseView.router.load({
             url,
             reload: true
@@ -137,11 +138,11 @@ function fishCarInit(f7, view, page) {
             $$('.fish-car-province-filter .close-picker').click(() => {
                 const val = p.value[0];
                 currentNavbar.find('#select-city-input').children('span')
-                    .text(val == '全国' ? (Number(isFishCar) ? '所有出发地' : '所有目的地') : val);
+                    .text(val == '全国' ? (isFishCar ? '所有出发地' : '所有目的地') : val);
                 provinceId = getProvinceId(val, '')['provinceId'];
                 getList(true);
-                apiCount(Number(isFishCar) ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
-            })
+                apiCount(isFishCar ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
+            });
         },
         cols: [
             {
@@ -153,38 +154,38 @@ function fishCarInit(f7, view, page) {
 
         }
     };
-    if (window.addressObj && window.addressObj.initProvinceName) {
+    if (window.addressObj && window.addressObj.initProvinceName){
         provinceArr.indexOf(window.addressObj.initProvinceName) > -1 &&
         (pickerObj.value = [window.addressObj.initProvinceName]);
     }
     f7.picker(pickerObj);
 
-    function callback(res, type) {
+    function callback (res, type){
         const {code, message, data} = res;
-        if (1 == code) {
+        if (1 == code){
             currentNavbar.find('.count-driver').text(
-                Number(isFishCar) ? `${data.total || '0'}位货主有货要发` : `${data.total || '0'}位司机计划出行`
-            )
-            if (data.records && data.records.length) {
+                isFishCar ? `${data.total || '0'}位货主有货要发` : `${data.total || '0'}位司机计划出行`
+            );
+            if (data.records && data.records.length){
                 emptyContent.hide();
                 let str = '';
                 $$.each(data.records, (index, item) => {
-                    if ('demandInfo' == type) {
+                    if ('demandInfo' == type){
                         str += fishCar.demandList(item);
                     } else {
                         str += fishCar.list(item);
                     }
-                })
+                });
 
-                if (isRefresh || (1 == pageNo)) {
+                if (isRefresh || (1 == pageNo)){
                     currentPage.find('.page-content').scrollTop(0);
                     contentBox.html('');
                 }
 
                 str && contentBox.append(str);
 
-                //显示全部
-                if (data.records.length < pageSize) {
+                // 显示全部
+                if (data.records.length < pageSize){
                     isShowAll = true;
                     downLoading.hide();
                     showAllText.show();
@@ -193,7 +194,7 @@ function fishCarInit(f7, view, page) {
                     showAllText.hide();
                     isShowAll = false;
                 }
-            } else if (pageNo == 1) {
+            } else if (pageNo == 1){
                 contentBox.html('');
                 emptyContent.show();
                 isShowAll = true;
@@ -202,19 +203,21 @@ function fishCarInit(f7, view, page) {
             }
 
             f7.pullToRefreshDone();
-            if (isRefresh) {
+            if (isRefresh){
                 currentNavbar.find('.filter-tab').hide();
             }
             isRefresh = false;
             isInfinite = false;
             currentPage.find('img.lazy').trigger('lazy');
+        }else{
+            console.log(message);
         }
     }
 
     /**
      * 获取鱼车需求列表相关操作
      * */
-    function getFishCarList(bool) {
+    function getFishCarList (bool){
         customAjax.ajax({
             apiCategory: 'fishCarDriverDemands',
             data: [provinceId, pageSize, pageNo],
@@ -228,14 +231,14 @@ function fishCarInit(f7, view, page) {
     /**
      * 获取鱼车需求列表相关操作
      * */
-    function getFishCarDemandList(bool) {
+    function getFishCarDemandList (bool){
         const obj = {
             apiCategory: 'fishCarDemands',
             data: [provinceId, pageSize, pageNo],
             type: 'get',
-            isMandatory: bool,
-        }
-        Number(isFishCar) && (obj.apiVersion = 2);
+            isMandatory: bool
+        };
+        isFishCar && (obj.apiVersion = 2);
         customAjax.ajax(obj, (data) => {
             callback(data, 'demandInfo');
         });
@@ -244,8 +247,8 @@ function fishCarInit(f7, view, page) {
     /**
      * 数据最终请求
      * */
-    function getList(bool) {
-        if (!Number(isFishCar)) {
+    function getList (bool){
+        if (!isFishCar){
             getFishCarList(bool);
         } else {
             getFishCarDemandList(bool);
@@ -257,8 +260,8 @@ function fishCarInit(f7, view, page) {
     /**
      * 上啦加载
      * */
-    currentPage.find('.infinite-scroll').on('infinite', function () {
-        if (isInfinite || isShowAll) {
+    currentPage.find('.infinite-scroll').on('infinite', function (){
+        if (isInfinite || isShowAll){
             return;
         }
         downLoading.show();
@@ -272,7 +275,7 @@ function fishCarInit(f7, view, page) {
     /**
      * 下拉刷新
      * */
-    currentPage.find('.pull-to-refresh-content').on('refresh', function () {
+    currentPage.find('.pull-to-refresh-content').on('refresh', function (){
         isRefresh = true;
         isShowAll = false;
         pageNo = 1;
@@ -287,22 +290,31 @@ function fishCarInit(f7, view, page) {
     $$('.switch-btn').click(() => {
         apiCount('btn_fishcar_changerole');
         $$('.fish-car-modal').addClass('on');
-    })
+    });
 
     /**
      * 拨打电话
      * */
     currentPage.find('.page-list-view').children('.list').click((e) => {
         const ele = e.target || window.event.target;
-        if ($$(ele).hasClass('fish-call') || $$(ele).parent().hasClass('fish-call')) {
+        if ($$(ele).hasClass('fish-call') || $$(ele).parent().hasClass('fish-call')){
             apiCount(isFishCar ? 'btn_fishcar_routes_call' : 'btn_fishcar_demands_call');
             const phone = $$(ele).attr('data-phone') ||
                 $$(ele).parent().attr('data-phone');
             nativeEvent.contactUs(phone);
+            CountModel.phoneCount({
+                entry: isFishCar ? 2 : 3,
+                phone: phone
+            }, (res) => {
+                const {code} = res;
+                if(1 !== code){
+                    console.log('发送统计失败！');
+                }
+            });
         }
-    })
+    });
 }
 
 export {
     fishCarInit
-}
+};

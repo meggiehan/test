@@ -1,7 +1,7 @@
-import fs  from 'fs';
-import path  from 'path';
-import webpack  from 'webpack';
-import env  from './src/config/development';
+import fs from 'fs';
+import path from 'path';
+import webpack from 'webpack';
+import env from './src/config/development';
 
 import autoprefixer from 'autoprefixer';
 
@@ -38,7 +38,7 @@ let initConfig = {
             test: /\.vue$/,
             exclude: [/node_modules/],
             loaders: ['vue-loader']
-        },{
+        }, {
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
             loader: 'file?limit=8192&name=imgHash/[hash:10].[name].[ext]'
         }]
@@ -55,28 +55,28 @@ let initConfig = {
             }
         })
     ],
-    postcss: function () {
+    postcss: function (){
         return [
             // precss(),
             autoprefixer({
                 browsers: ['last 3 versions', 'iOS 8', 'Android 4']
             })
-        ]
+        ];
     }
-}
+};
 
 var writeObj = {
     date: new Date(Date.now() + 8 * 60 * 60 * 1000)
-}
+};
 
-if (PROD === 'build') {
+if (PROD === 'build'){
     fs.writeFile('./src/config/version.json', JSON.stringify(writeObj), (err) => {
         if (err) throw err;
         console.log('It\'s saved!');
     });
 }
 
-if (PROD === 'dev' || PROD === 'build-dev') {
+if (PROD === 'dev' || PROD === 'build-dev'){
     // initConfig.devtool = 'source-map';
     initConfig.devtool = 'eval';
     initConfig.progress = false;
@@ -85,7 +85,7 @@ if (PROD === 'dev' || PROD === 'build-dev') {
         port: env.hot_server_port,
         hot: true,
         inline: true
-    }
+    };
 }
 
 module.exports = initConfig;

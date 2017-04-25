@@ -1,7 +1,6 @@
-import config from '../config';
 import {releaseFishViewHide} from './releaseView/releaseFishViews';
 
-function releaseFishCarDemandSuccessInit(f7, view, page) {
+function releaseFishCarDemandSuccessInit (f7, view, page){
     f7.hideIndicator();
     const {
         isDriver,
@@ -29,7 +28,7 @@ function releaseFishCarDemandSuccessInit(f7, view, page) {
         // mainView.router.reloadPage(`views/fishCar.html?isFishCar=${!isDriver}`);
         mainView.router.refreshPage();
         releaseFishViewHide();
-    })
+    });
 
     $currentPage.find('.share-trip').click(() => {
         mainView.router.load({
@@ -41,11 +40,11 @@ function releaseFishCarDemandSuccessInit(f7, view, page) {
                 date,
                 id
             }
-        })
+        });
         releaseFishViewHide();
     });
 }
 
 export {
     releaseFishCarDemandSuccessInit
-}
+};

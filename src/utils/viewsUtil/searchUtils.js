@@ -1,7 +1,5 @@
 import config from '../../config/';
-import customAjax from '../../middlewares/customAjax';
 import store from '../localStorage';
-import framework7 from '../../js/lib/framework7';
 import nativeEvent from '../nativeEvent';
 
 module.exports = {
@@ -9,21 +7,21 @@ module.exports = {
         const { cacheHistoryKey } = config;
         const history = store.get(cacheHistoryKey) || [];
         // const val = encodeURI(str.replace(/[^\u4E00-\u9FA5]/g, ''));
-        const val = str && str.replace('“','').replace('”', '');
+        const val = str && str.replace('“', '').replace('”', '');
 
         let isSame = false;
-        if (!val) {
+        if (!val){
             return;
         }
         history.forEach((item) => {
-        	item == val && (isSame = true);
-        })
+            item == val && (isSame = true);
+        });
         if(isSame){
-        	return;
+            return;
         }
         // console.log(val)
         history.push(val);
         store.set(cacheHistoryKey, history);
         nativeEvent['searchHistoryActions'](1, str);
     }
-}
+};

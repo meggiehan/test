@@ -23,7 +23,7 @@
                   <p>等级</p>
               </div>
               <div class="user-pic col-33">
-                  <img :src="userInfo.imgUrl ? (userInfo.imgUrl + imgPath(8)) : 'img/defimg.png'" width="60" class="lazy"/>
+                  <img :src="userInfo.imgUrl ? (userInfo.imgUrl + '?x-oss-process=image/resize,m_fill,h_100,w_100/circle,r_100/format,png') : 'img/defimg.png'" width="60" class="lazy"/>
               </div>
               <div class="col-33 other-cat">
                   <span>{{recentScanTimes}}</span>

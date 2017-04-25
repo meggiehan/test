@@ -1,14 +1,8 @@
-import userUtils from '../utils/viewsUtil/userUtils';
-import { cancleIndividual, canclCompany } from '../utils/domListenEvent';
-import store from '../utils/localStorage';
-import config from '../config';
 import customAjax from '../middlewares/customAjax';
-import { trim, html, getTagInfo } from '../utils/string';
-import { search, releaseInfo } from '../utils/template';
+import { html, getTagInfo } from '../utils/string';
+import { releaseInfo } from '../utils/template';
 
-function releaseSelectTagInit(f7, view, page) {
-    const { cacheUserInfoKey } = config;
-    const userInfo = store.get(cacheUserInfoKey);
+function releaseSelectTagInit (f7, view, page){
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     let isSend = false;
     f7.hideIndicator();
@@ -17,19 +11,19 @@ function releaseSelectTagInit(f7, view, page) {
     if(window.realeseInfomation.fishParentTypeName == '水产苗种'){
         $$.each(getTagInfo()['specList'], (index, item) => {
             specListHtml += releaseInfo.tag(item);
-        })
+        });
     }else{
         $$.each(getTagInfo()['adultFishTags'], (index, item) => {
             specListHtml += releaseInfo.tag(item);
-        })
+        });
     }
 
     html(currentPage.find('.tag-list'), specListHtml, f7);
 
     currentPage.find('.tag-list')[0].onclick = (e) => {
-        apiCount('btn_text_tagCheck_select')
+        apiCount('btn_text_tagCheck_select');
         const ele = e.target || window.event.target;
-        if (ele.tagName !== 'SPAN') {
+        if (ele.tagName !== 'SPAN'){
             return;
         }
         currentPage.find('.tag-list').children('span').removeClass('on');
@@ -37,30 +31,32 @@ function releaseSelectTagInit(f7, view, page) {
         window.realeseInfomation.quantityTags[0] = {};
         window.realeseInfomation.quantityTags[0].id = Number($$(ele).attr('data-id'));
         window.realeseInfomation.quantityTags[0].tagName = $$(ele).text();
-    }
+    };
 
     const callback = (data) => {
-        const { code, message } = data;
+        const { code } = data;
         const {type, fishTypeId, fishTypeName, requirementPhone} = window.realeseInfomation;
         apiCount('btn_text_tagCheck_next');
-        if (1 == code) {
+        if (1 == code){
             window['releaseInfo'] = data['data'];
             view.router.load({
-                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`,
-            })
+                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`
+            });
         } else {
             f7.hideIndicator();
         }
-    }
+    };
 
     currentPage.find('.release-tag-sub')[0].onclick = () => {
-    	if(isSend){
-    		return;
-    	}
-    	isSend = true;
-    	setTimeout(() => {isSend = false}, 500);
+        if(isSend){
+            return;
+        }
+        isSend = true;
+        setTimeout(() => {
+            isSend = false;
+        }, 500);
 
-    	f7.showIndicator();
+        f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'demandInfoAdd',
             header: ['token'],
@@ -70,9 +66,9 @@ function releaseSelectTagInit(f7, view, page) {
             isMandatory: true,
             noCache: true
         }, callback);
-    }
+    };
 }
 
 export {
     releaseSelectTagInit
-}
+};

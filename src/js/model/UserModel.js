@@ -3,11 +3,10 @@
  */
 
 import RestTemplate from '../../middlewares/RestTemplate';
-import {getToken} from '../../middlewares/loginMiddle';
 
-class UserModel {
-    get(callback) {
-        RestTemplate.get(`auth`, '', {}, callback, true);
+class UserModel{
+    get (callback){
+        RestTemplate.get('auth', '', {}, callback, true);
     }
 
 }

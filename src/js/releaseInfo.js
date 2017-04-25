@@ -1,12 +1,12 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import { trim, html, getSingleProvinceId, getCityId, getAddressIndex, getTagInfo } from '../utils/string';
-import { search, releaseInfo } from '../utils/template';
+import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/localStorage';
 import { isEmailStr, saveSelectFishCache } from '../utils/string';
 
-function releaseInfoInit(f7, view, page) {
+function releaseInfoInit (f7, view, page){
     f7.hideIndicator();
     // const { ios } = currentDevice;
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
@@ -19,7 +19,7 @@ function releaseInfoInit(f7, view, page) {
     const stockInput = currentPage.find('.release-write-stock').children('input');
     const contactInput = currentPage.find('.release-write-contact').children('input');
     const subBtn = currentPage.find('.release-sub-info')[0];
-    const { cacheUserInfoKey, debug } = config;
+    const { cacheUserInfoKey } = config;
     const userInfo = store.get(cacheUserInfoKey);
     const phoneNumber = userInfo && userInfo['phone'] || '';
     const nickname = userInfo ? ((userInfo['personalAuthenticationState'] == 1 && userInfo['name']) || userInfo['nickname']) : '';
@@ -30,7 +30,9 @@ function releaseInfoInit(f7, view, page) {
     saveSelectFishCache({
         name: fishName,
         id: fishId,
+        // eslint-disable-next-line
         parant_id: parentFishId,
+        // eslint-disable-next-line
         parant_name: parentFishName
     });
 
@@ -40,7 +42,7 @@ function releaseInfoInit(f7, view, page) {
     let provinceName, cityName, provinceId, cityId, initProvinceName, initCityName;
     let isSendInfo = false;
 
-    if (window.addressObj) {
+    if (window.addressObj){
         initProvinceName = window.addressObj['initProvinceName'];
         initCityName = window.addressObj['initCityName'];
     }
@@ -51,12 +53,12 @@ function releaseInfoInit(f7, view, page) {
         mainView.router.back();
     };
 
-    if (window['selectedAddress'] && window['selectedAddress']['provinceName']) {
+    if (window['selectedAddress'] && window['selectedAddress']['provinceName']){
         addressInput[0] && (addressInput.val(window['selectedAddress']['provinceName'] + window['selectedAddress']['cityName']));
-    } else if (initProvinceName) {
+    } else if (initProvinceName){
         addressInput[0] && addressInput.val(initProvinceName + initCityName);
     }
-    if (type == 1) {
+    if (type == 1){
         html(currentPage.find('.release-sub-info'), '发布求购信息', f7);
         currentPage.find('.release-info-discription-label').text('具体要求');
         currentPage.find('.release-text-tag-box').remove();
@@ -78,11 +80,11 @@ function releaseInfoInit(f7, view, page) {
     if(parentFishName == '水产苗种'){
         $$.each(getTagInfo()['specList'], (index, item) => {
             specListHtml += releaseInfo.tag(item);
-        })
+        });
     }else{
         $$.each(getTagInfo()['adultFishTags'], (index, item) => {
             specListHtml += releaseInfo.tag(item);
-        })
+        });
     }
 
     html(specBox, specListHtml, f7);
@@ -93,12 +95,12 @@ function releaseInfoInit(f7, view, page) {
     * */
     let discriptListHtml = '';
     $$.each(getTagInfo()['discriptionList'], (index, item) => {
-        if (parentFishName == '水产苗种') {
+        if (parentFishName == '水产苗种'){
             !item.category && (discriptListHtml += releaseInfo.tag(item));
-        } else if (item.category) {
+        } else if (item.category){
             discriptListHtml += releaseInfo.tag(item);
         }
-    })
+    });
     html(descriptBox, discriptListHtml, f7);
     !discriptListHtml && currentPage.find('.release-discription-list').hide();
 
@@ -108,14 +110,14 @@ function releaseInfoInit(f7, view, page) {
     let specTag = {};
     currentPage.find('.release-spec-list-box')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        if (ele.tagName !== 'SPAN') {
+        if (ele.tagName !== 'SPAN'){
             return;
         }
         currentPage.find('.release-spec-list-box').children('span').removeClass('on');
         ele.className = 'on';
         specTag.id = Number($$(ele).attr('data-id'));
         specTag.tagName = $$(ele).text();
-    }
+    };
 
     /**
     * 选择补充说明标签
@@ -123,7 +125,7 @@ function releaseInfoInit(f7, view, page) {
     let descriptTags = [];
     currentPage.find('.release-discription-list-box')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        if (ele.tagName !== 'SPAN') {
+        if (ele.tagName !== 'SPAN'){
             return;
         }
         const obj = {
@@ -131,32 +133,32 @@ function releaseInfoInit(f7, view, page) {
             tagName: $$(ele).text()
         };
         $$(ele).toggleClass('on');
-        if (descriptTags.length) {
+        if (descriptTags.length){
             let i = -1;
             $$.each(descriptTags, (index, item) => {
                 obj.id == item.id && (i = index);
-            })
-            if (i > -1) {
+            });
+            if (i > -1){
                 descriptTags.splice(i, 1);
             } else {
-                if (descriptTags.length == 3) {
+                if (descriptTags.length == 3){
                     $$(ele).toggleClass('on');
                     nativeEvent.nativeToast(0, '最多只能选择三个标签！');
                     return;
                 } else {
-                    descriptTags.push(obj)
+                    descriptTags.push(obj);
                 }
             }
         } else {
-            descriptTags.push(obj)
+            descriptTags.push(obj);
         }
-    }
+    };
 
     /**
     * 选择地区调用native组件
     * */
     addressInput.on('click', () => {
-        if (window.addressObj && window.addressObj['initProvinceName'] || window['selectedAddress']) {
+        if (window.addressObj && window.addressObj['initProvinceName'] || window['selectedAddress']){
             const provinceName = window['selectedAddress'] ? window['selectedAddress']['provinceName'] : window.addressObj['initProvinceName'];
             const cityName = window['selectedAddress'] ? window['selectedAddress']['cityName'] : window.addressObj['initCityName'];
             const {
@@ -168,7 +170,7 @@ function releaseInfoInit(f7, view, page) {
             // get address.
             nativeEvent.eventChooseAddress(0, 0, 0);
         }
-    })
+    });
     phoneNumber && tellInput.val(phoneNumber);
     nickname && contactInput.val(nickname);
 
@@ -177,55 +179,58 @@ function releaseInfoInit(f7, view, page) {
     * */
     const testRequireInfo = () => {
         const val = trim(tellInput[0].value);
-        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && addressInput[0].value) {
+        if (/^1[3|4|5|7|8]\d{9}$/.test(val) && addressInput[0].value){
             currentPage.find('.release-sub-info').addClass('pass');
         } else {
             currentPage.find('.release-sub-info').removeClass('pass');
         }
 
         !tellInput[0] && clearInterval(intervalId);
-    }
+    };
 
-    //init verify, change submit button status;
+    // init verify, change submit button status;
     testRequireInfo();
     let intervalId = setInterval(testRequireInfo, 1500);
-    setTimeout(() => { clearInterval(intervalId) }, 100000);
+    setTimeout(() => {
+        clearInterval(intervalId);
+    }, 100000);
     addressInput[0].onclick = () => {
         setTimeout(testRequireInfo, 3000);
-    }
+    };
 
     tellInput[0].oninput = () => {
         testRequireInfo();
-    }
+    };
 
     const callback = (data) => {
         const { code, message } = data;
-        if (1 == code) {
+        if (1 == code){
             const requirementPhoneNumber = trim(tellInput[0].value);
             currentPage.find('.release-sub-info').removeClass('pass');
             clearInterval(intervalId);
             window['releaseInfo'] = data['data'];
             view.router.load({
-                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}&phone=${requirementPhoneNumber}`,
+                url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishId}&fishName=${fishName}&phone=${requirementPhoneNumber}`
                 // reload: true
-            })
+            });
         } else {
+            console.log(message);
             f7.hideIndicator();
         }
-    }
+    };
 
     descriptInput.onkeyup = () => {
         const val = trim(descriptInput.value);
         let len = 0;
 
         const filterVal = isEmailStr(val);
-        if (filterVal) {
+        if (filterVal){
             descriptInput.value = filterVal;
             len = filterVal.length;
         }else{
             len = val ? val.length : 0;
         }
-        if (len >= 50) {
+        if (len >= 50){
             currentPage.find('.release-info-number').addClass('desiable');
             descriptInput.value = filterVal ? filterVal.substr(0, 49) : val.substr(0, 49);
         } else {
@@ -234,26 +239,26 @@ function releaseInfoInit(f7, view, page) {
         currentPage.find('.release-info-number').text(len);
         return;
 
-    }
+    };
 
     /**
     * 添加/删除出售信息自定义图片
     * */
-    if (currentPage.find('.release-info-pic').length) {
+    if (currentPage.find('.release-info-pic').length){
         currentPage.find('.release-info-pic')[0].onclick = (e) => {
             const ele = e.target || window.event.target;
             const classes = ele.className;
-            const len = currentPage.find('.release-info-pic-list').children('span').length;
+            // const len = currentPage.find('.release-info-pic-list').children('span').length;
             classes.indexOf('add') > -1 && nativeEvent['postPic'](5, '', '', 'postReleasePicCallback');
-            //remove img.
-            if (classes.indexOf('remove-release-img-btn') > -1) {
-                if (!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1) {
+            // remove img.
+            if (classes.indexOf('remove-release-img-btn') > -1){
+                if (!$$(ele).parent().prev().length && $$(ele).parent().nextAll().length > 1){
                     $$(ele).parent().next().children('span').show();
                 }
                 $$(ele).parent('span').remove();
                 !currentPage.find('.release-info-pic-add').length && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
             }
-        }
+        };
     }
 
     /**
@@ -263,19 +268,19 @@ function releaseInfoInit(f7, view, page) {
         let res = [];
         $$.each(currentPage.find('.release-info-img'), (index, item) => {
             res.push($$(item).attr('src').split('@')[0]);
-        })
+        });
         return res;
-    }
+    };
 
     /**
      * 监听检查标题输入
      * */
-    if (currentPage.find('.release-info-header-title').length) {
+    if (currentPage.find('.release-info-header-title').length){
         currentPage.find('.release-info-header-title').children()[0].onkeyup = () => {
             const val = trim(currentPage.find('.release-info-header-title').children().eq(0).val());
             const filterVal = isEmailStr(val);
             let len = 0;
-            if (filterVal) {
+            if (filterVal){
                 len = filterVal.length;
                 currentPage.find('.release-info-header-title').children().eq(0).val(filterVal);
             }else{
@@ -284,14 +289,14 @@ function releaseInfoInit(f7, view, page) {
             // currentPage.find('.release-info-header-title').children().eq(1).text(10 - filterVal.length + 1)
             // if (val && val.length >= 7) {
             //     currentPage.find('.release-info-header-title').children().eq(1).addClass('check-miss');
-                if (len >= 10) {
-                    currentPage.find('.release-info-header-title').children().eq(0).
-                    val(filterVal ? filterVal.substr(0, 10) : val.substr(0, 10));
-                }
+            if (len >= 10){
+                currentPage.find('.release-info-header-title').children().eq(0)
+                    .val(filterVal ? filterVal.substr(0, 10) : val.substr(0, 10));
+            }
             // } else {
             //     currentPage.find('.release-info-header-title').children().eq(1).removeClass('check-miss');
             // }
-        }
+        };
     }
 
     /**
@@ -300,7 +305,7 @@ function releaseInfoInit(f7, view, page) {
     priceInput[0].onkeyup = () => {
         const val = priceInput[0].value;
         const filterVal = isEmailStr(val);
-        if (filterVal) {
+        if (filterVal){
             priceInput[0].value = filterVal.substr(0, 8);
         }else{
             if(val.length > 8){
@@ -308,7 +313,7 @@ function releaseInfoInit(f7, view, page) {
             }
         }
 
-    }
+    };
 
     /**
      * 规格输入框监听
@@ -316,14 +321,14 @@ function releaseInfoInit(f7, view, page) {
     specInput[0].onkeyup = () => {
         const val = specInput[0].value;
         const filterVal = isEmailStr(val);
-        if (filterVal) {
+        if (filterVal){
             specInput[0].value = filterVal.substr(0, 20);
         }else{
             if(val.length > 20){
                 specInput[0].value = val.substr(0, 20);
             }
         }
-    }
+    };
 
     /**
      * 供货数量输入框监听
@@ -331,7 +336,7 @@ function releaseInfoInit(f7, view, page) {
     stockInput[0].onkeyup = () => {
         const val = stockInput[0].value;
         const filterVal = isEmailStr(val);
-        if (filterVal) {
+        if (filterVal){
             stockInput[0].value = filterVal.substr(0, 20);
         }else{
             if(val.length > 20){
@@ -339,7 +344,7 @@ function releaseInfoInit(f7, view, page) {
             }
         }
 
-    }
+    };
 
     /**
      * 联系姓名输入框监听
@@ -350,11 +355,11 @@ function releaseInfoInit(f7, view, page) {
         if(filterVal){
             contactInput[0].value = filterVal;
         }
-    }
+    };
 
     const subInfoTest = () => {
         const _district = nativeEvent['getDistricInfo']();
-        if (window.addressObj) {
+        if (window.addressObj){
             provinceName = window.addressObj['provinceName'];
             cityName = window.addressObj['cityName'];
             provinceId = window.addressObj['provinceId'];
@@ -373,22 +378,22 @@ function releaseInfoInit(f7, view, page) {
         const phone = isEmailStr(trim(tellInput[0].value)) || trim(tellInput[0].value);
         const title = trim(currentPage.find('.release-info-header-title').children().val());
         let error;
-        if (title && title.length > 10) {
-            error = '标题最大长度为10位字符！'
-        } else if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)) {
+        if (title && title.length > 10){
+            error = '标题最大长度为10位字符！';
+        } else if (!/^1[3|4|5|7|8]\d{9}$/.test(phone)){
             error = '请您输入正确的手机号码！';
-        } else if (!trim(address)) {
+        } else if (!trim(address)){
             error = '请选择地区！';
-        } else if (price && price.length > 8) {
-            error = '价格最大长度为8位字符！'
-        } else if (spec && spec.length > 20) {
-            error = '规格最大长度为20位字符！'
-        } else if (stock && stock.length > 20) {
-            error = '数量最大长度为20位字符！'
-        } else if (description && description.length > 50) {
-            error = '补充说明最大长度为50位字符！'
+        } else if (price && price.length > 8){
+            error = '价格最大长度为8位字符！';
+        } else if (spec && spec.length > 20){
+            error = '规格最大长度为20位字符！';
+        } else if (stock && stock.length > 20){
+            error = '数量最大长度为20位字符！';
+        } else if (description && description.length > 50){
+            error = '补充说明最大长度为50位字符！';
         } else if(name && name.length > 8){
-            error = '联系人姓名最大长度为8位字符！'
+            error = '联系人姓名最大长度为8位字符！';
         }
 
         const {lng, lat} = getAddressIndex(provinceName, cityName);
@@ -408,15 +413,15 @@ function releaseInfoInit(f7, view, page) {
             longitude: lng || '',
             latitude: lat || '',
             description,
-            provinceId,
-            cityId,
-            provinceName,
-            cityName,
+            provinceId: provinceId || '',
+            cityId: cityId || '',
+            provinceName: provinceName || '',
+            cityName: cityName || '',
             contactName: name,
             title,
             imgs: getImgListUrl()
-        }
-    }
+        };
+    };
 
     /**
     * 点击发布按钮提交发布信息
@@ -424,27 +429,29 @@ function releaseInfoInit(f7, view, page) {
     subBtn.onclick = () => {
         apiCount('btn_text_post');
         let data = subInfoTest();
-        if (data.error) {
+        if (data.error){
             f7.alert(data.error);
             return;
         }
 
         data.quantityTags = specTag.tagName ? [specTag] : [];
         data.descriptionTags = descriptTags;
-        //If the user does not select the specification, jump to the selection page.
-        if (currentPage.find('.release-spec-list-box').children('span').length && !specTag.tagName) {
+        // If the user does not select the specification, jump to the selection page.
+        if (currentPage.find('.release-spec-list-box').children('span').length && !specTag.tagName){
             window.realeseInfomation = data;
             view.router.load({
-                url: 'views/releaseSelectTag.html',
-            })
+                url: 'views/releaseSelectTag.html'
+            });
             return;
         }
 
-        if (isSendInfo) {
+        if (isSendInfo){
             return;
         }
         isSendInfo = true;
-        setTimeout(() => { isSendInfo = false }, 500);
+        setTimeout(() => {
+            isSendInfo = false;
+        }, 500);
         f7.showIndicator();
         customAjax.ajax({
             apiCategory: 'demandInfoAdd',
@@ -455,9 +462,9 @@ function releaseInfoInit(f7, view, page) {
             isMandatory: true,
             noCache: true
         }, callback);
-    }
+    };
 
 }
 export {
     releaseInfoInit
-}
+};

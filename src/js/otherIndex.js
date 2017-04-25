@@ -7,12 +7,12 @@ import customAjax from '../middlewares/customAjax';
 import { otherIndexClickTip, veiwCert } from '../utils/domListenEvent';
 import Vue from 'vue';
 import store from '../utils/localStorage';
+import CountModel from './model/count';
 
-function otherIndexInit(f7, view, page) {
-    const { id, currentUserId } = page.query;
+function otherIndexInit (f7, view, page){
+    const { currentUserId } = page.query;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { imgPath, cacheUserInfoKey } = config;
-    const weixinData = store.get('weixinData');
     let level;
     let nameAuthentication;
     let userCache = store.get(cacheUserInfoKey);
@@ -51,17 +51,26 @@ function otherIndexInit(f7, view, page) {
             isMyShop: false
         },
         methods: {
-            callPhone(phone){
+            callPhone (phone){
                 apiCount('btn_profile_call');
                 nativeEvent.contactUs(phone);
+                CountModel.phoneCount({
+                    entry: 1,
+                    phone
+                }, (res) => {
+                    const {code} = res;
+                    if(1 !== code){
+                        console.log('发送统计失败！');
+                    }
+                });
             },
-            goMyShop(){
+            goMyShop (){
                 mainView.router.loadPage('views/myShop.html');
             }
         }
     });
 
-    function renderList(buyList, sellList){
+    function renderList (buyList, sellList){
         f7.hideIndicator();
         f7.pullToRefreshDone();
         if(!buyList.length && !sellList.length){
@@ -76,7 +85,7 @@ function otherIndexInit(f7, view, page) {
             let buyHtml = '';
             $$.each(buyList, (index, item) => {
                 buyHtml += home.buy(item, level);
-            })
+            });
             html($$('.other-buy-list .list'), buyHtml, f7);
             currentPage.find('.other-index-list').addClass('show-buy-list');
         }
@@ -85,7 +94,7 @@ function otherIndexInit(f7, view, page) {
             let sellHtml = '';
             $$.each(sellList, (index, item) => {
                 sellHtml += home.cat(item, level, nameAuthentication);
-            })
+            });
             html($$('.other-sell-list .list'), sellHtml, f7);
             currentPage.find('.other-index-list').addClass('show-sell-list');
         }
@@ -124,15 +133,15 @@ function otherIndexInit(f7, view, page) {
         renderList(buyDemands, saleDemands);
     };
 
-    function getInfo(){
+    function getInfo (){
         customAjax.ajax({
             apiCategory: 'userInformation',
             data: [currentUserId],
-            val:{
+            val: {
                 id: currentUserId
             },
             type: 'get',
-            isMandatory: nativeEvent.getNetworkStatus()
+            isMandatory: false
         }, callback);
     }
 
@@ -148,4 +157,4 @@ function otherIndexInit(f7, view, page) {
 
 export {
     otherIndexInit
-}
+};

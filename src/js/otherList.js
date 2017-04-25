@@ -1,12 +1,11 @@
 import store from '../utils/localStorage';
 import config from '../config';
-import { selldetail, home } from '../utils/template';
+import { home } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { html } from '../utils/string';
-import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
-function otherListInit(f7, view, page) {
+function otherListInit (f7, view, page){
     const load = $$('.page-other-list .infinite-scroll-preloader');
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const { type, id } = page.query;
@@ -23,21 +22,21 @@ function otherListInit(f7, view, page) {
 
     const callback = (data) => {
         const { code, message } = data;
-        if (code !== 1) {
+        if (code !== 1){
             f7.alert(message, '提示');
             f7.pullToRefreshDone();
             return;
         }
         let otehrHtml = '';
         $$.each(data.data.records, (index, item) => {
-            if (2 == type) {
+            if (2 == type){
                 otehrHtml += home.cat(item, level);
             } else {
                 otehrHtml += home.buy(item, level);
             }
-        })
+        });
         showAllInfo.hide();
-        if (isInfinite && !pullToRefresh) {
+        if (isInfinite && !pullToRefresh){
             $$('.other-list-info').append(otehrHtml);
             loading = false;
         } else {
@@ -50,14 +49,14 @@ function otherListInit(f7, view, page) {
 
         pullToRefresh = false;
         isInfinite = false;
-        if ($$('.other-list-info>a').length && data.data.records.length < pageSize || !$$('.other-list-info>a').length) {
+        if ($$('.other-list-info>a').length && data.data.records.length < pageSize || !$$('.other-list-info>a').length){
             isShowAll = true;
             load.hide();
             showAllInfo.show();
         }else{
             load.show();
         }
-        if (!$$('.other-list-info>a').length && !data.data.records.length) {
+        if (!$$('.other-list-info>a').length && !data.data.records.length){
             2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
             showAllInfo.hide();
         } else {
@@ -65,7 +64,7 @@ function otherListInit(f7, view, page) {
             $$('.my-buy-list-empty').hide();
         }
 
-    }
+    };
 
     customAjax.ajax({
         apiCategory: 'demandInfo',
@@ -75,8 +74,8 @@ function otherListInit(f7, view, page) {
     }, callback);
 
     // Attach 'infinite' event handler
-    $$('.page-other-list .infinite-scroll').on('infinite', function() {
-        if (isShowAll) {
+    $$('.page-other-list .infinite-scroll').on('infinite', function (){
+        if (isShowAll){
             return;
         }
         isInfinite = true;
@@ -97,7 +96,7 @@ function otherListInit(f7, view, page) {
 
     // pull to refresh.
     const ptrContent = $$('.page-other-list .pull-to-refresh-content');
-    ptrContent.on('refresh', function(e) {
+    ptrContent.on('refresh', function (e){
         pageNo = 1;
         pullToRefresh = true;
         isInfinite = false;
@@ -110,10 +109,10 @@ function otherListInit(f7, view, page) {
             type: 'get',
             isMandatory: nativeEvent['getNetworkStatus']()
         }, callback);
-    })
+    });
 
 }
 
 export {
-    otherListInit,
-}
+    otherListInit
+};

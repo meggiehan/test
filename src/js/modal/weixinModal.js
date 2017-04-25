@@ -1,13 +1,13 @@
 import nativeEvent from '../../utils/nativeEvent';
 
-function weixinModalEvent(){
+function weixinModalEvent (){
     /*
      * 关闭微信分享model
      * */
     $$('.modal-close').click((e) => {
         const ele = e.target || window.event.target;
         const classes = ele.className;
-        if (classes.indexOf('footer') > -1 || classes.indexOf('modal-close') > -1) {
+        if (classes.indexOf('footer') > -1 || classes.indexOf('modal-close') > -1){
             $$('.modal-close').removeClass('on');
         }
     });
@@ -33,5 +33,4 @@ function weixinModalEvent(){
     };
 }
 
-
-export {weixinModalEvent}
+export {weixinModalEvent};

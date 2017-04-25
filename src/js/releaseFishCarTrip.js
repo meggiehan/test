@@ -1,16 +1,13 @@
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import nativeEvent from '../utils/nativeEvent';
-import config from '../config';
-import store from '../utils/localStorage';
 import releaseFishCarTripModel from './model/ReleaseFishCarTripModel';
 import {
-    getPickerSelectCityData,
     getProvinceList,
     getProvinceId
 } from '../utils/string';
 import {getBeforedawnTime} from '../utils/time';
 
-function releaseFishCarTripInit(f7, view, page) {
+function releaseFishCarTripInit (f7, view, page){
     f7.hideIndicator();
     let departureProvinceList = getProvinceList();
     let destinationProvinceList = getProvinceList();
@@ -22,7 +19,7 @@ function releaseFishCarTripInit(f7, view, page) {
     const $departure = $currentPage.find('.release-departure').children('input');
     const $destination = $currentPage.find('.release-destination').children('input');
 
-    if (!isLogin()) {
+    if (!isLogin()){
         f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
             loginViewShow();
             mainView.router.back();
@@ -67,14 +64,14 @@ function releaseFishCarTripInit(f7, view, page) {
     const getData = () => {
         let arr = [];
         let defaultArr = [];
-        for(let i=1;i<32;i++){
+        for(let i = 1;i < 32;i++){
             arr.push(i);
             defaultArr.push(`${i}日`);
         }
         return {
             arr,
             defaultArr
-        }
+        };
     };
     // const getYears = () => {
     //     let years = [];
@@ -94,14 +91,14 @@ function releaseFishCarTripInit(f7, view, page) {
         rotateEffect: true,
         toolbarCloseText: '确定',
         // value: [today.getFullYear(), today.getMonth(),today.getDate()],
-        value: [today.getMonth() + 1,today.getDate()],
-        onChange: function (picker, values, displayValues) {
-            var daysInMonth = new Date(picker.value[2], picker.value[0]*1 + 1, 0).getDate();
-            if (values[1] > daysInMonth) {
+        value: [today.getMonth() + 1, today.getDate()],
+        onChange: function (picker, values, displayValues){
+            var daysInMonth = new Date(picker.value[2], picker.value[0] * 1 + 1, 0).getDate();
+            if (values[1] > daysInMonth){
                 picker.cols[1].setValue(daysInMonth);
             }
         },
-        formatValue: function (p, values, displayValues) {
+        formatValue: function (p, values, displayValues){
             return values[0] + '月' + values[1] + '日';
         },
         cols: [
@@ -120,7 +117,7 @@ function releaseFishCarTripInit(f7, view, page) {
             {
                 values: getData().arr,
                 displayValues: getData().defaultArr
-            },
+            }
         ]
     });
 
@@ -131,7 +128,7 @@ function releaseFishCarTripInit(f7, view, page) {
         const destinationProvinceName = $destination.val();
 
         let error = '';
-        if(description.length>50){
+        if(description.length > 50){
             error = '补充说明最多只能输入50个字符!';
         }
         if(destinationProvinceName == departureProvinceName){
@@ -157,9 +154,9 @@ function releaseFishCarTripInit(f7, view, page) {
             return;
         }
 
-        function callback(res) {
+        function callback (res){
             const {code, message, data} = res;
-            if (1 == code) {
+            if (1 == code){
                 nativeEvent.nativeToast('1', '发布成功！');
                 const {
                     appointedDate,
@@ -178,23 +175,23 @@ function releaseFishCarTripInit(f7, view, page) {
                         destinationProvinceName,
                         id
                     }
-                })
+                });
             } else {
                 f7.alert(message);
             }
         }
 
         releaseFishCarTripModel.post({
-            appointedTime: new Date(`2017/${appointedTime.replace('月', '/').replace('日', '')}`).getTime()*0.001,
+            appointedTime: new Date(`2017/${appointedTime.replace('月', '/').replace('日', '')}`).getTime() * 0.001,
             departureProvinceId: getProvinceId(departureProvinceName)['provinceId'],
             departureProvinceName,
             description,
             destinationProvinceId: getProvinceId(destinationProvinceName)['provinceId'],
-            destinationProvinceName,
-        },{}, callback)
-    }
+            destinationProvinceName
+        }, {}, callback);
+    };
 }
 
 export {
     releaseFishCarTripInit
-}
+};

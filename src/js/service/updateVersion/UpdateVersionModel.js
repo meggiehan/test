@@ -6,12 +6,12 @@ import RestTemplate from '../../../middlewares/RestTemplate';
 import {getToken} from '../../../middlewares/loginMiddle';
 import store from '../../../utils/localStorage';
 
-class UpdateVersionModel {
-    get(callback) {
+class UpdateVersionModel{
+    get (callback){
         const versionNumber = store.get('versionNumber');
         const channel = store.get('appChannel');
         const apiStr = `appWabUpgrade/getAppWebNowVersionNumber/${currentDevice.android ? 1 : 2}/${versionNumber}?channel=${channel}`;
-        RestTemplate.get(apiStr, {"access-token": getToken()}, {}, callback, true);
+        RestTemplate.get(apiStr, {'access-token': getToken()}, {}, callback, true);
     }
 
 }

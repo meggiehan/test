@@ -19,7 +19,7 @@ import {
     inviteFriends
 } from '../utils/domListenEvent';
 
-function userInit(f7, view, page) {
+function userInit (f7, view, page){
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page-user')[$$('.view-main .pages>.page-user').length - 1]);
     const {
@@ -40,46 +40,45 @@ function userInit(f7, view, page) {
             contactUs: contactUs,
             timeDifference: timeDifference,
             imgPath: imgPath,
-            contactUs: contactUs,
             myListBuy: myListBuy,
             myListSell: myListSell,
             uploadCert: uploadCert,
             inviteFriends: inviteFriends,
-            goIdentity: goIdentity,//前往实名认证
+            goIdentity: goIdentity, // 前往实名认证
             goMyCenter: goMyCenter,
-            login(){
+            login (){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
             },
-            //打开帮助中心
-            helpCenter(){
+            // 打开帮助中心
+            helpCenter (){
                 apiCount('btn_help');
                 nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
             },
-            goMyMember(){
+            goMyMember (){
                 apiCount('btn_myCenter_myLevel');
                 mainView.router.load({
-                  url: `${mWebUrl}user/member/${this.userInfo.id}?time=${new Date().getTime()}`
-                })
+                    url: `${mWebUrl}user/member/${this.userInfo.id}?time=${new Date().getTime()}`
+                });
             },
-            goMyCollection(){
+            goMyCollection (){
                 apiCount('btn_favoriteList');
                 mainView.router.load({
                     url: 'views/myCollection.html'
-                })
+                });
             },
-            //发布信息
-            releaseInfo(){
+            // 发布信息
+            releaseInfo (){
                 apiCount('btn_tabbar_post');
-                if (this.weixinData && !this.isLogin) {
+                if (this.weixinData && !this.isLogin){
                     this.login();
                     return;
                 }
                 view.router.load({
                     url: 'views/release.html'
-                })
+                });
             },
-            //刷新或者发布信息
-            releaseOrRefresh(){
+            // 刷新或者发布信息
+            releaseOrRefresh (){
                 if(!this.isLogin){
                     this.releaseInfo();
                 }else{
@@ -90,26 +89,26 @@ function userInit(f7, view, page) {
                     this.myListSell();
                 }
             },
-            //绑定账号
-            bindAccount(){
-                if (!this.isLogin && !this.weixinData) {
+            // 绑定账号
+            bindAccount (){
+                if (!this.isLogin && !this.weixinData){
                     f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow);
                     return;
                 }
                 apiCount('btn_bindAccounts');
                 mainView.router.load({
                     url: 'views/bindAccount.html'
-                })
+                });
             },
-            //前往鱼车需求
-            goFishDemand(){
+            // 前往鱼车需求
+            goFishDemand (){
                 apiCount('btn_myCenter_fishcarDemands');
                 view.router.load({
                     url: 'views/myFishCarDemandList.html'
-                })
+                });
             },
-            //查看拒绝原因
-            catRejectInfo(msg){
+            // 查看拒绝原因
+            catRejectInfo (msg){
                 f7.modal({
                     title: '抱歉',
                     text: `您的鱼车信息审核未通过，原因是：${msg}`,
@@ -119,7 +118,7 @@ function userInit(f7, view, page) {
                             onClick: () => {
                                 view.router.load({
                                     url: `views/postDriverAuth.html?id=${userVue.userInfo.fishCarDriverId}`
-                                })
+                                });
                             }
                         },
                         {
@@ -129,8 +128,8 @@ function userInit(f7, view, page) {
                     ]
                 });
             },
-            //冻结提示
-            frozenMsg(){
+            // 冻结提示
+            frozenMsg (){
                 apiCount('btn_myCenter_editDriverInfo');
                 f7.modal({
                     title: '抱歉',
@@ -147,18 +146,18 @@ function userInit(f7, view, page) {
                     ]
                 });
             },
-            //分享我的店铺
-            shareMyShop(){
-                if (!this.isLogin && !this.weixinData) {
+            // 分享我的店铺
+            shareMyShop (){
+                if (!this.isLogin && !this.weixinData){
                     this.login();
                     return;
                 }
                 apiCount('btn_myCenter_shareMyShop');
                 mainView.router.load({
                     url: `views/otherIndex.html?currentUserId=${userInformation.id}`
-                })
+                });
             },
-            fishCarCheckIng(){
+            fishCarCheckIng (){
                 f7.modal({
                     title: '司机审核中',
                     text: '请耐心等待审核结果，审核通过后就可以发布行程了',
@@ -170,41 +169,41 @@ function userInit(f7, view, page) {
                     ]
                 });
             },
-            driverBtnClick(){
+            driverBtnClick (){
                 if(this && this.userInfo && this.userInfo.driverState > -2){
                     if(1 !== this.userInfo.driverState){
-                        if (0 == this.userInfo.driverState) {
+                        if (0 == this.userInfo.driverState){
                             this.fishCarCheckIng();
-                        } else if (2 == this.userInfo.driverState) {
+                        } else if (2 == this.userInfo.driverState){
                             this.catRejectInfo(this.userInfo.driverRefuseDescribe);
-                        } else if (3 == this.userInfo.driverState) {
+                        } else if (3 == this.userInfo.driverState){
                             this.frozenMsg();
                         }
                     }else{
                         mainView.router.load({
                             url: `views/postDriverAuth.html?id=${this.userInfo.fishCarDriverId}`
-                        })
+                        });
                     }
                 }else{
-                    if (!this.isLogin && !this.weixinData) {
+                    if (!this.isLogin && !this.weixinData){
                         this.login();
                         return;
                     }
                     apiCount('btn_myCenter_registerDriver');
                     view.router.load({
                         url: 'views/postDriverAuth.html'
-                    })
+                    });
                 }
             },
-            authCheckInfo(){
+            authCheckInfo (){
                 f7.alert('正在审核中，请耐心等待');
             },
-            goMyShop(){
+            goMyShop (){
                 apiCount('btn_myCenter_myShop');
                 this.shareMyShop();
             },
-            //查看企业审核不通过理由
-            showAuthRejectInfo(msg, type){
+            // 查看企业审核不通过理由
+            showAuthRejectInfo (msg, type){
                 f7.modal({
                     title: '抱歉',
                     text: `您的${type ? '企业' : '个人'}认证未通过，原因是：${msg}`,
@@ -218,17 +217,17 @@ function userInit(f7, view, page) {
                             onClick: () => {
                                 view.router.load({
                                     url: 'views/identityAuthentication.html'
-                                })
+                                });
                             }
-                        },
+                        }
 
                     ]
                 });
             }
         },
         computed: {
-            //获取司机入口文案
-            driverBtnText(){
+            // 获取司机入口文案
+            driverBtnText (){
                 let res = '司机登记';
                 if(this && this.userInfo && this.userInfo.driverState > -2){
                     0 === this.userInfo.driverState && (res = '审核中');
@@ -238,19 +237,19 @@ function userInit(f7, view, page) {
                 }
                 return res;
             },
-            isShowGoAuth(){
+            isShowGoAuth (){
                 return (1 !== this.userInfo.enterpriseAuthenticationState && 1 !== this.userInfo.personalAuthenticationState);
             },
-            authText(){
-                return getAuthText(this.userInfo.enterpriseAuthenticationState,this.userInfo.personalAuthenticationState);
+            authText (){
+                return getAuthText(this.userInfo.enterpriseAuthenticationState, this.userInfo.personalAuthenticationState);
             },
-            weixinData(){
+            weixinData (){
                 if(this.isLogin){
                     return '';
                 }
                 return store.get('weixinData');
             },
-            versionNumber(){
+            versionNumber (){
                 const versionNumber = store.get('versionNumber');
                 let currentVersion = '';
                 if(versionNumber){
@@ -261,7 +260,7 @@ function userInit(f7, view, page) {
                         }else{
                             currentVersion += item;
                         }
-                        index < (currentVersionArr.length -1) && (currentVersion += '.');
+                        index < (currentVersionArr.length - 1) && (currentVersion += '.');
                     });
                 }
                 return currentVersion;
@@ -272,7 +271,7 @@ function userInit(f7, view, page) {
     const loginCallback = (data) => {
         f7.hideIndicator();
         const {code, message} = data;
-        if (code == 1) {
+        if (code == 1){
             store.set(cacheUserInfoKey, data.data);
             userVue.userInfo = data.data;
             userVue.recentDemands = data.data.recentDemands;
@@ -280,13 +279,13 @@ function userInit(f7, view, page) {
 
             const oldDate = store.get('oldDate');
             !oldDate && store.set('oldDate', getCurrentDay());
-            if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())) {
+            if (!oldDate || (new Date(oldDate).getTime() < new Date(getCurrentDay()).getTime())){
                 const {
                     nickname,
                     personalAuthenticationState
                 } = userInformation;
                 store.set('oldDate', getCurrentDay());
-                if (!nickname) {
+                if (!nickname){
                     f7.modal({
                         title: '提示',
                         text: '你还没填写你的名字，填写完整有助于交易成交~',
@@ -295,8 +294,8 @@ function userInit(f7, view, page) {
                                 text: '现在去填写',
                                 onClick: () => {
                                     mainView.router.load({
-                                        url: 'views/editName.html',
-                                    })
+                                        url: 'views/editName.html'
+                                    });
                                 }
                             },
                             {
@@ -308,7 +307,7 @@ function userInit(f7, view, page) {
                     });
                     return;
                 }
-                if (1 != personalAuthenticationState) {
+                if (1 != personalAuthenticationState){
                     f7.modal({
                         title: '提示',
                         text: '实名认证有助于交易成交，交易额翻番不是梦~',
@@ -333,17 +332,17 @@ function userInit(f7, view, page) {
         setTimeout(() => {
             currentPage.css({
                 borderBottom: '1px solid #efeff4'
-            })
-        }, 1000)
+            });
+        }, 1000);
     };
 
     /*
      * 判断登录状态
      * 已登录：微信登录/手机号登录
      * */
-    if (isLogin()) {
+    if (isLogin()){
         userVue.isLogin = true;
-        if (userInformation && userInformation.recentDemands) {
+        if (userInformation && userInformation.recentDemands){
             userVue.userInfo = userInformation;
             userVue.recentDemands = userInformation.recentDemands;
         }else{
@@ -355,7 +354,7 @@ function userInit(f7, view, page) {
     setTimeout(() => {
         currentPage.css({
             borderBottom: '1px solid #efeff4'
-        })
+        });
     }, 1000);
 
     /*
@@ -369,12 +368,12 @@ function userInit(f7, view, page) {
     currentPage.find('.to-release-page')[0].onclick = userVue.releaseInfo;
 
     if(!window.uuid){
-      JsBridge('JS_GetUUid', {}, (data) => {
-          window.uuid = data;
-      });
+        JsBridge('JS_GetUUid', {}, (data) => {
+            window.uuid = data;
+        });
     }
 }
 
 export {
     userInit
-}
+};

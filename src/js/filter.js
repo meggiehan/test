@@ -4,9 +4,9 @@ import customAjax from '../middlewares/customAjax';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
 import store from '../utils/localStorage';
-import {loginSucc, isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
-function filterInit(f7, view, page) {
+function filterInit (f7, view, page){
     const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
     const {keyvalue, release, type, id, cityId, search, fishTagName, assurance, fishId} = page.query;
     const member = page['query']['member'] || false;
@@ -47,9 +47,9 @@ function filterInit(f7, view, page) {
     /**
      * 担保交易跟靠谱专区
      * */
-    if (member || assurance) {
+    if (member || assurance){
         currentPage.find('.filter-member-img').show();
-        currentPage.find('.winodw-mask').addClass("has-img");
+        currentPage.find('.winodw-mask').addClass('has-img');
         currentPage.find('.filter-tabs-content').addClass('has-img');
     }
 
@@ -68,7 +68,7 @@ function filterInit(f7, view, page) {
             type: 'get',
             isMandatory
         }, listCallback);
-    }
+    };
     ptrContent.on('refresh', refreshFunc);
 
     /**
@@ -77,8 +77,8 @@ function filterInit(f7, view, page) {
     currentPage.find('.page-content').scroll(() => {
         const top = currentPage.find('.page-content').scrollTop();
         window.contentScrollTop = top;
-        if (member || assurance) {
-            if (top > 79) {
+        if (member || assurance){
+            if (top > 79){
                 currentNavbar.find('.filter-tab').show();
                 currentPage.find('.filter-tab').hide();
                 currentPage.find('.page-content').css('padding-top', '9.4rem');
@@ -94,30 +94,30 @@ function filterInit(f7, view, page) {
                 currentNavbar.find('.filter-tab').show();
             }
         }
-    })
+    });
 
     /**
      * 获取列表数据回来后的操作
      * */
     const listCallback = (data) => {
         const {code, message} = data;
-        if (code !== 1) {
+        if (code !== 1){
             f7.alert(message, '提示');
             f7.pullToRefreshDone();
             return;
         }
         let listHtml = '';
-        if (_type == 1) {
+        if (_type == 1){
             $$.each(data.data, (index, item) => {
                 item && (listHtml += home.buy(item));
-            })
+            });
         } else {
             $$.each(data.data, (index, item) => {
                 item && (listHtml += home.cat(item));
-            })
+            });
         }
         showAllInfo.hide();
-        if (isInfinite && !pullToRefresh) {
+        if (isInfinite && !pullToRefresh){
             currentPage.find('.filter-list').append(listHtml);
             loading = false;
         } else {
@@ -129,9 +129,9 @@ function filterInit(f7, view, page) {
         currentPage.find('img.lazy').trigger('lazy');
         currentPage.find('.tabbar').show();
         const listLength = currentPage.find('.filter-list').children('a').length;
-        if (!listHtml) {
+        if (!listHtml){
             !listLength && emptyTemp.show();
-            if (search && !listLength) {
+            if (search && !listLength){
                 currentPage.find('.tabbar').hide();
             }
             load.hide();
@@ -140,7 +140,7 @@ function filterInit(f7, view, page) {
             load.show();
         }
         tabChange && listLength && pageNo == 1 && currentPage.find('.page-content').scrollTop(0);
-        if (listLength && data.data.length < pageSize) {
+        if (listLength && data.data.length < pageSize){
             isShowAll = true;
             load.hide();
             showAllInfo.show();
@@ -148,7 +148,7 @@ function filterInit(f7, view, page) {
         f7.hideIndicator();
         pullToRefresh = false;
         isInfinite = false;
-    }
+    };
 
     /**
      * 初始化渲染鱼种分类跟标签
@@ -156,31 +156,31 @@ function filterInit(f7, view, page) {
     const fishTypeRootCallback = (data) => {
         let typeHtml = '';
         const cacheFish = store.get(fishCacheObj.fishCacheKey);
-        cacheFish && cacheFish.length && (typeHtml += `<span data-id="-1">最近使用鱼种</span>`);
-        if (!release) {
+        cacheFish && cacheFish.length && (typeHtml += '<span data-id="-1">最近使用鱼种</span>');
+        if (!release){
             typeHtml += `<span data-id="0" class="${fishTagId ? '' : 'active-ele'}">全部鱼种</span>`;
             let fishTypeNameQuery;
             $$.each(data.data, (index, item) => {
                 typeHtml += filter.fishType(item, fishTagId == item.id ? 'active-ele' : '');
                 // !fishTagId && !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? `全部${item['name']}` : null);
-                fishTagId && (fishTypeNameQuery = fishTagName)
-            })
+                fishTagId && (fishTypeNameQuery = fishTagName);
+            });
             fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         } else {
             typeHtml += `<span data-id="0" class="${'active-ele'}">全部鱼种</span>`;
             $$.each(data.data.list, (index, item) => {
                 typeHtml += filter.fishType(item);
-            })
+            });
         }
         html(currentPage.find('.filter-fish-type').children('.col-35'), typeHtml, f7);
 
-        if (fishTagId && fishId && !release) {
+        if (fishTagId && fishId && !release){
             const tagText = currentPage.find('span[data-id="' + fishTagId + '"]').text() || '';
             currentPage.find('.filter-fish-type').children('.col-35').find('span').removeClass('active-ele');
             currentPage.find('span[data-id="' + fishTagId + '"]').addClass('active-ele');
-            tagText && currentPage.find('.filter-fish-type').children('.col-65').find('span').eq(0).text('全部' + tagText)
+            tagText && currentPage.find('.filter-fish-type').children('.col-65').find('span').eq(0).text('全部' + tagText);
         }
-    }
+    };
 
     const fishTypeChildCallback = (data) => {
         allFishTypeChild = data.data.list;
@@ -194,33 +194,33 @@ function filterInit(f7, view, page) {
         // })
 
         // if (!typeHtml) {
-        if (!release) {
+        if (!release){
             let fishArr = [];
-            if (fishId) {
+            if (fishId){
                 let currentFishItem;
                 $$.each(data.data.list, (index, item) => {
                     item.id == fishId && (currentFishItem = item);
-                })
+                });
                 currentFishItem && (fishTagId = currentFishItem['fish_tag_id']);
             }
             !fishTagId && (typeHtml += `<span data-postcode="" class="first ${!currentFishId && 'active-ele' || ''}">全部鱼种</span>`);
             fishTagId && $$.each(data.data.list, (index, item) => {
                 fishTagId == item.fish_tag_id && fishArr.push(item);
-            })
+            });
             fishTagId && (typeHtml += `<span data-postcode="${fishTagId}" class="first ${currentFishId ? '' : 'active-ele'}">全部${fishTagName || ''}</span>`);
-            $$.each(!!fishTagId ? fishArr : data.data.list, (index, item) => {
+            $$.each(fishTagId ? fishArr : data.data.list, (index, item) => {
                 let classes = index % 3 === 0 && 'on' || '';
                 item['id'] == currentFishId && (classes += ' active-ele');
                 typeHtml += filter.fishType(item, classes);
                 !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
 
-            })
+            });
         } else {
             $$.each(data.data.list, (index, item) => {
                 const classes = index % 3 === 0 && 'on' || '';
                 typeHtml += filter.fishType(item, classes);
                 !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);
-            })
+            });
         }
         // }
         if(fishTypeNameQuery){
@@ -230,14 +230,13 @@ function filterInit(f7, view, page) {
         html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
         currentFishId && $$('.filter-fish-type span[data-id="' + currentFishId + '"]').trigger('click');
 
-        if (!release && fishId && fishTagId) {
+        if (!release && fishId && fishTagId){
             const tagText = currentPage.find('span[data-id="' + fishTagId + '"]').text() || '';
             currentPage.find('.filter-fish-type').children('.col-35').find('span').removeClass('active-ele');
             currentPage.find('span[data-id="' + fishTagId + '"]').addClass('active-ele');
-            tagText && currentPage.find('.filter-fish-type').children('.col-65').find('span').eq(0).text('全部' + tagText)
+            tagText && currentPage.find('.filter-fish-type').children('.col-65').find('span').eq(0).text('全部' + tagText);
         }
-    }
-
+    };
 
     /**
      * 获取父类鱼种
@@ -249,7 +248,7 @@ function filterInit(f7, view, page) {
         val: {
             id: 0
         },
-        type: 'get',
+        type: 'get'
     }, fishTypeRootCallback);
 
     /**
@@ -259,16 +258,15 @@ function filterInit(f7, view, page) {
         apiCategory: 'fishType',
         api: 'getChildrenFishTypeList',
         data: [id, release || '', _type, fuzzyFishTypeName],
-        type: 'get',
+        type: 'get'
     }, fishTypeChildCallback);
-
 
     /**
      * 选择父类鱼种
      * */
     currentPage.find('.filter-fish-type').children('.col-35')[0].onclick = (e) => {
         const ele = e.target || window.event.target;
-        if (ele.tagName !== 'SPAN') {
+        if (ele.tagName !== 'SPAN'){
             return;
         }
         apiCount(!release ? 'btn_filter_fishtype_item1' : 'btn_text_fishType_fishParent');
@@ -276,25 +274,25 @@ function filterInit(f7, view, page) {
         let categoryFish = [];
         let typeHtml = '';
 
-        if (rootId == '0') {
+        if (rootId == '0'){
             categoryFish = allFishTypeChild;
             typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${!currentFishId && !fishTagId && 'active-ele'}">${ele.innerText}</span>`;
-        } else if (-1 == rootId) {
+        } else if (-1 == rootId){
             const cacheFish = store.get(fishCacheObj.fishCacheKey);
-            if (cacheFish) {
+            if (cacheFish){
                 $$.each(cacheFish.reverse(), (index, item) => {
                     categoryFish.push(item);
-                })
+                });
             }
         } else {
-            if (!release) {
+            if (!release){
                 $$.each(allFishTypeChild, (index, item) => {
                     item.fish_tag_id == rootId && categoryFish.push(item);
-                })
+                });
             } else {
                 $$.each(allFishTypeChild, (index, item) => {
                     item.parant_id == rootId && categoryFish.push(item);
-                })
+                });
             }
             typeHtml = release ? '' : `<span data-postcode="${rootId}" class="first ${((currentFishId && currentFishId == rootId) || (fishTagId && rootId == fishTagId)) && 'active-ele'}">全部${ele.innerText}</span>`;
         }
@@ -304,16 +302,16 @@ function filterInit(f7, view, page) {
             const classes = index % 3 === 0 && 'on' || '';
             const select = `${classes}${item.id == currentFishId ? ' active-ele' : ''}`;
             typeHtml += filter.fishType(item, select);
-        })
-        html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7)
-    }
+        });
+        html(currentPage.find('.filter-fish-type').children('.col-65'), typeHtml, f7);
+    };
 
     const selectModelAction = (ele) => {
         let classes = ele.className;
         /**
          * 点击鱼种地区出售弹出筛选model
          * */
-        if (classes.indexOf('active-ele') > -1) {
+        if (classes.indexOf('active-ele') > -1){
             $$(ele).removeClass('active-ele');
             $$('.filter-tab-title').removeClass('active-ele');
             currentPage.find('.winodw-mask').removeClass('on');
@@ -332,22 +330,22 @@ function filterInit(f7, view, page) {
             classes.indexOf('tab2') > -1 && currentPage.find('div.filter-district').addClass('active');
             classes.indexOf('tab3') > -1 && currentPage.find('div.filter-info-type').addClass('active');
 
-            if (window.contentScrollTop && currentPage.children('.has-img').length) {
+            if (window.contentScrollTop && currentPage.children('.has-img').length){
                 const listTop = 175 - window.contentScrollTop > 95 ? (175 - window.contentScrollTop) : 95;
                 currentPage.find('.filter-tabs-content').css('top', `${listTop}px`);
                 currentPage.find('.winodw-mask').css('transform', `translate3d(0, ${listTop + 2}px ,0)`);
             } else {
-                if (currentPage.children('.has-img').length) {
-                    currentPage.find('.winodw-mask').css('transform', `translate3d(0, 17.5rem ,0)`);
+                if (currentPage.children('.has-img').length){
+                    currentPage.find('.winodw-mask').css('transform', 'translate3d(0, 17.5rem ,0)');
                     currentPage.find('.filter-tabs-content').css('top', '17.5rem');
                 } else {
-                    currentPage.find('.winodw-mask').css('transform', `translate3d(0, 9.7rem ,0)`);
+                    currentPage.find('.winodw-mask').css('transform', 'translate3d(0, 9.7rem ,0)');
                     currentPage.find('.filter-tabs-content').css('top', '9.5rem');
                 }
             }
 
-            if (currentPage.children('.has-img').length) {
-                if (currentPage.find('.filter-tab').children('.active-ele').length) {
+            if (currentPage.children('.has-img').length){
+                if (currentPage.find('.filter-tab').children('.active-ele').length){
                     currentPage.find('.page-content').addClass('over-hide');
                 } else {
                     currentPage.find('.page-content').removeClass('over-hide');
@@ -355,12 +353,12 @@ function filterInit(f7, view, page) {
             }
 
         }
-    }
+    };
 
     currentPage.find('.filter-tab-title').click((e) => {
         const event = e || window.event;
         let ele = event.target;
-        if (ele.parentNode.className.indexOf('filter-tab-title') > -1) {
+        if (ele.parentNode.className.indexOf('filter-tab-title') > -1){
             ele = ele.parentNode;
         }
         selectModelAction(ele);
@@ -369,12 +367,12 @@ function filterInit(f7, view, page) {
     /**
      * 是否为发布页面
      * */
-    if (!release) {
+    if (!release){
 
         // sell or buy active; default type = 1
         const eleIndex = _type == 2 ? 0 : 1;
         currentPage.find('.filter-info-type').children('p').eq(eleIndex).addClass('active-ele');
-        if (_type == 1) {
+        if (_type == 1){
             currentPage.find('.filter-list').removeClass('cat-list-info').addClass('buy-list-info');
             currentPage.find('.filter-tab-title').eq(2).find('span').text('求购');
             currentNavbar.find('.filter-tab-title').eq(2).find('span').text('求购');
@@ -389,7 +387,7 @@ function filterInit(f7, view, page) {
             apiCategory: 'demandInfo',
             api: 'list',
             data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
-            type: 'get',
+            type: 'get'
         }, listCallback);
 
         /**
@@ -398,7 +396,7 @@ function filterInit(f7, view, page) {
         let rootDistrict = '<span class="active-ele" data-postcode="0">全国</span>';
         $$.each(_district.root.province, (index, item) => {
             rootDistrict += filter.districtRender(item);
-        })
+        });
         html($$('.filter-district>.col-35'), rootDistrict, f7);
         html($$('.filter-district>.col-65'), '<span class="active-ele" data-postcode="">全国</span>', f7);
 
@@ -407,46 +405,46 @@ function filterInit(f7, view, page) {
          * */
         currentPage.find('.filter-district').children('.col-35')[0].onclick = (e) => {
             const ele = e.target || window.event.target;
-            if (ele.tagName !== 'SPAN') {
+            if (ele.tagName !== 'SPAN'){
                 return;
             }
             const postcode = ele.getAttribute('data-postcode');
             $$('.filter-district span').removeClass('active-ele');
             ele.className = 'active-ele';
             let districtHtml = '';
-            if (postcode !== '0') {
+            if (postcode !== '0'){
                 districtHtml += `<span data-postcode="${postcode}" class="${currentCityId == postcode && 'active-ele'}">全${ele.innerText}</span>`;
                 $$.each(_district.root.province, (index, item) => {
-                    if (item.postcode === postcode) {
+                    if (item.postcode === postcode){
                         $$.each(item.city, (index_, districtItem) => {
                             const select = districtItem.postcode == currentCityId ? 'active-ele' : '';
                             districtHtml += filter.districtRender(districtItem, select);
-                        })
+                        });
                     }
-                })
+                });
             } else {
                 districtHtml += `<span data-postcode="">${ele.innerText}</span>`;
             }
             html(currentPage.find('.filter-district').children('.col-65'), districtHtml, f7);
-        }
+        };
 
-        //change release type;
+        // change release type;
         currentPage.find('.filter-info-type')[0].onclick = (e) => {
             isShowAll = false;
             tabChange = true;
             const event = e || window.event;
             let ele = event.target;
             let classes = ele.className;
-            if (ele.tagName !== 'P') {
+            if (ele.tagName !== 'P'){
                 return;
             }
-            if (classes.indexOf('active-ele') <= -1) {
+            if (classes.indexOf('active-ele') <= -1){
                 currentPage.find('.filter-info-type').children('p').removeClass('active-ele');
                 ele.className += ' active-ele';
                 const type_ = ele.getAttribute('data-type');
                 const tabText = type_ == 1 ? '求购' : '出售';
                 _type = type_;
-                currentPage.find('.tabbat-text').children('span').text(_type == 1 ? '我要买鱼' : '我要卖鱼')
+                currentPage.find('.tabbat-text').children('span').text(_type == 1 ? '我要买鱼' : '我要卖鱼');
                 pageNo = 1;
                 isInfinite = false;
                 currentPage.find('.tab3').children('span').text(tabText);
@@ -464,7 +462,7 @@ function filterInit(f7, view, page) {
             currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             currentPage.find('.page-content').removeClass('over-hide');
             currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
-        }
+        };
 
         /**
          * 选择城市后处理业务
@@ -473,14 +471,14 @@ function filterInit(f7, view, page) {
             const event = e || window.event;
             const ele = event.target;
             const classes = ele.className;
-            if (ele.tagName !== 'SPAN') {
+            if (ele.tagName !== 'SPAN'){
                 return;
             }
             tabChange = true;
             const postcode = ele.getAttribute('data-postcode');
             isShowAll = false;
             $$(currentPage.find('.filter-district').children('.col-65')[0]).children('span').removeClass('active-ele');
-            if (classes.indexOf('active-ele') <= -1) {
+            if (classes.indexOf('active-ele') <= -1){
                 const districtText = ele.innerText;
                 // const districtText = $$(ele).parent('.col-65').find('span')[0].innerText;
                 // const tabText = districtText == '全国' ? districtText : districtText.substring(1, 100);
@@ -504,13 +502,13 @@ function filterInit(f7, view, page) {
             }, listCallback);
             currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             currentPage.find('.filter-tab').children('div').removeClass('active-ele');
-        }
+        };
 
         /**
          * 上拉加载更多
          * */
-        currentPage.find('.infinite-scroll').on('infinite', function () {
-            if (isShowAll) {
+        currentPage.find('.infinite-scroll').on('infinite', function (){
+            if (isShowAll){
                 return;
             }
             isInfinite = true;
@@ -539,7 +537,7 @@ function filterInit(f7, view, page) {
             const winHeight = $$(window).height();
             const navbarHeight = $$('.navbar').height();
             currentPage.find('.filter-tabs-content').css({height: `${winHeight - navbarHeight}px`});
-        }, 0)
+        }, 0);
 
         currentFishId = null;
         currentPage.addClass('filter-release-info');
@@ -549,10 +547,10 @@ function filterInit(f7, view, page) {
         currentPage.find('.toolbar').hide();
     }
 
-    if (release) {
+    if (release){
         currentPage.find('.filter-tab').hide();
         currentNavbar.find('.filter-tab').hide();
-        currentPage.find('.filter-tabs-content').css('top', '5.4rem')
+        currentPage.find('.filter-tabs-content').css('top', '5.4rem');
     }
 
     /**
@@ -561,7 +559,7 @@ function filterInit(f7, view, page) {
     currentPage.find('.filter-fish-type').children('.col-65')[0].onclick = (e) => {
         const event = e || window.event;
         const ele = event.target;
-        if (ele.tagName !== 'SPAN') {
+        if (ele.tagName !== 'SPAN'){
             return;
         }
         apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
@@ -575,7 +573,7 @@ function filterInit(f7, view, page) {
         parentFishInfo['id'] = ele.getAttribute('data-parent-id');
         parentFishInfo['name'] = ele.getAttribute('data-parent-name');
         currentFishId = childId;
-        if (!release) {
+        if (!release){
             tabText && html($$('.filter-tab>.tab1>span'), getTabStr(tabText), f7);
             currentPage.find('.winodw-mask').removeClass('on');
             $$('.filter-tabs-content').removeClass('on');
@@ -585,20 +583,20 @@ function filterInit(f7, view, page) {
             searchBtn.val('');
             isInfinite = false;
             pageNo = 1;
-            if (ele.getAttribute('data-postcode')) {
+            if (ele.getAttribute('data-postcode')){
                 currentFishId = '';
                 fishTagId = ele.getAttribute('data-postcode');
             }
-            if (ele.innerText == '全部鱼种') {
+            if (ele.innerText == '全部鱼种'){
                 fishTagId = '';
             }
-            if (childId && !ele.getAttribute('data-postcode')) {
+            if (childId && !ele.getAttribute('data-postcode')){
                 fishTagId = '';
             }
             /**
              * 统计最近使用鱼种点击情况
              * */
-            if (currentPage.find('.col-35').children('.active-ele').text() == '最近使用鱼种') {
+            if (currentPage.find('.col-35').children('.active-ele').text() == '最近使用鱼种'){
                 apiCount('btn_filter_fishtype_recentUsed');
             }
 
@@ -611,19 +609,21 @@ function filterInit(f7, view, page) {
             !ele.getAttribute('data-postcode') && $$(ele).attr('data-id') && saveSelectFishCache({
                 name: $$(ele).text(),
                 id: $$(ele).attr('data-id'),
+                // eslint-disable-next-line
                 parant_id: $$(ele).attr('data-parent-id'),
+                // eslint-disable-next-line
                 parant_name: $$(ele).attr('data-parent-name')
-            })
+            });
 
             currentPage.find('.page-content').removeClass('over-hide');
             currentPage.find('.winodw-mask').css('transform', 'translate3d(0, -100% ,0)');
         } else {
             view.router.load({
                 url: 'views/releaseInfo.html?' +
-                `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`,
-            })
+                `type=${_type}&fishId=${currentFishId}&fishName=${releaseFishName}&parentFishId=${parentFishInfo.id}&parentFishName=${parentFishInfo.name}`
+            });
         }
-    }
+    };
 
     /**
      * 跳转搜索页面
@@ -633,28 +633,28 @@ function filterInit(f7, view, page) {
         let isHasFilterPage = 0;
         $$.each(currentHistory, (index, item) => {
             item.indexOf('filter') > -1 && (isHasFilterPage++);
-        })
+        });
         const reload = !release && isHasFilterPage > 1;
         apiCount(!release ? 'textfield_search_list' : 'btn_text_fishType_search');
         view.router.load({
             url: `views/search.html?release=${release}&type=${_type}&keyvalue＝${fuzzyFishTypeName}`,
             reload
-        })
-    })
+        });
+    });
 
     /**
      * 进入发布信息页面
      * */
     currentPage.find('.filter-need-release')[0].onclick = () => {
         apiCount('btn_post');
-        if (!isLogin() && weixinData) {
+        if (!isLogin() && weixinData){
             f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;
         }
         view.router.load({
             url: 'views/release.html'
-        })
-    }
+        });
+    };
 
     /**
      * 头部tab标签切换事件
@@ -665,9 +665,9 @@ function filterInit(f7, view, page) {
         const tab = ele.tagName == 'DIV' ? ele : ele.parentNode;
         const index = $$(tab).attr('data-index');
         selectModelAction(currentPage.find('.filter-tab-title')[index]);
-    })
+    });
 }
 
 export {
     filterInit
-}
+};

@@ -5,13 +5,13 @@
 import RestTemplate from '../../middlewares/RestTemplate';
 import nativeEvent from '../../utils/nativeEvent';
 
-class FishAboutModel {
+class FishAboutModel{
     /**
      * 获取司机发布的行程列表
      * @expired true 表示过期的, false表示进行中的
      * @callback ajax回调
      * */
-    getMyFishTripList(data,expired, callback) {
+    getMyFishTripList (data, expired, callback){
         RestTemplate.get(
             `fishCarDriverDemands/mine?expired=${expired.expired}`,
             {},
@@ -26,7 +26,7 @@ class FishAboutModel {
      * 删除司机行程
      * @id 行程id
      * */
-    deleteMyFishTrip(id, callback) {
+    deleteMyFishTrip (id, callback){
         RestTemplate.del(
             `fishCarDriverDemands/${id}`,
             {},
@@ -40,7 +40,7 @@ class FishAboutModel {
      * @expired true 表示过期的, false表示进行中的
      * @callback ajax回调
      * */
-    getMyFishCarDemandList(data,expired, callback) {
+    getMyFishCarDemandList (data, expired, callback){
         RestTemplate.get(
             `fishCarDemands/mine?expired=${expired.expired}`,
             {},
@@ -55,7 +55,7 @@ class FishAboutModel {
      * 删除鱼车需求
      * @id 需求id
      * */
-    deleteMyFishCarDemand(id, callback) {
+    deleteMyFishCarDemand (id, callback){
         RestTemplate.del(
             `fishCarDemands/${id}`,
             {},

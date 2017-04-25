@@ -4,8 +4,8 @@
 
 import RestTemplate from '../../middlewares/RestTemplate';
 
-class RefreshOldTokenModel {
-    post(callback) {
+class RefreshOldTokenModel{
+    post (callback){
         RestTemplate.post('auth/transfer', {apiVersion: 2}, {}, {}, callback);
     }
 }
