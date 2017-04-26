@@ -47,7 +47,9 @@ let initConfig = {
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
-            }
+            },
+            minimize: true,
+            except: ['$$', '$', 'exports', 'export']
         }),
         new webpack.optimize.DedupePlugin({
             'process.env': {
@@ -62,6 +64,9 @@ let initConfig = {
                 browsers: ['last 3 versions', 'iOS 8', 'Android 4']
             })
         ];
+    },
+    eslint: {
+        configFile: '.eslintrc' // Rules for eslint
     }
 };
 
