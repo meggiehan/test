@@ -51,24 +51,24 @@ function userInit (f7, view, page){
             },
             // 打开帮助中心
             helpCenter (){
-                apiCount('btn_help');
+                window.apiCount('btn_help');
                 nativeEvent['goNewWindow'](`${mWebUrl}helpCenter.html`);
             },
             goMyMember (){
-                apiCount('btn_myCenter_myLevel');
-                mainView.router.load({
+                window.apiCount('btn_myCenter_myLevel');
+                window.mainView.router.load({
                     url: `${mWebUrl}user/member/${this.userInfo.id}?time=${new Date().getTime()}`
                 });
             },
             goMyCollection (){
-                apiCount('btn_favoriteList');
-                mainView.router.load({
+                window.apiCount('btn_favoriteList');
+                window.mainView.router.load({
                     url: 'views/myCollection.html'
                 });
             },
             // 发布信息
             releaseInfo (){
-                apiCount('btn_tabbar_post');
+                window.apiCount('btn_tabbar_post');
                 if (this.weixinData && !this.isLogin){
                     this.login();
                     return;
@@ -95,14 +95,14 @@ function userInit (f7, view, page){
                     f7.alert('您还没登录，请先登录!', '温馨提示', loginViewShow);
                     return;
                 }
-                apiCount('btn_bindAccounts');
-                mainView.router.load({
+                window.apiCount('btn_bindAccounts');
+                window.mainView.router.load({
                     url: 'views/bindAccount.html'
                 });
             },
             // 前往鱼车需求
             goFishDemand (){
-                apiCount('btn_myCenter_fishcarDemands');
+                window.apiCount('btn_myCenter_fishcarDemands');
                 view.router.load({
                     url: 'views/myFishCarDemandList.html'
                 });
@@ -130,7 +130,7 @@ function userInit (f7, view, page){
             },
             // 冻结提示
             frozenMsg (){
-                apiCount('btn_myCenter_editDriverInfo');
+                window.apiCount('btn_myCenter_editDriverInfo');
                 f7.modal({
                     title: '抱歉',
                     text: '您的鱼车司机账号已被冻结，请联系客服！',
@@ -152,8 +152,8 @@ function userInit (f7, view, page){
                     this.login();
                     return;
                 }
-                apiCount('btn_myCenter_shareMyShop');
-                mainView.router.load({
+                window.apiCount('btn_myCenter_shareMyShop');
+                window.mainView.router.load({
                     url: `views/otherIndex.html?currentUserId=${userInformation.id}`
                 });
             },
@@ -180,7 +180,7 @@ function userInit (f7, view, page){
                             this.frozenMsg();
                         }
                     }else{
-                        mainView.router.load({
+                        window.mainView.router.load({
                             url: `views/postDriverAuth.html?id=${this.userInfo.fishCarDriverId}`
                         });
                     }
@@ -189,7 +189,7 @@ function userInit (f7, view, page){
                         this.login();
                         return;
                     }
-                    apiCount('btn_myCenter_registerDriver');
+                    window.apiCount('btn_myCenter_registerDriver');
                     view.router.load({
                         url: 'views/postDriverAuth.html'
                     });
@@ -199,7 +199,7 @@ function userInit (f7, view, page){
                 f7.alert('正在审核中，请耐心等待');
             },
             goMyShop (){
-                apiCount('btn_myCenter_myShop');
+                window.apiCount('btn_myCenter_myShop');
                 this.shareMyShop();
             },
             // 查看企业审核不通过理由
@@ -293,7 +293,7 @@ function userInit (f7, view, page){
                             {
                                 text: '现在去填写',
                                 onClick: () => {
-                                    mainView.router.load({
+                                    window.mainView.router.load({
                                         url: 'views/editName.html'
                                     });
                                 }

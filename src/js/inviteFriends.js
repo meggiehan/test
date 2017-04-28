@@ -35,13 +35,13 @@ function inviteFriendsInit (f7, view, page){
      * */
     if (scanLink){
         setTimeout(() => {
-            new QRCode(currentPage.find('.invite-user-code')[0], {
+            new window.QRCode(currentPage.find('.invite-user-code')[0], {
                 text: scanLink,
                 height: 180,
                 width: 180,
                 colorDark: '#000000',
                 colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
+                correctLevel: window.QRCode.CorrectLevel.H
             });
         }, 30);
     }
@@ -59,7 +59,7 @@ function inviteFriendsInit (f7, view, page){
         methods: {
             // 跳转至用户已经邀请成功的列表
             goToInviteList (){
-                apiCount('btn_inviteFriends_userlist');
+                window.apiCount('btn_inviteFriends_userlist');
                 if (!registerCount){
                     nativeEvent.nativeToast(0, '你还没有邀请过好友！');
                     return;
@@ -67,15 +67,15 @@ function inviteFriendsInit (f7, view, page){
                 view.router.load({url: 'views/inviteFriendsList.html'});
             },
             weixinShareFriend (){
-                apiCount(isMyShop ? 'btn_shareMyShop_wechat' : 'btn_inviteFriends_wechat');
+                window.apiCount(isMyShop ? 'btn_shareMyShop_wechat' : 'btn_inviteFriends_wechat');
                 nativeEvent.shareInfoToWeixin(0, shareImgUrl);
             },
             weixinShareCircle (){
-                apiCount(isMyShop ? 'btn_shareMyShop_circle' : 'btn_inviteFriends_circle');
+                window.apiCount(isMyShop ? 'btn_shareMyShop_circle' : 'btn_inviteFriends_circle');
                 nativeEvent.shareInfoToWeixin(1, shareImgUrl);
             },
             qqShareFriend (){
-                apiCount(isMyShop ? 'btn_shareMyShop_qq' : 'btn_inviteFriends_qq');
+                window.apiCount(isMyShop ? 'btn_shareMyShop_qq' : 'btn_inviteFriends_qq');
                 JsBridge('JS_QQSceneShare', {
                     type: '0',
                     imageUrl: shareImgUrl,

@@ -8,7 +8,7 @@ function identityAuthenticationInit (f7, view, page){
     f7.hideIndicator();
     if (!isLogin()){
         nativeEvent['nativeToast'](0, '您还没有登录，请先登录!');
-        mainView.router.load({
+        window.mainView.router.load({
             url: 'views/login.html'
         });
         return;

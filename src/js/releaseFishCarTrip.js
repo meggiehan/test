@@ -22,7 +22,7 @@ function releaseFishCarTripInit (f7, view, page){
     if (!isLogin()){
         f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
             loginViewShow();
-            mainView.router.back();
+            window.mainView.router.back();
         });
         return;
     }
@@ -165,7 +165,7 @@ function releaseFishCarTripInit (f7, view, page){
                     destinationProvinceName,
                     id
                 } = data;
-                releaseView.router.load({
+                window.releaseView.router.load({
                     url: 'views/releaseFishCarDemandSuccess.html',
                     query: {
                         isDriver: true,

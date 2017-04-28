@@ -48,7 +48,7 @@ function inviteCodeInit (f7, view, page){
         const {code} = data;
         if(1 == code){
             f7.alert('填写成功!', '温馨提示', () => {
-                mainView.router.load({
+                window.mainView.router.load({
                     url: 'views/user.html',
                     animatePages: true
                 });

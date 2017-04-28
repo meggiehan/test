@@ -126,7 +126,7 @@ function loginCodeInit (f7, view, page){
             store.set('accessToken', data.token);
             store.set(cacheUserInfoKey, data.userInfoView);
             (weixinData && store.get('weixinUnionId'))
-                ? getKey(data.token, '', '', 2) : getKey(data.token, '', '', 0);
+                ? window.getKey(data.token, '', '', 2) : window.getKey(data.token, '', '', 0);
             store.set('weixinUnionId', '');
             store.set('weixinData', '');
             if(data.userInfoView.fishCarDriverId){
@@ -156,7 +156,7 @@ function loginCodeInit (f7, view, page){
             window.phoneBindFaild();
         } else {
             f7.alert(message, '提示', () => {
-                mainView.router.refreshPage();
+                window.mainView.router.refreshPage();
             });
         }
     };

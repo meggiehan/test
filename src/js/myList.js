@@ -220,7 +220,7 @@ function myListInit (f7, view, page){
         // refresh info
         if(ele.className.indexOf('refresh-btn') > -1 && $(ele).attr('data-id') && ele.className.indexOf('disabled') == -1){
             const clickInfoId = $(ele).attr('data-id');
-            apiCount('btn_refreshInfo');
+            window.apiCount('btn_refreshInfo');
             activeInfoId = clickInfoId;
             customAjax.ajax({
                 apiCategory: 'demandInfo',

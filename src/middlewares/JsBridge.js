@@ -6,7 +6,7 @@ import {updateCtrl} from '../js/service/updateVersion/updateVersionCtrl';
 
 function JsBridge (fnName, data, callback, f7){
     const handler = (fnName, data, callback) => {
-        WebViewJavascriptBridge.callHandler(
+        window.WebViewJavascriptBridge.callHandler(
             fnName,
             data,
             callback
@@ -18,10 +18,10 @@ function JsBridge (fnName, data, callback, f7){
         handler(fnName, data, callback);
     } else {
         if (android){
-            document.addEventListener(
+            window.document.addEventListener(
                 'WebViewJavascriptBridgeReady',
                 function (){
-                    WebViewJavascriptBridge.init(function (message, responseCallback){
+                    window.WebViewJavascriptBridge.init(function (message, responseCallback){
                         var data = {
                             'Javascript Responds': '测试中文!'
                         };
@@ -29,7 +29,7 @@ function JsBridge (fnName, data, callback, f7){
                     });
 
                     // app后台唤醒后js做的操作
-                    WebViewJavascriptBridge.registerHandler('appWillEnterForeground', (data, responseCallback) => {
+                    window.WebViewJavascriptBridge.registerHandler('appWillEnterForeground', (data, responseCallback) => {
                         updateCtrl(f7);
                     });
 
@@ -38,18 +38,18 @@ function JsBridge (fnName, data, callback, f7){
                 false
             );
         } else {
-            let WVJBIframe = document.createElement('iframe');
+            let WVJBIframe = window.document.createElement('iframe');
             WVJBIframe.style.display = 'none';
             WVJBIframe.src = 'https://__bridge_loaded__';
             window.WVJBCallbacks = [];
-            document.documentElement.appendChild(WVJBIframe);
+            window.document.documentElement.appendChild(WVJBIframe);
             setTimeout(function (){
-                document.documentElement.removeChild(WVJBIframe);
+                window.document.documentElement.removeChild(WVJBIframe);
                 if (window.WebViewJavascriptBridge){
                     handler(fnName, data, callback);
 
                     // app后台唤醒后js做的操作
-                    WebViewJavascriptBridge.registerHandler('appWillEnterForeground', () => {
+                    window.WebViewJavascriptBridge.registerHandler('appWillEnterForeground', () => {
                         updateCtrl(f7);
                     });
                 }
@@ -59,11 +59,11 @@ function JsBridge (fnName, data, callback, f7){
 }
 
 function registerHandler (fnName, callback){
-    if (!bridge){
+    if (!window.bridge){
         console.log('bridge 未初始化！');
         return;
     }
-    bridge.registerHandler(fnName, callback);
+    window.bridge.registerHandler(fnName, callback);
 }
 
 export {

@@ -13,7 +13,7 @@ function bindAccountInit (f7, view, page){
     const userInfo = store.get(cacheUserInfoKey);
 
     if (!token && !weixinData){
-        mainView.router.load({
+        window.mainView.router.load({
             url: 'views/user.html',
             reload: true
         });
@@ -68,7 +68,7 @@ function bindAccountInit (f7, view, page){
     currentPage.find('.col-50.phone')[0].onclick = () => {
         if (currentPage.find('.bind-account-phone').hasClass('unbind')){
             loginViewShow();
-            apiCount('btn_bind_phone');
+            window.apiCount('btn_bind_phone');
         }
     };
 
@@ -81,7 +81,7 @@ function bindAccountInit (f7, view, page){
             store.remove('weixinData');
             store.remove('unionId');
             store.remove('weixinUnionId');
-            mainView.router.load({
+            window.mainView.router.load({
                 url: 'views/user.html',
                 reload: true
             });
@@ -96,10 +96,10 @@ function bindAccountInit (f7, view, page){
             return;
         }
         if (currentPage.find('.bind-account-weixin').hasClass('unbind')){
-            apiCount('btn_bind_bindwechat');
+            window.apiCount('btn_bind_bindwechat');
             weixinAction(f7);
         } else {
-            apiCount('btn_bind_unbindwechat');
+            window.apiCount('btn_bind_unbindwechat');
             // 解绑微信
             if (currentPage.find('.bind-account-phone').hasClass('unbind')){
                 // 未绑定手机号时解绑微信

@@ -84,7 +84,7 @@ let initAppConfig = {
         $$('.fish-car-modal').removeClass('on');
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1){
-            searchInit(f7, mainView, {query});
+            searchInit(f7, window.mainView, {query});
         }
     },
     /*
@@ -95,8 +95,8 @@ let initAppConfig = {
         const currentPage = options && options['url'];
         const len = history.length;
         const _currentPage = history[len - 1];
-        const btns = document.getElementsByClassName('modal-button');
-        if (!isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf('放弃发布') > -1){
+        const btns = window.document.getElementsByClassName('modal-button');
+        if (!window.isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf('放弃发布') > -1){
             return false;
         }
 
@@ -116,14 +116,14 @@ let initAppConfig = {
             $$('div.footer').length && $$('div.footer').click();
 
             if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1){
-                mainView.router.load({
+                window.mainView.router.load({
                     url: 'views/home.html',
                     reload: true
                 });
                 return false;
             }
             $$('.release-select-model').removeClass('on');
-            if (_currentPage.indexOf('releaseInfo.html') > -1 && !isTipBack && f7){
+            if (_currentPage.indexOf('releaseInfo.html') > -1 && !window.isTipBack && f7){
                 f7.modal({
                     title: '确定放弃这次发布吗？',
                     text: '亲，您已经填写了信息，还没发布呢，确定直接离开？发布一条信息，就有更大几率完成交易噢~',
@@ -132,7 +132,7 @@ let initAppConfig = {
                             text: '放弃发布',
                             onClick: () => {
                                 window.isTipBack = true;
-                                mainView.router.back();
+                                window.mainView.router.back();
                             }
                         },
                         {
@@ -188,15 +188,15 @@ window.releaseView = f7.addView('.view-release-fish', {
 /*
  * 主视图初始化加载首页
  * */
-mainView.router.load({
+window.mainView.router.load({
     url: 'views/home.html',
     animatePages: false,
     reload: true
 });
 
-window.$$ = Dom7;
-window.jQuery = Dom7;
-window.$ = Dom7;
+window.$$ = window.Dom7;
+window.jQuery = window.Dom7;
+window.$ = window.Dom7;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
 nativeEvent['searchHistoryActions'](2, '');
@@ -238,63 +238,63 @@ f7.onPageInit('*', (page) => {
     }
 
     setTimeout(f7.hideIndicator, timeout);
-    page.name === 'editName' && editNameInit(f7, mainView, page);
-    page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, mainView, page);
-    page.name === 'login' && loginInit(f7, mainView, page);
-    page.name === 'bindPhone' && loginInit(f7, mainView, page);
-    page.name === 'loginCode' && loginCodeInit(f7, mainView, page);
-    page.name === 'search' && searchInit(f7, mainView, page);
-    page.name === 'filter' && filterInit(f7, mainView, page);
-    page.name === 'selldetail' && selldetailInit(f7, mainView, page);
-    page.name === 'buydetail' && buydetailInit(f7, mainView, page);
-    page.name === 'release' && releaseInit(f7, mainView, page);
-    page.name === 'releaseInfo' && releaseInfoInit(f7, mainView, page);
-    page.name === 'myCenter' && myCenterInit(f7, mainView, page);
-    page.name === 'identityAuthentication' && identityAuthenticationInit(f7, mainView, page);
-    page.name === 'otherIndex' && otherIndexInit(f7, mainView, page);
-    page.name === 'otherInfo' && otherInfoInit(f7, mainView, page);
-    page.name === 'otherList' && otherListInit(f7, mainView, page);
-    page.name === 'myList' && myListInit(f7, mainView, page);
-    page.name === 'fishCert' && fishCertInit(f7, mainView, page);
-    page.name === 'releaseSucc' && releaseSuccInit(f7, mainView, page);
-    page.name === 'home' && homeInit(f7, mainView, page);
-    page.name === 'user' && userInit(f7, mainView, page);
-    page.name === 'inviteCode' && inviteCodeInit(f7, mainView, page);
-    page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, mainView, page);
-    (page.name === 'inviteFriends' || page.name === 'myShop') && inviteFriendsInit(f7, mainView, page);
+    page.name === 'editName' && editNameInit(f7, window.mainView, page);
+    page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, window.mainView, page);
+    page.name === 'login' && loginInit(f7, window.mainView, page);
+    page.name === 'bindPhone' && loginInit(f7, window.mainView, page);
+    page.name === 'loginCode' && loginCodeInit(f7, window.mainView, page);
+    page.name === 'search' && searchInit(f7, window.mainView, page);
+    page.name === 'filter' && filterInit(f7, window.mainView, page);
+    page.name === 'selldetail' && selldetailInit(f7, window.mainView, page);
+    page.name === 'buydetail' && buydetailInit(f7, window.mainView, page);
+    page.name === 'release' && releaseInit(f7, window.mainView, page);
+    page.name === 'releaseInfo' && releaseInfoInit(f7, window.mainView, page);
+    page.name === 'myCenter' && myCenterInit(f7, window.mainView, page);
+    page.name === 'identityAuthentication' && identityAuthenticationInit(f7, window.mainView, page);
+    page.name === 'otherIndex' && otherIndexInit(f7, window.window.mainView, page);
+    page.name === 'otherInfo' && otherInfoInit(f7, window.mainView, page);
+    page.name === 'otherList' && otherListInit(f7, window.mainView, page);
+    page.name === 'myList' && myListInit(f7, window.mainView, page);
+    page.name === 'fishCert' && fishCertInit(f7, window.window.mainView, page);
+    page.name === 'releaseSucc' && releaseSuccInit(f7, window.window.mainView, page);
+    page.name === 'home' && homeInit(f7, window.mainView, page);
+    page.name === 'user' && userInit(f7, window.mainView, page);
+    page.name === 'inviteCode' && inviteCodeInit(f7, window.mainView, page);
+    page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, window.mainView, page);
+    (page.name === 'inviteFriends' || page.name === 'myShop') && inviteFriendsInit(f7, window.mainView, page);
 
-    page.name === 'myCollection' && myCollectionInit(f7, mainView, page);
-    page.name === 'dealList' && dealListInit(f7, mainView, page);
-    page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, mainView, page);
-    page.name === 'notFound' && notFoundInit(f7, mainView, page);
-    page.name === 'bindAccount' && bindAccountInit(f7, mainView, page);
+    page.name === 'myCollection' && myCollectionInit(f7, window.mainView, page);
+    page.name === 'dealList' && dealListInit(f7, window.mainView, page);
+    page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, window.mainView, page);
+    page.name === 'notFound' && notFoundInit(f7, window.mainView, page);
+    page.name === 'bindAccount' && bindAccountInit(f7, window.mainView, page);
 
     /**
      * 鱼车相关
      * */
-    page.name === 'fishCar' && fishCarInit(f7, mainView, page);
-    page.name === 'releaseFishCarDemand' && releaseFishCarDemandInit(f7, mainView, page);
-    page.name === 'releaseFishCarTrip' && releaseFishCarTripInit(f7, mainView);
-    page.name === 'driverDemandInfo' && driverDemandInfoInit(f7, mainView, page);
-    page.name === 'releaseFishCarDemandSuccess' && releaseFishCarDemandSuccessInit(f7, mainView, page);
-    page.name === 'fishCarTripList' && fishCarTripListInit(f7, mainView, page);
-    page.name === 'myFishCarDemandList' && myFishCarDemandListInit(f7, mainView, page);
-    page.name === 'shareMyTrip' && shareMyTripInit(f7, mainView, page);
+    page.name === 'fishCar' && fishCarInit(f7, window.mainView, page);
+    page.name === 'releaseFishCarDemand' && releaseFishCarDemandInit(f7, window.mainView, page);
+    page.name === 'releaseFishCarTrip' && releaseFishCarTripInit(f7, window.mainView);
+    page.name === 'driverDemandInfo' && driverDemandInfoInit(f7, window.mainView, page);
+    page.name === 'releaseFishCarDemandSuccess' && releaseFishCarDemandSuccessInit(f7, window.mainView, page);
+    page.name === 'fishCarTripList' && fishCarTripListInit(f7, window.mainView, page);
+    page.name === 'myFishCarDemandList' && myFishCarDemandListInit(f7, window.mainView, page);
+    page.name === 'shareMyTrip' && shareMyTripInit(f7, window.mainView, page);
 
     /**
      * 上传司机信息页面
      * */
-    page.name === 'postDriverAuth' && postDriverAuthInit(f7, mainView, page);
-    page.name === 'postDriverInfo' && postDriverInfoInit(f7, mainView, page);
+    page.name === 'postDriverAuth' && postDriverAuthInit(f7, window.mainView, page);
+    page.name === 'postDriverInfo' && postDriverInfoInit(f7, window.mainView, page);
 
-    page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, mainView, page);
+    page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, window.mainView, page);
 });
 
 /**
  * 返回动画完成之后调用
  * */
 f7.onPageAfterBack('*', (page) => {
-    const {name} = mainView.activePage;
+    const {name} = window.mainView.activePage;
     setTimeout(() => {
         const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         if ('home' == name){

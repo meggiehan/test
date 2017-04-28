@@ -37,7 +37,7 @@ function shareMyTripInit (f7, view, page){
         methods: {
             // 跳转至用户已经邀请成功的列表
             goToInviteList (){
-                apiCount('btn_inviteFriends_userlist');
+                window.apiCount('btn_inviteFriends_userlist');
                 if (!registerCount){
                     nativeEvent.nativeToast(0, '你还没有邀请过好友！');
                     return;
@@ -45,15 +45,15 @@ function shareMyTripInit (f7, view, page){
                 view.router.load({url: 'views/inviteFriendsList.html'});
             },
             weixinShareFriend (){
-                apiCount('btn_inviteFriends_share');
+                window.apiCount('btn_inviteFriends_share');
                 nativeEvent.shareInfoToWeixin(0, shareImgUrl);
             },
             weixinShareCircle (){
-                apiCount('btn_inviteFriends_share');
+                window.apiCount('btn_inviteFriends_share');
                 nativeEvent.shareInfoToWeixin(1, shareImgUrl);
             },
             qqShareFriend (){
-                apiCount('btn_inviteFriends_share');
+                window.apiCount('btn_inviteFriends_share');
                 JsBridge('JS_QQSceneShare', {
                     type: '0',
                     imageUrl: shareImgUrl,

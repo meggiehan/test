@@ -23,7 +23,7 @@ class CustomClass{
         if (!window['JS_UMengToCount'] && (!window['yudada'] || !window['yudada']['JS_UMengToCount'])){
             return false;
         }
-        ios && JS_UMengToCount(id);
+        ios && window.JS_UMengToCount(id);
         android && window.yudada.JS_UMengToCount(id);
     }
 
@@ -38,7 +38,7 @@ class CustomClass{
         if (!window['JS_MakeCall'] && (!window['yudada'] || !window['yudada']['JS_MakeCall'])){
             return false;
         }
-        ios && JS_MakeCall(phone.toString());
+        ios && window.JS_MakeCall(phone.toString());
         android && window.yudada.JS_MakeCall(phone.toString());
     }
 
@@ -51,7 +51,7 @@ class CustomClass{
         if (!window['JS_ChooseAddress'] && (!window['yudada'] || !window['yudada']['JS_ChooseAddress'])){
             return false;
         }
-        ios && JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
+        ios && window.JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
         android && window.yudada.JS_ChooseAddress(type, provinceIndex || 0, cityIndex || 0);
     }
 
@@ -63,7 +63,7 @@ class CustomClass{
         if (!window['JS_LocationOfDevice'] && (!window['yudada'] || !window['yudada']['JS_LocationOfDevice'])){
             return false;
         }
-        ios && JS_LocationOfDevice();
+        ios && window.JS_LocationOfDevice();
         android && window.yudada.JS_LocationOfDevice();
     }
 
@@ -79,13 +79,13 @@ class CustomClass{
             return false;
         }
         if (5 == mark){
-            ios && JS_PictureSeletor(5, '', id, path || '', functionName || '');
+            ios && window.JS_PictureSeletor(5, '', id, path || '', functionName || '');
             android && window.yudada.JS_PictureSeletor(5, '上传照片', id, path || '', functionName || '');
             return;
         }
 
         const _mark = Number(mark) > -4 ? mark : 4;
-        ios && JS_PictureSeletor(_mark, '', id, '', '');
+        ios && window.JS_PictureSeletor(_mark, '', id, '', '');
         android && window.yudada.JS_PictureSeletor(_mark, '上传照片', id, '', '');
     }
 
@@ -100,7 +100,7 @@ class CustomClass{
         if (!window['JS_ShowOriginalImg'] && (!window['yudada'] || !window['yudada']['JS_ShowOriginalImg'])){
             return false;
         }
-        ios && JS_ShowOriginalImg(url);
+        ios && window.JS_ShowOriginalImg(url);
         android && window.yudada.JS_ShowOriginalImg(url);
     }
 
@@ -115,14 +115,14 @@ class CustomClass{
         if (!window['JS_ToShare'] && (!window['yudada'] || !window['yudada']['JS_ToShare'])){
             return false;
         }
-        ios && JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
+        ios && window.JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
         android && window.yudada.JS_ToShare(title, html, url, message, imgUrl || 'http://m.yudada.com/img/app_icon_108.png');
     }
 
         // release voice info.
     releaseVoiceInfo (){
         const {ios, android} = window.currentDevice;
-        ios && JS_RecordingModal();
+        ios && window.JS_RecordingModal();
         android && window.yudada.JS_RecordingModal();
     }
 
@@ -132,7 +132,7 @@ class CustomClass{
         if (!window['JS_ShowAlertWithTitles'] && (!window['yudada'] || !window['yudada']['JS_ShowAlertWithTitles'])){
             return false;
         }
-        ios && JS_ShowAlertWithTitles(title, message, button1, button2);
+        ios && window.JS_ShowAlertWithTitles(title, message, button1, button2);
         android && window.yudada.JS_ShowAlertWithTitles(title, message, button1, button2);
     }
 
@@ -146,7 +146,7 @@ class CustomClass{
         if (!window['JS_SetUserInfo'] && (!window['yudada'] || !window['yudada']['JS_Login'])){
             return false;
         }
-        ios && JS_SetUserInfo(obj);
+        ios && window.JS_SetUserInfo(obj);
         android && window.yudada.JS_Login(obj.tele, obj.pass);
     }
 
@@ -155,7 +155,7 @@ class CustomClass{
         if (!window['JS_Token'] && (!window['yudada'] || !window['yudada']['JS_Token'])){
             return false;
         }
-        const token = ios ? JS_Token() : window.yudada.JS_Token();
+        const token = ios ? window.JS_Token() : window.yudada.JS_Token();
         return token;
     }
 
@@ -164,7 +164,7 @@ class CustomClass{
         if (!window['JS_UserExitLog'] && (!window['yudada'] || !window['yudada']['JS_UserExitLog'])){
             return false;
         }
-        ios && JS_UserExitLog();
+        ios && window.JS_UserExitLog();
         android && window.yudada.JS_UserExitLog();
     }
 
@@ -173,7 +173,7 @@ class CustomClass{
         if (!window['JS_BaseUrl'] && (!window['yudada'] || !window['yudada']['JS_BaseUrl'])){
             return false;
         }
-        return ios ? JS_BaseUrl() : window.yudada.JS_BaseUrl();
+        return ios ? window.JS_BaseUrl() : window.yudada.JS_BaseUrl();
     }
 
     getDistricInfo (){
@@ -181,7 +181,7 @@ class CustomClass{
         if (!window['JS_AreaInfo'] && (!window['yudada'] || !window['yudada']['JS_AreaInfo'])){
             return false;
         }
-        return ios ? JSON.parse(JS_AreaInfo()) : JSON.parse(window.yudada.JS_AreaInfo());
+        return ios ? JSON.parse(window.JS_AreaInfo()) : JSON.parse(window.yudada.JS_AreaInfo());
     }
 
     nativeToast (type, message){
@@ -190,7 +190,7 @@ class CustomClass{
         if (!window['JS_ShowHUD_AutoDisappear'] && (!window['yudada'] || !window['yudada']['JS_ShowHUD_AutoDisappear'])){
             return false;
         }
-        ios ? JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
+        ios ? window.JS_ShowHUD_AutoDisappear(type, message) : window.yudada.JS_ShowHUD_AutoDisappear(type, message);
     }
 
     setNativeUserInfo (){
@@ -199,7 +199,7 @@ class CustomClass{
         if (!window['JS_PerferenceSetShared'] && (!window['yudada'] || !window['yudada']['JS_PerferenceSetShared'])){
             return false;
         }
-        ios ? JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('accessToken', '');
+        ios ? window.JS_PerferenceSetShared() : window.yudada.JS_PerferenceSetShared('accessToken', '');
     }
 
     nativeGoBack (){
@@ -214,7 +214,7 @@ class CustomClass{
         if (!window['JS_GetNetWorkStates'] && (!window['yudada'] || !window['yudada']['JS_GetNetWorkStates'])){
             return true;
         }
-        const status = ios ? JS_GetNetWorkStates() : window.yudada.JS_GetNetWorkStates();
+        const status = ios ? window.JS_GetNetWorkStates() : window.yudada.JS_GetNetWorkStates();
         return Number(status) > 0;
     }
 
@@ -223,7 +223,7 @@ class CustomClass{
         if (!window['JS_VersionInfo'] && (!window['yudada'] || !window['yudada']['JS_VersionInfo'])){
             return false;
         }
-        return ios ? JSON.parse(JS_VersionInfo()) : JSON.parse(window.yudada.JS_VersionInfo());
+        return ios ? JSON.parse(window.JS_VersionInfo()) : JSON.parse(window.yudada.JS_VersionInfo());
     }
 
     setClipboardValue (val){
@@ -231,7 +231,7 @@ class CustomClass{
         if (!window['JS_CopyResult'] && (!window['yudada'] || !window['yudada']['JS_CopyResult'])){
             return false;
         }
-        ios ? JS_CopyResult(val) : window.yudada.JS_CopyResult(val);
+        ios ? window.JS_CopyResult(val) : window.yudada.JS_CopyResult(val);
     }
 
     goNewWindow (url){
@@ -242,7 +242,7 @@ class CustomClass{
         if (!window['JS_JumpToThirdWeb'] && (!window['yudada'] || !window['yudada']['JS_JumpToThirdWeb'])){
             return false;
         }
-        ios ? JS_JumpToThirdWeb(url) : window.yudada.JS_JumpToThirdWeb(url);
+        ios ? window.JS_JumpToThirdWeb(url) : window.yudada.JS_JumpToThirdWeb(url);
     }
 
         /**
@@ -258,7 +258,7 @@ class CustomClass{
         if (!window['JS_SearchRecord'] && (!window['yudada'] || !window['yudada']['JS_SearchRecord'])){
             return false;
         }
-        ios ? JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
+        ios ? window.JS_SearchRecord(type, val) : window.yudada.JS_SearchRecord(type, val);
     }
 
         /**
@@ -269,7 +269,7 @@ class CustomClass{
         if (!window['JS_GetObjectWithKey'] && (!window['yudada'] || !window['yudada']['JS_GetObjectWithKey'])){
             return false;
         }
-        const val = ios ? JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
+        const val = ios ? window.JS_GetObjectWithKey(key) : window.yudada.JS_GetObjectWithKey(key);
             // 判断是否安装微信
         const defaultArr = ['appChannel', 'isWXAppInstalled', 'versionNumber'];
         if (defaultArr.indexOf(key) > -1){
@@ -287,7 +287,7 @@ class CustomClass{
             return false;
         }
         const value = val ? JSON.stringify(val) : '';
-        ios ? JS_SaveObjectWithKey(key, value) : window.yudada.JS_SaveObjectWithKey(key, value);
+        ios ? window.JS_SaveObjectWithKey(key, value) : window.yudada.JS_SaveObjectWithKey(key, value);
         return true;
     }
 
@@ -301,7 +301,7 @@ class CustomClass{
         }
         let res;
         if (ios){
-            res = JS_PerferenceGetShared(key || '');
+            res = window.JS_PerferenceGetShared(key || '');
         } else {
             res = window.yudada.JS_PerferenceGetShared(key || '');
         }
@@ -314,7 +314,7 @@ class CustomClass{
         if (!window['JS_GetPushInfo'] && (!window['yudada'] || !window['yudada']['JS_GetPushInfo'])){
             return false;
         }
-        return ios ? JS_GetPushInfo() : window.yudada.JS_GetPushInfo();
+        return ios ? window.JS_GetPushInfo() : window.yudada.JS_GetPushInfo();
     }
 
         /**
@@ -332,7 +332,7 @@ class CustomClass{
         if (!window['JS_WXSceneShare'] && (!window['yudada'] || !window['yudada']['JS_WXSceneShare'])){
             return false;
         }
-        ios ? JS_WXSceneShare(par1, par2, par3 || '', par4 || '', par5 || '')
+        ios ? window.JS_WXSceneShare(par1, par2, par3 || '', par4 || '', par5 || '')
              : window.yudada.JS_WXSceneShare(par1, par2, par3 || '', par4 || '', par5 || '');
     }
 
@@ -360,7 +360,7 @@ class CustomClass{
             return false;
         }
         if (ios){
-            data && JS_SetNativeUserInfo(data);
+            data && window.JS_SetNativeUserInfo(data);
         } else {
             $$.each(data, (key, val) => {
                 key && window.yudada.JS_PerferenceSetShared(key, val);

@@ -7,7 +7,7 @@ function postDriverAuthInit (f7, view, page){
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const {id} = page.query;
     const {identity} = config;
-    const {androidChrome} = currentDevice;
+    const {androidChrome} = window.currentDevice;
 
     /**
      * 工龄选择框绑定

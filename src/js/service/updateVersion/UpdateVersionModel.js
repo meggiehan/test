@@ -10,7 +10,7 @@ class UpdateVersionModel{
     get (callback){
         const versionNumber = store.get('versionNumber');
         const channel = store.get('appChannel');
-        const apiStr = `appWabUpgrade/getAppWebNowVersionNumber/${currentDevice.android ? 1 : 2}/${versionNumber}?channel=${channel}`;
+        const apiStr = `appWabUpgrade/getAppWebNowVersionNumber/${window.currentDevice.android ? 1 : 2}/${versionNumber}?channel=${channel}`;
         RestTemplate.get(apiStr, {'access-token': getToken()}, {}, callback, true);
     }
 

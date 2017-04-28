@@ -36,9 +36,9 @@ function invitationInit (f7, view){
             if(jsJumpInfo.jsJump || store.get('jsJumpData')){
                 jsJumpInfo.jsJump && store.set('jsJumpData', jsJumpInfo.jsJump);
                 if(jsJumpInfo.jsJump){
-                    jsJumpFromPush(jsJumpInfo.jsJump);
+                    window.jsJumpFromPush(jsJumpInfo.jsJump);
                 }else{
-                    jsJumpFromPush(store.get('jsJumpData'));
+                    window.jsJumpFromPush(store.get('jsJumpData'));
                 }
                 setTimeout(() => {
                     store.set('jsJumpData', '');
@@ -118,12 +118,12 @@ function invitationAction (){
         if (isLogin()){
             invitationModel.acceptInvitation(invitationCode, () => {});
             $modalBgInvitation.removeClass('show');
-            apiCount('app_btn_invite_accept');
+            window.apiCount('app_btn_invite_accept');
         } else {
             store.set(waitAddPointerKey, 1);
             $modalBgInvitation.removeClass('show');
             loginViewShow();
-            apiCount('app_btn_invite_login');
+            window.apiCount('app_btn_invite_login');
         }
     });
 
@@ -132,7 +132,7 @@ function invitationAction (){
         store.set(cancelInvitationNumberKey, Number(count) + 1);
         store.set(waitAddPointerKey, 0);
         $modalBgInvitation.removeClass('show');
-        apiCount('app_btn_invite_unaccept');
+        window.apiCount('app_btn_invite_unaccept');
     });
 }
 

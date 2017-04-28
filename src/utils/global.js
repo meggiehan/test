@@ -126,7 +126,7 @@ class CustomClass{
 
     appJump (id){
         const url = id == 0 ? 'views/home.html' : 'views/release.html';
-        mainView.router.load({ url });
+        window.mainView.router.load({ url });
     }
 
     /*
@@ -147,7 +147,7 @@ class CustomClass{
         const callback = (data) => {
             const { code, message } = data;
             if (1 == code){
-                mainView.router.refreshPage();
+                window.mainView.router.refreshPage();
             } else {
                 f7.alert(message, '提示');
             }
@@ -176,11 +176,11 @@ class CustomClass{
         (2 == status) && nativeEvent.nativeToast(1, '手机号绑定成功！');
         loginViewHide();
         f7.hideIndicator();
-        if('user' == mainView.activePage.name){
-            mainView.router.refreshPage();
+        if('user' == window.mainView.activePage.name){
+            window.mainView.router.refreshPage();
             f7.hidePreloader();
-        }else if('bindAccount' == mainView.activePage.name){
-            mainView.router.load({
+        }else if('bindAccount' == window.mainView.activePage.name){
+            window.mainView.router.load({
                 url: 'views/user.html'
             });
             f7.hidePreloader();
@@ -213,21 +213,21 @@ class CustomClass{
     * */
     exitApp (){
         const { ios, android } = window.currentDevice;
-        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)){
-            ios && JS_ExitProcess();
+        if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+            ios && window.JS_ExitProcess();
             android && window.yudada.JS_ExitProcess();
         }
     }
 
     andriodBack (){
-        if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
+        if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1 || window.mainView['url'].indexOf('releaseSucc.html') > -1)){
             const { ios, android } = window.currentDevice;
-            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)){
-                ios && JS_ExitProcess();
+            if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+                ios && window.JS_ExitProcess();
                 android && window.yudada.JS_ExitProcess();
             }
         } else {
-            mainView.router.back();
+            window.mainView.router.back();
         }
     }
 
@@ -273,10 +273,10 @@ class CustomClass{
     initLogout (){
         const { cacheUserInfoKey } = config;
         let refreshId = setInterval(() => {
-            if (mainView['url'].indexOf('user.html') > -1){
+            if (window.mainView['url'].indexOf('user.html') > -1){
                 store.remove(cacheUserInfoKey);
                 setTimeout(() => {
-                    mainView.router.load({
+                    window.mainView.router.load({
                         url: 'views/user.html',
                         reload: true
                     });
@@ -297,14 +297,14 @@ class CustomClass{
             const currentNavbar = $$($$('.view-release-fish .navbar>.navbar-inner')[$$('.view-release-fish .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
         }else{
-            if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1 || mainView['url'].indexOf('releaseSucc.html') > -1)){
+            if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1 || window.mainView['url'].indexOf('releaseSucc.html') > -1)){
                 const { ios, android } = window.currentDevice;
-                if (mainView['url'] && (mainView['url'].indexOf('home.html') > -1 || mainView['url'].indexOf('user.html') > -1)){
-                    ios && JS_ExitProcess();
+                if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+                    ios && window.JS_ExitProcess();
                     android && window.yudada.JS_ExitProcess();
                 }
             } else {
-                mainView.router.back();
+                window.mainView.router.back();
             }
         }
     }
@@ -328,7 +328,7 @@ class CustomClass{
             const callback = (data) => {
                 if (data.data){
                     const type = data.data.demandInfo.type;
-                    mainView.router.load({
+                    window.mainView.router.load({
                         url: `views/${2 == type ? 'selldetail' : 'buydetail'}.html?id=${id}`
                     });
                 }
@@ -344,11 +344,11 @@ class CustomClass{
                 type: 'get'
             }, callback);
         } else if('myShop' == type){
-            mainView.router.load({
+            window.mainView.router.load({
                 url: `views/otherIndex.html?currentUserId=${id}`
             });
         } else if('fishCarRoute' == type){
-            mainView.router.load({
+            window.mainView.router.load({
                 url: 'views/fishCar.html?isFishCar=0'
             });
         }else if('level' == type || 'auth' == type){
@@ -359,7 +359,7 @@ class CustomClass{
             }
             if ('level' == type){
                 // nativeEvent['goNewWindow'](`${mWebUrl}user/member?id=${store.get(cacheUserInfoKey).id}`);
-                mainView.router.load({
+                window.mainView.router.load({
                     url: `${mWebUrl}user/member/${store.get(cacheUserInfoKey).id}?time=${new Date().getTime()}`
                 });
             } else if ('auth' == type){
@@ -372,7 +372,7 @@ class CustomClass{
                     if (data.code == 1){
                         store.set(cacheUserInfoKey, data.data);
                         if(window.location.hash.indexOf('catIdentityStatus.html') > -1){
-                            mainView.router.refreshPage();
+                            window.mainView.router.refreshPage();
                             return;
                         }
                         goIdentity();
@@ -397,19 +397,19 @@ class CustomClass{
     getWeixinDataFromNative (data){
         nativeEvent.setDataToNative('weixinData', data);
         if(nativeEvent.getUserValue()){
-            mainView.router.load({
+            window.mainView.router.load({
                 url: 'views/user.html',
                 reload: true
             });
             loginViewHide();
         }else{
-            loginView.router.load({
+            window.loginView.router.load({
                 url: 'views/bindPhone.html?notBindPhone=true'
             });
-            mainView.router.refreshPage();
+            window.mainView.router.refreshPage();
         }
-        if(mainView.url && mainView.url.indexOf('bindAccount') > -1){
-            mainView.router.refreshPage();
+        if(window.mainView.url && window.mainView.url.indexOf('bindAccount') > -1){
+            window.mainView.router.refreshPage();
         }
     }
 
@@ -427,7 +427,7 @@ class CustomClass{
                 {
                     text: '绑定其它手机号',
                     onClick: () => {
-                        loginView.router.back();
+                        window.loginView.router.back();
                     }
                 },
                 {
@@ -457,7 +457,7 @@ class CustomClass{
                 {
                     text: '我知道了',
                     onClick: () => {
-                        mainView.router.refreshPage();
+                        window.mainView.router.refreshPage();
                     }
                 },
                 {

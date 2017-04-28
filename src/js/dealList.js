@@ -101,7 +101,7 @@ function dealListInit (f7, view, page){
     // 点击上报成交记录调用拨打客服电话
     currentPage.find('.deal-up-call').click(() => {
         nativeEvent.contactUs(servicePhoneNumber);
-        apiCount('btn_trade_post');
+        window.apiCount('btn_trade_post');
     });
 }
 

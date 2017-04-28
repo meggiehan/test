@@ -13,9 +13,9 @@ function isLogin (){
     if (!nativeToken){
         store.remove(cacheUserInfoKey);
         // 更新用户中心登录状态
-        if ('user' == mainView.activePage.name &&
+        if ('user' == window.mainView.activePage.name &&
             currentPage.find('.login-succ').length && !store.get('weixinData')){
-            mainView.router.refreshPage();
+            window.mainView.router.refreshPage();
         }
         return false;
     } else {
@@ -41,7 +41,7 @@ function logOut (f7){
                     nativeEvent.setNativeUserInfo();
                     store.remove('inviterId');
                     store.remove('unionId');
-                    mainView.router.load({
+                    window.mainView.router.load({
                         url: 'views/user.html'
                     });
                 }
@@ -65,7 +65,7 @@ function activeLogout (){
     store.remove('weixinUnionId');
     store.remove('inviterId');
     store.remove('unionId');
-    mainView.router.load({
+    window.mainView.router.load({
         url: 'views/user.html'
     });
 }
@@ -87,7 +87,7 @@ function loginViewShow (phone){
     if (!token && weixinData){
         url = 'views/bindPhone.html';
     }
-    loginView.router.load({
+    window.loginView.router.load({
         url,
         reload: true
     });

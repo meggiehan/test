@@ -21,7 +21,7 @@ function releaseSelectTagInit (f7, view, page){
     html(currentPage.find('.tag-list'), specListHtml, f7);
 
     currentPage.find('.tag-list')[0].onclick = (e) => {
-        apiCount('btn_text_tagCheck_select');
+        window.apiCount('btn_text_tagCheck_select');
         const ele = e.target || window.event.target;
         if (ele.tagName !== 'SPAN'){
             return;
@@ -36,7 +36,7 @@ function releaseSelectTagInit (f7, view, page){
     const callback = (data) => {
         const { code } = data;
         const {type, fishTypeId, fishTypeName, requirementPhone} = window.realeseInfomation;
-        apiCount('btn_text_tagCheck_next');
+        window.apiCount('btn_text_tagCheck_next');
         if (1 == code){
             window['releaseInfo'] = data['data'];
             view.router.load({

@@ -52,7 +52,7 @@ function otherIndexInit (f7, view, page){
         },
         methods: {
             callPhone (phone){
-                apiCount('btn_profile_call');
+                window.apiCount('btn_profile_call');
                 nativeEvent.contactUs(phone);
                 CountModel.phoneCount({
                     entry: 1,
@@ -65,7 +65,7 @@ function otherIndexInit (f7, view, page){
                 });
             },
             goMyShop (){
-                mainView.router.loadPage('views/myShop.html');
+                window.mainView.router.loadPage('views/myShop.html');
             }
         }
     });

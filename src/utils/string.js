@@ -101,7 +101,7 @@ module.exports = {
         if (!src){
             return false;
         }
-        let img = document.createElement('img');
+        let img = window.document.createElement('img');
         img.src = src;
         return img.complete ? `<img src="${src}" alt="图片" />` : null;
     },
