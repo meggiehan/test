@@ -9,7 +9,6 @@ import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
 import CountModel from './model/count';
 
 function buydetailInit (f7, view, page){
-    const $$ = Dom7;
     const { id } = page.query;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
@@ -155,7 +154,7 @@ function buydetailInit (f7, view, page){
      * 查看审核不通过message
      * */
     currentPage.find('.buy-detail-verify-faild')[0].onclick = () => {
-        apiCount('btn_rejectReason');
+        window.apiCount('btn_rejectReason');
         f7.alert(errorInfo, '查看原因');
     };
 
@@ -213,7 +212,7 @@ function buydetailInit (f7, view, page){
      * 点击收藏信息
      * */
     collectionBtn.onclick = () => {
-        apiCount('btn_favorite');
+        window.apiCount('btn_favorite');
         if (!nativeEvent['getNetworkStatus']()){
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
@@ -257,7 +256,7 @@ function buydetailInit (f7, view, page){
         });
     };
     currentPage.find('.buydetail-delete-info')[0].onclick = () => {
-        apiCount('btn_delete');
+        window.apiCount('btn_delete');
         f7.confirm('你确定删除求购信息吗？', '删除发布信息', () => {
             f7.showIndicator();
             customAjax.ajax({
@@ -306,7 +305,7 @@ function buydetailInit (f7, view, page){
         //     return;
         // }
         const {requirementPhone} = demandInfo_;
-        apiCount('btn_call');
+        window.apiCount('btn_call');
         if(requirementPhone){
             nativeEvent.contactUs(requirementPhone);
             CountModel.phoneCount({
@@ -378,9 +377,9 @@ function buydetailInit (f7, view, page){
             f7.alert(alertTitleText(), loginViewShow);
             return;
         }
-        apiCount('btn_infoDetail_myMember');
+        window.apiCount('btn_infoDetail_myMember');
         const userInfo = store.get(cacheUserInfoKey);
-        mainView.router.load({
+        window.mainView.router.load({
             url: `${mWebUrl}user/member/${userInfo.id}?time=${new Date().getTime()}`
         });
     });

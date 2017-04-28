@@ -21,7 +21,7 @@ function releaseInit (f7, view, page){
             return;
         }
         $$('.release-select-model').addClass('on');
-        apiCount('btn_text');
+        window.apiCount('btn_text');
     });
 
     $$('.release-select-model')[0].onclick = (e) => {
@@ -35,7 +35,7 @@ function releaseInit (f7, view, page){
             return;
         }
         soundRelease();
-        apiCount('btn_voice');
+        window.apiCount('btn_voice');
     };
 }
 

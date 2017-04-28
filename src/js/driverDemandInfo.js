@@ -13,7 +13,7 @@ function driverDemandInfoInit (f7, view, page){
     }
     const {imgPath} = config;
     let contactPhone;
-    apiCount('btn_fishcar_driverCell');
+    window.apiCount('btn_fishcar_driverCell');
     /**
      * 获取司机详情后render出来
      * */
@@ -129,7 +129,7 @@ function driverDemandInfoInit (f7, view, page){
      * */
     currentPage.find('.release-sub-info')[0].onclick = () => {
         if(contactPhone){
-            apiCount('btn_fishcar_driverDetail_call');
+            window.apiCount('btn_fishcar_driverDetail_call');
             nativeEvent.contactUs(contactPhone);
         }
     };

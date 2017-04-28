@@ -115,13 +115,13 @@ function myFishCarDemandListInit (f7, view, page){
      * */
     getListInfo();
     currentPage.find('#tab1').on('show', function (){
-        apiCount('btn_myFishcarDemands_tab1');
+        window.apiCount('btn_myFishcarDemands_tab1');
         type = 2;
         !sellContent.children('a').length && getListInfo();
     });
 
     currentPage.find('#tab2').on('show', function (){
-        apiCount('btn_myFishcarDemands_tab2');
+        window.apiCount('btn_myFishcarDemands_tab2');
         type = 1;
         !buyContent.children('a').length && getListInfo();
     });
@@ -173,7 +173,7 @@ function myFishCarDemandListInit (f7, view, page){
         const ele = e.target || window.event.target;
         if($$(ele).hasClass('delete-trip')){
             const infoId = $$(ele).attr('data-id');
-            apiCount('btn_myFishcarDemands_delete');
+            window.apiCount('btn_myFishcarDemands_delete');
             f7.confirm(
                 '您确定要删除该条叫车需求吗?',
                 '删除叫车需求',
@@ -201,8 +201,8 @@ function myFishCarDemandListInit (f7, view, page){
      * 点击发布叫鱼车需求按钮
      * */
     currentPage.find('.collection-list-empty').children('a').click(() => {
-        apiCount('btn_myFishcarDemands_post');
-        releaseView.router.reloadPage('views/releaseFishCarDemand.html');
+        window.apiCount('btn_myFishcarDemands_post');
+        window.releaseView.router.reloadPage('views/releaseFishCarDemand.html');
         releaseFishViewShow();
     });
 

@@ -269,7 +269,7 @@ function filterInit (f7, view, page){
         if (ele.tagName !== 'SPAN'){
             return;
         }
-        apiCount(!release ? 'btn_filter_fishtype_item1' : 'btn_text_fishType_fishParent');
+        window.apiCount(!release ? 'btn_filter_fishtype_item1' : 'btn_text_fishType_fishParent');
         const rootId = ele.getAttribute('data-id');
         let categoryFish = [];
         let typeHtml = '';
@@ -562,7 +562,7 @@ function filterInit (f7, view, page){
         if (ele.tagName !== 'SPAN'){
             return;
         }
-        apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
+        window.apiCount(!release ? 'btn_filter_fishtype_item2' : 'btn_text_fishType_fishType');
         tabChange = true;
         const childId = ele.getAttribute('data-id') || ele.getAttribute('data-postcode');
         $$('.filter-fish-type>.col-65>span').removeClass('active-ele');
@@ -597,7 +597,7 @@ function filterInit (f7, view, page){
              * 统计最近使用鱼种点击情况
              * */
             if (currentPage.find('.col-35').children('.active-ele').text() == '最近使用鱼种'){
-                apiCount('btn_filter_fishtype_recentUsed');
+                window.apiCount('btn_filter_fishtype_recentUsed');
             }
 
             customAjax.ajax({
@@ -635,7 +635,7 @@ function filterInit (f7, view, page){
             item.indexOf('filter') > -1 && (isHasFilterPage++);
         });
         const reload = !release && isHasFilterPage > 1;
-        apiCount(!release ? 'textfield_search_list' : 'btn_text_fishType_search');
+        window.apiCount(!release ? 'textfield_search_list' : 'btn_text_fishType_search');
         view.router.load({
             url: `views/search.html?release=${release}&type=${_type}&keyvalue＝${fuzzyFishTypeName}`,
             reload
@@ -646,7 +646,7 @@ function filterInit (f7, view, page){
      * 进入发布信息页面
      * */
     currentPage.find('.filter-need-release')[0].onclick = () => {
-        apiCount('btn_post');
+        window.apiCount('btn_post');
         if (!isLogin() && weixinData){
             f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;

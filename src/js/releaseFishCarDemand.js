@@ -29,7 +29,7 @@ function releaseFishCarDemandInit (f7, view, page){
     if (!isLogin()){
         f7.alert('登录后才能发布需求，请您先登录！', '温馨提示', () => {
             loginViewShow();
-            mainView.router.back();
+            window.mainView.router.back();
         });
         return;
     }
@@ -212,7 +212,7 @@ function releaseFishCarDemandInit (f7, view, page){
             const {code, message} = data;
             if (1 == code){
                 nativeEvent.nativeToast('1', '发布成功！');
-                releaseView.router.load({
+                window.releaseView.router.load({
                     url: 'views/releaseFishCarDemandSuccess.html'
                 });
             } else {

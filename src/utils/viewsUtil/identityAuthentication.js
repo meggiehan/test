@@ -12,7 +12,7 @@ class CustomClass{
     callback (data){
         const { code, message } = data;
         f7.alert(1 == code ? '上传成功' : message, '提示', () => {
-            1 == code && mainView.router.load({
+            1 == code && window.mainView.router.load({
                 url: 'views/user.html',
                 reload: true
             });

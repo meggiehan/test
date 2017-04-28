@@ -20,7 +20,7 @@ class CustomClass{
     getKey (apiCategory, api, key, val){
         let res = `${apiCategory ? (apiCategory + '_') : ''}${api || ''}`;
         if ($$.isArray(key)){
-            Dom7.each(key, (index, k) => {
+            $$.each(key, (index, k) => {
                 let value = '';
                 if (val && (val[index] || (val[index] == 0))){
                     value = val[index];
@@ -28,7 +28,7 @@ class CustomClass{
                 res += `_${k}_${value}`;
             });
         } else {
-            Dom7.each(key, (k, v) => {
+            $$.each(key, (k, v) => {
                 let value = '';
                 if (v || (v == 0)){
                     value = v;
@@ -41,7 +41,7 @@ class CustomClass{
 
     getData (key, val){
         let obj = {};
-        Dom7.each(key, (index, k) => {
+        $$.each(key, (index, k) => {
             obj[k] = val[index] || '';
         });
         return obj;
@@ -54,7 +54,7 @@ class CustomClass{
         let isDel = false;
         const disableDeleteArr = [cacheUserInfoKey, cacheHistoryKey];
         if (len >= cacheMaxLen){
-            Dom7.each(store.getAll(), (key, value) => {
+            $$.each(store.getAll(), (key, value) => {
                 if (i === len - 1 && !isDel && (disableDeleteArr.indexOf(key) == -1)){
                     store.remove(key);
                     isDel = true;
@@ -75,7 +75,6 @@ class CustomClass{
      *   noCache: Local storage is not required, default: false
      */
     ajax (obj, callback){
-        const $$ = Dom7;
         const {
             api,
             data,
@@ -217,7 +216,7 @@ class CustomClass{
                             if (1 == code){
                                 $$('.release-sub-info').removeClass('pass');
                                 window['releaseInfo'] = data['data'];
-                                mainView.router.load({
+                                window.mainView.router.load({
                                     url: 'views/releaseSucc.html?' + `type=${type}&&id=${fishTypeId}&fishName=${fishTypeName}&phone=${requirementPhone}`
                                 });
                             } else {
@@ -238,7 +237,7 @@ class CustomClass{
                         f7.pullToRefreshDone();
                         activeLogout();
                         f7.alert(_data.message, '提示', () => {
-                            mainView.router.refreshPage();
+                            window.mainView.router.refreshPage();
                         });
                         return;
                     }
@@ -261,11 +260,11 @@ class CustomClass{
                     }
                     f7.showIndicator();
                     setTimeout(() => {
-                        mainView.router.load({
+                        window.mainView.router.load({
                             url: 'views/notFound.html?errInfo=' + _data.message,
                             reload: true
                         });
-                    }, 400);
+                    }, 600);
                     return;
                 }
                 if (3 !== _data.code && (-1 !== data.code)){

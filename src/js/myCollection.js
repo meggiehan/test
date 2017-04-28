@@ -119,13 +119,13 @@ function myCollectionInit (f7, view, page){
     getListInfo();
     currentPage.find('#tab1').on('show', function (){
         type = 2;
-        apiCount('btn_myFavoriteList_sale');
+        window.apiCount('btn_myFavoriteList_sale');
         !sellContent.children('a').length && getListInfo();
     });
 
     currentPage.find('#tab2').on('show', function (){
         type = 1;
-        apiCount('btn_myFavoriteList_purchase');
+        window.apiCount('btn_myFavoriteList_purchase');
         !buyContent.children('a').length && getListInfo();
     });
 

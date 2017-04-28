@@ -40,7 +40,7 @@ function fishCarInit (f7, view, page){
         const {driverState, driverRefuseDescribe} = userInfo || {};
 
         if (isFishCar){
-            apiCount('btn_fishcar_demands_post');
+            window.apiCount('btn_fishcar_demands_post');
             if (!loginStatus){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
@@ -58,7 +58,7 @@ function fishCarInit (f7, view, page){
                             {
                                 text: '现在去登记',
                                 onClick: () => {
-                                    mainView.router.load({
+                                    window.mainView.router.load({
                                         url: 'views/postDriverAuth.html'
                                     });
                                 }
@@ -92,14 +92,14 @@ function fishCarInit (f7, view, page){
                 }
             }
         } else {
-            apiCount('btn_fishcar_routes_post');
+            window.apiCount('btn_fishcar_routes_post');
             if (!loginStatus){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                 return;
             }
         }
         const url = isFishCar ? 'views/releaseFishCarTrip.html' : 'views/releaseFishCarDemand.html';
-        releaseView.router.load({
+        window.releaseView.router.load({
             url,
             reload: true
         });
@@ -141,7 +141,7 @@ function fishCarInit (f7, view, page){
                     .text(val == '全国' ? (isFishCar ? '所有出发地' : '所有目的地') : val);
                 provinceId = getProvinceId(val, '')['provinceId'];
                 getList(true);
-                apiCount(isFishCar ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
+                window.apiCount(isFishCar ? 'btn_fishcar_routes_regionSelect' : 'btn_fishcar_demands_regionSelect');
             });
         },
         cols: [
@@ -288,7 +288,7 @@ function fishCarInit (f7, view, page){
      * 打开切换司机/货主modal
      * */
     $$('.switch-btn').click(() => {
-        apiCount('btn_fishcar_changerole');
+        window.apiCount('btn_fishcar_changerole');
         $$('.fish-car-modal').addClass('on');
     });
 
@@ -298,7 +298,7 @@ function fishCarInit (f7, view, page){
     currentPage.find('.page-list-view').children('.list').click((e) => {
         const ele = e.target || window.event.target;
         if ($$(ele).hasClass('fish-call') || $$(ele).parent().hasClass('fish-call')){
-            apiCount(isFishCar ? 'btn_fishcar_routes_call' : 'btn_fishcar_demands_call');
+            window.apiCount(isFishCar ? 'btn_fishcar_routes_call' : 'btn_fishcar_demands_call');
             const phone = $$(ele).attr('data-phone') ||
                 $$(ele).parent().attr('data-phone');
             nativeEvent.contactUs(phone);

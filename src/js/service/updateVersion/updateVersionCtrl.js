@@ -34,7 +34,7 @@ function updateCtrl (f7){
             !$updateModal.hasClass('small') &&
             !$updateModal.hasClass('force')) &&
             setTimeout(() => {
-                invitationInit(f7, mainView);
+                invitationInit(f7, window.mainView);
             }, 1000);
             return;
         }else{
@@ -110,7 +110,7 @@ function updateClickEvent (f7){
             fileName: 'webapp.zip',
             versionNumber: $body.attr('data-update-version')
         }, () => {}, f7);
-        apiCount('app_btn_h5Update_android');
+        window.apiCount('app_btn_h5Update_android');
     });
 
     /**
@@ -119,7 +119,7 @@ function updateClickEvent (f7){
      * */
     $$('.large-version-update').click(() => {
         const {android} = window.currentDevice;
-        apiCount('app_btn_appUpdate_yes');
+        window.apiCount('app_btn_appUpdate_yes');
         if (android){
             if (!$$('.update-app-modal').hasClass('force')){
                 if(5 != window.yudada.JS_GetNetWorkStates()){
@@ -169,9 +169,9 @@ function updateClickEvent (f7){
         const {android} = window.currentDevice.android;
         $$('.update-app-modal').removeClass('large small');
         if(android){
-            apiCount('app_btn_appUpdate_no');
+            window.apiCount('app_btn_appUpdate_no');
         }else{
-            apiCount('app_btn_h5Update_ios');
+            window.apiCount('app_btn_h5Update_ios');
         }
     });
 

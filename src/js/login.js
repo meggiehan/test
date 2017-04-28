@@ -57,7 +57,7 @@ function loginInit (f7, view, page){
             return;
         }
         currentPage.find('input').blur();
-        loginView.router.load({
+        window.loginView.router.load({
             url: 'views/loginCode.html' + `?phone=${input.value}`
         });
 
@@ -68,7 +68,7 @@ function loginInit (f7, view, page){
      * */
     if (currentPage.find('.user-protocol').length){
         currentPage.find('.user-protocol').children('a')[0].onclick = () => {
-            apiCount('btn_term');
+            window.apiCount('btn_term');
             nativeEvent['goNewWindow'](`${mWebUrl}terms.html`);
         };
     }
@@ -81,7 +81,7 @@ function loginInit (f7, view, page){
         notBindPhone && currentNavbar.find('.bind-phone-break').children('span').show();
         currentNavbar.find('.bind-phone-break')[0].onclick = () => {
             loginViewHide();
-            mainView.router.refreshPage();
+            window.mainView.router.refreshPage();
         };
     }
 
@@ -90,7 +90,7 @@ function loginInit (f7, view, page){
      * */
     if (currentPage.find('.weixin-login-btn').length){
         currentPage.find('.weixin-login-btn')[0].onclick = () => {
-            apiCount('btn_login_wechat');
+            window.apiCount('btn_login_wechat');
             weixinAction(f7);
         };
     }

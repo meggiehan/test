@@ -41,9 +41,9 @@ function homeInit (f7, view, page){
             getName: getName,
             getDealTime: getDealTime,
             shareTrip (){
-                apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
+                window.apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
                 if (this.fishCarTripInfo){
-                    mainView.router.load({
+                    window.mainView.router.load({
                         url: 'views/shareMyTrip.html',
                         query: {
                             contactName: this.fishCarTripInfo.contactName,
@@ -54,7 +54,7 @@ function homeInit (f7, view, page){
                         }
                     });
                 } else {
-                    releaseView.router.load({
+                    window.releaseView.router.load({
                         url: 'views/releaseFishCarTrip.html',
                         reload: true
                     });
@@ -81,13 +81,13 @@ function homeInit (f7, view, page){
                 }
 
                 if (1 == type){
-                    mainView.router.load({
+                    window.mainView.router.load({
                         url: openUrl
                     });
                 }
                 if (2 == type){
                     f7.showIndicator();
-                    mainView.router.load({
+                    window.mainView.router.load({
                         url: openUrl
                     });
                 }
@@ -286,7 +286,7 @@ function homeInit (f7, view, page){
      * 前往发布信息页面
      * */
     currentPage.find('.to-release-page')[0].onclick = () => {
-        apiCount('btn_tabbar_post');
+        window.apiCount('btn_tabbar_post');
         if (!isLogin() && weixinData){
             f7.alert('绑定手机号后，可以使用全部功能!', '温馨提示', loginViewShow);
             return;
@@ -314,14 +314,14 @@ function homeInit (f7, view, page){
         const isFishCar = store.get('isFishCar');
 
         if (isFishCar || 0 === isFishCar){
-            mainView.router.load({
+            window.mainView.router.load({
                 url: `views/fishCar.html?isFishCar=${isFishCar}`
             });
             return;
         }
 
         if (isLogin() && (1 == driverState)){
-            mainView.router.load({
+            window.mainView.router.load({
                 url: 'views/fishCar.html?isFishCar=1'
             });
             return;

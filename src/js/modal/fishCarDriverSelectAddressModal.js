@@ -8,7 +8,7 @@ function fishCarDriverSelectAddressModalEvent (f7){
      * 省内运输跟跨省运输切换
      * */
     $$('.edit-driver-address-model .province-address-select>div').click((e) => {
-        const ele = e.target || widnow.event.target;
+        const ele = e.target || window.event.target;
         let currentItem = $$(ele);
         if (ele.tagName == 'SPAN'){
             currentItem = $$(ele).parent();

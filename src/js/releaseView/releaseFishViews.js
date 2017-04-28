@@ -1,13 +1,13 @@
 
-function releaseFishViewShow(){
+function releaseFishViewShow (){
     $$('.view-release-fish').addClass('show');
 }
 
-function releaseFishViewHide(){
+function releaseFishViewHide (){
     $$('.view-release-fish').removeClass('show');
 }
 
 export {
     releaseFishViewShow,
     releaseFishViewHide
-}
+};

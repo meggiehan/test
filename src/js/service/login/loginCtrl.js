@@ -18,13 +18,13 @@ function weixinAction (f7){
                     const {code, message} = res;
                     if(1 == code){
                         nativeEvent.nativeToast(1, '账号绑定成功！');
-                        mainView.router.load({
+                        window.mainView.router.load({
                             url: 'views/user.html'
                         });
                     }else if(102 == code){
                         window.weixinBindFaild();
                     }else{
-                        alert(message);
+                        f7.alert(message);
                     }
                 });
             }else{
@@ -41,7 +41,7 @@ function weixinAction (f7){
                         } = config;
                         if(data.token){
                             store.set('accessToken', data.token);
-                            getKey(data.token, '', '', 0);
+                            window.getKey(data.token, '', '', 0);
                             store.set(cacheUserInfoKey, data.userInfoView);
 
                             // 设置别名
@@ -65,7 +65,7 @@ function weixinAction (f7){
                             data.userInfoView.unionId && store.set('weixinUnionId', data.userInfoView.unionId);
                             data.userInfoView && store.set('weixinData', data.userInfoView);
                             nativeEvent.nativeToast(1, '微信登录成功！');
-                            getWeixinDataFromNative(data.userInfoView);
+                            window.getWeixinDataFromNative(data.userInfoView);
                         }
                     }else{
                         nativeEvent.nativeToast(0, message);

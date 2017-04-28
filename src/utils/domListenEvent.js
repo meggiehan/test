@@ -32,12 +32,12 @@ module.exports = {
             const dataId = e.target.getAttribute('data-id');
             if (1 == dataId){
                 f7.closeModal('.detail-right-more');
-                apiCount('btn_info_nav_more_share');
+                window.apiCount('btn_info_nav_more_share');
                 setTimeout(() => {
                     currentPage.find('div.icon-share').trigger('click');
                 }, 500);
             } else if (2 == dataId){
-                apiCount('btn_infonav_more_report');
+                window.apiCount('btn_infonav_more_report');
                 f7.closeModal('.detail-right-more');
                 f7.confirm('你确定举报该用户吗？', '举报虚假信息', () => {
                     f7.alert('举报成功！');
@@ -54,21 +54,21 @@ module.exports = {
     },
 
     goHome: () => {
-        mainView.router.load({
+        window.mainView.router.load({
             url: 'views/home.html',
             reload: true
         });
     },
 
     goUser: () => {
-        mainView.router.load({
+        window.mainView.router.load({
             url: 'views/user.html',
             reload: true
         });
     },
     goMyCenter: () => {
         if (isLogin()){
-            mainView.router.load({
+            window.mainView.router.load({
                 url: 'views/myCenter.html'
             });
         } else {
@@ -80,8 +80,8 @@ module.exports = {
         if (!isLogin()){
             f7.alert(alertTitleText(), '温馨提示', loginViewShow);
         } else {
-            apiCount('btn_mysell');
-            mainView.router.load({
+            window.apiCount('btn_mysell');
+            window.mainView.router.load({
                 url: 'views/myList.html?type=1'
             });
         }
@@ -91,8 +91,8 @@ module.exports = {
         if (!isLogin()){
             f7.alert(alertTitleText(), '温馨提示', loginViewShow);
         } else {
-            apiCount('btn_mypurchase');
-            mainView.router.load({
+            window.apiCount('btn_mypurchase');
+            window.mainView.router.load({
                 url: 'views/myList.html?type=2'
             });
         }
@@ -102,8 +102,8 @@ module.exports = {
         if (!isLogin()){
             f7.alert(alertTitleText(), '温馨提示', loginViewShow);
         } else {
-            apiCount('btn_certification');
-            mainView.router.load({
+            window.apiCount('btn_certification');
+            window.mainView.router.load({
                 url: 'views/fishCert.html'
             });
         }
@@ -120,10 +120,10 @@ module.exports = {
         if (!isLogin()){
             f7.alert(alertTitleText(), '温馨提示', loginViewShow);
         } else {
-            apiCount('btn_identity');
+            window.apiCount('btn_identity');
             const url = (-1 == personalAuthenticationState && -1 == enterpriseAuthenticationState)
                 ? 'views/identityAuthentication.html' : 'views/catIdentityStatus.html';
-            mainView.router.load({
+            window.mainView.router.load({
                 url
             });
         }
@@ -131,7 +131,7 @@ module.exports = {
     },
 
     contactUs: () => {
-        apiCount('btn_contact');
+        window.apiCount('btn_contact');
         nativeEvent.contactUs(servicePhoneNumber);
     },
 
@@ -140,7 +140,7 @@ module.exports = {
             const {code, message} = data;
             if(1 == code){
                 $$('page-identity-status').removeClass('individual-review');
-                mainView.router.load({
+                window.mainView.router.load({
                     url: 'views/user.html',
                     reload: true
                 });
@@ -165,7 +165,7 @@ module.exports = {
         const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
         const cancleCompanyCallback = (data) => {
             currentPage.find('page-identity-status').removeClass('company-review');
-            mainView.router.load({
+            window.mainView.router.load({
                 url: 'views/user.html',
                 reload: true
             });
@@ -193,7 +193,7 @@ module.exports = {
             const {code, message} = data;
             if (1 == code){
                 $$('.fish-cert-list>.col-50').length == 1 && $$('.fish-cert-content').removeClass('show');
-                mainView.router.refreshPage();
+                window.mainView.router.refreshPage();
                 $$('span.user-verification-num').text($$('.fish-cert-list>.col-50').length);
                 f7.hideIndicator();
             } else {
@@ -224,13 +224,13 @@ module.exports = {
             nativeEvent.postPic(-1, id);
         } else if (ele.tagName == 'IMG'){
             const url = ele.getAttribute('src').split('@')[0];
-            apiCount('cell_certificate');
+            window.apiCount('cell_certificate');
             nativeEvent.catPic(url);
         }
     },
 
     veiwCert: (e) => {
-        apiCount('cell_profile_certificate');
+        window.apiCount('cell_profile_certificate');
         const ele = e.target || window.event;
         const classes = ele.className;
         if (classes.indexOf('open-cert-button') > -1){
@@ -247,8 +247,8 @@ module.exports = {
         if (!isLogin()){
             f7.alert(alertTitleText(), '温馨提示', loginViewShow);
         } else {
-            apiCount('btn_myCenter_inviteFriends');
-            mainView.router.load({
+            window.apiCount('btn_myCenter_inviteFriends');
+            window.mainView.router.load({
                 url: 'views/inviteFriends.html'
             });
         }

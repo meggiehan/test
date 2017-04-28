@@ -30,7 +30,7 @@ module.exports = {
                 cityName,
                 quantityTagList
             } = data;
-            let img = document.createElement('img');
+            let img = window.document.createElement('img');
             const currentLevel = level || userLevel;
             let imgStr;
             let res = '';

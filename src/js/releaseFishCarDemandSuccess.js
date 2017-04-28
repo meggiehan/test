@@ -11,7 +11,7 @@ function releaseFishCarDemandSuccessInit (f7, view, page){
         id
     } = page.query;
     const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
-    const pageName = mainView.activePage.name;
+    const pageName = window.mainView.activePage.name;
     if(isDriver){
         $currentPage.find('.circular-content').text('请等待货主联系');
         $currentPage.find('p').text('正在通知有需求的货主，请耐心等待');
@@ -26,12 +26,12 @@ function releaseFishCarDemandSuccessInit (f7, view, page){
 
     $currentPage.find('.jump-btn').click(() => {
         // mainView.router.reloadPage(`views/fishCar.html?isFishCar=${!isDriver}`);
-        mainView.router.refreshPage();
+        window.mainView.router.refreshPage();
         releaseFishViewHide();
     });
 
     $currentPage.find('.share-trip').click(() => {
-        mainView.router.load({
+        window.mainView.router.load({
             url: 'views/shareMyTrip.html',
             query: {
                 contactName,

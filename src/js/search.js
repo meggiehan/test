@@ -159,7 +159,7 @@ function searchInit (f7, view, page){
     };
 
     $$('.search-return-list')[0].onclick = (e) => {
-        const ele = e.target || event.target;
+        const ele = e.target || window.event.target;
         if(ele.tagName != 'A'){
             return;
         }

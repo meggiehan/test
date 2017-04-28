@@ -50,7 +50,7 @@ function releaseInfoInit (f7, view, page){
     currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
     currentPage.find('.release-back-select-fish').children('.back')[0].onclick = () => {
         window.isTipBack = true;
-        mainView.router.back();
+        window.mainView.router.back();
     };
 
     if (window['selectedAddress'] && window['selectedAddress']['provinceName']){
@@ -427,7 +427,7 @@ function releaseInfoInit (f7, view, page){
     * 点击发布按钮提交发布信息
     * */
     subBtn.onclick = () => {
-        apiCount('btn_text_post');
+        window.apiCount('btn_text_post');
         let data = subInfoTest();
         if (data.error){
             f7.alert(data.error);
