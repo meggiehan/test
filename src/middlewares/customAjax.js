@@ -195,7 +195,6 @@ class CustomClass{
                 }
                 f7.pullToRefreshDone();
                 f7.hideIndicator();
-
                 if (url.indexOf('favorite/demandInfo/') > -1){
                     callback(null, err);
                 }
@@ -235,6 +234,7 @@ class CustomClass{
                     } else {
                         f7.hideIndicator();
                         f7.pullToRefreshDone();
+                        f7.hidePreloader();
                         activeLogout();
                         f7.alert(_data.message, '提示', () => {
                             window.mainView.router.refreshPage();
