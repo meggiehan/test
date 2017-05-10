@@ -1,38 +1,48 @@
 .page-my-center {
     color: @text-name;
+
     .list-block {
         background: @bg-fff;
         .text-shadow(@text-fff);
         margin: 0;
+
         .item-input {
             .text-right;
             color: @text-mt-center;
         }
+
         .item-content {
             line-height: 4rem;
             height: 4rem;
+
             .item-inner {
                 padding-top: 0;
                 padding-bottom: 0;
                 border-bottom: 1px solid @border-da;
+
                 &:after {
                     display: none;
                 }
             }
         }
+
         .my-center-head {
             height: 5rem;
             line-height: 5rem;
-            &>div {
+
+            & > div {
                 height: 100%;
+
                 .iconfont {
                     height: 100%;
+
                     img {
                         height: 80%;
                         display: inline-block;
                         vertical-align: middle;
                         border-radius: 50%;
                     }
+
                     &:after {
                         display: inline-block;
                         vertical-align: middle;
@@ -40,71 +50,87 @@
                 }
             }
         }
+
         .my-center-address {
             border-bottom: 1px solid @border-da;
+
             &.item-content {
                 .item-inner {
                     border-bottom: 0;
-                    .icon-right{
+
+                    .icon-right {
                         .text-hidden;
                     }
                 }
             }
         }
     }
-    .strength-show{
-      margin-top: 1rem;
-        a{
-          color: #000;
-          .item-content{
-            height: auto;
-            line-height: 2.2rem;
-            #item-show{
-              border: none;
-              .item-title{
-                min-width: 8.5rem;
-                padding-top: .8rem;
-              }
-              .user-info-show{
-                padding-top: 1.4rem;
-                padding-bottom: 1.6rem;
-              }
-            }
-          }
-          .strength-show-pic{
-            background-color: @text-fff;
-            // min-height: 8rem;
-            margin-right: .8rem;
-            .pic-info-my{
-              width: 100%;
-              span{
-                display: inline-block;
-                width: 6.5rem;
-                height: 6.5rem;
-                line-height: 6.5rem;
-                margin-right: 1rem;
-                margin-bottom: 1.4rem;
-                img{
-                  width: 100%;
-                  border-radius: 4px;
-                  border: 1px solid #979797;
+
+    .strength-show {
+        margin-top: 1rem;
+
+        a {
+            color: @text-black;
+
+            .item-content {
+                height: auto;
+                line-height: 2.2rem;
+
+                #item-show {
+                    border: none;
+
+                    .item-title {
+                        min-width: 8.5rem;
+                        padding-top: 0.8rem;
+                    }
+
+                    .user-info-show {
+                        padding-top: 1.4rem;
+                        padding-bottom: 1.6rem;
+                    }
                 }
-              }
-              .pic-info-img{
-                float: right;
-              }
             }
-            .pic-info-my::after{
-              display: block;
-              clear:both;
-              height:0;
-              content: "";
-              visibility: hidden;
-              overflow:hidden;
+
+            .strength-show-pic {
+                background-color: @text-fff;
+                // min-height: 8rem;
+                margin-right: 0.8rem;
+
+                .pic-info-my {
+                    width: 100%;
+
+                    span {
+                        display: inline-block;
+                        width: 6.5rem;
+                        height: 6.5rem;
+                        line-height: 6.5rem;
+                        margin-right: 1rem;
+                        margin-bottom: 1.4rem;
+
+                        img {
+                            width: 100%;
+                            border-radius: 4px;
+                            border: 1px solid @model-border;
+                        }
+                    }
+
+                    .pic-info-img {
+                        float: right;
+                    }
+                }
+
+                .pic-info-my::after {
+                    display: block;
+                    clear: both;
+                    height: 0;
+                    content: "";
+                    visibility: hidden;
+                    overflow: hidden;
+                }
             }
-          }
         }
     }
+
     .my-center-logout {
         margin-top: 1rem;
         line-height: 4rem;

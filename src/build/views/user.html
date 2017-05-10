@@ -125,7 +125,7 @@ v-if="2 == userInfo.personalAuthenticationState"
 </div>
 
 <div class="list-block user-nav-info">
-      <a href="#" class="item-content">
+      <a href="#" class="item-content change-fish-car">
         <div class="item-media">
           <span class="iconfont icon-fish-car iconmore"></span>
         </div>
@@ -134,7 +134,7 @@ v-if="2 == userInfo.personalAuthenticationState"
           <div class="item-after"><span class="iconfont icon-right"></span></div>
         </div>
       </a>
-      <a href="#" class="item-content" @click="isLogin ? goMyCollection() : login()">
+      <a href="#" class="item-content change-hobby" @click="isLogin ? goMyCollection() : login()">
         <div class="item-media">
           <span class="iconfont icon-collection-active"></span>
         </div>
@@ -161,7 +161,7 @@ v-if="2 == userInfo.personalAuthenticationState"
           <div class="item-after">可提升靠谱指数<span class="iconfont icon-right"></span></div>
         </div>
       </a>
-      <a href="#" class="item-content" @click="isLogin ? driverBtnClick() : login()">
+      <a href="#" class="item-content change-fish-car change-fish" @click="isLogin ? driverBtnClick() : login()">
         <div class="item-media">
           <span class="iconfont icon-fish-car iconmore"></span>
         </div>
@@ -173,7 +173,7 @@ v-if="2 == userInfo.personalAuthenticationState"
 </div>
 
 <div class="list-block user-nav-account">
-      <a href="#"  class="item-content" @click="bindAccount">
+      <a href="#"  class="item-content bind-number" @click="bindAccount">
         <div class="item-media">
           <span class="iconfont icon-lock"></span>
         </div>
@@ -191,7 +191,7 @@ v-if="2 == userInfo.personalAuthenticationState"
           <div class="item-after">18115381185<span class="iconfont icon-right"></span></div>
         </div>
       </a>
-      <a href="#" class="item-content"  @click="helpCenter">
+      <a href="#" class="item-content help-center"  @click="helpCenter">
         <div class="item-media">
           <span class="iconfont icon-info"></span>
         </div>
