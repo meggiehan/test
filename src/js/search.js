@@ -19,7 +19,6 @@ function searchInit (f7, view, page){
     // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
-    let searchVal = '';
     let searchHistoryMetadata = store.get(cacheHistoryKey);
     !release && trim(input.value) && searchButton.addClass('on');
     const renderHistory = () => {
@@ -84,10 +83,7 @@ function searchInit (f7, view, page){
             $$('.serch-history').hide();
             emptyInfo.hide();
         }
-
-        if (trim(searchVal) !== trim(val) && trim(val) !== ''){
-            searchVal = val;
-
+        if (val){
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getFishTypeList/5',

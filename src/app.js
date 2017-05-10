@@ -53,6 +53,7 @@ import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
 import store from './utils/localStorage';
 import {shareMyTripInit} from './js/shareMyTrip';
 import {aquaticClassroomInit} from './js/aquaticClassroom';
+import {homeBuyInit} from './js/homeBuy';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -199,6 +200,7 @@ window.jQuery = window.Dom7;
 window.$ = window.Dom7;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
+window.f7 = f7;
 nativeEvent['searchHistoryActions'](2, '');
 
 if(android && !androidChrome){
@@ -238,6 +240,8 @@ f7.onPageInit('*', (page) => {
     }
 
     setTimeout(f7.hideIndicator, timeout);
+    page.name === 'homeBuy' && homeBuyInit(f7, window.mainView, page);
+
     page.name === 'editName' && editNameInit(f7, window.mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, window.mainView, page);
     page.name === 'login' && loginInit(f7, window.mainView, page);
