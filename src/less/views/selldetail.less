@@ -1,591 +1,740 @@
 .page-selldetail {
-    .page-content {
-        padding-bottom: 6rem;
-        .selldetail-info {
-            border-bottom: 1px solid @border-da;
-            background: @bg-fff;
-            .text-shadow(@text-fff);
-            &>.row {
-                padding: 2%;
-                border-top: 1px solid @border-da;
-                line-height: 3rem;
-                font-size: 1.5rem;
-                .text-hidden;
-                &.first {
-                    border: none;
-                    height: auto;
-                    line-height: 1.2;
-                }
-                .col-30 {
-                    color: @text-category;
-                    width: 28%;
-                    display: block;
-                }
-                .col-70 {
-                    width: 70%;
-                    display: block;
-                }
-                .selldetail-description {
-                    line-height: 1.4;
-                    white-space: pre-wrap;
-                    word-break: break-all;
-                    padding: 0.5rem 0;
-                }
-            }
-            .sell-detail-header {
-                width: 100%;
-                .sell-detail-name {
-                    line-height: 2rem;
-                    padding: 0.5rem 0 1rem;
-                    margin: 0;
-                    .word-break;
-                    &:before {
-                        content: '出售';
-                        display: inline-block;
-                        background: @text-chushou;
-                        color: @text-fff;
-                        height: 2rem;
-                        line-height: 2rem;
-                        padding: 0.1rem 0.4rem;
-                        border-radius: 0.3rem;
-                        .text-shadow(@text-chushou);
-                        vertical-align: middle;
-                    }
-                    span {
-                        line-height: 2rem;
-                        font-size: 2rem;
-                        color: @text-name;
-                        vertical-align: middle;
-                        display: inline;
-                        padding-left: 0.5rem;
-                    }
-                }
-            }
-            .sell-detail-address {
-                margin-top: 0;
-                margin-bottom: .6rem;
-                color: @text-category;
-                font-size: 1.4rem;
-                .city-name {
-                    color: @text-category;
-                    font-size: 1.4rem;
-                    i:before {
-                        .ps-r;
-                        top: -0.2rem;
-                        font-size: 1.8rem;
-                    }
-                    b {
-                        vertical-align: middle;
-                    }
-                }
-                .city-distance {
-                    display: none;
-                    vertical-align: middle;
-                    &.show{
-                        display: inline-block;
-                    }
-                    i {
-                        color: @themeColor;
-                    }
-                }
-            }
-            .sell-detail-price {
-                margin-top: 0;
-                margin-bottom: 0.5rem;
-                .info-price {
-                    color: @text-chushou;
-                    font-size: 1.8rem;
-                    max-width: 75%;
-                    word-break: break-all;
-                    word-wrap: break-word;
-                }
-                .info-release-time {
-                    float: right;
-                    color: @text-subtitle;
-                }
-            }
-            .sell-detail-img {
-                min-height: 8rem;
-                max-height: 20rem;
-                overflow: hidden;
-                border-bottom: 1px solid @border-da;
-            }
-            img {
-                display: block;
-                width: 100%;
-            }
-            .col-25 {
-                width: 25%;
-            }
-            .col-75 {
-                width: 70%;
-                vertical-align: middle;
-                padding-top: 0.5rem;
-                .goods-weight,
-                .goods-name,
-                .goods-price,
-                .goods-create-time,
-                .cat-list-tags,
-                .cat-list-address {
-                    .text-hidden;
-                    vertical-align: middle;
-                }
-                .goods-name {
-                    color: @text-name;
-                    font-size: 2.4rem;
-                    width: 58%;
-                    .text-hidden;
-                }
-                .goods-create-time {
-                    .text-right;
-                    .text-hidden;
-                    padding-top: 0.8rem;
-                    color: @text-subtitle;
-                }
-                .goods-price {
-                    width: 40%;
-                    color: @text-price;
-                    font-size: 1.6rem;
-                    .text-right;
-                    .text-hidden;
-                }
-                .selldetail-price-info {
-                    line-height: 2rem;
-                    font-size: 1.6rem;
-                    padding-top: 1rem;
-                    color: @text-chushou;
-                    .selldetail-label {
-                        padding: 0.5rem;
-                        border-radius: 0.3rem;
-                        background: @text-chushou;
-                        .text-shadow(@text-chushou);
-                        color: @text-fff;
-                    }
-                }
-            }
-        }
-        .sell-detail-info {
-            margin-top: 1rem;
-        }
-        .selldetail-info-title,
-        .selldetail-cert-title,
-        .sell-detail-img-title {
-            padding: 1rem 2%;
-            line-height: 1.4;
-            color: @text-name;
-            font-size: 1.4rem;
-            .title-label-border {
-                margin-right: .6rem;
-            }
-        }
-        .selldetail-cert {
-            margin-top: 1rem;
-            background: @bg-fff;
-            .text-shadow(@text-fff);
-            .selldetail-cert-list {
-                a {
-                    display: block;
-                    padding: 2%;
-                    .text-hidden;
-                    line-height: 3rem;
-                    height: 3rem;
-                    border-top: 1px solid @border-da;
-                    color: @text-name;
-                    &:after {
-                        float: right;
-                        color: @text-subtitle;
-                    }
-                    span {
-                        display: inline-block;
-                        width: 3rem;
-                        height: 3rem;
-                        .text-center;
-                        line-height: 3rem;
-                        border: 1px solid @border-da;
-                        border-radius: 0.3rem;
-                        margin-right: 0.5rem;
-                        font-size: 1.6rem;
-                        .text-shadow(rgba(0, 0, 0, 0));
-                        &.seedling {
-                            border-color: @themeColor;
-                            color: @themeColor;
-                        }
-                        &.water {
-                            border-color: @text-water;
-                            color: @text-water;
-                        }
-                        &.test {
-                            border-color: @text-test;
-                            color: @text-test;
-                        }
-                        &.cert {
-                            color: @bg-v;
-                            border-color: @bg-v;
-                        }
-                        &.identity {
-                            color: @text-fff;
-                            background: @text-chushou;
-                        }
-                    }
-                }
-            }
-        }
-        .selldetail-user {
-            background: @bg-fff;
-            .text-shadow(@text-fff);
-            margin-top: 1rem;
-            // border-bottom: 1px solid @border-da;
-            .selldetail-userinfo {
-                padding: 2%;
-                .item-inner {
-                    display: -webkit-flex;
-                    padding-top: 0;
-                    padding-right: 0;
-                    padding-bottom: 0;
-                    margin-left: 1rem;
-                    -webkit-box-align: center;
-                    -webkit-box-pack: center;
-                    &:after {
-                        display: none;
-                    }
-                }
-                .item-media {
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    img {
-                        width: 5rem;
-                        height: 5rem;
-                    }
-                }
-                .col-30 {
-                    width: 26%;
-                    white-space: nowrap;
-                    .text-hidden;
-                    overflow: visible;
-                    font-size: 1.4rem;
-                    min-height: 5rem;
-                    line-height: 5rem;
-                    text-align: right;
-                    float: right;
-                    color: @themeColor;
-                    &:after{
-                        color: @text-subtitle;
-                    }
-                }
-                .col-70 {
-                    width: 73%;
-                    vertical-align: middle;
-                    height: 5rem;
-                    float: left;
-                    .goods-weight,
-                    .goods-name,
-                    .goods-price,
-                    .goods-create-time,
-                    .cat-list-tags {
-                        padding-bottom: 0.5rem;
-                    }
-                    &>div {
-                        height: 2.2rem;
-                    }
-                    .user-name {
-                        color: @text-name;
-                        font-size: 1.6rem;
-                        line-height: 2rem;
-                        .text-hidden;
-                        i {
-                            font-size: 2rem;
-                            color: @text-level;
-                            &:before {
-                                vertical-align: top;
-                            }
-                        }
-                    }
-                    .buydetail-cert-info {
-                        display: none;
-                        border-top: 1px solid @border-da;
-                        margin-top: 0.5rem;
-                        padding-top: 0.5rem;
-                        color: @text-invite-code;
-                        &>span {
-                            font-size: 1.2rem;
-                            padding-right: 0.5rem;
-                            display: none;
-                            &:before {
-                                font-size: 1.6rem;
-                                padding-right: 0.3rem;
-                            }
-                        }
-                        &.individual-identity {
-                            &>span.individual {
-                                display: inline-block;
-                            }
-                        }
-                        &.company-identity {
-                            &>span.company {
-                                display: inline-block;
-                            }
-                        }
-                    }
-                    .user-time {
-                        .text-right;
-                        .text-hidden;
-                        color: @text-subtitle;
-                        width: 40%;
-                    }
-                    .sell-detail-auth {
-                        font-size: 1.4rem;
-                        .text-hidden;
-                        .ps-r;
-                        bottom: -0.3rem;
-                        span {
-                            margin-right: 0.5rem;
-                            color: @text-subtitle;
-                            display: none;
-                            line-height: 2.5rem;
-                            &.auth-individual:before,
-                            &.auth-company:before {
-                                vertical-align: middle;
-                                font-size: 1.2rem;
-                                display: inline-block;
-                                content: '实';
-                                width: 1.7rem;
-                                height: 1.7rem;
-                                .ps-r;
-                                line-height: 1.7rem;
-                                top: -2px;
-                                background: @themeColor;
-                                .text-shadow(@themeColor);
-                                color: @text-fff;
-                                margin-right: 0.2rem;
-                                .text-center;
-                            }
-                            &.auth-company:before {
-                                content: '企';
-                            }
-                            &.show {
-                                display: inline-block;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .info-detail-go-member{
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-            border-top:1px solid @border-da;
-            border-bottom:1px solid @border-da;
-            padding: 2%;
-            .text-hidden;
-            .box-size();
-            line-height: 1.8;
-            span{
-                display: inline-block;
-                float: right;
-                border: 1px solid @themeColor;
-                border-radius: 0.3rem;
-                padding: 0 0.5rem;
-                color: @themeColor;
-            }
-        }
-        .sell-detail-img-list {
-            width: 100%;
-            margin-top: 1rem;
-            background: @bg-fff;
-            .text-shadow(@bg-fff);
-            .sell-detail-img-title {
-                border-bottom: 1px solid @border-da;
-            }
-            .info-img-list {
-                padding: 2%;
-                img {
-                    display: block;
-                    width: 100%;
-                    margin-bottom: 1rem;
-                }
-            }
-        }
-    }
-    .selldetail-footer {
-        // .box-shadow-top(@bg-666);
-        background: @bg-fff;
-        .text-shadow(@text-fff);
-        line-height: 4rem;
-        padding: 0.5rem;
-        &.safira {
-            padding: 0.5rem 1rem;
-        }
-        .text-center;
-        color: @text-price;
-        .col-40 {
-            width: 40%;
-            background: @themeColor;
-            color: @text-fff;
-            .text-shadow(@themeColor);
-            height: 100%;
-            border-radius: 0.3rem;
+  .page-content {
+    padding-bottom: 6rem;
+    .selldetail-info {
+      border-bottom: 1px solid @border-da;
+      background: @bg-fff;
+      .text-shadow(@text-fff);
+      &>.row {
+        padding: 2%;
+        border-top: 1px solid @border-da;
+        line-height: 3rem;
+        font-size: 1.5rem;
+        .text-hidden;
+        &.first {
+          border: none;
+          height: auto;
+          line-height: 1.2;
         }
         .col-30 {
+          color: @text-category;
+          width: 28%;
+          display: block;
+        }
+        .col-70 {
+          width: 70%;
+          display: block;
+        }
+        .selldetail-description {
+          line-height: 1.4;
+          white-space: pre-wrap;
+          word-break: break-all;
+          padding: 0.5rem 0;
+        }
+      }
+      .sell-detail-header {
+        width: 100%;
+        position: relative;
+        .sell-detail-name {
+          line-height: 2rem;
+          padding: 0.5rem 0 1rem;
+          margin: 0;
+          .word-break;
+          &:before {
+            content: '出售';
+            display: inline-block;
+            background: @text-chushou;
+            color: @text-fff;
+            height: 2rem;
             line-height: 2rem;
-            height: 100%;
-            width: 30%;
-            font-size: 1.2rem;
-            color: @text-category;
-            &.icon-share {
-                border-right: 1px solid @border-da;
-            }
-            &:before {
-                display: block;
-                font-size: 1.8rem;
-                line-height: 2rem;
-            }
-            &.icon-collection-btn:before {
-                font-size: 2rem;
-            }
-            &.icon-collection-active:before {
-                color: @bg-collection;
-            }
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.3rem;
+            .text-shadow(@text-chushou);
+            vertical-align: middle;
+          }
+          span {
+            line-height: 2rem;
+            font-size: 2rem;
+            color: @text-name;
+            vertical-align: middle;
+            display: inline;
+            padding-left: 0.5rem;
+          }
         }
-        .col-60 {
-            width: 60%;
-            .text-hidden;
+        .sold-out-pic{
+          img{
+            width: 15.5%;
+            position: absolute;
+            top:0.3rem;
+            right:0.9rem;
+          }
+        }
+        .go-certification{
+          height: 3rem;
+          line-height: 3rem;
+          background: @text-fff;
+          border: 1px solid #47B913;
+          border-radius: 6px;
+          width: 95%;
+          margin-top: .9rem;
+          color: #47B913;
+          span{
+            font-family: FZLTHK--GBK1-0;
             font-size: 1.4rem;
-            &:before {
-                font-size: 1.8rem;
-                margin-right: 0.3rem;
-                vertical-align: top;
+            letter-spacing: 0.59px;
+            padding-left: .8rem;
+          }
+          .arrow-certification{
+            display: inline-block;
+            position: relative;
+            i{
+              display: inline-block;
+              width: 1.25rem;
+              height: .1rem;
+              background-color:#47B913;
+              margin-bottom: .4rem;
             }
-            &.icon-review {
-                color: @text-verify-review;
+            i::after{
+              position: absolute;
+              right: -0.1rem;
+              width: .69rem;
+              height: .1rem;
+              content: ' ';
+              top: 1.3rem;
+              border-radius: .1rem;
+              background: #47B913;
+              transform: rotate(45deg);
+              -webkit-transform: rotate(45deg);
             }
-            display: none;
+            i::before{
+              position: absolute;
+              right: -0.1rem;
+              width: .69rem;
+              height: .1rem;
+              content: ' ';
+              top: 1.7rem;
+              border-radius: .1rem;
+              background: #47B913;
+              transform: rotate(-45deg);
+              -webkit-transform: rotate(-45deg);
+            }
+          }
+
         }
+        .go-certification::after{
+          content: "";
+          width: 0;
+          height: 0;
+          border: 7px solid transparent;
+          border-bottom-color: #47B913;
+          position: absolute;
+          left: 6%;
+          top: 63.8%;
+        }
+        .go-certification::before{
+          content: "";
+          width: 0;
+          height: 0;
+          border: 7px solid transparent;
+          border-bottom-color: #fff;
+          position: absolute;
+          left: 6%;
+          top: 64.6%;
+          z-index: 100;
+        }
+      }
+      .sell-detail-address {
+        margin-top: 0;
+        margin-bottom: .6rem;
+        color: @text-category;
+        font-size: 1.4rem;
+        .city-name {
+          color: @text-category;
+          font-size: 1.4rem;
+          i:before {
+            .ps-r;
+            top: -0.2rem;
+            font-size: 1.8rem;
+          }
+          b {
+            vertical-align: middle;
+          }
+        }
+        .city-distance {
+          display: none;
+          vertical-align: middle;
+          &.show{
+            display: inline-block;
+          }
+          i {
+            color: @themeColor;
+          }
+        }
+      }
+      .sell-detail-price {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        padding-right: 1rem;
+        .info-price {
+          color: @text-chushou;
+          font-size: 1.8rem;
+          max-width: 75%;
+          word-break: break-all;
+          word-wrap: break-word;
+        }
+        .info-release-time {
+          float: right;
+          color: @text-subtitle;
+        }
+      }
+      .sell-detail-img {
+        min-height: 8rem;
+        max-height: 20rem;
+        overflow: hidden;
+        border-bottom: 1px solid @border-da;
+      }
+      .sell-product{
+        height: 4rem;
+        line-height: 4rem;
+        background-color: #DF4048;
+        color: @text-fff;
+        text-shadow: 0 0 0;
+        font-family: PingFangSC-Regular;
+        .sell-product-info{
+          display: inline-block;
+          font-size:1.6rem;
+          letter-spacing: 0.68px;
+          width: 80%;
+        }
+        .icon-sell{
+          font-size: 2.3rem;
+          padding: 0rem 1rem 0rem 1rem;
+          display: inline-block;
+        }
+      }
+      img {
+        display: block;
+        width: 100%;
+      }
+      .col-25 {
+        width: 25%;
+      }
+      .col-75 {
+        width: 70%;
+        vertical-align: middle;
+        padding-top: 0.5rem;
+        .goods-weight,
+        .goods-name,
+        .goods-price,
+        .goods-create-time,
+        .cat-list-tags,
+        .cat-list-address {
+          .text-hidden;
+          vertical-align: middle;
+        }
+        .goods-name {
+          color: @text-name;
+          font-size: 2.4rem;
+          width: 58%;
+          .text-hidden;
+        }
+        .goods-create-time {
+          .text-right;
+          .text-hidden;
+          padding-top: 0.8rem;
+          color: @text-subtitle;
+        }
+        .goods-price {
+          width: 40%;
+          color: @text-price;
+          font-size: 1.6rem;
+          .text-right;
+          .text-hidden;
+        }
+        .selldetail-price-info {
+          line-height: 2rem;
+          font-size: 1.6rem;
+          padding-top: 1rem;
+          color: @text-chushou;
+          .selldetail-label {
+            padding: 0.5rem;
+            border-radius: 0.3rem;
+            background: @text-chushou;
+            .text-shadow(@text-chushou);
+            color: @text-fff;
+          }
+        }
+      }
     }
+    .sell-detail-info {
+      margin-top: 1rem;
+    }
+    .selldetail-info-title,
+    .selldetail-cert-title,
+    .sell-detail-img-title {
+      padding: 1rem 2%;
+      line-height: 1.4;
+      color: @text-name;
+      font-size: 1.4rem;
+      .title-label-border {
+        margin-right: .6rem;
+      }
+    }
+    .selldetail-cert {
+      margin-top: 1rem;
+      background: @bg-fff;
+      .text-shadow(@text-fff);
+      .selldetail-cert-list {
+        a {
+          display: block;
+          padding: 2%;
+          .text-hidden;
+          line-height: 3rem;
+          height: 3rem;
+          border-top: 1px solid @border-da;
+          color: @text-name;
+          &:after {
+            float: right;
+            color: @text-subtitle;
+          }
+          span {
+            display: inline-block;
+            width: 3rem;
+            height: 3rem;
+            .text-center;
+            line-height: 3rem;
+            border: 1px solid @border-da;
+            border-radius: 0.3rem;
+            margin-right: 0.5rem;
+            font-size: 1.6rem;
+            .text-shadow(rgba(0, 0, 0, 0));
+            &.seedling {
+              border-color: @themeColor;
+              color: @themeColor;
+            }
+            &.water {
+              border-color: @text-water;
+              color: @text-water;
+            }
+            &.test {
+              border-color: @text-test;
+              color: @text-test;
+            }
+            &.cert {
+              color: @bg-v;
+              border-color: @bg-v;
+            }
+            &.identity {
+              color: @text-fff;
+              background: @text-chushou;
+            }
+          }
+        }
+      }
+    }
+    .user-deal-info{
+      background: #FFE8B4;
+      background: #FFFFFF;
+      margin-top: 1rem;
+      height: 4rem;
+      line-height: 4rem;
+      a{
+        color: #101013;
+          .icon-deal{
+            display: inline-block;
+            color: #EC871A;
+            font-size: 3rem;
+            padding-left: .3rem;
+            // vertical-align: text-top;
+          }
+        .deal-title{
+            display: inline-block;
+            font-family: PingFangSC-Regular;
+            font-size: 1.4rem;
+            color: #101013;
+            letter-spacing: 0.59px;
+        }
+        .deal-text{
+            display: inline-block;
+            float: right;
+            padding-right: .68rem;
+            font-family: PingFangSC-Regular;
+            font-size: 1.3rem;
+            color: #A9A9A9;
+            letter-spacing: 0.59px;
+            .icon-right{
+              padding-left:.5rem;
+              display: inline-block;
+            }
+        }
+      }
+    }
+    .selldetail-user {
+      background: @bg-fff;
+      .text-shadow(@text-fff);
+      margin-top: 1rem;
+      // border-bottom: 1px solid @border-da;
+      .selldetail-userinfo {
+        padding: 2%;
+        .item-inner {
+          display: -webkit-flex;
+          padding-top: 0;
+          padding-right: 0;
+          padding-bottom: 0;
+          margin-left: 1rem;
+          -webkit-box-align: center;
+          -webkit-box-pack: center;
+          &:after {
+            display: none;
+          }
+        }
+        .item-media {
+          padding-top: 0;
+          padding-bottom: 0;
+          img {
+            width: 5rem;
+            height: 5rem;
+          }
+        }
+        .col-30 {
+          width: 26%;
+          white-space: nowrap;
+          .text-hidden;
+          overflow: visible;
+          font-size: 1.4rem;
+          min-height: 5rem;
+          line-height: 5rem;
+          text-align: right;
+          float: right;
+          color: @themeColor;
+          &:after{
+            color: @text-subtitle;
+          }
+        }
+        .col-70 {
+          width: 73%;
+          vertical-align: middle;
+          height: 5rem;
+          float: left;
+          .goods-weight,
+          .goods-name,
+          .goods-price,
+          .goods-create-time,
+          .cat-list-tags {
+            padding-bottom: 0.5rem;
+          }
+          &>div {
+            height: 2.2rem;
+          }
+          .user-name {
+            color: @text-name;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            .text-hidden;
+            i {
+              font-size: 2rem;
+              color: @text-level;
+              &:before {
+                vertical-align: top;
+              }
+            }
+            .deal-number{
+              display: inline-block;
+              font-family: PingFangSC-Regular;
+              font-size: 1.4rem;
+              color: @text-a9;
+              letter-spacing: 0.59px;
+              span{
+                display: inline-block;
+              }
+            }
+          }
+          .buydetail-cert-info {
+            display: none;
+            border-top: 1px solid @border-da;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            color: @text-invite-code;
+            &>span {
+              font-size: 1.2rem;
+              padding-right: 0.5rem;
+              display: none;
+              &:before {
+                font-size: 1.6rem;
+                padding-right: 0.3rem;
+              }
+            }
+            &.individual-identity {
+              &>span.individual {
+                display: inline-block;
+              }
+            }
+            &.company-identity {
+              &>span.company {
+                display: inline-block;
+              }
+            }
+          }
+          .user-time {
+            .text-right;
+            .text-hidden;
+            color: @text-subtitle;
+            width: 40%;
+          }
+          .sell-detail-auth {
+            font-size: 1.4rem;
+            .text-hidden;
+            .ps-r;
+            bottom: -0.3rem;
+            span {
+              margin-right: 0.5rem;
+              color: @text-subtitle;
+              display: none;
+              line-height: 2.5rem;
+              &.auth-individual:before,
+              &.auth-company:before {
+                vertical-align: middle;
+                font-size: 1.2rem;
+                display: inline-block;
+                content: '实';
+                width: 1.7rem;
+                height: 1.7rem;
+                .ps-r;
+                line-height: 1.7rem;
+                top: -2px;
+                background: @themeColor;
+                .text-shadow(@themeColor);
+                color: @text-fff;
+                margin-right: 0.2rem;
+                .text-center;
+              }
+              &.auth-company:before {
+                content: '企';
+              }
+              &.show {
+                display: inline-block;
+              }
+            }
+          }
+        }
+      }
+    }
+    .info-detail-go-member{
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-top:1px solid @border-da;
+      border-bottom:1px solid @border-da;
+      padding: 2%;
+      .text-hidden;
+      .box-size();
+      line-height: 1.8;
+      span{
+        display: inline-block;
+        float: right;
+        border: 1px solid @themeColor;
+        border-radius: 0.3rem;
+        padding: 0 0.5rem;
+        color: @themeColor;
+      }
+    }
+    .sell-detail-img-list {
+      width: 100%;
+      margin-top: 1rem;
+      background: @bg-fff;
+      .text-shadow(@bg-fff);
+      .sell-detail-img-title {
+        border-bottom: 1px solid @border-da;
+      }
+      .info-img-list {
+        padding: 2%;
+        img {
+          display: block;
+          width: 100%;
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+  .selldetail-footer {
+    // .box-shadow-top(@bg-666);
+    background: @bg-fff;
+    .text-shadow(@text-fff);
+    line-height: 4rem;
+    padding: 0.5rem;
+    &.safira {
+      padding: 0.5rem 1rem;
+    }
+    .text-center;
+    color: @text-price;
+    .col-40 {
+      width: 40%;
+      background: @themeColor;
+      color: @text-fff;
+      .text-shadow(@themeColor);
+      height: 100%;
+      border-radius: 0.3rem;
+    }
+    .col-30 {
+      line-height: 2rem;
+      height: 100%;
+      width: 30%;
+      font-size: 1.2rem;
+      color: @text-category;
+      &.icon-share {
+        border-right: 1px solid @border-da;
+      }
+      &:before {
+        display: block;
+        font-size: 1.8rem;
+        line-height: 2rem;
+      }
+      &.icon-collection-btn:before {
+        font-size: 2rem;
+      }
+      &.icon-collection-active:before {
+        color: @bg-collection;
+      }
+    }
+    .col-60 {
+      width: 60%;
+      .text-hidden;
+      font-size: 1.4rem;
+      &:before {
+        font-size: 1.8rem;
+        margin-right: 0.3rem;
+        vertical-align: top;
+      }
+      &.icon-review {
+        color: @text-verify-review;
+      }
+      display: none;
+    }
+  }
 }
 
 .page-selldetail {
+  .selldetail-user {
+    // display: none;
+  }
+  .page-content>.iconfont {
+    .text-center;
+    display: none;
+    height: 4rem;
+    line-height: 4rem;
+    &.icon-review {
+      color: @text-review;
+      background: @bg-review;
+      .text-shadow(@bg-review);
+      vertical-align: middle;
+      &:before {
+        margin-right: 0.5rem;
+        font-size: 1.8rem;
+        vertical-align: top;
+      }
+      &:after {
+        margin-left: 0.5rem;
+        vertical-align: top;
+      }
+    }
+    &.icon-verify-faild {
+      color: @text-verify-faild;
+      background: @bg-verify-faild;
+      .text-shadow(@bg-verify-faild);
+      &:before {
+        font-size: 1.8rem;
+        margin-right: 0.5rem;
+        vertical-align: top;
+      }
+      &:after {
+        margin-left: 0.5rem;
+        vertical-align: top;
+      }
+    }
+  }
+  &.active {
     .selldetail-user {
-        // display: none;
+      display: block;
     }
+  }
+  &.review {
     .page-content>.iconfont {
-        .text-center;
-        display: none;
-        height: 4rem;
-        line-height: 4rem;
-        &.icon-review {
-            color: @text-review;
-            background: @bg-review;
-            .text-shadow(@bg-review);
-            vertical-align: middle;
-            &:before {
-                margin-right: 0.5rem;
-                font-size: 1.8rem;
-                vertical-align: top;
-            }
-            &:after {
-                margin-left: 0.5rem;
-                vertical-align: top;
-            }
-        }
-        &.icon-verify-faild {
-            color: @text-verify-faild;
-            background: @bg-verify-faild;
-            .text-shadow(@bg-verify-faild);
-            &:before {
-                font-size: 1.8rem;
-                margin-right: 0.5rem;
-                vertical-align: top;
-            }
-            &:after {
-                margin-left: 0.5rem;
-                vertical-align: top;
-            }
-        }
+      &.icon-review {
+        display: block;
+      }
     }
-    &.active {
-        .selldetail-user {
-            display: block;
+  }
+  &.faild {
+    .page-content>.iconfont {
+      &.icon-verify-faild {
+        display: block;
+      }
+    }
+  }
+  .selldetail-footer {
+    .selldetail-delete-info {
+      display: none;
+    }
+    &.delete {
+      &>div {
+        &.selldetail-call-phone,
+        .icon-share {
+          display: none;
         }
+        &.selldetail-delete-info {
+          background: @text-chushou;
+          .text-shadow(@text-chushou);
+          display: block;
+        }
+      }
     }
     &.review {
-        .page-content>.iconfont {
-            &.icon-review {
-                display: block;
-            }
+      &>div {
+        &.col-30 {
+          display: none;
         }
+        &.icon-review {
+          display: block;
+        }
+      }
     }
-    &.faild {
-        .page-content>.iconfont {
-            &.icon-verify-faild {
-                display: block;
-            }
+    &.verify {
+      &>div {
+        &.col-30 {
+          display: none;
         }
+        &.icon-verify-faild {
+          display: block;
+        }
+      }
     }
-    .selldetail-footer {
-        .selldetail-delete-info {
-            display: none;
-        }
-        &.delete {
-            &>div {
-                &.selldetail-call-phone,
-                .icon-share {
-                    display: none;
-                }
-                &.selldetail-delete-info {
-                    background: @text-chushou;
-                    .text-shadow(@text-chushou);
-                    display: block;
-                }
-            }
-        }
-        &.review {
-            &>div {
-                &.col-30 {
-                    display: none;
-                }
-                &.icon-review {
-                    display: block;
-                }
-            }
-        }
-        &.verify {
-            &>div {
-                &.col-30 {
-                    display: none;
-                }
-                &.icon-verify-faild {
-                    display: block;
-                }
-            }
-        }
-        &.share-delete {
-            .selldetail-delete-info {
-                display: block;
-                background: @text-chushou;
-                .text-shadow(@text-chushou);
-            }
-            .selldetail-call-phone {
-                display: none;
-            }
-        }
+    &.share-delete {
+      .selldetail-delete-info {
+        display: block;
+        background: @text-chushou;
+        .text-shadow(@text-chushou);
+      }
+      .selldetail-call-phone {
+        display: none;
+      }
     }
+  }
 }
 
 .info-tages-list {
-    margin: 0;
-    padding: 0.5rem 2%;
-    line-height: 2rem;
-    background: @bg-f7;
-    .text-shadow(@bg-f7);
-    color: @text-subtitle;
-    span {
-        margin-right: 1.5rem;
-        font-size: 1.4rem;
-        &:before {
-            color: @themeColor;
-            margin-right: 0.2rem;
-            font-size: 1.8rem;
-            vertical-align: text-bottom;
-        }
+  margin: 0;
+  padding: 0.5rem 2%;
+  line-height: 2rem;
+  background: @bg-f7;
+  .text-shadow(@bg-f7);
+  color: @text-subtitle;
+  span {
+    margin-right: 1.5rem;
+    font-size: 1.4rem;
+    &:before {
+      color: @themeColor;
+      margin-right: 0.2rem;
+      font-size: 1.8rem;
+      vertical-align: text-bottom;
     }
+  }
 }

@@ -183,19 +183,26 @@ div.view-main[data-page="user"]{
       border-top: 1px solid @border-da;
       border-bottom: 1px solid @border-da;
       background-color: @text-fff;
-      padding-top: 1.8rem;
+      width: 100%;
+      height: 8rem;
+      position: relative;
       a{
+        padding-top: 1.2rem;
         color: #747474;
         width: 25%;
         text-align: center;
         position: relative;
+        display: block;
+        height: 8rem;
         .my-title{
           font-family: PingFangSC-Regular;
           font-size: 1.4rem;
           margin: 0;
-          padding-top: .7rem;
-          padding-bottom: 1.6rem;
           letter-spacing: 0.59px;
+          position:absolute;
+          bottom:1.1rem;
+          writing-mode:lr-tb;
+          left:1.7rem;
         }
         .icon-certification{
           font-size: 3.4rem;
@@ -222,7 +229,7 @@ div.view-main[data-page="user"]{
           background: @text-chushou;
           border-radius: 0.8rem;
           .ps-a;
-          top: -.35rem;
+          top:0.65rem;
           left: 47%;
           margin-left: -0.2rem;
           font-size: 1rem;
@@ -238,7 +245,7 @@ div.view-main[data-page="user"]{
           background: @text-chushou;
           border-radius: .95rem;
           .ps-a;
-          top:-.55rem;
+          top:0.65rem;
           left:50%;
           font-size: 1rem;
           z-index: 99;
@@ -249,33 +256,32 @@ div.view-main[data-page="user"]{
         .iconfont{
           font-size:4rem;
           color: #F78F1F;
-          margin-top: -1.1rem;
+          margin-top: -1rem;
         }
         .my-title{
-          margin-top: -1.1rem;
+          position:absolute;
+          bottom:1.1rem;
+          left:1.2rem;
         }
       }
       a:nth-child(2){
         span{
-          margin-top: -.35rem;
+          margin-top: -.55rem;
         }
         .my-title{
-          // padding-top:0;
-          margin-top: -10.5%;
+          position:absolute;
+          bottom:1.1rem;
+          left:1.4rem;
         }
       }
       a:nth-child(3){
-        .my-title{
-          // padding-top: 0;
-          margin-top: -8.3%;
+        span{
+          margin-top: -.35rem;
         }
       }
       a:nth-child(4){
         span{
           padding-top: .2rem;
-        }
-        .my-title{
-          padding-top: .35rem;
         }
       }
     }
@@ -305,6 +311,7 @@ div.view-main[data-page="user"]{
         }
         .item-media{
           height: 4rem;
+          line-height: 2rem;
           color: @text-black;
           span{
             font-size: 2.5rem;
@@ -323,7 +330,12 @@ div.view-main[data-page="user"]{
       a:nth-child(1),a:nth-child(5){
           padding-left: 1rem;
           .item-inner{
+            height: 4rem;
             margin-left: 1rem;
+          }
+          .item-media{
+            height: 4rem;
+            line-height: 1rem;
           }
       }
       a:nth-child(5){
@@ -333,7 +345,7 @@ div.view-main[data-page="user"]{
       }
       a:nth-child(2){
           .item-inner{
-            margin-left: 1.28rem;
+            margin-left: 1.3rem;
           }
       }
     }
@@ -363,6 +375,7 @@ div.view-main[data-page="user"]{
         }
         .item-media{
           height: 4rem;
+          line-height: 2rem;
           color: @text-black;
           span{
             font-size: 2.5rem;
