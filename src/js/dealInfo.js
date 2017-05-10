@@ -1,5 +1,5 @@
 
-function dealInfoInit (f7, views, page){
+function dealInfoInit (f7, view, page){
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
 

@@ -55,6 +55,9 @@ import {shareMyTripInit} from './js/shareMyTrip';
 import {aquaticClassroomInit} from './js/aquaticClassroom';
 import {strengthShowInit} from './js/strengthShow';
 import {dealInfoInit} from './js/dealInfo';
+import {releasePriceInit} from './js/releasePrice';
+import {addInstructionInit} from './js/addInstruction';
+import {chooseDateInit} from './js/chooseDate';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -292,6 +295,9 @@ f7.onPageInit('*', (page) => {
     page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, window.mainView, page);
     page.name === 'strengthShow' && strengthShowInit(f7, window.mainView, page);
     page.name === 'dealInfo' && dealInfoInit(f7, window.mainView, page);
+    page.name === 'releasePrice' && releasePriceInit(f7, window.mainView, page);
+    page.name === 'addInstruction' && addInstructionInit(f7, window.mainView, page);
+    page.name === 'chooseDate' && chooseDateInit(f7, window.mainView, page);
 });
 
 /**
