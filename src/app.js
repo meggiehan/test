@@ -53,6 +53,7 @@ import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
 import store from './utils/localStorage';
 import {shareMyTripInit} from './js/shareMyTrip';
 import {aquaticClassroomInit} from './js/aquaticClassroom';
+import {strengthShowInit} from './js/strengthShow';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -288,6 +289,7 @@ f7.onPageInit('*', (page) => {
     page.name === 'postDriverInfo' && postDriverInfoInit(f7, window.mainView, page);
 
     page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, window.mainView, page);
+    page.name === 'strengthShow' && strengthShowInit(f7, window.mainView, page);
 });
 
 /**
