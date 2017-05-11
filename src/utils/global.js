@@ -497,6 +497,17 @@ class CustomClass{
         currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
     }
 
+    /**
+     * [postUserShowCallback description]
+     * @param  {[nmber]} index [返回的id]
+     * @param  {[string]} url [上传的图片返回的在线路径]
+     * @param  {[string]} name []
+     * @return {[type]}     [description]
+     */
+    postUserShowCallback (index, url, name){
+        window.strengthShowModel.userInfo.abilityImgList.unshift(url);
+    }
+
     init (f){
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -523,6 +534,7 @@ class CustomClass{
         window['postDriverFileCallback'] = this.postDriverFileCallback;
         window['postDriverRoadTransportFileCallback'] = this.postDriverRoadTransportFileCallback;
         window['postDriverTransportCertificateFileCallback'] = this.postDriverTransportCertificateFileCallback;
+        window['postUserShowCallback'] = this.postUserShowCallback;
     }
 }
 

@@ -127,14 +127,23 @@ class CustomClass{
         if (!noCache){
             const cacheData = store.get(saveKey);
             if(cacheData && !isMandatory){
+                const {time, code} = cacheData;
+                if(1 !== code){
+                    f7.pullToRefreshDone();
+                    f7.hideIndicator();
+                    f7.hidePreloader();
+                    return;
+                }
                 callback(cacheData);
-                const {time} = cacheData;
                 const apiArr = ['getDemandInfo'];
                 const apiCategoryArr = ['userInformation'];
                 const isGet = 'get' == type;
                 if(isGet &&
                   (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
                   (new Date().getTime() - time) <= 3 * 1000){
+                    f7.pullToRefreshDone();
+                    f7.hideIndicator();
+                    f7.hidePreloader();
                     return;
                 }
             }
@@ -239,6 +248,7 @@ class CustomClass{
                         f7.hideIndicator();
                         f7.hidePreloader();
                         f7.pullToRefreshDone();
+                        f7.hidePreloader();
                         activeLogout();
                         f7.alert(_data.message, '提示', () => {
                             window.mainView.router.refreshPage();

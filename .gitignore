@@ -16,3 +16,4 @@ src/build/js
 src/build/css/*.css
 src/config/
 !src/config/index.js.bak
+yarn.lock
