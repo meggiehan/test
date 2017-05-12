@@ -1,237 +1,209 @@
 <div class="navbar">
-  <div class="navbar-inner user-title navbar-user-header">
-    <div class="center sliding">个人中心</div>
-  </div>
+    <div class="navbar-inner user-title navbar-user-header">
+        <div class="center sliding">个人中心</div>
+    </div>
 </div>
 <div class="page swipeback page-user no-swipeback no-animation" data-reload="true" data-page="user">
-  <div class="page-content">
-    <div class="vue-model">
-      <div
-      class="user-header list-block media-list"
-      :class="(userInfo.id || weixinData.imgUrl) ? 'login-succ' : ''"
-      @click="goMyCenter">
-      <div class="item-link item-content">
-        <div class="user-pic item-media">
-          <img
-          :src="(userInfo.imgUrl || weixinData.imgUrl) ? (userInfo.imgUrl ? (userInfo.imgUrl + imgPath(8)) : weixinData.imgUrl) : 'img/defimg.png'"
-          :class="userInfo.imgUrl ? 'active' : ''"
-          width="65"
-          class="lazy"/>
-        </div>
-        <div class="row item-inner">
-          <div class="col-65">
-            <span class="login">点击登录</span>
-            <div class="user-info">
-              <p class="user-name">
-                <span>{{userInfo.nickname || weixinData.nickname || '匿名用户'}}</span>
-                <i class="iconfont" :class="'icon-v' + (userInfo.level || 0)"></i>
-              </p>
-              <p class="user-tell-number">
-                {{weixinData.imgUrl && '绑定手机号，可使用更多功能' || ('手机号：' + userInfo.loginName)}}
-              </p>
+    <div class="page-content">
+        <div class="vue-model">
+            <div class="user-header list-block media-list" :class="(userInfo.id || weixinData.imgUrl) ? 'login-succ' : ''" @click="goMyCenter">
+                <div class="item-link item-content">
+                    <div class="user-pic item-media">
+                        <img :src="(userInfo.imgUrl || weixinData.imgUrl) ? (userInfo.imgUrl ? (userInfo.imgUrl + imgPath(8)) : weixinData.imgUrl) : 'img/defimg.png'" :class="userInfo.imgUrl ? 'active' : ''" width="65" class="lazy" />
+                    </div>
+                    <div class="row item-inner">
+                        <div class="col-65">
+                            <span class="login">点击登录</span>
+                            <div class="user-info">
+                                <p class="user-name">
+                                    <span>{{userInfo.nickname || weixinData.nickname || '匿名用户'}}</span>
+                                    <i class="iconfont" :class="'icon-v' + (userInfo.level || 0)"></i>
+                                </p>
+                                <p class="user-tell-number">
+                                    {{weixinData.imgUrl && '绑定手机号，可使用更多功能' || ('手机号：' + userInfo.loginName)}}
+                                </p>
+                            </div>
+                        </div>
+                        <a class="col-35 iconfont icon-right" onclick="apiCount('btn_editInfo')">
+                            <span class="modify-text">{{weixinData.imgUrl ? '绑定' : '修改资料'}}</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <a class="col-35 iconfont icon-right" onclick="apiCount('btn_editInfo')">
-            <span class="modify-text">{{weixinData.imgUrl ? '绑定' : '修改资料'}}</span>
-          </a>
+            <div class="user-info-driver-check">
+                <p class="driver-checking" v-if="0 === userInfo.driverState" @click="fishCarCheckIng"><span class="iconfont icon-info"></span>鱼车信息审核中，请耐心等待</p>
+                <p class="driver-reject" v-if="2 == userInfo.driverState" @click="catRejectInfo(userInfo.driverRefuseDescribe)">
+                    <span class="iconfont icon-info"></span> 鱼车信息审核未通过，点击查看原因
+                </p>
+                <p class="driver-frozen" v-if="3 == userInfo.driverState" @click="frozenMsg">
+                    <span class="iconfont icon-info"></span> 鱼车司机身份已被冻结，如有疑问联系客服
+                </p>
+
+                <p class="enter-auth-check" v-if="0 == userInfo.enterpriseAuthenticationState" @click="authCheckInfo">
+                    <span class="iconfont icon-info"></span> 企业认证审核中
+                </p>
+                <p class="enter-auth-reject" v-if="2 == userInfo.enterpriseAuthenticationState" @click="showAuthRejectInfo(userInfo.enterpriseAuthenticationDescribe, 1)">
+                    <span class="iconfont icon-info"></span> 企业认证审核未通过，点击查看原因
+                </p>
+
+                <p class="personal-auth-check" v-if="0 == userInfo.personalAuthenticationState" @click="authCheckInfo">
+                    <span class="iconfont icon-info"></span> 个人认证审核中
+                </p>
+                <p class="personal-auth-reject" v-if="2 == userInfo.personalAuthenticationState" @click="showAuthRejectInfo(userInfo.personalAuthenticationDescribe, 0)">
+                    <span class="iconfont icon-info"></span> 个人认证审核未通过，点击查看原因
+                </p>
+
+            </div>
+            <div class="user-info-list row">
+                <a class="my-sell-list col-33" @click="isLogin ? myListSell() : login()">
+                    <div>
+                        <span class="user-sell-num">{{userInfo.sellNumber || 0}}</span>个
+                        <div class="num-title">我的出售</div>
+                    </div>
+                </a>
+                <a class="my-buy-list col-33" @click="isLogin ? myListBuy() : login()">
+                    <div>
+                        <span class="user-buy-num">{{userInfo.buyNumber || 0}}</span>个
+                        <div class="num-title">我的求购</div>
+                    </div>
+                </a>
+                <a class="my-fish-car-list col-33" @click="isLogin ? goFishDemand() : login()">
+                    <div>
+                        <span class="user-fish-car-num">{{userInfo.fishCarDemandCount || 0}}</span>个
+                        <div class="num-title">叫鱼车需求</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="my-info-all row">
+                <a class="my-info-level col-25" @click="isLogin ? goMyMember() : login()">
+                    <span class="iconfont" :class="'icon-v' + (userInfo.level || 0)"></span>
+                    <p class="my-title">我的等级</p>
+                </a>
+                <a class="my-info-certification col-25" @click="goIdentity">
+                    <b v-if="isShowGoAuth">去认证</b>
+                    <span class="iconfont icon-certification"></span>
+                    <p class="my-title">{{authText}}</p>
+                </a>
+                <a class="my-info-card col-25">
+                    <span class="iconfont icon-card"></span>
+                    <p class="my-title">个人卡片</p>
+                </a>
+                <a class="my-info-notice col-25">
+                    <i>1</i>
+                    <span class="iconfont icon-mymesg"></span>
+                    <p class="my-title">通知中心</p>
+                </a>
+            </div>
+
+            <div class="list-block user-nav-info">
+                <a href="#" class="item-content change-fish-car">
+                    <div class="item-media">
+                        <span class="iconfont icon-fish-car iconmore"></span>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">修改我的鱼车信息</div>
+                        <div class="item-after"><span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+                <a href="#" class="item-content change-hobby" @click="isLogin ? goMyCollection() : login()">
+                    <div class="item-media">
+                        <span class="iconfont icon-collection-active"></span>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">我的收藏</div>
+                        <div class="item-after"><span>0</span>个<span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+                <a href="#" class="item-content" @click="isLogin ? uploadCert() : login()">
+                    <div class="item-media">
+                        <span class="iconfont icon-verification"></span>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">鱼类资质证书</div>
+                        <div class="item-after"><span>0</span>项<span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+                <a href="#" class="item-content" @click="isLogin ? inviteFriends() : login()">
+                    <div class="item-media">
+                        <span class="iconfont icon-invite"></span>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">邀请好友拿奖励</div>
+                        <div class="item-after">可提升靠谱指数<span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+                <a href="#" class="item-content change-fish-car change-fish" @click="isLogin ? driverBtnClick() : login()">
+                    <div class="item-media">
+                        <span class="iconfont icon-fish-car iconmore"></span>
+                    </div>
+                    <div class="item-inner item-first-none">
+                        <div class="item-title">鱼车司机登记</div>
+                        <div class="item-after">接单赚钱更方便<span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="list-block user-nav-account">
+                <a href="#" class="item-content bind-number" @click="bindAccount">
+                    <div class="item-media">
+                        <span class="iconfont icon-lock"></span>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">绑定账号</div>
+                        <div class="item-after"><span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+                <a href="#" class="item-content" @click="contactUs">
+                    <div class="item-media">
+                        <span class="iconfont icon-call"></span>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">联系客服</div>
+                        <div class="item-after">18115381185<span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+                <a href="#" class="item-content help-center" @click="helpCenter">
+                    <div class="item-media">
+                        <span class="iconfont icon-info"></span>
+                    </div>
+                    <div class="item-inner item-last-none">
+                        <div class="item-title">帮助中心</div>
+                        <div class="item-after"><span class="iconfont icon-right"></span></div>
+                    </div>
+                </a>
+            </div>
+            <!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
+            <!--</p>-->
+            <p class="user-app-version" v-if="versionNumber">当前版本：<span>{{versionNumber}}</span></p>
         </div>
-      </div>
     </div>
-    <div class="user-info-driver-check">
-      <p class="driver-checking"
-      v-if="0 === userInfo.driverState"
-      @click="fishCarCheckIng"><span class="iconfont icon-info"></span>鱼车信息审核中，请耐心等待</p>
-      <p class="driver-reject"
-      v-if="2 == userInfo.driverState"
-      @click="catRejectInfo(userInfo.driverRefuseDescribe)">
-      <span class="iconfont icon-info"></span>
-      鱼车信息审核未通过，点击查看原因
-    </p>
-    <p
-    class="driver-frozen"
-    v-if="3 == userInfo.driverState"
-    @click="frozenMsg">
-    <span class="iconfont icon-info"></span>
-    鱼车司机身份已被冻结，如有疑问联系客服
-  </p>
-
-  <p class="enter-auth-check"
-  v-if="0 == userInfo.enterpriseAuthenticationState"
-  @click="authCheckInfo">
-  <span class="iconfont icon-info"></span>
-  企业认证审核中
-</p>
-<p class="enter-auth-reject"
-v-if="2 == userInfo.enterpriseAuthenticationState"
-@click="showAuthRejectInfo(userInfo.enterpriseAuthenticationDescribe, 1)">
-<span class="iconfont icon-info"></span>
-企业认证审核未通过，点击查看原因
-</p>
-
-<p class="personal-auth-check"
-v-if="0 == userInfo.personalAuthenticationState"
-@click="authCheckInfo">
-<span class="iconfont icon-info"></span>
-个人认证审核中
-</p>
-<p class="personal-auth-reject"
-v-if="2 == userInfo.personalAuthenticationState"
-@click="showAuthRejectInfo(userInfo.personalAuthenticationDescribe, 0)">
-<span class="iconfont icon-info"></span>
-个人认证审核未通过，点击查看原因
-</p>
-
-</div>
-<div class="user-info-list row">
-  <a class="my-sell-list col-33" @click="isLogin ? myListSell() : login()">
-    <div>
-      <span class="user-sell-num">{{userInfo.sellNumber || 0}}</span>个
-      <div class="num-title">我的出售</div>
+    <div class="toolbar tabbar">
+        <div class="toolbar-inner">
+            <!-- Toolbar links -->
+            <a class="link no-animation href-go-home">
+                <div class="iconfont icon-my-buy"></div>
+                <div>我要买</div>
+            </a>
+            <a class="link no-animation">
+                <div class="iconfont icon-my-sell"></div>
+                <div>我要卖</div>
+            </a>
+            <a class="link edit-info to-release-page no-animation">
+                <div class="big-tab-border"></div>
+                <div class="tab-border">
+                    <div class="iconfont icon-edit"></div>
+                    <div>发布</div>
+                </div>
+            </a>
+            <a class="link no-animation">
+                <div class="iconfont icon-aquatic"></div>
+                <div>水产课堂</div>
+            </a>
+            <a class="link active no-animation">
+                <div class="iconfont icon-active-user"></div>
+                <div>个人中心</div>
+            </a>
+        </div>
     </div>
-  </a>
-  <a class="my-buy-list col-33" @click="isLogin ? myListBuy() : login()">
-    <div>
-      <span class="user-buy-num">{{userInfo.buyNumber || 0}}</span>个
-      <div class="num-title">我的求购</div>
-    </div>
-  </a>
-  <a class="my-fish-car-list col-33" @click="isLogin ? goFishDemand() : login()">
-    <div>
-      <span class="user-fish-car-num">{{userInfo.fishCarDemandCount || 0}}</span>个
-      <div class="num-title">叫鱼车需求</div>
-    </div>
-  </a>
-</div>
-
-<div class="my-info-all row">
-  <a class="my-info-level col-25" @click="isLogin ? goMyMember() : login()">
-      <span class="iconfont" :class="'icon-v' + (userInfo.level || 0)"></span>
-      <p class="my-title">我的等级</p>
-  </a>
-  <a class="my-info-certification col-25" @click="goIdentity">
-      <b v-if="isShowGoAuth">去认证</b>
-      <span class="iconfont icon-certification"></span>
-      <p class="my-title">{{authText}}</p>
-  </a>
-  <a class="my-info-card col-25">
-      <span class="iconfont icon-card"></span>
-      <p class="my-title">个人卡片</p>
-  </a>
-  <a class="my-info-notice col-25">
-      <i>1</i>
-      <span class="iconfont icon-mymesg"></span>
-      <p class="my-title">通知中心</p>
-  </a>
-</div>
-
-<div class="list-block user-nav-info">
-      <a href="#" class="item-content change-fish-car">
-        <div class="item-media">
-          <span class="iconfont icon-fish-car iconmore"></span>
-        </div>
-        <div class="item-inner">
-          <div class="item-title">修改我的鱼车信息</div>
-          <div class="item-after"><span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-      <a href="#" class="item-content change-hobby" @click="isLogin ? goMyCollection() : login()">
-        <div class="item-media">
-          <span class="iconfont icon-collection-active"></span>
-        </div>
-        <div class="item-inner">
-          <div class="item-title">我的收藏</div>
-          <div class="item-after"><span>0</span>个<span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-      <a href="#" class="item-content" @click="isLogin ? uploadCert() : login()">
-        <div class="item-media">
-          <span class="iconfont icon-verification"></span>
-        </div>
-        <div class="item-inner">
-          <div class="item-title">鱼类资质证书</div>
-          <div class="item-after"><span>0</span>项<span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-      <a href="#" class="item-content" @click="isLogin ? inviteFriends() : login()">
-        <div class="item-media">
-          <span class="iconfont icon-invite"></span>
-        </div>
-        <div class="item-inner">
-          <div class="item-title">邀请好友拿奖励</div>
-          <div class="item-after">可提升靠谱指数<span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-      <a href="#" class="item-content change-fish-car change-fish" @click="isLogin ? driverBtnClick() : login()">
-        <div class="item-media">
-          <span class="iconfont icon-fish-car iconmore"></span>
-        </div>
-        <div class="item-inner item-first-none">
-          <div class="item-title">鱼车司机登记</div>
-          <div class="item-after">接单赚钱更方便<span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-</div>
-
-<div class="list-block user-nav-account">
-      <a href="#"  class="item-content bind-number" @click="bindAccount">
-        <div class="item-media">
-          <span class="iconfont icon-lock"></span>
-        </div>
-        <div class="item-inner">
-          <div class="item-title">绑定账号</div>
-          <div class="item-after"><span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-      <a href="#"  class="item-content"  @click="contactUs">
-        <div class="item-media">
-          <span class="iconfont icon-call"></span>
-        </div>
-        <div class="item-inner">
-          <div class="item-title">联系客服</div>
-          <div class="item-after">18115381185<span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-      <a href="#" class="item-content help-center"  @click="helpCenter">
-        <div class="item-media">
-          <span class="iconfont icon-info"></span>
-        </div>
-        <div class="item-inner item-last-none">
-          <div class="item-title">帮助中心</div>
-          <div class="item-after"><span class="iconfont icon-right"></span></div>
-        </div>
-      </a>
-</div>
-<!--<p class="user-go-invite-page" onclick="apiCount('btn_myCenter_enterCode')"><a href="views/inviteCode.html">输入邀请码</a>-->
-<!--</p>-->
-<p class="user-app-version" v-if="versionNumber">当前版本：<span>{{versionNumber}}</span></p>
-</div>
-</div>
-<div class="toolbar tabbar">
-  <div class="toolbar-inner">
-    <!-- Toolbar links -->
-    <a class="link no-animation href-go-home">
-      <div class="iconfont icon-my-buy"></div>
-      <div>我要买</div>
-    </a>
-    <a class="link no-animation">
-      <div class="iconfont icon-my-sell"></div>
-      <div>我要卖</div>
-    </a>
-    <a class="link edit-info to-release-page no-animation">
-      <div class="big-tab-border"></div>
-        <div class="tab-border">
-          <div class="iconfont icon-edit"></div>
-          <div>发布</div>
-      </div>
-    </a>
-    <a class="link no-animation">
-      <div class="iconfont icon-aquatic"></div>
-      <div>水产课堂</div>
-    </a>
-    <a class="link active no-animation">
-      <div class="iconfont icon-active-user"></div>
-      <div>个人中心</div>
-    </a>
-  </div>
-</div>
 </div>

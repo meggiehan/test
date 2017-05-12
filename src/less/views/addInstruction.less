@@ -26,6 +26,7 @@
                 font-size: 1.2rem;
                 color: @text-subtitle;
                 display: block;
+                margin-bottom: 1.4rem;
             }
 
             .word-instruction {
@@ -38,10 +39,17 @@
                     border: 1px solid @text-subtitle;
                     border-radius: 0.2rem;
                     padding: 0 1rem;
-                    margin: 1.4rem 1rem 1.4rem 0;
+                    margin: 0 1rem 1.4rem 0;
                     font-size: 1.2rem;
                     color: @text-category;
                     letter-spacing: 0.025rem;
+
+                    &.on {
+                        border-color: @bg-b9;
+                        color: @bg-b9;
+                        background: @bg-info-tag;
+                        .text-shadow(@bg-info-tag);
+                    }
                 }
             }
         }

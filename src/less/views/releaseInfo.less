@@ -9,8 +9,10 @@
         p.release-info-pic-tip {
             color: @text-category;
             text-align: left;
-            margin: 0.5rem 0;
+            margin: 1rem 0;
             padding-left: 2%;
+            white-space: normal;
+            word-break: break-all;
         }
     }
 
@@ -50,7 +52,9 @@
 
     .release-info-header {
         background: @bg-fff;
-        .text-shadow(@text-fff);
+        // .text-shadow(@text-fff);
+        text-shadow: 0 0 0;
+        -webkit-text-shadow: 0 0 0;
 
         .release-info-pic {
             padding: 1rem 0;
@@ -112,7 +116,8 @@
                         background: @bg-add;
                         .text-shadow(@bg-add);
                         min-height: 4.5rem;
-
+                        // margin-top: 1rem;
+                        // margin-left: 0;
                         i {
                             display: block;
                             height: 45%;
@@ -127,6 +132,20 @@
                         }
                     }
                 }
+
+                .release-info-img {
+                    float: left;
+                    position: relative;
+
+                    .icon-del {
+                        position: absolute;
+                        top: -1.5rem;
+                        right: -8%;
+                        font-size: 3rem;
+                        z-index: 99;
+                        color: @text-name;
+                    }
+                }
             }
         }
     }
@@ -139,8 +158,7 @@
         &.border-none {
             border-bottom: 0;
         }
-
-        &.release-discription-list,
+        // &.release-discription-list,
         &.release-spec-list {
             height: auto;
             min-height: 2rem;
@@ -211,7 +229,12 @@
             }
         }
 
-        .release-write-address {
+        .release-write-address,
+        .release-write-cargo,
+        .release-write-issue,
+        .release-write-price,
+        .release-write-service,
+        .release-write-time {
             .ps-r;
 
             .iconfont {
@@ -228,6 +251,7 @@
         & > div {
             &.release-info-header {
                 height: auto;
+                border-bottom: none;
             }
             padding: 0 2% 0 0;
             color: @text-category;
@@ -255,7 +279,11 @@
                 display: none;
             }
 
-            .release-address-label {
+            .release-address-label,
+            .release-buy-time,
+            .release-has-cargo,
+            .release-logistics-service,
+            .release-totle-number {
                 span {
                     vertical-align: middle;
                     line-height: 1.6;
@@ -267,17 +295,222 @@
                     font-size: 1.2rem;
                 }
             }
+
+            .release-write-cargo,
+            .release-write-issue,
+            .release-write-price,
+            .release-write-service,
+            .release-write-time {
+                display: inherit;
+            }
+        }
+
+        .add-info {
+            a {
+                display: block;
+            }
+            width: 100%;
+            display: inline-block;
+            color: @text-name;
+            border-bottom: none;
+            height: auto;
+            line-height: 2.4rem;
+            font-size: 1.7rem;
+            padding-top: 1.5rem;
+            padding-bottom: 2.2rem;
+
+            .add-default {
+                // display: none;
+                font-size: 1.7rem;
+                color: @text-subtitle;
+                letter-spacing: 0.032rem;
+                margin: 0;
+            }
+        }
+
+        .release-price-info {
+            border-bottom: none;
+        }
+
+        .release-discription-list,
+        .release-tages-list {
+            margin: 0;
+            line-height: 2rem;
+            .text-shadow(@bg-f7);
+            color: @text-subtitle;
+            padding-bottom: 0.3rem;
+
+            span {
+                margin-right: 1.5rem;
+                font-size: 1.4rem;
+
+                &:before {
+                    color: @themeColor;
+                    margin-right: 0.2rem;
+                    font-size: 1.8rem;
+                    vertical-align: text-bottom;
+                }
+            }
+        }
+
+        .icon-right {
+            color: @text-subtitle;
+        }
+    }
+
+    .published-price {
+        margin-top: 1rem;
+        background-color: @text-fff;
+        border-bottom: 1px solid @text-border;
+
+        .published-price-pic {
+            height: 3.5rem;
+            padding-top: 1.85rem;
+            line-height: 3.5rem;
+            text-align: center;
+            position: relative;
+
+            .publish-pic {
+                display: inline-block;
+                width: 43%;
+                height: 1.2rem;
+                background: @bg-e5;
+                box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
+                -webkit-box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
+                border-radius: 8px;
+                position: relative;
+
+                s {
+                    display: inline-block;
+                    width: 8%;
+                    height: 0.9rem;
+                    background: @bg-e5;
+                    position: absolute;
+                    top: 0.15rem;
+                    left: 0.5rem;
+                }
+
+                i {
+                    display: inline-block;
+                    width: 8%;
+                    height: 0.9rem;
+                    background: @bg-e5;
+                    position: absolute;
+                    top: 0.15rem;
+                    right: 0.8rem;
+                    z-index: 1;
+                }
+            }
+
+            .publish-pic::before {
+                position: absolute;
+                left: -0.2rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                content: ' ';
+                top: -.175rem;
+                border-radius: 0.75rem;
+                -webkit-border-radius: 0.75rem;
+                background: @bg-e5;
+                box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
+                -webkit-box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
+            }
+
+            .publish-pic::after {
+                position: absolute;
+                right: 0;
+                width: 1.5rem;
+                height: 1.5rem;
+                content: ' ';
+                top: -.175rem;
+                border-radius: 0.75rem;
+                -webkit-border-radius: 0.75rem;
+                background: @bg-e5;
+                box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
+                -webkit-box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
+            }
+
+            .close-price,
+            .open-price {
+                display: inline-block;
+                position: absolute;
+                width: 3.2rem;
+                height: 3.2rem;
+                border-radius: 1.6rem;
+                -webkit-border-radius: 1.6rem;
+                background: #47B913;
+                box-shadow: 0 0 8px 0 rgba(71,184,19,0.70);
+                -webkit-box-shadow: 0 0 8px 0 rgba(71,184,19,0.70);
+
+                .iconfont {
+                    color: @text-fff;
+                    font-size: 2rem;
+                    vertical-align: top;
+                }
+            }
+
+            .open-price {
+                position: absolute;
+                top: 32%;
+                left: 23%;
+
+                .icon-money {
+                    line-height: 3rem;
+                }
+            }
+
+            .close-price {
+                position: absolute;
+                top: 32%;
+                right: 25%;
+                z-index: 1;
+            }
+        }
+
+        .published-price-text {
+            position: relative;
+            height: 3rem;
+            // margin-bottom: 1.5rem;
+            // width: 58%;
+            // margin: 0 auto;
+            p {
+                margin: 0;
+                display: inline-block;
+                font-size: 1.6rem;
+                color: @text-category;
+                letter-spacing: 0.032rem;
+
+                &.on {
+                    color: @bg-b9;
+                }
+            }
+
+            .price-left {
+                position: absolute;
+                top: 0;
+                left: 20.5%;
+                // padding-left: 20%;
+            }
+
+            .price-right {
+                // padding-right: 23%;
+                // float: right;
+                position: absolute;
+                top: 0;
+                right: 22.5%;
+            }
         }
     }
 
     .release-user-info {
-        margin: 1rem 0;
+        margin: 0 0 1rem;
     }
 
     .release-infomation {
         // margin-top: 1rem;
         .item-title {
             color: @text-name;
+            width: 36%;
         }
 
         .release-fish-name {
