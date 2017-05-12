@@ -38,6 +38,14 @@
                 </div>
             </div>
             <div class="info-tages-list"></div>
+            <!-- deal info  -->
+            <div class="user-deal-info">
+                  <a href="./views/dealInfo.html">
+                    <span class="iconfont icon-deal"></span>
+                    <div class="deal-title">已成交？提交成交信息</div>
+                    <div class="deal-text">让你看上去更靠谱<span class="iconfont icon-right"></span></div>
+                  </a>
+            </div>
             <div class="selldetail-user list-block media-list">
                 <div class="selldetail-userinfo item-content">
                     <div class="selldetail-user-pic item-media"><img src="img/defimg.png" class="lazy" width="50px"></div>
@@ -47,6 +55,7 @@
                                 <div class="col-90 user-name">
                                     <span></span>
                                     <i></i>
+                                    <div class="deal-number"><span>4</span>笔成交</div>
                                 </div>
                             </div>
                             <div class="buy-detail-auth">
@@ -90,11 +99,12 @@
         </div>
     </div>
     <div class="toolbar tabbar row selldetail-footer">
-        <div class="col-60 iconfont icon-review buy-detail-in-review">正在审核中，请稍后</div>
+        <div class="col-60 iconfont icon-review buy-detail-in-review">正在审核中，请等待</div>
         <div class="col-60 iconfont icon-verify-faild buy-detail-verify-faild" onclick="apiCount('btn_rejectReason')">审核不通过，点击查看原因</div>
         <div class="col-30 iconfont icon-share" onclick="apiCount('btn_share')">分享给好友</div>
         <div class="col-30 iconfont icon-collection icon-collection-btn" onclick="apiCount('btn_favorite')">收藏</div>
-        <div class="col-40 buydetail-call-phone">打电话</div>
+        <!-- <div class="col-30 iconfont icon-refresh refresh-info" onclick="apiCount('btn_favorite')">刷新信息</div> -->
+        <div class="col-40 buydetail-call-phone">电话联系</div>
         <div class="col-40 buydetail-delete-info">删除</div>
     </div>
 </div>
