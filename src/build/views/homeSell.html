@@ -1,0 +1,89 @@
+<div class="navbar">
+    <div class="navbar-inner">
+        <form class="searchbar index-search center sliding">
+            <div class="searchbar-input">
+                <a>
+                    <input type="search" placeholder="点击搜索品种名称，例如黑鱼" class="index-search-link">
+                    <div class="home-search-mask" onclick="apiCount('textfield_search_home')"></div>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="page swipeback toolbar-through page-home-sell" data-page="homeSell">
+    <div class="page-content">
+        <!-- brower and level and sell -->
+        <div class="sell-number row">
+            <a class="sell-brower-number col-33">
+                <div>
+                    <span class="sell-info-num">20</span>
+                    <div class="sell-info-title">最近浏览次数</div>
+                </div>
+            </a>
+            <a class="sell-level-number col-33">
+                <div>
+                    <span class="sell-info-num">0</span>
+                    <div class="sell-info-title">我的等级</div>
+                </div>
+            </a>
+            <a class="sell-my-number col-33">
+                <div>
+                    <span class="sell-info-num">4</span>
+                    <div class="sell-info-title">我的出售</div>
+                </div>
+            </a>
+        </div>
+        <!-- Refresh the information -->
+        <div class="refresh-info row">
+            <a href="views/filter.html?type=2&member=true" onclick="apiCount('btn_home_member')" class="col-33 buy-info">
+                <img src="img/icon_buy.png" alt="">
+                <p>求购大厅</p>
+            </a>
+
+            <a class="col-33 shop-info" href="views/homesell.html" onclick="apiCount('btn_home_tutor')">
+                <img src="img/ic_myShop.png" alt="">
+                <p>我的店铺</p>
+            </a>
+
+            <a class="col-33 find-FishCar" onclick="apiCount('btn_home_fishcar')">
+                <img src="img/ic_yucheb.png" alt="">
+                <p>找鱼车</p>
+            </a>
+            <div class="refresh-text">
+                <span class="three-day day-and-week">你已经<b>3</b>天没刷新信息了~</span>
+                <!-- <span class="this-week day-and-week">本周你还没有刷新过信息呢~</span> -->
+                <div class="refresh-btn">立即刷新</div>
+            </div>
+        </div>
+        <!-- recent release -->
+        <div class="recent-release-all">
+            <div class="release-title">
+                最近发布
+                <span class="iconfont icon-right">查看更多</span>
+            </div>
+            <div class="release-content">
+                <!-- <a class="recent-info"> -->
+                    <!-- <div class="recent-info-img"><img src="img/temp.png" class="lazy"></div>
+                    <div class="release-info-all">
+                        <p class="recent-title">黑鱼<span>昨天</span></p>
+                        <p class="recent-text">辽宁省大连市<span>| 1斤以上</span></p> -->
+                    <!-- </div> -->
+                <!-- </a> -->
+                <a class="list-block recent-info">
+                    <div class="item-content">
+                      <div class="item-media">
+                          <img src="./img/temp.png" alt="">
+                      </div>
+                        <div class="item-inner">
+                            <div class="item-title-row">黑鱼</div>
+                            <div class="item-subtitle">辽宁省大连市|1斤以上</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="release-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

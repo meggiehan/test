@@ -1,0 +1,189 @@
+div.view-main[data-page="homeSell"] {
+    .navbar::after {
+        background-color: @bg-b9;
+    }
+
+    .index-search {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        height: 3.6rem;
+        background: none;
+        padding: 0 5%;
+
+        &:after {
+            display: none;
+        }
+
+        .searchbar-input {
+            height: 100%;
+            padding-left: 0;
+            position: relative;
+            border-radius: 0.3rem;
+            .border-box;
+            font-size: 1.6rem;
+
+            &.filter-searchbar {
+                padding-left: 5.5rem;
+            }
+
+            .home-tabbar-logo {
+                width: 6rem;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                background: url('../img/logoTitle.png') center no-repeat;
+                background-size: 6rem auto;
+
+                &.filter-tabbar {
+                    width: 5rem;
+                    color: @text-fff;
+                    font-size: 1.6rem;
+                    overflow: hidden;
+                    vertical-align: middle;
+                    background: none;
+
+                    &:before {
+                        display: inline-block;
+                        font-size: 1.8rem;
+                        width: 1.2rem;
+                        padding-right: 0.5rem;
+                        .text-center;
+                        vertical-align: bottom;
+                    }
+                }
+            }
+
+            a {
+                display: block;
+                height: 100%;
+                width: 100%;
+                .ps-r;
+
+                .home-search-mask {
+                    .ps-a;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100;
+                    left: 0;
+                    top: 0;
+                }
+            }
+
+            input.index-search-link {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+                background-size: 1.7rem 1.7rem;
+                background-image: url('../img/ic_search.png');
+            }
+        }
+    }
+
+    .page {
+        .page-content {
+            .sell-number {
+                background: @bg-b9;
+
+                a {
+                    color: @text-fff;
+                    .text-center;
+                    padding: 1.6rem 0;
+
+                    .sell-info-num {
+                        font-size: 2rem;
+                    }
+
+                    .sell-info-title {
+                        font-size: 1.4rem;
+                    }
+
+                    & > div div {
+                        padding-top: 0.3rem;
+                    }
+                }
+            }
+
+            .refresh-info {
+                margin-bottom: 0;
+                background-color: @text-fff;
+
+                & > a {
+                    padding: 1.4rem 0;
+                    .text-center;
+                    display: block;
+                    width: 33%;
+
+                    img {
+                        display: block;
+                        // width: 3.5rem;
+                        height: 3.2rem;
+                        margin: 0 auto 0.9rem;
+                    }
+
+                    p {
+                        margin: 0;
+                        font-size: 1.4rem;
+                        color: @text-category;
+                        letter-spacing: 0.03rem;
+                    }
+                }
+
+                .refresh-text {
+                    height: 3.5rem;
+                    line-height: 3.5rem;
+                    width: 89%;
+                    margin: 0 auto;
+                    background: rgba(71,184,19,0.10);
+                    border-radius: 4px;
+                    margin-bottom: 1.5rem;
+                    position: relative;
+
+                    .refresh-btn {
+                        display: inline-block;
+                        height: 2.2rem;
+                        line-height: 2.2rem;
+                        text-align: center;
+                        padding: 0 0.75rem;
+                        background: @bg-b9;
+                        border-radius: 1.1rem;
+                        font-size: 1.2rem;
+                        color: @text-fff;
+                        letter-spacing: 0.0255;
+                        position: absolute;
+                        top: 0.65rem;
+                        right: 1.2rem;
+                    }
+
+                    .day-and-week {
+                        font-size: 1.6rem;
+                        color: @bg-b9;
+                        letter-spacing: 0.034rem;
+                        padding-left: 1.2rem;
+                    }
+                }
+            }
+
+            .recent-release-all {
+                background: @bg-fff;
+                margin-top: 1rem;
+
+                .release-title {
+                    padding: 1rem;
+                    line-height: 2rem;
+                    border-bottom: 1px solid @border-da;
+                    color: @text-name;
+                    font-size: 1.6rem;
+                    letter-spacing: 0.034rem;
+                    overflow: hidden;
+
+                    span {
+                        float: right;
+                        color: @text-subtitle;
+                        font-size: 1.4rem;
+                        letter-spacing: 0.03rem;
+                    }
+                }
+            }
+        }
+    }
+}
