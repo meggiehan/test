@@ -9,7 +9,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 function searchInit (f7, view, page){
     f7.hideIndicator();
     const { type, keyvalue } = page.query;
-    const release = page.query['release'] === 'true';
+    const release = page.query.release === 'true';
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input')[$$('.search-page-input').length - 1];
     const clear = $$('b.searchbar-clear');

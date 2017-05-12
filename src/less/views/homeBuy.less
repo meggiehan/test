@@ -153,27 +153,45 @@
         }
 
         .home-fish-cache-list {
-            margin-bottom: 0.5rem;
-            display: none;
+            margin-bottom: 1rem;
             background: @bg-fff;
             .text-shadow(@text-fff);
 
             .fish-cache-list {
                 overflow: hidden;
                 border-top: 1px solid @border-da;
-                padding: 0 2%;
-                color: @border-da;
 
                 a {
                     display: inline-block;
                     .text-center;
-                    width: 32.3%;
+                    width: 50%;
                     height: 4rem;
                     line-height: 4rem;
                     color: @text-category;
                     font-size: 1.6rem;
                     .text-hidden;
                     vertical-align: middle;
+                    .ps-r;
+                    border-bottom: 1px solid @border-da;
+
+                    b {
+                        .ps-a;
+                        height: 60%;
+                        left: -0.1rem;
+                        color: @border-da;
+                        font-size: 2rem;
+                    }
+
+                    span {
+                        display: inline-block;
+                        padding: 0.1rem 0.3rem;
+                        background: @text-price;
+                        .text-shadow(@text-price);
+                        color: @text-fff;
+                        border-radius: 0.4rem;
+                        height: 2rem;
+                        line-height: 2rem;
+                    }
                 }
             }
         }
@@ -250,6 +268,7 @@
                 background: @bg-home-block;
                 color: @text-category;
                 line-height: 2rem;
+                margin-top: 1rem;
 
                 a {
                     padding: 0 0.7rem;
@@ -269,6 +288,8 @@
             }
 
             .row-two-item {
+                margin-bottom: 0;
+
                 a {
                     width: 48.8%;
                     margin-top: 1rem;
@@ -276,6 +297,8 @@
             }
 
             .row-three-item {
+                margin-top: 0;
+
                 a {
                     width: 31.5%;
                     .text-center;
@@ -532,6 +555,14 @@
                     display: block;
                 }
             }
+        }
+
+        .infinite-scroll-preloader {
+            padding-top: 1rem;
+        }
+
+        .filter-search-empty-info {
+            display: block;
         }
     }
 }

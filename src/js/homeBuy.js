@@ -2,9 +2,7 @@ import customAjax from '../middlewares/customAjax';
 import {home} from '../utils/template';
 import {html, getName} from '../utils/string';
 import config from '../config';
-import {goUser} from '../utils/domListenEvent';
 import nativeEvent from '../utils/nativeEvent';
-import {getAll} from '../utils/localStorage';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import {releaseFishViewShow} from '../js/releaseView/releaseFishViews';
 import {getDealTime} from '../utils/time';
@@ -17,9 +15,13 @@ import tabbar from '../component/tabbar';
 function homeBuyInit (f7, view, page){
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const {fishCacheObj, cacheUserInfoKey} = config;
+    const {fishCacheObj, cacheUserInfoKey, pageSize} = config;
     const userInfo = isLogin() ? (store.get(cacheUserInfoKey) || {}) : {};
     const fishCarDriverId = userInfo.fishCarDriverId || '';
+    let fishCache = store.get(fishCacheObj.fishCacheKey) ? store.get(fishCacheObj.fishCacheKey).reverse() : [];
+    let pageNo = 1;
+    let isRefresh = false;
+    let isInfinite = false;
     /**
      * vue的数据模型
      * */
@@ -30,7 +32,7 @@ function homeBuyInit (f7, view, page){
         el: currentPage.find('.toolbar')[0]
     });
 
-    const vueHome = new Vue({
+    window.vueHome = new Vue({
         el: currentPage.find('.home-vue-box')[0],
         data: {
             homeData: {
@@ -43,7 +45,9 @@ function homeBuyInit (f7, view, page){
             fishCarTripInfo: '',
             fishCarDriverId: fishCarDriverId,
             userInfo: userInfo,
-            isHasCache: getAll().length
+            bigerBuyInfo: '',
+            selectCache: [],
+            showAll: false
         },
         methods: {
             getName: getName,
@@ -205,7 +209,7 @@ function homeBuyInit (f7, view, page){
         HomeModel.getMyFishRecentTrip((res) => {
             const {code, message, data} = res;
             if (1 == code){
-                vueHome.fishCarTripInfo = data || '';
+                window.vueHome.fishCarTripInfo = data || '';
             } else {
                 console.log(message);
             }
@@ -224,14 +228,14 @@ function homeBuyInit (f7, view, page){
         // const {banners, trades, fishTags} = data.data;
         const {banners} = data.data;
         if (1 == data.code){
-            vueHome.homeData = data.data;
+            window.vueHome.homeData = data.data;
             if(data.data.ads && data.data.ads.length){
                 if(data.data.ads.length % 2 == 0){
-                    vueHome.homeData.adsTop = data.data.ads;
+                    window.vueHome.homeData.adsTop = data.data.ads;
                 }else{
-                    vueHome.homeData.adsBottom = [data.data.ads.pop(), data.data.ads.pop(), data.data.ads.pop()];
-                    vueHome.homeData.adsBottom.reverse();
-                    vueHome.homeData.adsTop = data.data.ads;
+                    window.vueHome.homeData.adsBottom = [data.data.ads.pop(), data.data.ads.pop(), data.data.ads.pop()];
+                    window.vueHome.homeData.adsBottom.reverse();
+                    window.vueHome.homeData.adsTop = data.data.ads;
                 }
             }
             banners && banners.length && setTimeout(initSlider, 100);
@@ -248,81 +252,83 @@ function homeBuyInit (f7, view, page){
     }, initDataCallback);
 
     /**
-     * render 最近使用鱼种
-     * */
-    setTimeout(() => {
-        const fishCacheData = store.get(fishCacheObj.fishCacheKey);
-        if (fishCacheData && fishCacheData.length){
-            let str = '';
-            $$.each(fishCacheData.reverse(), (index, item) => {
-                if (index <= 5){
-                    str += home.renderFishList(item, index);
-                }
-            });
-            currentPage.find('.fish-cache-list').html(str);
-            str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
-        }
-    }, 400);
-
-    /**
      * render 首页的信息列表
      * */
-    const callback = (data, err, type) => {
-        const {buyDemands, saleDemands} = data.data;
-        if (saleDemands.length){
-            let catListHtml = '';
-            $$.each(saleDemands, (index, item) => {
-                catListHtml += home.cat(item);
-            });
-            html(currentPage.find('.cat-list-foreach'), catListHtml, f7);
+    const callback = (res) => {
+        const {code, message, data} = res;
+        if(1 == code){
+            if (data.length){
+                let catListHtml = '';
+                $$.each(data, (index, item) => {
+                    catListHtml += home.cat(item);
+                });
+                if(1 == pageNo){
+                    html(currentPage.find('.cat-list-foreach'), catListHtml, f7);
+                }else{
+                    currentPage.find('.cat-list-foreach').append(catListHtml);
+                }
+            }
+            window.vueHome.showAll = (data.length < pageSize);
+        }else{
+            console.log(message);
         }
-
-        if (buyDemands.length){
-            let buyListHtml = '';
-            $$.each(buyDemands, (index, item) => {
-                buyListHtml += home.buy(item);
-            });
-            html(currentPage.find('.buy-list-foreach'), buyListHtml, f7);
-        }
-        vueHome.isHasCache = true;
         // pull to refresh done.
         f7.pullToRefreshDone();
         currentPage.find('img.lazy').trigger('lazy');
+        setTimeout(() => {
+            isRefresh = false;
+            isInfinite = false;
+        }, 100);
     };
     /*
      * 获取首页信息
      * */
-    function getHomeListInfo (bool, onlyUseCache){
-        customAjax.ajax({
-            apiCategory: 'demandInfo',
-            api: 'list',
-            data: ['true'],
-            val: {
-                index: 'index'
-            },
-            type: 'get',
-            isMandatory: bool,
-            onlyUseCache
+    function getHomeListInfo (){
+        let fishIds = [];
+        fishCache = store.get(fishCacheObj.fishCacheKey) ? store.get(fishCacheObj.fishCacheKey).reverse() : [];
+        $$.each(fishCache, (index, val) => {
+            fishIds.push(val.id);
+        });
+        HomeModel.postFollowSaleList({
+            fishIds,
+            pageNo,
+            pageSize
         }, callback);
     }
 
-    getHomeListInfo(false, true);
-
     /*
-     * 刷新首页列表数据
+     * 下啦刷新首页列表数据
+     * 上啦加载更多
      * */
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', () => {
-        getHomeListInfo(nativeEvent.getNetworkStatus());
+        if(isRefresh || isInfinite){
+            f7.pullToRefreshTrigger(ptrContent);
+            return;
+        }
+        window.vueHome.showAll = false;
+        isRefresh = true;
+        isInfinite = false;
+        pageNo = 1;
+        getHomeListInfo();
     });
     setTimeout(() => {
         f7.pullToRefreshTrigger(ptrContent);
     }, 50);
 
+    ptrContent.on('infinite', () => {
+        if(isRefresh || isInfinite){
+            return;
+        }
+        isRefresh = false;
+        isInfinite = true;
+        pageNo++;
+        getHomeListInfo();
+    });
+
     /*
      * 跳转页面
      * */
-    $$('.href-go-user').off('click', goUser).on('click', goUser);
     $$('.home-search-mask').on('click', () => {
         view.router.load({
             url: 'views/search.html'
@@ -360,6 +366,43 @@ function homeBuyInit (f7, view, page){
                 window.uuid = data;
             });
         }, 4000);
+    }
+
+    // 获取当前用户本周浏览求购最多的一条信息（浏览次数超过100的）
+    if(isLogin()){
+        HomeModel.getBiggerBuyInfo((res) => {
+            const {code, data, message} = res;
+            if(1 == code){
+                const {demandId, state} = data;
+                4 == state && (window.vueHome.bigerBuyInfo = demandId);
+            }else{
+                console.log(message);
+            }
+        });
+    }
+
+    // 获取关心鱼种发布的条数
+    if(fishCache.length){
+        let dataArr = [];
+        $$.each(fishCache, (index, item) => {
+            let arr = {};
+            arr.fishId = item.id;
+            arr.fishName = item.name;
+            arr.parentFishId = item.parant_id;
+            arr.parentFishName = item.parant_name;
+            dataArr.push(arr);
+        });
+        HomeModel.postFollowFishNumber({
+            subscribedFishes: dataArr
+        }, (res) => {
+            const {code, data, message} = res;
+            if(1 == code){
+                window.vueHome.selectCache = data;
+            }else{
+                console.log(message);
+            }
+
+        });
     }
 
     // // //存储数据
