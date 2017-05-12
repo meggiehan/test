@@ -355,15 +355,15 @@ module.exports = {
         const {name} = obj;
         if (name && name.indexOf('全部') == -1){
             const {fishCacheKey, maxLength} = fishCacheObj;
-            let currentFishCache = nativeEvent.getDataToNative(fishCacheKey) || [];
+            let currentFishCache = store.get(fishCacheKey) || [];
             let index = -10;
             currentFishCache && currentFishCache.length && $$.each(currentFishCache, (key, val) => {
                 name == val.name && (index = key);
             });
             Number(index) > -1 && currentFishCache.splice(index, 1);
-            currentFishCache.length > (maxLength - 1) && currentFishCache.shift();
+            currentFishCache.length > maxLength && currentFishCache.shift();
             currentFishCache.push(obj);
-            nativeEvent.setDataToNative(fishCacheKey, currentFishCache);
+            store.set(fishCacheKey, currentFishCache);
         }
     },
 

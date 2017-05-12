@@ -47,9 +47,7 @@ let initConfig = {
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
-            },
-            minimize: true,
-            except: ['$$', '$', 'exports', 'export']
+            }
         }),
         new webpack.optimize.DedupePlugin({
             'process.env': {
@@ -84,12 +82,13 @@ if (PROD === 'build'){
 if (PROD === 'dev' || PROD === 'build-dev'){
     // initConfig.devtool = 'source-map';
     initConfig.devtool = 'eval';
-    initConfig.progress = false;
+    initConfig.progress = true;
     initConfig.devServer = {
         contentBase,
         port: env.hot_server_port,
         hot: true,
-        inline: true
+        inline: true,
+        host: '0.0.0.0'
     };
 }
 

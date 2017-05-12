@@ -85,7 +85,7 @@
                     <span class="iconfont icon-certification"></span>
                     <p class="my-title">{{authText}}</p>
                 </a>
-                <a class="my-info-card col-25">
+                <a class="my-info-card col-25" @click="shareMyShop()">
                     <span class="iconfont icon-card"></span>
                     <p class="my-title">个人卡片</p>
                 </a>
@@ -97,7 +97,7 @@
             </div>
 
             <div class="list-block user-nav-info">
-                <a href="#" class="item-content change-fish-car">
+                <a href="" class="item-content" v-if="1 == userInfo.driverState" @click="isLogin ? driverBtnClick() : login()">
                     <div class="item-media">
                         <span class="iconfont icon-fish-car iconmore"></span>
                     </div>
@@ -106,13 +106,13 @@
                         <div class="item-after"><span class="iconfont icon-right"></span></div>
                     </div>
                 </a>
-                <a href="#" class="item-content change-hobby" @click="isLogin ? goMyCollection() : login()">
+                <a href="#" class="item-content" @click="isLogin ? goMyCollection() : login()">
                     <div class="item-media">
                         <span class="iconfont icon-collection-active"></span>
                     </div>
                     <div class="item-inner">
                         <div class="item-title">我的收藏</div>
-                        <div class="item-after"><span>0</span>个<span class="iconfont icon-right"></span></div>
+                        <div class="item-after"><span>{{userInfo.favoriteCount || 0}}</span>个<span class="iconfont icon-right"></span></div>
                     </div>
                 </a>
                 <a href="#" class="item-content" @click="isLogin ? uploadCert() : login()">
@@ -121,7 +121,7 @@
                     </div>
                     <div class="item-inner">
                         <div class="item-title">鱼类资质证书</div>
-                        <div class="item-after"><span>0</span>项<span class="iconfont icon-right"></span></div>
+                        <div class="item-after"><span>{{userInfo.certNumber || 0}}</span>项<span class="iconfont icon-right"></span></div>
                     </div>
                 </a>
                 <a href="#" class="item-content" @click="isLogin ? inviteFriends() : login()">
@@ -133,7 +133,7 @@
                         <div class="item-after">可提升靠谱指数<span class="iconfont icon-right"></span></div>
                     </div>
                 </a>
-                <a href="#" class="item-content change-fish-car change-fish" @click="isLogin ? driverBtnClick() : login()">
+                <a href="#" class="item-content" @click="isLogin ? driverBtnClick() : login()" v-if="!(userInfo.driverState > -1)">
                     <div class="item-media">
                         <span class="iconfont icon-fish-car iconmore"></span>
                     </div>
@@ -145,7 +145,7 @@
             </div>
 
             <div class="list-block user-nav-account">
-                <a href="#" class="item-content bind-number" @click="bindAccount">
+                <a href="#" class="item-content" @click="bindAccount">
                     <div class="item-media">
                         <span class="iconfont icon-lock"></span>
                     </div>
@@ -163,7 +163,7 @@
                         <div class="item-after">18115381185<span class="iconfont icon-right"></span></div>
                     </div>
                 </a>
-                <a href="#" class="item-content help-center" @click="helpCenter">
+                <a href="#" class="item-content" @click="helpCenter">
                     <div class="item-media">
                         <span class="iconfont icon-info"></span>
                     </div>
@@ -179,31 +179,7 @@
         </div>
     </div>
     <div class="toolbar tabbar">
-        <div class="toolbar-inner">
-            <!-- Toolbar links -->
-            <a class="link no-animation href-go-home">
-                <div class="iconfont icon-my-buy"></div>
-                <div>我要买</div>
-            </a>
-            <a class="link no-animation">
-                <div class="iconfont icon-my-sell"></div>
-                <div>我要卖</div>
-            </a>
-            <a class="link edit-info to-release-page no-animation">
-                <div class="big-tab-border"></div>
-                <div class="tab-border">
-                    <div class="iconfont icon-edit"></div>
-                    <div>发布</div>
-                </div>
-            </a>
-            <a class="link no-animation">
-                <div class="iconfont icon-aquatic"></div>
-                <div>水产课堂</div>
-            </a>
-            <a class="link active no-animation">
-                <div class="iconfont icon-active-user"></div>
-                <div>个人中心</div>
-            </a>
-        </div>
+        <tab-bar-component tab-index='5'>
+            <tab-bar-component/>
     </div>
 </div>

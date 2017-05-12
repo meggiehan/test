@@ -2,6 +2,7 @@ import GetInfoListModel from './model/GetInfoListModel';
 import nativeEvent from '../utils/nativeEvent';
 import Vue from 'vue';
 import config from '../config';
+import tabbar from '../component/tabbar';
 /**
  * [aquaticClassroomInit 咨询模块ctrl]
  * @param  {[object]} f7   [description]
@@ -17,6 +18,12 @@ function aquaticClassroomInit (f7, view, page){
     } = config;
     let pageNo = 1;
     let loading = false;
+
+    Vue.component('tab-bar-component', tabbar);
+    // 底部tabbar组件
+    new Vue({
+        el: currentPage.find('.toolbar')[0]
+    });
 
     const vueData = new Vue({
         el: currentPage.find('.vue-box')[0],
