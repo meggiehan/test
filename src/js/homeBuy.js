@@ -11,6 +11,7 @@ import {JsBridge} from '../middlewares/JsBridge';
 import store from '../utils/localStorage';
 import HomeModel from './model/HomeModel';
 import tabbar from '../component/tabbar';
+import { myListBuy } from '../utils/domListenEvent';
 
 function homeBuyInit (f7, view, page){
     f7.hideIndicator();
@@ -52,6 +53,7 @@ function homeBuyInit (f7, view, page){
         methods: {
             getName: getName,
             getDealTime: getDealTime,
+            myListBuy: myListBuy,
             shareTrip (){
                 window.apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
                 if (this.fishCarTripInfo){
@@ -139,6 +141,12 @@ function homeBuyInit (f7, view, page){
                         url: openUrl
                     });
                 }
+            },
+            goMyBuyList (){
+                window.apiCount('btn_home_tutor');
+                view.router.load({
+                    url: 'views/filter.html?type=1&release=true'
+                });
             }
         },
         computed: {
@@ -335,30 +343,30 @@ function homeBuyInit (f7, view, page){
         });
     });
 
-    /**
-     *当前登录角色通过司机审核时,之间跳转至需求列表
-     *如果有选择历史,优先选择历史的选择
-     * */
-    currentPage.find('.callFishCar').click(() => {
-        const userInfo = store.get(cacheUserInfoKey);
-        const {driverState} = userInfo || {};
-        const isFishCar = store.get('isFishCar');
-
-        if (isFishCar || 0 === isFishCar){
-            window.mainView.router.load({
-                url: `views/fishCar.html?isFishCar=${isFishCar}`
-            });
-            return;
-        }
-
-        if (isLogin() && (1 == driverState)){
-            window.mainView.router.load({
-                url: 'views/fishCar.html?isFishCar=1'
-            });
-            return;
-        }
-        $$('.fish-car-modal').addClass('on');
-    });
+    // /**
+    //  *当前登录角色通过司机审核时,之间跳转至需求列表
+    //  *如果有选择历史,优先选择历史的选择
+    //  * */
+    // currentPage.find('.callFishCar').click(() => {
+    //     const userInfo = store.get(cacheUserInfoKey);
+    //     const {driverState} = userInfo || {};
+    //     const isFishCar = store.get('isFishCar');
+    //
+    //     if (isFishCar || 0 === isFishCar){
+    //         window.mainView.router.load({
+    //             url: `views/fishCar.html?isFishCar=${isFishCar}`
+    //         });
+    //         return;
+    //     }
+    //
+    //     if (isLogin() && (1 == driverState)){
+    //         window.mainView.router.load({
+    //             url: 'views/fishCar.html?isFishCar=1'
+    //         });
+    //         return;
+    //     }
+    //     $$('.fish-car-modal').addClass('on');
+    // });
 
     if(!window.uuid){
         setTimeout(() => {
@@ -373,8 +381,7 @@ function homeBuyInit (f7, view, page){
         HomeModel.getBiggerBuyInfo((res) => {
             const {code, data, message} = res;
             if(1 == code){
-                const {demandId, state} = data;
-                4 == state && (window.vueHome.bigerBuyInfo = demandId);
+                window.vueHome.bigerBuyInfo = data;
             }else{
                 console.log(message);
             }

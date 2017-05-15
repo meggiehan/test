@@ -375,6 +375,7 @@ function postDriverInfoInit (f7, view, page){
         f7.picker(fishCarSizeInitObj);
         f7.picker(fishCarBoxSizeInitObj);
         f7.picker(fishCarTankInitObj);
+        f7.picker(fishCarOxygenTank);
     } else {
         currentPage.find('.submit-btn').children().text('提交修改');
         currentPage.find('.post-driver-content').children('.post-title').hide();

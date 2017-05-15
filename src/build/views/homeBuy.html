@@ -38,12 +38,12 @@
                     <p>出售大厅</p>
                 </a>
 
-                <a class="col-33 callFishCar" onclick="apiCount('btn_home_fishcar')">
+                <a class="col-33" @click="myListBuy()">
                     <img src="img/icon_buy.png" alt="">
                     <p>我的求购</p>
                 </a>
 
-                <a class="col-33 aquatic_classroom" href="views/release.html" onclick="apiCount('btn_home_tutor')">
+                <a class="col-33 aquatic_classroom" @click="goMyBuyList()">
                     <img src="img/icon_release.png" alt="">
                     <p>发布求购信息</p>
                 </a>
@@ -113,9 +113,15 @@
                     </a>
                 </div>
 
-                <div class="cat-my-shop" v-if="!!bigerBuyInfo">
-                    你的求购信息本周浏览次数已超100次！
-                    <a :href="'views/buydetail.html?id=' +  bigerBuyInfo">快去看看</a>
+                <div class="cat-my-shop" v-if="bigerBuyInfo">
+                    {{4 == bigerBuyInfo.state ? '你的求购信息本周浏览次数已超100次！' : ''}}
+                    {{3 == bigerBuyInfo.state ? '每天刷新一次求购，更快买到好东西~' : ''}}
+                    {{2 == bigerBuyInfo.state ? '求购很久啦，快告诉我有没有成交' : ''}}
+                    {{1 == bigerBuyInfo.state ? '发布一个求购信息，帮你买到好东西' : ''}}
+                    <a v-if="1 == bigerBuyInfo.state" href="views/filter.html?type=1&release=true">现在发布</a>
+                    <a v-if="2 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId">我已成交</a>
+                    <a v-if="3 == bigerBuyInfo.state" href="views/myList.html?type=1">去刷新</a>
+                    <a v-if="4 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId">快去看看</a>
                 </div>
             </div>
 

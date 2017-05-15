@@ -195,7 +195,7 @@ window.releaseView = f7.addView('.view-release-fish', {
  * 主视图初始化加载首页
  * */
 window.mainView.router.load({
-    url: 'views/home.html',
+    url: 'views/homeBuy.html',
     animatePages: false,
     reload: true
 });

@@ -15,7 +15,7 @@
     "cover-test": "istanbul cover _mocha",
     "unit-test": "mocha --reporter mochawesome",
     "less": "gulp less",
-    "dev": "webpack-dev-server --hot --host 10.228.19.11 --open",
+    "dev": "webpack-dev-server --hot --host 0.0.0.0 --open",
     "watch": "webpack --watch && webpck",
     "produce": "gulp && webpack",
     "watch-less": "gulp watch",
