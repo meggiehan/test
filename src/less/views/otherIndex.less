@@ -133,10 +133,29 @@
         }
 
         .shop-strength-info {
-            padding: 1.6rem 0 0 1rem;
+            padding: 1.6rem 1rem 0;
             font-size: 1.4rem;
             color: @text-name;
             letter-spacing: 0.03rem;
+        }
+
+        .shop-strength-empty {
+            padding: 3rem 20%;
+            .text-center;
+            color: @text-subtitle;
+
+            .shop-strength-empty-text {
+                line-height: 1.6;
+            }
+
+            .go-shop-strength {
+                display: inline-block;
+                padding: 0.7rem 3rem;
+                color: @themeColor;
+                border-radius: 0.3rem;
+                border: 1px solid @themeColor;
+                margin-top: 2.2rem;
+            }
         }
 
         .shop-strength-pic {
@@ -147,8 +166,8 @@
                 display: inline-block;
                 width: 7.2rem;
                 height: 7.2rem;
-                opacity: 0.5;
                 background: @bg-d8;
+                overflow: hidden;
                 border: 1px solid @model-border;
                 border-radius: 4px;
                 margin: 0 1rem 0.725rem 0;

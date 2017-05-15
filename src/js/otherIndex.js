@@ -8,6 +8,7 @@ import { otherIndexClickTip, veiwCert } from '../utils/domListenEvent';
 import Vue from 'vue';
 import store from '../utils/localStorage';
 import CountModel from './model/count';
+import { isLogin } from '../middlewares/loginMiddle';
 
 function otherIndexInit (f7, view, page){
     const { currentUserId } = page.query;
@@ -37,7 +38,11 @@ function otherIndexInit (f7, view, page){
         methods: {
             imgPath: imgPath,
             veiwCert: veiwCert,
-            getCertInfo: getCertInfo
+            getCertInfo: getCertInfo,
+            isLogin: isLogin(),
+            catPic (url){
+                nativeEvent.catPic(url);
+            }
         }
     });
 

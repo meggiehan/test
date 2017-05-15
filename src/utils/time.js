@@ -124,5 +124,26 @@ module.exports = {
         const month = today.getMonth() + 1;
         const day = today.getDate();
         return `${year}/${month}/${day}`;
+    },
+    getMarketTimeStr (time){
+        if(!time){
+            return '';
+        }
+        const year = new Date(time * 1000).getFullYear();
+        const month = new Date(time * 1000).getMonth() + 1;
+        const day = new Date(time * 1000).getDate();
+        let timeStr = '';
+        if(day <= 10){
+            timeStr = '上旬';
+        }
+
+        if(day <= 20 && day > 10){
+            timeStr = '中旬';
+        }
+
+        if(day > 20){
+            timeStr = '下旬';
+        }
+        return `预售产品，${year}年${month}月${timeStr}开卖`;
     }
 };
