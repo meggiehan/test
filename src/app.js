@@ -58,6 +58,7 @@ import {dealInfoInit} from './js/dealInfo';
 import {releasePriceInit} from './js/releasePrice';
 import {addInstructionInit} from './js/addInstruction';
 import {chooseDateInit} from './js/chooseDate';
+import {homeSellInit} from './js/homeSell';
 import HomeModel from './js/model/HomeModel';
 import InitApp from './js/model/InitApp';
 
@@ -303,6 +304,7 @@ f7.onPageInit('*', (page) => {
     page.name === 'releasePrice' && releasePriceInit(f7, window.mainView, page);
     page.name === 'addInstruction' && addInstructionInit(f7, window.mainView, page);
     page.name === 'chooseDate' && chooseDateInit(f7, window.mainView, page);
+    page.name === 'homeSell' && homeSellInit(f7, window.mainView, page);
 });
 
 /**
