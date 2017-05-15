@@ -9,7 +9,7 @@ import { setHistory } from '../utils/viewsUtil/searchUtils';
 function searchInit (f7, view, page){
     f7.hideIndicator();
     const { type, keyvalue } = page.query;
-    const release = page.query['release'] === 'true';
+    const release = page.query.release === 'true';
     const { pageSize, cacheHistoryKey } = config;
     const input = $$('.search-page-input')[$$('.search-page-input').length - 1];
     const clear = $$('b.searchbar-clear');
@@ -19,7 +19,6 @@ function searchInit (f7, view, page){
     // const emptyValInfo = $$('.search-val-empty');
     const searchContent = $$('.search-content');
     const emptyInfo = $$('.search-empty-result');
-    let searchVal = '';
     let searchHistoryMetadata = store.get(cacheHistoryKey);
     !release && trim(input.value) && searchButton.addClass('on');
     const renderHistory = () => {
@@ -84,10 +83,7 @@ function searchInit (f7, view, page){
             $$('.serch-history').hide();
             emptyInfo.hide();
         }
-
-        if (trim(searchVal) !== trim(val) && trim(val) !== ''){
-            searchVal = val;
-
+        if (val){
             customAjax.ajax({
                 apiCategory: 'demandInfo',
                 api: 'getFishTypeList/5',

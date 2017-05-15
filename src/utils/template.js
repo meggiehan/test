@@ -1,4 +1,9 @@
-import {timeDifference, getDate, getDealTime} from './time';
+import {
+    timeDifference,
+    getDate,
+    getDealTime,
+    getMarketTimeStr
+} from './time';
 import {getCertInfo,
     getName,
     getInfoStatus,
@@ -28,7 +33,8 @@ module.exports = {
                 nameAuthenticated,
                 provinceName,
                 cityName,
-                quantityTagList
+                quantityTagList,
+                demandInfoSale
             } = data;
             let img = window.document.createElement('img');
             const currentLevel = level || userLevel;
@@ -62,6 +68,14 @@ module.exports = {
                 `<span class="user-name">${contactName || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
                 `<span class="user-release-time">${timeDifference(sort)}</span>` +
                 '</div>';
+
+            let demandInfoSaleStr = '';
+            if(demandInfoSale){
+                const {marketTime} = demandInfoSale;
+                demandInfoSaleStr += `<div class="sale-market-time"><i class="iconfont icon-time"></i>${getMarketTimeStr(marketTime)}</div>`;
+            }
+
+            res += demandInfoSaleStr;
 
             let certList = '';
 

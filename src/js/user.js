@@ -5,11 +5,11 @@ import nativeEvent from '../utils/nativeEvent';
 import {getCurrentDay, alertTitleText, getAuthText} from '../utils/string';
 import UserModel from './model/UserModel';
 import Vue from 'vue';
+import tabbar from '../component/tabbar';
 import {timeDifference} from '../utils/time';
 import {JsBridge} from '../middlewares/JsBridge';
 
 import {
-    goHome,
     goMyCenter,
     myListBuy,
     myListSell,
@@ -28,6 +28,12 @@ function userInit (f7, view, page){
         mWebUrl
     } = config;
     let userInformation = store.get(cacheUserInfoKey);
+
+    Vue.component('tab-bar-component', tabbar);
+    // 底部tabbar组件
+    new Vue({
+        el: currentPage.find('.toolbar')[0]
+    });
 
     const userVue = new Vue({
         el: currentPage.find('.vue-model')[0],
@@ -356,16 +362,6 @@ function userInit (f7, view, page){
             borderBottom: '1px solid #efeff4'
         });
     }, 1000);
-
-    /*
-     * 回到首页
-     * */
-    currentPage.find('.href-go-home')[0].onclick = goHome;
-
-    /*
-     * 前往发布信息页面
-     * */
-    currentPage.find('.to-release-page')[0].onclick = userVue.releaseInfo;
 
     if(!window.uuid){
         JsBridge('JS_GetUUid', {}, (data) => {

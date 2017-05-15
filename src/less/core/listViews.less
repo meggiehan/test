@@ -3,6 +3,7 @@
     border-bottom: 1px solid @border-da;
     -webkit-align-items: inherit;
     -webkit-box-align: start;
+
     .col-30 {
         img {
             display: block;
@@ -14,6 +15,7 @@
         overflow: hidden;
         -webkit-box-align: start;
         -webkit-align-items: flex-start;
+
         .sell-list-imgs {
             display: inline-block;
             .ps-a;
@@ -28,6 +30,7 @@
             border-radius: 1rem;
             font-size: 1.4rem;
         }
+
         span.check {
             display: block;
             overflow: hidden;
@@ -43,28 +46,33 @@
             color: @text-fff;
             .text-center;
             font-size: 1.4rem;
+
             &:before {
                 font-size: 2rem;
                 vertical-align: middle;
             }
         }
     }
+
     .col-70 {
         vertical-align: middle;
         padding: 0;
         margin-left: 1rem;
+
         &:after {
             display: none;
         }
-        .goods-weight,
+
+        .cat-list-address,
+        .cat-list-tags,
+        .cat-list-title-auth span,
+        .goods-create-time,
         .goods-name,
         .goods-price,
-        .goods-create-time,
-        .cat-list-tags,
-        .cat-list-address,
-        .cat-list-title-auth span {
+        .goods-weight {
             .text-hidden;
         }
+
         .cat-list-text,
         .cat-list-title-auth,
         .cat-list-user-name {
@@ -74,14 +82,33 @@
             vertical-align: middle;
             .text-hidden;
         }
+
+        .sale-market-time {
+            height: 1.6rem;
+            line-height: 1.6rem;
+            padding: 0.4rem;
+            background: fade(@text-price ,20%);
+            font-size: 1.4rem;
+            color: @text-price;
+            vertical-align: middle;
+            margin-top: 0.5rem;
+
+            i {
+                font-size: 2rem;
+                padding-right: 0.7rem;
+            }
+        }
+
         .cat-list-title {
             height: 2.7rem;
             line-height: 2.7rem;
             .text-hidden;
             vertical-align: middle;
         }
+
         .cat-list-title-auth {
             font-size: 1.2rem;
+
             span {
                 display: inline-block;
                 max-width: 60%;
@@ -95,10 +122,12 @@
                 border-radius: 0.3rem;
                 color: @text-fff;
                 padding-left: 1.8rem;
+
                 b,
                 i {
                     display: block;
                 }
+
                 b {
                     width: 1.8rem;
                     .text-shadow(@themeColor);
@@ -109,6 +138,7 @@
                     height: 100%;
                     .text-center;
                 }
+
                 i {
                     background: @bg-fff;
                     color: @themeColor;
@@ -121,7 +151,8 @@
                     -webkit-box-sizing: border-box;
                 }
             }
-            &>b {
+
+            & > b {
                 display: inline-block;
                 float: right;
                 border-radius: 0.3rem;
@@ -134,8 +165,10 @@
                 line-height: 1.5rem;
             }
         }
+
         .cat-list-tags {
             color: @text-subtitle;
+
             p {
                 margin: 0;
                 height: 2rem;
@@ -143,24 +176,29 @@
                 .text-hidden;
                 margin-bottom: 0.5rem;
                 font-size: 1.4rem;
+
                 &:first-child {
                     margin-top: 0.5rem;
                 }
+
                 span {
                     display: inline-block;
                     .text-center;
                     width: 2rem;
                     color: @text-fff;
                     margin-right: 0.5rem;
-                    &.seedling,
-                    &.cert {
+
+                    &.cert,
+                    &.seedling {
                         background: @themeColor;
                         .text-shadow(@themeColor);
                     }
+
                     &.water {
                         background: @text-water;
                         .text-shadow(@text-water);
                     }
+
                     &.identity {
                         background: @text-chushou;
                         .text-shadow(@text-chushou);
@@ -168,6 +206,7 @@
                 }
             }
         }
+
         .cat-list-user-name {
             span {
                 display: inline-block;
@@ -176,24 +215,28 @@
                 font-size: 1.4rem;
                 color: @text-category;
                 vertical-align: middle;
+
                 b {
                     color: @themeColor;
                     padding-left: 0.3rem;
                     font-size: 1.8rem;
                     vertical-align: top;
                 }
+
                 &.user-release-time {
                     float: right;
                     padding-top: 0.1rem;
                 }
             }
         }
+
         .goods-name {
             color: @text-name;
             font-size: 1.6rem;
             width: 58%;
             .text-hidden;
         }
+
         .goods-price {
             width: 40%;
             color: @text-price;
@@ -201,10 +244,12 @@
             .text-right;
             .text-hidden;
         }
+
         .cat-list-text {
             color: @text-subtitle;
             font-size: 1.4rem;
             .text-hidden;
+
             .goods-create-time {
                 .text-right;
                 .text-hidden;
@@ -218,14 +263,17 @@ a.buy-list-info {
     display: block;
     border-bottom: 1px solid @border-da;
     vertical-align: middle;
+
     .hide {
         display: none;
     }
+
     .buy-name {
         color: @text-name;
         font-size: 1.6rem;
         .text-hidden;
         padding-bottom: 0.2rem;
+
         span {
             display: inline-block;
             margin-right: 0.3rem;
@@ -238,6 +286,7 @@ a.buy-list-info {
             font-size: 1.4rem;
             vertical-align: top;
             padding: 0 0.6rem;
+
             &:before {
                 color: @text-fff;
                 font-size: 2.2rem;
@@ -245,6 +294,7 @@ a.buy-list-info {
             }
         }
     }
+
     .buy-price {
         color: @text-price;
         font-size: 1.6rem;
@@ -252,18 +302,21 @@ a.buy-list-info {
         .text-hidden;
         padding-bottom: 0.2rem;
     }
+
     .buy-spec {
         color: @text-category;
         font-size: 1.4rem;
         .text-hidden;
         padding-bottom: 0.1rem;
     }
+
     .buy-time {
         color: @text-category;
         font-size: 1.4rem;
         .text-right;
         .text-hidden;
     }
+
     .buy-list-auth {
         padding: 0.2rem 0.5rem;
         background: @bg-v;
@@ -275,19 +328,23 @@ a.buy-list-info {
         color: @text-fff;
         display: inline-block;
         vertical-align: middle;
-        margin-right: .4rem;
+        margin-right: 0.4rem;
     }
+
     .buy-address {
         color: @text-category;
         .text-hidden;
         font-size: 1.4rem;
     }
+
     .home-buy-address {
         color: @text-category;
         font-size: 1.4rem;
         .text-hidden;
+
         span {
             vertical-align: middle;
+
             &:before {
                 color: @text-level;
                 font-size: 2rem;
@@ -296,14 +353,16 @@ a.buy-list-info {
             }
         }
     }
-    .buy-list-describe{
+
+    .buy-list-describe {
         .text-hidden;
         margin-top: 0.5rem;
         padding: 1rem 0 0.5rem;
-        border-top:1px solid @border-da;
+        border-top: 1px solid @border-da;
         color: @text-category;
         font-size: 1.4rem;
-        span{
+
+        span {
             display: inline-block;
             padding: 0.2rem 0.5rem;
             margin-right: 0.3rem;
@@ -316,17 +375,20 @@ a.buy-list-info {
     }
 }
 
-.list-check-status{
+.list-check-status {
     line-height: 2.5rem;
-    div{
-        padding:0.5rem 2%;
+
+    div {
+        padding: 0.5rem 2%;
         .text-right;
         .text-hidden;
         font-size: 1.4rem;
-        .f-l{
+
+        .f-l {
             float: left;
             color: @themeColor;
-            &:before{
+
+            &:before {
                 content: '.';
                 color: @text-fff;
                 vertical-align: middle;
@@ -337,20 +399,26 @@ a.buy-list-info {
                 background: @themeColor;
                 margin-right: 0.3rem;
             }
-            &.faild{
+
+            &.faild {
                 color: @text-chushou;
-                &:before{
+
+                &:before {
                     background: @text-chushou;
                 }
             }
-            &.check{
+
+            &.check {
                 color: @text-water;
-                &:before{
+
+                &:before {
                     background: @text-water;
                 }
             }
         }
-        .refresh-btn, .sell-list-share{
+
+        .refresh-btn,
+        .sell-list-share {
             display: inline-block;
             padding: 0 1rem;
             height: 100%;
@@ -358,21 +426,22 @@ a.buy-list-info {
             color: @themeColor;
             margin-left: 0.3rem;
             border-radius: 0.3rem;
-            &.disabled{
+
+            &.disabled {
                 border-color: @text-subtitle;
                 color: @text-subtitle;
             }
         }
     }
-    p{
+
+    p {
         height: 1rem;
         width: 100%;
-        border-top:1px solid @border-da;
+        border-top: 1px solid @border-da;
         background: @bg-body;
         margin: 0;
     }
 }
-
 /*鱼车需求列表*/
 .driver-info {
     margin-bottom: 1rem;
@@ -381,19 +450,23 @@ a.buy-list-info {
     border-radius: 0.2rem;
     overflow: hidden;
     display: block;
+
     .driver {
         border-bottom: 1px solid #E7E7E7;
         padding: 1rem 1rem 1rem 1.5rem;
         display: -webkit-flex;
         -webkit-align-items: center;
         font-size: 1.6rem;
-        .head-img{
+
+        .head-img {
             width: 6.6rem;
         }
+
         .avatar {
             border-radius: 0.4rem;
             display: block;
         }
+
         .username {
             color: @text-name;
             max-width: 60%;
@@ -402,29 +475,34 @@ a.buy-list-info {
             height: 3.6rem;
             line-height: 3.6rem;
             .text-hidden;
-            span{
+
+            span {
                 max-width: 70%;
                 .text-hidden;
                 min-width: 30%;
                 display: inline-block;
                 vertical-align: middle;
             }
-            i{
+
+            i {
                 color: @themeColor;
                 font-size: 2.2rem;
                 margin-left: 0.3rem;
             }
         }
+
         .description {
             color: @text-subtitle;
             display: -webkit-flex;
             -webkit-justify-content: flex-end;
             width: 100%;
-            div{
-              word-wrap: kepp-all;
+
+            div {
+                word-wrap: kepp-all;
             }
         }
     }
+
     .driver-demand {
         border-bottom: 1px solid #E7E7E7;
         padding: 1rem 1rem 1rem 1.5rem;
@@ -433,8 +511,10 @@ a.buy-list-info {
         font-size: 1.6rem;
         color: @text-category;
         line-height: 2.5rem;
+
         .icon {
             word-break: break-all;
+
             &:before {
                 content: ' ';
                 width: 1rem;
@@ -444,17 +524,21 @@ a.buy-list-info {
                 background: @text-category;
                 margin-right: 0.5rem;
             }
+
             &.route:before {
                 background: @text-test;
             }
+
             &.description:before {
                 background: @text-qiugou;
             }
-            &.fish-name:before{
+
+            &.fish-name:before {
                 background: @themeColor;
             }
         }
     }
+
     .driver-contact {
         padding: 1rem 1rem 1rem 1.5rem;
         display: -webkit-flex;
@@ -463,9 +547,11 @@ a.buy-list-info {
         -webkit-justify-content: space-between;
         align-items: center;
         .ps-r;
-        .expired-text{
+
+        .expired-text {
             color: @text-category;
         }
+
         .phone {
             padding: 0 1rem;
             border: 1px solid @text-test;
@@ -473,12 +559,14 @@ a.buy-list-info {
             line-height: 3.6rem;
             display: -webkit-flex;
             -webkit-align-items: center;
-            &.delete-trip{
+
+            &.delete-trip {
                 border-color: @text-price;
                 color: @text-price;
                 padding: 0 2rem;
             }
-            &.fish-trip-share-btn{
+
+            &.fish-trip-share-btn {
                 display: inline-block;
                 border-color: @themeColor;
                 color: @themeColor;
@@ -487,11 +575,13 @@ a.buy-list-info {
                 top: 1rem;
                 right: 9rem;
             }
+
             .text {
                 margin-left: 0.5rem;
             }
         }
     }
+
     .demandinfo-right {
         .ps-a;
         top: 3rem;
@@ -508,6 +598,7 @@ a.buy-list-info {
         vertical-align: middle;
         float: right;
     }
+
     span.icon-right {
         display: block;
         right: 1rem;

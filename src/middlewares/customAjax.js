@@ -127,14 +127,23 @@ class CustomClass{
         if (!noCache){
             const cacheData = store.get(saveKey);
             if(cacheData && !isMandatory){
+                const {time, code} = cacheData;
+                if(1 !== code){
+                    f7.pullToRefreshDone();
+                    f7.hideIndicator();
+                    f7.hidePreloader();
+                    return;
+                }
                 callback(cacheData);
-                const {time} = cacheData;
                 const apiArr = ['getDemandInfo'];
                 const apiCategoryArr = ['userInformation'];
                 const isGet = 'get' == type;
                 if(isGet &&
                   (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
                   (new Date().getTime() - time) <= 3 * 1000){
+                    f7.pullToRefreshDone();
+                    f7.hideIndicator();
+                    f7.hidePreloader();
                     return;
                 }
             }
@@ -148,6 +157,7 @@ class CustomClass{
             nativeEvent.nativeToast(0, '请检查您的网络！');
             f7.pullToRefreshDone();
             f7.hideIndicator();
+            f7.hidePreloader();
             return;
         }
 
@@ -195,6 +205,7 @@ class CustomClass{
                 }
                 f7.pullToRefreshDone();
                 f7.hideIndicator();
+                f7.hidePreloader();
 
                 if (url.indexOf('favorite/demandInfo/') > -1){
                     callback(null, err);
@@ -212,6 +223,7 @@ class CustomClass{
                         const {type, fishTypeId, fishTypeName, requirementPhone} = newData;
                         const callback = (data) => {
                             f7.hideIndicator();
+                            f7.hidePreloader();
                             const {code, message} = data;
                             if (1 == code){
                                 $$('.release-sub-info').removeClass('pass');
@@ -234,7 +246,9 @@ class CustomClass{
                         }, callback);
                     } else {
                         f7.hideIndicator();
+                        f7.hidePreloader();
                         f7.pullToRefreshDone();
+                        f7.hidePreloader();
                         activeLogout();
                         f7.alert(_data.message, '提示', () => {
                             window.mainView.router.refreshPage();
@@ -243,12 +257,15 @@ class CustomClass{
                     }
                 } else if (0 == _data.code){
                     f7.hideIndicator();
+                    f7.hidePreloader();
                     f7.alert(_data.message, '提示');
                 } else if (-1 == _data.code){
                     f7.hideIndicator();
+                    f7.hidePreloader();
                     nativeEvent.nativeToast(0, '服务器异常，请稍后再试！');
                 } else if (4 == _data.code){
                     f7.hideIndicator();
+                    f7.hidePreloader();
                     invitationModel.clearInviterInfo();
                     f7.alert(_data.message, '提示');
                     return;
