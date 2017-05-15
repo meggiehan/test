@@ -2,7 +2,7 @@ import customAjax from '../middlewares/customAjax';
 import { html } from '../utils/string';
 import { home } from '../utils/template';
 // import nativeEvent from '../utils/nativeEvent';
-// import store from '../utils/localStorage';
+import store from '../utils/localStorage';
 import config from '../config';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 import Framework7 from './lib/framework7';
@@ -47,7 +47,7 @@ function releaseSuccInit (f7, view, page){
             price,
             id,
             state,
-            imgePath
+            imgList
         } = window.releaseInfo;
 
         // const userInfo = store.get(cacheUserInfoKey);
@@ -63,15 +63,19 @@ function releaseSuccInit (f7, view, page){
          * */
         if(1 == state){
             releaseF7.confirm('一键转发到微信让您的成交率翻3倍!', '友情提示', () => {
-                apiCount('btn_text_guideShare_yes');
+                window.apiCount('btn_text_guideShare_yes');
+                if (!store.get('isWXAppInstalled')){
+                    f7.alert('分享失败');
+                    return;
+                }
                 let title = '';
                 let description = '';
-
-                title += `【求购】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
+                const text = 2 == type ? '出售' : '求购';
+                title += `【${text}】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
                 if(!window.releaseInfo.title){
-                    description += stock ? `${'求购数量： ' + stock}，` : '';
-                    description += price ? `${'价格：' + price}，` : '';
-                    description += specifications ? `${'规格：' + specifications}，` : '';
+                    description += stock ? `${text}数量：${stock}，` : '';
+                    description += price ? `价格：${price}，` : '';
+                    description += specifications ? `规格：${specifications}，` : '';
                     description += '点击查看更多信息~';
                 }else{
                     description += window.releaseInfo.title;
@@ -79,7 +83,7 @@ function releaseSuccInit (f7, view, page){
                 window.shareInfo = {
                     title,
                     webUrl: `${shareUrl}${id}`,
-                    imgUrl: imgePath,
+                    imgUrl: imgList[0],
                     description
                 };
                 $$('.share-to-weixin-model').addClass('on');
