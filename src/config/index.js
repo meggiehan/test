@@ -18,6 +18,7 @@ const configs = {
     cancelInvitationNumberKey: 'cancelInvitationNumber',
     inviteInfoKey: 'inviteInfo',
     waitAddPointerKey: 'waitAddPointer',
+    infoNumberKey: 'infoNumber',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
         maxLength: 8

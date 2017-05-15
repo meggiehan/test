@@ -25,14 +25,18 @@ function userInit (f7, view, page){
     const {
         cacheUserInfoKey,
         imgPath,
-        mWebUrl
+        mWebUrl,
+        infoNumberKey
     } = config;
     let userInformation = store.get(cacheUserInfoKey);
 
     Vue.component('tab-bar-component', tabbar);
     // 底部tabbar组件
     new Vue({
-        el: currentPage.find('.toolbar')[0]
+        el: currentPage.find('.toolbar')[0],
+        data: {
+            infoNumberKey: store.get(infoNumberKey) || 0
+        }
     });
 
     const userVue = new Vue({

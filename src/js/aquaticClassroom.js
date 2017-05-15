@@ -3,6 +3,7 @@ import nativeEvent from '../utils/nativeEvent';
 import Vue from 'vue';
 import config from '../config';
 import tabbar from '../component/tabbar';
+import store from '../utils/localStorage';
 /**
  * [aquaticClassroomInit 咨询模块ctrl]
  * @param  {[object]} f7   [description]
@@ -14,10 +15,12 @@ function aquaticClassroomInit (f7, view, page){
     const $ptrContent = currentPage.find('.pull-to-refresh-content');
     const $infinite = currentPage.find('.infinite-scroll');
     const {
-        pageSize
+        pageSize,
+        infoNumberKey
     } = config;
     let pageNo = 1;
     let loading = false;
+    store.set(infoNumberKey, 0);
 
     Vue.component('tab-bar-component', tabbar);
     // 底部tabbar组件

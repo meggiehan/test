@@ -16,7 +16,7 @@ import { myListBuy } from '../utils/domListenEvent';
 function homeBuyInit (f7, view, page){
     f7.hideIndicator();
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-    const {fishCacheObj, cacheUserInfoKey, pageSize} = config;
+    const {fishCacheObj, cacheUserInfoKey, pageSize, infoNumberKey} = config;
     const userInfo = isLogin() ? (store.get(cacheUserInfoKey) || {}) : {};
     const fishCarDriverId = userInfo.fishCarDriverId || '';
     let fishCache = store.get(fishCacheObj.fishCacheKey) ? store.get(fishCacheObj.fishCacheKey).reverse() : [];
@@ -30,7 +30,10 @@ function homeBuyInit (f7, view, page){
 
      // 底部tabbar组件
     new Vue({
-        el: currentPage.find('.toolbar')[0]
+        el: currentPage.find('.toolbar')[0],
+        data: {
+            infoNumberKey: store.get(infoNumberKey) || 0
+        }
     });
 
     window.vueHome = new Vue({

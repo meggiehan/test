@@ -14,7 +14,9 @@
                </span>
     </a>
     <a href="views/aquaticClassroom.html" onclick="apiCount('btn_home_tutor')" data-reload="true" :class="4 == tabIndex && 'active'">
-        <span class="iconfont icon-classroom"></span>
+        <span class="iconfont icon-classroom">
+            <i v-if="classRoomNum>0">{{classRoomNum}}</i>
+        </span>
         <p>水产课堂</p>
     </a>
     <a href="views/user.html" :class="5 == tabIndex && 'active'" onclick="apiCount('btn_tabbar_profile');" data-reload="true">
@@ -36,7 +38,7 @@ export default {
     data: function() {
         return {};
     },
-    props: ['tabIndex'],
+    props: ['tabIndex', 'classRoomNum'],
     methods: {
         releaseInfo() {
             const text = alertTitleText();

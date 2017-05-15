@@ -59,11 +59,12 @@ import {releasePriceInit} from './js/releasePrice';
 import {addInstructionInit} from './js/addInstruction';
 import {chooseDateInit} from './js/chooseDate';
 import HomeModel from './js/model/HomeModel';
+import InitApp from './js/model/InitApp';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
-const {timeout, fishCacheObj, url} = config;
+const {timeout, fishCacheObj, url, infoNumberKey} = config;
 console.log(`current app update time: ${version.date}!${store.get('versionNumber')}`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -409,6 +410,16 @@ invitationAction();
 weixinModalEvent();
 // fishCarDriverSelectAddressModalEvent(f7);
 fishCarModalJumpEvent(f7);
+
+// 获取未读咨询数量
+InitApp.getInfoNumber((res) => {
+    const {data, message, code} = res;
+    if(1 == code){
+        store.set(infoNumberKey, data);
+    }else{
+        console.log(message);
+    }
+});
 
 /**
  * 获取设备号
