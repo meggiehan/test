@@ -90,6 +90,7 @@
                     width: 90%;
                     margin-top: 0.9rem;
                     color: @bg-b9;
+                    display: inline-block;
 
                     span {
                         font-size: 1.4rem;
@@ -183,7 +184,6 @@
                 }
 
                 .city-distance {
-                    display: none;
                     vertical-align: middle;
 
                     &.show {
@@ -207,6 +207,10 @@
                     max-width: 75%;
                     word-break: break-all;
                     word-wrap: break-word;
+
+                    &.not-Auth {
+                        text-decoration: line-through;
+                    }
                 }
 
                 .info-release-time {
@@ -236,10 +240,13 @@
                     width: 80%;
                 }
 
-                .icon-sell {
+                .icon-sell-time {
                     font-size: 2.3rem;
                     padding: 0 1rem;
                     display: inline-block;
+                    line-height: 3rem;
+                    .ps-r;
+                    top: -0.3rem;
                 }
             }
 
@@ -566,7 +573,6 @@
                         span {
                             margin-right: 0.5rem;
                             color: @text-subtitle;
-                            display: none;
                             line-height: 2.5rem;
 
                             &.auth-company:before,

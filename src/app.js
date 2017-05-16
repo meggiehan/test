@@ -61,6 +61,7 @@ import {chooseDateInit} from './js/chooseDate';
 import {homeSellInit} from './js/homeSell';
 import HomeModel from './js/model/HomeModel';
 import InitApp from './js/model/InitApp';
+import {submitDealSuccInit} from './js/submitDealSucc';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -110,10 +111,10 @@ let initAppConfig = {
 
         if (!currentPage && len >= 1){
             const backPage = history[len - 2];
-
             if (_currentPage.indexOf('home.html') > -1 ||
              _currentPage.indexOf('user.html') > -1 ||
-              _currentPage.indexOf('releaseSucc.html') > -1){
+              _currentPage.indexOf('releaseSucc.html') > -1 ||
+                _currentPage.indexOf('submitDealSucc.html') > -1){
                 return false;
             }
 
@@ -279,6 +280,7 @@ f7.onPageInit('*', (page) => {
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, window.mainView, page);
     page.name === 'notFound' && notFoundInit(f7, window.mainView, page);
     page.name === 'bindAccount' && bindAccountInit(f7, window.mainView, page);
+    page.name === 'submitDealSucc' && submitDealSuccInit(f7, window.mainView, page);
 
     /**
      * 鱼车相关

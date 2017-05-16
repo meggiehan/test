@@ -1,6 +1,6 @@
 import customAjax from '../middlewares/customAjax';
 import {home} from '../utils/template';
-import {html, getName} from '../utils/string';
+import {html, getName, alertTitleText} from '../utils/string';
 import config from '../config';
 import nativeEvent from '../utils/nativeEvent';
 import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
@@ -51,12 +51,16 @@ function homeBuyInit (f7, view, page){
             userInfo: userInfo,
             bigerBuyInfo: '',
             selectCache: [],
-            showAll: false
+            showAll: false,
+            isLogin: isLogin()
         },
         methods: {
             getName: getName,
             getDealTime: getDealTime,
             myListBuy: myListBuy,
+            login (){
+                f7.alert(alertTitleText(), '温馨提示', loginViewShow);
+            },
             shareTrip (){
                 window.apiCount(this.fishCarTripInfo ? 'btn_home_driver_shareRoute' : 'btn_home_driver_postRoute');
                 if (this.fishCarTripInfo){

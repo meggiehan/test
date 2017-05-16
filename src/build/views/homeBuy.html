@@ -33,7 +33,7 @@
             </div>
 
             <div class="home-nav-list row">
-                <a href="views/filter.html?type=2&member=true" onclick="apiCount('btn_home_member')" class="col-33">
+                <a href="views/filter.html?type=2" onclick="apiCount('btn_buy')" class="col-33">
                     <img src="img/icon_sell.png" alt="">
                     <p>出售大厅</p>
                 </a>
@@ -43,7 +43,7 @@
                     <p>我的求购</p>
                 </a>
 
-                <a class="col-33 aquatic_classroom" @click="goMyBuyList()">
+                <a class="col-33 aquatic_classroom" @click="isLogin ? goMyBuyList() : login()">
                     <img src="img/icon_release.png" alt="">
                     <p>发布求购信息</p>
                 </a>

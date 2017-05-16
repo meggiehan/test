@@ -72,7 +72,7 @@ module.exports = {
             let demandInfoSaleStr = '';
             if(demandInfoSale){
                 const {marketTime} = demandInfoSale;
-                demandInfoSaleStr += `<div class="sale-market-time"><i class="iconfont icon-time"></i>${getMarketTimeStr(marketTime)}</div>`;
+                demandInfoSaleStr += `<div class="sale-market-time"><i class="iconfont icon-sell-time"></i>${getMarketTimeStr(marketTime)}</div>`;
             }
 
             res += demandInfoSaleStr;
