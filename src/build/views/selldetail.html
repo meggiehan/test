@@ -45,7 +45,9 @@
                             <span class="info-price" :class="{'not-Auth': !getPrice}">{{getPrice || 'x.xx元'}}</span>
                             <span class="info-release-time">{{timeDifference(demandInfo.sort)}}</span>
                         </p>
-                        <a class="go-certification" v-if="(1 != userInfo.personalAuthenticationState) && (1 != userInfo.enterpriseAuthenticationState)" href="views/catIdentityStatus.html">
+                        <a class="go-certification"
+                           v-if="(1 != userInfo.personalAuthenticationState) && (1 != userInfo.enterpriseAuthenticationState)"
+                           @click="isLogin ? goAuthPage() : login()">
                             <span>完成实名认证后即可查看价格，现在去认证</span>
                             <div class="arrow-certification"><i></i></div>
                         </a>
@@ -87,9 +89,9 @@
                                     <div class="deal-number"><span>4</span>笔成交</div>
                                 </div>
                             </div>
-                            <div class="sell-detail-auth" v-if="1 == userInfo.personalAuthenticationState || 1 == userInfo.enterpriseAuthenticationState">
-                                <span class="auth-individual" vi-if="1 == userInfo.personalAuthenticationState">个人认证</span>
-                                <span class="auth-company" vi-if="1 == userInfo.enterpriseAuthenticationState">企业认证</span>
+                            <div class="sell-detail-auth" v-if="userInfo.nameAuthentication">
+                                <span class="auth-individual" v-if="1 == userInfo.personalAuthenticationState">个人认证</span>
+                                <span class="auth-company" v-if="1 == userInfo.enterpriseAuthenticationState">企业认证</span>
                             </div>
                         </div>
                         <div class="col-30 iconfont icon-right">进店铺</div>

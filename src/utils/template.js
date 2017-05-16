@@ -8,9 +8,11 @@ import {getCertInfo,
     getName,
     getInfoStatus,
     getCreateDriverListLabel,
-    getFishCarDateStyle
+    getFishCarDateStyle,
+    alertTitleText
 } from './string';
 import config from '../config/';
+import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
 
 const {imgPath, backgroundImgUrl, identity} = config;
 module.exports = {
@@ -50,6 +52,16 @@ module.exports = {
                 imgStr = `<img data-src="${backgroundImgUrl}" /></div>`;
             }
 
+            let infoPrice = '';
+            if(isLogin() && nameAuthenticated){
+                if(demandInfoSale.marketTime < parseInt(new Date().getTime() / 1000, 10)){
+                    infoPrice = (demandInfoSale.lowerPrice && demandInfoSale.expectedPrice) ? `${demandInfoSale.lowerPrice}-${demandInfoSale.expectedPrice}` : (demandInfoSale.expectedPrice || demandInfoSale.lowerPrice);
+                    !demandInfoSale.lowerPrice && !demandInfoSale.lowerPrice && (infoPrice = '面议');
+                }
+            }else{
+                infoPrice = 'x.xx元';
+            }
+
             const authText = nameAuthenticated ? '实名' : false;
             imgList && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
             res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
@@ -57,7 +69,7 @@ module.exports = {
                 '<div class="col-70 item-inner">' +
                 '<div class="cat-list-title row">' +
                 '<div class="col-60 goods-name">' + fishTypeName + '</div>' +
-                '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
+                `<div class="col-40 goods-price">${infoPrice}</div>` +
                 '</div>' +
                 '<div class="row cat-list-text">' + `${(provinceName || '') + (cityName || '')}${(specifications && '    |    ' + specifications || '') || ((quantityTagList && quantityTagList.length ? ('    |    ' + quantityTagList[0].tagName) : ''))}` + '</div>' +
                 '<div class="cat-list-title-auth">' +

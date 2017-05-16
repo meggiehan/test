@@ -20,7 +20,6 @@ function selldetailInit (f7, view, page){
     const {id} = page.query;
     const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
-    const collectionBtn = currentPage.find('.icon-collection-btn')[0];
     const {shareUrl, cacheUserInfoKey, mWebUrl, imgPath} = config;
     const locaUserId = store.get(cacheUserInfoKey) && store.get(cacheUserInfoKey).id;
 
@@ -36,13 +35,13 @@ function selldetailInit (f7, view, page){
         if (8 == code){
             nativeEvent['nativeToast'](0, '您已收藏过该资源!');
         } else if (1 !== code){
-            const info = $$(collectionBtn).hasClass('icon-collection-active') ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
+            const info = footVue.favorite ? '添加收藏失败，请重试！' : '取消收藏失败，请重试！';
             nativeEvent['nativeToast'](0, info);
-            $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
+            footVue.favorite = !footVue.favorite;
         } else {
             let info;
             let collectionNum = Number($$('.user-collection-num').text());
-            if ($$(collectionBtn).hasClass('icon-collection-active')){
+            if (footVue.favorite){
                 info = '添加收藏成功！';
                 $$('.user-collection-num').text(++collectionNum);
             } else {
@@ -164,8 +163,8 @@ function selldetailInit (f7, view, page){
                     f7.alert(alertTitleText(), '温馨提示', loginViewShow);
                     return;
                 }
-                const httpType = $$(collectionBtn).hasClass('icon-collection-active') ? 'DELETE' : 'POST';
-                $$(collectionBtn).toggleClass('icon-collection-active').toggleClass('icon-collection');
+                const httpType = this.favorite ? 'DELETE' : 'POST';
+                this.favorite = !this.favorite;
 
                 customAjax.ajax({
                     apiCategory: 'favorite',
@@ -201,15 +200,24 @@ function selldetailInit (f7, view, page){
             demandInfo: {},
             certList: {},
             favorite: '',
-            demandInfoSale: {}
+            demandInfoSale: {},
+            isLogin: isLogin()
         },
         methods: {
             timeDifference: timeDifference,
             getCertInfo: getCertInfo,
             imgPath: imgPath,
+            login (){
+                f7.alert(alertTitleText(), '温馨提示', loginViewShow);
+            },
             getMarketTimeStr: getMarketTimeStr,
             catCert (url){
                 nativeEvent.catPic(url);
+            },
+            goAuthPage (){
+                view.router.load({
+                    url: 'views/catIdentityStatus.html'
+                });
             },
             pointUp (){
                 if(!isLogin()){
@@ -263,11 +271,11 @@ function selldetailInit (f7, view, page){
             },
             getPrice (){
                 let res = '';
-                if(1 == this.userInfo.enterpriseAuthenticationState || 1 == this.userInfo.personalAuthenticationState){
-                    if(this.demandInfoSale.lowerPrice){
+                if(isLogin() && 1 == this.userInfo.enterpriseAuthenticationState || 1 == this.userInfo.personalAuthenticationState){
+                    if(this.demandInfoSale.lowerPrice && this.demandInfoSale.expectedPrice){
                         res = `${this.demandInfoSale.lowerPrice}-${this.demandInfoSale.expectedPrice}`;
                     }else{
-                        res = `${this.demandInfoSale.expectedPrice}`;
+                        res = this.demandInfoSale.expectedPrice || this.demandInfoSale.lowerPrice || '';
                     }
                 }
                 !!res && (res = '');
@@ -351,7 +359,6 @@ function selldetailInit (f7, view, page){
                     lineHeight: '5rem',
                     height: '5rem'
                 });
-                currentPage.find('.sell-detail-auth').remove();
             }
 
             /*
