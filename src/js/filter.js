@@ -167,7 +167,8 @@ function filterInit (f7, view, page){
             });
             fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         } else {
-            typeHtml += `<span data-id="0" class="${'active-ele'}">全部鱼种</span>`;
+            cacheFish && cacheFish.length && (typeHtml = '<span data-id="-1" class="active-ele">最近使用鱼种</span>');
+            typeHtml += '<span data-id="0">全部鱼种</span>';
             $$.each(data.data.list, (index, item) => {
                 typeHtml += filter.fishType(item);
             });
@@ -216,7 +217,8 @@ function filterInit (f7, view, page){
 
             });
         } else {
-            $$.each(data.data.list, (index, item) => {
+            const cacheFish = store.get(fishCacheObj.fishCacheKey);
+            $$.each(cacheFish && cacheFish.length ? cacheFish : data.data.list, (index, item) => {
                 const classes = index % 3 === 0 && 'on' || '';
                 typeHtml += filter.fishType(item, classes);
                 !fishTypeNameQuery && currentFishId && (fishTypeNameQuery = item['id'] == currentFishId ? item['name'] : null);

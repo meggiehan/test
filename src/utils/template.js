@@ -8,11 +8,10 @@ import {getCertInfo,
     getName,
     getInfoStatus,
     getCreateDriverListLabel,
-    getFishCarDateStyle,
-    alertTitleText
+    getFishCarDateStyle
 } from './string';
 import config from '../config/';
-import {isLogin, loginViewShow} from '../middlewares/loginMiddle';
+import {isLogin} from '../middlewares/loginMiddle';
 
 const {imgPath, backgroundImgUrl, identity} = config;
 module.exports = {
@@ -22,7 +21,6 @@ module.exports = {
                 id,
                 level,
                 state,
-                price,
                 specifications,
                 imgList,
                 title,

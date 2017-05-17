@@ -164,7 +164,7 @@ function userInit (f7, view, page){
                 }
                 window.apiCount('btn_myCenter_shareMyShop');
                 window.mainView.router.load({
-                    url: `views/otherIndex.html?currentUserId=${userInformation.id}`
+                    url: `views/otherIndex.html?currentUserId=${userInformation.id}&id=${userInformation.id}`
                 });
             },
             fishCarCheckIng (){

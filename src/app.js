@@ -62,6 +62,7 @@ import {homeSellInit} from './js/homeSell';
 import HomeModel from './js/model/HomeModel';
 import InitApp from './js/model/InitApp';
 import {submitDealSuccInit} from './js/submitDealSucc';
+import {mvpListInit} from './js/mvpList';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
@@ -281,6 +282,7 @@ f7.onPageInit('*', (page) => {
     page.name === 'notFound' && notFoundInit(f7, window.mainView, page);
     page.name === 'bindAccount' && bindAccountInit(f7, window.mainView, page);
     page.name === 'submitDealSucc' && submitDealSuccInit(f7, window.mainView, page);
+    page.name === 'mvpList' && mvpListInit(f7, window.mainView, page);
 
     /**
      * 鱼车相关
