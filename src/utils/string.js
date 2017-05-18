@@ -348,7 +348,7 @@ module.exports = {
         // .replace(/[\uE000-\uF8FF]/g, '')
         // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
         // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
-        return isReplace ? res : '';
+        return res;
     },
 
     saveSelectFishCache: (obj) => {

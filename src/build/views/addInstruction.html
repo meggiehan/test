@@ -7,19 +7,26 @@
     </div>
 </div>
 <div class="page-add-instruction page swipeback" data-page="addInstruction">
-    <div class="page-content">
+    <div class="page-content vue-box">
         <div class="my-instruction">
             <div class="instruction-info">
-                <textarea placeholder="可注明特殊要求，例如养殖方式、水质、投入品情况等"></textarea>
+                <textarea
+                    :class="!description && 'empty'"
+                    placeholder="可注明特殊要求，例如养殖方式、水质、投入品情况等"
+                    maxlength="50"
+                    v-model="description"
+                    @keyup="checkText()"></textarea>
             </div>
             <div class="word-number">
-                <b>0</b>/50
+                <b>{{description.length}}</b>/50
             </div>
-            <div class="word-instruction">
-                <span class="on">不用药</span>
-                <span>智能养殖</span>
+            <div class="word-instruction" v-if="descriptionTags.length">
+                <span v-for="(item, index) in descriptionTags"
+                      v-if="'水产苗种' == fishParentTypeName ? !item.category : item.category"
+                      @click="select(item, index)"
+                      :class="item.selected ? 'on': ''">{{item.name}}</span>
             </div>
         </div>
-        <div class="save-change">保存修改</div>
+        <div class="save-change" @click="saveEdit()">保存修改</div>
     </div>
 </div>

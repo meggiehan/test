@@ -8,7 +8,7 @@
 
                 textarea {
                     font-size: 1.6rem;
-                    color: @text-subtitle;
+                    color: @text-name;
                     display: block;
                     border: 0;
                     resize: none;
@@ -17,6 +17,10 @@
                     margin: 0 auto;
                     padding: 0;
                     line-height: 2.4rem;
+
+                    &.empty {
+                        color: @text-subtitle;
+                    }
                 }
             }
 

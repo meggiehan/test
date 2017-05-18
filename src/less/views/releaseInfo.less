@@ -1,4 +1,4 @@
-.release-info-content {
+.page-release-info {
     .page-content {
         & > p {
             .text-center;
@@ -9,7 +9,7 @@
         p.release-info-pic-tip {
             color: @text-category;
             text-align: left;
-            margin: 1rem 0;
+            margin-top: 1rem;
             padding-left: 2%;
             white-space: normal;
             word-break: break-all;
@@ -43,7 +43,6 @@
         input {
             padding: 0.8rem 0.5rem 0.8rem 0;
             height: 3rem;
-            // line-height: 3rem;
             width: 100%;
             font-size: 1.6rem;
             border: 0;
@@ -52,9 +51,7 @@
 
     .release-info-header {
         background: @bg-fff;
-        // .text-shadow(@text-fff);
-        text-shadow: 0 0 0;
-        -webkit-text-shadow: 0 0 0;
+        .text-shadow(@text-fff);
 
         .release-info-pic {
             padding: 1rem 0;
@@ -116,8 +113,7 @@
                         background: @bg-add;
                         .text-shadow(@bg-add);
                         min-height: 4.5rem;
-                        // margin-top: 1rem;
-                        // margin-left: 0;
+
                         i {
                             display: block;
                             height: 45%;
@@ -145,6 +141,17 @@
                         z-index: 99;
                         color: @text-name;
                     }
+
+                    span {
+                        .ps-a;
+                        left: 0;
+                        bottom: 0;
+                        background: @bg-black-5;
+                        color: @text-fff;
+                        font-size: 1.4rem;
+                        padding: 0.5rem 0;
+                        .text-center;
+                    }
                 }
             }
         }
@@ -158,7 +165,7 @@
         &.border-none {
             border-bottom: 0;
         }
-        // &.release-discription-list,
+
         &.release-spec-list {
             height: auto;
             min-height: 2rem;
@@ -204,16 +211,23 @@
         background: @bg-fff;
         padding-left: 0.7rem;
         .text-shadow(@text-fff);
+        font-size: 1.6rem;
 
         .item-inner {
             padding-right: 0;
+
+            input,
+            textarea {
+                font-size: 1.6rem;
+            }
         }
 
         .release-info-discription {
             padding-bottom: 0.7rem;
 
             textarea {
-                min-height: 6.5rem;
+                min-height: 5rem;
+                height: auto;
                 line-height: 1.2;
             }
 
@@ -271,10 +285,7 @@
                     padding: 0;
                 }
             }
-            // input,
-            // textarea {
-            //     .text-right;
-            // }
+
             .item-inner:after {
                 display: none;
             }
@@ -315,13 +326,12 @@
             border-bottom: none;
             height: auto;
             line-height: 2.4rem;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             padding-top: 1.5rem;
-            padding-bottom: 2.2rem;
+            padding-bottom: 1.5rem;
 
             .add-default {
-                // display: none;
-                font-size: 1.7rem;
+                font-size: 1.6rem;
                 color: @text-subtitle;
                 letter-spacing: 0.032rem;
                 margin: 0;
@@ -353,6 +363,17 @@
             }
         }
 
+        .release-tages-list {
+            display: inline-block;
+        }
+
+        .release-discription-list {
+            .item-title:before {
+                content: '11';
+                color: @text-fff;
+            }
+        }
+
         .icon-right {
             color: @text-subtitle;
         }
@@ -377,7 +398,7 @@
                 background: @bg-e5;
                 box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
                 -webkit-box-shadow: inset 0 0 4px 0 rgba(165,165,165,0.50);
-                border-radius: 8px;
+                border-radius: 0.3rem;
                 position: relative;
 
                 s {
@@ -418,7 +439,7 @@
 
             .publish-pic::after {
                 position: absolute;
-                right: 0;
+                right: -0.5rem;
                 width: 1.5rem;
                 height: 1.5rem;
                 content: ' ';
@@ -453,9 +474,16 @@
                 position: absolute;
                 top: 32%;
                 left: 23%;
+                .transition(all,0.6s,ease);
+                opacity: 1;
 
                 .icon-money {
                     line-height: 3rem;
+                }
+
+                &.close {
+                    left: 72%;
+                    opacity: 0;
                 }
             }
 
@@ -464,15 +492,19 @@
                 top: 32%;
                 right: 25%;
                 z-index: 1;
+                opacity: 0;
+                .transition(all,0.6s,ease);
+
+                &.close {
+                    opacity: 1;
+                }
             }
         }
 
         .published-price-text {
             position: relative;
             height: 3rem;
-            // margin-bottom: 1.5rem;
-            // width: 58%;
-            // margin: 0 auto;
+
             p {
                 margin: 0;
                 display: inline-block;
@@ -493,8 +525,6 @@
             }
 
             .price-right {
-                // padding-right: 23%;
-                // float: right;
                 position: absolute;
                 top: 0;
                 right: 22.5%;
@@ -503,11 +533,10 @@
     }
 
     .release-user-info {
-        margin: 0 0 1rem;
+        margin-top: 1rem;
     }
 
     .release-infomation {
-        // margin-top: 1rem;
         .item-title {
             color: @text-name;
             width: 36%;
@@ -515,6 +544,12 @@
 
         .release-fish-name {
             color: @text-name;
+        }
+
+        .add-info {
+            p {
+                margin: 0;
+            }
         }
     }
 }

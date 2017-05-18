@@ -82,7 +82,6 @@ class CustomClass{
         if (!window['selectedAddress']){
             window['selectedAddress'] = {};
         }
-        const releaseAddressBtn = $$('.release-write-address>input');
         window['addressObj']['provinceName'] = province;
         window['addressObj']['cityName'] = city;
         window['addressObj']['provinceId'] = provinceId;
@@ -90,7 +89,13 @@ class CustomClass{
         window['selectedAddress']['provinceName'] = province;
         window['selectedAddress']['cityName'] = city;
 
-        releaseAddressBtn.length && releaseAddressBtn.val(`${province}${city}`);
+        if(window.releaseVue){
+            window.releaseVue.subInfo.provinceName = province;
+            window.releaseVue.subInfo.provinceId = provinceId;
+            window.releaseVue.subInfo.cityName = city;
+            window.releaseVue.subInfo.cityId = cityId;
+            window.releaseVue.subInfo.address = `${province} ${city}`;
+        }
     }
 
     /*
@@ -310,11 +315,12 @@ class CustomClass{
     }
 
     postReleasePicCallback (index, url, name){
-        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-        currentPage.find('.release-info-pic-add').remove();
-        const len = currentPage.find('.release-info-pic-list').children('span').length;
-        currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
-        len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+        // const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+        // currentPage.find('.release-info-pic-add').remove();
+        // const len = currentPage.find('.release-info-pic-list').children('span').length;
+        // currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
+        // len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+        window.releaseVue.subInfo.imgs.push(url);
     }
 
     /*

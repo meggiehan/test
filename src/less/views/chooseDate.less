@@ -16,6 +16,7 @@ div.view-main[data-page="chooseDate"] {
                 height: 4rem;
                 line-height: 4rem;
                 margin-top: 1rem;
+                font-size: 0;
 
                 p {
                     margin: 0;
@@ -23,12 +24,12 @@ div.view-main[data-page="chooseDate"] {
                     font-size: 1.6rem;
                     color: @text-name;
                     letter-spacing: 0.055rem;
-                    padding-right: 4.5%;
+                    width: 15.2%;
                 }
 
                 span {
                     display: inline-block;
-                    width: 24%;
+                    width: 24.5%;
                     height: 4rem;
                     background: @text-fff;
                     border: 1px solid @border-DB;
@@ -39,13 +40,17 @@ div.view-main[data-page="chooseDate"] {
                     color: @text-category;
                     letter-spacing: 0.0515rem;
 
-                    &.active {
+                    &.disable {
                         background: @bg-e5;
                         border: 1px solid @border-DB;
                         border-radius: 0.3rem;
                         font-size: 1.5rem;
                         color: @text-b5;
                         letter-spacing: 0.0515rem;
+                    }
+
+                    &.m-r-0 {
+                        margin-right: 0;
                     }
                 }
 
