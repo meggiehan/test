@@ -39,7 +39,8 @@
                             <i class="iconfont icon-map"></i>
                             <b>{{demandInfo.provinceName + demandInfo.cityName}}</b>
                         </span>
-                            <span class="city-distance" v-if="getRange">{{getRange()}}</span>
+                        <span class="city-distance" v-if="getRangeText && getRangeText > 200">| 距离你<i>{{getRangeText}}</i>公里</span>
+                        <span class="city-distance" v-if="getRangeText && !(getRangeText > 200)">| 离你很近</span>
                         </p>
                         <p class="sell-detail-price">
                             <span class="info-price" :class="{'not-Auth': !getPrice}">{{getPrice || 'x.xx元'}}</span>
@@ -133,7 +134,11 @@
             <div class="sell-detail-img-list" v-if="demandInfo.imgs && JSON.parse(demandInfo.imgs).length">
                 <div class="sell-detail-img-title"><i class="title-label-border"></i>其他照片</div>
                 <div class="info-img-list">
-                    <img v-for="item in JSON.parse(demandInfo.imgs)" class="lazy" :data-src="item + '?x-oss-process=image/resize,w_400'" src="img/app_icon_108.png" alt="">
+                    <img v-for="item in JSON.parse(demandInfo.imgs)"
+                         class="lazy"
+                         :data-src="item + '?x-oss-process=image/resize,w_400'"
+                         src="img/app_icon_108.png"
+                         @click="catPic(item)">
                 </div>
             </div>
         </div>

@@ -6,7 +6,6 @@ function chooseDateInit (f7, view, page){
     const currentPage = $$($$('.view-main .page-choose-date')[$$('.view-main .page-choose-date').length - 1]);
     const month = new Date().getMonth() + 1;
     const year = new Date().getFullYear();
-    const day = new Date().getDate();
 
     new Vue({
         el: currentPage.find('.vue-box')[0],

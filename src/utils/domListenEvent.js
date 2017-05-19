@@ -55,7 +55,7 @@ module.exports = {
 
     goHome: () => {
         window.mainView.router.load({
-            url: 'views/home.html',
+            url: 'views/homeBuy.html',
             reload: true
         });
     },

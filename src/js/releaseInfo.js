@@ -1,7 +1,6 @@
 import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import {
-    trim,
     html,
     getAddressIndex,
     getTagInfo,
@@ -18,11 +17,9 @@ function releaseInfoInit (f7, view, page){
     const { type, fishId, fishName, parentFishId, parentFishName } = page.query;
     const currentPage = $$($$('.view-main .page-release-info')[$$('.view-main .page-release-info').length - 1]);
     const currentNav = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
-    const tellInput = currentPage.find('input[placeholder="请填写手机号"]');
     const { cacheUserInfoKey, imgPath } = config;
     const userInfo = store.get(cacheUserInfoKey);
     const {androidChrome} = window.currentDevice;
-    const $buyTime = currentPage.find('.release-write-time').children('input');
     let provinceName, cityName, initProvinceName, initCityName;
     /**
      * [initAddress 定位到的地区信息]
@@ -155,7 +152,11 @@ function releaseInfoInit (f7, view, page){
             subInfo (){
                 window.apiCount('btn_text_post');
                 const {err, data} = this.getDataMessage();
-
+                console.log(data);
+                if(err){
+                    f7.alert(err);
+                    return;
+                }
                 if (data && !data.quantityTags.length){
                     window.realeseInfomation = data;
                     view.router.load({
@@ -164,8 +165,8 @@ function releaseInfoInit (f7, view, page){
                     return;
                 }
 
-                if(err || this.isSendInfo){
-                    f7.alert(err || '发布中，请稍等...');
+                if(this.isSendInfo){
+                    f7.alert('发布中，请稍等...');
                     return;
                 }
                 f7.showIndicator();
@@ -195,14 +196,16 @@ function releaseInfoInit (f7, view, page){
             },
             getDataMessage (){
                 let err = '';
-                let data = ObjectUtil.clone(window.releaseVue.subInfo);
+                const buyTimeText = currentPage.find('.release-write-time').children('input').val();
+                const subInfo = window.releaseVue.subInfo;
+                let data = ObjectUtil.clone(subInfo);
 
                 if(2 == type){
-                    if(!data.demandInfoSale.hasSpotGoods){
+                    if(currentPage.find('.release-write-cargo').children('input').val() == ''){
                         err = '请选择是否有现货';
                     }else{
-                        if('即将上市' == data.demandInfoSale.hasSpotGoods){
-                            !!data.demandInfoSale.marketTime && (err = '请选择上市时间');
+                        if('即将上市' == currentPage.find('.release-write-cargo').children('input').val()){
+                            !data.demandInfoSale.marketTime && (err = '请选择上市时间');
                         }
                     }
 
@@ -211,7 +214,7 @@ function releaseInfoInit (f7, view, page){
                     }
 
                 }else{
-                    if(!$buyTime.val()){
+                    if(!buyTimeText){
                         err = '请选择求购时间';
                     }
 
@@ -230,14 +233,14 @@ function releaseInfoInit (f7, view, page){
                 // 求购数据
                 if(1 == type){
                     delete data.demandInfoSale;
-                    const buyTimeText = $buyTime.val();
-                    buyTimeText.indexOf('-') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(1));
+
+                    buyTimeText.indexOf('一') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(1));
                     buyTimeText.indexOf('二') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(2));
                     buyTimeText.indexOf('三') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(3));
                 }else{
                     delete data.demandInfoBuy;
-                    data.demandInfoSale.hasSpotGoods = ('现在有货' == data.demandInfoSale.hasSpotGoods);
-                    data.demandInfoSale.fishCarService = ('提供鱼车服务' == data.demandInfoSale.fishCarService);
+                    data.demandInfoSale.hasSpotGoods = ('现在有货' == currentPage.find('.release-write-cargo').children('input').val());
+                    data.demandInfoSale.fishCarService = ('提供鱼车服务' == currentPage.find('.release-write-service').children('input').val());
                     if(window.releaseVue.isClose){
                         data.demandInfoSale.lowerPrice = 0;
                         data.demandInfoSale.expectedPrice = 0;
@@ -245,12 +248,15 @@ function releaseInfoInit (f7, view, page){
 
                     if(!data.demandInfoSale.hasSpotGoods){
                         data.demandInfoSale.marketTime = window.releaseVue.sellTime;
+                    }else{
+                        data.demandInfoSale.marketTime = 0;
                     }
                 }
+                data.quantityTags = this.getQuantityTagss(subInfo.quantityTags);
+                data.descriptionTags = this.getQuantityTagss(subInfo.descriptionTags);
                 const {lng, lat} = getAddressIndex(data.provinceName, data.cityName);
                 data.latitude = lat;
                 data.longitude = lng;
-                console.log(window.releaseVue);
                 return {
                     err,
                     data
@@ -259,6 +265,18 @@ function releaseInfoInit (f7, view, page){
             getMoreMonth (n){
                 let res = new Date().getTime() + 60 * 60 * 24 * 30 * n * 1000;
                 return parseInt(res / 1000, 10);
+            },
+            getQuantityTagss (arr){
+                let res = [];
+                $$.each(arr, (index, item) => {
+                    if(item.selected){
+                        let obj = {};
+                        obj.id = item.id;
+                        obj.tagName = item.name;
+                        res.push(obj);
+                    }
+                });
+                return res;
             }
         }
     });

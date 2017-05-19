@@ -229,19 +229,18 @@ function selldetailInit (f7, view, page){
                 window.mainView.router.load({
                     url: `${mWebUrl}user/member/${userInfo.id}?time=${new Date().getTime()}`
                 });
+            },
+            catPic (url){
+                nativeEvent.catPic(url);
             }
         },
         computed: {
-            getRange (){
+            getRangeText (){
                 const {lat, lng} = getAddressIndex(this.demandInfo.provinceName, this.demandInfo.cityName);
                 const rangeText = getRange(lat, lng);
                 let res = '';
                 if (rangeText > -1){
-                    if(rangeText > 200){
-                        res = `| 距离你<i>${rangeText}</i>公里`;
-                    }else{
-                        res = '| 离你很近';
-                    }
+                    res = rangeText;
                 }
                 return res;
             },

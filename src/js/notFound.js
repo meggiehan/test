@@ -6,7 +6,7 @@ function notFoundInit (f7, view, page){
     currentPage.find('.show-other-info')[0].onclick = () => {
         f7.showIndicator();
         if (view.history.length <= 1){
-            view.router.load({url: 'views/home.html'});
+            view.router.load({url: 'views/homeBuy.html'});
         } else {
             view.router.back();
             setTimeout(() => {

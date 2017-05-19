@@ -12,8 +12,9 @@ import {getCertInfo,
 } from './string';
 import config from '../config/';
 import {isLogin} from '../middlewares/loginMiddle';
+import store from './localStorage';
 
-const {imgPath, backgroundImgUrl, identity} = config;
+const {imgPath, backgroundImgUrl, identity, cacheUserInfoKey} = config;
 module.exports = {
     home: {
         cat: (data, userLevel, nameAuthentication, isMyList) => {
@@ -34,10 +35,12 @@ module.exports = {
                 provinceName,
                 cityName,
                 quantityTagList,
-                demandInfoSale
+                demandInfoSale,
+                userId
             } = data;
             let img = window.document.createElement('img');
             const currentLevel = level || userLevel;
+            const currentUserInfoId = store.get(cacheUserInfoKey) ? store.get(cacheUserInfoKey).id : '';
             let imgStr;
             let res = '';
             let span = '';
@@ -51,11 +54,10 @@ module.exports = {
             }
 
             let infoPrice = '';
-            if(isLogin() && nameAuthenticated){
-                if(demandInfoSale.marketTime < parseInt(new Date().getTime() / 1000, 10)){
-                    infoPrice = (demandInfoSale.lowerPrice && demandInfoSale.expectedPrice) ? `${demandInfoSale.lowerPrice}-${demandInfoSale.expectedPrice}` : (demandInfoSale.expectedPrice || demandInfoSale.lowerPrice);
-                    !demandInfoSale.lowerPrice && !demandInfoSale.lowerPrice && (infoPrice = '面议');
-                }
+            if(isLogin() && (nameAuthenticated || isMyList || (userId == currentUserInfoId))){
+                // if(demandInfoSale.marketTime < parseInt(new Date().getTime() / 1000, 10)){
+                infoPrice = (demandInfoSale.lowerPrice && demandInfoSale.expectedPrice) ? `${demandInfoSale.lowerPrice}-${demandInfoSale.expectedPrice}` : (demandInfoSale.expectedPrice || demandInfoSale.lowerPrice);
+                !demandInfoSale.lowerPrice && !demandInfoSale.lowerPrice && (infoPrice = '面议');
             }else{
                 infoPrice = 'x.xx元';
             }

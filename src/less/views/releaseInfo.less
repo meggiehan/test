@@ -149,7 +149,7 @@
                         background: @bg-black-5;
                         color: @text-fff;
                         font-size: 1.4rem;
-                        padding: 0.5rem 0;
+                        padding: 0.1rem 0;
                         .text-center;
                     }
                 }
@@ -368,9 +368,15 @@
         }
 
         .release-discription-list {
-            .item-title:before {
-                content: '11';
-                color: @text-fff;
+            min-height: 1rem;
+
+            .item-inner {
+                min-height: 1rem;
+
+                .item-title:before {
+                    content: '11';
+                    color: @text-fff;
+                }
             }
         }
 

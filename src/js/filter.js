@@ -167,8 +167,13 @@ function filterInit (f7, view, page){
             });
             fishTypeNameQuery && $$('.filter-tab>.tab1>span').text(getTabStr(fishTypeNameQuery));
         } else {
-            cacheFish && cacheFish.length && (typeHtml = '<span data-id="-1" class="active-ele">最近使用鱼种</span>');
-            typeHtml += '<span data-id="0">全部鱼种</span>';
+            if(cacheFish && cacheFish.length){
+                typeHtml = '<span data-id="-1" class="active-ele">最近使用鱼种</span>';
+                typeHtml += '<span data-id="0">全部鱼种</span>';
+            }else{
+                typeHtml = '<span data-id="0" class="active-ele">全部鱼种</span>';
+            }
+
             $$.each(data.data.list, (index, item) => {
                 typeHtml += filter.fishType(item);
             });

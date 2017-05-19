@@ -2,7 +2,6 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from './localStorage';
 import Framework7 from '../js/lib/framework7';
-import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { goIdentity } from './domListenEvent';
 import { isLogin, loginViewHide, loginViewShow } from '../middlewares/loginMiddle';
@@ -130,7 +129,7 @@ class CustomClass{
     }
 
     appJump (id){
-        const url = id == 0 ? 'views/home.html' : 'views/release.html';
+        const url = id == 0 ? 'views/homeBuy.html' : 'views/release.html';
         window.mainView.router.load({ url });
     }
 
@@ -218,16 +217,32 @@ class CustomClass{
     * */
     exitApp (){
         const { ios, android } = window.currentDevice;
-        if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+        if (window.mainView['url'] &&
+            (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+            window.mainView['url'].indexOf('user.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1 ||
+            window.mainView['url'].indexOf('aquaticClassroom.html') > -1)){
             ios && window.JS_ExitProcess();
             android && window.yudada.JS_ExitProcess();
         }
     }
 
     andriodBack (){
-        if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1 || window.mainView['url'].indexOf('releaseSucc.html') > -1)){
+        if (window.mainView['url'] &&
+            (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+            window.mainView['url'].indexOf('user.html') > -1 ||
+            window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1 ||
+            window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1)){
             const { ios, android } = window.currentDevice;
-            if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+            if (window.mainView['url'] &&
+                (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+                window.mainView['url'].indexOf('user.html') > -1 ||
+                window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1 ||
+                window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1)){
                 ios && window.JS_ExitProcess();
                 android && window.yudada.JS_ExitProcess();
             }
@@ -302,9 +317,21 @@ class CustomClass{
             const currentNavbar = $$($$('.view-release-fish .navbar>.navbar-inner')[$$('.view-release-fish .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
         }else{
-            if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1 || window.mainView['url'].indexOf('releaseSucc.html') > -1)){
+            if (window.mainView['url'] &&
+            (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+            window.mainView['url'].indexOf('user.html') > -1 ||
+            window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1 ||
+            window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1)){
                 const { ios, android } = window.currentDevice;
-                if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+                if (window.mainView['url'] &&
+                (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+                window.mainView['url'].indexOf('user.html') > -1 ||
+                window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1 ||
+                window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1)){
                     ios && window.JS_ExitProcess();
                     android && window.yudada.JS_ExitProcess();
                 }
