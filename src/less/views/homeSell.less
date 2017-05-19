@@ -82,6 +82,8 @@ div.view-main[data-page="homeSell"] {
 
 .page-home-sell {
     .page-content {
+        padding-bottom: 8rem;
+
         .sell-number {
             background: @bg-b9;
             padding-bottom: 1.6rem;
@@ -184,11 +186,12 @@ div.view-main[data-page="homeSell"] {
                 letter-spacing: 0.034rem;
                 overflow: hidden;
 
-                span {
+                a {
                     float: right;
                     color: @text-subtitle;
                     font-size: 1.4rem;
                     letter-spacing: 0.03rem;
+                    padding-left: 5rem;
                 }
             }
 
@@ -216,6 +219,8 @@ div.view-main[data-page="homeSell"] {
 
                             img {
                                 vertical-align: middle;
+                                display: block;
+                                width: 100%;
                             }
                         }
 
@@ -266,9 +271,11 @@ div.view-main[data-page="homeSell"] {
                     }
                 }
 
+                .refresh-login-status {
+                    padding: 2rem 0;
+                }
+
                 .refresh-status {
-                    height: 4rem;
-                    line-height: 4rem;
                     text-align: center;
 
                     p {
@@ -330,8 +337,7 @@ div.view-main[data-page="homeSell"] {
         .money-bible {
             height: 6rem;
             margin: 1rem;
-            // background: url('../img/bg_tutor.png') no-repeat;
-            // background-size: 100% 100%;
+            display: block;
             position: relative;
 
             p {
@@ -381,6 +387,7 @@ div.view-main[data-page="homeSell"] {
         .for-you-recommend {
             margin-bottom: 1rem;
             background-color: @text-fff;
+            display: block;
 
             .recomment-info {
                 .item-content {

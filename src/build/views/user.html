@@ -76,24 +76,24 @@
             </div>
 
             <div class="my-info-all row">
-                <a class="my-info-level col-25" @click="isLogin ? goMyMember() : login()">
+                <a class="my-info-level col-33" @click="isLogin ? goMyMember() : login()">
                     <span class="iconfont" :class="'icon-v' + (userInfo.level || 0)"></span>
                     <p class="my-title">我的等级</p>
                 </a>
-                <a class="my-info-certification col-25" @click="goIdentity">
+                <a class="my-info-certification col-33" @click="goIdentity">
                     <b v-if="isShowGoAuth">去认证</b>
                     <span class="iconfont icon-certification"></span>
                     <p class="my-title">{{authText}}</p>
                 </a>
-                <a class="my-info-card col-25" @click="shareMyShop()">
+                <a class="my-info-card col-33" @click="shareMyShop()">
                     <span class="iconfont icon-card"></span>
                     <p class="my-title">个人卡片</p>
                 </a>
-                <a class="my-info-notice col-25">
+                <!-- <a class="my-info-notice col-25">
                     <i>1</i>
                     <span class="iconfont icon-mymesg"></span>
                     <p class="my-title">通知中心</p>
-                </a>
+                </a> -->
             </div>
 
             <div class="list-block user-nav-info">

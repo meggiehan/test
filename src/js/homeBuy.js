@@ -23,6 +23,7 @@ function homeBuyInit (f7, view, page){
     let pageNo = 1;
     let isRefresh = false;
     let isInfinite = false;
+    store.set('isHomeSell', false);
     /**
      * vue的数据模型
      * */
@@ -283,7 +284,7 @@ function homeBuyInit (f7, view, page){
                     currentPage.find('.cat-list-foreach').append(catListHtml);
                 }
             }
-            window.vueHome.showAll = (data.length < pageSize);
+            window.vueHome.showAll = (!data.length);
         }else{
             console.log(message);
         }
@@ -318,7 +319,6 @@ function homeBuyInit (f7, view, page){
     const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', () => {
         if(isRefresh || isInfinite){
-            f7.pullToRefreshTrigger(ptrContent);
             return;
         }
         window.vueHome.showAll = false;
@@ -327,12 +327,10 @@ function homeBuyInit (f7, view, page){
         pageNo = 1;
         getHomeListInfo();
     });
-    setTimeout(() => {
-        f7.pullToRefreshTrigger(ptrContent);
-    }, 50);
+    f7.pullToRefreshTrigger(ptrContent);
 
     ptrContent.on('infinite', () => {
-        if(isRefresh || isInfinite){
+        if(isRefresh || isInfinite || window.vueHome.showAll){
             return;
         }
         isRefresh = false;

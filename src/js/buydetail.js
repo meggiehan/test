@@ -118,7 +118,6 @@ function buydetailInit (f7, view, page){
                     return;
                 }
                 let title = '';
-                let description = '';
                 const {
                     specifications,
                     stock,
@@ -126,24 +125,27 @@ function buydetailInit (f7, view, page){
                     cityName,
                     fishTypeName,
                     price,
-                    imgePath
+                    imgePath,
+                    description
                 } = this.demandInfo;
 
                 title += `【求购】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
+                let descriptionText = title + '，';
                 if(!this.demandInfo.title){
-                    description += stock ? `${'求购数量： ' + stock}，` : '';
-                    description += price ? `${'价格：' + price}，` : '';
-                    description += specifications ? `${'规格：' + specifications}，` : '';
-                    description += '点击查看更多信息~';
+                    descriptionText += stock ? `${'求购数量： ' + stock}，` : '';
+                    descriptionText += price ? `${'价格：' + price}，` : '';
+                    descriptionText += specifications ? `${'规格：' + specifications}，` : '';
+                    descriptionText += description ? description : '';
+                    descriptionText += '点击查看更多信息~';
                 }else{
-                    description += this.demandInfo.title;
+                    descriptionText += this.demandInfo.title;
                 }
 
                 window.shareInfo = {
                     title,
                     webUrl: `${shareUrl}${id}`,
                     imgUrl: imgePath,
-                    description
+                    description: descriptionText
                 };
                 $$('.share-to-weixin-model').addClass('on');
             },

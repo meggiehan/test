@@ -200,8 +200,9 @@ window.releaseView = f7.addView('.view-release-fish', {
 /*
  * 主视图初始化加载首页
  * */
+const isHomeSell = store.get('isHomeSell');
 window.mainView.router.load({
-    url: 'views/homeBuy.html',
+    url: `views/${isHomeSell ? 'homeSell' : 'homeBuy'}.html`,
     animatePages: false,
     reload: true
 });

@@ -18,5 +18,22 @@ module.exports = {
             val == arr[i].val && (res = arr[i].text);
         }
         return res;
+    },
+
+    getBuyTime (time){
+        let res = '';
+        if(!time){
+            res = '长期收购';
+        }else{
+            const differenceTime = parseInt((time * 1000 - new Date().getTime()) / (60 * 60 * 24 * 1000 * 30), 10);
+            if(0 < differenceTime && differenceTime < 1){
+                res = '一个月内收购';
+            }else if(1 < differenceTime && differenceTime < 2){
+                res = '两个月内收购';
+            }else{
+                res = '三个月内收购';
+            }
+        }
+        return res;
     }
 };

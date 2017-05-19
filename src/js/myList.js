@@ -246,7 +246,6 @@ function myListInit (f7, view, page){
             });
 
             let title = '';
-            let description = '';
             let shareImg;
 
             const {
@@ -257,7 +256,8 @@ function myListInit (f7, view, page){
                 fishTypeName,
                 price,
                 imgePath,
-                imgs
+                imgs,
+                description
             } = listItem;
 
             if(1 == infoType){
@@ -266,20 +266,22 @@ function myListInit (f7, view, page){
                 imgs && JSON.parse(imgs).length ? (shareImg = JSON.parse(imgs)[0]) : (shareImg = imgePath);
             }
             title += `【${2 == infoType ? '出售' : '求购'}】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
+            let descriptionText = title + '，';
             if(!listItem.title){
-                description += stock ? `${(2 == infoType ? '出售' : '求购') + '数量：' + stock}，` : '';
-                description += price ? `${'价格：' + price}，` : '';
-                description += specifications ? `${'规格：' + specifications}，` : '';
-                description += '点击查看更多信息~';
+                descriptionText += stock ? `${(2 == infoType ? '出售' : '求购') + '数量：' + stock}，` : '';
+                descriptionText += price ? `${'价格：' + price}，` : '';
+                descriptionText += specifications ? `${'规格：' + specifications}，` : '';
+                descriptionText += description || '';
+                descriptionText += '点击查看更多信息~';
             }else{
-                description += listItem.title;
+                descriptionText += listItem.title;
             }
 
             window.shareInfo = {
                 title,
                 webUrl: `${shareUrl}${listItem.id}`,
                 imgUrl: shareImg,
-                description
+                description: descriptionText
             };
             $$('.share-to-weixin-model').addClass('on');
         }

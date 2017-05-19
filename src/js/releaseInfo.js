@@ -237,6 +237,7 @@ function releaseInfoInit (f7, view, page){
                     buyTimeText.indexOf('一') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(1));
                     buyTimeText.indexOf('二') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(2));
                     buyTimeText.indexOf('三') > -1 && (data.demandInfoBuy.endTime = this.getMoreMonth(3));
+                    buyTimeText.indexOf('长期') > -1 && (data.demandInfoBuy.endTime = 0);
                 }else{
                     delete data.demandInfoBuy;
                     data.demandInfoSale.hasSpotGoods = ('现在有货' == currentPage.find('.release-write-cargo').children('input').val());
@@ -320,7 +321,7 @@ function releaseInfoInit (f7, view, page){
         cols: [
             {
                 textAlign: 'center',
-                values: ['近一个月', '近两个月', '近三个月']
+                values: ['长期', '近一个月', '近两个月', '近三个月']
             }
         ]
     };

@@ -39,8 +39,8 @@ class HomeModel{
             {},
             {},
             callback,
-            true,
-            true
+            false,
+            false
         );
     }
 
@@ -59,6 +59,29 @@ class HomeModel{
     postFollowSaleList (data, callback){
         RestTemplate.post(
             'demands/sale/recommendation',
+            {},
+            {},
+            data,
+            callback
+        );
+    }
+
+    // 获取我要卖相关数据
+    getSellData (callback){
+        RestTemplate.get(
+            'wannaSale',
+            {},
+            {},
+            callback,
+            false,
+            false
+        );
+    }
+
+    // 获取求购列表
+    getBuyList (data, callback){
+        RestTemplate.post(
+            'demands/buy/recommendation',
             {},
             {},
             data,
