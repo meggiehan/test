@@ -180,7 +180,7 @@ class CustomClass{
         (2 == status) && nativeEvent.nativeToast(1, '手机号绑定成功！');
         loginViewHide();
         f7.hideIndicator();
-        if('user' == window.mainView.activePage.name){
+        if('user' == window.mainView.activePage.name || 'homeSell' == window.mainView.activePage.name){
             window.mainView.router.refreshPage();
             f7.hidePreloader();
         }else if('bindAccount' == window.mainView.activePage.name){
