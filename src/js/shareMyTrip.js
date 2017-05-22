@@ -12,7 +12,7 @@ function shareMyTripInit (f7, view, page){
     if (!isLogin()){
         activeLogout();
     }
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-share-my-trip')[$$('.view-main .pages>.page-share-my-trip').length - 1]);
     const {cacheUserInfoKey} = config;
     const userInfo = store.get(cacheUserInfoKey);
     const shareImgUrl = getShareTripImgUrl(userInfo, page.query);

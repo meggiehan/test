@@ -14,7 +14,7 @@ function myCenterInit (f7, view, page){
         f7.hideIndicator();
         return;
     }
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-my-center')[$$('.view-main .pages>.page-my-center').length - 1]);
     const { imgPath } = config;
     const userInfo = store.get(config['cacheUserInfoKey']);
 

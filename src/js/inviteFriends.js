@@ -13,7 +13,7 @@ function inviteFriendsInit (f7, view, page){
         activeLogout();
     }
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-invite-friends')[$$('.view-main .pages>.page-invite-friends').length - 1]);
     const isMyShop = currentPage.hasClass('page-my-shop');
     const {cacheUserInfoKey} = config;
     const userInfo = store.get(cacheUserInfoKey);

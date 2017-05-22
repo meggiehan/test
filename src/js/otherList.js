@@ -7,7 +7,7 @@ import customAjax from '../middlewares/customAjax';
 
 function otherListInit (f7, view, page){
     const load = $$('.page-other-list .infinite-scroll-preloader');
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-other-list')[$$('.view-main .pages>.page-other-list').length - 1]);
     const { type, id } = page.query;
     const { pageSize, cacheUserInfoKey } = config;
     const showAllInfo = $$('.page-other-list .filter-search-empty-info');

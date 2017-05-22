@@ -15,7 +15,7 @@ import { myListBuy } from '../utils/domListenEvent';
 
 function homeBuyInit (f7, view, page){
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-home-buy')[$$('.view-main .pages>.page-home-buy').length - 1]);
     const {fishCacheObj, cacheUserInfoKey, pageSize, infoNumberKey} = config;
     const userInfo = isLogin() ? (store.get(cacheUserInfoKey) || {}) : {};
     const fishCarDriverId = userInfo.fishCarDriverId || '';
@@ -151,7 +151,7 @@ function homeBuyInit (f7, view, page){
                 }
             },
             goMyBuyList (){
-                window.apiCount('btn_home_tutor');
+                window.apiCount('btn_home_postPurchaseInfo');
                 view.router.load({
                     url: 'views/filter.html?type=1&release=true'
                 });
@@ -259,6 +259,7 @@ function homeBuyInit (f7, view, page){
         } else {
             console.log(data.message);
         }
+        currentPage.find('.lazy').trigger('.lazy');
     };
 
     customAjax.ajax({

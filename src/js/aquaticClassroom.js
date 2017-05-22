@@ -11,7 +11,7 @@ import store from '../utils/localStorage';
  * @param  {[object]} page [description]
  */
 function aquaticClassroomInit (f7, view, page){
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-aquatic-classroom')[$$('.view-main .pages>.page-aquatic-classroom').length - 1]);
     const $ptrContent = currentPage.find('.pull-to-refresh-content');
     const $infinite = currentPage.find('.infinite-scroll');
     const {
@@ -51,10 +51,10 @@ function aquaticClassroomInit (f7, view, page){
         },
         computed: {
             isLoading (){
-                if(this.infoList.length && this.newList.length >= pageSize){
-                    return true;
-                }else{
+                if(this.infoList.length && !this.newList.length){
                     return false;
+                }else{
+                    return true;
                 }
             }
         }

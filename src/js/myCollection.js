@@ -15,7 +15,7 @@ function myCollectionInit (f7, view, page){
         return;
     }
     let type = 2; // default: 2
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-my-collection')[$$('.view-main .pages>.page-my-collection').length - 1]);
 
     const { pageSize, cacheUserInfoKey } = config;
     const { level } = store.get(cacheUserInfoKey) || { id: 1 };

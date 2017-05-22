@@ -9,7 +9,7 @@ function loginInit (f7, view, page){
     const {mWebUrl} = config;
     f7.hideIndicator();
     const currentPage = $$(
-        $$('.view-login .pages>.page')[$$('.view-login .pages>.page').length - 1]);
+        $$('.view-login .pages>.page-login')[$$('.view-login .pages>.page-login').length - 1]);
     const currentNavbar = $$(
         $$('.view-login .navbar>.navbar-inner')[$$('.view-login .navbar>.navbar-inner').length -
                                                 1]);

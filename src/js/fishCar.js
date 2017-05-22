@@ -10,7 +10,7 @@ import CountModel from './model/count';
 
 function fishCarInit (f7, view, page){
     const {pageSize, cacheUserInfoKey} = config;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-fish-car')[$$('.view-main .pages>.page-fish-car').length - 1]);
     const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const contentBox = currentPage.find('.page-list-view').children('.list');
     const showAllText = currentPage.find('.filter-search-empty-info');

@@ -15,7 +15,7 @@ import customAjax from '../middlewares/customAjax';
 
 function postDriverInfoInit (f7, view, page){
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-post-driver-info')[$$('.view-main .pages>.page-post-driver-info').length - 1]);
     const {id} = page.query;
     const {identity} = config;
     const {androidChrome} = window.currentDevice;

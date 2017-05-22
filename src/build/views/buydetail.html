@@ -31,7 +31,7 @@
                         <b>{{demandInfo.provinceName + demandInfo.cityName}}</b>
                     </span>
                     <span class="city-distance" v-if="getRangeText > 200">| 距离你<i>{{getRangeText}}</i>公里</span>
-                    <span class="city-distance" v-if="!(getRangeText > 200)">| 离你很近</span>
+                    <span class="city-distance" v-if="getRangeText && !(getRangeText > 200)">| 离你很近</span>
                 </div>
                 <div class="selldetail-price-info row">
                     <span class="selldetail-price col-60">求购数量：<b>{{demandInfo.stock || '大量'}}</b></span>
@@ -43,7 +43,8 @@
             </p>
             <!-- deal info  -->
             <div class="user-deal-info" v-if="isShowDeal">
-                  <a :href="'./views/dealInfo.html?type=' + demandInfo.type + '&infoId=' + demandInfo.id + '&fishId=' + demandInfo.fishTypeId + '&fishName=' + demandInfo.fishTypeName + '&fishParentId=' + demandInfo.fishParentTypeId + '&fishParentName=' + demandInfo.fishParentTypeName">
+                  <a :href="'./views/dealInfo.html?type=' + demandInfo.type + '&infoId=' + demandInfo.id + '&fishId=' + demandInfo.fishTypeId + '&fishName=' + demandInfo.fishTypeName + '&fishParentId=' + demandInfo.fishParentTypeId + '&fishParentName=' + demandInfo.fishParentTypeName"
+                     onclick="apiCount('btn_infoDetail_postTrades')">
                     <span class="iconfont icon-deal"></span>
                     <div class="deal-title">已成交？提交成交信息</div>
                     <div class="deal-text">让你看上去更靠谱<span class="iconfont icon-right"></span></div>

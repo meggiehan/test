@@ -15,7 +15,7 @@ function inviteFriendsListInit (f7, view, page){
         return;
     }
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-invite-friends-list')[$$('.view-main .pages>.page-invite-friends-list').length - 1]);
     const { cacheUserInfoKey, pageSize } = config;
     let pageNo = 1;
     const userInfo = store.get(cacheUserInfoKey);

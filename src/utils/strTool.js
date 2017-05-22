@@ -4,7 +4,7 @@
  */
 module.exports = {
     getUnit (val){
-        if(!val){
+        if(!val.toString().length){
             return '';
         }
         const arr = [
@@ -30,8 +30,10 @@ module.exports = {
                 res = '一个月内收购';
             }else if(1 < differenceTime && differenceTime < 2){
                 res = '两个月内收购';
-            }else{
+            }else if(2 < differenceTime && differenceTime < 3){
                 res = '三个月内收购';
+            }else{
+                res = '长期收购';
             }
         }
         return res;

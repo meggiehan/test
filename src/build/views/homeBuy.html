@@ -38,7 +38,7 @@
                     <p>出售大厅</p>
                 </a>
 
-                <a class="col-33" @click="myListBuy()">
+                <a class="col-33" @click="myListBuy(true)">
                     <img src="img/icon_buy.png" alt="">
                     <p>我的求购</p>
                 </a>
@@ -94,13 +94,32 @@
             </div>
 
             <div class="home-select-list">
+
+                <div class="row list-block media-list row-two-item" v-if="!homeData.adsTop || !homeData.adsTop.length">
+                    <a class="col-50 item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-subtitle">靠谱专区</div>
+                            <div class="item-text">实名认证卖家</div>
+                        </div>
+                        <div class="item-media"><img src="img/app_icon_108.png" width="50" alt=""></div>
+                    </a>
+
+                    <a class="col-50 item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-subtitle">水产全明星</div>
+                            <div class="item-text">脚踏实地做生意</div>
+                        </div>
+                        <div class="item-media"><img src="img/app_icon_108.png" width="50" alt=""></div>
+                    </a>
+                </div>
+
                 <div class="row list-block media-list row-two-item">
                     <a class="col-50 item-content item-link" v-for="item in homeData.adsTop" @click="clickAds(item)">
                         <div class="item-inner">
                             <div class="item-subtitle">{{item.title}}</div>
                             <div class="item-text">{{item.subTitle}}</div>
                         </div>
-                        <div class="item-media"><img :src="item.img + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png'" width="50" alt=""></div>
+                        <div class="item-media"><img :data-src="item.img ? (item.img + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png') : 'img/app_icon_108.png'" src="img/app_icon_108.png" width="50" class="lazy"></div>
                     </a>
                 </div>
                 <div class="row list-block media-list row-three-item" v-if="homeData.adsBottom && homeData.adsBottom.length">
@@ -108,7 +127,7 @@
                         <div class="item-inner">
                             <div class="item-subtitle">{{item.title}}</div>
                             <div class="item-text">{{item.subTitle}}</div>
-                            <img :src="item.img + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png'" width="45" alt="">
+                            <img :data-src="item.img ? (item.img + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png') : 'img/app_icon_108.png'" src="img/app_icon_108.png" width="45" class="lazy">
                         </div>
                     </a>
                 </div>
@@ -118,10 +137,10 @@
                     {{3 == bigerBuyInfo.state ? '每天刷新一次求购，更快买到好东西~' : ''}}
                     {{2 == bigerBuyInfo.state ? '求购很久啦，快告诉我有没有成交' : ''}}
                     {{1 == bigerBuyInfo.state ? '发布一个求购信息，帮你买到好东西' : ''}}
-                    <a v-if="1 == bigerBuyInfo.state" href="views/filter.html?type=1&release=true">现在发布</a>
-                    <a v-if="2 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId">我已成交</a>
-                    <a v-if="3 == bigerBuyInfo.state" href="views/myList.html?type=1">去刷新</a>
-                    <a v-if="4 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId">快去看看</a>
+                    <a v-if="1 == bigerBuyInfo.state" href="views/filter.html?type=1&release=true" onclick="apiCount('btn_home_hintClick')">现在发布</a>
+                    <a v-if="2 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId" onclick="apiCount('btn_home_hintClick')">我已成交</a>
+                    <a v-if="3 == bigerBuyInfo.state" href="views/myList.html?type=1" onclick="apiCount('btn_home_hintClick')">去刷新</a>
+                    <a v-if="4 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId" onclick="apiCount('btn_home_hintClick')">快去看看</a>
                 </div>
             </div>
 
@@ -148,7 +167,7 @@
                 <!-- home cat list -->
                 <div class="home-cat-list">
                     <div class="home-content-title"><i class="title-label-border"></i>为你推荐</div>
-                    <div class="cat-list-foreach list-block media-list" onclick="apiCount('cell_selllist');"></div>
+                    <div class="cat-list-foreach list-block media-list" onclick="apiCount('cell_home_recommendList');"></div>
                 </div>
             </div>
             <p class="filter-search-empty-info" v-if="showAll">已显示全部</p>

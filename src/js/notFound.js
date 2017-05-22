@@ -1,5 +1,5 @@
 function notFoundInit (f7, view, page){
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-not-found')[$$('.view-main .pages>.page-not-found').length - 1]);
     const {errInfo} = page.query;
     errInfo && currentPage.find('.not-found-error-info').text(errInfo || '');
     f7.hideIndicator();

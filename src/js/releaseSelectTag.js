@@ -3,7 +3,7 @@ import { html, getTagInfo } from '../utils/string';
 import { releaseInfo } from '../utils/template';
 
 function releaseSelectTagInit (f7, view, page){
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-release-select-tag-content')[$$('.view-main .pages>.page-release-select-tag-content').length - 1]);
     let isSend = false;
     f7.hideIndicator();
 

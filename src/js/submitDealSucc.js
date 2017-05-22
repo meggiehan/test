@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 function submitDealSuccInit (f7, view, page){
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-submit-deal-succ')[$$('.view-main .pages>.page-submit-deal-succ').length - 1]);
     const {infoId, type} = page.query;
 
     window.strengthShowModel = new Vue({

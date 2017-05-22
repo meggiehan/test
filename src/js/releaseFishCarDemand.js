@@ -16,7 +16,7 @@ function releaseFishCarDemandInit (f7, view, page){
     let destinationProvinceList = getProvinceList();
     let provinceCityList = getProvinceCityArr();
 
-    const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
+    const $currentPage = $$($$('.view-release-fish .pages>.page-recruit-driver-success')[$$('.view-release-fish .pages>.page-recruit-driver-success').length - 1]);
     const $phone = $currentPage.find('.contact-phone').children('input');
     const $nickname = $currentPage.find('.contact-nickname').children('input');
     const $description = $currentPage.find('.release-discription').children();

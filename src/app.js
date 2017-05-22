@@ -2,7 +2,6 @@ import Framework7 from './js/lib/framework7';
 import version from './config/version.json';
 import config from './config';
 import {searchInit} from './js/search';
-import {homeInit} from './js/home';
 import {filterInit} from './js/filter';
 import {selldetailInit} from './js/selldetail';
 import {buydetailInit} from './js/buydetail';
@@ -115,7 +114,6 @@ let initAppConfig = {
             if (_currentPage.indexOf('homeBuy.html') > -1 ||
              _currentPage.indexOf('user.html') > -1 ||
               _currentPage.indexOf('releaseSucc.html') > -1 ||
-                _currentPage.indexOf('submitDealSucc.html') > -1 ||
                 _currentPage.indexOf('homeSell.html') > -1 ||
                 _currentPage.indexOf('aquaticClassroom.html') > -1){
                 return false;
@@ -240,7 +238,7 @@ $$('img.lazy').trigger('lazy');
  * 页面加载完成后根据name执行相应的controller
  * */
 f7.onPageInit('*', (page) => {
-    if (page.name !== 'home' && page.name){
+    if ((page.name !== (isHomeSell ? 'homeSell' : 'homeBuy')) && page.name){
         f7.showIndicator();
     } else {
         f7.hideIndicator();
@@ -273,7 +271,6 @@ f7.onPageInit('*', (page) => {
     page.name === 'myList' && myListInit(f7, window.mainView, page);
     page.name === 'fishCert' && fishCertInit(f7, window.window.mainView, page);
     page.name === 'releaseSucc' && releaseSuccInit(f7, window.window.mainView, page);
-    page.name === 'home' && homeInit(f7, window.mainView, page);
     page.name === 'user' && userInit(f7, window.mainView, page);
     page.name === 'inviteCode' && inviteCodeInit(f7, window.mainView, page);
     page.name === 'inviteFriendsList' && inviteFriendsListInit(f7, window.mainView, page);

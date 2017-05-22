@@ -10,7 +10,7 @@ function filterInit (f7, view, page){
     const _district = nativeEvent['getDistricInfo']() || {root: {province: []}};
     const {keyvalue, release, type, id, cityId, search, fishTagName, assurance, fishId} = page.query;
     const member = page['query']['member'] || false;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-filter')[$$('.view-main .pages>.page-filter').length - 1]);
     const currentNavbar = $$($$('.view-main .navbar>.navbar-inner')[$$('.view-main .navbar>.navbar-inner').length - 1]);
     const searchBtn = $$('.filter-searchbar input');
     const emptyTemp = currentPage.find('.filter-empty-search-result');

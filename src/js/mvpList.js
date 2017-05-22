@@ -8,7 +8,7 @@ import config from '../config';
  * @param  {[object]} page [description]
  */
 function mvpListInit (f7, view, page){
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-mvp-list')[$$('.view-main .pages>.page-mvp-list').length - 1]);
     const $ptrContent = currentPage.find('.pull-to-refresh-content');
     const $infinite = currentPage.find('.infinite-scroll');
     const {

@@ -30,7 +30,9 @@
                 .col-70 {
                     width: 73%;
                     display: block;
-                    .text-hidden;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    white-space: normal;
                 }
 
                 .selldetail-description {
@@ -78,6 +80,10 @@
                 .buy-detail-address {
                     color: @text-category;
                     padding-top: 1rem;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    white-space: normal;
+                    width: 100%;
 
                     b:before {
                         .ps-r;
@@ -91,12 +97,7 @@
                     }
 
                     .city-distance {
-                        display: none;
                         vertical-align: middle;
-
-                        &.show {
-                            display: inline-block;
-                        }
                     }
                 }
 

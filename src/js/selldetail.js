@@ -18,7 +18,7 @@ import InfoDetail from './model/InfoDetail';
 
 function selldetailInit (f7, view, page){
     const {id} = page.query;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-selldetail')[$$('.view-main .pages>.page-selldetail').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const {shareUrl, cacheUserInfoKey, mWebUrl, imgPath} = config;
     const locaUserId = store.get(cacheUserInfoKey) && store.get(cacheUserInfoKey).id;
@@ -217,6 +217,7 @@ function selldetailInit (f7, view, page){
                 nativeEvent.catPic(url);
             },
             goAuthPage (){
+                window.apiCount('btn_infoDetail_goVerify');
                 view.router.load({
                     url: 'views/catIdentityStatus.html'
                 });
@@ -241,7 +242,7 @@ function selldetailInit (f7, view, page){
                 const {lat, lng} = getAddressIndex(this.demandInfo.provinceName, this.demandInfo.cityName);
                 const rangeText = getRange(lat, lng);
                 let res = '';
-                if (rangeText > -1){
+                if (rangeText > 0){
                     res = rangeText;
                 }
                 return res;

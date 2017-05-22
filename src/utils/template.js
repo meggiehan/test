@@ -124,7 +124,6 @@ module.exports = {
                 level,
                 stock,
                 state,
-                specifications,
                 refreshed,
                 type,
                 sort, // refreshTime
@@ -134,12 +133,14 @@ module.exports = {
                 provinceName,
                 description,
                 demandInfoBuy,
-                quantityTagList
+                quantityTagList,
+                enterpriseName,
+                realName
             } = data;
             let res = '';
             let nameAuthenticated = data.nameAuthenticated || nameAuthentication;
 
-            res += '<a class="for-you-recommend" href="./views/buydetail.html?id=' + id + '">' +
+            res += `<a class="for-you-recommend ${isMyList ? 'my-list' : ''}" href="./views/buydetail.html?id=${id}">` +
                     '<div class="list-block recomment-info">' +
                         '<div class="item-content">' +
                             '<div class="recomment-info-pic item-media">' +
@@ -148,11 +149,11 @@ module.exports = {
                             '<div class="item-inner row">' +
                                 '<div class="col-70">' +
                                     '<div class="recomment-user-name">' +
-                                        '<span>蔡思雨</span>' +
+                                        '<span>' + `${contactName || realName || '匿名用户'}` + '</span>' +
                                         `${level ? ('<i class="iconfont icon-v' + level + '"></i>') : ''}` +
                                     '</div>' +
                                     '<div class="rec-user-refresh">' +
-                                        '<span class="rec-user-text">' + timeDifference(sort) + '</span><span class="rec-user-text">|xxx合作社</span>' +
+                                        '<span class="rec-user-text">' + timeDifference(sort) + `${enterpriseName ? ('</span><span class="rec-user-text">  |  ' + enterpriseName + '</span>') : ''}` +
                                     '</div>' +
                                 '</div>' +
                                 `${nameAuthenticated ? '<div class="identity-verification">实名认证</div>' : ''}` +
@@ -167,7 +168,7 @@ module.exports = {
                             `<span class="tip-three">我在${provinceName}${cityName}</span>` +
                             `<span class="tip-four">${getBuyTime(demandInfoBuy.endTime)}</span>` +
                         '</div>' +
-                        `<div class="rec-footer-text">${description}</div>` +
+                        `${description ? ('<div class="rec-footer-text">' + description + '</div>') : ''}` +
                     '</div>' +
                 '</a>';
 

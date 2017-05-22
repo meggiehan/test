@@ -10,7 +10,7 @@ function releaseFishCarDemandSuccessInit (f7, view, page){
         date,
         id
     } = page.query;
-    const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
+    const $currentPage = $$($$('.view-release-fish .pages>.page-release-fish-car-demand-success')[$$('.view-release-fish .pages>.page-release-fish-car-demand-success').length - 1]);
     const pageName = window.mainView.activePage.name;
     if(isDriver){
         $currentPage.find('.circular-content').text('请等待货主联系');

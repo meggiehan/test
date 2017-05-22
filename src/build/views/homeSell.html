@@ -40,7 +40,7 @@
             </div>
             <!-- Refresh the information -->
             <div class="refresh-info row">
-                <a href="views/filter.html?type=1" class="col-33 buy-info">
+                <a href="views/filter.html?type=1" onclick="apiCount('btn_wanttobuy')" class="col-33 buy-info">
                     <img src="img/icon_buy.png" alt="">
                     <p>求购大厅</p>
                 </a>
@@ -50,7 +50,7 @@
                     <p>我的店铺</p>
                 </a>
 
-                <a class="col-33 find-FishCar" href="views/fishCar.html?isFishCar=0" onclick="apiCount('btn_home_fishcar')">
+                <a class="col-33 find-FishCar" href="views/fishCar.html?isFishCar=0" onclick="apiCount('btn_sell_fishcar')">
                     <img src="img/ic_yucheb.png" alt="">
                     <p>找鱼车</p>
                 </a>
@@ -58,21 +58,22 @@
             <div class="refresh-info-day" v-if="isLogin && userData.refreshTip">
                 <div class="refresh-text">
                     <span class="three-day day-and-week">{{userData.refreshTip}}</span>
-                    <a class="refresh-btn" href="views/myList.html?type=2">立即刷新</a>
+                    <a class="refresh-btn" onclick="apiCount('btn_sell_hintRefreshClick')" href="views/myList.html?type=2">立即刷新</a>
                 </div>
             </div>
             <!-- recent release -->
             <div class="recent-release-all">
                 <div class="release-title">
                     最近发布
-                    <a class="iconfont icon-right" href="views/myList.html?type=2" v-if="isLogin">查看更多</a>
+                    <a class="iconfont icon-right" onclick="apiCount('btn_sell_moreInfo')" href="views/myList.html?type=2" v-if="isLogin">查看更多</a>
                 </div>
                 <div class="release-content">
                     <!-- 1种显示发布后的状态 -->
                     <div class="hsa-sell-info" v-if="userData && userData.recentPublished && userData.recentPublished.length">
                         <a class="list-block recent-info"
                            v-for="item in userData.recentPublished"
-                           :href="'views/selldetail.html?id=' + item.id">
+                           :href="'views/selldetail.html?id=' + item.id"
+                           oclick="apiCount('cell_sell_recentInfo')">
                             <div class="item-content">
                                 <div class="item-media">
                                     <img src="img/app_icon_108.png" class="lazy" :data-src="item.imgList && item.imgList.length ? (item.imgList[0] + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png') : 'img/app_icon_108.png'">
@@ -87,13 +88,17 @@
                             </div>
                         </a>
                         <div class="release-footer">
-                            <a class="refresh-info-btn on" href="views/myList.html?type=2">刷新信息</a>
-                            <a class="refresh-info-btn refresh-sell-btn" href="views/filter.html?type=2&release=true">发布出售信息</a>
+                            <a class="refresh-info-btn on"
+                               href="views/myList.html?type=2"
+                               onclick="apiCount('btn_sell_refreshInfo')">刷新信息</a>
+                            <a class="refresh-info-btn refresh-sell-btn"
+                               href="views/filter.html?type=2&release=true"
+                               onclick="apiCount('btn_sell_postSellInfo')">发布出售信息</a>
                         </div>
                     </div>
                     <!-- 2种发布出售信息状态 -->
                     <!-- 3种未登录的状态 -->
-                    <div class="refresh-status">
+                    <div class="refresh-status" onclick="apiCount('btn_sell_help')">
                         <p class="refresh-login-status" v-if="!isLogin">登录后，就可以发信息赚大钱啦</p>
                         <p class="refresh-sell-status" v-if="isLogin && (!userData.recentPublished || !userData.recentPublished.length)">多发布点信息，生意才能更好~</p>
                     </div>
@@ -115,7 +120,7 @@
             </a>
             <!-- 为你推荐 -->
             <div class="recommend-title">为你推荐</div>
-            <div class="recommend-sell-list"></div>
+            <div class="recommend-sell-list" onclick="apiCount('cell_sell_recommendLIst')"></div>
             <p class="filter-search-empty-info" v-if="showAll">已显示全部</p>
             <!-- Preloader -->
             <div class="infinite-scroll-preloader" v-if="!showAll">

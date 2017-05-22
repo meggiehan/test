@@ -14,7 +14,7 @@ function strengthShowInit (f7, view, page){
         return;
     }
 
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-strength-show')[$$('.view-main .pages>.page-strength-show').length - 1]);
     let userInfo = store.get(config.cacheUserInfoKey);
     if(!userInfo.abilityImgList || !userInfo.abilityImgList.length){
         userInfo.abilityImgList = [];

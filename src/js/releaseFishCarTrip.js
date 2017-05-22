@@ -13,7 +13,7 @@ function releaseFishCarTripInit (f7, view, page){
     let destinationProvinceList = getProvinceList();
     destinationProvinceList.unshift('全国');
 
-    const $currentPage = $$($$('.view-release-fish .pages>.page')[$$('.view-release-fish .pages>.page').length - 1]);
+    const $currentPage = $$($$('.view-release-fish .pages>.page-release-fish-car-trip')[$$('.view-release-fish .pages>.page-release-fish-car-trip').length - 1]);
     const $description = $currentPage.find('.release-discription').children();
     const $date = $currentPage.find('.select-date-box').children('input');
     const $departure = $currentPage.find('.release-departure').children('input');

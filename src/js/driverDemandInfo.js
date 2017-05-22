@@ -7,7 +7,7 @@ import {driverDemeandInfo} from '../utils/template';
 
 function driverDemandInfoInit (f7, view, page){
     const {id} = page.query;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-driver-demand-info')[$$('.view-main .pages>.page-driver-demand-info').length - 1]);
     if(!id){
         return;
     }

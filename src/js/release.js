@@ -5,7 +5,7 @@ import { isLogin, loginViewShow } from '../middlewares/loginMiddle';
 
 function releaseInit (f7, view, page){
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-release')[$$('.view-main .pages>.page-release').length - 1]);
     const { debug } = config;
 
     if (!window['addressObj'] || (window['addressObj'] && !window['addressObj']['initCityName'])){

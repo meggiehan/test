@@ -7,18 +7,14 @@
             background: @bg-fff;
             .text-shadow(@text-fff);
 
-            & > .row {
+            .first,
+            .row {
                 padding: 2%;
                 border-top: 1px solid @border-da;
                 line-height: 3rem;
                 font-size: 1.5rem;
                 .text-hidden;
-
-                &.first {
-                    border: none;
-                    height: auto;
-                    line-height: 1.2;
-                }
+                height: auto;
 
                 .col-30 {
                     color: @text-category;
@@ -29,7 +25,9 @@
                 .col-70 {
                     width: 73%;
                     display: block;
-                    .text-hidden;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    white-space: normal;
                 }
 
                 .selldetail-description {
@@ -42,7 +40,6 @@
 
             .sell-detail-header {
                 width: 100%;
-                position: relative;
 
                 .sell-detail-name {
                     line-height: 2rem;
@@ -92,6 +89,7 @@
                     margin-top: 0.9rem;
                     color: @bg-b9;
                     display: inline-block;
+                    .ps-r;
 
                     span {
                         font-size: 1.4rem;
@@ -147,7 +145,7 @@
                     border-bottom-color: @bg-b9;
                     position: absolute;
                     left: 6%;
-                    top: 63.8%;
+                    top: -1.4rem;
                 }
 
                 .go-certification::before {
@@ -158,7 +156,7 @@
                     border-bottom-color: @text-fff;
                     position: absolute;
                     left: 6%;
-                    top: 64.6%;
+                    top: -1.3rem;
                     z-index: 100;
                 }
             }
@@ -168,6 +166,10 @@
                 margin-bottom: 0.6rem;
                 color: @text-category;
                 font-size: 1.4rem;
+                word-wrap: break-word;
+                word-break: break-all;
+                white-space: normal;
+                width: 100%;
 
                 .city-name {
                     color: @text-category;
@@ -187,10 +189,6 @@
                 .city-distance {
                     vertical-align: middle;
 
-                    &.show {
-                        display: inline-block;
-                    }
-
                     i {
                         color: @themeColor;
                     }
@@ -200,7 +198,6 @@
             .sell-detail-price {
                 margin-top: 0;
                 margin-bottom: 0.5rem;
-                padding-right: 1rem;
 
                 .info-price {
                     color: @text-chushou;

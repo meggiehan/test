@@ -5,7 +5,7 @@ import infoDetail from './model/InfoDetail';
 
 function dealInfoInit (f7, view, page){
     f7.hideIndicator();
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-deal-info')[$$('.view-main .pages>.page-deal-info').length - 1]);
     const {
         type,
         infoId,

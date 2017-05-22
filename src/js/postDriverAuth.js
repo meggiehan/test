@@ -4,7 +4,7 @@ import { trim } from '../utils/string';
 import customAjax from '../middlewares/customAjax';
 
 function postDriverAuthInit (f7, view, page){
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-post-driver-auth')[$$('.view-main .pages>.page-post-driver-auth').length - 1]);
     const {id} = page.query;
     const {identity} = config;
     const {androidChrome} = window.currentDevice;
