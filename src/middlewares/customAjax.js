@@ -36,6 +36,13 @@ class CustomClass{
                 res += `_${k}_${value}`;
             });
         }
+
+        if(res.indexOf('recommendation') > -1 && res.indexOf('demands') > -1 && !key){
+            $$.each(val, (key, item) => {
+                res += `_${key}_${encodeURIComponent(item)}`;
+            });
+        }
+
         return res;
     }
 
@@ -89,6 +96,7 @@ class CustomClass{
             apiVersion
         } = obj;
 
+        const isGet = 'get' == type;
         const key = api ? config[apiCategory][api] : config[apiCategory];
         const {timeout, cacheUserInfoKey} = config;
         const saveKey = api in ['login', 'getUserInfo'] ? cacheUserInfoKey : this.getKey(apiCategory, api, key, data);
@@ -137,7 +145,6 @@ class CustomClass{
                 callback(cacheData);
                 const apiArr = ['getDemandInfo'];
                 const apiCategoryArr = ['userInformation'];
-                const isGet = 'get' == type;
                 if(isGet &&
                   (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
                   (new Date().getTime() - time) <= 3 * 1000){
