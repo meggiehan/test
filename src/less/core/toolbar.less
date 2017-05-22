@@ -4,7 +4,6 @@
     a {
         font-size: 1.2rem;
         .text-center;
-        .ps-r;
         padding: 0.3rem 0;
         height: 100%;
         .box-size();
@@ -45,20 +44,24 @@
 
         p {
             .ps-r;
-            top: -1rem;
+            top: -1.2rem;
             margin: 0;
             font-size: 1.2rem;
         }
 
-        &.tab-release {
+        .tab-release {
             width: 5.4rem;
+            display: block;
+            margin: 0 auto;
+            height: 100%;
 
             .tab-release-bg {
                 display: block;
-                width: 100%;
+                width: 5.4rem;
                 height: 80%;
                 bottom: 0;
-                left: 0;
+                left: 50%;
+                margin-left: -2.7rem;
                 .ps-a;
                 background: @themeColor;
             }

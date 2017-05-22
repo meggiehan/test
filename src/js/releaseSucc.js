@@ -17,7 +17,7 @@ const newF7 = new Framework7({
 function releaseSuccInit (f7, view, page){
     const { type, id, fishName, phone } = page.query;
     const { pageSize, shareUrl } = config;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-release-succ')[$$('.view-main .pages>.page-release-succ').length - 1]);
     currentPage.find('span.release-succ-name').text(fishName);
 
     /**

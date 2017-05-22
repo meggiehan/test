@@ -130,6 +130,7 @@ function releaseInfoInit (f7, view, page){
                 }
             },
             openOrClosePrice (){
+                window.apiCount(this.isClose ? 'btn_post_priceYes' : 'btn_post_priceNo');
                 this.isClose = !this.isClose;
             },
             checkPhoneLength (){

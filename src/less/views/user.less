@@ -336,7 +336,6 @@ div.view-main[data-page="user"] {
         .user-nav-info {
             background-color: @text-fff;
             margin-top: 1rem;
-            border-bottom: 1px solid @bg-e3;
 
             .item-content {
                 font-size: 1.5rem;
@@ -368,14 +367,21 @@ div.view-main[data-page="user"] {
                     height: 4rem;
                     line-height: 2rem;
                     color: @text-black;
+                    width: 3rem;
 
                     span {
-                        font-size: 2.5rem;
+                        font-size: 2.4rem;
                     }
 
                     .icon-fish-car {
                         font-size: 3.5rem;
                         padding-left: 0;
+                        .ps-r;
+                        left: -0.5rem;
+                    }
+
+                    .icon-invite {
+                        font-size: 2.6rem;
                     }
 
                     .iconfont {
@@ -416,7 +422,6 @@ div.view-main[data-page="user"] {
         .user-nav-account {
             background-color: @text-fff;
             margin-top: 1rem;
-            border-bottom: 1px solid @bg-e3;
 
             .item-content {
                 font-size: 1.5rem;
@@ -448,17 +453,22 @@ div.view-main[data-page="user"] {
                     height: 4rem;
                     line-height: 2rem;
                     color: @text-black;
+                    width: 3rem;
 
                     span {
                         font-size: 2.5rem;
                     }
 
                     .icon-lock {
-                        font-size: 3.3rem;
+                        font-size: 3rem;
+                        .ps-r;
+                        left: -0.3rem;
                     }
 
                     .icon-info {
-                        font-size: 4rem;
+                        font-size: 3.6rem;
+                        .ps-r;
+                        left: -0.5rem;
                     }
 
                     .iconfont {
@@ -485,58 +495,7 @@ div.view-main[data-page="user"] {
                 }
             }
         }
-        // .user-refresh-auth {
-        //     margin-top: 1rem;
-        //     padding: 0;
-        //     background: @bg-fff;
-        //     .text-shadow(@text-fff);
-        //     .col-50 {
-        //         width: 50%;
-        //         padding: 1.2rem 0;
-        //         padding-left: 1%;
-        //         &:last-child {
-        //             padding-left: 3%;
-        //         }
-        //         .iconfont {
-        //             font-size: 4rem;
-        //             color: @text-test;
-        //             height: 4rem;
-        //             line-height: 4rem;
-        //             overflow: hidden;
-        //             &:before {
-        //                 vertical-align: text-top;
-        //             }
-        //         }
-        //         p {
-        //             margin: 0;
-        //             .text-hidden;
-        //             font-size: 1.2rem;
-        //             color: @text-subtitle;
-        //             &:first-child {
-        //                 font-size: 1.6rem;
-        //                 margin-bottom: 0.3rem;
-        //                 color: @text-name;
-        //             }
-        //         }
-        //         &:first-child {
-        //             border-right: 1px solid @border-da;
-        //         }
-        //         .item-inner {
-        //             padding: 0;
-        //             margin-left: 1rem;
-        //             &.my-level {
-        //                 margin-left: 0.5rem;
-        //             }
-        //             &:after {
-        //                 display: none;
-        //             }
-        //         }
-        //         .item-media {
-        //             padding: 0;
-        //             margin-left: 4%;
-        //         }
-        //     }
-        // }
+
         .user-cert-identity {
             margin-top: 1rem;
             background: @bg-fff;
@@ -635,7 +594,7 @@ div.view-main[data-page="user"] {
                 height: 8rem;
                 width: 100%;
                 border-radius: 3.2rem;
-                color: #47B913;
+                color: @bg-b9;
                 top: 0;
                 position: relative;
 
@@ -645,7 +604,7 @@ div.view-main[data-page="user"] {
                     position: absolute;
                     top: 0;
                     left: 8%;
-                    background-color: #47B913;
+                    background-color: @bg-b9;
                     box-shadow: 0 0 8px 0 rgba(71,184,19,0.80);
                     border-top-left-radius: 3.2rem;
                     border-top-right-radius: 3.2rem;
@@ -662,8 +621,6 @@ div.view-main[data-page="user"] {
                     top: 0.3rem;
                     left: 12%;
                     border-radius: 2.5rem;
-                    // transform: scale(0.9);
-                    // -webkit-transform: scale(0.9);
                 }
 
                 .iconfont {
@@ -672,7 +629,7 @@ div.view-main[data-page="user"] {
             }
 
             &.active {
-                color: #47B913;
+                color: @bg-b9;
             }
         }
 
@@ -689,14 +646,16 @@ div.view-main[data-page="user"] {
     }
 }
 @media screen and (max-width: 330px) {
-    .page-user .page-content .user-info-driver-check .driver-checking,
-    .page-user .page-content .user-info-driver-check .driver-frozen,
-    .page-user .page-content .user-info-driver-check .driver-reject,
-    .page-user .page-content .user-info-driver-check .enter-auth-check,
-    .page-user .page-content .user-info-driver-check .enter-auth-reject,
-    .page-user .page-content .user-info-driver-check .personal-auth-check,
-    .page-user .page-content .user-info-driver-check .personal-auth-reject {
-        font-size: 1.2rem;
+    .page-user .page-content .user-info-driver-check {
+        .driver-checking,
+        .driver-frozen,
+        .driver-reject,
+        .enter-auth-check,
+        .enter-auth-reject,
+        .personal-auth-check,
+        .personal-auth-reject {
+            font-size: 1.2rem;
+        }
     }
 
     .page-user .page-content .user-nav-items .col-25 p {

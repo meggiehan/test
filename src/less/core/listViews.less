@@ -259,11 +259,22 @@
 }
 
 a.for-you-recommend {
+    display: block;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    background: @bg-fff;
+    .text-shadow(@bg-fff);
+
+    &.my-list {
+        padding-bottom: 0;
+    }
+
     .recomment-info {
         .item-content {
-            padding: 0.7rem 1.05rem 0.2rem 1rem;
+            padding: 0.7rem 0 0.2rem;
             margin-left: 0;
-            border-bottom: 1px solid @border-DB;
+            border-bottom: 1px solid @border-da;
 
             .item-inner {
                 display: -webkit-flex;
@@ -271,6 +282,7 @@ a.for-you-recommend {
                 margin-left: 0;
                 -webkit-box-align: center;
                 -webkit-box-pack: center;
+                padding-right: 1rem;
 
                 &:after {
                     display: none;
@@ -350,11 +362,11 @@ a.for-you-recommend {
             color: @text-name;
             letter-spacing: 0.038rem;
             line-height: 2.5rem;
-            padding: 1rem 1rem 0.5rem;
+            padding: 1rem 1rem 1rem 0;
         }
 
         .rec-footer-tip {
-            padding-left: 1rem;
+            padding-right: 1rem;
 
             span {
                 display: inline-block;
@@ -364,7 +376,7 @@ a.for-you-recommend {
                 letter-spacing: 0.03rem;
                 padding: 0 0.5rem;
                 line-height: 2.2rem;
-                margin: 0 0.25rem 0.8rem 0;
+                margin: 0 0.25rem 0 0;
 
                 &.tip-one {
                     border: 1px solid @border-one;
@@ -389,11 +401,11 @@ a.for-you-recommend {
         }
 
         .rec-footer-text {
-            padding: 0 1rem;
             font-size: 1.4rem;
             color: @text-category;
             letter-spacing: 0.03rem;
-            padding-bottom: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.8rem;
         }
     }
 }

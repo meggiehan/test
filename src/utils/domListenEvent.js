@@ -76,11 +76,11 @@ module.exports = {
         }
     },
 
-    myListBuy: () => {
+    myListBuy: (isHome) => {
         if (!isLogin()){
             f7.alert(alertTitleText(), '温馨提示', loginViewShow);
         } else {
-            window.apiCount('btn_mysell');
+            window.apiCount(isHome ? 'btn_home_myPurchase' : 'btn_mysell');
             window.mainView.router.load({
                 url: 'views/myList.html?type=1'
             });

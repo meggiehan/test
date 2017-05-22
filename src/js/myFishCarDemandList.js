@@ -17,7 +17,7 @@ function myFishCarDemandListInit (f7, view, page){
      * @type  1是计划中 2是行程历史
      * */
     let type = 2;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-my-fish-car-demand')[$$('.view-main .pages>.page-my-fish-car-demand').length - 1]);
 
     const { pageSize } = config;
     const sellLoad = currentPage.find('.sell-infinite-scroll-preloader');

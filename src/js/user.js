@@ -87,18 +87,6 @@ function userInit (f7, view, page){
                     url: 'views/release.html'
                 });
             },
-            // 刷新或者发布信息
-            releaseOrRefresh (){
-                if(!this.isLogin){
-                    this.releaseInfo();
-                }else{
-                    if(!this.recentDemands.length){
-                        this.releaseInfo();
-                        return;
-                    }
-                    this.myListSell();
-                }
-            },
             // 绑定账号
             bindAccount (){
                 if (!this.isLogin && !this.weixinData){
@@ -158,11 +146,11 @@ function userInit (f7, view, page){
             },
             // 分享我的店铺
             shareMyShop (){
+                window.apiCount('btn_myCenter_myCard');
                 if (!this.isLogin && !this.weixinData){
                     this.login();
                     return;
                 }
-                window.apiCount('btn_myCenter_shareMyShop');
                 window.mainView.router.load({
                     url: `views/otherIndex.html?currentUserId=${userInformation.id}&id=${userInformation.id}`
                 });

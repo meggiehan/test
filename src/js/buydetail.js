@@ -18,7 +18,7 @@ import InfoDetail from './model/InfoDetail.js';
 
 function buydetailInit (f7, view, page){
     const { id } = page.query;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-buydetail')[$$('.view-main .pages>.page-buydetail').length - 1]);
     const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
     const { shareUrl, cacheUserInfoKey, mWebUrl, imgPath } = config;
     const locaUserId = store.get(cacheUserInfoKey) && store.get(cacheUserInfoKey).id;

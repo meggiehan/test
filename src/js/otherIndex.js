@@ -12,7 +12,7 @@ import { isLogin } from '../middlewares/loginMiddle';
 
 function otherIndexInit (f7, view, page){
     const { currentUserId } = page.query;
-    const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+    const currentPage = $$($$('.view-main .pages>.page-other-index')[$$('.view-main .pages>.page-other-index').length - 1]);
     const { imgPath, cacheUserInfoKey } = config;
     let level;
     let nameAuthentication;

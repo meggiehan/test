@@ -45,6 +45,7 @@ function homeSellInit (f7, view, page){
                 f7.alert(alertTitleText(), '温馨提示', loginViewShow);
             },
             goMyShop (){
+                window.apiCount('btn_sell_myShop');
                 view.router.load({
                     url: `views/otherIndex.html?currentUserId=${userInfo.id}`
                 });

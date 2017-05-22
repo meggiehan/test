@@ -1,17 +1,19 @@
 <template>
 <div class="toolbar-inner fixed-tool-bar">
-    <a href="views/homeBuy.html" :class="1 == tabIndex && 'active'" data-reload="true">
+    <a href="views/homeBuy.html" :class="1 == tabIndex && 'active'" data-reload="true" onclick="apiCount('btn_tabbar_buy')">
         <span class="iconfont icon-buy"></span> 我要买
     </a>
-    <a href="views/homeSell.html" :class="2 == tabIndex && 'active'" data-reload="true">
+    <a href="views/homeSell.html" :class="2 == tabIndex && 'active'" data-reload="true" onclick="apiCount('btn_tabbar_sell')">
         <span class="iconfont icon-sell"></span> 我要卖
     </a>
-    <a @click="releaseInfo()" class="tab-release">
-        <span class="tab-release-bg"></span>
-        <span class="tab-release-content">
-                  <i class="iconfont icon-edit"></i>
-                  <p>发布</p>
-               </span>
+    <a @click="releaseInfo()">
+        <div class="tab-release">
+            <span class="tab-release-bg"></span>
+            <span class="tab-release-content">
+                      <i class="iconfont icon-edit"></i>
+                      <p>发布</p>
+                   </span>
+        </div>
     </a>
     <a href="views/aquaticClassroom.html" onclick="apiCount('btn_home_tutor')" data-reload="true" :class="4 == tabIndex && 'active'">
         <span class="iconfont icon-classroom">
