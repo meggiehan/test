@@ -1,0 +1,91 @@
+.fixed-tool-bar {
+    padding: 0 2%;
+
+    a {
+        font-size: 1.2rem;
+        .text-center;
+        .ps-r;
+        padding: 0.3rem 0;
+        height: 100%;
+        .box-size();
+        overflow: visible;
+        width: 20%;
+
+        span {
+            display: block;
+            font-size: 2.6rem;
+            line-height: 1.1;
+
+            &.icon-classroom {
+                font-size: 3.6rem;
+                .ps-r;
+
+                i {
+                    display: block;
+                    .ps-a;
+                    width: 1.8rem;
+                    height: 1.8rem;
+                    line-height: 1.8rem;
+                    .text-center;
+                    background: @text-price;
+                    .text-shadow(@text-price);
+                    color: @text-fff;
+                    border-radius: 0.9rem;
+                    right: -0.3rem;
+                    top: -0.3rem;
+                    font-size: 1.4rem;
+                }
+
+                &:before {
+                    .ps-r;
+                    top: -0.5rem;
+                }
+            }
+        }
+
+        p {
+            .ps-r;
+            top: -1rem;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        &.tab-release {
+            width: 5.4rem;
+
+            .tab-release-bg {
+                display: block;
+                width: 100%;
+                height: 80%;
+                bottom: 0;
+                left: 0;
+                .ps-a;
+                background: @themeColor;
+            }
+
+            .tab-release-content {
+                display: block;
+                .ps-a;
+                width: 5.4rem;
+                height: 5.4rem;
+                background: @text-fff;
+                .box-size();
+                border: 2px solid @themeColor;
+                color: @text-fff;
+                border-radius: 2.7rem;
+                top: -30%;
+                box-shadow: 0 0 0.8rem 0 @themeColor;
+                color: @themeColor;
+                line-height: 1.2;
+
+                i {
+                    font-size: 2.4rem;
+                }
+
+                p {
+                    top: 0;
+                }
+            }
+        }
+    }
+}

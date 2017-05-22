@@ -47,7 +47,8 @@ function releaseSuccInit (f7, view, page){
             price,
             id,
             state,
-            imgList
+            imgList,
+            description
         } = window.releaseInfo;
 
         // const userInfo = store.get(cacheUserInfoKey);
@@ -69,22 +70,23 @@ function releaseSuccInit (f7, view, page){
                     return;
                 }
                 let title = '';
-                let description = '';
                 const text = 2 == type ? '出售' : '求购';
                 title += `【${text}】${fishTypeName}, ${provinceName || ''}${cityName || ''}`;
+                let descriptionText = title + '，';
                 if(!window.releaseInfo.title){
-                    description += stock ? `${text}数量：${stock}，` : '';
-                    description += price ? `价格：${price}，` : '';
-                    description += specifications ? `规格：${specifications}，` : '';
-                    description += '点击查看更多信息~';
+                    descriptionText += stock ? `${text}数量：${stock}，` : '';
+                    descriptionText += price ? `价格：${price}，` : '';
+                    descriptionText += specifications ? `规格：${specifications}，` : '';
+                    descriptionText += description || '';
+                    descriptionText += '点击查看更多信息~';
                 }else{
-                    description += window.releaseInfo.title;
+                    descriptionText += window.releaseInfo.title;
                 }
                 window.shareInfo = {
                     title,
                     webUrl: `${shareUrl}${id}`,
                     imgUrl: imgList[0],
-                    description
+                    description: descriptionText
                 };
                 $$('.share-to-weixin-model').addClass('on');
             });

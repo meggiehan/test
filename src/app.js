@@ -36,7 +36,6 @@ import {fishCarInit} from './js/fishCar';
 import {releaseFishCarDemandInit} from './js/releaseFishCarDemand';
 import {postDriverAuthInit} from './js/postDriverAuth';
 import {postDriverInfoInit} from './js/postDriverInfo';
-import {home} from './utils/template';
 import {driverDemandInfoInit} from './js/driverDemandInfo';
 import {updateCtrl, updateClickEvent} from './js/service/updateVersion/updateVersionCtrl';
 import {invitationAction} from './js/service/invitation/invitationCtrl';
@@ -53,12 +52,22 @@ import RefreshOldTokenModel from './js/model/RefreshOldTokenModel';
 import store from './utils/localStorage';
 import {shareMyTripInit} from './js/shareMyTrip';
 import {aquaticClassroomInit} from './js/aquaticClassroom';
+import {homeBuyInit} from './js/homeBuy';
 import {strengthShowInit} from './js/strengthShow';
+import {dealInfoInit} from './js/dealInfo';
+import {releasePriceInit} from './js/releasePrice';
+import {addInstructionInit} from './js/addInstruction';
+import {chooseDateInit} from './js/chooseDate';
+import {homeSellInit} from './js/homeSell';
+import HomeModel from './js/model/HomeModel';
+import InitApp from './js/model/InitApp';
+import {submitDealSuccInit} from './js/submitDealSucc';
+import {mvpListInit} from './js/mvpList';
 
 const deviceF7 = new Framework7();
 const {device} = deviceF7;
 const {android, androidChrome} = device;
-const {timeout, fishCacheObj, url} = config;
+const {timeout, fishCacheObj, url, infoNumberKey} = config;
 console.log(`current app update time: ${version.date}!${store.get('versionNumber')}`);
 let animatStatus = true;
 android && (animatStatus = androidChrome);
@@ -103,10 +112,12 @@ let initAppConfig = {
 
         if (!currentPage && len >= 1){
             const backPage = history[len - 2];
-
-            if (_currentPage.indexOf('home.html') > -1 ||
+            if (_currentPage.indexOf('homeBuy.html') > -1 ||
              _currentPage.indexOf('user.html') > -1 ||
-              _currentPage.indexOf('releaseSucc.html') > -1){
+              _currentPage.indexOf('releaseSucc.html') > -1 ||
+                _currentPage.indexOf('submitDealSucc.html') > -1 ||
+                _currentPage.indexOf('homeSell.html') > -1 ||
+                _currentPage.indexOf('aquaticClassroom.html') > -1){
                 return false;
             }
 
@@ -118,7 +129,7 @@ let initAppConfig = {
 
             if (_currentPage.indexOf('filter.html') > -1 && backPage && backPage.indexOf('filter.html') > -1){
                 window.mainView.router.load({
-                    url: 'views/home.html',
+                    url: 'views/homeBuy.html',
                     reload: true
                 });
                 return false;
@@ -189,8 +200,9 @@ window.releaseView = f7.addView('.view-release-fish', {
 /*
  * 主视图初始化加载首页
  * */
+const isHomeSell = store.get('isHomeSell');
 window.mainView.router.load({
-    url: 'views/home.html',
+    url: `views/${isHomeSell ? 'homeSell' : 'homeBuy'}.html`,
     animatePages: false,
     reload: true
 });
@@ -200,6 +212,7 @@ window.jQuery = window.Dom7;
 window.$ = window.Dom7;
 globalEvent.init(f7);
 window.currentDevice = f7.device;
+window.f7 = f7;
 nativeEvent['searchHistoryActions'](2, '');
 
 if(android && !androidChrome){
@@ -239,6 +252,8 @@ f7.onPageInit('*', (page) => {
     }
 
     setTimeout(f7.hideIndicator, timeout);
+    page.name === 'homeBuy' && homeBuyInit(f7, window.mainView, page);
+
     page.name === 'editName' && editNameInit(f7, window.mainView, page);
     page.name === 'catIdentityStatus' && catIdentityStatusInit(f7, window.mainView, page);
     page.name === 'login' && loginInit(f7, window.mainView, page);
@@ -269,6 +284,8 @@ f7.onPageInit('*', (page) => {
     page.name === 'releaseSelectTag' && releaseSelectTagInit(f7, window.mainView, page);
     page.name === 'notFound' && notFoundInit(f7, window.mainView, page);
     page.name === 'bindAccount' && bindAccountInit(f7, window.mainView, page);
+    page.name === 'submitDealSucc' && submitDealSuccInit(f7, window.mainView, page);
+    page.name === 'mvpList' && mvpListInit(f7, window.mainView, page);
 
     /**
      * 鱼车相关
@@ -290,6 +307,11 @@ f7.onPageInit('*', (page) => {
 
     page.name === 'aquaticClassroom' && aquaticClassroomInit(f7, window.mainView, page);
     page.name === 'strengthShow' && strengthShowInit(f7, window.mainView, page);
+    page.name === 'dealInfo' && dealInfoInit(f7, window.mainView, page);
+    page.name === 'releasePrice' && releasePriceInit(f7, window.mainView, page);
+    page.name === 'addInstruction' && addInstructionInit(f7, window.mainView, page);
+    page.name === 'chooseDate' && chooseDateInit(f7, window.mainView, page);
+    page.name === 'homeSell' && homeSellInit(f7, window.mainView, page);
 });
 
 /**
@@ -297,22 +319,31 @@ f7.onPageInit('*', (page) => {
  * */
 f7.onPageAfterBack('*', (page) => {
     const {name} = window.mainView.activePage;
-    setTimeout(() => {
-        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-        if ('home' == name){
-            const fishCacheData = nativeEvent.getDataToNative(fishCacheObj.fishCacheKey);
-            if (fishCacheData && fishCacheData.length){
-                let str = '';
-                $$.each(fishCacheData.reverse(), (index, item) => {
-                    if (index <= 5){
-                        str += home.renderFishList(item, index);
-                    }
-                });
-                currentPage.find('.fish-cache-list').html(str);
-                str ? currentPage.find('.home-fish-cache-list').show() : currentPage.find('.home-fish-cache-list').hide();
-            }
+    if ('homeBuy' == name){
+        const fishCache = store.get(fishCacheObj.fishCacheKey) ? store.get(fishCacheObj.fishCacheKey).reverse() : [];
+        if(fishCache.length){
+            let dataArr = [];
+            $$.each(fishCache, (index, item) => {
+                let arr = {};
+                arr.fishId = item.id;
+                arr.fishName = item.name;
+                arr.parentFishId = item.parant_id;
+                arr.parentFishName = item.parant_name;
+                dataArr.push(arr);
+            });
+            HomeModel.postFollowFishNumber({
+                subscribedFishes: dataArr
+            }, (res) => {
+                const {code, data, message} = res;
+                if(1 == code){
+                    window.vueHome.selectCache = data;
+                }else{
+                    console.log(message);
+                }
+
+            });
         }
-    }, 250);
+    }
 });
 
 /*
@@ -389,6 +420,16 @@ weixinModalEvent();
 // fishCarDriverSelectAddressModalEvent(f7);
 fishCarModalJumpEvent(f7);
 
+// 获取未读咨询数量
+InitApp.getInfoNumber((res) => {
+    const {data, message, code} = res;
+    if(1 == code){
+        store.set(infoNumberKey, data);
+    }else{
+        console.log(message);
+    }
+});
+
 /**
  * 获取设备号
  */
@@ -401,6 +442,9 @@ setTimeout(() => {
 // 统计js报错
 window.onload = function (){
     function handler (eventError){
+        if(eventError.target.tagName == 'IMG'){
+            return;
+        }
         const data = {
             type: eventError.type,
             filename: eventError.filename,

@@ -1,4 +1,5 @@
-import customAjax from '../middlewares/customAjax';
+import customAjax from './customAjax';
+import nativeEvent from '../utils/nativeEvent';
 /**
  * Rest Api Request Template
  * Created by domicc on 24/02/2017.
@@ -48,6 +49,8 @@ export default class RestTemplate{
      * @noCache 是否需要缓存后台返回的数据
      * */
     static post (url, headers, params, body, callback){
+        const noCache = !(url && url.indexOf('recommendation') > -1);
+        const isMandatory = !(url && url.indexOf('recommendation') > -1) ? !!nativeEvent['getNetworkStatus']() : true;
         let obj = {
             apiCategory: url,
             header: ['token'],
@@ -55,8 +58,8 @@ export default class RestTemplate{
             type: 'post',
             data: body,
             paramsType: 'application/json',
-            noCache: true,
-            isMandatory: true
+            noCache,
+            isMandatory
         };
         headers && headers['apiVersion'] && (obj.apiVersion = headers['apiVersion']);
         customAjax.ajax(obj, callback);

@@ -1,4 +1,9 @@
-import {timeDifference, getDate, getDealTime} from './time';
+import {
+    timeDifference,
+    getDate,
+    getDealTime,
+    getMarketTimeStr
+} from './time';
 import {getCertInfo,
     getName,
     getInfoStatus,
@@ -6,8 +11,13 @@ import {getCertInfo,
     getFishCarDateStyle
 } from './string';
 import config from '../config/';
+import {isLogin} from '../middlewares/loginMiddle';
+import store from './localStorage';
+import {
+    getBuyTime
+} from './strTool';
 
-const {imgPath, backgroundImgUrl, identity} = config;
+const {imgPath, backgroundImgUrl, identity, cacheUserInfoKey} = config;
 module.exports = {
     home: {
         cat: (data, userLevel, nameAuthentication, isMyList) => {
@@ -15,7 +25,6 @@ module.exports = {
                 id,
                 level,
                 state,
-                price,
                 specifications,
                 imgList,
                 title,
@@ -25,13 +34,16 @@ module.exports = {
                 contactName,
                 fishCertificateList,
                 fishTypeName,
-                nameAuthenticated,
                 provinceName,
                 cityName,
-                quantityTagList
+                quantityTagList,
+                demandInfoSale,
+                userId
             } = data;
             let img = window.document.createElement('img');
+            let nameAuthenticated = data.nameAuthenticated || nameAuthentication;
             const currentLevel = level || userLevel;
+            const currentUserInfoId = store.get(cacheUserInfoKey) ? store.get(cacheUserInfoKey).id : '';
             let imgStr;
             let res = '';
             let span = '';
@@ -44,6 +56,15 @@ module.exports = {
                 imgStr = `<img data-src="${backgroundImgUrl}" /></div>`;
             }
 
+            let infoPrice = '';
+            if(isLogin() && demandInfoSale && (nameAuthenticated || isMyList || (userId == currentUserInfoId))){
+                // if(demandInfoSale.marketTime < parseInt(new Date().getTime() / 1000, 10)){
+                infoPrice = (demandInfoSale.lowerPrice && demandInfoSale.expectedPrice) ? `${demandInfoSale.lowerPrice}-${demandInfoSale.expectedPrice}` : (demandInfoSale.expectedPrice || demandInfoSale.lowerPrice);
+                !demandInfoSale.lowerPrice && !demandInfoSale.lowerPrice && (infoPrice = '面议');
+            }else{
+                infoPrice = 'x.xx元';
+            }
+
             const authText = nameAuthenticated ? '实名' : false;
             imgList && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
             res += '<a class="cat-list-info item-content" href="./views/selldetail.html?id=' + id + '" style="padding:2%;">' +
@@ -51,7 +72,7 @@ module.exports = {
                 '<div class="col-70 item-inner">' +
                 '<div class="cat-list-title row">' +
                 '<div class="col-60 goods-name">' + fishTypeName + '</div>' +
-                '<div class="col-40 goods-price">' + `${price || '面议'}` + '</div>' +
+                `<div class="col-40 goods-price">${infoPrice}</div>` +
                 '</div>' +
                 '<div class="row cat-list-text">' + `${(provinceName || '') + (cityName || '')}${(specifications && '    |    ' + specifications || '') || ((quantityTagList && quantityTagList.length ? ('    |    ' + quantityTagList[0].tagName) : ''))}` + '</div>' +
                 '<div class="cat-list-title-auth">' +
@@ -62,6 +83,14 @@ module.exports = {
                 `<span class="user-name">${contactName || '匿名用户'}<b class="${currentLevel ? 'iconfont icon-v' + currentLevel : ''}"></b></span>` +
                 `<span class="user-release-time">${timeDifference(sort)}</span>` +
                 '</div>';
+
+            let demandInfoSaleStr = '';
+            if(demandInfoSale){
+                const {marketTime} = demandInfoSale;
+                demandInfoSaleStr += `<div class="sale-market-time"><i class="iconfont icon-sell-time"></i>${getMarketTimeStr(marketTime)}</div>`;
+            }
+
+            res += demandInfoSaleStr;
 
             let certList = '';
 
@@ -102,31 +131,44 @@ module.exports = {
                 cityName,
                 contactName,
                 fishTypeName,
-                nameAuthenticated,
                 provinceName,
-                quantityTagList,
-                description
+                description,
+                demandInfoBuy,
+                quantityTagList
             } = data;
-            const isAuth = nameAuthenticated || false;
-            const currentLevel = level || userLevel;
             let res = '';
+            let nameAuthenticated = data.nameAuthenticated || nameAuthentication;
 
-            res += '<a href="./views/buydetail.html?id=' + id + '" class="buy-list-info">' +
-                '<div class="row">' +
-                '<div class="col-65 buy-name">' + fishTypeName + '</div>' +
-                '<div class="col-35 buy-price">' + `${stock || '大量'}` + '</div>' +
-                '</div>' +
-                '<div class="row">' +
-                '<div class="col-65 buy-address">' + `所在地区：${provinceName || ''}${cityName || ''}` + '</div>' +
-                '<div class="col-35 buy-time">' + timeDifference(sort) + '</div>' +
-                '</div>' +
-                `<div class="row ${!specifications && (!quantityTagList || !quantityTagList.length) && 'hide'}">` +
-                '<div class="col-65 buy-spec">规格：' + `${specifications || (quantityTagList && quantityTagList.length && quantityTagList[0].tagName) || ''}` + '</div>' +
-                '</div>' +
-                '<div class="home-buy-address">' +
-                `${isAuth ? '<span class="buy-list-auth">实名</span>' : ''} <span>${contactName || '匿名用户'}</span>${currentLevel ? '<span class="iconfont icon-v' + currentLevel + '" style="margin:0;font-size: 2rem;"></span>' : ''}` +
-                '</div>' +
-                (description ? ('<div class="buy-list-describe"><span>具体要求</span>' + description + '</div>') : '') +
+            res += '<a class="for-you-recommend" href="./views/buydetail.html?id=' + id + '">' +
+                    '<div class="list-block recomment-info">' +
+                        '<div class="item-content">' +
+                            '<div class="recomment-info-pic item-media">' +
+                                '<img src="img/defimg.png" data-src="" class="lazy">' +
+                            '</div>' +
+                            '<div class="item-inner row">' +
+                                '<div class="col-70">' +
+                                    '<div class="recomment-user-name">' +
+                                        '<span>蔡思雨</span>' +
+                                        `${level ? ('<i class="iconfont icon-v' + level + '"></i>') : ''}` +
+                                    '</div>' +
+                                    '<div class="rec-user-refresh">' +
+                                        '<span class="rec-user-text">' + timeDifference(sort) + '</span><span class="rec-user-text">|xxx合作社</span>' +
+                                    '</div>' +
+                                '</div>' +
+                                `${nameAuthenticated ? '<div class="identity-verification">实名认证</div>' : ''}` +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="recomment-footer">' +
+                        `<div class="rec-footer-title">${fishTypeName}</div>` +
+                        '<div class="rec-footer-tip">' +
+                            `${quantityTagList.length ? ('<span class="tip-one">' + quantityTagList[0].tagName + '</span>') : ''}` +
+                            `${stock ? ('<span class="tip-two">' + stock + '</span>') : ''}` +
+                            `<span class="tip-three">我在${provinceName}${cityName}</span>` +
+                            `<span class="tip-four">${getBuyTime(demandInfoBuy.endTime)}</span>` +
+                        '</div>' +
+                        `<div class="rec-footer-text">${description}</div>` +
+                    '</div>' +
                 '</a>';
 
             if (isMyList){

@@ -2,14 +2,13 @@
   Create By 08/02/2016
   Author: cash
 */
-
 @bg-color: #47B813;
 @bg-body: #efeff4;
 @bg-fff: #fff;
 @bg-666: #666;
 @bg-999: #999;
 @bg-v: #F68E1F;
-@bg-add: #ededed;
+@bg-add: #d8d8d8;
 @bg-black-5: rgba(0, 0, 0, 0.5);
 @bg-black-3: rgba(0, 0, 0, 0.3);
 @bg-black-7: rgba(0, 0, 0, 0.7);
@@ -36,6 +35,7 @@
 @bg-info-tag: #D2FFBD;
 @bg-fish-theme: #F7B643;
 @bg-qq: #02A6E3;
+@bg-home-block: #F3F5F3;
 @boder-color: #e2e2e2;
 @bg-f5: #f5f5f5;
 @border-cert: #ddd;
@@ -79,8 +79,32 @@
 @appAnimateTime: 150ms;
 @themeColor: @bg-color;
 @tabbar-unselect: #929292;
+@text-74: #747474;
+@text-card: #23BCAC;
+@text-mesg: #46A0F2;
+@text-lev: #F78F1F;
+@bg-e3: #E3E3E5;
+@text-00: #000000;
+@text-c0: #C0C0C0;
+@text-store: #4C4C4C;
+@text-81: #818181;
+@bg-d8: #D8D8D8;
+@bg-b9: #47B913;
+@bg-f8: #FFE8B4;
+@text-deal: #EC871A;
+@text-border: #E4E3E5;
+@bg-f3: #F3F5F3;
+@border-DB: #DBDBDB;
+@bg-e5: #E5E5E5;
+@text-b5: #B5B5B5;
+@bg-bible: #FB7B56;
+@text-leveltwo: #369909;
+@border-one: #ED5B20;
+@border-two: #21CEA0;
+@border-four: #9D9D9D;
+
 html {
-    -webkit-text-size-adjust:none;
+    -webkit-text-size-adjust: none;
     font-size: 62.5%; //1rem = 10px
     //-webkit-transform: scale(5/6);
 }
@@ -88,29 +112,33 @@ html {
 body {
     font-size: 1.4rem;
     background: @bg-body;
-    .view-login, .view-release-fish{
+
+    .view-login,
+    .view-release-fish {
         position: fixed;
         left: 0;
         bottom: -1000px;
         transition: all 0.5s ease;
         opacity: 0;
-        &.show{
-            bottom:0;
+
+        &.show {
+            bottom: 0;
             opacity: 1;
         }
     }
 }
 
-body *,
 b,
+body *,
 i {
     font-weight: normal;
     font-style: normal;
     -webkit-user-select: none;
 }
 
-body{
-    input, textarea{
+body {
+    input,
+    textarea {
         -webkit-user-select: auto;
     }
 }
@@ -126,27 +154,27 @@ body{
 .infinite-scroll-preloader {
     padding: 0.5rem 0;
 }
-
 //rewrite style to framework7.
+
 .preloader-indicator-overlay {
     opacity: 1;
     background: rgba(0, 0, 0, 0.4);
 }
 
-.page-home>.searchbar.index-search,
-.page-search>.searchbar.index-search {
+.page-home > .searchbar.index-search,
+.page-search > .searchbar.index-search {
     top: 0;
 }
 
-.page>.page-content {
+.page > .page-content {
     padding: 5.4rem 0 8rem;
 }
 
-.detail-more>span:before {
+.detail-more > span:before {
     font-size: 2rem;
 }
 
-.cat-list-address>i.iconfont {
+.cat-list-address > i.iconfont {
     color: @text-level;
     font-size: 2rem;
 }
@@ -161,10 +189,7 @@ input::-webkit-input-placeholder {
     -webkit-border-radius: 6px;
     border-radius: 6px;
 }
-
-
 /* Handle */
-
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 6px;
     border-radius: 6px;
@@ -182,21 +207,26 @@ input::-webkit-input-placeholder {
     background: @themeColor;
     .text-shadow(@themeColor);
     z-index: 510;
+
     .navbar-inner {
         height: 5.4rem;
         padding: 0;
+
         &.filter-navbar {
             &.navbar-on-left {
                 height: 5.4rem;
                 overflow: hidden;
             }
         }
+
         &.filter-release-info.filter-navbar {
             height: 5.4rem;
+
             .filter-tab {
                 display: none;
             }
         }
+
         a,
         div {
             .text-center;
@@ -205,42 +235,50 @@ input::-webkit-input-placeholder {
             line-height: 5.4rem;
             color: @text-fff;
             vertical-align: middle;
+
             &.right {
-                &.bind-phone-break{
-                    span{
+                &.bind-phone-break {
+                    span {
                         display: none;
                         font-size: 1.4rem;
                     }
                 }
+
                 a,
                 span {
                     font-size: 2.4rem;
                     vertical-align: top;
                 }
             }
+
             &.row {
                 display: flex;
                 display: -webkit-flex;
                 line-height: 2rem;
+
                 &.filter-tab {
                     height: 2rem;
                 }
+
                 & > div {
                     line-height: 2rem;
                     height: 2rem;
                 }
             }
-            &.icon-clear:before{
+
+            &.icon-clear:before {
                 font-size: 2.4rem;
             }
+
             &.my-collection-tab {
-                padding: 0rem 0.7rem 0.75rem;
+                padding: 0 0.7rem 0.75rem;
                 overflow: hidden;
                 line-height: 2.5rem;
                 height: 3.25rem;
                 margin-top: -0.8rem;
                 background: @themeColor;
                 z-index: 100;
+
                 a {
                     width: 50%;
                     float: left;
@@ -250,13 +288,16 @@ input::-webkit-input-placeholder {
                     box-sizing: border-box;
                     color: @text-fff;
                     .text-shadow(@themeColor);
+
                     &#tab1 {
                         border-right: none;
                         border-radius: 0.3rem 0 0 0.3rem;
                     }
+
                     &#tab1 {
                         border-radius: 0 0.3rem 0.3rem 0;
                     }
+
                     &.active {
                         background: @bg-fff;
                         color: @themeColor;
@@ -265,21 +306,27 @@ input::-webkit-input-placeholder {
                 }
             }
         }
+
         a {
             font-size: 1.6rem;
         }
+
         .left {
             padding-left: 0.8rem;
         }
+
         .right {
             padding-right: 0.8rem;
         }
+
         .center.sliding,
         .popup-center-size {
             font-size: 2rem;
         }
+
         form {
             padding: 0.5rem 0.8rem;
+
             a,
             div {
                 line-height: 4.4rem;
@@ -287,21 +334,25 @@ input::-webkit-input-placeholder {
         }
     }
 }
-
 //popup header style;
+
 .popup {
     background: @bg-body;
+
     .list-block {
         margin: 0;
+
         .item-content {
             background: @bg-fff;
             .text-shadow(@text-fff);
         }
+
         .item-inner {
             &:after {
                 display: none;
             }
             line-height: 4rem;
+
             .item-title.label {
                 width: 25%;
                 color: @text-name;
@@ -309,12 +360,9 @@ input::-webkit-input-placeholder {
         }
     }
 }
-
-
 /*
    Public Style classes.
 */
-
 .auto {
     margin: 0 auto;
 }
@@ -343,7 +391,7 @@ input::-webkit-input-placeholder {
     text-align: center;
 }
 
-.auto{
+.auto {
     margin: 0 auto;
 }
 
@@ -351,7 +399,7 @@ input::-webkit-input-placeholder {
     font-weight: normal;
 }
 
-.fw-b{
+.fw-b {
     font-weight: bold;
 }
 
@@ -407,7 +455,7 @@ input::-webkit-input-placeholder {
     vertical-align: middle;
 }
 
-.word-break{
+.word-break {
     word-wrap: break-word;
     word-break: break-all;
     white-space: normal;
@@ -429,7 +477,6 @@ input::-webkit-input-placeholder {
     float: left;
     margin-top: 0.1rem;
 }
-
 /**
 * 列表搜索提示样式
 */
@@ -449,6 +496,7 @@ input::-webkit-input-placeholder {
     padding-top: 6rem;
     .text-center;
     display: none;
+
     .icon-empty-search {
         width: 10rem;
         height: 10rem;
@@ -460,46 +508,51 @@ input::-webkit-input-placeholder {
         background: @border-da;
         margin: 0 auto;
     }
+
     p {
         color: @text-subtitle;
         margin: 0;
+
         &.title {
             color: @text-category;
             padding: 1rem 0 0.2rem;
             font-size: 1.6rem;
         }
     }
-    &.fish-car-empty{
-        img{
+
+    &.fish-car-empty {
+        img {
             display: block;
             width: 25%;
-            margin:0 auto 1rem;
+            margin: 0 auto 1rem;
         }
-        .title{
+
+        .title {
             color: @text-name;
             font-size: 1.8rem;
         }
     }
 }
-
 /**
 *部分头部样式修改
 */
+div[data-page="driverDemandInfo"],
+div[data-page="fishCar"],
 div[data-page="postDriverAuth"],
 div[data-page="postDriverInfo"],
 div[data-page="recruitDriverSuccess"],
-div[data-page="driverDemandInfo"],
-div[data-page="fishCar"],
 div[data-page="releaseFishCarDemand"],
 div[data-page="releaseFishCarDemandSuccess"],
-div[data-page="releaseFishCarTrip"]{
+div[data-page="releaseFishCarTrip"] {
     .navbar {
         background: @bg-fff;
         .text-shadow(@text-fff);
+
         .default-theme-blank {
             .back {
                 color: @themeColor;
             }
+
             .center {
                 color: @text-name;
             }
@@ -507,10 +560,11 @@ div[data-page="releaseFishCarTrip"]{
     }
 }
 
-.page-mvp{
+.page-mvp {
     background: @themeColor;
-    a{
-        img{
+
+    a {
+        img {
             display: block;
             width: 100%;
         }

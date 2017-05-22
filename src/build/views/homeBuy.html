@@ -1,0 +1,168 @@
+<div class="navbar">
+    <div class="navbar-inner">
+        <form class="searchbar index-search center sliding">
+            <div class="searchbar-input">
+                <div class="home-tabbar-logo"></div>
+                <a>
+                    <input type="search" placeholder="填写品种名称，例如黑鱼" class="index-search-link">
+                    <div class="home-search-mask" onclick="apiCount('textfield_search_home')"></div>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<div data-page="homeBuy" class="page toolbar-through page-home-buy no-swipeback no-animation" data-reload="true">
+    <!-- Scrollable page content -->
+    <div class="page-content pull-to-refresh-content infinite-scroll">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="home-vue-box">
+            <!--banner components-->
+            <div class="swiper-container swiper-slow home-slider" v-show="homeData.banners && homeData.banners.length">
+                <div class="swiper-pagination"></div>
+                <div class="swiper-wrapper" @click="goThreeWindow()">
+                    <div class="swiper-slide" v-for="item in homeData.banners" :data-login="item.loginRequired" :data-href="item.link" :data-type="item.type" :data-id="item.id">
+                        <img :src="item.imgUrl" alt="">
+                    </div>
+                </div>
+                <div class="banner-radius">
+                    <img src="./img/bannerOverflow.png" alt="">
+                </div>
+            </div>
+
+            <div class="home-nav-list row">
+                <a href="views/filter.html?type=2" onclick="apiCount('btn_buy')" class="col-33">
+                    <img src="img/icon_sell.png" alt="">
+                    <p>出售大厅</p>
+                </a>
+
+                <a class="col-33" @click="myListBuy()">
+                    <img src="img/icon_buy.png" alt="">
+                    <p>我的求购</p>
+                </a>
+
+                <a class="col-33 aquatic_classroom" @click="isLogin ? goMyBuyList() : login()">
+                    <img src="img/icon_release.png" alt="">
+                    <p>发布求购信息</p>
+                </a>
+            </div>
+
+            <div class="home-deal-list list-block media-list" onclick="apiCount('btn_home_trade');">
+                <a href="views/dealList.html" class="item-content item-link">
+                    <div class="item-media"><img src="img/deal-logo.png"></div>
+                    <div class="item-inner">
+                        <div class="item-title-row">
+                            <div class="item-title home-deal-info-list">
+                                <div class="home-deal-info" v-for="item in homeData.trades">
+                                    [{{item.provinceName}}]
+                                    <span class="deal-list-name">{{getName(item.userName)}}</span>成交
+                                    <span class="deal-list-category">{{item.fishTypeName}} {{item.quantity}}</span>, {{getDealTime(item.tradeDate)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!--我的鱼车行程-->
+            <div class="fish-car-trip" v-if="fishCarDriverId && (1 == userInfo.driverState)">
+                <div class="fish-car-trip-title">
+                    最新的鱼车行程
+                    <a class="iconfont icon-right" :href="'views/fishCarTripList.html?id=' + fishCarDriverId" onclick="apiCount('btn_myCenter_fishcarRoutes')">查看我的鱼车行程</a>
+                </div>
+                <div class="fish-car-trip-content row">
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{tripDate}}</div>
+                        <p>日期</p>
+                    </div>
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{fishCarTripInfo.departureProvinceName}}</div>
+                        <p>出发地</p>
+                    </div>
+                    <div class="col-33" v-show="fishCarTripInfo">
+                        <div class="title">{{fishCarTripInfo.destinationProvinceName}}</div>
+                        <p>目的地</p>
+                    </div>
+                    <div class="none-fish-trip col-100" v-show="!fishCarTripInfo">快去发布一个今天的行程吧~</div>
+                </div>
+                <div class="fish-car-trip-footer row">
+                    <a @click="shareTrip" class="col-50">{{ fishCarTripInfo ? '分享我的行程' :  '发布行程'}}</a>
+                    <a href="views/fishCar.html?isFishCar=1" onclick="apiCount('btn_home_driver_findMore')" class="col-50">去找货</a>
+                </div>
+            </div>
+
+            <div class="home-select-list">
+                <div class="row list-block media-list row-two-item">
+                    <a class="col-50 item-content item-link" v-for="item in homeData.adsTop" @click="clickAds(item)">
+                        <div class="item-inner">
+                            <div class="item-subtitle">{{item.title}}</div>
+                            <div class="item-text">{{item.subTitle}}</div>
+                        </div>
+                        <div class="item-media"><img :src="item.img + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png'" width="50" alt=""></div>
+                    </a>
+                </div>
+                <div class="row list-block media-list row-three-item" v-if="homeData.adsBottom && homeData.adsBottom.length">
+                    <a class="col-33" v-for="item in homeData.adsBottom" @click="clickAds(item)">
+                        <div class="item-inner">
+                            <div class="item-subtitle">{{item.title}}</div>
+                            <div class="item-text">{{item.subTitle}}</div>
+                            <img :src="item.img + '?x-oss-process=image/resize,m_fill,h_100,w_100/format,png'" width="45" alt="">
+                        </div>
+                    </a>
+                </div>
+
+                <div class="cat-my-shop" v-if="bigerBuyInfo && (((2 == bigerBuyInfo.state || 4 == bigerBuyInfo.state) && bigerBuyInfo.demandId) || 1 == bigerBuyInfo.state || 3 == bigerBuyInfo.state)">
+                    {{4 == bigerBuyInfo.state ? '你的求购信息本周浏览次数已超100次！' : ''}}
+                    {{3 == bigerBuyInfo.state ? '每天刷新一次求购，更快买到好东西~' : ''}}
+                    {{2 == bigerBuyInfo.state ? '求购很久啦，快告诉我有没有成交' : ''}}
+                    {{1 == bigerBuyInfo.state ? '发布一个求购信息，帮你买到好东西' : ''}}
+                    <a v-if="1 == bigerBuyInfo.state" href="views/filter.html?type=1&release=true">现在发布</a>
+                    <a v-if="2 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId">我已成交</a>
+                    <a v-if="3 == bigerBuyInfo.state" href="views/myList.html?type=1">去刷新</a>
+                    <a v-if="4 == bigerBuyInfo.state" :href="'views/buydetail.html?id=' +  bigerBuyInfo.demandId">快去看看</a>
+                </div>
+            </div>
+
+            <!--最近使用的鱼种-->
+            <div class="home-fish-cache-list" v-if="selectCache.length">
+                <div class="home-content-title"><i class="title-label-border"></i>订阅鱼种 <span>每天不错过新信息~</span> </div>
+                <div class="fish-cache-list" onclick="apiCount('btn_home_fishtype_recentUsed');">
+                    <a :href="'views/filter.html?fishId=' + item.fishId" v-for="(item, index) in selectCache">
+                        {{item.fishName}}
+                        <b v-if="1 == index % 2">|</b>
+                        <span class="total-tip" v-if="item.saleDemandsCount">{{item.saleDemandsCount}}条</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- use ajax get date. -->
+            <div class="ajax-content">
+                <!-- <div class="home-buy-list">
+                    <div class="home-content-title"><i class="title-label-border"></i>大家都想买</div>
+                    <div class="buy-list-foreach" onclick="apiCount('cell_purchaselist');"></div>
+                    <div class="home-go-more"><a href="./views/filter.html?type=1" class="iconfont icon-go" onclick="apiCount('btn_more_purchaselist');">更多求购信息</a></div>
+                </div> -->
+
+                <!-- home cat list -->
+                <div class="home-cat-list">
+                    <div class="home-content-title"><i class="title-label-border"></i>为你推荐</div>
+                    <div class="cat-list-foreach list-block media-list" onclick="apiCount('cell_selllist');"></div>
+                </div>
+            </div>
+            <p class="filter-search-empty-info" v-if="showAll">已显示全部</p>
+            <!-- Preloader -->
+            <div class="infinite-scroll-preloader" v-if="!showAll">
+                <div class="preloader "></div>
+            </div>
+        </div>
+    </div>
+
+    <img style="z-index: -999;visibility: hidden; " data-src="img/ic_category_commonfish.png " src="img/app_icon_108.png " class="lazy " width="32 " alt=" ">
+
+    <div class="toolbar tabbar">
+        <tab-bar-component tab-index='1' :class-room-num='infoNumberKey'>
+            <tab-bar-component/>
+    </div>
+</div>

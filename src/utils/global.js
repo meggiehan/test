@@ -2,7 +2,6 @@ import config from '../config/';
 import customAjax from '../middlewares/customAjax';
 import store from './localStorage';
 import Framework7 from '../js/lib/framework7';
-import { releaseInfo } from '../utils/template';
 import nativeEvent from '../utils/nativeEvent';
 import { goIdentity } from './domListenEvent';
 import { isLogin, loginViewHide, loginViewShow } from '../middlewares/loginMiddle';
@@ -82,7 +81,6 @@ class CustomClass{
         if (!window['selectedAddress']){
             window['selectedAddress'] = {};
         }
-        const releaseAddressBtn = $$('.release-write-address>input');
         window['addressObj']['provinceName'] = province;
         window['addressObj']['cityName'] = city;
         window['addressObj']['provinceId'] = provinceId;
@@ -90,7 +88,13 @@ class CustomClass{
         window['selectedAddress']['provinceName'] = province;
         window['selectedAddress']['cityName'] = city;
 
-        releaseAddressBtn.length && releaseAddressBtn.val(`${province}${city}`);
+        if(window.releaseVue){
+            window.releaseVue.subInfo.provinceName = province;
+            window.releaseVue.subInfo.provinceId = provinceId;
+            window.releaseVue.subInfo.cityName = city;
+            window.releaseVue.subInfo.cityId = cityId;
+            window.releaseVue.subInfo.address = `${province} ${city}`;
+        }
     }
 
     /*
@@ -125,7 +129,7 @@ class CustomClass{
     }
 
     appJump (id){
-        const url = id == 0 ? 'views/home.html' : 'views/release.html';
+        const url = id == 0 ? 'views/homeBuy.html' : 'views/release.html';
         window.mainView.router.load({ url });
     }
 
@@ -213,16 +217,32 @@ class CustomClass{
     * */
     exitApp (){
         const { ios, android } = window.currentDevice;
-        if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+        if (window.mainView['url'] &&
+            (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+            window.mainView['url'].indexOf('user.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1 ||
+            window.mainView['url'].indexOf('aquaticClassroom.html') > -1)){
             ios && window.JS_ExitProcess();
             android && window.yudada.JS_ExitProcess();
         }
     }
 
     andriodBack (){
-        if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1 || window.mainView['url'].indexOf('releaseSucc.html') > -1)){
+        if (window.mainView['url'] &&
+            (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+            window.mainView['url'].indexOf('user.html') > -1 ||
+            window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1 ||
+            window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1)){
             const { ios, android } = window.currentDevice;
-            if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+            if (window.mainView['url'] &&
+                (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+                window.mainView['url'].indexOf('user.html') > -1 ||
+                window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1 ||
+                window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1)){
                 ios && window.JS_ExitProcess();
                 android && window.yudada.JS_ExitProcess();
             }
@@ -297,9 +317,21 @@ class CustomClass{
             const currentNavbar = $$($$('.view-release-fish .navbar>.navbar-inner')[$$('.view-release-fish .navbar>.navbar-inner').length - 1]);
             currentNavbar.find('.iconfont').click();
         }else{
-            if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1 || window.mainView['url'].indexOf('releaseSucc.html') > -1)){
+            if (window.mainView['url'] &&
+            (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+            window.mainView['url'].indexOf('user.html') > -1 ||
+            window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1 ||
+            window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+            window.mainView['url'].indexOf('homeSell.html') > -1)){
                 const { ios, android } = window.currentDevice;
-                if (window.mainView['url'] && (window.mainView['url'].indexOf('home.html') > -1 || window.mainView['url'].indexOf('user.html') > -1)){
+                if (window.mainView['url'] &&
+                (window.mainView['url'].indexOf('homeBuy.html') > -1 ||
+                window.mainView['url'].indexOf('user.html') > -1 ||
+                window.mainView['url'].indexOf('releaseSucc.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1 ||
+                window.mainView['url'].indexOf('aquaticClassroom.html') > -1 ||
+                window.mainView['url'].indexOf('homeSell.html') > -1)){
                     ios && window.JS_ExitProcess();
                     android && window.yudada.JS_ExitProcess();
                 }
@@ -310,11 +342,12 @@ class CustomClass{
     }
 
     postReleasePicCallback (index, url, name){
-        const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
-        currentPage.find('.release-info-pic-add').remove();
-        const len = currentPage.find('.release-info-pic-list').children('span').length;
-        currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
-        len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+        // const currentPage = $$($$('.view-main .pages>.page')[$$('.view-main .pages>.page').length - 1]);
+        // currentPage.find('.release-info-pic-add').remove();
+        // const len = currentPage.find('.release-info-pic-list').children('span').length;
+        // currentPage.find('.release-info-pic-list').append(releaseInfo.picList(url, currentPage));
+        // len < 4 && currentPage.find('.release-info-pic-list').append(releaseInfo.addPicBtn());
+        window.releaseVue.subInfo.imgs.push(url);
     }
 
     /*
@@ -497,6 +530,17 @@ class CustomClass{
         currentPage.find('.post-box').children('.right').children('div').html(`<img src="${url}${identity['individual']}" />`);
     }
 
+    /**
+     * [postUserShowCallback description]
+     * @param  {[nmber]} index [返回的id]
+     * @param  {[string]} url [上传的图片返回的在线路径]
+     * @param  {[string]} name []
+     * @return {[type]}     [description]
+     */
+    postUserShowCallback (index, url, name){
+        window.strengthShowModel.userInfo.abilityImgList.unshift(url);
+    }
+
     init (f){
         this.f7 = f;
         window['getPhoneSrc'] = this.getPhoneSrc;
@@ -523,6 +567,7 @@ class CustomClass{
         window['postDriverFileCallback'] = this.postDriverFileCallback;
         window['postDriverRoadTransportFileCallback'] = this.postDriverRoadTransportFileCallback;
         window['postDriverTransportCertificateFileCallback'] = this.postDriverTransportCertificateFileCallback;
+        window['postUserShowCallback'] = this.postUserShowCallback;
     }
 }
 

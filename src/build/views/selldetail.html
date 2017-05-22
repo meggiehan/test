@@ -17,95 +17,139 @@
             <div class="preloader"></div>
             <div class="pull-to-refresh-arrow"></div>
         </div>
-        <div class="selldetail-info">
-            <div class="sell-detail-img">
-                <img src="img/app_icon_108.png" class="lazy">
-            </div>
-            <div class="row first">
-                <div class="sell-detail-header">
-                    <p class="sell-detail-name"><span></span></p>
-                    <p class="sell-detail-address">
-                        <span class="city-name">
+        <div class="sell-vue-box">
+            <div class="selldetail-info">
+                <div class="sell-detail-img">
+                    <img :src="getImgUrl" class="lazy">
+                </div>
+                <div class="sell-product" v-if="demandInfoSale && (demandInfoSale.marketTime*1000 > new Date().getTime())">
+                    <span class="iconfont icon-sell-time"></span>
+                    <div class="sell-product-info">{{getMarketTimeStr(demandInfoSale.marketTime)}}</div>
+                </div>
+                <div class="row first">
+                    <div class="sell-detail-header">
+                        <div class="sold-out-pic" v-if="demandInfo.closed">
+                            <img src="./img/ic_soldout.png" alt="">
+                        </div>
+                        <p class="sell-detail-name">
+                            <span>{{demandInfo.title || demandInfo.fishTypeName}}</span>
+                        </p>
+                        <p class="sell-detail-address" v-if="demandInfo.provinceName">
+                            <span class="city-name">
                             <i class="iconfont icon-map"></i>
-                            <b></b>
+                            <b>{{demandInfo.provinceName + demandInfo.cityName}}</b>
                         </span>
-                        <span class="city-distance">| 距离你<i>532</i>公里</span>
-                    </p>
-                    <p class="sell-detail-price">
-                        <span class="info-price"></span>
-                        <span class="info-release-time"></span>
-                    </p>
+                        <span class="city-distance" v-if="getRangeText && getRangeText > 200">| 距离你<i>{{getRangeText}}</i>公里</span>
+                        <span class="city-distance" v-if="getRangeText && !(getRangeText > 200)">| 离你很近</span>
+                        </p>
+                        <p class="sell-detail-price">
+                            <span class="info-price" :class="{'not-Auth': !getPrice}">{{getPrice || 'x.xx元'}}</span>
+                            <span class="info-release-time">{{timeDifference(demandInfo.sort)}}</span>
+                        </p>
+                        <a class="go-certification"
+                           v-if="(1 != userInfo.personalAuthenticationState) && (1 != userInfo.enterpriseAuthenticationState)"
+                           @click="isLogin ? goAuthPage() : login()">
+                            <span>完成实名认证后即可查看价格，现在去认证</span>
+                            <div class="arrow-certification"><i></i></div>
+                        </a>
+                    </div>
+                </div>
+                <p class="info-tages-list" v-if="!!descriptionTags && descriptionTags.length">
+                    <span class="iconfont icon-auto-end" v-for="item in descriptionTags">{{item.tagName}}</span>
+                </p>
+            </div>
+            <div class="selldetail-cert" v-if="certList && certList.list && certList.list.length">
+                <div class="selldetail-cert-title"><i class="title-label-border"></i>相关证书</div>
+                <div class="selldetail-cert-list" onclick="apiCount('cell_certificate')">
+                    <a class="iconfont icon-right open-cert-button" v-for="item in certList.list" @click="catCert(item.path || item.url)">
+                        <span class="cert-label" :class="getCertInfo(item.type).classes">
+                            {{getCertInfo(item.type).label}}
+                        </span>具备“{{getCertInfo(item.type).certName}}”-{{item.fish_type_name || item.fishTypeName}}
+                    </a>
                 </div>
             </div>
-            <p class="info-tages-list"></p>
-        </div>
-        <div class="selldetail-cert">
-            <div class="selldetail-cert-title"><i class="title-label-border"></i>相关证书</div>
-            <div class="selldetail-cert-list" onclick="apiCount('cell_certificate')"></div>
-        </div>
-        <div class="selldetail-user list-block media-list">
-            <div class="selldetail-userinfo item-content view-user-index">
-                <div class="selldetail-user-pic item-media"><img src="img/defimg.png" class="lazy" width="50px"></div>
-                <div class="item-inner row">
-                    <div class="col-70">
-                        <div class="cat-list-title row">
-                            <div class="col-90 user-name">
-                                <span></span>
-                                <i></i>
+            <!-- deal info  -->
+            <div class="user-deal-info" v-if="isShowDeal">
+                <a :href="'./views/dealInfo.html?type=' + demandInfo.type + '&infoId=' + demandInfo.id + '&fishId=' + demandInfo.fishTypeId + '&fishName=' + demandInfo.fishTypeName + '&fishParentId=' + demandInfo.fishParentTypeId + '&fishParentName=' + demandInfo.fishParentTypeName">
+                    <span class="iconfont icon-deal"></span>
+                    <div class="deal-title">已成交？提交成交信息</div>
+                    <div class="deal-text">让你看上去更靠谱<span class="iconfont icon-right"></span></div>
+                </a>
+            </div>
+            <div class="selldetail-user list-block media-list">
+                <a class="selldetail-userinfo item-content view-user-index" :href="'views/otherIndex.html?id=' + userInfo.id + '&currentUserId=' + userInfo.id">
+                    <div class="selldetail-user-pic item-media">
+                        <img src="img/defimg.png" :data-src="demandInfo.imgUrl ? (demandInfo.imgUrl + imgPath(8)) : 'img/defimg.png'" class="lazy" width="50px">
+                    </div>
+                    <div class="item-inner row">
+                        <div class="col-70">
+                            <div class="cat-list-title row">
+                                <div class="col-90 user-name">
+                                    <span>{{demandInfo.contactName || '匿名用户'}}</span>
+                                    <i v-if="userInfo.level" :class="['iconfont', ('icon-v' + userInfo.level)]"></i>
+                                    <div class="deal-number"><span>4</span>笔成交</div>
+                                </div>
+                            </div>
+                            <div class="sell-detail-auth" v-if="userInfo.nameAuthentication">
+                                <span class="auth-individual" v-if="1 == userInfo.personalAuthenticationState">个人认证</span>
+                                <span class="auth-company" v-if="1 == userInfo.enterpriseAuthenticationState">企业认证</span>
                             </div>
                         </div>
-                        <div class="sell-detail-auth">
-                            <span class="auth-individual">个人认证</span>
-                            <span class="auth-company">企业认证</span>
-                        </div>
+                        <div class="col-30 iconfont icon-right">进店铺</div>
                     </div>
-                    <div class="col-30 iconfont icon-right">进店铺</div>
+                </a>
+                <div class="info-detail-go-member" @click="pointUp()">
+                    等级越高，代表越靠谱！
+                    <span>提升靠谱指数</span>
                 </div>
             </div>
-            <div class="info-detail-go-member">
-                等级越高，代表越靠谱！
-                <span>提升靠谱指数</span>
+
+            <div class="selldetail-info sell-detail-info">
+                <div class="selldetail-info-title"><i class="title-label-border"></i>详细信息</div>
+                <div class="row">
+                    <span class="col-30">品种：</span>
+                    <span class="col-70 selldetail-name">{{demandInfo.fishTypeName}}</span>
+                </div>
+                <div class="row" v-if="specText">
+                    <span class="col-30">规格：</span>
+                    <span class="col-70 selldetail-spec">{{specText}}</span>
+                </div>
+                <div class="row" v-if="demandInfo.stock">
+                    <span class="col-30">出售数量：</span>
+                    <span class="col-70 selldetail-stock">{{demandInfo.stock}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-30">所在地区：</span>
+                    <span class="col-70 selldetail-address">{{(demandInfo.provinceName || '') + (demandInfo.cityName || '')}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-30">价格：</span>
+                    <span class="col-70 selldetail-price buy-detail-price">{{demandInfo.price || '价格面议'}}</span>
+                </div>
+                <div class="row selldetail-description-box" v-if="demandInfo.describe">
+                    <span class="col-30">补充说明：</span>
+                    <span class="col-70 selldetail-description">{{demandInfo.describe}}</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="selldetail-info sell-detail-info">
-            <div class="selldetail-info-title"><i class="title-label-border"></i>详细信息</div>
-            <div class="row">
-                <span class="col-30">品种：</span>
-                <span class="col-70 selldetail-name"></span>
+            <div class="sell-detail-img-list" v-if="demandInfo.imgs && JSON.parse(demandInfo.imgs).length">
+                <div class="sell-detail-img-title"><i class="title-label-border"></i>其他照片</div>
+                <div class="info-img-list">
+                    <img v-for="item in JSON.parse(demandInfo.imgs)"
+                         class="lazy"
+                         :data-src="item + '?x-oss-process=image/resize,w_400'"
+                         src="img/app_icon_108.png"
+                         @click="catPic(item)">
+                </div>
             </div>
-            <div class="row">
-                <span class="col-30">规格：</span>
-                <span class="col-70 selldetail-spec"></span>
-            </div>
-            <div class="row">
-                <span class="col-30">出售数量：</span>
-                <span class="col-70 selldetail-stock"></span>
-            </div>
-            <div class="row">
-                <span class="col-30">所在地区：</span>
-                <span class="col-70 selldetail-address"></span>
-            </div>
-            <div class="row">
-                <span class="col-30">价格：</span>
-                <span class="col-70 selldetail-price buy-detail-price"></span>
-            </div>
-            <div class="row selldetail-description-box">
-                <span class="col-30">补充说明：</span>
-                <span class="col-70 selldetail-description"></span>
-            </div>
-        </div>
-        <div class="sell-detail-img-list">
-            <div class="sell-detail-img-title"><i class="title-label-border"></i>其他照片</div>
-            <div class="info-img-list"></div>
         </div>
     </div>
-    <div class="toolbar tabbar row selldetail-footer">
-        <div class="col-60 iconfont icon-review sell-detail-in-review">正在审核中，请稍后</div>
-        <div class="col-60 iconfont icon-verify-faild sell-detail-verify-faild" onclick="apiCount('btn_rejectReason')">审核不通过，点击查看原因</div>
-        <div class="col-30 iconfont icon-share" onclick="apiCount('btn_share')">分享给好友</div>
-        <div class="col-30 iconfont icon-collection icon-collection-btn" onclick="apiCount('btn_favorite')">收藏</div>
-        <div class="col-40 selldetail-call-phone">打电话</div>
-        <div class="col-40 selldetail-delete-info">删除</div>
+    <div class="toolbar tabbar row selldetail-footer" :class="{'review': isReview, 'verify':isVerify, 'delete':isDelete, 'safira': isIos}">
+        <div class="col-60 iconfont icon-review sell-detail-in-review">正在审核中，请等待</div>
+        <div class="col-60 iconfont icon-verify-faild sell-detail-verify-faild" onclick="catRejectInfo()">审核不通过，点击查看原因</div>
+        <div class="col-30 iconfont icon-share" @click="shareInfo()">分享给好友</div>
+        <div class="col-30 iconfont icon-collection icon-collection-btn" v-if="!isMineInfo" :class="{'icon-collection-active': favorite}" @click="collectionAction()">收藏</div>
+        <div class="col-30 iconfont icon-refresh" v-if="isMineInfo" @click="refreshInfo()">刷新信息</div>
+        <div class="col-40 selldetail-call-phone" @click="callPhone()">电话联系</div>
+        <div class="col-40 selldetail-delete-info" @click="deleteInfo()">删除</div>
     </div>
 </div>

@@ -348,22 +348,22 @@ module.exports = {
         // .replace(/[\uE000-\uF8FF]/g, '')
         // .replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
         // .replace(/^[\u{1f600}-\u{1f64f}]/g, '');
-        return isReplace ? res : '';
+        return res;
     },
 
     saveSelectFishCache: (obj) => {
         const {name} = obj;
         if (name && name.indexOf('全部') == -1){
             const {fishCacheKey, maxLength} = fishCacheObj;
-            let currentFishCache = nativeEvent.getDataToNative(fishCacheKey) || [];
+            let currentFishCache = store.get(fishCacheKey) || [];
             let index = -10;
             currentFishCache && currentFishCache.length && $$.each(currentFishCache, (key, val) => {
                 name == val.name && (index = key);
             });
             Number(index) > -1 && currentFishCache.splice(index, 1);
-            currentFishCache.length > (maxLength - 1) && currentFishCache.shift();
+            currentFishCache.length > maxLength && currentFishCache.shift();
             currentFishCache.push(obj);
-            nativeEvent.setDataToNative(fishCacheKey, currentFishCache);
+            store.set(fishCacheKey, currentFishCache);
         }
     },
 

@@ -18,9 +18,10 @@ const configs = {
     cancelInvitationNumberKey: 'cancelInvitationNumber',
     inviteInfoKey: 'inviteInfo',
     waitAddPointerKey: 'waitAddPointer',
+    infoNumberKey: 'infoNumber',
     fishCacheObj: {
         fishCacheKey: 'selectFishCache',
-        maxLength: 10
+        maxLength: 8
     },
     /*
      *release branch change the url to http://m.yudada.com

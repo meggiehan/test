@@ -31,6 +31,63 @@ class HomeModel{
             callback
         );
     }
+
+    // 获取我要买中最近浏览超过100的信息
+    getBiggerBuyInfo (callback){
+        RestTemplate.get(
+            'buying/state',
+            {},
+            {},
+            callback,
+            false,
+            false
+        );
+    }
+
+    // 获取关心的鱼种发布信息的条数
+    postFollowFishNumber (data, callback){
+        RestTemplate.post(
+            'subscribedFishes',
+            {},
+            {},
+            data,
+            callback
+        );
+    }
+
+    // 获取根据关心鱼种删选出来的出售列表
+    postFollowSaleList (data, callback){
+        RestTemplate.post(
+            'demands/sale/recommendation',
+            {},
+            {},
+            data,
+            callback
+        );
+    }
+
+    // 获取我要卖相关数据
+    getSellData (callback){
+        RestTemplate.get(
+            'wannaSale',
+            {},
+            {},
+            callback,
+            false,
+            false
+        );
+    }
+
+    // 获取求购列表
+    getBuyList (data, callback){
+        RestTemplate.post(
+            'demands/buy/recommendation',
+            {},
+            {},
+            data,
+            callback
+        );
+    }
 }
 
 const homeModel = new HomeModel();
