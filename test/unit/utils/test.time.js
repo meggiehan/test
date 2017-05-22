@@ -6,7 +6,8 @@ import {
     centerShowTime,
     getDate,
     getDealTime,
-    fishCarActiveTime
+    fishCarActiveTime,
+    getMarketTimeStr
 } from '../../../src/utils/time';
 import chai from 'chai';
 
@@ -125,6 +126,16 @@ describe('时间工具模块测试', function (){
 
     it('格式化传入时间:3月1日', function (done){
         expect(getDealTime(new Date('2017/03/01').getTime())).to.be.equal('3月1日');
+        done();
+    });
+
+    /**
+     * [预售时间：xxxx年x月上旬、中旬、下旬]
+     * @param  {string} done [时间戳]
+     * @return {[type]}        [xxxx年x月上旬、中旬、下旬]
+     */
+    it('格式化传入时间:2017年12月5日时间戳，返回"预售产品，xxxx年x月上旬、中旬、下旬开卖"', function (done){
+        expect(getMarketTimeStr(window.parseInt(new Date('2017/12/05').getTime() / 1000), 10)).to.be.equal('预售产品，2017年12月上旬开卖');
         done();
     });
 

@@ -114,7 +114,6 @@ let initAppConfig = {
             if (_currentPage.indexOf('homeBuy.html') > -1 ||
              _currentPage.indexOf('user.html') > -1 ||
               _currentPage.indexOf('releaseSucc.html') > -1 ||
-                _currentPage.indexOf('submitDealSucc.html') > -1 ||
                 _currentPage.indexOf('homeSell.html') > -1 ||
                 _currentPage.indexOf('aquaticClassroom.html') > -1){
                 return false;

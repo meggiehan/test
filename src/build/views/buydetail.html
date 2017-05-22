@@ -31,7 +31,7 @@
                         <b>{{demandInfo.provinceName + demandInfo.cityName}}</b>
                     </span>
                     <span class="city-distance" v-if="getRangeText > 200">| 距离你<i>{{getRangeText}}</i>公里</span>
-                    <span class="city-distance" v-if="!(getRangeText > 200)">| 离你很近</span>
+                    <span class="city-distance" v-if="getRangeText && !(getRangeText > 200)">| 离你很近</span>
                 </div>
                 <div class="selldetail-price-info row">
                     <span class="selldetail-price col-60">求购数量：<b>{{demandInfo.stock || '大量'}}</b></span>

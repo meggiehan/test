@@ -321,7 +321,6 @@ module.exports = {
             return '';
         }
         let res = val;
-        let isReplace = false;
         const ranges = [
             // '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
             // '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
@@ -338,7 +337,6 @@ module.exports = {
         ];
         $$.each(ranges, (index, item) => {
             if(val.indexOf(item) > -1){
-                isReplace = true;
                 res = res.replace(item, '');
             }
         });

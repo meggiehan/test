@@ -232,7 +232,7 @@ function buydetailInit (f7, view, page){
                 const {lat, lng} = getAddressIndex(this.demandInfo.provinceName, this.demandInfo.cityName);
                 const rangeText = getRange(lat, lng);
                 let res = '';
-                if (rangeText > -1){
+                if (rangeText > 0){
                     res = rangeText;
                 }
                 return res;

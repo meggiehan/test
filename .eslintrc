@@ -8,7 +8,9 @@
   "globals": {
     "window": true,
     "$": true,
-    "$$": true
+    "$$": true,
+    "describe": true,
+    "it": true
   },
   "parserOptions":{
     "ecmaVersion":6,
