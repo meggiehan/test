@@ -238,13 +238,11 @@ $$('img.lazy').trigger('lazy');
  * 页面加载完成后根据name执行相应的controller
  * */
 f7.onPageInit('*', (page) => {
-    if ((page.name !== (isHomeSell ? 'homeSell' : 'homeBuy')) && page.name){
+    if (page.name){
         f7.showIndicator();
-    } else {
-        f7.hideIndicator();
     }
 
-    const hideLoadArr = ['recruitDriverSuccess', 'myMember', 'pageMvp'];
+    const hideLoadArr = ['recruitDriverSuccess', 'myMember', 'pageMvp', 'homeSell', 'homeBuy'];
     if(hideLoadArr.indexOf(page.name) > -1){
         f7.hideIndicator();
     }
