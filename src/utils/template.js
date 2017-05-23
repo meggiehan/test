@@ -21,6 +21,9 @@ const {imgPath, backgroundImgUrl, identity, cacheUserInfoKey} = config;
 module.exports = {
     home: {
         cat: (data, userLevel, nameAuthentication, isMyList) => {
+            if(!data){
+                return '';
+            }
             const {
                 id,
                 level,
@@ -119,6 +122,9 @@ module.exports = {
             return res;
         },
         buy: (data, userLevel, nameAuthentication, isMyList) => {
+            if(!data){
+                return '';
+            }
             const {
                 id,
                 level,

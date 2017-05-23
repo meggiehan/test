@@ -43,7 +43,7 @@ function inviteFriendsListInit (f7, view, page){
             f7.alert(message, '温馨提示');
         }
 
-        if(!data.data.records.length || data.data.records.length < pageSize){
+        if(!data.data.records.length){
             isShowAll = true;
             showAllBox.show();
             loadBox.hide();

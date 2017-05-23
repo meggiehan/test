@@ -76,7 +76,7 @@ function myCollectionInit (f7, view, page){
             html(content, otehrHtml, f7);
         }
 
-        if (data.data.length < pageSize || !data.data.length){
+        if (!data.data.length){
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{

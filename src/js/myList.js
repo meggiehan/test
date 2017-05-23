@@ -99,7 +99,7 @@ function myListInit (f7, view, page){
             html(content, otehrHtml, f7);
         }
 
-        if (data.data.records.length < pageSize || !data.data.records.length){
+        if (!data.data.records.length){
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -138,7 +138,7 @@ function myListInit (f7, view, page){
     };
 
     // get list for service;
-    getListInfo();
+    // getListInfo();
     currentPage.find('#tab1').on('show', function (){
         type = 2;
         currentHeader.find('.center').text('我的出售');
