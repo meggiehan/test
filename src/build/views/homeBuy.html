@@ -95,8 +95,8 @@
 
             <div class="home-select-list">
 
-                <div class="row list-block media-list row-two-item" v-if="!homeData.adsTop || !homeData.adsTop.length">
-                    <a class="col-50 item-content item-link">
+                <div class="row list-block media-list row-two-item" v-if="!homeData.adsTop.length && !homeData.adsBottom.length">
+                    <a class="col-50 item-content item-link" href="views/filter.html?member=true">
                         <div class="item-inner">
                             <div class="item-subtitle">靠谱专区</div>
                             <div class="item-text">实名认证卖家</div>
@@ -104,7 +104,7 @@
                         <div class="item-media"><img src="img/app_icon_108.png" width="50" alt=""></div>
                     </a>
 
-                    <a class="col-50 item-content item-link">
+                    <a class="col-50 item-content item-link" href="views/mvpList.html">
                         <div class="item-inner">
                             <div class="item-subtitle">水产全明星</div>
                             <div class="item-text">脚踏实地做生意</div>
@@ -113,7 +113,7 @@
                     </a>
                 </div>
 
-                <div class="row list-block media-list row-two-item">
+                <div class="row list-block media-list row-two-item" v-if="homeData.adsTop.length">
                     <a class="col-50 item-content item-link" v-for="item in homeData.adsTop" @click="clickAds(item)">
                         <div class="item-inner">
                             <div class="item-subtitle">{{item.title}}</div>
