@@ -152,7 +152,7 @@ function userInit (f7, view, page){
                     return;
                 }
                 window.mainView.router.load({
-                    url: `views/otherIndex.html?currentUserId=${userInformation.id}&id=${userInformation.id}`
+                    url: 'views/myShop.html'
                 });
             },
             fishCarCheckIng (){
@@ -195,10 +195,6 @@ function userInit (f7, view, page){
             },
             authCheckInfo (){
                 f7.alert('正在审核中，请耐心等待');
-            },
-            goMyShop (){
-                window.apiCount('btn_myCenter_myShop');
-                this.shareMyShop();
             },
             // 查看企业审核不通过理由
             showAuthRejectInfo (msg, type){

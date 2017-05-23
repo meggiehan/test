@@ -185,7 +185,7 @@ function fishCarInit (f7, view, page){
                 str && contentBox.append(str);
 
                 // 显示全部
-                if (data.records.length < pageSize){
+                if (!data.records.length){
                     isShowAll = true;
                     downLoading.hide();
                     showAllText.show();

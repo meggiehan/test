@@ -23,7 +23,7 @@ function homeBuyInit (f7, view, page){
     let pageNo = 1;
     let isRefresh = false;
     let isInfinite = false;
-    store.set('isHomeSell', false);
+    store.set('isHomeSell', '');
     /**
      * vue的数据模型
      * */
@@ -259,7 +259,9 @@ function homeBuyInit (f7, view, page){
         } else {
             console.log(data.message);
         }
-        currentPage.find('.lazy').trigger('.lazy');
+        setTimeout(() => {
+            currentPage.find('.lazy').trigger('.lazy');
+        }, 200);
     };
 
     customAjax.ajax({

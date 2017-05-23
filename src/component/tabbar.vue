@@ -1,9 +1,9 @@
 <template>
 <div class="toolbar-inner fixed-tool-bar">
-    <a href="views/homeBuy.html" :class="1 == tabIndex && 'active'" data-reload="true" onclick="apiCount('btn_tabbar_buy')">
+    <a :class="1 == tabIndex && 'active'" data-reload="true" @click="goToHomeBuy()">
         <span class="iconfont icon-buy"></span> 我要买
     </a>
-    <a href="views/homeSell.html" :class="2 == tabIndex && 'active'" data-reload="true" onclick="apiCount('btn_tabbar_sell')">
+    <a :class="2 == tabIndex && 'active'" data-reload="true" @click="goToHomeSell()">
         <span class="iconfont icon-sell"></span> 我要卖
     </a>
     <a @click="releaseInfo()">
@@ -15,13 +15,13 @@
                    </span>
         </div>
     </a>
-    <a href="views/aquaticClassroom.html" onclick="apiCount('btn_home_tutor')" data-reload="true" :class="4 == tabIndex && 'active'">
+    <a onclick="apiCount('btn_home_tutor')" data-reload="true" :class="4 == tabIndex && 'active'" @click="goToClassRoom()">
         <span class="iconfont icon-classroom">
             <i v-if="classRoomNum>0">{{classRoomNum}}</i>
         </span>
         <p>水产课堂</p>
     </a>
-    <a href="views/user.html" :class="5 == tabIndex && 'active'" onclick="apiCount('btn_tabbar_profile');" data-reload="true">
+    <a :class="5 == tabIndex && 'active'" data-reload="true" @click="goToUser()">
         <span class="iconfont" :class="5 == tabIndex ? 'icon-active-user' : 'icon-user'"></span> 个人中心
     </a>
 </div>
@@ -38,7 +38,9 @@ import {
 } from '../middlewares/loginMiddle';
 export default {
     data: function() {
-        return {};
+        return {
+            pageName: window.mainView.activePage.name
+        };
     },
     props: ['tabIndex', 'classRoomNum'],
     methods: {
@@ -52,6 +54,46 @@ export default {
                     url: 'views/release.html'
                 })
             }
+        },
+        goToHomeBuy(){
+            window.apiCount('btn_tabbar_buy');
+            if('homeBuy' == this.pageName){
+                return;
+            }
+            window.mainView.router.load({
+                url: 'views/homeBuy.html',
+                reload: true
+            })
+        },
+        goToHomeSell(){
+            window.apiCount('btn_tabbar_sell');
+            if('homeSell' == this.pageName){
+                return;
+            }
+            window.mainView.router.load({
+                url: 'views/homeSell.html',
+                reload: true
+            })
+        },
+        goToClassRoom(){
+            window.apiCount('btn_home_tutor');
+            if('aquaticClassroom' == this.pageName){
+                return;
+            }
+            window.mainView.router.load({
+                url: 'views/aquaticClassroom.html',
+                reload: true
+            })
+        },
+        goToUser(){
+            window.apiCount('btn_tabbar_profile');
+            if('user' == this.pageName){
+                return;
+            }
+            window.mainView.router.load({
+                url: 'views/user.html',
+                reload: true
+            })
         }
     }
 };

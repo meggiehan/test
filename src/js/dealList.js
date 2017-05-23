@@ -37,7 +37,7 @@ function dealListInit (f7, view, page){
             listBox.append(dealStr);
         }
 
-        if(data.data.length < pageSize){
+        if(!data.data.length){
             isShowAll = true;
             load.hide();
             showAllInfo.show();
@@ -59,7 +59,7 @@ function dealListInit (f7, view, page){
         type: 'get'
     }, callback);
 
-    $$('.page-deal-list .infinite-scroll').on('infinite', function (){
+    currentPage.find('.infinite-scroll').on('infinite', function (){
         if (isShowAll || isSend){
             return;
         }
@@ -79,7 +79,7 @@ function dealListInit (f7, view, page){
     });
 
     // pull to refresh.
-    const ptrContent = $$('.page-deal-list .pull-to-refresh-content');
+    const ptrContent = currentPage.find('.pull-to-refresh-content');
     ptrContent.on('refresh', function (e){
         const isMandatory = !!nativeEvent['getNetworkStatus']();
         pageNo = 1;

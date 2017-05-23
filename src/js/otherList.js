@@ -49,7 +49,7 @@ function otherListInit (f7, view, page){
 
         pullToRefresh = false;
         isInfinite = false;
-        if ($$('.other-list-info>a').length && data.data.records.length < pageSize || !$$('.other-list-info>a').length){
+        if ($$('.other-list-info>a').length || !$$('.other-list-info>a').length){
             isShowAll = true;
             load.hide();
             showAllInfo.show();

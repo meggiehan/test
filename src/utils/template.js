@@ -21,6 +21,9 @@ const {imgPath, backgroundImgUrl, identity, cacheUserInfoKey} = config;
 module.exports = {
     home: {
         cat: (data, userLevel, nameAuthentication, isMyList) => {
+            if(!data){
+                return '';
+            }
             const {
                 id,
                 level,
@@ -119,6 +122,9 @@ module.exports = {
             return res;
         },
         buy: (data, userLevel, nameAuthentication, isMyList) => {
+            if(!data){
+                return '';
+            }
             const {
                 id,
                 level,
@@ -163,7 +169,7 @@ module.exports = {
                     '<div class="recomment-footer">' +
                         `<div class="rec-footer-title">${fishTypeName}</div>` +
                         '<div class="rec-footer-tip">' +
-                            `${quantityTagList.length ? ('<span class="tip-one">' + quantityTagList[0].tagName + '</span>') : ''}` +
+                            `${quantityTagList && quantityTagList.length ? ('<span class="tip-one">' + quantityTagList[0].tagName + '</span>') : ''}` +
                             `${stock ? ('<span class="tip-two">' + stock + '</span>') : ''}` +
                             `<span class="tip-three">我在${provinceName}${cityName}</span>` +
                             `<span class="tip-four">${getBuyTime(demandInfoBuy.endTime)}</span>` +

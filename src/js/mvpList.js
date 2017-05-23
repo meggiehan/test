@@ -24,22 +24,14 @@ function mvpListInit (f7, view, page){
         data: {
             infoList: [],
             newList: [],
-            backgroundImgUrl
+            backgroundImgUrl,
+            isLoading: true
         },
         methods: {
             openNewWindow (item){
                 view.router.load({
                     url: `${mWebUrl}banner/mvp?id=${item.id}`
                 });
-            }
-        },
-        computed: {
-            isLoading (){
-                if(this.infoList.length && this.newList.length >= pageSize){
-                    return true;
-                }else{
-                    return false;
-                }
             }
         }
     });
@@ -55,8 +47,12 @@ function mvpListInit (f7, view, page){
                 vueData.infoList.push(item);
             });
             vueData.newList = data;
-            if(data.length >= pageSize){
+            if(data.length){
                 loading = false;
+                vueData.isLoading = true;
+            }else{
+                loading = true;
+                vueData.isLoading = false;
             }
         }else{
             console.log(message);
@@ -64,8 +60,8 @@ function mvpListInit (f7, view, page){
         f7.hideIndicator();
         f7.pullToRefreshDone();
         setTimeout(() => {
-            currentPage.find('img.lazy').trigger('lazy');
-        }, 200);
+            currentPage.find('.lazy').trigger('lazy');
+        }, 400);
     };
 
     /*
@@ -88,12 +84,13 @@ function mvpListInit (f7, view, page){
         vueData.newList = [];
         pageNo = 1;
         loading = false;
+        vueData.isLoading = true;
         getList();
     });
 
     // 上拉加载
     $infinite.on('infinite', function (){
-        if(!vueData.isLoading || loading){
+        if(loading){
             return;
         }
         loading = true;
