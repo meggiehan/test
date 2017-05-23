@@ -85,7 +85,7 @@ module.exports = {
                 '</div>';
 
             let demandInfoSaleStr = '';
-            if(demandInfoSale){
+            if(demandInfoSale && demandInfoSale.marketTime){
                 const {marketTime} = demandInfoSale;
                 demandInfoSaleStr += `<div class="sale-market-time"><i class="iconfont icon-sell-time"></i>${getMarketTimeStr(marketTime)}</div>`;
             }
