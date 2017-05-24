@@ -33,7 +33,8 @@ function otherIndexInit (f7, view, page){
             buyDemandsCount: 0,
             saleDemandsCount: 0,
             currentUserId: currentUserId,
-            isMyShop: false
+            isMyShop: false,
+            buyFishTypes: ''
         },
         methods: {
             imgPath: imgPath,
@@ -78,9 +79,9 @@ function otherIndexInit (f7, view, page){
     function renderList (buyList, sellList){
         f7.hideIndicator();
         f7.pullToRefreshDone();
-        if(!buyList.length && !sellList.length){
+        if(!sellList.length){
             currentPage.find('.other-index-empty-info').show();
-            currentPage.find('.other-index-list').removeClass('show-buy-list');
+            // currentPage.find('.other-index-list').removeClass('show-buy-list');
             currentPage.find('.other-index-list').removeClass('show-sell-list');
             f7.pullToRefreshDone();
             return;
@@ -115,7 +116,8 @@ function otherIndexInit (f7, view, page){
             fishCertificateList,
             buyDemandsCount,
             saleDemandsCount,
-            recentScanTimes
+            recentScanTimes,
+            buyFishTypes
         } = data.data;
         shopVue.userInfo = userInfo;
         shopVue.saleDemands = saleDemands;
@@ -124,6 +126,7 @@ function otherIndexInit (f7, view, page){
         shopVue.buyDemandsCount = buyDemandsCount;
         shopVue.saleDemandsCount = saleDemandsCount;
         shopVue.recentScanTimes = recentScanTimes;
+        shopVue.buyFishTypes = buyFishTypes;
 
         shopFooterVue.phone = userInfo.phone;
         if(userCache && userCache.id){
