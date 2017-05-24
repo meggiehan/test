@@ -86,14 +86,14 @@ function otherIndexInit (f7, view, page){
             return;
         }
 
-        if(buyList.length){
-            let buyHtml = '';
-            $$.each(buyList, (index, item) => {
-                buyHtml += home.buy(item, level);
-            });
-            html($$('.other-buy-list .list'), buyHtml, f7);
-            currentPage.find('.other-index-list').addClass('show-buy-list');
-        }
+        // if(buyList.length){
+        //     let buyHtml = '';
+        //     $$.each(buyList, (index, item) => {
+        //         buyHtml += home.buy(item, level);
+        //     });
+        //     html($$('.other-buy-list .list'), buyHtml, f7);
+        //     currentPage.find('.other-index-list').addClass('show-buy-list');
+        // }
 
         if(sellList.length){
             let sellHtml = '';
@@ -131,7 +131,7 @@ function otherIndexInit (f7, view, page){
                 const lastHeader = $$($$('.view-main .navbar>div')[$$('.view-main .navbar>div').length - 1]);
                 shopFooterVue.isMyShop = true;
                 shopVue.isMyShop = true;
-                lastHeader.find('.center').text('我的店铺');
+                lastHeader.find('.center').text('我的店铺').css({left: '-20px'});
                 lastHeader.find('.right').children().hide();
             }
         }

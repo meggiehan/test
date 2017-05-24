@@ -82,7 +82,7 @@
                         <a class="btn iconfont icon-go" :href="'views/otherList.html?id=' + currentUserId + '&type=2'">更多出售的信息</a>
                     </div>
                 </div>
-                <div class="other-buy-list" v-show="buyDemandsCount">
+                <!-- <div class="other-buy-list" v-show="buyDemandsCount">
                     <div class="title row">
                         <div class="col-50">正在求购({{buyDemandsCount}})</div>
                     </div>
@@ -90,7 +90,7 @@
                     <div class="other-all-buy-info other-buy-cat-all" onclick="apiCount('cell_profile_purchaseMore')">
                         <a class="btn iconfont icon-go" :href="'views/otherList.html?id=' + currentUserId + '&type=1'">更多求购的信息</a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <p class="other-index-empty-info" v-show="!saleDemandsCount && !buyDemandsCount">{{isMyShop ? '快去发布一个信息吧~' : '暂时没有发过信息~'}}</p>
         </div>

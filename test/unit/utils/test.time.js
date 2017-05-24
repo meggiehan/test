@@ -114,13 +114,17 @@ describe('时间工具模块测试', function (){
      * @param  {string} done [时间戳]
      * @return {[type]}        [今天/昨天/x月x日]
      */
+    const test = new Date();
+    const m = parseInt(test.getMonth(), 10) + 1;
+    const d = test.getDate();
+    const y = test.getFullYear();
     it('格式化传入时间:今天', function (done){
-        expect(getDealTime(new Date().getTime() - (60 * 60 * 12 * 1000))).to.be.equal('今天');
+        expect(getDealTime(new Date(`${y}/${m}/${d}`).getTime() + (60 * 60 * 1 * 1000))).to.be.equal('今天');
         done();
     });
 
     it('格式化传入时间:昨天', function (done){
-        expect(getDealTime(new Date().getTime() - (60 * 60 * 25 * 1000))).to.be.equal('昨天');
+        expect(getDealTime(new Date(`${y}/${m}/${d}`).getTime() - (60 * 60 * 12 * 1000))).to.be.equal('昨天');
         done();
     });
 

@@ -287,7 +287,7 @@ function homeBuyInit (f7, view, page){
                     currentPage.find('.cat-list-foreach').append(catListHtml);
                 }
             }
-            window.vueHome.showAll = (!data.length);
+            window.vueHome.showAll = (data.length < pageSize);
         }else{
             console.log(message);
         }

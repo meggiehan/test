@@ -61,7 +61,7 @@
                                 <div class="col-90 user-name">
                                     <span>{{demandInfo.contactName || '匿名用户'}}</span>
                                     <i v-if="userInfo.level" :class="['iconfont', ('icon-v' + userInfo.level)]"></i>
-                                    <div class="deal-number"><span>4</span>笔成交</div>
+                                    <div v-if="userInfo.tradesCount" class="deal-number"><span>{{userInfo.tradesCount}}</span>笔成交</div>
                                 </div>
                             </div>
                             <div class="buy-detail-auth" v-if="userInfo.nameAuthentication">
@@ -109,7 +109,7 @@
         <div class="col-60 iconfont icon-verify-faild buy-detail-verify-faild" onclick="catRejectInfo()">审核不通过，点击查看原因</div>
         <div class="col-30 iconfont icon-share" @click="shareInfo()">分享给好友</div>
         <div class="col-30 iconfont icon-collection icon-collection-btn" v-if="!isMineInfo" :class="{'icon-collection-active': favorite}"  @click="collectionAction()">收藏</div>
-        <div class="col-30 iconfont icon-refresh" v-if="isMineInfo" @click="refreshInfo()">刷新信息</div>
+        <div class="col-30 iconfont icon-refresh" v-if="isMineInfo" @click="isRefresh ? tipInfo() : refreshInfo()">{{isRefresh ? '今日已刷新' : '刷新信息'}}</div>
         <div class="col-40 buydetail-call-phone" @click="callPhone()">电话联系</div>
         <div class="col-40 buydetail-delete-info" @click="deleteInfo()">删除</div>
     </div>

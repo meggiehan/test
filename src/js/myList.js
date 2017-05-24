@@ -99,7 +99,7 @@ function myListInit (f7, view, page){
             html(content, otehrHtml, f7);
         }
 
-        if (!data.data.records.length){
+        if (data.data.records.length < pageSize || !data.data.records.length){
             2 == type ? showSellAllInfo.show() : showBuyAllInfo.show();
             load.hide();
         }else{
@@ -107,7 +107,7 @@ function myListInit (f7, view, page){
             load.show();
         }
 
-        if (!listLength && !data.data.records.length){
+        if (!listLength && (!data.data.records.length || data.data.records.length < pageSize)){
             2 == type ? showSellAllInfo.hide() : showBuyAllInfo.hide();
             emptyInfo.show();
         } else {

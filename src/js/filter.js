@@ -140,7 +140,7 @@ function filterInit (f7, view, page){
             load.show();
         }
         tabChange && listLength && pageNo == 1 && currentPage.find('.page-content').scrollTop(0);
-        if (listLength && !data.data.length){
+        if (listLength && data.data.length < pageSize){
             isShowAll = true;
             load.hide();
             showAllInfo.show();
