@@ -50,7 +50,7 @@ export default class RestTemplate{
      * */
     static post (url, headers, params, body, callback){
         const noCache = !(url && url.indexOf('recommendation') > -1);
-        const isMandatory = !(url && url.indexOf('recommendation') > -1) ? !!nativeEvent['getNetworkStatus']() : true;
+        const isMandatory = (url && url.indexOf('recommendation') > -1) ? !!nativeEvent['getNetworkStatus']() : true;
         let obj = {
             apiCategory: url,
             header: ['token'],

@@ -394,7 +394,8 @@ function filterInit (f7, view, page){
             apiCategory: 'demandInfo',
             api: 'list',
             data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
-            type: 'get'
+            type: 'get',
+            isMandatory: !!nativeEvent['getNetworkStatus']()
         }, listCallback);
 
         /**
@@ -460,7 +461,8 @@ function filterInit (f7, view, page){
                     apiCategory: 'demandInfo',
                     api: 'list',
                     data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
-                    type: 'get'
+                    type: 'get',
+                    isMandatory: !!nativeEvent['getNetworkStatus']()
                 }, listCallback);
             }
             currentPage.find('.winodw-mask').removeClass('on');
@@ -505,7 +507,8 @@ function filterInit (f7, view, page){
                 apiCategory: 'demandInfo',
                 api: 'list',
                 data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
-                type: 'get'
+                type: 'get',
+                isMandatory: !!nativeEvent['getNetworkStatus']()
             }, listCallback);
             currentNavbar.find('.filter-tab').children('div').removeClass('active-ele');
             currentPage.find('.filter-tab').children('div').removeClass('active-ele');
@@ -528,7 +531,7 @@ function filterInit (f7, view, page){
                 api: 'list',
                 data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
                 type: 'get',
-                isMandatory: true
+                isMandatory: !!nativeEvent['getNetworkStatus']()
             }, listCallback);
         });
         customAjax.ajax({
@@ -611,7 +614,8 @@ function filterInit (f7, view, page){
                 apiCategory: 'demandInfo',
                 api: 'list',
                 data: [currentFishId, currentCityId, _type, fuzzyFishTypeName, pageSize, pageNo, member, fishTagId],
-                type: 'get'
+                type: 'get',
+                isMandatory: !!nativeEvent['getNetworkStatus']()
             }, listCallback);
             !ele.getAttribute('data-postcode') && $$(ele).attr('data-id') && saveSelectFishCache({
                 name: $$(ele).text(),
