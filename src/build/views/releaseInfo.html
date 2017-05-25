@@ -123,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            <div class="item-content" v-if="2 == subInfo.type">
+            <div class="item-content" v-if="2 == subInfo.type && isHasGoods">
                 <a class="item-inner" href="./views/chooseDate.html">
                     <div class="item-title label release-issue-time">
                         上市时间
@@ -186,7 +186,7 @@
                 <a class="item-inner" href="./views/releasePrice.html">
                     <div class="item-title label">价格</div>
                     <div class="item-input release-write-price">
-                        <input type="text" placeholder="请填写" v-model="priceText">
+                        <input type="text" placeholder="请填写" readonly v-model="priceText">
                         <span class="iconfont icon-right"></span>
                     </div>
                 </a>

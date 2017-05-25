@@ -134,7 +134,6 @@ class CustomClass{
 
         if (!noCache){
             const cacheData = store.get(saveKey);
-            console.log(noCache, isMandatory, !!cacheData);
             if(cacheData && !isMandatory){
                 const {time, code} = cacheData;
                 if(1 !== code){
@@ -143,18 +142,19 @@ class CustomClass{
                     f7.hidePreloader();
                     return;
                 }
-                callback(cacheData);
-                console.log('cache');
-                const apiArr = ['getDemandInfo'];
-                const apiCategoryArr = ['userInformation'];
-                if(isGet &&
-                  (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
-                  (new Date().getTime() - time) <= 3 * 1000){
-                    f7.pullToRefreshDone();
-                    f7.hideIndicator();
-                    f7.hidePreloader();
-                    return;
-                }
+                setTimeout(() => {
+                    callback(cacheData);
+                    const apiArr = ['getDemandInfo'];
+                    const apiCategoryArr = ['userInformation'];
+                    if(isGet &&
+                      (apiArr.indexOf(api) > -1 || apiCategoryArr.indexOf(apiCategory) > -1) &&
+                      (new Date().getTime() - time) <= 3 * 1000){
+                        f7.pullToRefreshDone();
+                        f7.hideIndicator();
+                        f7.hidePreloader();
+                        return;
+                    }
+                }, 200);
             }
         }
         const _this = this;

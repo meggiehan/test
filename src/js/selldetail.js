@@ -412,7 +412,7 @@ function selldetailInit (f7, view, page){
                 id
             },
             type: 'get',
-            isMandatory: false
+            isMandatory: !!nativeEvent.getNetworkStatus()
         }, callback);
     };
     initData();

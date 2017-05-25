@@ -62,6 +62,7 @@ function releaseInfoInit (f7, view, page){
             sellTime: '',
             isClose: false,
             priceText: '',
+            isHasGoods: false,
             subInfo: {
                 address: initAddress,
                 cityId: getProvinceId(provinceName, cityName).cityId,
@@ -244,8 +245,8 @@ function releaseInfoInit (f7, view, page){
                     data.demandInfoSale.hasSpotGoods = ('现在有货' == currentPage.find('.release-write-cargo').children('input').val());
                     data.demandInfoSale.fishCarService = ('提供鱼车服务' == currentPage.find('.release-write-service').children('input').val());
                     if(window.releaseVue.isClose){
-                        data.demandInfoSale.lowerPrice = 0;
-                        data.demandInfoSale.expectedPrice = 0;
+                        data.demandInfoSale.lowerPrice = '';
+                        data.demandInfoSale.expectedPrice = '';
                     }
 
                     if(!data.demandInfoSale.hasSpotGoods){
@@ -294,7 +295,10 @@ function releaseInfoInit (f7, view, page){
                 textAlign: 'center',
                 values: ['现在有货', '即将上市']
             }
-        ]
+        ],
+        onChange (a, b, c){
+            window.releaseVue.isHasGoods = (b[0] == '现在有货');
+        }
     };
     f7.picker(selectIsStock);
 

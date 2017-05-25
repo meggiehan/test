@@ -90,7 +90,7 @@ let initAppConfig = {
     modalTitle: '温馨提示',
     preprocess: (content, url, next) => {
         next(content);
-        $$('.fish-car-modal').removeClass('on');
+        window.$$ && $$('.fish-car-modal').removeClass('on');
         const query = getQuery(url);
         if (url.indexOf('search.html') > -1){
             searchInit(f7, window.mainView, {query});
@@ -105,17 +105,17 @@ let initAppConfig = {
         const len = history.length;
         const _currentPage = history[len - 1];
         const btns = window.document.getElementsByClassName('modal-button');
-        if (!window.isTipBack && _currentPage && _currentPage.indexOf('releaseInfo.html') > -1 && btns.length && btns[0].innerText.indexOf('放弃发布') > -1){
+        if (!window.isTipBack && btns.length && btns[0].innerText.indexOf('放弃发布') > -1){
             return false;
         }
 
         if (!currentPage && len >= 1){
             const backPage = history[len - 2];
-            if (_currentPage.indexOf('homeBuy.html') > -1 ||
-             _currentPage.indexOf('user.html') > -1 ||
+            if ((_currentPage.indexOf('homeBuy.html') > -1 && options && !options.isEnableBack) ||
+             (_currentPage.indexOf('user.html') > -1 && options && !options.isEnableBack) ||
               _currentPage.indexOf('releaseSucc.html') > -1 ||
-                _currentPage.indexOf('homeSell.html') > -1 ||
-                _currentPage.indexOf('aquaticClassroom.html') > -1){
+                (_currentPage.indexOf('homeSell.html') > -1 && options && !options.isEnableBack) ||
+                (_currentPage.indexOf('aquaticClassroom.html') > -1 && options && !options.isEnableBack)){
                 return false;
             }
 
