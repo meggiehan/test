@@ -198,7 +198,10 @@ function buydetailInit (f7, view, page){
                 const day = today.getDate();
                 const currentDate = new Date(`${year}/${month}/${day}`);
 
-                const res = (this.demandInfo.sort - parseInt(currentDate / 1000, 10)) > 0;
+                let res = (this.demandInfo.sort - parseInt(currentDate / 1000, 10)) > 0;
+                if(this.demandInfo.createTime && (this.demandInfo.createTime == this.demandInfo.sort)){
+                    res = false;
+                }
                 return res;
             }
         }
