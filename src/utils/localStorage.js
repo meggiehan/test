@@ -1,4 +1,5 @@
 import nativeEvent from './nativeEvent';
+import config from '../config';
 // import {JsBridge} from '../middlewares/JsBridge';
 
 /**
@@ -26,6 +27,7 @@ module.exports = {
         if (!key){
             return;
         }
+        const { cacheUserInfoKey } = config;
 
         let value;
         if (typeof val == 'object'){
@@ -34,7 +36,10 @@ module.exports = {
             value = val;
         }
 
-        nativeEvent.setDataToNative(key, val);
+        if(key == cacheUserInfoKey){
+            nativeEvent.setDataToNative(key, val);
+        }
+
         window.localStorage.setItem(key, value);
     },
     remove: (key) => {

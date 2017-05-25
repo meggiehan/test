@@ -359,7 +359,7 @@ module.exports = {
                 name == val.name && (index = key);
             });
             Number(index) > -1 && currentFishCache.splice(index, 1);
-            currentFishCache.length >= maxLength - 1 && currentFishCache.shift();
+            currentFishCache.length >= maxLength && currentFishCache.shift();
             currentFishCache.push(obj);
             store.set(fishCacheKey, currentFishCache);
         }
