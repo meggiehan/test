@@ -77,7 +77,7 @@ function homeSellInit (f7, view, page){
                 }else{
                     currentPage.find('.recommend-sell-list').append(listStr);
                 }
-                vueHomeSell.showAll = (!data.length);
+                vueHomeSell.showAll = (data.length < pageSize);
             }else{
                 console.log(message);
             }

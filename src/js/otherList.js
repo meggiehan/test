@@ -56,7 +56,7 @@ function otherListInit (f7, view, page){
         }else{
             load.show();
         }
-        if (!$$('.other-list-info>a').length && !data.data.records.length){
+        if (!$$('.other-list-info>a').length && data.data.records.length < pageSize){
             2 == type ? $$('.my-sell-list-empty').show() : $$('.my-buy-list-empty').show();
             showAllInfo.hide();
         } else {

@@ -68,30 +68,35 @@ module.exports = {
         if(!time){
             return '';
         }
-        var test = new Date(parseInt(time, 10) * 1000);
-        var $year = test.getFullYear();
-        var $month = parseInt(test.getMonth(), 10) + 1;
-        var $day = test.getDate();
-        var $fdate = $year + '年' + $month + '月' + $day + '日';
+        const test = new Date(parseInt(time, 10) * 1000);
+        const $year = test.getFullYear();
+        const $month = parseInt(test.getMonth(), 10) + 1;
+        const $day = test.getDate();
+        const $fdate = $year + '年' + $month + '月' + $day + '日';
         if(!type){
             return $fdate;
         }
-        var $hours = test.getHours();
-        var $minute = test.getMinutes() > 9 ? test.getMinutes() : `0${test.getMinutes()}`;
+        const $hours = test.getHours();
+        const $minute = test.getMinutes() > 9 ? test.getMinutes() : `0${test.getMinutes()}`;
         return `${$month}月${$day}日${$hours}:${$minute}`;
     },
     getDealTime: (data) => {
         if(!data){
             return '';
         }
-        var test = new Date(parseInt(data, 10));
-        var m = parseInt(test.getMonth(), 10) + 1;
-        var d = test.getDate();
-        var nowTime = new Date().getTime();
+        const test = new Date(parseInt(data, 10));
+        const m = parseInt(test.getMonth(), 10) + 1;
+        const d = test.getDate();
+        const y = test.getFullYear();
+
+        const nowTime = new Date().getTime();
+        const time = new Date(`${y}/${m}/${d}`).getTime();
+
         let res;
-        if(nowTime - test <= 60 * 60 * 24 * 1000){
+        const cxTime = Number(nowTime) - Number(time);
+        if(cxTime <= 60 * 60 * 24 * 1000){
             res = '今天';
-        }else if(nowTime - test > 60 * 60 * 24 * 1000 && nowTime - test <= 60 * 60 * 24 * 1000 * 2){
+        }else if(cxTime > 60 * 60 * 24 * 1000 && cxTime <= 60 * 60 * 24 * 1000 * 2){
             res = '昨天';
         }else{
             res = `${m}月${d}日`;

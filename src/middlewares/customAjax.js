@@ -134,6 +134,7 @@ class CustomClass{
 
         if (!noCache){
             const cacheData = store.get(saveKey);
+            console.log(noCache, isMandatory, !!cacheData);
             if(cacheData && !isMandatory){
                 const {time, code} = cacheData;
                 if(1 !== code){
@@ -143,6 +144,7 @@ class CustomClass{
                     return;
                 }
                 callback(cacheData);
+                console.log('cache');
                 const apiArr = ['getDemandInfo'];
                 const apiCategoryArr = ['userInformation'];
                 if(isGet &&

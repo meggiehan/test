@@ -39,7 +39,7 @@
                 </a>
 
                 <a class="col-33" @click="myListBuy(true)">
-                    <img src="img/icon_buy.png" alt="">
+                    <img src="img/icon_buy_my.png" alt="">
                     <p>我的求购</p>
                 </a>
 
@@ -146,7 +146,7 @@
 
             <!--最近使用的鱼种-->
             <div class="home-fish-cache-list" v-if="selectCache.length">
-                <div class="home-content-title"><i class="title-label-border"></i>订阅鱼种 <span>每天不错过新信息~</span> </div>
+                <div class="home-content-title"><i class="title-label-border"></i>关心的鱼种 <span>每天不错过新信息~</span> </div>
                 <div class="fish-cache-list" onclick="apiCount('btn_home_fishtype_recentUsed');">
                     <a :href="'views/filter.html?fishId=' + item.fishId" v-for="(item, index) in selectCache">
                         {{item.fishName}}

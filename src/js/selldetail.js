@@ -184,13 +184,27 @@ function selldetailInit (f7, view, page){
                     const {code} = res;
                     if(1 == code){
                         nativeEvent.nativeToast(1, '刷新成功！');
+                        this.demandInfo.sort = parseInt(new Date().getTime() / 1000, 10);
                     }else{
                         nativeEvent.nativeToast(0, '一条信息每天只能刷新一次哟！');
                     }
                 });
+            },
+            tipInfo (){
+                f7.alert('您今天已经刷新过该条信息！');
             }
         },
         computed: {
+            isRefresh (){
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth() + 1;
+                const day = today.getDate();
+                const currentDate = new Date(`${year}/${month}/${day}`);
+
+                const res = (this.demandInfo.sort - parseInt(currentDate / 1000, 10)) > 0;
+                return res;
+            }
         }
     });
 
@@ -273,14 +287,19 @@ function selldetailInit (f7, view, page){
             },
             getPrice (){
                 let res = '';
-                if(isLogin() && 1 == this.userInfo.enterpriseAuthenticationState || 1 == this.userInfo.personalAuthenticationState){
-                    if(this.demandInfoSale.lowerPrice && this.demandInfoSale.expectedPrice){
-                        res = `${this.demandInfoSale.lowerPrice}-${this.demandInfoSale.expectedPrice}`;
-                    }else{
-                        res = this.demandInfoSale.expectedPrice || this.demandInfoSale.lowerPrice || '';
+                if(isLogin()){
+                    if((1 == this.userInfo.enterpriseAuthenticationState || 1 == this.userInfo.personalAuthenticationState)){
+                        if(this.demandInfoSale.lowerPrice && this.demandInfoSale.expectedPrice){
+                            res = `${this.demandInfoSale.lowerPrice}-${this.demandInfoSale.expectedPrice}`;
+                        }else{
+                            res = this.demandInfoSale.expectedPrice || this.demandInfoSale.lowerPrice || '';
+                        }
                     }
+                    !this.demandInfoSale.lowerPrice && !this.demandInfoSale.expectedPrice && (res = '面议');
+                }else{
+                    !this.demandInfoSale.lowerPrice && !this.demandInfoSale.expectedPrice && (res = '面议');
+                    (this.demandInfoSale.lowerPrice || this.demandInfoSale.expectedPrice) && (res = '');
                 }
-                !!res && (res = '');
                 return res;
             },
             isShowDeal (){

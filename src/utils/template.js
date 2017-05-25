@@ -63,10 +63,10 @@ module.exports = {
             if(isLogin() && demandInfoSale && (nameAuthenticated || isMyList || (userId == currentUserInfoId))){
                 // if(demandInfoSale.marketTime < parseInt(new Date().getTime() / 1000, 10)){
                 infoPrice = (demandInfoSale.lowerPrice && demandInfoSale.expectedPrice) ? `${demandInfoSale.lowerPrice}-${demandInfoSale.expectedPrice}` : (demandInfoSale.expectedPrice || demandInfoSale.lowerPrice);
-                !demandInfoSale.lowerPrice && !demandInfoSale.lowerPrice && (infoPrice = '面议');
             }else{
                 infoPrice = 'x.xx元';
             }
+            demandInfoSale && !demandInfoSale.lowerPrice && !demandInfoSale.expectedPrice && (infoPrice = '面议');
 
             const authText = nameAuthenticated ? '实名' : false;
             imgList && imgList.length > 1 && (span += '<span class="sell-list-imgs">多图</span>');
